@@ -487,3 +487,96 @@ doğrulandı. Hepsi **aday/kayıt kapısıdır** — kurulu değildir:
 kayıt altındadır (silinmedi); bu iki aday §19 tablosundaki "erişilemez" sınıfındadır.
 
 > **Bu bölüm kanıt oranını DEĞİŞTİRmez.**
+
+---
+
+## §21 Faz-1 Etkileşim Olay Şeması — K007'ye TASLAK gereksinim (2026-10-14)
+
+> **Bu bölüm nedir:** K-14 (bağlayıcı faz sırası) ve K-13 (hibrit veri stratejisi) gereği
+> üretilmiş **şema TASLAĞI**'dır — K006'nın K007-data'ya sunduğu gereksinim belgesidir.
+> **UYGULAMA DEĞİLDİR:** `.ai/.sql/` altına SQL yazılmadı, gerçek tablo oluşturulmadı;
+> üretim kararı + BCNF final onayı K007 sahipliğindedir (K-11 böleni mantığı veriye de
+> uygulanır: veri şemasının sahibi K007'dir, K006 yalnız tüketici/tanımlayıcıdır).
+> Yöntem: `database-normalize-maker` skill v3.0 (1NF→2NF→3NF→BCNF + MySQL 9 kuralları).
+
+### §21.1 Gereksinim özeti (K006 → K007)
+
+| # | Gereksinim | Neden (K006 bağlamı) | Bağlı risk |
+|---|---|---|---|
+| G1 | Kullanıcı-şarkı etkileşim olayı **append-only** kaydedilebilmeli | CF kolu (Faz-3) yalnız gerçek etkileşimle eğitilir | R-01 |
+| G2 | Olay tipi **lookup tablosu** (ENUM yasak — skill §12) | yeni olay tipi ALTER gerektirmemeli | — |
+| G3 | Dış tohum (Last.fm/MSD) ve sentetik veri **kaynağı ayrıştırılmalı** | eval'de tohum ≠ gerçek sinyal ayrılmalı (H4) | R-06 |
+| G4 | Olay kaynağı (client/web/seed) izlenebilmeli | debug + drift analizi (Faz-5) | R-06 |
+| G5 | `user_id` KVKK uyumlu tutulmalı (soft delete + silme kanalı) | açık rıza/itiraz (H5) | R-03 |
+
+### §21.2 Aday tablolar (taslak — BCNF kontrolü ile)
+
+**T1 · `interaction_event_types` (lookup)**
+
+| Kolon | Tip | Not |
+|---|---|---|
+| `id` | SMALLINT UNSIGNED PK AUTO_INCREMENT | |
+| `code` | VARCHAR(30) NOT NULL UNIQUE | `play` · `like` · `unlike` · `skip` · `add_to_playlist` · `search` · `share` |
+| `label` | VARCHAR(50) NOT NULL | görüntüleme adı |
+
+*BCNF:* tek determinant `id` (ad adayı) · `code → label` transiti `code` unique key
+yapısıyla taşındı (ayrı satır yok) ✅.
+
+**T2 · `interaction_event_sources` (lookup)**
+
+| Kolon | Tip | Not |
+|---|---|---|
+| `id` | SMALLINT UNSIGNED PK AUTO_INCREMENT | |
+| `code` | VARCHAR(30) NOT NULL UNIQUE | `app` · `web` · `seed_lastfm` · `seed_msd` · `synthetic` |
+
+*BCNF:* T1 ile aynı yapı ✅. **G3 karşılığı:** tohum/gerçek ayrımı `source` üzerinden
+sorgulanır — eval metrikleri `source != 'seed_*' AND source != 'synthetic'` filtresiyle
+**yalnız gerçek kullanıcı sinyali** üzerinde hesaplanır (H4).
+
+**T3 · `interaction_events` (fact — append-only)**
+
+| Kolon | Tip | Kısıt |
+|---|---|---|
+| `id` | BIGINT UNSIGNED PK AUTO_INCREMENT | skill §2.2 şablonu |
+| `user_id` | BIGINT UNSIGNED NOT NULL | FK → `coremusic_user.user_id` **UYARI:** hedef kolon adı K007'de doğrulanacak (`⚠️ VERIFICATION REQUIRED`) |
+| `track_id` | BIGINT UNSIGNED NOT NULL | FK → K007 müzik tablosu (**aynı uyarı**) |
+| `event_type_id` | SMALLINT UNSIGNED NOT NULL | FK → T1 (`ON DELETE RESTRICT`) |
+| `source_id` | SMALLINT UNSIGNED NOT NULL | FK → T2 (`ON DELETE RESTRICT`) |
+| `session_id` | BINARY(16) NULL | RFC 4122 UUID (§18/1) — oturum bağlamı (S5/personalization) |
+| `play_ms` | INT UNSIGNED NULL | yalnız `play` olayında dinlenen ms (skip tespiti için) |
+| `occurred_at` | TIMESTAMP NOT NULL | olay anı (client) — `created_at` ≠ bu alan |
+| `created_at` | TIMESTAMP DEFAULT CURRENT_TIMESTAMP | şablon kolonu |
+| `updated_at` / `deleted_at` | TIMESTAMP NULL | şablon kolonu — **fact tabloda `updated_at`/`deleted_at` kullanımı KVKK silme kanalı içindir, veri revizyonu için DEĞİL** |
+
+*İndeksler:* `idx_user_occurred (user_id, occurred_at)` (equality + range/sort — skill §8.2) ·
+`idx_track_type (track_id, event_type_id)` (şarkı-bazlı CF export) ·
+`idx_source_occurred (source_id, occurred_at)` (eval filtresi).
+
+*BCNF:* determinantlar yalnız `id` (PK) ve unique key'ler; `event_type_id → code`
+transiti ayrı lookup'ta ✅ (3NF ihlali yok, her determinant candidate key ✅).
+
+*2NF/1NF:* composite key yok · kolonlar atomik ✅.
+
+### §21.3 Bilinçli tasarım kararları (taslak seviyesi)
+
+| # | Karar | Gerekçe |
+|---|---|---|
+| D1 | Append-only fact (`deleted_at` yalnız KVKK) | olay geçmişi ML için değerlidir; soft delete silme kanalı değil, **mahfaza** (skill §5.1 yorumu — K007 onayına açık) |
+| D2 | ENUM yok, lookup tablo | skill §12 anti-pattern kataloğu; yeni olay tipi ALTER'siz |
+| D3 | Sentetik/tohum olaylar `source` ile işaretli, gerçek sinyalle karıştırılmaz | H4 · eval bütünlüğü |
+| D4 | `play_ms` NULL yalnız `play` için | 1NF: atomik süre; `skip` için süre anlamsız |
+| D5 | Şarkı öz nitelikleri (BPM/key/energy) **bu şemada DEĞİL** | onların sahibi K006.6/music-analysis feature tablosu (Faz-2) — K-11 böleni veriye uygulandı |
+
+### §21.4 Kabul kriterleri (Faz-1 geçiş kapısı — K-14/§18.1 ile birebir)
+
+- [ ] K007 bu taslağı alıp `.ai/.sql/mysql/` altında gerçek şema üretir (K006 **üretmez**)
+- [ ] FK hedef kolon adları diskten doğrulanır (`⚠️` satırları kapanır)
+- [ ] BCNF final onayı `database-normalize-maker` §11 Adım 3 ile K007'de verilir
+- [ ] `InteractionLogger` PHP yüzeyi (tek giriş noktası — §18.1 Faz-1 kabulü) K007/K012 sahipliğinde tanımlanır
+- [ ] Seed import lisans kapısı (H6 · §21.1/O1 Last.fm izni) kapatılmadan dış veri **ithal edilmez**
+
+> **Dürüstlük:** bu taslak K006'nın gereksinimidir, K007'nin kararı değil; K007 bu şemayı
+> değiştirirse K006 **uymak zorundadır** (dependency yönü: K006 → K007). Kanıt satırı
+> `-dogrulama.md` §2'ye Faz-1 gerçek uygulama başladığında düşer (H7).
+
+> **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

@@ -3,7 +3,13 @@ node_id: model-management
 node_type: subdomain
 status: draft
 parent_id: K006-yapay-zeka
-children: []
+children:
+  - model-management-anayasa.md
+  - model-management-bilesenler.md
+  - model-management-kapsam.md
+  - model-management-ornekler.md
+  - model-management-dogrulama.md
+  - model-management-web-arastirma.md
 depends_on: []
 evidence:
   - "v2 §2.6 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 259"
@@ -51,6 +57,7 @@ Tahminle dolgu **yapılmaz**.
 
 - [[model-management-kapsam]]
 - [[model-management-dogrulama]]
+- [[model-management-anayasa]]
 - [[model-management-ornekler]]
 
 ## §GRUPLAR
@@ -65,3 +72,4 @@ Tahminle dolgu **yapılmaz**.
 | kod | `model-management-ornekler.md` | Gerçek repo kod örnekleri ve satırlar | Kademe-2 |
 | kanit | `model-management-dogrulama.md` | İddia·kaynak·tarih·durum kanıt satırları | Kademe-2 |
 | kanit | `model-management-web-arastirma.md` | Resmi kaynak taraması ve çelişki kaydı | Kademe-2 |
+| mimari | `model-management-anayasa.md` | Alt-dal anayasası: kademe-2 ilkeleri, zorunlu kapılar, veri sözleşmeleri | Kademe-2 |

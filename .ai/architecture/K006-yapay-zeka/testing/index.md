@@ -3,7 +3,13 @@ node_id: testing
 node_type: subdomain
 status: draft
 parent_id: K006-yapay-zeka
-children: []
+children:
+  - testing-anayasa.md
+  - testing-bilesenler.md
+  - testing-kapsam.md
+  - testing-ornekler.md
+  - testing-dogrulama.md
+  - testing-web-arastirma.md
 depends_on: []
 evidence:
   - "v2 §2.6 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 267"
@@ -51,6 +57,7 @@ Tahminle dolgu **yapılmaz**.
 
 - [[testing-kapsam]]
 - [[testing-dogrulama]]
+- [[testing-anayasa]]
 - [[testing-ornekler]]
 
 ## §GRUPLAR
@@ -65,3 +72,4 @@ Tahminle dolgu **yapılmaz**.
 | kod | `testing-ornekler.md` | Gerçek repo kod örnekleri ve satırlar | Kademe-2 |
 | kanit | `testing-dogrulama.md` | İddia·kaynak·tarih·durum kanıt satırları | Kademe-2 |
 | kanit | `testing-web-arastirma.md` | Resmi kaynak taraması ve çelişki kaydı | Kademe-2 |
+| mimari | `testing-anayasa.md` | Alt-dal anayasası: kademe-2 ilkeleri, zorunlu kapılar, veri sözleşmeleri | Kademe-2 |

@@ -46,7 +46,7 @@ group: mimari
 
 > Adlar v2 §2.6 mini-ağacından **birebir** alınmıştır (satır 255–268) — ad uydurulmamıştır;
 > rol tanımları bu ağacın işidir, `⚠️ VERIFICATION REQUIRED` ile taşınır (ADR-097 K4);
-> her çocuk 6 dosya taşır (`index` · `-kapsam` · `-dogrulama` · `-web-arastirma` · `-ornekler` · `-bilesenler`) → **9 × 6 = 54 dosya**.
+> her çocuk 7 dosya taşır (`index` · `-anayasa` · `-kapsam` · `-dogrulama` · `-web-arastirma` · `-ornekler` · `-bilesenler`) → **9 × 7 = 63 dosya**.
 
 | # | Çocuk (kademe-2) | v2 satır | Durum |
 |---|---|---|---|
@@ -76,8 +76,7 @@ group: mimari
 
 ## §GRUPLAR
 
-> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında
-> **9. alan group** (tırnaksız: `mimari` · `kod` · `kanit`).
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan group** (tırnaksız: `mimari` · `kod` · `kanit`).
 
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
@@ -89,6 +88,7 @@ group: mimari
 | mimari | `yapay-zeka-kapsam.md` | Kapsam sınırı: ne içerir, ne içermez | Kademe-1 |
 | mimari | `yapay-zeka-kararlar.md` | Karar, alternatif ve gerekçe kaydı | Kademe-1 |
 | mimari | `recommendation/recommendation-anayasa.md` | Alt-dal anayasası (K006 ilk derin-dalı) | Kademe-2 |
+| mimari | 8 × `<dal>/<dal>-anayasa.md` (bkz. Çocuk haritası · recommendation hariç) | Alt-dal anayasaları: kademe-2 ilkeleri, kapılar ve veri sözleşmeleri | Kademe-2 |
 | kod | `yapay-zeka-kod-ornekleri.md` | Gerçek repo kodu, dosya ve satır | Kademe-1 |
 | kod | `yapay-zeka-test-stratejisi.md` | ML test kabul kriterleri ve kapsamı | Kademe-1 |
 | kanit | `yapay-zeka-dogrulama.md` | İddia·URL·tarih·durum doğrulama matrisi | Kademe-1 |

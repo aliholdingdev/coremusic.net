@@ -3,7 +3,13 @@ node_id: evaluation
 node_type: subdomain
 status: draft
 parent_id: K006-yapay-zeka
-children: []
+children:
+  - evaluation-anayasa.md
+  - evaluation-bilesenler.md
+  - evaluation-kapsam.md
+  - evaluation-ornekler.md
+  - evaluation-dogrulama.md
+  - evaluation-web-arastirma.md
 depends_on: []
 evidence:
   - "v2 §2.6 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 266"
@@ -51,6 +57,7 @@ Tahminle dolgu **yapılmaz**.
 
 - [[evaluation-kapsam]]
 - [[evaluation-dogrulama]]
+- [[evaluation-anayasa]]
 - [[evaluation-ornekler]]
 
 ## §GRUPLAR
@@ -65,3 +72,4 @@ Tahminle dolgu **yapılmaz**.
 | kod | `evaluation-ornekler.md` | Gerçek repo kod örnekleri ve satırlar | Kademe-2 |
 | kanit | `evaluation-dogrulama.md` | İddia·kaynak·tarih·durum kanıt satırları | Kademe-2 |
 | kanit | `evaluation-web-arastirma.md` | Resmi kaynak taraması ve çelişki kaydı | Kademe-2 |
+| mimari | `evaluation-anayasa.md` | Alt-dal anayasası: kademe-2 ilkeleri, zorunlu kapılar, veri sözleşmeleri | Kademe-2 |

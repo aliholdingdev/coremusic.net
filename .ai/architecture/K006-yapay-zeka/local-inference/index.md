@@ -3,7 +3,13 @@ node_id: local-inference
 node_type: subdomain
 status: draft
 parent_id: K006-yapay-zeka
-children: []
+children:
+  - local-inference-anayasa.md
+  - local-inference-bilesenler.md
+  - local-inference-kapsam.md
+  - local-inference-ornekler.md
+  - local-inference-dogrulama.md
+  - local-inference-web-arastirma.md
 depends_on: []
 evidence:
   - "v2 §2.6 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 265"
@@ -51,6 +57,7 @@ Tahminle dolgu **yapılmaz**.
 
 - [[local-inference-kapsam]]
 - [[local-inference-dogrulama]]
+- [[local-inference-anayasa]]
 - [[local-inference-ornekler]]
 
 ## §GRUPLAR
@@ -65,3 +72,4 @@ Tahminle dolgu **yapılmaz**.
 | kod | `local-inference-ornekler.md` | Gerçek repo kod örnekleri ve satırlar | Kademe-2 |
 | kanit | `local-inference-dogrulama.md` | İddia·kaynak·tarih·durum kanıt satırları | Kademe-2 |
 | kanit | `local-inference-web-arastirma.md` | Resmi kaynak taraması ve çelişki kaydı | Kademe-2 |
+| mimari | `local-inference-anayasa.md` | Alt-dal anayasası: kademe-2 ilkeleri, zorunlu kapılar, veri sözleşmeleri | Kademe-2 |

@@ -3,7 +3,13 @@ node_id: music-analysis
 node_type: subdomain
 status: draft
 parent_id: K006-yapay-zeka
-children: []
+children:
+  - music-analysis-anayasa.md
+  - music-analysis-bilesenler.md
+  - music-analysis-kapsam.md
+  - music-analysis-ornekler.md
+  - music-analysis-dogrulama.md
+  - music-analysis-web-arastirma.md
 depends_on: []
 evidence:
   - "v2 §2.6 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 263"
@@ -51,6 +57,7 @@ Tahminle dolgu **yapılmaz**.
 
 - [[music-analysis-kapsam]]
 - [[music-analysis-dogrulama]]
+- [[music-analysis-anayasa]]
 - [[music-analysis-ornekler]]
 
 ## §GRUPLAR
@@ -65,3 +72,4 @@ Tahminle dolgu **yapılmaz**.
 | kod | `music-analysis-ornekler.md` | Gerçek repo kod örnekleri ve satırlar | Kademe-2 |
 | kanit | `music-analysis-dogrulama.md` | İddia·kaynak·tarih·durum kanıt satırları | Kademe-2 |
 | kanit | `music-analysis-web-arastirma.md` | Resmi kaynak taraması ve çelişki kaydı | Kademe-2 |
+| mimari | `music-analysis-anayasa.md` | Alt-dal anayasası: kademe-2 ilkeleri, zorunlu kapılar, veri sözleşmeleri | Kademe-2 |

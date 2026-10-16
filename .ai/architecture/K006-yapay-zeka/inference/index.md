@@ -3,7 +3,13 @@ node_id: inference
 node_type: subdomain
 status: draft
 parent_id: K006-yapay-zeka
-children: []
+children:
+  - inference-anayasa.md
+  - inference-bilesenler.md
+  - inference-kapsam.md
+  - inference-ornekler.md
+  - inference-dogrulama.md
+  - inference-web-arastirma.md
 depends_on: []
 evidence:
   - "v2 §2.6 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 260"
@@ -51,6 +57,7 @@ Tahminle dolgu **yapılmaz**.
 
 - [[inference-kapsam]]
 - [[inference-dogrulama]]
+- [[inference-anayasa]]
 - [[inference-ornekler]]
 
 ## §GRUPLAR
@@ -65,3 +72,4 @@ Tahminle dolgu **yapılmaz**.
 | kod | `inference-ornekler.md` | Gerçek repo kod örnekleri ve satırlar | Kademe-2 |
 | kanit | `inference-dogrulama.md` | İddia·kaynak·tarih·durum kanıt satırları | Kademe-2 |
 | kanit | `inference-web-arastirma.md` | Resmi kaynak taraması ve çelişki kaydı | Kademe-2 |
+| mimari | `inference-anayasa.md` | Alt-dal anayasası: kademe-2 ilkeleri, zorunlu kapılar, veri sözleşmeleri | Kademe-2 |

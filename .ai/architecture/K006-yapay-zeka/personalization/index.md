@@ -3,7 +3,13 @@ node_id: personalization
 node_type: subdomain
 status: draft
 parent_id: K006-yapay-zeka
-children: []
+children:
+  - personalization-anayasa.md
+  - personalization-bilesenler.md
+  - personalization-kapsam.md
+  - personalization-ornekler.md
+  - personalization-dogrulama.md
+  - personalization-web-arastirma.md
 depends_on: []
 evidence:
   - "v2 §2.6 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 262"
@@ -51,6 +57,7 @@ Tahminle dolgu **yapılmaz**.
 
 - [[personalization-kapsam]]
 - [[personalization-dogrulama]]
+- [[personalization-anayasa]]
 - [[personalization-ornekler]]
 
 ## §GRUPLAR
@@ -65,3 +72,4 @@ Tahminle dolgu **yapılmaz**.
 | kod | `personalization-ornekler.md` | Gerçek repo kod örnekleri ve satırlar | Kademe-2 |
 | kanit | `personalization-dogrulama.md` | İddia·kaynak·tarih·durum kanıt satırları | Kademe-2 |
 | kanit | `personalization-web-arastirma.md` | Resmi kaynak taraması ve çelişki kaydı | Kademe-2 |
+| mimari | `personalization-anayasa.md` | Alt-dal anayasası: kademe-2 ilkeleri, zorunlu kapılar, veri sözleşmeleri | Kademe-2 |

@@ -486,4 +486,46 @@ iddiası taşımaz, kurulum iddiası taşımaz. Bağımlılık olarak kurulmadan
 §5'teki gerçek bağımlılık listesi (`phpunit ^10.5` · `phpstan ^1.10`) değişmez; bu tablo
 **yalnız tarama kaydıdır**.
 
+---
+
+## §22 Ortak Kod Yüzeyi — `shared/src/AI/` sınıf & metod envanteri (ek 2026-10-15)
+
+> **Kanıt yöntemi:** 7 PHP dosyasının tamamı bu oturumda okundu; metod adı ve satır no
+> dosyanın kendisinden alındı (uydurma yok). Ölçüm komutu: dosya satırları ayrıştırılıp
+> `function <ad>` imzaları tarandı. Sayılar 2026-10-15 disk durumudur.
+
+| # | Dosya (göreli yol) | Satır | Metod | Sabit | İlk metot | Son metot |
+|---|---|---|---|---|---|---|
+| 1 | `shared/src/AI/AIEngine.php` | 382 | 16 | 3 | `__construct` @34 | `calculateBandQ` @368 |
+| 2 | `shared/src/AI/AIOrchestrator.php` | 210 | 10 | 2 | `__construct` @56 | `executeTask` @185 |
+| 3 | `shared/src/AI/AIWorkflow.php` | 271 | 6 | 0 | `__construct` @27 | `faultPredictionWorkflow` @241 |
+| 4 | `shared/src/AI/KnowledgeBase.php` | 232 | 9 | 3 | `search` @36 | `calculateConfidence` @223 |
+| 5 | `shared/src/AI/MemorySystem.php` | 242 | 10 | 1 | `setSession` @45 | `estimateMemoryUsage` @222 |
+| 6 | `shared/src/AI/PromptEngine.php` | 325 | 10 | 3 | `__construct` @40 | `truncateContext` @307 |
+| 7 | `shared/src/AI/ToolCalling.php` | 326 | 9 | 1 | `__construct` @45 | `validateParameters` @307 |
+| — | **Toplam** | **1988** | **70** | **13** | — | — |
+
+**Çapraz kontrol:** `grep` deseni (`public|private|protected` + `function|const`) bu 7 dosyada
+**83 isabet** verdi; 70 metod + 13 sabit = 83 → iki bağımsız sayım birebir örtüştü (2026-10-15).
+
+### §22.1 K006.3'e giren / girmeyen ayrımı (bu dosya §3 ile aynı kural)
+
+| Sınıf | K006.3 (inference) | K006.6 (öneri) | K006.4 (kişiselleştirme) | Kanıt satırı |
+|---|---|---|---|---|
+| `AIEngine::getRecommendations` | hayır | **evet** | kısmen | `AIEngine.php` @49 |
+| `AIEngine::analyzeAudio` | hayır | hayır | hayır → K006.5 | `AIEngine.php` @82 |
+| `AIEngine::optimizeEQ` | hayır | hayır | hayır → K006.5 | `AIEngine.php` @111 |
+| `AIEngine::analyzeHardware` / `predictFault` | hayır | hayır | hayır → K016 | `AIEngine.php` @138 · @161 |
+| `AIWorkflow::recommendationWorkflow` | hayır | **evet** | kısmen | `AIWorkflow.php` @49 |
+| `AIWorkflow::audioAnalysisWorkflow` | hayır | hayır | hayır → K006.5 | `AIWorkflow.php` @99 |
+| `AIWorkflow::autoEQWorkflow` | hayır | hayır | hayır → K006.5 | `AIWorkflow.php` @147 |
+| `AIOrchestrator::dispatchTask` | evet (çağırır) | kısmen | kısmen | `AIOrchestrator.php` @71 |
+| `KnowledgeBase::ragQuery` | **evet** | kısmen | kısmen | `KnowledgeBase.php` @72 |
+| `PromptEngine::generatePrompt` | **evet** | kısmen | kısmen | `PromptEngine.php` @48 |
+| `ToolCalling::callTool` | **evet** | hayır | hayır | `ToolCalling.php` @73 |
+
+**Okuma kuralı:** "evet" = bu sınıfın o metodu K006.3 kapsamındadır; "kısmen" = çağıran akışın
+türüne göre K006.3 ya da K006.4; "hayır" = kapsam dışı (komşu K'ya ait) — §6'daki eşlemenin
+satır bazlı kanıtıdır.
+
 > **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

@@ -3,9 +3,9 @@ title: "K006-yapay-zeka — ai-master (K-Space V3)"
 type: architecture-master
 category: architecture
 date: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-14
 status: draft
-version: 2.0.0
+version: 2.1.0
 node_id: K006-yapay-zeka
 node_type: domain
 authority: "SSOT: .ai/architecture/index.md"
@@ -251,12 +251,15 @@ Tam tablo: `yapay-zeka-dogrulama.md` §8 (30 satır). Özet:
 | # | Soru | Etiket | Kapanış koşulu | Kayıt |
 |---|---|---|---|---|
 | 1 | `ai-master.md` adı registry §5'te K016-AI ile de geçiyor (satır 6 ve 16) | ⚠️ VERIFICATION REQUIRED | ADR kararı | `-dogrulama` §7/1 |
-| 2 | Öneri sahipliği: K006-recommendation · K008-recommendation · K020-recomenataion? | ⚠️ VERIFICATION REQUIRED | sahiplik ADR'si | `-dogrulama` §7/2 |
+| 2 | Öneri sahipliği: K006-recommendation · K008-recommendation · K020-recomenataion? | ⚠️ KISMEN KAPANDI — 2026-10-14 hibrit bölen kararı (K-11 · §18); ADR kaydı bekliyor | sahiplik ADR'si | `-dogrulama` §7/2 |
 | 3 | local-inference donanım gereksinimi (K001/K004 sınırı) | ⚠️ VERIFICATION REQUIRED | gereksinim kaydı | `-dogrulama` §7/3 |
 | 4 | Üretim modeli/runtime seçimi (hangi model, hangi format) | **UNKNOWN** | teknoloji karar kaydı | `-dogrulama` §7/4 |
 | 5 | 9 çocuğun kademe-3 (bounded-context) yapısı | ⚠️ VERIFICATION REQUIRED | ADR-097 K4 | `-dogrulama` §7/5 |
 | 6 | `shared/src/AI/` içindeki K016 bileşenleri taşınacak mı? | ⚠️ VERIFICATION REQUIRED | kapsama ADR'si | `-riskler` R-07 |
 | 7 | `extractFeatures()` / `getCollaborativeScores()` placeholder'ları ne zaman gerçeklenecek? | ⚠️ IMPLEMENTED değil | kod teslimi | `-kod-ornekleri` §6 |
+| 8 | Otomatik EQ / oda akustiği analizi sahibi (K006.1 ↔ K003/K004) — doküman §1.1–§1.2 vaadi | ⚠️ SINIR AÇIK | kapsam ADR'si | `-kapsam` OQ-4 · §6/P5 |
+| 9 | Smart playlist sahibi (K006.7 ↔ K006.8) — doküman §1.2 vaadi | ⚠️ SINIR AÇIK | kapsam ADR'si | `-kapsam` OQ-5 · §6/P4 |
+| 10 | "Hata tahmin AI" sahipliği (K006 ↔ K016) — doküman §1.1 vaadi | ⚠️ SINIR AÇIK | kapsam ADR'si (Q2 ile birlikte) | `-kapsam` OQ-6 · kararlar Q2 |
 
 ---
 
@@ -503,3 +506,52 @@ doğuğrulanmış adayları listeler. Karar onayı yok → `status: draft` kalı
 > **Bu bölüm kanıt oranını DEĞİŞTİRmez.**
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode · v2.0.0 · 2026-10-12
+
+---
+
+## §18 Uygulama Yol Haritası (hibrit plan — 2026-10-14, Authority onaylı)
+
+> **Kaynak:** kullanıcı kararları §G/K-11–K-14 (`yapay-zeka-kararlar.md`) · bağlayıcı
+> uygulama kuralları §H (aynı dosya) · veri kaynakları kanıtı `yapay-zeka-web-arastirma.md`
+> §21 (tur-4). Bu bölüm **plan**tur; hiçbir teknoloji "seçilmiş" değildir (H2).
+
+### §18.1 Faz tablosu (bağlayıcı sıra — K-14)
+
+| Faz | Hedef | Kabul kriteri (ölçülebilir) | Kapanan risk | Durum |
+|---|---|---|---|---|
+| **1 — Veri temeli** | Etkileşim event logging (`play · like · skip · add_to_playlist · search`) + dış tohum (MusicBrainz katalog · Last.fm/MSD Taste Profile) + sentetik seed | ≥1 etkileşim tablosu BCNF + tek `InteractionLogger` yüzeyi + lisans kapıları (H6) kapatılmış | R-01'e zemin | 🔄 taslak hazır (`yapay-zeka-bagimliliklar.md` §21 — K007 uygulaması bekliyor) |
+| **2 — Ses analizi gerçekleştirmesi** | `extractFeatures()` placeholder'ını librosa/Essentia pipeline'ıyla değiştir (BPM · key · energy · mood) | placeholder kalmaz (K-09 kapanır) · 50 şarkılık ground-truth seti · T4: ±0 BPM · ±0 yarım ton | **R-02** | 🔄 şartname hazır (`music-analysis/music-analysis-bilesenler.md` §8 — ADR + kod bekliyor) |
+| **3 — Öneri kolları** | Content-based kol (Faz-2 öznitelikleri) + ALS CF (`implicit` adayı) hibrit skorlama | T3 offline metrik (Precision@k · nDCG@k) baseline'a karşı net improvement | **R-01** | ⏳ |
+| **4 — Hibrit inference & model-management** | Sunucu ONNX Runtime (aday) + cihaz embedding cache (K-12) · MLflow registry (aday) | üretim model/format/runtime UNKNOWN'ları ADR ile dolar | **R-04** | ⏳ |
+| **5 — Evaluation & KVKK** | Drift izleme (Evidently adayı) · açık rıza + silme/itiraz kanalı | T5 regresyon met %0 düşüş · T6 0 sızıntı · itiraz kanalı canlı | **R-06 · R-03** | ⏳ |
+
+### §18.2 Kurallar (özet — tam metin: kararlar §H)
+
+H1 sıralama bağlayıcı · H2 seçim = ADR, aday kodda yok · H3 K016 taşınmaz ·
+H4 placeholder üretim sayılmaz · H5 kişisel veri rıza şartı · H6 dış veri lisans kapısı ·
+H7 her faz kapanışında `-dogrulama.md`'ye iddia·URL·tarih satırı.
+
+### §18.3 Kapsam notları (bu plan K006 dışına taşmaz)
+
+| Etki | Sahibi | K006 rolü |
+|---|---|---|
+| Etkileşim veri şeması (BCNF) | K007-data | yalnız gereksinim tanımı (H3/§2.1) |
+| "çal/beğen" iş kuralı filtresi | K008-domain | K-11 böleni — K006 yalnız algoritma |
+| Keşif akışı/UI sunumu | K020-recomenataion | K-11 böleni |
+| Öneriyi çalıştıran arka plan süreci | K012-services | iddia (§5) |
+| KVKK rıza/silme uygulaması | K009-security · K010 | gereksinim + test (T6) |
+
+### §18.4 Açık kapılar (planla birlikte yürüyen)
+
+| # | Kapı | Faz | Etiket |
+|---|---|---|---|
+| 1 | Öneri sahipliği ADR'si (K-11 böleninin resmi kaydı) | 1 öncesi | ⚠️ ADR bekliyor |
+| 2 | Last.fm ticari izin + MSD/Taste Profile lisansı (§21.1/O1 · O4) | 1 | ⚠️ hukuki kapı |
+| 3 | Model format/runtime teknoloji ADR'si (§11.1 — hâlâ aday) | 4 | UNKNOWN→ADR |
+| 4 | Ground-truth ses seti kaynak/ürün hakkı | 2 | ⚠️ VERIFICATION REQUIRED |
+| 5 | K006↔K016 veri sözleşmesi (Q5) | 3–4 sınırı | 🔴 açık |
+
+> **Dürüstlük:** bu yol haritasındaki hiçbir faz başlamamıştır; durum sütunu "⏳" = plandadır.
+> Faz-1 başladığında bu tablo §18.5 ile güncellenir ve `-dogrulama.md` §2'ye kanıt satırları düşer.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode · v2.1.0 · 2026-10-14

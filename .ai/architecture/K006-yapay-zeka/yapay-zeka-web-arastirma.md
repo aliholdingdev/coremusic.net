@@ -501,4 +501,35 @@ dokümantdır — iki kapı birlikte okunmadan "hangisi geçerli" **sentence'i v
 
 ---
 
-`status: verified` · `validation: 2026-10-12 · 32 URL + 5 çelişki kaydı + 9/9 çocuk çapraz bağ`
+## §21 Dördüncü Tarama Turu — Faz-1 veri kaynakları (2026-10-14)
+
+> §16 P3/P5 ve yeni onaylanan **hibrit veri stratejisi (K-13)** gereği çalıştırıldı.
+> Yöntem farkı: bu turda HEAD değil **GET ile içerik okundu** (webfetch, markdown) —
+> iddialar sayfa metninden **birebir** çıkarılmıştır (§18 tur-2/3 HEAD taramasından farklı yöntem).
+
+| # | URL | Çıkarılan iddia (sayfa metni — 2026-10-14) | Faz-1 bağlamı | K006.? |
+|---|---|---|---|---|
+| D1 | https://www.last.fm/api | "Last.fm Music Discovery API" — `track.getSimilar` · `user.getRecentTracks` · `user.getTopTracks` · `track.scrobble` metotları sayfada listeli; **"Commercial or Research Usage … contact us prior to use via email at partners@last.fm"** | etkileşim tohumu + benzerlik verisi | .8 · .7 |
+| D2 | http://millionsongdataset.com/ | "freely-available collection of audio features and metadata for a million … tracks"; **"The dataset does not include any audio, only the derived features"**; tam set **280 GB**, 10.000 şarkılık alt set **1.8 GB**; alt kümeler: **Last.fm dataset** (song-level tags and similarity) · **Taste Profile subset** (user data) | tohum öznitelik + etkileşim alt kümesi | .6 · .8 |
+| D3 | https://musicbrainz.org/doc/MusicBrainz_Database/Schema | PostgreSQL şeması; "current version of the schema is **v31 (released Q2 2026)**"; birincil varlıklar artist/recording/release/release group/work + MBID; **"`*_rating_raw` ve `*_tag_raw` tabloları … for privacy reasons … aren't included in the database dumps"** | katalog meta verisi (K007 sınırı) | .6 |
+
+### §21.1 Dürüstlük & sınır notları (tur-4)
+
+| # | Gözlem | Etki |
+|---|---|---|
+| O1 | Last.fm API ticari kullanımda **önceden izin** istiyor (sayfa metni) | CoreMusic ticariyse veri ithalatı öncesi izin gerekli → hukuki değerlendirme **bu dosyanın kapsamı dışındadır**, `yapay-zeka-riskler.md` R-03/uyum satırına bağlanır |
+| O2 | MSD **ses içermiyor** — yalnız türetilmiş öznitelik | BPM/ton doğruluğu için MSD tek başına yeterli değil; ground-truth ses seti Faz-2'de **ayrı** toplanır |
+| O3 | MusicBrainz dump'ları `rating_raw`/`tag_raw` **içermiyor** (gizlilik) | MusicBrainz'ten kullanıcı-bazlı veri ithalatı **yolu yok**; yalnız katalog meta verisi alınabilir |
+| O4 | Taste Profile (MSD) Last.fm etkileşim verisi içerir | CF tohumu için adaydır; lisans koşulu **okunmadı** → `⚠️ VERIFICATION REQUIRED` |
+
+**Kesişim kontrolü:** D1–D3, §2 (32 URL) · §11–§13 · §17 · §19–§20 envanterleriyle
+karşılaştırıldı; **hiçbiri daha önce kullanılmamıştır** (§20/10 `audioscrobbler.com` Last.fm
+şirket kapısıdır, `last.fm/api` ile aynı URL değildir).
+
+> **Bu bölüm kanıt oranını DEĞİŞTİRmez.** (3 yeni URL eklendi: toplam benzersiz URL
+> 32 + 14 (§17) + 12 (§19) + 10 (§20) + 3 (bu bölüm) — sayım `yapay-zeka-dogrulama.md`
+> §2 matrisine bu turdan sonra taşınır.)
+
+---
+
+`status: verified` · `validation: 2026-10-12 · 32 URL + 5 çelişki kaydı + 9/9 çocuk çapraz bağ · 2026-10-14 · tur-4 (GET içerik) 3 veri kaynağı + 4 sınır notu eklendi`

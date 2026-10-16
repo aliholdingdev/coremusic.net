@@ -3,7 +3,13 @@ node_id: audio-intelligence
 node_type: subdomain
 status: draft
 parent_id: K006-yapay-zeka
-children: []
+children:
+  - audio-intelligence-anayasa.md
+  - audio-intelligence-bilesenler.md
+  - audio-intelligence-kapsam.md
+  - audio-intelligence-ornekler.md
+  - audio-intelligence-dogrulama.md
+  - audio-intelligence-web-arastirma.md
 depends_on: []
 evidence:
   - "v2 §2.6 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 264"
@@ -51,6 +57,7 @@ Tahminle dolgu **yapılmaz**.
 
 - [[audio-intelligence-kapsam]]
 - [[audio-intelligence-dogrulama]]
+- [[audio-intelligence-anayasa]]
 - [[audio-intelligence-ornekler]]
 
 ## §GRUPLAR
@@ -65,3 +72,4 @@ Tahminle dolgu **yapılmaz**.
 | kod | `audio-intelligence-ornekler.md` | Gerçek repo kod örnekleri ve satırlar | Kademe-2 |
 | kanit | `audio-intelligence-dogrulama.md` | İddia·kaynak·tarih·durum kanıt satırları | Kademe-2 |
 | kanit | `audio-intelligence-web-arastirma.md` | Resmi kaynak taraması ve çelişki kaydı | Kademe-2 |
+| mimari | `audio-intelligence-anayasa.md` | Alt-dal anayasası: kademe-2 ilkeleri, zorunlu kapılar, veri sözleşmeleri | Kademe-2 |
