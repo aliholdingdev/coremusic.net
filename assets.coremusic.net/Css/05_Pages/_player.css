@@ -2384,10 +2384,10 @@ html body .page-history--wide.page-layout {
     white-space: nowrap;
 }
 
-/* Disk ikonu: hücre (108px) içinde tam ortada — tabanda sola yapışık kalıyordu */
-.page-player--wide .player-row__disc { margin: 0 auto; }
+/* Figma 1390:24448 — cd_case her satırda rx=33 (hücre 32–140): ikon SOLDABAŞLAR, ortalanmaz */
+.page-player--wide .player-row__disc { margin-left: 1px; }
 
-.page-player--wide .player-table thead .player-col--icon { padding-left: 7px; text-align: center !important; }
+.page-player--wide .player-table thead .player-col--icon { padding-left: 7px; }
 .page-player--wide .player-table thead .player-col--title { padding-left: 0.27px; }
 .page-player--wide .player-table thead .player-col--album { margin-left: -0.53px; }
 .page-player--wide .player-table thead .player-col--artist { margin-left: -1.17px; }
