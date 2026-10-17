@@ -77,6 +77,9 @@ try {
     $tracks = [];
 }
 
+$tracksFromDb = $tracks !== [];
+$wideSeed = require __DIR__ . '/components/wide-seed.php';
+
 if ($tracks === []) {
     /* PNG home-1024 node 1639:9904 demo içeriği (RecentTracksComponent ile birebir) */
     $tracks = [
@@ -91,148 +94,87 @@ if ($tracks === []) {
 ?>
 <?php if ($isWide): ?>
     <!-- ════════════════════════════════════════════════════════════
-         WIDE / 4K — Figma node 1339:23464 (1920×1080)
-         "Laptop 1920 - Geçmiş Page"
-         Layout: Üst Toolbar (Geri/İleri + Başlık + Ev + Sırasıyla Metni + Arama)
-                 + 6 Kolonlu Geçmiş Listesi + Sağ Player-Info Sidebar
+         WIDE / 4K — Figma 3155:22392 "Linux 1920 - Geçmiş Page" (SSOT, 2026-10-16)
+         Cam panel (24,89) 1612×879 · araç çubuğu panel İÇİNDE · 6 kolon (25,171) · sağ kenar çubuğu (ortak partial)
          ════════════════════════════════════════════════════════════ -->
+    <?php
+    $figmaBase = $assetsUrl . '/Image/figma-1920';
+    // 6 kolon · kolon başına 33 satır (Figma yoğunluğu): gerçek kayıtlar round-robin dağıtılır
+    /* DB yoksa veya ?_demo=1 ise Figma SSOT kolonları (wide-seed.php); aksi halde DB kayıtları round-robin */
+    $useFigmaSeed = !$tracksFromDb || isset($_GET['_demo']);
+    if ($useFigmaSeed) {
+        $cols = $wideSeed['history'];
+    } else {
+        $cols    = array_fill(0, 6, []);
+        $pool    = array_values($tracks);
+        $poolCnt = max(1, count($pool));
+        for ($i = 0; $i < 6 * 33; $i++) {
+            $cols[$i % 6][] = $pool[$i % $poolCnt];
+        }
+    }
+    ?>
     <div class="page-history page-history--wide page-layout <?= $h($dm->allClasses()) ?>"
          <?= $dm->dataAttributes() ?>
          data-cm-component="cm-history">
 
-        <!-- ÜST BAR — Figma: geri/ileri + "Geçmiş" + Ev ikonu + "Sırasıyla: ..." + "Geçmiş'te ara" -->
-        <div class="history-toolbar history-toolbar--wide">
-            <div class="history-toolbar__left">
-                <button type="button" class="history-toolbar__btn" data-action="history-back" aria-label="Geri">
-                    <svg class="history-toolbar__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                        <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="currentColor"/>
-                    </svg>
-                </button>
-                <button type="button" class="history-toolbar__btn" data-action="history-forward" aria-label="İleri">
-                    <svg class="history-toolbar__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                        <path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z" fill="currentColor"/>
-                    </svg>
-                </button>
-                <nav class="history-toolbar__crumb" aria-label="Sayfa yolu">
-                    <h1 class="history-toolbar__title">Geçmiş</h1>
-                </nav>
-                <a href="/" class="history-toolbar__home" aria-label="Ana sayfa">
-                    <svg class="history-toolbar__home-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
-                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/>
-                    </svg>
+        <section class="history-glass" aria-label="Çalma geçmişi">
+            <header class="history-toolbar">
+                <a class="history-toolbar__btn" href="/nowplaying" aria-label="Şimdi Oynatılıyor sayfasına dön" title="Şimdi Oynatılıyor">
+                    <img src="<?= $h($figmaBase . '/back-arrow.png') ?>" width="40" height="40" alt="" aria-hidden="true">
                 </a>
-            </div>
+                <a class="history-toolbar__title" href="/nowplaying">Şimdi Oynatılıyor</a>
+                <h1 class="history-toolbar__sr">Geçmiş</h1>
+                <p class="history-toolbar__desc">Sırasıyla : Music, Video , Youtube &amp; Youtube Music &amp; Dezer Music &amp; USb Disk</p>
+                <div class="history-toolbar__search">
+                    <input id="history-search"
+                           class="history-toolbar__input"
+                           type="search"
+                           placeholder="Geçmiş'te ara"
+                           aria-label="Geçmiş'te ara"
+                           autocomplete="off"
+                           spellcheck="false">
+                    <img class="history-toolbar__search-icon" src="<?= $h($figmaBase . '/search-history.png') ?>" width="12" height="12" alt="" aria-hidden="true">
+                </div>
+            </header>
 
-            <div class="history-toolbar__center">
-                <span class="history-toolbar__desc">Sırasıyla : Music, Video , Youtube &amp; Youtube Music &amp; Dezer Music &amp; USb Disk</span>
-            </div>
-
-            <div class="history-toolbar__search">
-                <input id="history-search"
-                       class="history-toolbar__input"
-                       type="search"
-                       placeholder="Geçmiş ' te ara"
-                       aria-label="Geçmiş'te ara"
-                       autocomplete="off"
-                       spellcheck="false">
-            </div>
-        </div>
-
-        <!-- GÖVDE: 6 Kolonlu Liste (1612×819) + Sağ Player Sidebar (224px) -->
-        <div class="page-history__body page-history__body--wide">
-
-            <section class="history-grid-panel" aria-label="Çalma geçmişi">
-                <div class="history-grid-cols">
-                    <?php
-                    // 6 Kolona dağıtım (round-robin) — Figma 1339:23464 yoğunluğu: kolon başına 33 satır
-                    // (PNG SSOT: aynı demo kaydı tekrarlanarak doldurulur)
-                    $cols    = array_fill(0, 6, []);
-                    $pool    = array_values($tracks);
-                    $poolCnt = max(1, count($pool));
-                    for ($i = 0; $i < 6 * 33; $i++) {
-                        $cols[$i % 6][] = $pool[$i % $poolCnt];
-                    }
-                    ?>
-                    <?php foreach ($cols as $colIdx => $colTracks): ?>
-                        <div class="history-col">
-                            <div class="history-col__head" aria-hidden="true">
-                                <span class="history-col__label-album">Albüm</span>
-                                <span class="history-col__label-title">Şarkı Adı</span>
-                                <span class="history-col__label-duration">Süre</span>
-                            </div>
-                            <ul class="history-col__items">
-                                <?php foreach ($colTracks as $track): ?>
-                                    <?php
-                                    $stream = (string)$track['stream'];
-                                    $streamAttr = preg_match('#^/stream/[0-9a-f]{32}$#i', $stream) === 1
-                                        ? ' data-stream="' . $h($stream) . '"'
-                                        : '';
-                                    $label = 'Oynat: ' . $track['t'] . ' — ' . $track['a'];
-                                    ?>
-                                    <li class="history-list__item">
-                                        <a class="history-row history-row--mini"
-                                           href="/playlist"
-                                           data-no-spa
-                                           <?= $streamAttr ?>
-                                           aria-label="<?= $h($label) ?>">
-                                            <span class="history-row__play history-row__play--mini" aria-hidden="true">
-                                                <svg class="history-row__icon" viewBox="0 0 24 24" focusable="false">
-                                                    <path d="M8 5v14l11-7z" fill="currentColor"/>
-                                                </svg>
-                                            </span>
-                                            <span class="history-row__title"><?= $h((string)$track['t']) ?></span>
-                                            <span class="history-row__duration"><?= $h((string)$track['d']) ?></span>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
+            <div class="history-cols">
+                <?php foreach ($cols as $colTracks): ?>
+                    <div class="history-col">
+                        <div class="history-col__head" aria-hidden="true">
+                            <span class="history-col__label history-col__label--album">Albüm</span>
+                            <span class="history-col__label history-col__label--title">Şarkı Adı</span>
+                            <span class="history-col__label history-col__label--duration">Süre</span>
                         </div>
-                    <?php endforeach; ?>
-                </div>
+                        <ul class="history-col__items">
+                            <?php foreach ($colTracks as $track): ?>
+                                <?php
+                                $stream = (string)($track['stream'] ?? '');
+                                $streamAttr = preg_match('#^/stream/[0-9a-f]{32}$#i', $stream) === 1
+                                    ? ' data-stream="' . $h($stream) . '"'
+                                    : '';
+                                $label = 'Oynat: ' . $track['t'] . ' — ' . $track['a'];
+                                ?>
+                                <li class="history-list__item">
+                                    <a class="history-row history-row--mini"
+                                       href="/playlist"
+                                       data-no-spa
+                                       <?= $streamAttr ?>
+                                       aria-label="<?= $h($label) ?>">
+                                        <img class="history-row__disc" src="<?= $h($figmaBase . '/disc-history.png') ?>" width="24" height="21" alt="" loading="lazy">
+                                        <span class="history-row__title"><?= $h((string)$track['t']) ?></span>
+                                        <span class="history-row__duration"><?= $h((string)$track['d']) ?></span>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endforeach; ?>
+            </div>
 
-                <p class="history-list__empty" hidden>Aramanızla eşleşen kayıt bulunamadı.</p>
-            </section>
+            <p class="history-list__empty" hidden>Aramanızla eşleşen kayıt bulunamadı.</p>
+        </section>
 
-            <!-- SAĞ SİDEBAR: Player İmg (221×221) + Player Info Div (218×114) + Player Status Div (224×507) — SSOT Figma 1339:23464 -->
-            <aside class="page-sidebar--figma-wide" aria-label="Şu an çalan">
-                <div class="page-sidebar__cover-card">
-                    <img class="page-sidebar__cover-img" src="<?= $h($coverUrl) ?>" alt="Albüm Kapağı" width="221" height="221" loading="lazy">
-                </div>
-
-                <div class="page-sidebar__info-card">
-                    <p class="page-sidebar__info-row">
-                        <span class="page-sidebar__info-label">Şarkı Adı :</span>
-                        <span class="page-sidebar__info-val"><?= $h((string)$tracks[0]['t']) ?></span>
-                    </p>
-                    <p class="page-sidebar__info-row">
-                        <span class="page-sidebar__info-label">Albüm :</span>
-                        <span class="page-sidebar__info-val">Hayat Rüya Gibi</span>
-                    </p>
-                    <p class="page-sidebar__info-row">
-                        <span class="page-sidebar__info-label">Sanatçı :</span>
-                        <span class="page-sidebar__info-val"><?= $h((string)$tracks[0]['a']) ?></span>
-                    </p>
-                    <p class="page-sidebar__info-row">
-                        <span class="page-sidebar__info-label">Yıldız :</span>
-                        <span class="page-sidebar__info-stars" aria-label="5 yıldız">★★★★★</span>
-                    </p>
-                    <p class="page-sidebar__info-row">
-                        <span class="page-sidebar__info-label">Bit rate :</span>
-                        <span class="page-sidebar__info-val">350 kpps</span>
-                    </p>
-                    <p class="page-sidebar__info-row">
-                        <span class="page-sidebar__info-label">Süre :</span>
-                        <span class="page-sidebar__info-val">00:00:00 / 00:05:00</span>
-                    </p>
-                    <p class="page-sidebar__progress" aria-hidden="true">
-                        <span class="page-sidebar__progress-bar"></span>
-                    </p>
-                </div>
-
-                <div class="page-sidebar__status-card" aria-label="Çalma durumu paneli"></div>
-            </aside>
-
-        </div>
+        <?php $loader->display('wide-sidebar', $variant); ?>
     </div>
 <?php else: ?>
     <!-- ════════════════════════════════════════════════════════════

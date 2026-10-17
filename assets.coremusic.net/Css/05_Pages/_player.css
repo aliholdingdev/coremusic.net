@@ -496,73 +496,6 @@
     height: 100vh;
 }
 
-.page-player--embedded .player-content {
-    padding: 60px 12px 0;
-    gap: 12px;
-}
-
-.page-player--embedded .player-visual__art {
-    max-width: 350px;
-}
-
-.page-player--embedded .player-playlist {
-    width: 260px;
-}
-
-/* Koyu cam panel — light-mode --text-primary (#1a1025) burada görünmez;
-   neutral token'larla okunur beyaz-gri metin (np-1024-emb-v13.png referansı) */
-.page-player--embedded .player-playlist,
-.page-player--embedded .player-playlist__title {
-    color: var(--color-neutral-0);
-}
-
-.page-player--embedded .player-playlist__track-title {
-    color: var(--color-neutral-0);
-}
-
-.page-player--embedded .player-playlist__track-artist,
-.page-player--embedded .player-playlist__count,
-.page-player--embedded .player-playlist__duration {
-    color: var(--color-neutral-400);
-}
-
-.page-player--embedded .player-playlist__item {
-    padding: 8px 10px;
-}
-
-.page-player--embedded .player-playlist__thumb {
-    width: 36px;
-    height: 36px;
-}
-
-.page-player--embedded .player-mini {
-    height: 120px;
-    padding: 0 16px;
-}
-
-.page-player--embedded .player-mini__thumb {
-    width: 48px;
-    height: 48px;
-}
-
-.page-player--embedded .player-mini__song {
-    font-size: 14px;
-}
-
-.page-player--embedded .player-mini__btn {
-    width: 40px;
-    height: 40px;
-}
-
-.page-player--embedded .player-mini__btn--play {
-    width: 50px;
-    height: 50px;
-}
-
-.page-player--embedded .player-mini__volume-input {
-    width: 80px;
-}
-
 /* ═══════════════════════════════════════════════════════════════════
    RESPONSIVE — Mobile (< 768px)
    ═══════════════════════════════════════════════════════════════════ */
@@ -2212,7 +2145,7 @@ html body .page-history--wide.page-layout {
 }
 
 /* Cam panel — Figma "Playlist" (24,89) 1621×880 */
-.page-player--wide .player-glass {
+:is(.page-player--wide, .page-player--embedded) .player-glass {
     position: absolute;
     left: 24px;
     top: 29px;
@@ -2233,7 +2166,7 @@ html body .page-history--wide.page-layout {
 }
 
 /* Araç çubuğu — geri (45,110) 40×40 · başlık (90,121) · arama (1376,118) 257×25 */
-.page-player--wide .player-toolbar {
+:is(.page-player--wide, .page-player--embedded) .player-toolbar {
     position: absolute;
     inset: 0;
     display: block;
@@ -2243,7 +2176,7 @@ html body .page-history--wide.page-layout {
     border: 0;
 }
 
-.page-player--wide .player-toolbar__btn {
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__btn {
     position: absolute;
     left: 21px;
     top: 21px;
@@ -2256,13 +2189,13 @@ html body .page-history--wide.page-layout {
     background: none;
 }
 
-.page-player--wide .player-toolbar__btn img {
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__btn img {
     display: block;
     width: 40px;
     height: 40px;
 }
 
-.page-player--wide .player-toolbar__title {
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__title {
     position: absolute;
     left: 66px;
     top: 32px;
@@ -2277,7 +2210,7 @@ html body .page-history--wide.page-layout {
     white-space: nowrap;
 }
 
-.page-player--wide .player-toolbar__search {
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__search {
     position: absolute;
     right: 12px;
     top: 29px;
@@ -2293,7 +2226,7 @@ html body .page-history--wide.page-layout {
         0 1px 1px rgba(0, 0, 0, 0.8);
 }
 
-.page-player--wide .player-toolbar__search-input {
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__search-input {
     position: absolute;
     left: 14px;
     top: 6px;
@@ -2318,12 +2251,12 @@ html body .page-history--wide.page-layout {
     appearance: none;
 }
 
-.page-player--wide .player-toolbar__search-input::placeholder {
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__search-input::placeholder {
     color: #000;
     opacity: 1;
 }
 
-.page-player--wide .player-toolbar__search-icon {
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__search-icon {
     position: absolute;
     left: 236px;
     right: auto;
@@ -2337,7 +2270,7 @@ html body .page-history--wide.page-layout {
 }
 
 /* Tablo — başlık bandı (25,171) 1620×34 · satırlar (32,217) pitch 28.5, yükseklik 21 */
-.page-player--wide .player-table-panel {
+:is(.page-player--wide, .page-player--embedded) .player-table-panel {
     position: absolute;
     left: 1px;
     top: 82px;
@@ -2355,11 +2288,11 @@ html body .page-history--wide.page-layout {
     scrollbar-width: none;
 }
 
-.page-player--wide .player-table-panel::-webkit-scrollbar {
+:is(.page-player--wide, .page-player--embedded) .player-table-panel::-webkit-scrollbar {
     display: none;
 }
 
-.page-player--wide .player-table {
+:is(.page-player--wide, .page-player--embedded) .player-table {
     display: block;
     width: 100%;
     margin: 0;
@@ -2370,7 +2303,7 @@ html body .page-history--wide.page-layout {
     background: none;
 }
 
-.page-player--wide .player-table thead {
+:is(.page-player--wide, .page-player--embedded) .player-table thead {
     display: block;
     position: sticky;
     top: 0;
@@ -2386,7 +2319,7 @@ html body .page-history--wide.page-layout {
    159px track'te ortalanır → her yanda 30px; panel sağ kenarı (1645) ile
    son yıldız arası ~30px (kullanıcı: "yıldızlar bitişik, sağda boşluk olsun").
    Süre metni sol hizalı (1291) — track 195px metne fazlasıyla yeter. */
-.page-player--wide .player-table thead tr {
+:is(.page-player--wide, .page-player--embedded) .player-table thead tr {
     display: grid;
     grid-template-columns: 108px minmax(0, 445fr) minmax(0, 396fr) minmax(0, 310fr) minmax(0, 195fr) minmax(74px, 159fr);
     align-items: start;
@@ -2394,7 +2327,7 @@ html body .page-history--wide.page-layout {
     margin: 0 0 0 7px;
 }
 
-.page-player--wide .player-table thead th {
+:is(.page-player--wide, .page-player--embedded) .player-table thead th {
     position: relative;
     margin: 0;
     padding: 9px 0 0 0;
@@ -2412,28 +2345,28 @@ html body .page-history--wide.page-layout {
 
 /* İkon ve "/" başlığı: hücre ortası (86) −40px → cx=46, disk x=33 = Figma 1390:24448
    cd_case rx=33. Sol boşluk 41px'ten 1px'e iner, "/" diskin tam üstünde kalır. */
-.page-player--wide .player-row__disc { margin: 0 auto; transform: translateX(-40px); }
+:is(.page-player--wide, .page-player--embedded) .player-row__disc { margin: 0 auto; transform: translateX(-40px); }
 
-.page-player--wide .player-table thead .player-col--icon { padding-left: 0; text-align: center !important; transform: translateX(-40px); }
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--icon { padding-left: 0; text-align: center !important; transform: translateX(-40px); }
 /* Şarkı Adı diske yaklaşır: başlık/hücre 140 → 70 (disk 60'da biter → 10px gap) */
-.page-player--wide .player-table thead .player-col--title { padding-left: 0.27px; margin-left: -70px; }
-.page-player--wide .player-row .player-col--title { margin-left: -70px; }
-.page-player--wide .player-table thead .player-col--album { margin-left: -0.53px; }
-.page-player--wide .player-table thead .player-col--artist { margin-left: -1.17px; }
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--title { padding-left: 0.27px; margin-left: -70px; }
+:is(.page-player--wide, .page-player--embedded) .player-row .player-col--title { margin-left: -70px; }
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--album { margin-left: -0.53px; }
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--artist { margin-left: -1.17px; }
 /* Figma 1390:24448 — "Süre" başlığı hücre solunda (x=1298.3 = 1291+7.3),
    taban text-align:center metni 1410'a kaydırıyordu */
-.page-player--wide .player-table thead .player-col--duration { padding-left: 7.3px; padding-top: 10px; text-align: left !important; }
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--duration { padding-left: 7.3px; padding-top: 10px; text-align: left !important; }
 /* Başlık yıldız grubunun tam ortası (1522+123/2=1583.5; metin ~75px → 1546 civarı) */
-.page-player--wide .player-table thead .player-col--stars { margin-left: 0; text-align: center !important; }
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--stars { margin-left: 0; text-align: center !important; }
 
-.page-player--wide .player-table tbody {
+:is(.page-player--wide, .page-player--embedded) .player-table tbody {
     display: block;
     margin: 0;
     padding: 12px 0 0 0;
     border: 0;
 }
 
-.page-player--wide .player-row {
+:is(.page-player--wide, .page-player--embedded) .player-row {
     display: grid;
     grid-template-columns: 108px minmax(0, 445fr) minmax(0, 396fr) minmax(0, 310fr) minmax(0, 195fr) minmax(74px, 159fr);
     align-items: center;
@@ -2449,11 +2382,11 @@ html body .page-history--wide.page-layout {
     transition: none;
 }
 
-.page-player--wide .player-row:hover {
+:is(.page-player--wide, .page-player--embedded) .player-row:hover {
     background: none;
 }
 
-.page-player--wide .player-row td {
+:is(.page-player--wide, .page-player--embedded) .player-row td {
     height: 21px;
     margin: 0;
     padding: 0;
@@ -2472,7 +2405,7 @@ html body .page-history--wide.page-layout {
     text-overflow: ellipsis;
 }
 
-.page-player--wide .player-row__disc {
+:is(.page-player--wide, .page-player--embedded) .player-row__disc {
     display: block;
     width: 27px;
     height: 21px;
@@ -2482,23 +2415,23 @@ html body .page-history--wide.page-layout {
    grid track'ini (445/396/310/251/103fr) küçültüp içeriği kırpıyordu:
    title 124.6px (içerik 142) · artist 55.8px (içerik 109) · duration 30.1px
    ("00:00:00" 44px → "00:0…") · stars 42px (83px içerik). Figma 1390:24448. */
-.page-player--wide .player-col--title,
-.page-player--wide .player-col--album,
-.page-player--wide .player-col--artist,
-.page-player--wide .player-col--stars {
+:is(.page-player--wide, .page-player--embedded) .player-col--title,
+:is(.page-player--wide, .page-player--embedded) .player-col--album,
+:is(.page-player--wide, .page-player--embedded) .player-col--artist,
+:is(.page-player--wide, .page-player--embedded) .player-col--stars {
     width: auto;
 }
 
 /* Figma 1390:24448 — süre metni hücre solundan başlar (x=1291 = td başlangıcı);
    taban %12 width + text-align:center metni 1395'e taşıyordu */
-.page-player--wide .player-col--duration {
+:is(.page-player--wide, .page-player--embedded) .player-col--duration {
     width: auto;
     text-align: left !important;
 }
 
 /* Track 1486–1645 (159px), yıldızlar bitişik (gap 0) — PNG'nin kendi 0.75px
    şeffaf kenarı sayesinde görsel olarak ~1.5px ayrım kalır, grup ortada */
-.page-player--wide .player-stars {
+:is(.page-player--wide, .page-player--embedded) .player-stars {
     display: flex;
     justify-content: center;
     gap: 0;
@@ -2506,18 +2439,18 @@ html body .page-history--wide.page-layout {
     margin-top: 2px;
 }
 
-.page-player--wide .player-star {
+:is(.page-player--wide, .page-player--embedded) .player-star {
     display: block;
     width: 15px;
     height: 15px;
 }
 
 /* Vurgu satırı — Figma (34,302.5) 1602×21 · 3 katman: #808080 .15 / #FF00C8 .35 / #BBBBBB .25 */
-.page-player--wide .player-row--active {
+:is(.page-player--wide, .page-player--embedded) .player-row--active {
     background: none;
 }
 
-.page-player--wide .player-row--active::before {
+:is(.page-player--wide, .page-player--embedded) .player-row--active::before {
     content: "";
     position: absolute;
     left: 2px;
@@ -2532,7 +2465,7 @@ html body .page-history--wide.page-layout {
 }
 
 /* Kaydırma izi — Figma scroolbar (1641,210) 3×744 · başparmak 3×21.66 */
-.page-player--wide .player-scroll-track {
+:is(.page-player--wide, .page-player--embedded) .player-scroll-track {
     position: absolute;
     right: 1px;
     top: 121px;
@@ -2542,7 +2475,7 @@ html body .page-history--wide.page-layout {
     background: rgba(217, 217, 217, 0.55);
 }
 
-.page-player--wide .player-scroll-track::after {
+:is(.page-player--wide, .page-player--embedded) .player-scroll-track::after {
     content: "";
     position: absolute;
     left: 0;
@@ -2559,63 +2492,266 @@ html body .page-history--wide.page-layout {
    Sidebar sol = 1680, üst = 87 - 60 (root) = 27
    ════════════════════════════════════════════════════════════════════ */
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar--figma-wide {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar--figma-wide {
     position: absolute;
     right: 15px;
     top: 27px;
-    width: 225px;
+    width: 245px;
     height: calc(100% - 48px);
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-sizing: border-box;
     margin: 0;
-    padding: 0;
+    padding: 16px 12px;
     flex: none;
+    overflow-y: auto;
+    /* Multi-layer Frosted Glass — mockup panel zemini */
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0.05) 100%
+    ), rgba(18, 10, 28, 0.45);
+    backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
+    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 14px;
+    box-shadow:
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.25),
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 4px 12px rgba(0, 0, 0, 0.25);
+    scrollbar-width: thin;
+    scrollbar-color: var(--cm-accent, #ff4fd8) rgba(255, 255, 255, 0.08);
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__cover-card {
-    position: absolute;
-    left: 1px;
-    top: 0;
-    width: 221px;
-    height: 221px;
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar--figma-wide::-webkit-scrollbar {
+    width: 5px;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar--figma-wide::-webkit-scrollbar-thumb {
+    background: var(--cm-accent, #ff4fd8);
+    border-radius: 3px;
+}
+
+/* ── 1) PROFİL KARTI — dairesel avatar + şarkı + 5 aksiyon butonu ── */
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__profile-card {
+    flex: none;
     margin: 0;
     padding: 0;
-    border: 0;
-    border-radius: 5px;
-    background: none;
-    box-shadow: 0 0.2px 1px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    text-align: center;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__cover-img {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__art {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #ff4fd8;
+    box-shadow:
+        0 0 28px rgba(255, 79, 216, 0.55),
+        0 10px 25px rgba(0, 0, 0, 0.5),
+        inset 0 0 12px rgba(255, 79, 216, 0.3);
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__art:hover {
+    transform: scale(1.04);
+    box-shadow:
+        0 0 38px rgba(255, 79, 216, 0.75),
+        0 14px 30px rgba(0, 0, 0, 0.6);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__avatar {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* Kapak örtüsü — Figma NowPlayingContainer: #E2E2E2 @ opacity .21 · 1px beyaz kenar */
-:is(.page-player--wide, .page-history--wide) .page-sidebar__cover-card::after {
-    content: "";
-    position: absolute;
-    left: 1.82px;
-    top: 2.21px;
-    right: 3px;
-    bottom: 3.07px;
-    border-radius: 5px;
-    background: rgba(226, 226, 226, 0.21);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.21);
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__meta {
+    margin-top: 12px;
+    text-align: center;
 }
 
-/* Bilgi kartı — cam (1679.6,326) 224×116: #929292 @ .135 + 1px beyaz kenar @ .21 */
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-card {
-    position: absolute;
-    left: 1px;
-    top: 241px;
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__song-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white, #fff);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__song-sub {
+    margin: 4px 0 0;
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.75);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+    flex-shrink: 0;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn {
+    width: 44px;
+    height: 40px;
+    min-width: 44px;
+    min-height: 40px;
+    padding: 0;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn--pink {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.65) 0%, rgba(224, 37, 168, 0.5) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-top: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 4px 14px rgba(255, 79, 216, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn--pink:hover {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.85) 0%, rgba(224, 37, 168, 0.75) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 79, 216, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn--glass {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn--glass:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.12) 100%);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* ── 2) ÖNERİLER — 2 satır × (2 etiket + 4 dairesel sanatçı) ── */
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__recs {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__rec-labels {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0 0 10px;
+    font-family: 'Avalon Medium', sans-serif;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__rec-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__rec-labels + .page-sidebar__artist-grid {
+    margin-bottom: 18px;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    text-align: center;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 6px 2px;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 79, 216, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-thumb {
+    display: block;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(255, 79, 216, 0.6);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-item:hover .page-sidebar__artist-thumb {
+    border-color: #ff4fd8;
+    box-shadow: 0 0 14px rgba(255, 79, 216, 0.6);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-name {
+    margin-top: 6px;
+    max-width: 100%;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 3) DURUM KARTI — Figma bilgi (1681,328) 218×114: #929292 @ .135 + 1px beyaz kenar @ .21
+   Kart kendisi akışta; iç satırlar kart-içi absolute koordinat (Figma piksel). */
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-card {
+    position: relative;
+    flex: none;
     width: 218px;
     height: 114px;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     border: 0;
     border-radius: 0;
@@ -2626,18 +2762,19 @@ html body .page-history--wide.page-layout {
     -webkit-backdrop-filter: none;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-card::before {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-card::before {
     content: "";
     position: absolute;
     left: -1.43px;
     top: -2px;
     width: 224px;
     height: 116px;
+    border-radius: 10px;
     background: rgba(146, 146, 146, 0.135);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.21), 0 0.2px 1px rgba(0, 0, 0, 0.5);
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-row {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row {
     position: absolute;
     left: 9.6px;
     width: 200px;
@@ -2652,14 +2789,14 @@ html body .page-history--wide.page-layout {
     white-space: nowrap;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-row--title { top: 4.64px; }
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-row--album { top: 19.51px; }
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-row--artist { top: 34.39px; }
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-row--stars { top: 48px; }
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-row--bitrate { top: 63.14px; }
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-row--time { top: 78.01px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--title { top: 4.64px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--album { top: 19.51px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--artist { top: 34.39px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--stars { top: 48px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--bitrate { top: 63.14px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--time { top: 78.01px; }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-icon {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-icon {
     position: absolute;
     left: 0;
     top: 1px;
@@ -2668,17 +2805,17 @@ html body .page-history--wide.page-layout {
     display: block;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-row--stars .page-sidebar__info-icon {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--stars .page-sidebar__info-icon {
     top: 2.26px;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-row--bitrate .page-sidebar__info-icon,
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-row--time .page-sidebar__info-icon {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--bitrate .page-sidebar__info-icon,
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--time .page-sidebar__info-icon {
     top: 2px;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-val,
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-label {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-val,
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-label {
     position: absolute;
     left: 17.25px;
     top: 0;
@@ -2691,7 +2828,7 @@ html body .page-history--wide.page-layout {
     text-align: left;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-stars {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-stars {
     position: absolute;
     left: 50.73px;
     top: 0.26px;
@@ -2699,32 +2836,32 @@ html body .page-history--wide.page-layout {
     gap: 0.23px;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__info-stars img {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-stars img {
     display: block;
     width: 11.43px;
     height: 10px;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__format {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__format {
     position: absolute;
     display: block;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__format--mp3 {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__format--mp3 {
     left: 113.25px;
     top: 3px;
     width: 17px;
     height: 8px;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__format--mp4 {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__format--mp4 {
     left: 131.03px;
     top: 0;
     width: 19px;
     height: 13px;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__format--vlc {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__format--vlc {
     left: 149.95px;
     top: 1px;
     width: 11.43px;
@@ -2732,7 +2869,7 @@ html body .page-history--wide.page-layout {
 }
 
 /* Süre ilerlemesi — play (1690.6,422.9) · bar (1707.7,425) 180.6×6 · dolu 65px #FF65E9 */
-:is(.page-player--wide, .page-history--wide) .page-sidebar__progress {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__progress {
     position: absolute;
     left: 9.6px;
     top: 94.89px;
@@ -2744,7 +2881,7 @@ html body .page-history--wide.page-layout {
     overflow: visible;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__progress-play {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__progress-play {
     position: absolute;
     left: 0;
     top: 0;
@@ -2753,7 +2890,7 @@ html body .page-history--wide.page-layout {
     height: 10px;
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__progress-track {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__progress-track {
     position: absolute;
     left: 17.14px;
     top: 2.11px;
@@ -2762,7 +2899,7 @@ html body .page-history--wide.page-layout {
     background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
 }
 
-:is(.page-player--wide, .page-history--wide) .page-sidebar__progress-fill {
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__progress-fill {
     position: absolute;
     left: 0;
     top: 0;
@@ -2772,18 +2909,94 @@ html body .page-history--wide.page-layout {
 }
 
 /* Durum kartı — cam (1678.6,462) 225.2×507 · aynı katman modeli */
-:is(.page-player--wide, .page-history--wide) .page-sidebar__status-card {
-    position: absolute;
-    left: -1.44px;
-    top: 375px;
-    width: 225.15px;
-    height: calc(100% - 375px);
+/* 4) BOŞ KART — Figma durum (1680,462) 224×507 · kalan yüksekliği doldurur */
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__status-card {
+    flex: 1 1 auto;
+    min-height: 120px;
     margin: 0;
     padding: 0;
     border: 0;
-    border-radius: 0;
+    border-radius: 10px;
     background: rgba(146, 146, 146, 0.135);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.21), 0 0.2px 1px rgba(0, 0, 0, 0.5);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   EMBEDDED 1024×600 — "Linux 1024 - Playlist Page" (SSOT, 2026-10-17)
+   Tablo/araç çubuğu düzeni wide ile ORTAKTIR (yukarıdaki :is(...) bloğu).
+   Burada yalnız 1024'e özgü ölçü farkları vardır:
+     · cam panel 743px (wide: 1621) → sağ boşluk 257px (wide: 275)
+     · sağ kenar çubuğu 203px @ right 28 (wide: 225 @ right 15)
+     · dairesel avatar 97px (wide: 140) · sanatçı dairesi 34px (wide: 52)
+   Durum + boş kart BURADA RENDER EDİLMEZ — bileşen tarafında
+   WideSidebarComponent::$showStatusCards = isWide() ile kapatılır.
+   ═══════════════════════════════════════════════════════════════════ */
+.page-player--embedded .player-glass {
+    right: 257px;
+}
+
+.page-player--embedded .page-sidebar--figma-wide {
+    right: 28px;
+    width: 203px;
+    padding: 14px 12px;
+    gap: 10px;
+}
+
+.page-player--embedded .page-sidebar__art {
+    width: 97px;
+    height: 97px;
+}
+
+.page-player--embedded .page-sidebar__meta {
+    margin-top: 10px;
+}
+
+.page-player--embedded .page-sidebar__song-title {
+    font-size: 14px;
+}
+
+.page-player--embedded .page-sidebar__song-sub {
+    font-size: 11px;
+}
+
+.page-player--embedded .page-sidebar__actions {
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.page-player--embedded .page-action-btn {
+    width: 34px;
+    height: 30px;
+    min-width: 34px;
+    min-height: 30px;
+    border-radius: 9px;
+}
+
+.page-player--embedded .page-action-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.page-player--embedded .page-sidebar__rec-label {
+    font-size: 10px;
+}
+
+.page-player--embedded .page-sidebar__artist-grid {
+    gap: 6px;
+}
+
+.page-player--embedded .page-sidebar__artist-item {
+    padding: 4px 1px;
+}
+
+.page-player--embedded .page-sidebar__artist-thumb {
+    width: 34px;
+    height: 34px;
+}
+
+.page-player--embedded .page-sidebar__artist-name {
+    margin-top: 4px;
+    font-size: 9px;
 }

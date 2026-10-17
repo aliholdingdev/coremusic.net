@@ -7,6 +7,7 @@ use CoreMusic\Home\Component\PlayerInfoComponent;
 use CoreMusic\Home\Component\RecentTracksComponent;
 use CoreMusic\Home\Component\WelcomeBannerComponent;
 use CoreMusic\Home\Component\WidgetGridComponent;
+use CoreMusic\Home\Component\WideSidebarComponent;
 use CoreMusic\Home\Repository\MusicRepository;
 
 /**
@@ -55,6 +56,9 @@ final class ComponentLoader
 
             /* ─── Wide/4K Orta Sütun ─── */
             'welcome-banner'   => WelcomeBannerComponent::class,
+
+            /* ─── Wide Sağ Kenar Çubuğu — "Şu an çalan" (nowplaying + history) ─── */
+            'wide-sidebar'     => WideSidebarComponent::class,
         ];
     }
 

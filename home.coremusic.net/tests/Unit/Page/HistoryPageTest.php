@@ -55,7 +55,8 @@ final class HistoryPageTest extends TestCase
         $this->assertStringContainsString('page-history', $html);
         $this->assertStringNotContainsString('page-history--wide', $html);
         $this->assertStringContainsString('history-list__head', $html);
-        $this->assertStringNotContainsString('history-grid-cols', $html);
+        $this->assertStringNotContainsString('history-cols', $html);
+        $this->assertStringNotContainsString('page-sidebar--figma-wide', $html);
     }
 
     public function testHistoryPage_rendersWideLayoutAt1920(): void
@@ -63,10 +64,11 @@ final class HistoryPageTest extends TestCase
         $html = $this->renderHistoryPage(1920);
 
         $this->assertStringContainsString('page-history--wide', $html);
-        $this->assertStringContainsString('history-grid-cols', $html);
+        $this->assertStringContainsString('history-cols', $html);
         $this->assertStringContainsString('history-col', $html);
-        $this->assertStringContainsString('history-toolbar--wide', $html);
-        $this->assertStringContainsString('history-toolbar__home', $html);
-        $this->assertStringContainsString('history-sidebar__status', $html);
+        $this->assertStringContainsString('history-toolbar', $html);
+        $this->assertStringContainsString('history-toolbar__title', $html);
+        $this->assertStringContainsString('page-sidebar--figma-wide', $html);
+        $this->assertStringContainsString('page-sidebar__status-card', $html);
     }
 }

@@ -106,9 +106,10 @@ if ($tracks === []) {
 $coverUrl = $assetsUrl . '/Image/res-pink/album-goksel.png';
 $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
 ?>
-<?php if ($isWide && !$isFullscreen): ?>
+<?php if (!$isFullscreen || !$isWide): ?>
     <?php
-    /* Wide içerik: DB yoksa veya ?_demo=1 ise Figma SSOT içeriği (wide-seed.php) — birebir tasarım */
+    /* Playlist içeriği (WIDE 1920 · 4K 3840 · EMBEDDED 1024): DB yoksa veya ?_demo=1 ise
+       Figma SSOT içeriği (wide-seed.php) — 1024 mockup'ı 1920 ile AYNI tablo düzenini gösterir */
     if (!$tracksFromDb || isset($_GET['_demo'])) {
         $tracks = $wideSeed['playlist'];
     }
@@ -125,10 +126,15 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
     $figmaBase    = $assetsUrl . '/Image/figma-1920';
     ?>
     <!-- ════════════════════════════════════════════════════════════
-         WIDE / 4K — Figma 3155:19834 "Linux 1920 - Playlist Page" (SSOT, 2026-10-16)
-         Cam panel (24,89) 1621×880 · araç çubuğu panel İÇİNDE · tablo (25,171) · sağ kenar çubuğu (ortak partial)
+         PLAYLIST TABLO DÜZENİ — üç tier'da ORTAK (markup birebir aynı)
+         WIDE 1920 / 4K 3840 : Figma "Linux 1920 - Playlist Page" (SSOT, 2026-10-16)
+         EMBEDDED 1024       : Figma "Linux 1024 - Playlist Page"  (SSOT, 2026-10-17)
+         Fark yalnız CSS tarafında: geniş+embedded ortak :is() bloğu
+         + embedded override (cam 743px · panel 203px @ right 28 · avatar 97px)
+         Sağ kenar çubuğu: wide → 4 bölüm · embedded → yalnız profil kartı + öneriler
+         (WideSidebarComponent::$showStatusCards = isWide())
          ════════════════════════════════════════════════════════════ -->
-    <div class="page-player page-player--wide page-layout <?= $h($dm->allClasses()) ?>"
+    <div class="page-player <?= $isWide ? 'page-player--wide' : 'page-player--embedded' ?> page-layout <?= $h($dm->allClasses()) ?>"
          <?= $dm->dataAttributes() ?>>
 
         <section class="player-glass" aria-label="Şarkı listesi">
@@ -248,7 +254,7 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
         })();
         </script>
     </div>
-<?php elseif ($isWide && $isFullscreen): ?>
+<?php else: ?>
     <!-- ════════════════════════════════════════════════════════════
          WIDE / 4K FULLSCREEN OVERLAY — Figma node 2135:34323 (1920×1080)
          "Laptop 1920 - Playlist Page full screen mode 2" (Kullanıcı Ek 1)
@@ -389,78 +395,6 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
         <!-- EN ALT: Tam genişlik 5px ilerleme çubuğu (node 2135:35497) -->
         <div class="player-bottom-progress" role="progressbar" aria-label="Şarkı ilerleme çubuğu" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
             <div class="player-bottom-progress__fill"></div>
-        </div>
-    </div>
-<?php else: ?>
-    <!-- ════════════════════════════════════════════════════════════
-         EMBEDDED 1024×600 — Figma SSOT
-         ════════════════════════════════════════════════════════════ -->
-    <div class="page-player page-player--embedded page-layout"
-         <?= $dm->dataAttributes() ?>>
-
-        <!-- ARKA PLAN KATMANI — _player.css: .player-bg (bulanık kapak + gradient overlay) -->
-        <div class="player-bg" aria-hidden="true">
-            <img class="player-bg__image" src="<?= $h($coverUrl) ?>" alt="" loading="lazy">
-            <div class="player-bg__overlay"></div>
-        </div>
-
-        <!-- GERİ — shell header altında konumlanır -->
-        <a class="player-back" href="/" aria-label="Ana sayfaya dön">
-            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z" fill="currentColor"/>
-            </svg>
-        </a>
-
-        <div class="player-content">
-
-            <!-- SOL: albüm görseli + Player Info kartı -->
-            <div class="player-visual">
-                <div class="player-visual__art">
-                    <img class="player-visual__image"
-                         src="<?= $h($coverUrl) ?>"
-                         alt="Çalan şarkının albüm kapağı"
-                         loading="lazy">
-                    <div class="player-visual__glow"></div>
-                </div>
-                <?php $loader->display('player-info', $variant); ?>
-            </div>
-
-            <!-- SAĞ: Sıradaki Şarkılar (kuyruk) — _player.css .player-playlist kontratı -->
-            <aside class="player-playlist" aria-label="Sıradaki Şarkılar">
-                <div class="player-playlist__header">
-                    <h2 class="player-playlist__title">Sıradaki Şarkılar</h2>
-                    <span class="player-playlist__count"><?= count($tracks) ?> şarkı</span>
-                </div>
-                <div class="player-playlist__list">
-                    <?php foreach ($tracks as $track): ?>
-                        <?php
-                        $stream = (string)$track['stream'];
-                        $streamAttr = preg_match('#^/stream/[0-9a-f]{32}$#i', $stream) === 1
-                            ? ' data-stream="' . $h($stream) . '"'
-                            : '';
-                        $label = 'Oynat: ' . $track['t'] . ' — ' . $track['a'];
-                        ?>
-                        <a class="player-playlist__item"
-                           href="/playlist"
-                           data-no-spa
-                           <?= $streamAttr ?>
-                           aria-label="<?= $h($label) ?>">
-                            <img class="player-playlist__thumb"
-                                 src="<?= $h($assetsUrl . '/Image/res-pink/default-album.png') ?>"
-                                 alt=""
-                                 width="44"
-                                 height="44"
-                                 loading="lazy">
-                            <span class="player-playlist__info">
-                                <span class="player-playlist__track-title"><?= $h((string)$track['t']) ?></span>
-                                <span class="player-playlist__track-artist"><?= $h((string)$track['a']) ?></span>
-                            </span>
-                            <span class="player-playlist__duration"><?= $h((string)$track['d']) ?></span>
-                        </a>
-                    <?php endforeach; ?>
-                </div>
-            </aside>
-
         </div>
     </div>
 <?php endif; ?>

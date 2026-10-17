@@ -54,7 +54,9 @@ final class NowPlayingPageTest extends TestCase
 
         $this->assertStringContainsString('page-player--embedded', $html);
         $this->assertStringNotContainsString('page-player--wide', $html);
-        $this->assertStringContainsString('player-visual__art', $html);
+        $this->assertStringContainsString('player-table', $html);
+        $this->assertStringContainsString('page-sidebar--figma-wide', $html);
+        $this->assertStringNotContainsString('player-visual__art', $html);
         $this->assertStringNotContainsString('player-mini-card', $html);
     }
 
@@ -67,7 +69,9 @@ final class NowPlayingPageTest extends TestCase
         $this->assertStringContainsString('player-table', $html);
         $this->assertStringContainsString('player-col--stars', $html);
         $this->assertStringContainsString('player-row--active', $html);
-        $this->assertStringContainsString('player-sidebar--recommendations', $html);
+        $this->assertStringContainsString('page-sidebar--figma-wide', $html);
+        $this->assertStringContainsString('page-sidebar__info-card', $html);
+        $this->assertStringContainsString('page-sidebar__status-card', $html);
         $this->assertStringContainsString('Önerilen Sanatçılar', $html);
         $this->assertStringContainsString('Son Dinlenenler', $html);
     }
