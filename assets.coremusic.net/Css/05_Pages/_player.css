@@ -2470,11 +2470,12 @@ html body .page-history--wide.page-layout {
     text-align: left !important;
 }
 
-/* Track 1486–1645 (159px), yıldız grubu 79px (15 + 4×1 aralık) — Figma pitch 15px'e en yakın */
+/* Track 1486–1645 (159px), yıldızlar bitişik (gap 0) — PNG'nin kendi 0.75px
+   şeffaf kenarı sayesinde görsel olarak ~1.5px ayrım kalır, grup ortada */
 .page-player--wide .player-stars {
     display: flex;
     justify-content: center;
-    gap: 1px;
+    gap: 0;
     height: 15px;
     margin-top: 2px;
 }
