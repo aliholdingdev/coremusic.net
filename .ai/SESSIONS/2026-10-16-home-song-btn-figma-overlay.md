@@ -58,7 +58,7 @@ depends-on: [".ai/AGENTS.md", ".ai/CLAUDE.md", ".ai/.png/home-1024/"]
 |---|---|
 | `icons8-cd-48` diski eklenmedi | Figma'da kartta CD DISK node'u yok (Show CD ≠ disk; istockphoto overlay = beyaz CD görseli). PNG mockup zoom da disk göstermiyor (PNG > Figma referans sırası) |
 | Show CD = yerel `cd-ico.png` + CSS opacity 0.35 | Figma izole render alpha'sı 0.35 PNG'ye gömülü; opaque yerel asset ile CSS'te birebir uygulanır. Yeni asset dosyası üretilmedi |
-| CD yalnız Supermix (Plist Video) kartında | Figma grep: istockphoto node'u yalnız `Plist Video Button` varyantında (4 geçiş: 1639:9901×2, 2890:7924, 2890:7966) |
+| ~~CD yalnız Supermix (Plist Video) kartında~~ → **GENİŞLETİLDİ: tüm kartlar** (commit `c419f8a`) | İlk tur Figma grep'i node'u yalnız `Plist Video Button` varyantında buldu (1639:9901×2, 2890:7924, 2890:7966); kullanıcı ikinci geri bildirimde ("cd ico yok" + ekran görüntüsü) kapsamı düzeltti — Figma'da **Show CD prop'u tüm instance'larda True** (node eksikliği tasarımcı ihmali). `cd` flag'i kaldırıldı, markup her kartta 4 img |
 | Plist Video istockphoto 51×34 overlay'ı "skip" kararı GERİ ALINDI | Tur 1'de "PNG'de görünmüyor → skip" denmişti; kullanıcı "cd ico var, opacity düşürmüş" diyerek düzeltti — opaklık 0.35 olduğu için PNG'de seçik kalıyordu |
 
 ## 4. Sorunlar ve çözümleri
