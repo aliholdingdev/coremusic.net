@@ -85,4 +85,137 @@ final class HomeSongButtonTest extends TestCase
         );
         $this->assertStringNotContainsString('/Image/res-pink/default-album.png', $html);
     }
+
+    public function testHtml_withoutKind_rendersCdCaseAndMusicBadge(): void
+    {
+        // Arrange + Act — 'k' anahtarı yoksa default 'song'
+        $html = HomeSongButton::html(self::track('T', 'S', ''), 'm', 'meta');
+
+        // Assert — kılıf + rozet her kartta, şarkı rozeti music.png
+        $this->assertStringContainsString('<div class="home-song__mini-card__art">', $html);
+        $this->assertStringContainsString('class="home-song__mini-card__art-img" src="', $html);
+        $this->assertStringContainsString('class="home-song__mini-card__art-case" src="', $html);
+        $this->assertStringContainsString('/Image/res-pink/cd-case.png', $html);
+        $this->assertStringContainsString('class="home-song__mini-card__art-badge" src="', $html);
+        $this->assertStringContainsString('/Image/res-pink/music.png', $html);
+        $this->assertStringNotContainsString('/Image/res-pink/video.png', $html);
+    }
+
+    public function testHtml_videoKind_rendersVideoBadgeWithoutMusicBadge(): void
+    {
+        // Arrange + Act
+        $html = HomeSongButton::html(
+            ['t' => 'Kış Masalı Ensturmental', 's' => 'Org Dersleri', 'art' => '', 'k' => 'video'],
+            'm',
+            'meta'
+        );
+
+        // Assert
+        $this->assertStringContainsString('/Image/res-pink/video.png', $html);
+        $this->assertStringNotContainsString('/Image/res-pink/music.png', $html);
+        $this->assertStringContainsString('/Image/res-pink/cd-case.png', $html);
+    }
+
+    public function testHtml_unknownKind_fallsBackToSongBadge(): void
+    {
+        // Arrange + Act — 'song'/'video' dışı değer → song rozeti
+        $html = HomeSongButton::html(
+            ['t' => 'T', 's' => 'S', 'art' => '', 'k' => 'radio'],
+            'm',
+            'meta'
+        );
+
+        // Assert
+        $this->assertStringContainsString('/Image/res-pink/music.png', $html);
+        $this->assertStringNotContainsString('/Image/res-pink/video.png', $html);
+    }
+
+    public function testHtml_artOverlayImagesAreDecorativeAndOrdered(): void
+    {
+        // Arrange + Act
+        $html = HomeSongButton::html(self::track('T', 'S', ''), 'm', 'meta');
+
+        // Assert — WCAG: kılıf/rozet dekoratif (alt="" + aria-hidden)
+        $this->assertMatchesRegularExpression(
+            '#class="home-song__mini-card__art-case" src="[^"]+/Image/res-pink/cd-case\.png" alt="" aria-hidden="true"/>#',
+            $html
+        );
+        $this->assertMatchesRegularExpression(
+            '#class="home-song__mini-card__art-badge" src="[^"]+/Image/res-pink/music\.png" alt="" aria-hidden="true"/>#',
+            $html
+        );
+
+        // Sıra: kapak → kılıf → rozet
+        $cover = strpos($html, 'home-song__mini-card__art-img');
+        $case  = strpos($html, 'home-song__mini-card__art-case');
+        $badge = strpos($html, 'home-song__mini-card__art-badge');
+        $this->assertIsInt($cover);
+        $this->assertIsInt($case);
+        $this->assertIsInt($badge);
+        $this->assertLessThan($case, $cover);
+        $this->assertLessThan($badge, $case);
+
+        // Ana kapak attributeleri korunur
+        $this->assertStringContainsString('width="50" height="50" loading="lazy"/>', $html);
+    }
+
+    public function testHtml_withoutCdFlag_hasNoCdOverlay(): void
+    {
+        // Arrange + Act — 'cd' yok (default false), ister song ister video rozeti olsun
+        $song  = HomeSongButton::html(self::track('T', 'S', ''), 'm', 'meta');
+        $video = HomeSongButton::html(
+            ['t' => 'T', 's' => 'S', 'art' => '', 'k' => 'video'],
+            'm',
+            'meta'
+        );
+
+        // Assert — CD katmanı hiç basılmaz
+        foreach ([$song, $video] as $html) {
+            $this->assertStringNotContainsString('home-song__mini-card__art-cd', $html);
+            $this->assertStringNotContainsString('/Image/res-pink/cd-ico.png', $html);
+            $this->assertStringContainsString('home-song__mini-card__art-badge', $html);
+        }
+
+        // Explicit false da aynı sonucu verir
+        $explicit = HomeSongButton::html(
+            ['t' => 'T', 's' => 'S', 'art' => '', 'k' => 'video', 'cd' => false],
+            'm',
+            'meta'
+        );
+        $this->assertStringNotContainsString('/Image/res-pink/cd-ico.png', $explicit);
+    }
+
+    public function testHtml_cdFlag_rendersCdOverlayAfterBadge(): void
+    {
+        // Arrange + Act — Figma "Show CD" düğümü (Plist Video Button)
+        $html = HomeSongButton::html(
+            ['t' => "En Sevilen Supermix'im", 's' => 'Sistem', 'art' => '', 'k' => 'video', 'cd' => true],
+            'm',
+            'meta'
+        );
+
+        // Assert — CD katmanı: dekoratif + sabit asset
+        $this->assertMatchesRegularExpression(
+            '#class="home-song__mini-card__art-cd" src="[^"]+/Image/res-pink/cd-ico\.png" alt="" aria-hidden="true"/>#',
+            $html
+        );
+        $this->assertStringContainsString('/Image/res-pink/video.png', $html);
+        $this->assertStringContainsString('/Image/res-pink/cd-case.png', $html);
+
+        // Sıra: kapak → kılıf → rozet → CD (z-sırasında CD en üstte = DOM'da en son)
+        $cover = strpos($html, 'home-song__mini-card__art-img');
+        $case  = strpos($html, 'home-song__mini-card__art-case');
+        $badge = strpos($html, 'home-song__mini-card__art-badge');
+        $cd    = strpos($html, 'home-song__mini-card__art-cd');
+        $this->assertIsInt($cover);
+        $this->assertIsInt($case);
+        $this->assertIsInt($badge);
+        $this->assertIsInt($cd);
+        $this->assertLessThan($case, $cover);
+        $this->assertLessThan($badge, $case);
+        $this->assertLessThan($cd, $badge);
+
+        // Tek CD img (yinelenen yok)
+        $this->assertSame(1, substr_count($html, '/Image/res-pink/cd-ico.png'));
+    }
 }

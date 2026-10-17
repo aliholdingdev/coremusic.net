@@ -15,13 +15,29 @@ final class HomeSongButton
     }
 
     /**
-     * @param array{t: string, s?: string, art: string, stream?: string} $item ham (escape edilmemiş) kart verisi
+     * @param array{t: string, s?: string, art: string, stream?: string, k?: string, cd?: bool} $item ham (escape edilmemiş) kart verisi
+     *        k: kart tipi rozeti — 'song' → music.png · 'video' → video.png (default 'song')
+     *        cd: Figma "Show CD" düğümü (opacity .35 CD) — yalnız Plist Video Button (default false)
      */
     public static function html(array $item, string $metaClass, string $metaLabel): string
     {
         $h = static fn (string $v): string => htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-        $fallback = (defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net') . '/Image/res-pink/default-album.png';
+        $assets = defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net';
+        $fallback = $assets . '/Image/res-pink/default-album.png';
         $art = is_string($item['art'] ?? null) && $item['art'] !== '' ? $item['art'] : $fallback;
+
+        /* Figma cd_case grubu: kılıf frame (cd-case.png) + tip rozeti (music/video.png).
+           Sabit string'lerden üretilir; yine de escape edilir (WCAG: alt="" + aria-hidden). */
+        $case = $assets . '/Image/res-pink/cd-case.png';
+        $badge = ($item['k'] ?? 'song') === 'video'
+            ? $assets . '/Image/res-pink/video.png'
+            : $assets . '/Image/res-pink/music.png';
+
+        /* Figma "Show CD" düğümü (I1639:9901;880:10353, opacity .35) — yalnız
+           Plist Video Button varyantında; z-sırasında rozetten SONRA (en üstte). */
+        $cd = !empty($item['cd'])
+            ? '<img class="home-song__mini-card__art-cd" src="' . $h($assets . '/Image/res-pink/cd-ico.png') . '" alt="" aria-hidden="true"/>'
+            : '';
 
         /* Oynatma bağı — yalnızca geçerli /stream/{32hex} değeri eklenir,
            böylece XSS ile attribute enjeksiyonu imkânsızdır. */
@@ -34,7 +50,7 @@ final class HomeSongButton
         }
 
         return '<a href="/playlist" class="home-song__mini-card" data-no-spa' . $streamAttr . '>'
-            . '<div class="home-song__mini-card__art"><img src="' . $h($art) . '" alt="" width="50" height="50" loading="lazy"/></div>'
+            . '<div class="home-song__mini-card__art"><img class="home-song__mini-card__art-img" src="' . $h($art) . '" alt="" width="50" height="50" loading="lazy"/><img class="home-song__mini-card__art-case" src="' . $h($case) . '" alt="" aria-hidden="true"/><img class="home-song__mini-card__art-badge" src="' . $h($badge) . '" alt="" aria-hidden="true"/>' . $cd . '</div>'
             . '<div class="home-song__mini-card__info">'
             . '<h3 class="home-song__mini-card__title">' . $h((string)$item['t']) . '</h3>'
             . '<p class="home-song__mini-card__subtitle">' . $h((string)($item['s'] ?? '')) . '</p>'

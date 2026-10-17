@@ -85,6 +85,7 @@
 }
 
 .home-song__mini-card__art {
+  position: relative;
   width: var(--home-song-card-img-w);
   height: var(--home-song-card-img-h);
   border-radius: var(--home-song-card-radius);
@@ -95,10 +96,47 @@
   margin-left: -7px;
 }
 
-.home-song__mini-card__art img {
+.home-song__mini-card__art-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Kılıf frame (cd-case.png) — tüm kapağı kapsar (Figma: inset 0);
+   overlay object-fit:cover devralmasın diye --art-img'e daraltıldı. */
+.home-song__mini-card__art-case {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* Tür rozeti (music.png / video.png) — sağ alt köşe (Figma 1024: 10×10, 2px inset). */
+.home-song__mini-card__art-badge {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 10px;
+  height: 10px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* CD overlay ("Show CD") — Figma I1639:9901: 51×34 @ (x0, y+4) / 51×43 cover
+   = top 9.3%, height 79%; scaleMode FILL → object-fit:cover.
+   Yerel cd-ico.png opaque → Figma render alpha'sı (0.35) CSS ile uygulanır.
+   Z-sıra: markup'ta son img → CD en üstte. Genişlik/% — wide varyantı da 51×43. */
+.home-song__mini-card__art-cd {
+  position: absolute;
+  top: 9.3%;
+  left: 0;
+  width: 100%;
+  height: 79%;
+  object-fit: cover;
+  opacity: 0.35;
+  pointer-events: none;
 }
 
 
@@ -130,4 +168,54 @@ span.home-song__mini-card__subtitle {
   position: absolute;
   margin-top: -2px;
   right: 0;
+}
+
+/* ═══ Wide/4K şarkı şeridi — Figma 1920 "Şarkılar Item Btn" 169×43 ═══
+   Sabit sütun genişliği → tüm kartlar eşit (içeriğe göre daralma/genişleme yok).
+   Yedek değerler (fallback): 4K tier'larında a-layout-tokens-1920 yüklenmez → token tanımsız olabilir. */
+.home-layout--wide .home_song__btn-card-grid--scroll {
+  grid-auto-columns: var(--home-song-card-w, 169px);
+  column-gap: var(--home-song-card-gap, 15px);
+  row-gap: 0;
+}
+
+.home-layout--wide .home-song__mini-card {
+  position: relative;
+  box-sizing: border-box;
+  width: var(--home-song-card-w, 169px);
+  height: var(--home-song-card-h, 43px);
+  flex-shrink: 0;
+  padding: 0;
+  gap: 0;
+}
+
+.home-layout--wide .home-song__mini-card__art {
+  width: var(--home-song-card-img-w, 50px);
+  height: auto;
+  align-self: stretch;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+/* 1920 Figma: rozet 11.8×11.6 ≈ 12px; inset 2px korunur. */
+.home-layout--wide .home-song__mini-card__art-badge {
+  width: 12px;
+  height: 12px;
+}
+
+.home-layout--wide .home-song__mini-card__info {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 0 var(--home-song-card-text-end, 8px) 0 var(--home-song-card-text-start, 17px);
+}
+
+.home-layout--wide span.home-song__mini-card__subtitle {
+  position: absolute;
+  top: auto;
+  bottom: 2px;
+  right: 3px;
+  margin-top: 0;
 }

@@ -56,7 +56,7 @@ final class RecentTracksComponent extends AbstractComponent
     public readonly string $playlistLinkIcon;
 
     /**
-     * @param list<array{t: string, a: string, d: string, art: string, stream?: string}>|null $tracks
+     * @param list<array{t: string, a: string, d: string, art: string, stream?: string, k?: string, cd?: bool}>|null $tracks
      *        override verisi (yalnız "En Son"u besler) — null ise DB, DB yoksa PNG varsayılanları
      * @param MusicRepository|null $repository veri erişimi (ComponentLoader::make injection'ı)
      */
@@ -73,6 +73,8 @@ final class RecentTracksComponent extends AbstractComponent
                     's'      => (string)$t['a'],
                     'art'    => (string)($t['art'] ?? ''),
                     'stream' => (string)($t['stream'] ?? ''),
+                    'k'      => (string)($t['k'] ?? 'song'),
+                    'cd'     => (bool)($t['cd'] ?? false),
                 ],
                 'home-song__mini-card__subtitle',
                 (string)$t['d']
@@ -91,6 +93,8 @@ final class RecentTracksComponent extends AbstractComponent
                     's'      => (string)$p['a'],
                     'art'    => (string)$p['art'],
                     'stream' => '',
+                    'k'      => (string)($p['k'] ?? 'song'),
+                    'cd'     => (bool)($p['cd'] ?? false),
                 ],
                 'home-song__mini-card__subtitle',
                 (string)$p['d']
@@ -166,8 +170,9 @@ final class RecentTracksComponent extends AbstractComponent
     /**
      * PNG home-1024 node 1639:9904 demo içeriği (4 kart) — 1920 satırı bu
      * 4'lüğün döngüsüyle 10 karta tamamlanır (extracted-1024.md metinleri, birebir).
+     * Kart tipi (Figma): yalnız "Kış Masalı Ensturmental" video (imgRef 57e34b59 = video.png).
      *
-     * @return list<array{t: string, a: string, d: string, art: string}>
+     * @return list<array{t: string, a: string, d: string, art: string, k?: string}>
      */
     private function defaultTracks(): array
     {
@@ -178,7 +183,7 @@ final class RecentTracksComponent extends AbstractComponent
             ['t' => 'Göksel - Sevil Neşelen', 'a' => 'Göksel', 'd' => '00:03:05', 'art' => $art1],
             ['t' => 'Göksel - Kabahat Seni Se...', 'a' => 'Göksel', 'd' => '00:02:05', 'art' => $art1],
             ['t' => 'Barış Manco - Gulpembe', 'a' => 'Barış Manco', 'd' => '00:04:01', 'art' => $art2],
-            ['t' => 'Kış Masalı Ensturmental', 'a' => 'Org Dersleri', 'd' => '00:01:10', 'art' => $art2],
+            ['t' => 'Kış Masalı Ensturmental', 'a' => 'Org Dersleri', 'd' => '00:01:10', 'art' => $art2, 'k' => 'video'],
         ];
 
         $tracks = [];
@@ -198,8 +203,10 @@ final class RecentTracksComponent extends AbstractComponent
      * PNG playlist içeriği — embedded 3 kart (1639:9899/9900/9901) + wide 6 kart
      * (2890:7922-7927, sıra: Supermix → Ruh haline → Yeni Sevilen, sonra tekrar).
      * Metinler extracted-1024/-1920 'metin:' alanlarından birebir (sic).
+     * Kart tipi (Figma): yalnız "En Sevilen Supermix'im" video (1639:9901 → video.png).
+     * "Show CD" düğümü (opacity .35 CD, I1639:9901;880:10353) yalnız Plist Video Button'da.
      *
-     * @return list<array{t: string, a: string, d: string, art: string}>
+     * @return list<array{t: string, a: string, d: string, art: string, k?: string, cd?: bool}>
      */
     private function defaultPlaylists(): array
     {
@@ -207,7 +214,7 @@ final class RecentTracksComponent extends AbstractComponent
         $art2 = $this->asset('/Image/res-pink/album-kursat.png');
 
         $seed = [
-            ['t' => "En Sevilen Supermix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '00:03:05', 'art' => $art2],
+            ['t' => "En Sevilen Supermix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '00:03:05', 'art' => $art2, 'k' => 'video', 'cd' => true],
             ['t' => "Ruh haline Göre Günlük mix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '01:05:00', 'art' => $art1],
             ['t' => "Yeni Sevilen Türleri Keşfet mix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '00:50:15', 'art' => $art2],
         ];

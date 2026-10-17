@@ -90,4 +90,96 @@ final class RecentTracksComponentTest extends TestCase
         $this->assertStringNotContainsString('<b>Raw</b>', $html);
         $this->assertStringContainsString('&lt;b&gt;Raw&lt;/b&gt;', $html);
     }
+
+    public function testConstructor_defaultSeed_embeddedHasOneVideoCardPerSection(): void
+    {
+        // Arrange + Act — embedded: En Son 4 kart, Playlist 3 kart
+        $component = new RecentTracksComponent(HomeLayoutVariant::Embedded);
+        $recent    = implode('', $component->cards);
+        $playlists = implode('', $component->playlistCards);
+
+        // Assert — video rozeti: En Son 1/4 (Kış Masalı Ensturmental), Playlist 1/3 (Supermix)
+        $this->assertSame(1, substr_count($recent, '/Image/res-pink/video.png'));
+        $this->assertSame(1, substr_count($playlists, '/Image/res-pink/video.png'));
+        $this->assertStringContainsString('Kış Masalı Ensturmental', $component->cards[3]);
+        $this->assertStringContainsString("En Sevilen Supermix&#039;im", $component->playlistCards[0]);
+
+        // Her kartta kılıf + rozet (4 + 3 kart, kart başına 1)
+        $this->assertSame(4, substr_count($recent, '/Image/res-pink/cd-case.png'));
+        $this->assertSame(3, substr_count($playlists, '/Image/res-pink/cd-case.png'));
+        $this->assertSame(3, substr_count($recent, '/Image/res-pink/music.png'));
+        $this->assertSame(2, substr_count($playlists, '/Image/res-pink/music.png'));
+    }
+
+    public function testConstructor_defaultSeed_wideRepeatsVideoCardPerSeedCycle(): void
+    {
+        // Arrange + Act — wide: En Son 10 kart (4'lük döngü: video 4. ve 8. sırada),
+        //                   Playlist 6 kart (3'lük döngü: video 1. ve 4. sırada)
+        $component = new RecentTracksComponent(HomeLayoutVariant::Wide);
+        $recent    = implode('', $component->cards);
+        $playlists = implode('', $component->playlistCards);
+
+        // Assert
+        $this->assertSame(2, substr_count($recent, '/Image/res-pink/video.png'));
+        $this->assertSame(8, substr_count($recent, '/Image/res-pink/music.png'));
+        $this->assertSame(10, substr_count($recent, '/Image/res-pink/cd-case.png'));
+        $this->assertSame(2, substr_count($playlists, '/Image/res-pink/video.png'));
+        $this->assertSame(4, substr_count($playlists, '/Image/res-pink/music.png'));
+        $this->assertSame(6, substr_count($playlists, '/Image/res-pink/cd-case.png'));
+    }
+
+    public function testConstructor_overrideDataWithoutKind_defaultsToSongBadge(): void
+    {
+        // Arrange — override verisinde 'k' yok (DB/dbTracks ile aynı şekil)
+        $component = new RecentTracksComponent(HomeLayoutVariant::Wide, self::tracks(3));
+        $html      = implode('', $component->cards);
+
+        // Assert — hiç video rozeti yok, her kartta music.png, hiç CD katmanı yok
+        $this->assertSame(0, substr_count($html, '/Image/res-pink/video.png'));
+        $this->assertSame(3, substr_count($html, '/Image/res-pink/music.png'));
+        $this->assertSame(3, substr_count($html, '/Image/res-pink/cd-case.png'));
+        $this->assertSame(0, substr_count($html, '/Image/res-pink/cd-ico.png'));
+    }
+
+    public function testConstructor_overrideDataWithVideoKind_rendersVideoBadge(): void
+    {
+        // Arrange
+        $tracks = [
+            ['t' => 'Video Kart', 'a' => 'A', 'd' => '00:01:00', 'art' => '', 'k' => 'video'],
+            ['t' => 'Şarkı Kart', 'a' => 'B', 'd' => '00:02:00', 'art' => ''],
+        ];
+
+        // Act
+        $component = new RecentTracksComponent(HomeLayoutVariant::Embedded, $tracks);
+
+        // Assert — 1 video + 1 music rozeti
+        $html = implode('', $component->cards);
+        $this->assertSame(1, substr_count($html, '/Image/res-pink/video.png'));
+        $this->assertSame(1, substr_count($html, '/Image/res-pink/music.png'));
+    }
+
+    public function testConstructor_defaultSeed_cdOverlayOnlyOnSupermixPlaylistCards(): void
+    {
+        // Arrange + Act — Figma "Show CD" yalnız Plist Video Button (Supermix)
+        $embedded = new RecentTracksComponent(HomeLayoutVariant::Embedded);
+        $wide     = new RecentTracksComponent(HomeLayoutVariant::Wide);
+        $emRecent = implode('', $embedded->cards);
+        $emList   = implode('', $embedded->playlistCards);
+        $wdRecent = implode('', $wide->cards);
+        $wdList   = implode('', $wide->playlistCards);
+
+        // Assert — En Son: hiç CD yok (1639:9905-9908'de Show CD düğümü YOK)
+        $this->assertSame(0, substr_count($emRecent, '/Image/res-pink/cd-ico.png'));
+        $this->assertSame(0, substr_count($wdRecent, '/Image/res-pink/cd-ico.png'));
+        $this->assertStringNotContainsString('home-song__mini-card__art-cd', $emRecent);
+
+        // Embedded playlist 1/3 (yalnız Supermix), wide playlist 2/6 (3'lük döngü)
+        $this->assertSame(1, substr_count($emList, '/Image/res-pink/cd-ico.png'));
+        $this->assertSame(2, substr_count($wdList, '/Image/res-pink/cd-ico.png'));
+
+        // Supermix kartında CD var, diğer playlist kartlarında yok
+        $this->assertStringContainsString('home-song__mini-card__art-cd', $embedded->playlistCards[0]);
+        $this->assertStringNotContainsString('home-song__mini-card__art-cd', $embedded->playlistCards[1]);
+        $this->assertStringNotContainsString('home-song__mini-card__art-cd', $embedded->playlistCards[2]);
+    }
 }
