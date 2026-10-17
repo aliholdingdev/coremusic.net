@@ -15,9 +15,8 @@ final class HomeSongButton
     }
 
     /**
-     * @param array{t: string, s?: string, art: string, stream?: string, k?: string, cd?: bool} $item ham (escape edilmemiş) kart verisi
+     * @param array{t: string, s?: string, art: string, stream?: string, k?: string} $item ham (escape edilmemiş) kart verisi
      *        k: kart tipi rozeti — 'song' → music.png · 'video' → video.png (default 'song')
-     *        cd: Figma "Show CD" düğümü (opacity .35 CD) — yalnız Plist Video Button (default false)
      */
     public static function html(array $item, string $metaClass, string $metaLabel): string
     {
@@ -33,11 +32,9 @@ final class HomeSongButton
             ? $assets . '/Image/res-pink/video.png'
             : $assets . '/Image/res-pink/music.png';
 
-        /* Figma "Show CD" düğümü (I1639:9901;880:10353, opacity .35) — yalnız
-           Plist Video Button varyantında; z-sırasında rozetten SONRA (en üstte). */
-        $cd = !empty($item['cd'])
-            ? '<img class="home-song__mini-card__art-cd" src="' . $h($assets . '/Image/res-pink/cd-ico.png') . '" alt="" aria-hidden="true"/>'
-            : '';
+        /* Figma CD katmanı — HER kartta (kullanıcı kapsamı: tüm song/playlist
+           kartları); z-sırasında rozetten SONRA (en üstte), opacity CSS'te. */
+        $cd = '<img class="home-song__mini-card__art-cd" src="' . $h($assets . '/Image/res-pink/cd-ico.png') . '" alt="" aria-hidden="true"/>';
 
         /* Oynatma bağı — yalnızca geçerli /stream/{32hex} değeri eklenir,
            böylece XSS ile attribute enjeksiyonu imkânsızdır. */

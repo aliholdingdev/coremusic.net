@@ -145,63 +145,6 @@ final class HomeSongButtonTest extends TestCase
             $html
         );
 
-        // Sıra: kapak → kılıf → rozet
-        $cover = strpos($html, 'home-song__mini-card__art-img');
-        $case  = strpos($html, 'home-song__mini-card__art-case');
-        $badge = strpos($html, 'home-song__mini-card__art-badge');
-        $this->assertIsInt($cover);
-        $this->assertIsInt($case);
-        $this->assertIsInt($badge);
-        $this->assertLessThan($case, $cover);
-        $this->assertLessThan($badge, $case);
-
-        // Ana kapak attributeleri korunur
-        $this->assertStringContainsString('width="50" height="50" loading="lazy"/>', $html);
-    }
-
-    public function testHtml_withoutCdFlag_hasNoCdOverlay(): void
-    {
-        // Arrange + Act — 'cd' yok (default false), ister song ister video rozeti olsun
-        $song  = HomeSongButton::html(self::track('T', 'S', ''), 'm', 'meta');
-        $video = HomeSongButton::html(
-            ['t' => 'T', 's' => 'S', 'art' => '', 'k' => 'video'],
-            'm',
-            'meta'
-        );
-
-        // Assert — CD katmanı hiç basılmaz
-        foreach ([$song, $video] as $html) {
-            $this->assertStringNotContainsString('home-song__mini-card__art-cd', $html);
-            $this->assertStringNotContainsString('/Image/res-pink/cd-ico.png', $html);
-            $this->assertStringContainsString('home-song__mini-card__art-badge', $html);
-        }
-
-        // Explicit false da aynı sonucu verir
-        $explicit = HomeSongButton::html(
-            ['t' => 'T', 's' => 'S', 'art' => '', 'k' => 'video', 'cd' => false],
-            'm',
-            'meta'
-        );
-        $this->assertStringNotContainsString('/Image/res-pink/cd-ico.png', $explicit);
-    }
-
-    public function testHtml_cdFlag_rendersCdOverlayAfterBadge(): void
-    {
-        // Arrange + Act — Figma "Show CD" düğümü (Plist Video Button)
-        $html = HomeSongButton::html(
-            ['t' => "En Sevilen Supermix'im", 's' => 'Sistem', 'art' => '', 'k' => 'video', 'cd' => true],
-            'm',
-            'meta'
-        );
-
-        // Assert — CD katmanı: dekoratif + sabit asset
-        $this->assertMatchesRegularExpression(
-            '#class="home-song__mini-card__art-cd" src="[^"]+/Image/res-pink/cd-ico\.png" alt="" aria-hidden="true"/>#',
-            $html
-        );
-        $this->assertStringContainsString('/Image/res-pink/video.png', $html);
-        $this->assertStringContainsString('/Image/res-pink/cd-case.png', $html);
-
         // Sıra: kapak → kılıf → rozet → CD (z-sırasında CD en üstte = DOM'da en son)
         $cover = strpos($html, 'home-song__mini-card__art-img');
         $case  = strpos($html, 'home-song__mini-card__art-case');
@@ -215,7 +158,33 @@ final class HomeSongButtonTest extends TestCase
         $this->assertLessThan($badge, $case);
         $this->assertLessThan($cd, $badge);
 
-        // Tek CD img (yinelenen yok)
-        $this->assertSame(1, substr_count($html, '/Image/res-pink/cd-ico.png'));
+        // Ana kapak attributeleri korunur
+        $this->assertStringContainsString('width="50" height="50" loading="lazy"/>', $html);
+    }
+
+    public function testHtml_everyCardRendersExactlyOneCdOverlay(): void
+    {
+        // Arrange + Act — CD katmanı tüm kartlarda (song rozetli, video rozetli, fazladan anahtarlı)
+        $cases = [
+            'song rozeti'      => self::track('T', 'S', ''),
+            'video rozeti'     => ['t' => "En Sevilen Supermix'im", 's' => 'Sistem', 'art' => '', 'k' => 'video'],
+            'bilinmeyen tip'   => ['t' => 'T', 's' => 'S', 'art' => '', 'k' => 'radio'],
+            'fazladan anahtar' => ['t' => 'T', 's' => 'S', 'art' => '', 'k' => 'song', 'extra' => 'x'],
+        ];
+
+        foreach ($cases as $label => $item) {
+            $html = HomeSongButton::html($item, 'm', 'meta');
+
+            // Assert — tam 1 CD katmanı, dekoratif, sabit asset
+            $this->assertSame(1, substr_count($html, 'home-song__mini-card__art-cd'), $label);
+            $this->assertSame(1, substr_count($html, '/Image/res-pink/cd-ico.png'), $label);
+            $this->assertMatchesRegularExpression(
+                '#class="home-song__mini-card__art-cd" src="[^"]+/Image/res-pink/cd-ico\.png" alt="" aria-hidden="true"/>#',
+                $html,
+                $label
+            );
+            // Kılıf (cd-case.png) ile karışmaz
+            $this->assertSame(1, substr_count($html, '/Image/res-pink/cd-case.png'), $label);
+        }
     }
 }

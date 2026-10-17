@@ -56,7 +56,7 @@ final class RecentTracksComponent extends AbstractComponent
     public readonly string $playlistLinkIcon;
 
     /**
-     * @param list<array{t: string, a: string, d: string, art: string, stream?: string, k?: string, cd?: bool}>|null $tracks
+     * @param list<array{t: string, a: string, d: string, art: string, stream?: string, k?: string}>|null $tracks
      *        override verisi (yalnız "En Son"u besler) — null ise DB, DB yoksa PNG varsayılanları
      * @param MusicRepository|null $repository veri erişimi (ComponentLoader::make injection'ı)
      */
@@ -74,7 +74,6 @@ final class RecentTracksComponent extends AbstractComponent
                     'art'    => (string)($t['art'] ?? ''),
                     'stream' => (string)($t['stream'] ?? ''),
                     'k'      => (string)($t['k'] ?? 'song'),
-                    'cd'     => (bool)($t['cd'] ?? false),
                 ],
                 'home-song__mini-card__subtitle',
                 (string)$t['d']
@@ -94,7 +93,6 @@ final class RecentTracksComponent extends AbstractComponent
                     'art'    => (string)$p['art'],
                     'stream' => '',
                     'k'      => (string)($p['k'] ?? 'song'),
-                    'cd'     => (bool)($p['cd'] ?? false),
                 ],
                 'home-song__mini-card__subtitle',
                 (string)$p['d']
@@ -204,9 +202,8 @@ final class RecentTracksComponent extends AbstractComponent
      * (2890:7922-7927, sıra: Supermix → Ruh haline → Yeni Sevilen, sonra tekrar).
      * Metinler extracted-1024/-1920 'metin:' alanlarından birebir (sic).
      * Kart tipi (Figma): yalnız "En Sevilen Supermix'im" video (1639:9901 → video.png).
-     * "Show CD" düğümü (opacity .35 CD, I1639:9901;880:10353) yalnız Plist Video Button'da.
      *
-     * @return list<array{t: string, a: string, d: string, art: string, k?: string, cd?: bool}>
+     * @return list<array{t: string, a: string, d: string, art: string, k?: string}>
      */
     private function defaultPlaylists(): array
     {
@@ -214,7 +211,7 @@ final class RecentTracksComponent extends AbstractComponent
         $art2 = $this->asset('/Image/res-pink/album-kursat.png');
 
         $seed = [
-            ['t' => "En Sevilen Supermix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '00:03:05', 'art' => $art2, 'k' => 'video', 'cd' => true],
+            ['t' => "En Sevilen Supermix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '00:03:05', 'art' => $art2, 'k' => 'video'],
             ['t' => "Ruh haline Göre Günlük mix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '01:05:00', 'art' => $art1],
             ['t' => "Yeni Sevilen Türleri Keşfet mix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '00:50:15', 'art' => $art2],
         ];

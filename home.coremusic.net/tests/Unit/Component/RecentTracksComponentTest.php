@@ -134,11 +134,11 @@ final class RecentTracksComponentTest extends TestCase
         $component = new RecentTracksComponent(HomeLayoutVariant::Wide, self::tracks(3));
         $html      = implode('', $component->cards);
 
-        // Assert — hiç video rozeti yok, her kartta music.png, hiç CD katmanı yok
+        // Assert — hiç video rozeti yok, her kartta music.png; override verisi de CD katmanı alır (3/3)
         $this->assertSame(0, substr_count($html, '/Image/res-pink/video.png'));
         $this->assertSame(3, substr_count($html, '/Image/res-pink/music.png'));
         $this->assertSame(3, substr_count($html, '/Image/res-pink/cd-case.png'));
-        $this->assertSame(0, substr_count($html, '/Image/res-pink/cd-ico.png'));
+        $this->assertSame(3, substr_count($html, '/Image/res-pink/cd-ico.png'));
     }
 
     public function testConstructor_overrideDataWithVideoKind_rendersVideoBadge(): void
@@ -158,28 +158,25 @@ final class RecentTracksComponentTest extends TestCase
         $this->assertSame(1, substr_count($html, '/Image/res-pink/music.png'));
     }
 
-    public function testConstructor_defaultSeed_cdOverlayOnlyOnSupermixPlaylistCards(): void
+    public function testConstructor_everyCardRendersCdOverlay(): void
     {
-        // Arrange + Act — Figma "Show CD" yalnız Plist Video Button (Supermix)
+        // Arrange + Act — CD katmanı kapsamı: TÜM song/playlist kartları (kullanıcı kararı)
         $embedded = new RecentTracksComponent(HomeLayoutVariant::Embedded);
         $wide     = new RecentTracksComponent(HomeLayoutVariant::Wide);
+
         $emRecent = implode('', $embedded->cards);
         $emList   = implode('', $embedded->playlistCards);
         $wdRecent = implode('', $wide->cards);
         $wdList   = implode('', $wide->playlistCards);
 
-        // Assert — En Son: hiç CD yok (1639:9905-9908'de Show CD düğümü YOK)
-        $this->assertSame(0, substr_count($emRecent, '/Image/res-pink/cd-ico.png'));
-        $this->assertSame(0, substr_count($wdRecent, '/Image/res-pink/cd-ico.png'));
-        $this->assertStringNotContainsString('home-song__mini-card__art-cd', $emRecent);
+        // Assert — her kartta tam 1 CD (kart sayıları testlerde sabitlenen değerler)
+        $this->assertSame(4, substr_count($emRecent, '/Image/res-pink/cd-ico.png'));   // En Son embedded 4/4
+        $this->assertSame(3, substr_count($emList, '/Image/res-pink/cd-ico.png'));     // Playlist embedded 3/3
+        $this->assertSame(10, substr_count($wdRecent, '/Image/res-pink/cd-ico.png'));  // En Son wide 10/10
+        $this->assertSame(6, substr_count($wdList, '/Image/res-pink/cd-ico.png'));     // Playlist wide 6/6
 
-        // Embedded playlist 1/3 (yalnız Supermix), wide playlist 2/6 (3'lük döngü)
-        $this->assertSame(1, substr_count($emList, '/Image/res-pink/cd-ico.png'));
-        $this->assertSame(2, substr_count($wdList, '/Image/res-pink/cd-ico.png'));
-
-        // Supermix kartında CD var, diğer playlist kartlarında yok
-        $this->assertStringContainsString('home-song__mini-card__art-cd', $embedded->playlistCards[0]);
-        $this->assertStringNotContainsString('home-song__mini-card__art-cd', $embedded->playlistCards[1]);
-        $this->assertStringNotContainsString('home-song__mini-card__art-cd', $embedded->playlistCards[2]);
+        // Kart başına 1 (yinelenen yok) — tek örnek + kılıf ile karışmaz
+        $this->assertSame(4, substr_count($emRecent, 'home-song__mini-card__art-cd'));
+        $this->assertSame(4, substr_count($emRecent, '/Image/res-pink/cd-case.png'));
     }
 }
