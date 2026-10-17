@@ -177,9 +177,9 @@ final class HomeSongButtonTest extends TestCase
 
             // Assert — tam 1 CD katmanı, dekoratif, sabit asset
             $this->assertSame(1, substr_count($html, 'home-song__mini-card__art-cd'), $label);
-            $this->assertSame(1, substr_count($html, '/Image/res-pink/cd-ico.png'), $label);
+            $this->assertSame(1, substr_count($html, '/Image/res-pink/cd-overlay.png'), $label);
             $this->assertMatchesRegularExpression(
-                '#class="home-song__mini-card__art-cd" src="[^"]+/Image/res-pink/cd-ico\.png" alt="" aria-hidden="true"/>#',
+                '#class="home-song__mini-card__art-cd" src="[^"]+/Image/res-pink/cd-overlay\.png" alt="" aria-hidden="true"/>#',
                 $html,
                 $label
             );

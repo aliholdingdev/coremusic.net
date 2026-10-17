@@ -138,7 +138,7 @@ final class RecentTracksComponentTest extends TestCase
         $this->assertSame(0, substr_count($html, '/Image/res-pink/video.png'));
         $this->assertSame(3, substr_count($html, '/Image/res-pink/music.png'));
         $this->assertSame(3, substr_count($html, '/Image/res-pink/cd-case.png'));
-        $this->assertSame(3, substr_count($html, '/Image/res-pink/cd-ico.png'));
+        $this->assertSame(3, substr_count($html, '/Image/res-pink/cd-overlay.png'));
     }
 
     public function testConstructor_overrideDataWithVideoKind_rendersVideoBadge(): void
@@ -170,10 +170,10 @@ final class RecentTracksComponentTest extends TestCase
         $wdList   = implode('', $wide->playlistCards);
 
         // Assert — her kartta tam 1 CD (kart sayıları testlerde sabitlenen değerler)
-        $this->assertSame(4, substr_count($emRecent, '/Image/res-pink/cd-ico.png'));   // En Son embedded 4/4
-        $this->assertSame(3, substr_count($emList, '/Image/res-pink/cd-ico.png'));     // Playlist embedded 3/3
-        $this->assertSame(10, substr_count($wdRecent, '/Image/res-pink/cd-ico.png'));  // En Son wide 10/10
-        $this->assertSame(6, substr_count($wdList, '/Image/res-pink/cd-ico.png'));     // Playlist wide 6/6
+        $this->assertSame(4, substr_count($emRecent, '/Image/res-pink/cd-overlay.png'));   // En Son embedded 4/4
+        $this->assertSame(3, substr_count($emList, '/Image/res-pink/cd-overlay.png'));     // Playlist embedded 3/3
+        $this->assertSame(10, substr_count($wdRecent, '/Image/res-pink/cd-overlay.png'));  // En Son wide 10/10
+        $this->assertSame(6, substr_count($wdList, '/Image/res-pink/cd-overlay.png'));     // Playlist wide 6/6
 
         // Kart başına 1 (yinelenen yok) — tek örnek + kılıf ile karışmaz
         $this->assertSame(4, substr_count($emRecent, 'home-song__mini-card__art-cd'));

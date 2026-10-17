@@ -34,7 +34,7 @@ final class HomeSongButton
 
         /* Figma CD katmanı — HER kartta (kullanıcı kapsamı: tüm song/playlist
            kartları); z-sırasında rozetten SONRA (en üstte), opacity CSS'te. */
-        $cd = '<img class="home-song__mini-card__art-cd" src="' . $h($assets . '/Image/res-pink/cd-ico.png') . '" alt="" aria-hidden="true"/>';
+        $cd = '<img class="home-song__mini-card__art-cd" src="' . $h($assets . '/Image/res-pink/cd-overlay.png') . '" alt="" aria-hidden="true"/>';
 
         /* Oynatma bağı — yalnızca geçerli /stream/{32hex} değeri eklenir,
            böylece XSS ile attribute enjeksiyonu imkânsızdır. */

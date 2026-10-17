@@ -125,8 +125,9 @@
 }
 
 /* CD overlay ("Show CD") — Figma I1639:9901: 51×34 @ (x0, y+4) / 51×43 cover
-   = top 9.3%, height 79%; scaleMode FILL → object-fit:cover.
-   Yerel cd-ico.png opaque → Figma render alpha'sı (0.35) CSS ile uygulanır.
+   = top 9.3%, height 79%. Kaynak cd-overlay.png = Figma images API izole render
+   (0.35 düğüm alfası PNG'ye gömülü — CSS opacity uygulanmaz), disk oranı %55 genişlik;
+   asset rect'in FILL kırpmasını içerir → object-fit:fill (ikinci cover-crop yok).
    Z-sıra: markup'ta son img → CD en üstte. Genişlik/% — wide varyantı da 51×43. */
 .home-song__mini-card__art-cd {
   position: absolute;
@@ -134,8 +135,7 @@
   left: 0;
   width: 100%;
   height: 79%;
-  object-fit: cover;
-  opacity: 0.35;
+  object-fit: fill;
   pointer-events: none;
 }
 
