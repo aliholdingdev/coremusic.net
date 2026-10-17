@@ -2357,12 +2357,13 @@ html body .page-history--wide.page-layout {
     background: rgba(56, 56, 56, 0.35);
 }
 
-/* Son iki track: 251/103fr → 231/123fr — yıldız sütunu 20px sola kaydırıldı,
-   panel sağ kenarıyla (1645) aradaki boşluk 16px'ten 36px'e çıkarıldı (kullanıcı talebi).
-   Süre metni sol hizalı olduğundan konumu (1291) değişmez. */
+/* Son iki track: 195/159fr — yıldız grubu 6px aralıklı (5×15+4×6=99px),
+   159px track'te ortalanır → her yanda 30px; panel sağ kenarı (1645) ile
+   son yıldız arası ~30px (kullanıcı: "yıldızlar bitişik, sağda boşluk olsun").
+   Süre metni sol hizalı (1291) — track 195px metne fazlasıyla yeter. */
 .page-player--wide .player-table thead tr {
     display: grid;
-    grid-template-columns: 108px minmax(0, 445fr) minmax(0, 396fr) minmax(0, 310fr) minmax(0, 231fr) minmax(74px, 123fr);
+    grid-template-columns: 108px minmax(0, 445fr) minmax(0, 396fr) minmax(0, 310fr) minmax(0, 195fr) minmax(74px, 159fr);
     align-items: start;
     height: 34px;
     margin: 0 0 0 7px;
@@ -2384,10 +2385,11 @@ html body .page-history--wide.page-layout {
     white-space: nowrap;
 }
 
-/* Figma 1390:24448 — cd_case her satırda rx=33 (hücre 32–140): ikon SOLDABAŞLAR, ortalanmaz */
-.page-player--wide .player-row__disc { margin-left: 1px; }
+/* İkon ve "/" başlığı: hücre ortası (86) −40px → cx=46, disk x=33 = Figma 1390:24448
+   cd_case rx=33. Sol boşluk 41px'ten 1px'e iner, "/" diskin tam üstünde kalır. */
+.page-player--wide .player-row__disc { margin: 0 auto; transform: translateX(-40px); }
 
-.page-player--wide .player-table thead .player-col--icon { padding-left: 7px; }
+.page-player--wide .player-table thead .player-col--icon { padding-left: 0; text-align: center !important; transform: translateX(-40px); }
 .page-player--wide .player-table thead .player-col--title { padding-left: 0.27px; }
 .page-player--wide .player-table thead .player-col--album { margin-left: -0.53px; }
 .page-player--wide .player-table thead .player-col--artist { margin-left: -1.17px; }
@@ -2406,7 +2408,7 @@ html body .page-history--wide.page-layout {
 
 .page-player--wide .player-row {
     display: grid;
-    grid-template-columns: 108px minmax(0, 445fr) minmax(0, 396fr) minmax(0, 310fr) minmax(0, 231fr) minmax(74px, 123fr);
+    grid-template-columns: 108px minmax(0, 445fr) minmax(0, 396fr) minmax(0, 310fr) minmax(0, 195fr) minmax(74px, 159fr);
     align-items: center;
     position: relative;
     isolation: isolate;
@@ -2467,12 +2469,13 @@ html body .page-history--wide.page-layout {
     text-align: left !important;
 }
 
-/* Track 1522–1645 (123px), yıldız grubu 83px → ortalanırsa 1542–1625 (Figma x=1542) */
+/* Track 1486–1645 (159px), yıldız grubu 99px (15 + 4×6 aralık) → 30px yanda boşluk */
 .page-player--wide .player-stars {
     display: flex;
     align-items: flex-start;
     align-self: start;
     justify-content: center;
+    gap: 6px;
     height: 15px;
     margin-top: 2px;
 }
