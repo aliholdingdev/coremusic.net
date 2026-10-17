@@ -95,10 +95,18 @@
   --cm-welcome-banner-h: 100%;
   --cm-welcome-banner-w: 100%;
 
-  /* Home Song Mini Card */
-  --home-song-card-h: 50px;
-  --home-song-card-w: 200px;
+  /* Home Song Mini Card — Figma 1920 "Şarkılar Item Btn" 169×43 (extracted-1920.md 2856:22290),
+     kapak 50×43 (Album Cover), kart aralığı 15px (satır pitch 184 = 169 + 15). */
+  --home-song-card-h: 43px;
+  --home-song-card-w: 169px;
+  --home-song-card-gap: 15px;
   --home-song-card-radius:2px;
-  --home-song-card-img-h: 55px;
-  --home-song-card-img-w: 55px;
+  --home-song-card-img-h: 43px;
+  --home-song-card-img-w: 50px;
+  --home-song-card-text-start: 17px;
+  --home-song-card-text-end: 8px;
+
+  /* Şarkı şeridi hizası — üst satır (.home-layout__top--wide) ile aynı iç boşluk: x53 sol · x1825 sağ */
+  --home-song-list-pad-start: 25px;
+  --home-song-list-pad-end: 67px;
 }

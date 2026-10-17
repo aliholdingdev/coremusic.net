@@ -45,8 +45,9 @@
 }
 
 .site-header__inner .site-header__logo {
-    padding: 0 24px;
-    margin-left: 10px;
+    /* Sol hiza — Figma SSOT: 1920 text x=20 · 1024 text x=16
+       (eski: padding 24 + margin-left 10 → x34, PNG'den 14px sağdaydı) */
+    padding: 0 20px;
 }
 
 /* ============================================================
@@ -58,9 +59,12 @@
     text-decoration: none;
     display: flex;
     align-items: baseline;
-    gap: 2px;
+    /* Core↔Music boşluğu — Figma tek node'da aradaki space char + letterSpacing:
+       live ink 90px → PNG ink 95px = +5px (2px → 7px) */
+    gap: 7px;
     color: var(--header-text);
-    font-size: var(--fs-2xl, 25px);
+    font-size: var(--fs-logo, 20px);
+    letter-spacing: var(--ls-logo, 0.135em);
     line-height: 1;
     transition: opacity 150ms ease;
     white-space: nowrap;
@@ -82,9 +86,13 @@
     border-radius: 4px;
 }
 
-/* Logo: "Core" kısmı */
+/* Logo: "Core" kısmı
+   Figma SSOT: logo TEK TEXT node ("Core Music") → fontFamily=Respective,
+   fontWeight=400 (1920 node 295:6021 · 1024 node 295:4588).
+   Bickham Script buradan kaldırıldı — x-height'i küçük olduğu için
+   "Core" okunmuyordu (kullanıcı 2026-10-17: "Core kısmı okunmuyor"). */
 .logo-core {
-    font-family: 'Bickham Script', 'Bickham Script Two', cursive;
+    font-family: 'Respective', 'Segoe UI', system-ui, sans-serif;
     font-weight: 400;
 }
 
@@ -490,7 +498,13 @@
     .site-header__logo {
         font-size: var(--fs-xl, 20px);
         margin-right: 10px;
-        padding: 0 14px;
+    }
+
+    /* Sol hiza — Figma 1024 text x=16.
+       Seçici base ile aynı olmalı (.site-header__inner .site-header__logo);
+       tek sınıf seçici base'in specificity'sini geçemiyordu → padding ölü koddu. */
+    .site-header__inner .site-header__logo {
+        padding: 0 16px;
     }
 
     .nav-link {
@@ -629,11 +643,10 @@
     }
 }
 
-@media (max-width: 990px){
-    .site-header__inner .site-header__logo{
-        margin-left: -10px;
-    }
-}
+/* 990px altındaki `margin-left: -10px` kaldırıldı (2026-10-17):
+   base'de margin-left artık yok (Figma sol hiza padding'den geliyor),
+   -10px logoyu x=6'ya çekip header kenarına yapıştırıyordu. */
+
 /* ============================================================
    MOBILE (< 768px) — Minimal nav (Hibrit scale)
    ============================================================ */

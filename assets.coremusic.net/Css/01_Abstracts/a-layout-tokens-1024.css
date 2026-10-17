@@ -35,6 +35,18 @@
   --footer-h: 72px;
   --z-footer: 100;
 
+  /* ═══ Home Layout — EMBEDDED (1024×600) — Figma node 1639:10160 ═══
+     _home-layout.css .home-layout--embedded bu token'ları okuyordu ama TANIMLI DEĞİLDİ
+     → padding/gap hesaplanamayıp 0 düşüyordu ("çok dar olmuş").
+     Figma frame origin (637,-339):
+       Player Info  x=669-637=32  y=-255+339=84  → pad-top = 84 - --header-h(60) = 24
+       Alt satır    32+354=386 → 419 (gap 33) → 772 → 805 (gap 32) → 991
+       Sağ kenar    1024 - 991 = 33 ≈ 32         → pad-inline simetrik 32 */
+  --home-embedded-pad-top: 24px;
+  --home-embedded-pad-inline: 32px;
+  --home-embedded-pad-bottom: 24px;
+  --home-embedded-gap: 32px;
+
   /* ═══ Player Info: Figma 392×131 (1024) / 469×184 (1920) ═══ */
   --player-w: 392px;
   --player-h: 131px;

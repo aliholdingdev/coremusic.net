@@ -59,7 +59,12 @@
   margin-top: var(--header-h, 65px);
   min-height: calc(100vh - var(--header-h, 65px) - var(--footer-h, 104px));
   max-height: calc(100vh - var(--header-h, 65px) - var(--footer-h, 104px));
-  padding: 29px 28px 12px;   /* üst blok y99 (PNG/Figma SSOT) — header 65 + 29 = 94 + iç hizalar */
+  /* Figma 1920 frame origin (606,-589) → Player Info lokal y=99.
+     container top = --header-h(60) → padding-top = 99-60 = 39px.
+     ESKİ 29px → içerik y=89'da, Figma'nın 10px üstündeydi ("çok dar olmuş").
+     Sol/sağ 28px BİLEREK KORUNDU: .home-layout__top--wide padding-inline 25/67 ile
+     28+25=53 · 28+67=95 → kartlar Figma x=53/552/1073 ile birebir (canlı doğrulandı). */
+  padding: 39px 28px 12px;
   gap: 16px;
 }
 
@@ -98,4 +103,12 @@
 
 .home-song-btn-list-div{
     margin-top:30px;
+}
+
+/* Wide/4K: şarkı şeridi üst satır hizasına bağlanır — sol kenar Player Info ile (x53),
+   sağ kenar widget grid ile aynı (x1825). Şerit bu kutunun dışına taşmaz; kartlar
+   .home_song__btn-card-grid--scroll içinde yatay kaydırılır. Yedek değerler: 4K tier'ında token yüklenmez. */
+.home-layout--wide .home-song-btn-list-div {
+  min-width: 0;
+  padding-inline: var(--home-song-list-pad-start, 25px) var(--home-song-list-pad-end, 67px);
 }

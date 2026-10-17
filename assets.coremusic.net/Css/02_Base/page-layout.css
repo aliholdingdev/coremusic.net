@@ -30,7 +30,10 @@
   margin-top: var(--header-h, 60px);
   min-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
   max-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
-  padding: var(--space-2) var(--space-4) var(--space-2);
+  /* Header dibine nefes: 8px -> 24px (kullanıcı 2026-10-17: "çok dar olmuş").
+     padding tercih edildi — margin-top yapısal header offset'i, artırılırsa
+     max-height calc ile footer'a biner. border-box => yükseklik hesapı korunur. */
+  padding: var(--space-6) var(--space-6) var(--space-2);
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;

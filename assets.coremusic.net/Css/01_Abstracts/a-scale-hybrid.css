@@ -84,6 +84,14 @@
   --ls-normal:  0;
   --ls-wide:    0.04em;
   --ls-wider:   0.08em;
+
+  /* ── Header Logo (Figma SSOT) ────────────────────────────────
+     1920 frame: fontSize 20 · letterSpacing 2.7px  → 0.135em
+     1024 frame: fontSize 16 · letterSpacing 2.16px → 0.135em
+     (1024 tarafı @media (max-width:1024px) içinde --fs-xl ile
+      zaten 16px'e çözülür; bu token ≥1025 genişlik içindir.) */
+  --fs-logo: 20px;
+  --ls-logo: 0.135em;
 }
 
 /* ============================================================
