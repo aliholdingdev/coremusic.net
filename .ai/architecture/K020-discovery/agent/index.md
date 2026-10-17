@@ -9,12 +9,13 @@ depends_on:
   - search
 evidence:
   - "v2 §2.20 — K020-discovery/ agent/ (alt dosya listesi yok → children: [])"
-  - "ADR-097 §1.6 (2026-10-12 web tur-1): 'Spotify Web API = OAuth2+PKCE' · 'MusicKit developer token Worker'da imzalanır'"
+  - "ADR-097 §1 madde 6 (satır 33) (2026-10-12 web tur-1): 'Spotify Web API = OAuth2+PKCE' · 'MusicKit developer token Worker'da imzalanır'"
   - "Mevcut API güvenlik katmanı: accepted/ADR-010 (CSRF) · ADR-020 (API public security) · ADR-095 (JWT RS256)"
+  - "2026-10-17 web tur-2: 12 servis auth akışı + 33 URL erişim kaydı → agent-web-arastirma.md · agent-dogrulama.md"
 validation:
-  - "2026-10-12 — bulgular ADR-097 §1.6 kaydıyla çapraz okundu"
+  - "2026-10-12 — bulgular ADR-097 §1 madde 6 (satır 33) kaydıyla çapraz okundu"
 open_questions:
-  - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
+  - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — v2 satır 98/616 · ADR-097 §2 K6 (satır 77–78)"
   - "Harici servis entegrasyonu CoreMusic kapsamına giriyor mu? Proje tanımında yok → VERIFY REQUIRED"
   - "PKCE/JWT akışları mevcut auth altyapısıyla (ADR-095 hybrid JWT) nasıl birleşir? Tasarım yok"
 group: mimari
@@ -30,7 +31,7 @@ sorununun notLANDığı yerdir. Henüz **tasarım/kod yok** — yalnız keşif k
 
 | Servis | Kimlik akışı | Token | Durum |
 |---|---|---|---|
-| **Spotify** Web API | OAuth2 **Authorization Code + PKCE** (`code_verifier`/`code_challenge`, redirect redirect) | erişim/yenileme token'ı | keşif notu — tasarım ONAY bekliyor |
+| **Spotify** Web API | OAuth2 **Authorization Code + PKCE** (`code_verifier`/`code_challenge`, yönlendirme URI'si) | erişim/yenileme token'ı | keşif notu — tasarım ONAY bekliyor |
 | **Apple Music** (MusicKit) | Apple geliştirici hesabı → **developer token** | **JWT · ES256 + `kid`** başlığı — imzalama tarafında Worker kullanılır | keşif notu — ONAY bekliyor |
 | **YouTube Music** | **Resmi public API yok** → ajan akışı kurulamaz | — | `⚠️ KAPALI` (TOS riski, onay yok) |
 
@@ -53,6 +54,11 @@ sorununun notLANDığı yerdir. Henüz **tasarım/kod yok** — yalnız keşif k
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `agent-kapsam.md` | K-scope, servis × auth matrisi, gate'ler | Kademe-2 |
+| mimari | `agent-bilesenler.md` | Şema + bileşen sözleşmeleri | Kademe-2 |
+| kod | `agent-ornekler.md` | 13 dil + SQL kod örnekleri (PKCE/token/retry) | Kademe-2 |
+| kanıt | `agent-web-arastirma.md` | 12 servis auth akışı + erişim kaydı | Kademe-2 |
+| kanıt | `agent-dogrulama.md` | İddia→kanıt matrisi, ⚠️ envanteri | Kademe-2 |
 
 ---
 

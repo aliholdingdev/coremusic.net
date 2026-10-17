@@ -213,6 +213,12 @@ tamamı diskten kalkmıştır. Dolayısıyla:
 > **Aritmetik kontrol:** K satırları toplanınca **80.155** (tablo üstü
 > hesap); ağ toplamı **81.131** (§9.2) → fark **976** = K-dışı 10 dosya.
 > İki rakam da 20:19'da **aynı script** ile ölçüldü.
+>
+> ⚠️ **K020-discovery satırı geçersizdir (2026-10-17):** bu tablo `Measure-Object -Line`
+> ile ölçülmüştür (§9.12.1: geçersiz yöntem) ve keşif öncesi 3 dosyalık hâli taşır.
+> Kanonik ölçüm: **17 dosya / 6.380 satır / ≥500: 6** (§9.14.2). Tablo aritmetiği
+> bozulmasın diye eski satır **değiştirilmedi** — yalnız bu notla geçersiz kılındı
+> (append-only kural).
 
 **K000 alt kırılımı (`isletim-sistemi-turu/` → 30 dosya/10.360 satır, ≥500:12):**
 windows 9/3.497 (≥500:4) · linux 7/2.550 (≥500:2) · macos 3/999 (≥500:1) ·
@@ -959,6 +965,52 @@ olduğundan **dokunulmadı**; çakışma riski yok (beyazlisteler ayrışık).
 
 > **Kalan tek doğrulama:** §BAĞLANTILAR *ilişki metinleri* (domain okuması) — encodingsiz
 > script ile ölçülemez, sonraki içerik turunda gözden geçirilecek (§9.13.4 #2 hâlâ açık).
+
+#### §9.14 K020-discovery Keşif Kapanış Kaydı (2026-10-17)
+
+> **Kapsam:** `.ai/architecture/K020-discovery/**` — keşif disiplini ilk turu
+> (17 md: kök 5 · `search/` 6 · `agent/` 6). İçerik: 12 servis / 18 URL web taraması
+> (tur-2) + disk kanonik ölçüm + **Truth Mode düzeltme turu**.
+
+##### §9.14.1 Truth Mode düzeltme (kritik — uydurma kanıt krizi)
+
+İlk yazım turunda tur-1 kanıtı olarak **uydurma sınıfı** üretildi ve 2026-10-17'de
+**tamamen düzeltildi** (döküm: `K020-discovery/discovery-master.md` §9.3):
+
+| Sınıf | Uydurma | Gerçek |
+|---|---|---|
+| ADR-097 sanal bölümler | `§1.6 · §2.2 pipeline · §2.3–2.4 SignalType/ListenType · §6.1 DUP` | `§1 Bağlam madde 6 (satır 33)` · `§2 K2/K6 (satır 42–53/77–78)` · `§5.5` — pipeline/enum/DUP **silindi** (grep 0) |
+| Repo kanıtları | `client/js/core/signal.js · manifest.json · seed_kit.json · history.js · /api/v2/signal` | **0 isabet** (`client/` YOK) → silindi; yerine gerçek `app-nodejs-projects/nova-search-engine/` (`packages/search/*.ts` · `signals.ts` · ADR-001 yasak) |
+| `log.md` satır atıfları | `log.md:774–801 vb.` | `log.md` = **118 satır** → tüm `log.md:xxx` silindi |
+| S-etiketleri | `S-2…S-7` | yalnız **S-1** gerçek (K007-data 40+ atıf); yerine **D-1/D-3/D-4/D-5** |
+| Bölüm atıfları | `registry §9.9.2 · README §2/§7 · S-1 §6` | kanon = **§9.12.1** · README numaralı bölüm YOK · sıra = kök AGENTS.md §1 |
+| Sahte ADR adları | `adr-097-discovery-contract.md vb. 3 ad` | gerçek dosya adları (draft/ADR-097 · accepted/ADR-010/095/101) |
+| Kavram adları | `_bileşik_dinleme_demeti · playlist.to (DMD) · sentinel/seq.1–30 · U-L06` | vault+spec **0 isabet** → silindi |
+
+**Yasak kapılar DEĞİŞMEDİ:** YT Music `⚠️ KAPALI` (ADR-097 §1 madde 6) · secret
+yalnız `.env` (ADR-095 §1.2) · fallback zorunlu (ADR-101 §2.2) · medya-sağlayıcı
+auth gate ADR'si **YOK** (ADR-010 = CSRF) — üretim entegrasyonu gate onayı **bloke**.
+
+##### §9.14.2 Kanonik ölçüm (§9.12.1 yöntemi — 2026-10-17)
+
+| Kümе | Dosya | Satır | ≥500 |
+|---|---|---|---|
+| `agent/` | kapsam 506 · bilesenler 534 · ornekler 1268 · web-arastirma 503 · dogrulama 504 · index 65 | 3.380 | **5/6** ✓ |
+| `search/` | ornekler 1464 · web-arastirma 126 · kapsam 153 · bilesenler 180 · dogrulama 114 · index 62 | 2.099 | **1/6** (bilinen boşluk) |
+| kök | master 286 · web-arastirma 223 · dogrulama 166 · bagimliliklar 128 · index 98 | 901 | **0/5** (bilinen boşluk) |
+
+**Toplam: 17 dosya / 6.380 satır / ≥500: 6.** Kök + `search/` bazı içerik
+dosyaları < 500 — **bilinen boşluk**, dürüst raporlandı; genişletme ayrı tur.
+
+##### §9.14.3 Açık maddeler (kapanış BLOCKER'ları)
+
+| # | Açık | Üst merci |
+|---|---|---|
+| 1 | S-1 ID CONFLICT (`K020-discovery` ↔ `K020-search` — v2 satır 98/616 · ADR-097 §2 K6) | üst karar |
+| 2 | K008 C2 sahiplik çakışması (`domain-master.md:188`) | domain + architect |
+| 3 | Medya-sağlayıcı auth gate ADR'si yazılmadı (üretim entegrasyonu bloke) | kullanıcı onayı |
+| 4 | Deezer API kota sayısı (resmi sayı yok — `UNKNOWN`) | web |
+| 5 | ~~17 dosyanın registry kaydı~~ | ✅ **KAPANDI (bu tur)** — §9.14 eklendi · §9.1 satır 202'ye geçersizlik notu kondu · "whitelist" artık ifadesi K020-discovery dosyalarından temizlendi (gerçek mekanizma: §9.14 kapanış kaydı + §9.12.1 ölçüm kanonu) |
 
 ---
 
