@@ -30,7 +30,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 ## 2. Genel Bakış
 
-> **Disk ölçümü (2026-10-12 · güncelleme 2026-10-13):** `accepted/` = **80** ADR dosyası · `rejected/` = **10** R dosyası · `draft/` = **2** (ADR-097, 2026-10-12 + ADR-102, 2026-10-13 eklendi) · kökte **1** ADR (`ADR-091-template-engine-no-eval.md` — yanlış konumda, §4'te bağlantılandı) → **gerçek toplam 93**.
+> **Disk ölçümü (2026-10-12 · güncelleme 2026-10-17):** `accepted/` = **80** ADR dosyası · `rejected/` = **10** R dosyası · `draft/` = **3** (ADR-097, 2026-10-12 + ADR-102, 2026-10-13 + **ADR-103** medya-sağlayıcı auth gate, 2026-10-17 eklendi) · kökte **1** ADR (`ADR-091-template-engine-no-eval.md` — yanlış konumda, §4'te bağlantılandı) → **gerçek toplam 94**.
 > Önceki 2026-10-10 sayımı (accepted 83 / rejected 12 / draft 1 / toplam 96) disk gerçeğiyle **çelişiyordu** ve §2/§6 tabloları 78-96 arasında değişiyordu; sayılar bugün dosya sayısından yeniden yazıldı.
 
 | Durum | Sayı | Açıklama |
@@ -38,14 +38,15 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | **Frozen** | **36** | Değiştirilemez (ADR-001 → ADR-036 — diskte tam) |
 | **Active** | **45** | `accepted/` içindeki **44** (ADR-037 üzeri) + kökteki **ADR-091** |
 | **Rejected** | **10** | `rejected/` 10 dosya (R-011/R-012'de dosya YOK — §5'te işaretli) |
-| **Draft** | **2** | `draft/ADR-097-k-space-v3-…` + `draft/ADR-102-tur-taksonomi-genislemesi-5-dal` (2026-10-13 eklendi) — §4A | |
-| **Toplam** | **92** | 80 accepted + 10 rejected + 1 draft + 1 kök ADR |
+| **Draft** | **3** | `draft/ADR-097-k-space-v3-…` + `draft/ADR-102-tur-taksonomi-genislemesi-5-dal` (2026-10-13) + `draft/ADR-103-media-provider-auth-gate` (2026-10-17) — §4A | |
+| **Toplam** | **94** | 80 accepted + 10 rejected + 3 draft + 1 kök ADR |
 
 > **Not (2026-10-12):** **ADR-061 (Electronics Architecture L6 — K uzayı katman tanımı)**, K-space katman mimarisi (K000–K020 / A0–A5 / `.ai/architecture/`) ile birlikte **kaldırıldı** — dosya silindi, yedek `C:\temp\opencode\vault-backup-2026-10-12\decisions-adr061\`.
 > Not (2026-10-06 LINT-3): §3 başlığı ve §6 eski hali ADR-037'yi frozen sayıyordu (37/35); §2'deki "ADR-037 debate ✅, frozen YOK" kaydı esas alındı → 36.
 > Not (2026-10-09): ADR-098..101 eklendi (50 yıllık mimari ilkeler araştırması → mimari plan §8 kararları).
 > Not (2026-10-10): ADR-096/097 silinmişti (K-Space V2 rejimi).
 > Not (2026-10-12): **ADR-097 yeniden yazıldı** (K-Space V3 — sıfırdan kurulum, çoklu-MD şema, isimlendirme, Band-2..7 rezervasyonu) → `draft/` (onay bekliyor, §4A).
+> Not (2026-10-17): **ADR-103 eklendi** (medya-sağlayıcı auth gate) → `draft/` (onay bekliyor, §4A) — K020-discovery tur-2 keşfinden devredildi; kanıt: `.ai/architecture/K020-discovery/discovery-web-arastirma.md` (12 servis · 18 URL · 0 hata).
 
 ## 3. Frozen ADR'ler (001-036)
 
@@ -147,6 +148,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 |-----|--------|----------|
 | [[draft/ADR-097-k-space-v3-sifirdan-kurulum-coklu-md-ve-bant-rezervasyonu]] | K-Space V3: Sıfırdan Kurulum, Çoklu-MD Düğüm Şeması, İsimlendirme Spesifikasyonu ve Band-2..7 Rezervasyonu | Architecture |
 | [[draft/ADR-102-tur-taksonomi-genislemesi-5-dal]] | K001 donanaım-type Tür Taksonomisi Genişlemesi: 3 → 9 Bağlam (display · power · cables · network · memory · cpu) | Architecture |
+| [[draft/ADR-103-media-provider-auth-gate]] | Medya-Sağlayıcı Auth Gate: Harici Servis Kimlik Şeması Kapısı ve Üretim Entegrasyonu Ön Koşulları (K020-discovery tur-2 devri) | Security |
 
 ## 5. Reddedilen ADR'ler
 
