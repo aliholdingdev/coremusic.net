@@ -509,6 +509,23 @@
     width: 260px;
 }
 
+/* Koyu cam panel — light-mode --text-primary (#1a1025) burada görünmez;
+   neutral token'larla okunur beyaz-gri metin (np-1024-emb-v13.png referansı) */
+.page-player--embedded .player-playlist,
+.page-player--embedded .player-playlist__title {
+    color: var(--color-neutral-0);
+}
+
+.page-player--embedded .player-playlist__track-title {
+    color: var(--color-neutral-0);
+}
+
+.page-player--embedded .player-playlist__track-artist,
+.page-player--embedded .player-playlist__count,
+.page-player--embedded .player-playlist__duration {
+    color: var(--color-neutral-400);
+}
+
 .page-player--embedded .player-playlist__item {
     padding: 8px 10px;
 }

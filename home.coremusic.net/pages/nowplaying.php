@@ -105,12 +105,8 @@ if ($tracks === []) {
 /* Kapak/arka plan: doğrulanmış asset (RecentTracksComponent seed kaynağı) */
 $coverUrl = $assetsUrl . '/Image/res-pink/album-goksel.png';
 $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
-
-/* Tablo düzeni: wide (1025–2560) VE embedded/tablet (≤1024) — 1024 mockup
-   "Linux 1024 - Playlist Page.png" de tablo düzenidir; yalnız telefon eski player'da kalır */
-$isTableLayout = !$isFullscreen && ($isWide || $dm->shouldRenderEmbeddedLayout());
 ?>
-<?php if ($isTableLayout): ?>
+<?php if ($isWide && !$isFullscreen): ?>
     <?php
     /* Wide içerik: DB yoksa veya ?_demo=1 ise Figma SSOT içeriği (wide-seed.php) — birebir tasarım */
     if (!$tracksFromDb || isset($_GET['_demo'])) {
