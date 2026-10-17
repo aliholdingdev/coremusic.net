@@ -2390,7 +2390,9 @@ html body .page-history--wide.page-layout {
 .page-player--wide .player-row__disc { margin: 0 auto; transform: translateX(-40px); }
 
 .page-player--wide .player-table thead .player-col--icon { padding-left: 0; text-align: center !important; transform: translateX(-40px); }
-.page-player--wide .player-table thead .player-col--title { padding-left: 0.27px; }
+/* Şarkı Adı diske yaklaşır: başlık/hücre 140 → 70 (disk 60'da biter → 10px gap) */
+.page-player--wide .player-table thead .player-col--title { padding-left: 0.27px; margin-left: -70px; }
+.page-player--wide .player-row .player-col--title { margin-left: -70px; }
 .page-player--wide .player-table thead .player-col--album { margin-left: -0.53px; }
 .page-player--wide .player-table thead .player-col--artist { margin-left: -1.17px; }
 /* Figma 1390:24448 — "Süre" başlığı hücre solunda (x=1298.3 = 1291+7.3),
