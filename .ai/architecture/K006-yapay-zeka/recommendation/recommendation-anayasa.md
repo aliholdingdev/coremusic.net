@@ -28,11 +28,11 @@ sıralar ve tek bir öneri listesi döner.
 | 1 | Aday üretimi (collaborative + content-based hybrid) | Etkileşim/katalog verisinin kalıcı saklanması | K007-data |
 | 2 | Skorlama ve hybrid ağırlıklandırma | "beğeni/öneri" iş kuralının sahibi olması | K008-domain |
 | 3 | Çeşitlilik (diversity) filtresi ve MIN_SCORE eşiği | Öneri kartının UI'da çizimi | K011-application |
-| 4 | Öneri modelinin K006 ürün tarafında çalıştırılması | Ajan çalışma zamanı / prompt yönetimi | K016-AI (**kapsam dışı**) |
+| 4 | Öneri modelinin K006 ürün tarafında çalıştırılması | Ajan çalışma zamanı / prompt yönetimi | K015-AI (**kapsam dışı**) |
 | 5 | Öneri kalitesinin ölçülmesi (evaluation ile) | Genel uygulama testi | K019-testing |
 
 **Sınır cümlesi (v2 §2.6 · registry §6):** Bu dal yalnız **K006 = ML ürün tarafını**
-kapsar. K016-AI ajan altyapısına öneri yeteneği **taşınamaz**; ajanlar K006'yı **çağırır**.
+kapsar. K015-AI ajan altyapısına öneri yeteneği **taşınamaz**; ajanlar K006'yı **çağırır**.
 
 ## §2 Bozulmaz İlkeler (invariants)
 
@@ -112,16 +112,16 @@ tanımlanmamıştır**. Denklik iddiası yazılmaz; `⚠️ VERIFICATION REQUIRE
 | P3 | Kişisel veri K006'da kalıcı tutulmaz; tercih vektörü referansla taşınır | tasarım iddiası — ⚠️ VERIFICATION REQUIRED |
 | P4 | KVKK/GDPR uyumu K008-domain ve security tarafında; K006 yalnız API sözleşmesine uyar | sınır |
 
-## §8 K016-AI Sınırı (KAPSAM DIŞI — bağlayıcı)
+## §8 K015-AI Sınırı (KAPSAM DIŞI — bağlayıcı)
 
-| Konu | K006 (ML ürün tarafı) | K016-AI (ajan altyapısı) |
+| Konu | K006 (ML ürün tarafı) | K015-AI (ajan altyapısı) |
 |---|---|---|
 | Öneri algoritması & skorlama | ✅ sahip | ❌ yalnız **çağırır** |
 | Model eğitimi/dagitimi operational MLOps | ❌ sınır dışı (ürün tarafı minimal) | ✅ sahip (model yaşam döngüsü) |
 | Ajan prompting / tool-calling | ❌ | ✅ (`PromptEngine`, `ToolCalling` ajan tarafı) |
 | Öneri kalitesi metriği | ✅ (evaluation ile) | ❌ |
 
-**Kural:** K016-AI'ın MLOps/model yaşam döngüsü uygulaması bu dalın **kapsamı
+**Kural:** K015-AI'ın MLOps/model yaşam döngüsü uygulaması bu dalın **kapsamı
 DIŞINDADIR**. Ajanlar K006'nın öneri API'sini çağırır; öneriyi **üretmez**.
 
 ## §9 Terim Sözlüğü (TR↔EN)
@@ -142,11 +142,11 @@ DIŞINDADIR**. Ajanlar K006'nın öneri API'sini çağırır; öneriyi **üretme
 
 | # | Kapsam dışı | Sahibi |
 |---|---|---|
-| 1 | Model yaşam döngüsü / operational MLOps | K016-AI |
+| 1 | Model yaşam döngüsü / operational MLOps | K015-AI |
 | 2 | Etkileşim verisinin kalıcı saklanması | K007-data |
 | 3 | "beğeni" iş kuralının tanımı | K008-domain |
 | 4 | Öneri kartı UI çizimi | K011-application |
-| 5 | Ajan prompt/tool yönetimi | K016-AI |
+| 5 | Ajan prompt/tool yönetimi | K015-AI |
 | 6 | Genel uygulama testi | K019-testing |
 
 ## §11 Açık Sorular (anayasa kilidi)
@@ -207,7 +207,7 @@ ancak politikaya **geri beslenmez**. Ödül→model döngüsü `⚠️ VERIFICAT
 
 **İlke I14:** Model ailesi seçimi için **henüz ADR yok**. Bu matris *aday* listesidir;
 seçim `UNKNOWN` olarak taşınır (`index.md` open_questions). Seçim K006 ürün minimal
-kalır; operational MLOps K016-AI'ın (kapsam dışı).
+kalır; operational MLOps K015-AI'ın (kapsam dışı).
 
 ## §14 Fairness Ayrıntısı (ölçüm kapıları)
 
@@ -250,7 +250,7 @@ sınıflandırma **yoktur**; iddia yazılmaz.
 
 | Durum | Karar | Kaynak |
 |---|---|---|
-| K006 ↔ K016-AI çatışması | K016 sınır dışı; K006 ürün kalır | §8 |
+| K006 ↔ K015-AI çatışması | K016 sınır dışı; K006 ürün kalır | §8 |
 | K006 ↔ K008 sahiplik | **AÇIK** — iddia yok | Q1 · kapsam §2 |
 | Hardcoded vs öğrenilen | Şu an hardcoded; "öğrenildi" denmez | I2 · Q2 |
 | Anayasa ↔ kod | Anayasa kazanır (bozulmaz ilke) | §2 |

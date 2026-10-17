@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/service-discovery/standart-kanit
+node_id: K010-network/service-discovery/standart-kanit
 node_type: module
 status: draft
-parent_id: K014-network/service-discovery
+parent_id: K010-network/service-discovery
 role: kanit
 children: []
 depends_on: []

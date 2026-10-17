@@ -147,7 +147,7 @@ group: kanit
 |---|---|
 | Dosya | security-dogrulama.md · group: kanit · 34 kontrol · 15 URL |
 | Bağ | security-master / security-kapsam / security-web-arastirma |
-| Sınır | git commit YASAK · Band-2..7 açılmaz · K010-identitiy'e giriş yok |
+| Sınır | git commit YASAK · Band-2..7 açılmaz · K0100-identitiy'e giriş yok |
 
 ## §8 YAPI / VAULT DOĞRULAMASI (K009 ŞEMA KONTROLÜ)
 

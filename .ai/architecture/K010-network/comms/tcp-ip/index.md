@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/comms/tcp-ip
+node_id: K010-network/comms/tcp-ip
 node_type: bounded-context
 status: draft
-parent_id: K014-network/comms
+parent_id: K010-network/comms
 children: []
 depends_on: []
 evidence:
@@ -19,13 +19,13 @@ group: mimari
 ---
 
 
-# tcp-ip — K014-network/comms (kademe-3 · bounded-context)
+# tcp-ip — K010-network/comms (kademe-3 · bounded-context)
 
 **ELI15:** Yerel ağ dahil paket taşımasının temel katmanları.
 
 **Sınır (ne DEĞİL):** Uygulama protokolleri (http/websocket) üstünde çalışır · donanım K001.
 
-**Bağımlılık (özet):** Üstü comms/ → K014-network; ayrıntı network-bagimliliklar.md §1.
+**Bağımlılık (özet):** Üstü comms/ → K010-network; ayrıntı network-bagimliliklar.md §1.
 
 **Durum:** draft · kademe-4 (module) ADR-097 K4 fazı (C) bekler · module'e inilmez.
 

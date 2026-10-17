@@ -25,7 +25,7 @@ group: mimari
 ## 2. Kapsam dışı (Dışında)
 
 1. **Modelin eğitimi** (hype loop içinde) — eğitim hiperparametreleri ve eğitim kodu K006'ya aittir; burada yalnız kayıt ve sürümleme.
-2. **Ajan / zeka altyapısı (K016-AI)** — ajan orkestrasyonu (planner/executor) K016'a aittir (K006 sınırı, `v2.md §2.6`); bu alt alan ajan değil model yaşam döngüsü yönetir.
+2. **Ajan / zeka altyapısı (K015-AI)** — ajan orkestrasyonu (planner/executor) K016'a aittir (K006 sınırı, `v2.md §2.6`); bu alt alan ajan değil model yaşam döngüsü yönetir.
 3. **Inference çalışma zamanı** — canlı tahmin yürütme `inference/` alt alanındadır (QPS, stream, pipeline); burada yalnız "hangi model yüklensin" kararı.
 4. **Feature store / eğitim veri ambarı** — veri hazırlama `audio-intelligence/` kapsamındadır.
 5. **Model etik ve güvenlik denetimi** — burada yalnız envanter ve sürüm; etik/siber yönetim `security-policy.md` kapsamındadır.
@@ -430,7 +430,7 @@ Aşağıdaki 6 URL **yalnızca** `model-management-dogrulama.md` §11 [Satır: 6
 | 25 | `## 2. Kapsam dışı (Dışında)` | — |
 | 26 | (boş satır) | — |
 | 27 | madde 1 — eğitim kapsam dışı | K-C13 (karşı satır) |
-| 28 | madde 2 — K016-AI · `v2.md §2.6` | K-C2 |
+| 28 | madde 2 — K015-AI · `v2.md §2.6` | K-C2 |
 | 29 | madde 3 — inference çalışma zamanı | §4.2 (K006.7 sınırı) |
 | 30 | madde 4 — feature-store → `audio-intelligence/` | K-C14 |
 | 31 | madde 5 — etik/siber → `security-policy.md` | K-C3 |

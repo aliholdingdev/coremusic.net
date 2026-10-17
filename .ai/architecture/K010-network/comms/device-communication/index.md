@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/comms/device-communication
+node_id: K010-network/comms/device-communication
 node_type: bounded-context
 status: draft
-parent_id: K014-network/comms
+parent_id: K010-network/comms
 children: []
 depends_on: []
 evidence:
@@ -19,13 +19,13 @@ group: mimari
 ---
 
 
-# device-communication — K014-network/comms (kademe-3 · bounded-context)
+# device-communication — K010-network/comms (kademe-3 · bounded-context)
 
 **ELI15:** Evdeki cihazların birbirleriyle konuşma biçimi (yerel ağ içi).
 
-**Sınır (ne DEĞİL):** Cihaz kimliği K010-identitiy · cihaz envanteri K012/device-service.
+**Sınır (ne DEĞİL):** Cihaz kimliği K0100-identitiy · cihaz envanteri K012/device-service.
 
-**Bağımlılık (özet):** Üstü comms/ → K014-network; ayrıntı network-bagimliliklar.md §1.
+**Bağımlılık (özet):** Üstü comms/ → K010-network; ayrıntı network-bagimliliklar.md §1.
 
 **Durum:** draft · kademe-4 (module) ADR-097 K4 fazı (C) bekler · module'e inilmez.
 

@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/service-discovery
+node_id: K010-network/service-discovery
 node_type: subdomain
 status: draft
-parent_id: K014-network
+parent_id: K010-network
 children: []
 depends_on: []
 evidence:
@@ -18,7 +18,7 @@ group: mimari
 ---
 
 
-# service-discovery — K014-network (kademe-2 · subdomain)
+# service-discovery — K010-network (kademe-2 · subdomain)
 
 **ELI15:** Ulaşılacak noktayı (cihaz veya servis) bulma ve adresini çözme.
 

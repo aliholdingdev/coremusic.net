@@ -480,7 +480,7 @@ Test dosyası okunmadığı için satır numarası UYDURULMAZ → UNKNOWN.
 | Public rota listesi yeri | backend-architect | UNKNOWN |
 | API ile web 403 gövde tutarlılığı | qa-engineer | ⚠️ VERIFICATION REQUIRED |
 | `REQUEST_URI` logunda hassas parametre redaksiyonu | security-engineer | ⚠️ VERIFICATION REQUIRED |
-| `REMOTE_ADDR` proxy arkasında gerçek IP | K014-network | UNKNOWN |
+| `REMOTE_ADDR` proxy arkasında gerçek IP | K010-network | UNKNOWN |
 | Test dosyalarının mevcut kapsamı | qa-engineer | UNKNOWN (§9 kaydı korunur) |
 
 > **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

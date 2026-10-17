@@ -16,10 +16,10 @@ children:
   - threat-model
   - security-testing
 depends_on:
-  - K010-identitiy
+  - K0100-identitiy
   - K011-application
   - K013-integraion
-  - K014-network
+  - K010-network
   - K017-observability
   - K018-devops
 evidence:
@@ -31,10 +31,25 @@ validation:
   - "2026-10-13 — URL tabloları HTTP 200 ile doğrulandı; envanter kesişimi 0"
   - "2026-10-15 — §2 child tablosu 8-şemaya güncellendi (11/11 çocuk 8 dosya) + §4/§5 os-security-kapsam bridge kaydı (kullanıcı kararı: ikisi de)"
 open_questions:
-  - "K009 ↔ K010 sınırı (session-security vs K010-identitiy/session/tokens) ⚠️ VERIFICATION REQUIRED"
+  - "K009 ↔ K010 sınırı (session-security vs K0100-identitiy/session/tokens) ⚠️ VERIFICATION REQUIRED"
   - "v2 §2.9 çocuklara yalnızca ad verir; rol tanımları üretimde verildi ⚠️ VERIFICATION REQUIRED"
   - "K009 ↔ K009-api ID CONFLICT kaydı (v2 §6 satır 1002) korunuyor — onaysız yeniden adlandırma YASAK"
 group: mimari
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | OS guvenlik yetenekleri |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | gizli veri ve DRM sinirlari |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | firmware imzalama |
+| K007-data | [[K007-data]] | ../K007-data/index.md | veri seifreleme |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | identity domain |
+| K010-network | [[K010-network]] | ../K010-network/index.md | TLS ve ag guvenligi |
+| K011-application | [[K011-application]] | ../K011-application/index.md | auth middleware |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | API guvenligi |
+
 ---
 
 # K009-security — Domain Künyesi
@@ -46,7 +61,7 @@ group: mimari
 | Alan | Değer |
 |---|---|
 | Ne yapar | Gelen istekte kimlik kanıtını, yetkiyi, girdiyi ve başlıkları doğrular; doğrulamazsa reddeder. |
-| Ne yapmaz | Kimlik modeli üretmez (K010-identitiy), işletim sistemi güvenliği kurmaz (K000-isletim-sistemi/security). |
+| Ne yapmaz | Kimlik modeli üretmez (K0100-identitiy), işletim sistemi güvenliği kurmaz (K000-isletim-sistemi/security). |
 | Kademe | Kademe-2 (domain) + kademe-3 (alt-modül) |
 | Otorite | Bayram Ali / Vault Steward |
 | Üretim | K009-v2 derinleştirme, 2026-10-13, Mode: Red Team · Human Mode · Truth Mode |
@@ -79,7 +94,7 @@ group: mimari
 
 | Konu | Sahibi | K009 tutumu |
 |---|---|---|
-| Kimlik deposu, kimlik modeli, credentials | `K010-identitiy` | Kapsam dışı — yalnız sınır referansı |
+| Kimlik deposu, kimlik modeli, credentials | `K0100-identitiy` | Kapsam dışı — yalnız sınır referansı |
 | İşletim sistemi düzeyi güvenlik (kernel, disk, servis) | `K000-isletim-sistemi/security` | Kapsam dışı — yalnız sınır referansı · ayrıntı: os-security-kapsam.md |
 
 > Ayrıntı: `security-kapsam.md` §KAPSAM DIŞI. Bu domainde iki konuya karar yazılmaz.

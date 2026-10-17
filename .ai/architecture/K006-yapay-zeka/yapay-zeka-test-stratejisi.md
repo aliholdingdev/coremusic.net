@@ -15,7 +15,7 @@ children:
   - K006.9-testing
 depends_on:
   - K004-shared
-  - K016-AI
+  - K015-AI
 evidence:
   - "shared/composer.json — phpunit ^10.5, phpstan ^1.10, script 'stan' level 5 (2026-10-12)"
   - "shared/tests/ — 9 dizin envanteri (shared/AGENTS.md §2, 2026-10-12)"

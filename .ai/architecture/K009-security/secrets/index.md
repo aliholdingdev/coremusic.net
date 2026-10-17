@@ -71,7 +71,7 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik deposu, kullanıcı credentials'ı | `K010-identitiy` | Yalnız sınır referansı |
+| Kimlik deposu, kullanıcı credentials'ı | `K0100-identitiy` | Yalnız sınır referansı |
 | OS anahtar halkası, disk/EFI şifreleme, servis hesabı sırrı | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
 
 ## §5 BAĞLANTILAR

@@ -1,12 +1,12 @@
 ---
-node_id: K014-network/network-testing/kod-ornekleri
+node_id: K010-network/network-testing/kod-ornekleri
 node_type: module
 status: draft
-parent_id: K014-network/network-testing
+parent_id: K010-network/network-testing
 role: ornek
 children: []
 depends_on:
-  - "K014-network/network-testing/network-testing-standart-kanit.md"
+  - "K010-network/network-testing/network-testing-standart-kanit.md"
 evidence:
   - "Kod kanıtı YOK (K014 PLANNED) — bu dosyadaki örnekler TASARIM ÖRNEĞİ'dir, üretim kodu değildir"
   - "Referans kaynaklar: network-testing-standart-kanit.md §1–§2 (RFC 2544 · asyncio · pytest · tokio · warp)"

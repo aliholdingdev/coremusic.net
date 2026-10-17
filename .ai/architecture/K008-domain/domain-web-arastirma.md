@@ -226,4 +226,277 @@ Aşağıdakiler keşifte 404/erişilemez sonuç verdi ve **kullanılmadı**:
 
 ---
 
+---
+## §18 DOĞRULAMA TURU (2026-10-17 — HAVUZ GENİŞLETME)
+
+§2–§15 havuzu ve §16 dağıtım cetveli **değiştirilmez**; bu bölüm havuza **29 yeni kaynak** ekler.
+Turlar ayrı ayrı yaşar: §2–§15 = 2026-10-12 turu (75 URL) · §18 = 2026-10-17 turu (29 URL).
+Bu bölümdeki her başarılı kayıt aynı gün tek tek `GET` ile doğrulanmıştır; 404 dökümü §18.5'te,
+iddia eşlemesi §18.3'te, sayfa-içi metin doğrulaması §18.4'tedir.
+
+### §18.1 YÖNTEM (bu turda ne yapıldı)
+
+| Adım | İşlem | Sonuç |
+|---|---|---|
+| M1 | Aday havuzu kuruldu: DDD desenleri · dil referansları · standart dokümanları | 46 aday (29 × 200 · 16 × 404/probe · 1 × yönlendirme sayfası) |
+| M2 | C4 tekil kontrol: K008-domain içindeki **72** `.md` dosyası `https?://` kalıbıyla tarandı | mevcut havuz **169** benzersiz URL; 29 adayın **hiçbiri** havuzda yok → çakışma **0** |
+| M3 | Erişim: `GET` (fetch) — `status`, `title`, nihai `url` (redirect sonrası) kaydedildi | §18.2 |
+| M4 | Anahtar-kelime doğrulaması: iddia edilen kavram sayfanın metninde gerçekten geçiyor mu? | §18.4 |
+| M5 | 404 / dayanaksızlar gizlenmeden yazıldı | §18.5 |
+| M6 | Kaynak ↔ iddia eşlemesi (ne kanıtlıyor — ne kanıtlamıyor) | §18.3 |
+
+**Yöntem notları (tur içi, bağlamsal):**
+
+1. `HEAD` yerine `GET` kullanıldı — pek çok sunucu `HEAD` isteğine 405 döndürür; bu da
+   erişilebilir bir kaynağı **sahte 404** gibi gösterirdi (yanlış negatif riski).
+2. PDF uç noktalarda (`#9`, `#19`) ve JSON API'de (`#26`) `title` alanı boş kalır; o
+   durumda yanıt gövdesi okunarak kayıt yapıldı — boş başlık "erişilemedi" anlamına gelmez.
+3. Yönlendirme zinciri olan kaynaklarda **hem istenen hem nihai URL** yazıldı; iddianın
+   dayanağı nihai (sondurulan) URL'dir.
+4. 404 tek başına "yanlış iddia" kanıtı değildir; yeni yerleşim aranır ve tur tekrarlanır (§17).
+5. Bu turda arama motoru sonucu **ham kanıt sayılmadı** — arama yalnız URL bulmak için
+   kullanıldı; kabul yalnız HTTP 200 + başlık/gövde doğrulamasıyla verildi.
+
+### §18.2 YENİ DOĞRULANMIŞ KAYNAKLAR (29 URL · HTTP 200 · tarih 2026-10-17)
+
+| # | Alan | URL | HTTP | Başlık (yanıtta görünen) | Yönlendirme |
+|---|---|---|---|---|---|
+| 1 | DDD topluluğu | https://dddcommunity.org/ | 200 | dddcommunity.org · Domain Driven Design Community | → `www.dddcommunity.org` |
+| 2 | DDD makale havuzu | https://www.infoq.com/domain-driven-design/ | 200 | Domain Driven Design - InfoQ | — |
+| 3 | Olay mimarisi | https://martinfowler.com/articles/201701-event-driven.html | 200 | What do you mean by "Event-Driven"? | — |
+| 4 | Ortak dil | https://martinfowler.com/bliki/UbiquitousLanguage.html | 200 | Ubiquitous Language | — |
+| 5 | Stratejik analiz | https://learn.microsoft.com/en-us/azure/architecture/microservices/model/domain-analysis | 200 | Use Domain Analysis to Model Microservices - Azure Architecture Center | — |
+| 6 | Taktik DDD | https://learn.microsoft.com/en-us/azure/architecture/microservices/model/tactical-domain-driven-design | 200 | Use Tactical DDD to Design Microservices - Azure Architecture Center | — |
+| 7 | DDD + CQRS | https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ | 200 | Tackling Business Complexity in a Microservice with DDD and CQRS Patterns | — |
+| 8 | DDD tasarımı | https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice | 200 | Designing a DDD-oriented microservice | — |
+| 9 | Specification | https://martinfowler.com/apsupp/spec.pdf | 200 | (PDF — başlık alanı yok, gövde okundu) | — |
+| 10 | Specification | https://en.wikipedia.org/wiki/Specification_pattern | 200 | Specification pattern - Wikipedia | — |
+| 11 | Outbox | https://microservices.io/patterns/data/transactional-outbox.html | 200 | Pattern: Transactional outbox | — |
+| 12 | JS değişmezlik | https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze | 200 | Object.freeze() - JavaScript · MDN | — |
+| 13 | Python VO | https://docs.python.org/3/library/dataclasses.html | 200 | dataclasses — Data Classes — Python dokümantasyonu | — |
+| 14 | Java record | https://docs.oracle.com/en/java/javase/21/language/records.html | 200 | Record Classes | — |
+| 15 | Kotlin data class | https://kotlinlang.org/docs/data-classes.html | 200 | Data classes · Kotlin Documentation | — |
+| 16 | TS narrowing | https://www.typescriptlang.org/docs/handbook/2/narrowing.html | 200 | TypeScript: Documentation - Narrowing | — |
+| 17 | Go | https://go.dev/doc/effective_go | 200 | Effective Go - The Go Programming Language | — |
+| 18 | C++ constexpr | https://en.cppreference.com/w/cpp/language/constexpr | 200 | constexpr specifier (since C++11) - cppreference.com | → `/cpp/language/constexpr` |
+| 19 | C11 standardı | https://open-std.org/JTC1/SC22/WG14/www/docs/n1570.pdf | 200 | (PDF — C11 komite taslağı N1570) | — |
+| 20 | Terraform / HCL | https://developer.hashicorp.com/terraform/language/expressions/types | 200 | Types and Values - Configuration Language · Terraform | — |
+| 21 | GitHub Actions | https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax | 200 | Workflow syntax for GitHub Actions - GitHub Docs | — |
+| 22 | Bash | https://www.gnu.org/software/bash/manual/bash.html | 200 | Bash Reference Manual | — |
+| 23 | PowerShell | https://learn.microsoft.com/en-us/powershell/scripting/overview | 200 | What is PowerShell? - PowerShell · Microsoft Learn | → `?view=powershell-7.6` |
+| 24 | SQL DDL | https://www.postgresql.org/docs/current/sql-createtable.html | 200 | PostgreSQL: Documentation: 18: CREATE TABLE | — |
+| 25 | C# record | https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/records | 200 | C# record types - C# · Microsoft Learn | — |
+| 26 | Referans uygulama | https://api.github.com/repos/VaughnVernon/IDDD_Samples | 200 | (JSON — "sample Bounded Contexts from the book Implementing Domain-Driven Design") | — |
+| 27 | Rust advanced traits | https://doc.rust-lang.org/book/ch20-02-advanced-traits.html | 200 | Advanced Traits - The Rust Programming Language | — |
+| 28 | Swift dil referansı | https://docs.swift.org/swift-book/documentation/the-swift-programming-language/declarations | 200 | Documentation (declarations) | → `/latest/documentation/…` |
+| 29 | SQL benzersizlik | https://en.wikipedia.org/wiki/Unique_key | 200 | Unique key - Wikipedia | — |
+
+**Bu tablo tekil kaynaktır:** aynı URL'ler K008-domain içinde başka hiçbir dosyada
+geçmez (C4). Diğer dosyalar bu tabloya `#no` ile referans verir.
+
+### §18.3 KAYNAK ↔ İDDİA EŞLEMESİ (ne kanıtlıyor — ne kanıtlamıyor)
+
+| # | İddia (K008'de geçtiği yer) | Kaynak | Kanıtladığı | Kanıtlamadığı / sınır |
+|---|---|---|---|---|
+| A | Alt-domainler çekirdek / destekleyici / genel diye ayrılır (`domain-master.md` §23) | #5 | "Core / Supporting / Generic subdomain" ayrımı sayfada **metinde doğrulandı** | CoreMusic'te hangi BC'nin hangi sınıfa girdiği **bu sayfadan gelmez** — proje kararı |
+| B | Taktik DDD kavram seti: Value Object · Aggregate · Domain Event · Bounded Context (`domain-master.md` §24–§26) | #6 | Dört kavramın başlığı sayfada **metinde doğrulandı** (§18.4) | "Specification" ve "Repository" başlıkları bu sayfada **geçmiyor** → o iddialar #9/#10 ve #7/#8 ile taşınır |
+| C | Specification pattern And/Or bileşimiyle yeniden kullanılabilir sorgu nesnesi üretir (`domain-master.md` §27) | #9 + #10 | #10'da "composite", "And", "Or" metni geçiyor; #9 Evans & Fowler özgün ek makaledir | #9 PDF olduğu için bu turda metin-bağımsız doğrulama yapılmadı → eşlik eden kanıt #10'dur |
+| D | Aggregate dışı tutarlılık için transactional outbox gerekir (`domain-master.md` §26) | #11 | "outbox", "transactional", "publish" metni geçiyor | **Depoda outbox uygulama kanıtı YOK** → iddia yalnız gereksinim, `⚠️ VERIFICATION REQUIRED` |
+| E | Event-driven'da olaylar hafif bildirim (notification) olarak taşınır (`domain-master.md` §26) | #3 | "event notification" metni geçiyor | Sayfada "domain event" terimi geçmiyor; CoreMusic'in tanımı repo kanıtından gelir |
+| F | Ortak dil yazılım modeliyle aynı adları kullanır (`domain-master.md` §10) | #4 | Ubiquitous Language bliki girişi | CoreMusic sözlüğünün kendisi kanıt değildir → `domain-evrensel-dil.md` sahibidir |
+| G | Dil bazında immutable / VO karşılıkları resmi dokümanlara dayanır (`domain-kod-ornekleri.md` §8) | #12–#20, #22–#25, #27–#28 | Her dilin resmi referansı tek tek 200 (§18.2) | Örnek kodların CoreMusic'e uygulanabilirliği **tasarım örnekliğidir** — repo karşılığı olmayanlar "tasarım örneği" etiketlidir |
+| H | SQL'de invariant'ın ikinci katmanı constraint'tir (`playlist-kapsam.md` §6) | #24 | `CREATE TABLE` dokümanı `UNIQUE`, `CHECK`, `PRIMARY KEY` içeriyor (§18.4 #16) | MySQL'e özgü davranış için kanıt `.ai/.sql/mysql/*` dosyalarıdır (satır kanıtlı) |
+| I | Benzersizlik (unique) tanımı ve davranışı (`playlist-kapsam.md` §6) | #29 | Unique key tanımı | MySQL `UNIQUE` davranışı için #24 + repo SQL'i |
+| J | Referans uygulama / örnek bounded context'ler mevcuttur (`domain-kapsam.md` §8) | #26 | GitHub API JSON: "sample Bounded Contexts from the book Implementing Domain-Driven Design" (3.947 yıldız, son itme 2023-09-09) | Repo **bu projede kullanılmıyor** — yalnız karşılaştırma kaynağıdır |
+| K | Belge / CI / altyapı yüzeyleri de deseni dışarıdan tekrar edebilir (`domain-kod-ornekleri.md` §8) | #20, #21, #22, #23 | Sözdizimi / doküman sayfaları 200 | Bunlar **dil değil, yapılandırma yüzeyidir**; invariant'ın dış katman tekrarıdır |
+
+### §18.4 İÇERİK DOĞRULAMASI (anahtar-kelime — sayfa metninde gerçekten arandı)
+
+Aşağıdaki aramalar aynı turda sayfa **gövdesi** üzerinde yapılmıştır. "YOK" satırlar
+gizlenmemiştir: ilgili iddia o kaynağa **dayandırılmaz**.
+
+| # | Kaynak | Aranan ifade | Sonuç |
+|---|---|---|---|
+| 1 | #6 taktik DDD | Value Object / Aggregate / Domain Event / Bounded Context | hepsi **VARDI** |
+| 2 | #6 taktik DDD | Specification / Repository | **YOK** → bu iddia #6'ya bağlanmaz |
+| 3 | #5 domain analysis | Core subdomain / Supporting subdomain / Generic subdomain | hepsi **VARDI** |
+| 4 | #11 outbox | outbox / transactional / publish | hepsi **VARDI** |
+| 5 | #3 event-driven | event-driven / event notification | **VARDI**; "domain event" **YOK** |
+| 6 | #10 spec pattern | Specification / composite / And / Or | hepsi **VARDI** |
+| 7 | #25 C# record | reference type / value equality / immutable / with expression | hepsi **VARDI** |
+| 8 | #13 Python dataclasses | frozen / eq / hash | hepsi **VARDI** |
+| 9 | #14 Java 21 record | record / equals | **VARDI**; "implicitly final" kalıbı **YOK** → o söz edilmez |
+| 10 | #15 Kotlin data class | equals() / hashCode() / copy() / component | hepsi **VARDI** |
+| 11 | #16 TypeScript narrowing | type guard / typeof / in operator / discriminant | hepsi **VARDI** |
+| 12 | #12 MDN Object.freeze | strict mode | **VARDI**; "does not throw" kalıbı **YOK** → o söz edilmez |
+| 13 | #27 Rust advanced traits | newtype / operator / trait | hepsi **VARDI** |
+| 14 | #18 C++ constexpr | constant expression / constexpr function | hepsi **VARDI** |
+| 15 | #17 Effective Go | struct | **VARDI**; "composition" kalıbı **YOK** → o söz edilmez |
+| 16 | #24 PostgreSQL CREATE TABLE | UNIQUE / CHECK / PRIMARY KEY | hepsi **VARDI** |
+| 17 | #20 Terraform types | map / object / bool | hepsi **VARDI** |
+| 18 | #21 GitHub Actions | jobs / on: / runs-on | hepsi **VARDI** |
+
+### §18.5 404 VE DAYANAK OLMAYANLAR (2026-10-17 — bu kayıtlar KULLANIM DIŞIDIR)
+
+Aşağıdaki adaylar bu turda **erişilemedi**; hiçbiri §18.3'teki hiçbir iddiaya
+dayanak yapılmamıştır. 404 = kaynak yoktur; "iddia yanlıştır" anlamına **gelmez**.
+
+| # | URL | HTTP | Karşılığı (varsa) |
+|---|---|---|---|
+| 1 | https://learn.microsoft.com/en-us/azure/architecture/guide/ddd/ | 404 | yerine #5, #6, #7 |
+| 2 | https://learn.microsoft.com/en-us/azure/architecture/guide/ddd/ddd-context-map | 404 | context-map arayışı sürüyor (§18.8) |
+| 3 | https://martinfowler.com/eaaDev/SpecPattern.html | 404 | yerine #9 (PDF), #10 |
+| 4 | https://microservices.io/patterns/transactional-outbox.html | 404 | yerine #11 (yol farkı: `/data/`) |
+| 5 | https://learn.microsoft.com/en-us/azure/architecture/patterns/outbox | 404 | outbox için yalnız #11 kullanılabilir |
+| 6 | https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tuples/record-types | 404 | yerine #25 |
+| 7 | https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/record | 404 | yerine #25 |
+| 8 | https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/records | 404 | yerine #25 |
+| 9 | https://doc.rust-lang.org/book/ch07-03-newtype-pattern.html | 404 | yerine #27 (newtype metni orada — §18.4 #13) |
+| 10 | https://docs.swift.org/swift-book/LanguageGuide/Structures.html | 404 | yerine #28 (eski kılavuz yolu taşınmış) |
+| 11 | https://en.wikipedia.org/wiki/Unique_constraint | 404 | yerine #29 |
+| 12 | https://doc.rust-lang.org/book/ch18-00-advanced-features.html | 404 | yerine #27 |
+| 13 | https://docs.swift.org/swift-book/documentation/the-swift-programming-language/structuresandclasses | 404 | yerine #28 |
+| 14 | https://developer.apple.com/documentation/swift/struct | 404 | yerine #28 |
+| 15 | https://learn.microsoft.com/en-us/azure/architecture/microservices/context-mapping/context-map | 404 | açık arayış — §18.8 |
+| 16 | https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/abstract-base-classes | 404 | deneme kaydı, iddiaya bağlanmadı |
+
+**Yönlendirme sayfası (200 ama içerik değil):** `doc.rust-lang.org/book/ch19-03-advanced-traits.html`
+HTTP 200 döndürür ancak gövdesi yalnız bir `meta refresh` yönlendirmesidir (başlık:
+"Redirecting..."). Nihai hedef §18.2 **#27**'dir (200, gerçek içerik) — bu nedenle #27
+kullanılır, ch19-03 **kullanılmaz**.
+
+### §18.6 HAVUZ TOPLAMI VE C4 KAYDI
+
+| Ölçüm | 2026-10-12 (önceki tur) | 2026-10-17 (bu tur) | Yöntem |
+|---|---|---|---|
+| Kök dosyalar (depth 0) | 12 | 12 | dizin ağacı sayımı |
+| Kök dosyalardaki benzersiz URL | 75 | **104** | 75 + §18.2'deki 29 |
+| Çocuk dosyalar (depth 1+) | 60 | 60 | dizin ağacı sayımı |
+| K008-domain geneli benzersiz URL | 169 | **198** | 72 dosya, `https?://` kalıbı, trailing nokta/virgül ayıklanmış |
+| C4 çakışması (bu tur eklenenler) | — | **0** | ekleme öncesi tüm havuza karşı kontrol |
+
+**C4 kalıcılığı:** §18.2'deki 29 URL yalnız bu dosyada bulunur; başka bir K008 dosyasında
+görülürse C4 ihlalidir ve **o dosyadaki satır silinir** (URL bu dosyada kalır).
+
+### §18.7 DERİN NOTLAR (yüksek ağırlıklı kaynaklar)
+
+**#5 — Domain Analysis (Microsoft Learn).** Alt-domain sınıflandırması (Core /
+Supporting / Generic) ile bounded context analizinin birlikte yürütüldüğünü gösterir
+(§18.4 #3). K008 değeri: `domain-master.md` §23'ün sınıflandırma eksenini dış bir
+kaynağa bağlar. Sınır: hangi CoreMusic BC'sinin hangi sınıfa girdiği **bu sayfadan
+değil**, proje sahipliği kararından çıkar — o nedenle §23'te "öneri + gerekçe" dili
+kullanılır, kesin atama dili değil.
+
+**#6 — Tactical DDD (Microsoft Learn).** Sayfa metninde doğrulanan dört kavram:
+Value Object, Aggregate, Domain Event, Bounded Context. Bu dördü K008'in omurgasıdır
+(`domain-master.md` §24–§26). **Kanıt disiplini:** aynı sayfada "Specification" ve
+"Repository" ifadeleri aranmış ve **bulunamamıştır** (§18.4 #2). Bu nedenle
+specification iddiası #9/#10'ya, repository iddiası #7/#8'e bağlanır; #6'ya
+**bağlanmaz**. Bu ayrım, "kaynak var" ile "kaynak o iddiayı taşıyor" arasındaki
+farkı korur.
+
+**#7 / #8 — DDD & CQRS (Microsoft .NET mimari kılavuzu).** İki seviyeli okuma sunar:
+#7 bütünsel (iş karmaşıklığının CQRS ile dağıtılması), #8 ise DDD yönelimli
+mikroservisin **tasarım adımları**. K008'de repository / sorgu sınırı bu ikinci
+katmandan beslenir. Sınır: bu kılavuz **.NET** örneklendirmesi yazıyor; CoreMusic
+PHP olduğu için yalnız **desen** alınır, kod değil — bu, `domain-kod-ornekleri.md`
+§8'deki "repo karşılığı olmayan örnek = tasarım örneği" kuralını besler.
+
+**#9 + #10 — Specification Pattern (Evans & Fowler PDF + Wikipedia).** #9, desenin
+özgün ek makaledir; PDF olduğu için bu turda metin-bağımsız doğrulama **yapılmadı** —
+bu açıkça kayıtlıdır. #10 ise aynı deseni kompozit bileşim (And/Or) açısından metin
+içinde doğrular (§18.4 #6). İddia bu yüzden **ikili dayanakla** taşınır: özgün kaynak
+(#9) + doğrulanabilir anlatım (#10).
+
+**#11 — Transactional Outbox (microservices.io).** K008'de outbox iddiasının tek
+mimari dayanağı budur (§18.4 #4). K013 ile eşlemede kritik sınır şu satırda durur:
+**bu depoda outbox uygulamasına dair kanıt bulunamamıştır** → iddia yalnız
+"gereksinim" olarak yazılır ve `⚠️ VERIFICATION REQUIRED` taşır. Kaynak, desenin
+varlığını kanıtlar; CoreMusic'in deseni uyguladığını **kanıtlamaz**.
+
+**#3 — "What do you mean by Event-Driven?" (Fowler).** Olay yayımının stillerini ve
+"event notification" hafiflik ilkesini anlatır (§18.4 #5). Sayfa "domain event"
+terimini kullanmıyor; bu nedenle CoreMusic'in domain event tanımı buradan değil,
+repo sözleşmesinden gelir (`domain-dogrulama.md` §4). K008'de kullanımı: event'in
+**taşma yükü** (payload) ne kadar hafif olmalı sorusuna yanıt aramak.
+
+**#4 — Ubiquitous Language (Fowler bliki).** Ortak dilin kodla aynı adları zorunlu
+kıldığını; dil bozulduğunda modelin de bozulduğunu anlatır. K008 karşılığı:
+`domain-evrensel-dil.md` sözlüğü ve `domain-master.md` §10 özeti. Sınır: sözlük
+içeriği bu blogdan değil, projeden gelir — kaynak yalnız **gerekçe** verir.
+
+**#26 — IDDD_Samples (GitHub API JSON).** Vaughn Vernon'ın kitabındaki örnek
+bounded context'leri içerir (yanıt metni: "sample Bounded Contexts from the book
+Implementing Domain-Driven Design"; 3.947 yıldız; son itme 2023-09-09). K008 değeri:
+`domain-kapsam.md` §8'deki "örnek BC" karşılaştırması için dış kalıp. Sınır: bu repo
+**bu projede kullanılmıyor**, kodu buraya **kopyalanmaz** — yalnız karşılaştırma
+kaynağıdır.
+
+**#19 — C11 (WG14 N1570).** `const` ile derleme-zamanı sabitlemenin dilsel temeli
+(`domain-kod-ornekleri.md` §8 C bloğu). PDF olduğu için başlık alanı boş; dosyanın
+kimliği URL'den (JTC1/SC22/WG14/N1570) okunur. Sınır: N1570 bir **komite taslağıdır**
+(standart son metni değil) — bu nedenle C örneğinde yalnız yaygın ve değişmez unsurlar
+kullanılır.
+
+**#12–#18, #22–#25, #27–#28 — Dil referansları (küme).** Her dil için **tek bir**
+resmi kaynak seçilmiştir (MDN, Python docs, Oracle, Kotlin, TS handbook, Go,
+cppreference, GNU, Microsoft Learn, PostgreSQL, Rust Book, Swift Book). Kümenin
+K008 değeri: `domain-kod-ornekleri.md` §8'deki 17 dilin immutable / VO karşılığının
+**resmi docs'a** dayanması; "dil böyle yapıyor" sözü kanıtsız yazılmaz. Sınır: bu
+sayfalar dil davranışını kanıtlar, **CoreMusic'in o dili kullandığını değil** — repo
+yüzeyi ile dil yüzeyi ayrı ayrı işaretlenir.
+
+**#20, #21, #22, #23 — Yapılandırma yüzeyleri (HCL / YAML / Bash / PowerShell).**
+Bunlar programlama dili değil, desenin **dış tekrarıdır**: altyapı değişken tipi, CI
+job tanımı, betik komut satırı, istemci kabuğu. `domain-kod-ornekleri.md` §8'de bu
+dördü ayrı sınıfta etiketlenir ("yapılandırma yüzeyi — dil değildir"), böylece "17
+dil" sayısı dil-iddiasını şişirmez.
+
+### §18.8 SONRAKİ TUR TETİKLEYİCİLERİ
+
+| Tetik | Aksiyon | Sahip |
+|---|---|---|
+| §18.5 #2 / #15 — context-map kaynağı hâlâ yok | Microsoft context mapping yolu yeniden aranır; yeni URL önce C4'e tabi | bu dosya |
+| §18.3 D — outbox kanıtı | K013 dosyalarında outbox araması tekrarlanır; sonuç `domain-dogrulama.md` §9'a yazılır | `domain-dogrulama.md` |
+| §18.4'te "YOK" çıkan iddialar | İlgili iddia başka kaynağa bağlanır ya da `⚠️ VERIFICATION REQUIRED`'a düşer | ilgili iddia sahibi |
+| 6 ay (2027-04-17) | §18.2'nin 29 kaydı yeniden `GET` ile taranır; 404 olanlar §18.5'e taşınır | bu dosya |
+
+---
+### §18.9 İDDİA ZİNCİRİ (kaynak → master kuralı → çocuk dosya → doğrulama defteri)
+
+Her satır tek bir iddianın **dört ucu**nu bağlar. Zincirin herhangi bir halkası
+kopuksa iddia kanıtsızdır ve «⚠️ VERIFICATION REQUIRED» kalır.
+
+| İddia | Master kuralı | Çocuk dosya | Doğrulama defteri | Kaynak (#) |
+|---|---|---|---|---|
+| Alt-domain sınıflandırması (Core/Supporting/Generic) | §23 | «domain-kapsam.md» §8 | §11 | #5 |
+| Value Object değişmezliği | §25 | «domain-kod-ornekleri.md» §8 | §10 | #6 + dil kümesi |
+| Aggregate tek tutarlılık sınırıdır | §24 | «domain-bilesenler.md» §7 | §10 | #6 |
+| Aggregate arası referans ID ile olur | §24 | ilgili çocuk kapsam dosyaları | §10 | #6 |
+| Domain event geçmiş zaman adlandırılır | §26 | «domain-bilesenler.md» §8 | §9 | #3 + repo kanıtı |
+| Domain event tek BC içinde yaşar | §26 | «domain-bilesenler.md» §8 | §9 | #3 (sınır: "domain event" terimi sayfada yok) |
+| Aggregate dışı tutarlılık outbox gerektirir | §26 | K013 eşlemesi | §9 | #11 — **uygulama kanıtı YOK** |
+| Specification And/Or ile bileşenir | §27 | «domain-bilesenler.md» §7 | §12 | #9 + #10 |
+| Repository arayüzü domain'de, uygulama infrastructure'da | §28 | «domain-bilesenler.md» §9 | §10 | #7 + #8 |
+| SQL constraint invariant'ın ikinci katmanıdır | §24 | «playlist-kapsam.md» §6 | §10 | #24 + #29 |
+| Benzersizlik davranışı DB katmanında tanımlanır | §24 | «playlist-kapsam.md» §6 | §10 | #24 + #29 |
+| Ortak dil kodla aynı adları kullanır | §10 | «domain-evrensel-dil.md» | §12 | #4 |
+| Referans uygulama karşılaştırma kaynağıdır | §2 | «domain-kapsam.md» §8 | §12 | #26 |
+| Dil başına immutable karşılığı resmi dokümandadır | §25 | «domain-kod-ornekleri.md» §8 | §10 | #12–#18, #22–#25, #27–#28 |
+| Yapılandırma yüzeyi dil değildir | §25 | «domain-kod-ornekleri.md» §8.5 | §10 | #20–#23 |
+
+### §18.10 BU TURUN ÖLÇÜMLERİ (kayıt)
+
+| Ölçüm | Değer | Not |
+|---|---|---|
+| Tarama tarihi | 2026-10-17 | §18.1 M1–M6 sırası |
+| Denenen URL | 46 | 29 × 200 · 16 × 404 · 1 × yönlendirme sayfası |
+| Kabul edilen URL | 29 | yalnız HTTP 200 + başlık/gövde doğrulaması |
+| Reddedilen URL | 16 | §18.5 — dayanak yapılmadı |
+| Sayfa-içi metin araması | 18 satır | §18.4 — 41 aranan ifadenin sonucu |
+| C4 çakışması | 0 | ekleme öncesi 72 dosyalık havuza karşı |
+| Bu dosyanın satır sayısı | 230 → 467 (+ §18.9–§18.10 sonrası) | ölçüm: JS «ReadAllLines» eşdeğeri |
+
+---
 *Authority: Bayram Ali / Vault Steward · K008-domain web araştırması · 2026-10-12 · 75 benzersiz URL · HTTP 200 (C4 düzeltmesi 2026-10-15: #72 tekrarı kaldırıldı)*
+*Authority: Bayram Ali / Vault Steward · K008-domain web araştırması · 2026-10-17 · 104 kök / 198 K008-geneli benzersiz URL · §18 turu: 29 × HTTP 200 + 16 × 404 (§18.5) · C4 çakışma 0*

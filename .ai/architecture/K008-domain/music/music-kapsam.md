@@ -31,7 +31,7 @@ Basitçe: bir şarkının ne olduğu, hangi albümde durduğu, hangi sanatçın�
 | # | İçinde (bu dal) | Dışında | Sınır komşusu |
 |---|---|---|---|
 | 1 | Şarkı (track) · albüm · sanatçı **kavramının tanımı** | Kavramın tabloda saklanması | K007-data (`-bagimliliklar` §3/1) |
-| 2 | Katalog dili: `id · title · artist · album · duration` | Dosyanın fiziksel kodlanması/bitrate | K015-media (master §2.1) |
+| 2 | Katalog dili: `id · title · artist · album · duration` | Dosyanın fiziksel kodlanması/bitrate | K014-media (master §2.1) |
 | 3 | "şarkı eklendi" kuralının olaya dönüşü | Ekleme servis süreci (kim, ne zaman) | K012-services (master §2.1) |
 | 4 | Katalog kavramının medyadan **ayrı** tanımı | `stream · download` erişim türü | media (master §1/1) |
 | 5 | Katalog kavramının koleksiyondan **ayrı** tanımı | "kütüphanesinde" / "beğendi" durumu | library (master §1/1) |

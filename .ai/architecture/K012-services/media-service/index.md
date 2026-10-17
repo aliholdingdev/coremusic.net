@@ -23,7 +23,7 @@ group: mimari
 
 **ELI15:** Medya varlığına dair arka plan işlerini yürüten servis.
 
-**Sınır (ne DEĞİL):** Dosya saklama/akış K015-media · iş kuralı K008-domain.
+**Sınır (ne DEĞİL):** Dosya saklama/akış K014-media · iş kuralı K008-domain.
 
 **Bağımlılık (özet):** Düğümün tamamı üst kademeye bağlıdır; ayrıntı ve etiketler services-bagimliliklar.md §1'dedir. Bu dosyadaki satırlar TASARIM İDDİASI'dır.
 

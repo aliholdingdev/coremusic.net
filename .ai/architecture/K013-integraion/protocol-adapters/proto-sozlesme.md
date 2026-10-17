@@ -314,7 +314,7 @@ karar (alfabetik/şema sırası) → **UNKNOWN (ADR bekliyor)**.
 | `proto-web-arastirma.md` | yan | Doğrulanamayan satırların `⚠️` listesi | İddia başlıkları (S1-S12) |
 | `K013-integraion/api-contracts/openapi` | kardeş | HTTP yüzü sözleşmesi (Accept/Content-Type ortaklığı) | Protokol çifti sınırı (P1-P5) |
 | `K013-integraion/adapters` | kardeş | Sınır tanımı (protokol ≠ sistem/ACL) | Protokol düzlemi referansı |
-| `K014-network` | komşu | Taşıma kapsam dışı devri | El sıkışma/bağlantı NOTU (§5.2) |
+| `K010-network` | komşu | Taşıma kapsam dışı devri | El sıkışma/bağlantı NOTU (§5.2) |
 
 ### §8.2 Okuma Sırası Önerisi (bu klasör)
 

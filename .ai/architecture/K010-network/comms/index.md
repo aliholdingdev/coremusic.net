@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/comms
+node_id: K010-network/comms
 node_type: subdomain
 status: draft
-parent_id: K014-network
+parent_id: K010-network
 children:
   - http
   - websocket
@@ -25,14 +25,14 @@ group: mimari
 ---
 
 
-# comms — K014-network (kademe-2 · subdomain)
+# comms — K010-network (kademe-2 · subdomain)
 
 **ELI15:** İletişimin temel protokol ailesi: internet konuşması (http), canlı çift
 yönlü bağlantı (websocket), doğrudan medya yolu (webrtc), yerel ağ taşıması
 (tcp-ip) ve evdeki cihazlar arası konuşma (device-communication).
 
 **Sınır (ne DEĞİL):** Donanım/sürücü K001-donanım · şifreleme K009-security ·
-protokolün taşıdığı iş anlamı K012/K013 · medya içeriği K015-media.
+protokolün taşıdığı iş anlamı K012/K013 · medya içeriği K014-media.
 
 ## Kademe-3 torun tablosu (v2 birebir)
 

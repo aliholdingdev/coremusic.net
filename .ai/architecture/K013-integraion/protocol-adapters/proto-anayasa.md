@@ -99,7 +99,7 @@ gRPC servis/tanım modeli)
 | Üçüncü-parti **sistem/ACL** dönüşümü | kardeşi `adapters` | Harici sistem kimliği/izin dönüşümü (OAuth provider adaptörleri vb.) | **Kardeş — çakışma yasak** | TASARIM İDDİASI · sınır referansı: `adapters/adapters-anayasa.md` §2 |
 | API **sözleşmesi tanımı** | kardeşi `api-contracts` (openapi/) | API'nin uç/parametre/yanıt **tanımını yazar** | Bu düğüm o tanımın **protokol çevirisini** uygular | TASARIM İDDİASI |
 | **Olay** sözleşmesi | kardeşi `event-contracts` | Olay türü ve yük şeması | Bu düğüm olayı **hangi protokolle** taşınacağına çevirir (ör. SSE↔WS) | TASARIM İDDİASI |
-| **Ağ taşıması** | `K014-network` | Bağlantı, port, TLS, DNS, yük dengeleme, yeniden deneme | Bu düğüm **yalnızca çevirir**; bağlantı kurmaz/taşımaz | TASARIM İDDİASI (görev tanımı) |
+| **Ağ taşıması** | `K010-network` | Bağlantı, port, TLS, DNS, yük dengeleme, yeniden deneme | Bu düğüm **yalnızca çevirir**; bağlantı kurmaz/taşımaz | TASARIM İDDİASI (görev tanımı) |
 | İş kuralı | `K008-domain` | Alan mantığı | Dokunmaz | TASARIM İDDİASI (index.md sınır beyanı) |
 | Kimlik/kripto | `K009-security` | Token üretimi, imzalama, oturum | Bu düğüm yalnızca **kimlik bilgisini bir protokol alanından diğerine taşır** (ör. bearer → header) | TASARIM İDDİASI |
 
@@ -142,7 +142,7 @@ gRPC servis/tanım modeli)
 
 | Çift | Yukarı komşu | Aşağı komşu | Not |
 |---|---|---|---|
-| P1 | `K014-network` (HTTP/2 taşıması) | `api-contracts` (sözleşme) | Taşıma K014'te; **kodlama çevirisi** burada → etiketli iddia |
+| P1 | `K010-network` (HTTP/2 taşıması) | `api-contracts` (sözleşme) | Taşıma K014'te; **kodlama çevirisi** burada → etiketli iddia |
 | P2 | `api-contracts` (SOAP yüzeyi var mı → ⚠️ UNKNOWN) | `external-systems` (eski partner sistemler) | ⚠️ CoreMusic'te SOAP kullanılıp kullanılmadığı UNKNOWN |
 | P3 | `event-contracts` | `synchronization` | JSON↔XML genelde veri göçü/parsing'de |
 | P4 | `event-contracts` | `synchronization` (akış sırası) | Akış **sırası** bozulmamalı; SSE tek yön, WS iki yön |
@@ -155,14 +155,14 @@ gRPC servis/tanım modeli)
 **Etiketli tasarım iddiası (TASARIM İDDİASI):** Bu mimaride
 `protocol-adapters` **yalnızca mesajı çözer ve yeniden yazar**; TCP/HTTP
 bağlantısını, portu, TLS'yi, yeniden denemeyi ve yönlendirmeyi
-**yapmaz** — bunlar `K014-network`'ün yüzeyidir.
+**yapmaz** — bunlar `K010-network`'ün yüzeyidir.
 
 Şartnameyle örtüştüğü nokta (dış dayanak): RFC 9110, HTTP'yi
 "intermediation protocol" olarak tanımlar — proxy/gateway'ler "non-HTTP
 information systems into a more generic interface" çevirebilir; yani
 **çeviri davranışı taşımanın üstünde bir semantik katmandır**. (Kaynak: [S5])
 
-| Görev | protocol-adapters | K014-network | Dayanak |
+| Görev | protocol-adapters | K010-network | Dayanak |
 |---|---|---|---|
 | JSON gövdeyi protobuf'a serileştirmek | ✅ | ❌ | TASARIM İDDİASI |
 | HTTP durumunu gRPC status'a eşlemek | ✅ | ❌ | TASARIM İDDİASI |
@@ -313,7 +313,7 @@ ile işaretlenir.
 |---|---|---|
 | İki taraf aynı protokolü, farklı sürüm konuşuyor | **Burada** (sürüm çevirisi) | TASARIM İDDİASI |
 | İki taraf aynı protokolü konuşuyor, farklı kimlik sistemi | Önce `K009-security`, sonra **burada** yalnız alan taşıma | TASARIM İDDİASI |
-| Yalnızca bağlantı/timeout/yeniden deneme | **Değil** → `K014-network` | TASARIM İDDİASI |
+| Yalnızca bağlantı/timeout/yeniden deneme | **Değil** → `K010-network` | TASARIM İDDİASI |
 | Üçüncü-parti hizmetinin izin modeli dönüşümü | **Değil** → `adapters` (kardeş) | TASARIM İDDİASI · `adapters-anayasa.md` §2 |
 | API'nin uç tanımı (endpoint/parametre) | **Değil** → `api-contracts` | TASARIM İDDİASI |
 
@@ -328,7 +328,7 @@ ile işaretlenir.
 | ← | `K013-integraion/adapters` | Kardeş — sistem/ACL dönüşümü (sınır §2.1) |
 | ← | `K013-integraion/api-contracts` | Kardeş — sözleşme tanımı |
 | ← | `K013-integraion/event-contracts` | Kardeş — olay sözleşmesi |
-| ↔ | `K014-network` | Taşıma üstü/düzü sınırı (§4) |
+| ↔ | `K010-network` | Taşıma üstü/düzü sınırı (§4) |
 | ↔ | `K009-security` | Kimlik üretimi (bu düğüm yalnız taşır) |
 | ↓ | `K012-services` | Dönüşüm sonucunu tüketen servis |
 

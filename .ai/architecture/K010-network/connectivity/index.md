@@ -1,10 +1,10 @@
 ---
-node_id: K014-network/connectivity
+node_id: K010-network/connectivity
 node_type: subdomain
 status: draft
-parent_id: K014-network
+parent_id: K010-network
 children:
-  - K014-network/connectivity/neva-connect-wlan-dallanma-mimarisi
+  - K010-network/connectivity/neva-connect-wlan-dallanma-mimarisi
 depends_on: []
 evidence:
   - "v2 §2.14 — çocuk adı kaynağı (birebir)"
@@ -19,7 +19,7 @@ group: mimari
 ---
 
 
-# connectivity — K014-network (kademe-2 · subdomain)
+# connectivity — K010-network (kademe-2 · subdomain)
 
 **ELI15:** Bağlantıyı kurma, sürdürme ve koptuğunda yeniden kurma; bağlantı durumunun tutulması.
 

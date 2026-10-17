@@ -1,12 +1,12 @@
 ---
-title: "K014-network — Network Master"
+title: "K010-network — Network Master"
 type: architecture
 category: k-space-v3
 date: 2026-10-12
 updated: 2026-10-12
 status: draft
 version: 1.0.0
-node_id: K014-network
+node_id: K010-network
 role: master
 authority: "SSOT: v2 §2.14 + .ai/architecture/index.md §5/14"
 related: ["network-bagimliliklar.md", "network-dogrulama.md", "index.md"]
@@ -14,7 +14,7 @@ group: mimari
 ---
 
 
-# K014-network — network-master.md
+# K010-network — network-master.md
 
 > Bu dosya v2 §2.14'te adı geçen **master** dosyasıdır (ad kaynaktan birebir,
 > ADR-097 K2/K3). Yeni rol dosyaları: network-bagimliliklar.md ·
@@ -54,10 +54,10 @@ ile sınır §7/2).
 |---|---|---|
 | Ağ donanımı, sürücü, radyo | K001-donanım | K014 yalnız kullanır |
 | TLS/şifreleme/anahtar | K009-security | Politika orada yaşar |
-| Cihaz kimliği / yetki | K010-identitiy | device-identity onun çocuğu |
+| Cihaz kimliği / yetki | K0100-identitiy | device-identity onun çocuğu |
 | Dış API anlamı, adaptör | K013-integraion | K014 yalnız taşır |
 | Servis keşfi/servis kaydı | K012/K016 vs K014 — belirsiz | §7/3 kapsam sorusu |
-| Medya akışının içeriği/indirme mantığı | K015-media | Taşıma burada, içerik orada |
+| Medya akışının içeriği/indirme mantığı | K014-media | Taşıma burada, içerik orada |
 | Çevrimdışı veri **kuyruğu içeriği** | K015/offline · K012 | §7/2 sınır sorusu |
 | Ağ gözlemi/metrği | K017-observability | K014 yalnız veri üretir |
 
@@ -118,7 +118,7 @@ ile sınır §7/2).
 |---|---|---|
 | K001-donanım | Ağ donanımı / sürücü | TASARIM İDDİASI |
 | K009-security | TLS/şifreleme/anahtar | TASARIM İDDİASI |
-| K010-identitiy | Cihaz kimliği ile yetki | TASARIM İDDİASI |
+| K0100-identitiy | Cihaz kimliği ile yetki | TASARIM İDDİASI |
 
 ### §5.2 Gelen (← used_by)
 
@@ -127,17 +127,17 @@ ile sınır §7/2).
 | K011-application | Arayüzün ağ çağrıları | TASARIM İDDİASI |
 | K012-services | Servisler arası taşıma | TASARIM İDDİASI |
 | K013-integraion | Dış API taşıması | TASARIM İDDİASI |
-| K015-media | Akış/indirme taşıması | TASARIM İDDİASI |
+| K014-media | Akış/indirme taşıması | TASARIM İDDİASI |
 | Diğerleri | — | ⚠️ VERIFICATION REQUIRED |
 
 ### §5.3 Graf özeti (özet iddia — DAG denetimi 2026-10-12)
 
 ~~~text
-K011 · K012 · K013 · K015  ──(taşıma)──→  K014-network
-K014-network
+K011 · K012 · K013 · K015  ──(taşıma)──→  K010-network
+K010-network
 ├─→ K001-donanım     (donanım/sürücü)
 ├─→ K009-security    (TLS/şifreleme)
-└─→ K010-identitiy   (cihaz kimliği)
+└─→ K0100-identitiy   (cihaz kimliği)
 K014'ün yukarı dönme oku: YOK → döngü yok (2026-10-12)
 ~~~
 
@@ -218,7 +218,7 @@ K014'ün yukarı dönme oku: YOK → döngü yok (2026-10-12)
 | Standard durumu | çift standart: W3C API + IETF protokol seti (§4/1) | ✅ S1 (URL + HTTP 200 — 2026-10-15 · `webrtc-standart-kanit.md` §1) |
 | Tipik kullanım | ev içi cihazlar arası doğrudan ses/yayın (handoff · multi-room) | ⚠️ TASARIM İDDİASI |
 | Traversal | STUN/TURN gerektirir (ağ NAT geçişi) | ⚠️ TASARIM İDDİASI — TURN sunucusu sahibi UNKNOWN |
-| Medya codec'i | K015-media içerik biçimi; K014 yalnız yol | §2.2 |
+| Medya codec'i | K014-media içerik biçimi; K014 yalnız yol | §2.2 |
 | Güvenlik | DTLS/SRTP (K009 politika alanı) | ⚠️ TASARIM İDDİASI |
 | Kanıt boşluğu | WebRTC kütüphanesi/sürümü | ⚠️ UNKNOWN (§4 tablosu) |
 
@@ -239,7 +239,7 @@ K014'ün yukarı dönme oku: YOK → döngü yok (2026-10-12)
 | Rol | Evdeki cihazlar arası konuşma | v2 §2.14 (S2 · birebir) |
 | Alt protokoller | hangi yerel protokoller (mDNS · CoAP · özel binary?) | ⚠️ UNKNOWN (§7/7) |
 | Cihaz keşfi | service-discovery ile kesişim | §9.6 |
-| Kimlik | cihaz kimliği K010-identitiy'de; K014 yalnız taşır | §2.2 |
+| Kimlik | cihaz kimliği K0100-identitiy'de; K014 yalnız taşır | §2.2 |
 | Güvenlik | yerel trafik şifrelemesi K009 politikası | ⚠️ TASARIM İDDİASI |
 
 ### §9.6 comms ailesi özet matrisi (5 torun)
@@ -248,9 +248,9 @@ K014'ün yukarı dönme oku: YOK → döngü yok (2026-10-12)
 |---|---|---|---|
 | http | TCP+TLS | connectivity · service-discovery | K013-integraion |
 | websocket | TCP+TLS | multi-room · handoff sinyalleri | K012-services |
-| webrtc | UDP/SRTP | handoff · multi-room medya | K015-media codec |
+| webrtc | UDP/SRTP | handoff · multi-room medya | K014-media codec |
 | tcp-ip | TCP | device-communication · offline-sync yerel eşitleme | K001-donanım |
-| device-communication | tcp-ip üstü | ev içi cihaz topluğu | K010-identitiy |
+| device-communication | tcp-ip üstü | ev içi cihaz topluğu | K0100-identitiy |
 
 **§9'in kanıt oranı üzerinde etkisi YOKTUR:** yalnız mevcut v2 çocuk/torun adlarını
 derinleştiren tasarım iddiası tablolarıdır; hiçbir satır "verified" statüsü kazandırmaz.
@@ -394,7 +394,7 @@ derinleştiren tasarım iddiası tablolarıdır; hiçbir satır "verified" stat�
 
 ---
 
-## §15 Bilinmeyenler & VERIFICATION REQUIRED Envanteri (K014-network)
+## §15 Bilinmeyenler & VERIFICATION REQUIRED Envanteri (K010-network)
 
 | # | Bilinmeyen | İlgili § | Durum |
 |---|---|---|---|
@@ -442,7 +442,7 @@ derinleştiren tasarım iddiası tablolarıdır; hiçbir satır "verified" stat�
 | Teslim/senkron | handoff · multi-room | K014/* | §13 |
 | Donanım/radyo | fiziksel erişim | K001-donanım | §2.2 |
 | Güvenlik | TLS/şifreleme/anahtar | K009-security | §2.2 |
-| Kimlik | cihaz kimliği | K010-identitiy | §2.2 |
+| Kimlik | cihaz kimliği | K0100-identitiy | §2.2 |
 
 ### §17.2 Bağlantı durumu veri modeli (tasarım iddiası)
 
@@ -498,7 +498,7 @@ derinleştiren tasarım iddiası tablolarıdır; hiçbir satır "verified" stat�
 |---|---|---|---|---|
 | 1 | TLS/şifreleme | yalnız çağırır | üretir/yönetir | K014'te şifreleme kodu YAZILMAZ |
 | 2 | Anahtar yönetimi | dokunmaz | sahibi | K009 |
-| 3 | Cihaz kimliği | taşır | doğrular | K010-identitiy |
+| 3 | Cihaz kimliği | taşır | doğrular | K0100-identitiy |
 | 4 | Yerel ağ güvenliği (device-communication) | paketleri taşır | politika K009'da | ⚠️ TASARIM İDDİASI |
 | 5 | DTLS/SRTP (webrtc) | kanalı sürer | anahtar/negotiation | ⚠️ TASARIM İDDİASI |
 

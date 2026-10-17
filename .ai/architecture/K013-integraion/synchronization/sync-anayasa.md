@@ -30,7 +30,7 @@ validation:
   - "Her iddia §Kaynak Tablosu'nda [S#] ile URL eşlemesine sahiptir (2026-10-16 fetch)"
   - "K013↔K015 sahipliği karar VERİLMEZ — iki ihtimal + sınır tablosu (§11)"
   - "Doğrulanamayan her satır ⚠️ VERIFICATION REQUIRED / UNKNOWN işaretlidir"
-  - "§11.1'deki eski 'K015 glob 0 sonuç' satırı DÜZELTİLDİ — K015-media diskte mevcut (15 md); hidden:false tuzağı not edildi (2026-10-16)"
+  - "§11.1'deki eski 'K015 glob 0 sonuç' satırı DÜZELTİLDİ — K014-media diskte mevcut (15 md); hidden:false tuzağı not edildi (2026-10-16)"
 open_questions:
   - "synchronization sahipliği: K013 mü K015 mi? → ⚠️ VERIFICATION REQUIRED (integration-master §7/2) — K015 sibling index sınır beyanıyla daraltıldı, karar yok"
   - "İki index'in sınır beyanı birbirini daraltıyor mu (K013↔K015) → ⚠️ VERIFICATION REQUIRED (§11.2)"
@@ -367,9 +367,9 @@ backoff ile dener; limit karakteristiği dış sisteme göre →
 |---|---|---|
 | `integration-master.md` §7/2: "synchronization sahipliği: K013 mü, K015 mi?" | Açık soru kayıtlı, cevaplanmamış | 2026-10-16 okuma |
 | İlk glob `.ai/architecture/K015*/**/*.md` (gizli dizin, `hidden:false`) | **sahte "0 sonuç"** üretti — **geçersiz ölçüm** | 2026-10-16 (ilk tur) |
-| Düzeltme: glob `K015-media/**/*.md` (`hidden:true`) | **15 md dosyası** — `K015-media/synchronization/index.md` dâhil | 2026-10-16 (düzeltme) |
-| `K015-media/synchronization/index.md` → **Sınır (ne DEĞİL)** satırı | "Dış sistem eşitlemesi **K013/synchronization (aynı ad)** · ağ K014" | 2026-10-16 okuma |
-| `K015-media/synchronization/index.md` → open_questions | "Aynı ad iki domain'de: ne ayırıyor → ⚠️ VERIFICATION REQUIRED (§7/3)" | 2026-10-16 okuma |
+| Düzeltme: glob `K014-media/**/*.md` (`hidden:true`) | **15 md dosyası** — `K014-media/synchronization/index.md` dâhil | 2026-10-16 (düzeltme) |
+| `K014-media/synchronization/index.md` → **Sınır (ne DEĞİL)** satırı | "Dış sistem eşitlemesi **K013/synchronization (aynı ad)** · ağ K014" | 2026-10-16 okuma |
+| `K014-media/synchronization/index.md` → open_questions | "Aynı ad iki domain'de: ne ayırıyor → ⚠️ VERIFICATION REQUIRED (§7/3)" | 2026-10-16 okuma |
 | `K013-integraion/synchronization/index.md` → **Sınır (ne DEĞİL)** satırı | "Kalıcı veri K007-data · **medya katalog senkronu K015 ile sınır belirsiz**" | 2026-10-16 okuma |
 | Bu klasörün (K013/synchronization) varlığı | ✅ mevcut (index.md + 5 içerik dosyası) | 2026-10-16 |
 
@@ -438,7 +438,7 @@ sahiplik ataması değildir → `⚠️ VERIFICATION REQUIRED`.
 |---|---|---|
 | 1 | "CoreMusic full sync'i X saatte bir yapar" | Periyot kararı/ölçümü **yok** → `UNKNOWN` |
 | 2 | "Medya senkronu K015'tir" | Sahiplik açık soru → §11 `⚠️` |
-| 3 | "K015-media vault'ta yoktur" | İlk glob **sahte 0** idi; düzeltmede K015 **gözlemlendi** (15 md) → "yok" iddiası hâlâ yazılmaz (§11.1 düzeltme kaydı) |
+| 3 | "K014-media vault'ta yoktur" | İlk glob **sahte 0** idi; düzeltmede K015 **gözlemlendi** (15 md) → "yok" iddiası hâlâ yazılmaz (§11.1 düzeltme kaydı) |
 | 4 | "CRDT kullanılacaktır" | Karar yok → `UNKNOWN` (§5.3) |
 | 5 | "Checksum karşılaştırma kullanılacaktır" | Yöntem **seçilmedi**; iki resmi kaynak yalnızca **seçenek olduğunu** kanıtlar (§4: [S15] [S18]) → seçim `UNKNOWN` |
 | 6 | "MongoDB change streams ile eşitlenecek" | URL **404** → elendi (`sync-web-arastirma` §9) |
@@ -502,4 +502,4 @@ sahiplik ataması değildir → `⚠️ VERIFICATION REQUIRED`.
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
-**Kaynak:** integration-master §7/2 · v2 §2.13 · ADR-097 §5.5 · K015-media/synchronization/index.md (disk kanıtı) · AWS AppSync · AWS DMS (validation + CLI istatistikleri) · Argo CD · Microsoft Graph · Google Cloud (Spanner/Pub/Sub/Storage checksum) · PostgreSQL · Stripe · IETF RFC 9110 · crdt.tech · Ink & Switch · **Tarih: 2026-10-16**
+**Kaynak:** integration-master §7/2 · v2 §2.13 · ADR-097 §5.5 · K014-media/synchronization/index.md (disk kanıtı) · AWS AppSync · AWS DMS (validation + CLI istatistikleri) · Argo CD · Microsoft Graph · Google Cloud (Spanner/Pub/Sub/Storage checksum) · PostgreSQL · Stripe · IETF RFC 9110 · crdt.tech · Ink & Switch · **Tarih: 2026-10-16**

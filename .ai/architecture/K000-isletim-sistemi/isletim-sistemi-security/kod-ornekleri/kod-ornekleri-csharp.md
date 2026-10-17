@@ -223,7 +223,7 @@ $other = Get-ChildItem 'C:\www\coremusic.net' -Recurse -File -Include *.rs,*.cs,
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy`; bu kartta yalnizca C# ile OS dosya/surec/erisim kaliplari (izn, ACE, rol denetimi) tasinir.
+> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy`; bu kartta yalnizca C# ile OS dosya/surec/erisim kaliplari (izn, ACE, rol denetimi) tasinir.
 > **K009 ayrimi (baglayici):** OWASP denetimi, auth/CSRF/CSP tasarimi, kripto secimi (ADR-022) -> `K009-security`; `WindowsPrincipal.IsInRole` burada OS rol denetimi kalibidir, uygulama auth'u degildir.
 > **Komşu dal:** Cekirdek ici yapisi ve surucu yazimi -> `isletim-sistemi-kernel`; dil bagimsiz guvenlik kartlari -> `cekirdek-guvenlik/*`.
 

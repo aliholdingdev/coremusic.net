@@ -36,7 +36,7 @@ group: mimari
 
 | Öğe | Neden | Giden Yer |
 |---|---|---|
-| Kimlik deposu, kullanıcı modeli | kimlik tanımı | K010-identitiy |
+| Kimlik deposu, kullanıcı modeli | kimlik tanımı | K0100-identitiy |
 | OS/systemd journal, dosya izinleri, zaman sunucusu | işletim sistemi | K000-isletim-sistemi/security |
 | Gözlemlenebilirlik metrikleri/trace saklama | tüketici sistem | K017-observability |
 | Yetki kararının kendisi (neye erişim) | yetki modeli | authorization |
@@ -121,7 +121,7 @@ group: mimari
 
 | Kontrol | Durum |
 |---|---|
-| K010-identitiy'e olay modeli yazıldı mı? | HAYIR ✅ |
+| K0100-identitiy'e olay modeli yazıldı mı? | HAYIR ✅ |
 | K000 dosya izni/iddia edildi mi? | HAYIR ✅ (yalnız sınır referansı) |
 | K017 metrik/tüketim iddia edildi mi? | HAYIR — ⚠️ kanıt yok olarak işaretlendi ✅ |
 | authorization kararına girildi mi? | HAYIR ✅ (yalnız authz_denied kaydı) |
@@ -147,7 +147,7 @@ group: mimari
 | imza/zoetluk | sahipsiz → Architect ADR | anayasa U-7 |
 | SIEM/uzak aktarım | K017-observability | surucu §14 |
 | dosya izinleri | K000-isletim-sistemi | index §4 |
-| olay alanının kimliği (userId) doğruluğu | K010-identitiy | index §4 |
+| olay alanının kimliği (userId) doğruluğu | K0100-identitiy | index §4 |
 
 ## §12 Son Durum
 

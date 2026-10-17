@@ -35,6 +35,17 @@ open_questions:
   - "v2 §6 ID CONFLICT: `K005-veri-yonetimi` ↔ `K005-firmware` — onaysız yeniden adlandırma yasak"
   - "çocuk rol satırları v2'de yok, adlarından türetildi — ⚠️ VERIFICATION REQUIRED"
 group: mimari
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | boot ve surucu modeli |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ses firmware kontrol yuzeyi |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP algoritma yerlesimi |
+| K009-security | [[K009-security]] | ../K009-security/index.md | guvenli boot ve imzalama |
+
 ---
 
 # K005-firmware — Firmware Alanı (kademe-1 künyesi)

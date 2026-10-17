@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/comms/webrtc
+node_id: K010-network/comms/webrtc
 node_type: bounded-context
 status: draft
-parent_id: K014-network/comms
+parent_id: K010-network/comms
 children: []
 depends_on: []
 evidence:
@@ -19,13 +19,13 @@ group: mimari
 ---
 
 
-# webrtc — K014-network/comms (kademe-3 · bounded-context)
+# webrtc — K010-network/comms (kademe-3 · bounded-context)
 
 **ELI15:** Doğrudan (uçtan uca) medya/veri yolu kuran protokol ailesi.
 
 **Sınır (ne DEĞİL):** Kurulum sinyallemesi ayrı kanaldır (sınır ⚠️ UNKNOWN) · şifreleme K009.
 
-**Bağımlılık (özet):** Üstü comms/ → K014-network; ayrıntı network-bagimliliklar.md §1.
+**Bağımlılık (özet):** Üstü comms/ → K010-network; ayrıntı network-bagimliliklar.md §1.
 
 **Durum:** draft · kademe-4 (module) ADR-097 K4 fazı (C) bekler · module'e inilmez.
 

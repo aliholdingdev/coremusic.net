@@ -24,7 +24,7 @@ group: mimari
 
 **ELI15:** Yapay zeka işlerini diğer servislere sunan arayüz servisi.
 
-**Sınır (ne DEĞİL):** YZ yeteneği K006-yapay-zeka veya K016-AI'dadır; hangisi belli değil.
+**Sınır (ne DEĞİL):** YZ yeteneği K006-yapay-zeka veya K015-AI'dadır; hangisi belli değil.
 
 **Bağımlılık (özet):** Düğümün tamamı üst kademeye bağlıdır; ayrıntı ve etiketler services-bagimliliklar.md §1'dedir. Bu dosyadaki satırlar TASARIM İDDİASI'dır.
 

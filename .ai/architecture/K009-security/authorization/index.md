@@ -69,7 +69,7 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik deposu, rol/izin modelinin kaynağı | `K010-identitiy` | Yalnız sınır referansı |
+| Kimlik deposu, rol/izin modelinin kaynağı | `K0100-identitiy` | Yalnız sınır referansı |
 | OS düzeyi yetki (dosya izni, servis hesabı) | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
 
 ## §5 BAĞLANTILAR
@@ -78,7 +78,7 @@ group: mimari
 |---|---|---|
 | `authentication` | öncesi | doğrulama sonucunu tüketir |
 | `audit` | sonrası | reddi denetim izine yazar |
-| `K010-identitiy` | tek yönlü | rol/izin kaynağı |
+| `K0100-identitiy` | tek yönlü | rol/izin kaynağı |
 | `K009-security` (parent) | yukarı | domen anayasasına tabi |
 
 | İddia | URL | 2026-10-13 | Durum |

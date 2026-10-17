@@ -23,7 +23,7 @@ group: mimari
 
 **ELI15:** Cihaz kaydı, durumu ve yetkilendirme işlerini yürüten servis.
 
-**Sınır (ne DEĞİL):** Cihaz kimliği (device-identity) K010-identitiy'nin çocuğu · sahiplik belirsiz.
+**Sınır (ne DEĞİL):** Cihaz kimliği (device-identity) K0100-identitiy'nin çocuğu · sahiplik belirsiz.
 
 **Bağımlılık (özet):** Düğümün tamamı üst kademeye bağlıdır; ayrıntı ve etiketler services-bagimliliklar.md §1'dedir. Bu dosyadaki satırlar TASARIM İDDİASI'dır.
 

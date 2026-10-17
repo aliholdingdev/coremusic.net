@@ -73,7 +73,7 @@ kendisi. Uygulama auth (K009/K010) bu dalın **kapsamı dışındadır**.
 | `yetki-ve-erisim-modeli` | sınırın **yetki etkisi** (kim izin alır) | UID/GID, capability, ACL, MAC tanımı |
 | `isletim-sistemi-testing` | sınırın **test edilebilirliği** | kapı sırası, coverage eşiği |
 | `K009-security` | sınırın uygulama-yüzü karşılığı | OWASP denetimi, auth/CSRF tasarımı |
-| `K010-identitiy` | oturum/ kimlik aktarımı | kimlik doğrulama akışı |
+| `K0100-identitiy` | oturum/ kimlik aktarımı | kimlik doğrulama akışı |
 
 > **K009/K010 ayrımı (baglayici):** OWASP Top 10 denetimi, auth/CSRF/CSP
 > tasarımı, kripto seçimi ve rate limit politikası → `K009-security` +

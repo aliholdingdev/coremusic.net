@@ -80,7 +80,7 @@ işaretlemektir.
 
 **Sınır testi (tek cümle):** Bir değişiklik *veritabanı satırını, rota
 kaydını, olay kuyruğunu veya CLI durumunu* değiştiriyorsa bu çocuk kapsamındadır;
-yalnızca *okuyup gösteriyorsa* `queries` kardeşi veya K015-media kapsamındadır.
+yalnızca *okuyup gösteriyorsa* `queries` kardeşi veya K014-media kapsamındadır.
 
 ---
 

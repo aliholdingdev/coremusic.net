@@ -15,7 +15,7 @@ children:
   - K006.9-testing
 depends_on:
   - K004-shared
-  - K016-AI
+  - K015-AI
 evidence:
   - "v2 §2.6 K006 tanımı — 9 alt düğüm, 8 kademe zorunlu"
   - "ADR-097 §5.1 K006 kök dosya listesi — 12 dosya"
@@ -73,11 +73,11 @@ dizin listesi 9/9 eşleşir — 2026-10-12 keşif kaydı, ai-master.md §4).
 
 | Kapsam Dışı | Sahibi | Kaynak |
 |---|---|---|
-| Agent altyapısı, A2A, tool-calling, MCP, RAG | **K016-AI** | registry §6 satır 94 |
-| `AIOrchestrator::dispatchTask`, `AIWorkflow` orchestration (agent akışı) | K016-AI | ai-master.md §2.3 |
-| `KnowledgeBase` (RAG) | K016-AI | ai-master.md §2.3 |
-| `MemorySystem`, `PromptEngine`, `ToolCalling` | K016-AI | ai-master.md §2.3 |
-| `Shared/Memory` (prompt cache) | K016-AI (deplasman) | ai-master.md §2.3 |
+| Agent altyapısı, A2A, tool-calling, MCP, RAG | **K015-AI** | registry §6 satır 94 |
+| `AIOrchestrator::dispatchTask`, `AIWorkflow` orchestration (agent akışı) | K015-AI | ai-master.md §2.3 |
+| `KnowledgeBase` (RAG) | K015-AI | ai-master.md §2.3 |
+| `MemorySystem`, `PromptEngine`, `ToolCalling` | K015-AI | ai-master.md §2.3 |
+| `Shared/Memory` (prompt cache) | K015-AI (deplasman) | ai-master.md §2.3 |
 | Öneri sahipliği (K008 / K020) | **⚠️ karar bekliyor** | ai-master.md §8-Q1 |
 
 > **Kapsam kuralı (bağlayıcı):** agent/MCP/RAG altyapısı K006'ya taşınmaz. K006 yalnız
@@ -139,11 +139,11 @@ dizin listesi 9/9 eşleşir — 2026-10-12 keşif kaydı, ai-master.md §4).
 | P5 | Otomatik EQ — oda akustiği analizi → hoparlöre uygun eğri (§1.1·§1.2) | ⚠️ K006.1 ↔ K003/K004 | 🟡 **OQ-4** — §2.1/8 yalnız EQ curve üretimini K006'da bırakır; ölçüm/analiz sahibi belirsiz |
 | P6 | Hata tahmin AI — donanım bileşen performans düşüşü öngörüsü (§1.1) | ⚠️ K006 ↔ K016 | 🟡 **OQ-6** — kararlar Q2'de kayıtlı |
 | P7 | Canlı tema — çalan müziğin enerjisine göre gerçek zamanlı tema (§1.2) | K011-application (talepçi) ← enerji: K006.6 | ➡️ **bağımlılık:** K006.6 çıktısı K011'i besler; K006 kapsamı değil, **used_by** |
-| P8 | AI Theme Maker — doğal dille tema üretimi (§1.2) | K016-AI (PromptEngine) | ⬜ kapsam dışı — doğru ayrım (ai-master §2.1/1) |
+| P8 | AI Theme Maker — doğal dille tema üretimi (§1.2) | K015-AI (PromptEngine) | ⬜ kapsam dışı — doğru ayrım (ai-master §2.1/1) |
 | P9 | Otonom indirme — YouTube arama · Deezer FLAC · metadata zenginleştirme (§1.1·§1.2) | K012-services (downloader) | ⬜ kapsam dışı — ML ürünü değil; arama sıralama varsa K016 |
-| P10 | Semantic search + RAG bilgi bankası (§1.1) | K016-AI | ⬜ kapsam dışı — kayıt: ai-master §2.3 |
-| P11 | 11 uzmanlık alanlı AI agent sistemi (§1.1) | K016-AI | ⬜ kapsam dışı — kayıt: ai-master §2.1/1 · R-07 |
-| P12 | Tool calling + MCP entegrasyonu (§1.1) | K016-AI | ⬜ kapsam dışı — ai-master §2.1/1 |
+| P10 | Semantic search + RAG bilgi bankası (§1.1) | K015-AI | ⬜ kapsam dışı — kayıt: ai-master §2.3 |
+| P11 | 11 uzmanlık alanlı AI agent sistemi (§1.1) | K015-AI | ⬜ kapsam dışı — kayıt: ai-master §2.1/1 · R-07 |
+| P12 | Tool calling + MCP entegrasyonu (§1.1) | K015-AI | ⬜ kapsam dışı — ai-master §2.1/1 |
 | P13 | Otomatik metadata/söz/kapak indeksleme (§1.1) | kısmen K006.6 (ffprobe) + dış kaynaklar | 🟡 söz **içerik** analizi ayrı yetenek (bilesenler §8.1 ❌) — sahiplik: ⚠️ UNKNOWN |
 | P14 | Kişisel EQ — kullanıcı profiline göre EQ (VISION satır 102) | ⚠️ K006.6/K006.7 ↔ K004 | 🟡 **OQ-4'e bağlı** — eğri üretimi mi, uygulama mı ayrıldığı belirsiz |
 
@@ -264,7 +264,7 @@ yalnız okuma** (8.2'de "terim" sütunu).
 ### 9.2 K016 ayrımı (tek satır öz — tekrar yok)
 
 K006 = **ML ürün** (öneri · analiz · model · ölçüm) · K016 = **ajan altyapısı** (agent · MCP ·
-RAG · tool calling). Kaynak: `index.md` [Satır: 75] ("K006↔K016-AI = ML ürün vs ajan
+RAG · tool calling). Kaynak: `index.md` [Satır: 75] ("K006↔K015-AI = ML ürün vs ajan
 altyapısı, registry §6") + kararlar K-03 + uygulama kuralı H3 (K016 bileşenleri K006'ya
 **taşınamaz**). Ürün dokümanı P11/P12 (agent · MCP) bu nedenle K006 DIŞI (§6.1).
 

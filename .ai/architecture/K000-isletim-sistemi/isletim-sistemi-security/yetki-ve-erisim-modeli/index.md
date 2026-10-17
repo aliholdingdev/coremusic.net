@@ -69,11 +69,11 @@ ne var).
 | `isletim-sistemi-core` | Izin **denetim akisi** (DAC/MAC/ACL -> allow/deny) | Izin kavraminin tanimi, dosya modeli kararlari |
 | `cekirdek-guvenlik` | Koruma halkasinin **yetki etkisi** (kim izin alir) | Koruma halkasinin kendisi (mitigasyon, LSM catisi, surucu) |
 | `uygulama-guvenlik-siniri` | RBAC'in **syscall yuzeyine** indigi yer | Sandbox kurulumu, politika yazimi, syscall sinirlama |
-| `K010-identitiy` | Oturum dosyasinin **OS kisiti** (dizin `0750`) | Oturum is mantigi, login, session fixation, MFA akisi |
+| `K0100-identitiy` | Oturum dosyasinin **OS kisiti** (dizin `0750`) | Oturum is mantigi, login, session fixation, MFA akisi |
 | `K009-security` | Yetki modelinin OWASP'a etkisi | OWASP denetimi, auth/CSRF tasarimi (ADR-010) |
 
 > **K010 ayrimi (baglayici):** kimlik dogrulama, oturum, sifre ve MFA ->
-> `K010-identitiy`. Bu dal **yalnizca** "kimlik dogrulandi SONRA ne yapabilir"
+> `K0100-identitiy`. Bu dal **yalnizca** "kimlik dogrulandi SONRA ne yapabilir"
 > sorusunu tasir.
 > **K009 ayrimi (baglayici):** OWASP Top 10 denetimi, auth/CSRF/CSP tasarimi,
 > kripto secimi ve rate limit politikasi -> `K009-security` + ADR-010/013/022.

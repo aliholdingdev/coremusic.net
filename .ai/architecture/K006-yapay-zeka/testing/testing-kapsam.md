@@ -27,7 +27,7 @@ group: mimari
 1. **Model kalite metrikleri (NDCG · drift · A/B)** — bunlar `evaluation/` alt alanındadır (kapsam ayrımı §2 maddesi 1); burada yalnız kod testi.
 2. **Model eğitimi ve hyperparameter arama** — hype loop'un kendisi.
 3. **Guardian/6-axis gate kararı** — `yapay-zeka-dogrulama.md` kapsamıdır; test girdi üretir, kapı kararı vermez.
-4. **K016-AI ajan testleri** — ajan altyapısı K016'ya aittir (K006 sınırı, `v2.md §2.6`).
+4. **K015-AI ajan testleri** — ajan altyapısı K016'ya aittir (K006 sınırı, `v2.md §2.6`).
 5. **UI/frontend testi** — arayüz testi K006 dışıdır (AI çıktısını gösteren ekran testi ayrı sahiptir).
 
 ## 3. Disk kanıtları
@@ -144,7 +144,7 @@ group: mimari
 |---|---|---|---|
 | S-1 | Model kalite metrikleri (NDCG · drift · A/B) **K006.9 testi değildir** — evaluation'a aittir | Kapsam ayrımı §2 maddesi 1; evaluation ayrı kademe-2 dal | `.ai/architecture/K006-yapay-zeka/ai-master.md` §3 (L142, K006.2 satırı) |
 | S-2 | Guardian/6-axis gate **kararı** testin işi değildir; test yalnız girdi üretir | `yapay-zeka-dogrulama.md` kapsamı | `.ai/architecture/K006-yapay-zeka/yapay-zeka-dogrulama.md` §1 (L38) |
-| S-3 | K016-AI ajan testleri K006 dışındadır | Sınır: K006 ↔ K016 (karar K-03) | `.ai/architecture/K006-yapay-zeka/yapay-zeka-kararlar.md` §A K-03 (L56) |
+| S-3 | K015-AI ajan testleri K006 dışındadır | Sınır: K006 ↔ K016 (karar K-03) | `.ai/architecture/K006-yapay-zeka/yapay-zeka-kararlar.md` §A K-03 (L56) |
 | S-4 | UI/frontend testi (ekran, E2E tarayıcı) K006 dışıdır | Alt alan yalnız AI kod testi | `ai-master.md` §2.2 (L112) |
 | S-5 | Test altyapısı PHP tarafında PHPUnit ile yazılır; Python tarafı (pytest) **adaydır, kurulmadı** | composer.json kanıtı; pytest kök havuzda aday | `shared/composer.json` L24 (`phpunit/phpunit ^10.5`) · kök `yapay-zeka-web-arastirma.md` §2.8 (L125) |
 | S-6 | `shared/tests/` alt klasör düzeni korunur; AI testleri yeni bir `tests/AI/` alt dizinine **konmaz** (nereye konacağı UNKNOWN) | Test yeri kararı açık (open question 1) | `shared/tests/` 9 dizin: Api · Component · Events · Fixtures · Middleware · OAuth · Repository · Security · Unit (2026-10-15 dizin okuması) |

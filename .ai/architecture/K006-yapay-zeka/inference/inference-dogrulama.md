@@ -333,7 +333,7 @@ group: kanit
 | 4 | Aday teknoloji seçimi YAPILMADI (envanter var, karar yok) | ai-master.md · §11.1 @318 | ✅ okundu |
 | 5 | UNKNOWN listesi ai-master §11.2'dedir | ai-master.md · §11.2 @348 | ✅ okundu |
 | 6 | Uygulama yol haritası ai-master §18'dedir (faz sırası K-14) | ai-master.md · §18 @512 | ✅ okundu |
-| 7 | inference anayasasında K016-AI kapsam dışıdır | inference-anayasa.md · §8 @139 | ✅ okundu |
+| 7 | inference anayasasında K015-AI kapsam dışıdır | inference-anayasa.md · §8 @139 | ✅ okundu |
 | 8 | inference dışa kapısı çağrı sözleşmesidir | inference-anayasa.md · §12 @200 | ✅ okundu |
 | 9 | gecikme/timeout bütçesi anayasa §13'tedir | inference-anayasa.md · §13 @218 | ✅ okundu |
 | 10 | cache/batch/usul anayasa §14'tedir | inference-anayasa.md · §14 @237 | ✅ okundu |

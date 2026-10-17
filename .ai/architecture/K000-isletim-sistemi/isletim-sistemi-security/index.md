@@ -80,12 +80,12 @@ group: mimari
 |---|---|---|---|
 | `cekirdek-guvenlik` | `isletim-sistemi-kernel` | Cekirdek mekanizmasinin **kullanim modeli** | Cekirdek ici yapisi, surucu kodu yazimi, kernel patch politikasi |
 | `cekirdek-guvenlik` | `K009-security` | Enjeksiyon sinirlama etkisi (seccomp/capability) | OWASP denetimi, kripto algoritma secimi (ADR-022) |
-| `yetki-ve-erisim-modeli` | `K010-identitiy` | Oturum dosyasinin **OS kisiti** (dizin `0750`, TTY sahipligi) | Oturum is mantigi, login, session fixation, MFA akisi |
+| `yetki-ve-erisim-modeli` | `K0100-identitiy` | Oturum dosyasinin **OS kisiti** (dizin `0750`, TTY sahipligi) | Oturum is mantigi, login, session fixation, MFA akisi |
 | `yetki-ve-erisim-modeli` | `isletim-sistemi-core` | Izin **denetim akisi** (DAC/MAC/ACL -> allow/deny) | Izin kavraminin tanimi, dosya modeli kararlari |
 | `uygulama-guvenlik-siniri` | `K009-security` | Uygulama <-> OS **sinir isaretleme** | Uygulama OWASP denetimi, CSRF tasarimi, rate limit politikasi |
 | `uygulama-guvenlik-siniri` | `isletim-sistemi-runtime` | Sandbox **calisma zamani modeli** | Sandbox kurulumu, politika yazimi |
 
-> **K010 ayrimi (baglayici):** Bu dal **OS duzeyi guvenlik + uygulama-OS sinirini** kapsar; kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy`.
+> **K010 ayrimi (baglayici):** Bu dal **OS duzeyi guvenlik + uygulama-OS sinirini** kapsar; kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy`.
 > **K009 ayrimi (baglayici):** OWASP Top 10 denetimi, auth/CSRF/CSP tasarimi, kripto secimi ve rate limit politikasi -> `K009-security` + ADR-010/013/022.
 
 ## Acik sorular (kapatilmaz)

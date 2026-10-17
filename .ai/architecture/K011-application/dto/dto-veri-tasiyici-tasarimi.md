@@ -44,7 +44,7 @@ alan objeleri ve repository dizileri doğrudan HTTP'ye çıkmaz.
 |---|---|---|---|
 | 1 | Request DTO | Girdi alanları, factory (`fromArray`) | Doğrulama kuralları (usecase §9) |
 | 2 | Response DTO | Çıktı alanları, `toArray()` | Cache'leme (caching dosyası) |
-| 3 | Serileştirme | JSON biçimi, tip dönüşümü | Taşıma protokolü (K014-network) |
+| 3 | Serileştirme | JSON biçimi, tip dönüşümü | Taşıma protokolü (K010-network) |
 | 4 | Alan adlandırma | camelCase kuralı | Şema versiyonlama (K012) |
 | 5 | Eksik/null ayrımı | Alan politikası | Veritabanı nullable (K005) |
 | 6 | Sayfalama | Hesap formülü ve sınırlar | Liste kaynakları (domain) |
@@ -476,7 +476,7 @@ canlıda olması demektir; kaldırma kararı **UNKNOWN** (§15 #5).
 | HTTP kodu seçimi | `routing` §12 · `usecase` §10 | Kod listesi başka dosyada |
 | Doğrulama kurallarının içeriği | `usecase` §9 | Sıra burada, içerik orada |
 | Cache'leme / ETag | `caching/caching-uygulama-seviyesi-cache` | Bayrak routing'de |
-| Session/JWT claim taşıma | `K010-identitiy/session` | Kimlik ayrı K |
+| Session/JWT claim taşıma | `K0100-identitiy/session` | Kimlik ayrı K |
 | Şema/alan tipleri (DB) | `K005-data` | Kaynak tipleri ayrı |
 | Log maskeleme | `K013-audit` | Yalnız dışa aktarım kuralı burada |
 | OpenAPI şeması | `K012-integraion` | Sözleşme dışa aktarımı ayrı |

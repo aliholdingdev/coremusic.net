@@ -192,7 +192,7 @@ group: mimari
 |---|---|
 | Yeni middleware | pipeline'a ekle; Dosya·Satır kanıtı bu dosyaya B-kaydı olarak girer |
 | Yeni kripto primitive | ADR zorunlu (kararlar.md K-xx); OWASP/NIST kaynağı web-arastirma |
-| K010 sınırı geçişi | Kimlik ile ilgili bileşen eklemek → K010-identitiy onayı |
+| K010 sınırı geçişi | Kimlik ile ilgili bileşen eklemek → K0100-identitiy onayı |
 | Dalga-3 çocuk | input-validation/audit/threat-model/security-testing/policies bileşenleri bu §3 listesinden beslenir |
 | Kanıtsız bileşen | §6 tablosuna KANIT YOK olarak yazılır; silinmez/gizlenmez |
 

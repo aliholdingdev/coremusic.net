@@ -9,10 +9,10 @@ depends_on:
   - "K006-yapay-zeka"
   - "K007-data"
   - "K008-domain"
-  - "K010-identitiy"
+  - "K0100-identitiy"
   - "K013-integraion"
-  - "K014-network"
-  - "K015-media"
+  - "K010-network"
+  - "K014-media"
 evidence:
   - "v2 §2.12 çocuk adları (birebir, 2026-10-12)"
   - "2026-10-12 beyanları"
@@ -54,13 +54,13 @@ group: mimari
 
 | # | Hedef düğüm | Ne için (ELI15) | Bağımlılık tipi | Risk |
 |---|---|---|---|---|
-| 1 | K006-yapay-zeka / K016-AI | ai-service'in arkasındaki YZ yeteneği | yetenek çağrısı | **Hangisi belli değil** ⚠️ (registry §6) |
+| 1 | K006-yapay-zeka / K015-AI | ai-service'in arkasındaki YZ yeteneği | yetenek çağrısı | **Hangisi belli değil** ⚠️ (registry §6) |
 | 2 | K007-data | Kalıcı veri okuma/yazma | veri erişimi | Şema kararı K007'de kalmalı |
 | 3 | K008-domain | İş kuralı ve model | kural tüketimi | Servis kuralı **üretirse** ihlal |
-| 4 | K010-identitiy | Kullanıcı/cihaz kimliği | kimlik tüketimi | device-identity sahipliği belirsiz ⚠️ |
+| 4 | K0100-identitiy | Kullanıcı/cihaz kimliği | kimlik tüketimi | device-identity sahipliği belirsiz ⚠️ |
 | 5 | K013-integraion | Dış sistem kontratları | kontrat | Servis protokolü elle konuşmamalı |
-| 6 | K014-network | Servisler arası taşıma | taşıma | Taşıma biçimi UNKNOWN ⚠️ |
-| 7 | K015-media | Kitaplık/metadata/akış verisi | veri okuma | İki gerçeklik riski (playback sahipliği) |
+| 6 | K010-network | Servisler arası taşıma | taşıma | Taşıma biçimi UNKNOWN ⚠️ |
+| 7 | K014-media | Kitaplık/metadata/akış verisi | veri okuma | İki gerçeklik riski (playback sahipliği) |
 
 ## §2 Gelen bağımlılıklar (used_by ←)
 
@@ -76,10 +76,10 @@ group: mimari
 |---|---|---|---|---|
 | 1 | Kalıcılık | servis ↔ veri | K007-data | ⚠️ UNKNOWN (repository/ORM biçimi) |
 | 2 | Kural | servis ↔ domain | K008-domain | ⚠️ UNKNOWN (çağrı biçimi) |
-| 3 | Kimlik | servis ↔ kimlik | K010-identitiy | ⚠️ UNKNOWN (token/oturum biçimi) |
+| 3 | Kimlik | servis ↔ kimlik | K0100-identitiy | ⚠️ UNKNOWN (token/oturum biçimi) |
 | 4 | Dış dünya | integration-service ↔ adaptör | K013-integraion | ⚠️ UNKNOWN (kontrat biçimi) |
-| 5 | Taşıma | servis ↔ ağ | K014-network | ⚠️ UNKNOWN (protokol seti) |
-| 6 | Medya | servis ↔ kitaplık/akış | K015-media | ⚠️ UNKNOWN (görünüm sözleşmesi) |
+| 5 | Taşıma | servis ↔ ağ | K010-network | ⚠️ UNKNOWN (protokol seti) |
+| 6 | Medya | servis ↔ kitaplık/akış | K014-media | ⚠️ UNKNOWN (görünüm sözleşmesi) |
 | 7 | Arayüz | uygulama ↔ servis | K011-application | ⚠️ UNKNOWN (çağrı biçimi) |
 
 ### §3.1 Sınır kuralı (Dependency Rule — bu domain için)
@@ -109,11 +109,11 @@ group: mimari
 2. Yeni bağımlılık = yeni entegrasyon sınırı (§3 + §3.1) ve risk satırı (§4).
 3. Etiket zorunlu: her satır TASARIM İDDİASI, ✅ verified veya ⚠️ ile işaretli.
 4. "Kesin öyle" cümlesi bu dosyada **yazılmaz** (Truth Mode).
-5. v2'de geçen adlar imla düzeltmesi yapılmadan yazılır (K010-identitiy dahil).
+5. v2'de geçen adlar imla düzeltmesi yapılmadan yazılır (K0100-identitiy dahil).
 
 ## §6 Giden Bağımlılık Detayları (7 kapı)
 
-### §6.1 K006-yapay-zeka / K016-AI → ai-service
+### §6.1 K006-yapay-zeka / K015-AI → ai-service
 
 | Alan | Değer | Etiket |
 |---|---|---|
@@ -147,11 +147,11 @@ group: mimari
 | Bilinmeyen | çağrı biçimi (arayüz adı) | ⚠️ UNKNOWN (§3/2) |
 | Denetim | kural üretimi tespiti → ihlal kaydı | bekliyor |
 
-### §6.4 K010-identitiy
+### §6.4 K0100-identitiy
 
 | Alan | Değer | Etiket |
 |---|---|---|
-| Hedef | K010-identitiy (yazım korunur) | ✅ verified (v2 §3 imla kuralı) |
+| Hedef | K0100-identitiy (yazım korunur) | ✅ verified (v2 §3 imla kuralı) |
 | Ne için | kullanıcı/cihaz kimliği tüketimi | TASARIM İDDİASI |
 | Bağımlılık tipi | kimlik tüketimi | TASARIM İDDİASI |
 | Bilinmeyen | device-identity sahipliği (device-service mi K010 mu) | ⚠️ (Q6) |
@@ -169,22 +169,22 @@ group: mimari
 | Bilinmeyen | kontrat biçimi | ⚠️ UNKNOWN (§3/4) |
 | Kapsam dışı | K013'e yazma yasağı (görev kapsamı) | ✅ verified (görev kuralı) |
 
-### §6.6 K014-network
+### §6.6 K010-network
 
 | Alan | Değer | Etiket |
 |---|---|---|
-| Hedef | K014-network | ✅ verified (v2 §2.12 adı) |
+| Hedef | K010-network | ✅ verified (v2 §2.12 adı) |
 | Ne için | servisler arası taşıma | TASARIM İDDİASI |
 | Bağımlılık tipi | taşıma | TASARIM İDDİASI |
 | Bilinmeyen | taşıma biçimi (HTTP? queue? CLI?) | ⚠️ UNKNOWN (Q9) |
 | İlişki | K014 bu görevin ikinci kökü — derinleştirme sırası | ✅ verified (görev planı) |
 | Döngü riski | K014→K012 bağımlılığı varsa çift yön | §9 — DAG denetimi bekliyor |
 
-### §6.7 K015-media
+### §6.7 K014-media
 
 | Alan | Değer | Etiket |
 |---|---|---|
-| Hedef | K015-media | ✅ verified (v2 §2.12 adı) |
+| Hedef | K014-media | ✅ verified (v2 §2.12 adı) |
 | Ne için | kitaplık/metadata/akış verisi okuma | TASARIM İDDİASI |
 | Bağımlılık tipi | veri okuma | TASARIM İDDİASI |
 | Bilinmeyen | görünüm sözleşmesi (ne okunuyor) | ⚠️ UNKNOWN (§3/6) |
@@ -246,7 +246,7 @@ group: mimari
 
 | Alan | Değer |
 |---|---|
-| Sahip | K010-identitiy |
+| Sahip | K0100-identitiy |
 | Arayüz adı | ⚠️ UNKNOWN (token/oturum biçimi) |
 | Geçiş | servis → kimlik doğrulama → K010 |
 | Kural | kimlik doğrulama middleware'de (PSR-15 iddiası — Q8) |
@@ -266,7 +266,7 @@ group: mimari
 
 | Alan | Değer |
 |---|---|
-| Sahip | K014-network |
+| Sahip | K010-network |
 | Arayüz adı | ⚠️ UNKNOWN (protokol seti) |
 | Geçiş | servis → taşıma katmanı → K014 |
 | Repo kanıtı | yalnız `.htaccess`/`web.config` yönlendirme (S1) |
@@ -276,7 +276,7 @@ group: mimari
 
 | Alan | Değer |
 |---|---|
-| Sahip | K015-media |
+| Sahip | K014-media |
 | Arayüz adı | ⚠️ UNKNOWN (görünüm sözleşmesi) |
 | Geçiş | servis → medya verisi → K015 |
 | Repo kanıtı | `MusicStreamHandler.php` (MIME/Range) — K015 ortak kanıtı |
@@ -422,7 +422,7 @@ yazılmadı (Truth Mode).
 | # | Soru | Cevap |
 |---|---|---|
 | 1 | Bu dosyadaki satırlar bağlayıcı mı? | Hayır — TASARIM İDDİASI; onay + ADR ister |
-| 2 | İmla hataları düzeltilebilir mi? | Hayır — v2 adları dokunulmaz (K010-identitiy dahil) |
+| 2 | İmla hataları düzeltilebilir mi? | Hayır — v2 adları dokunulmaz (K0100-identitiy dahil) |
 | 3 | Yeni bağımlılık eklenebilir mi? | Evet — §5 kuralı: onay + ADR + §3/§4 kaydı |
 | 4 | Bağımlılık silinebilir mi? | Aynı onay zinciri; silme de değişikliktir |
 | 5 | Kanıt nerede? | `services-dogrulama.md` (§13 haritası) |
@@ -441,7 +441,7 @@ yazılmadı (Truth Mode).
 | risk kaydı | §10'daki 7 madde — her biri Q1–Q6'ya bağlı |
 | dönüş oku | dış node'dan K012'ye gelen ok (§2) |
 | çift yön | iki node arasındaki karşılıklı bağımlılık — döngü riski |
-| imla kilidi | v2 adlarının değişmezliği (K010-identitiy vb.) |
+| imla kilidi | v2 adlarının değişmezliği (K0100-identitiy vb.) |
 | tur-3 | kapıların tek tek doğrulanacağı planlı sonraki tur |
 
 ## §21 Komşu Dosyalarla Senkron
@@ -466,7 +466,7 @@ Senkron kuralı: bir dosyada bağımlılık satırı değişirse §5 onay zincir
 | 2 | group quoted mı | hayır — `group: mimari` anahtar kelime |
 | 3 | `parent:` anahtarı var mı | hayır (yalnız `parent_id:`) |
 | 4 | TASARIM İDDİASI etiketi korundu mu | evet (başlık + §0 + §5) |
-| 5 | imla hataları korundu mu | evet (K010-identitiy, K013-integraion) |
+| 5 | imla hataları korundu mu | evet (K0100-identitiy, K013-integraion) |
 | 6 | dolu olmayan hücre var mı | hayır — bilinmeyenler `⚠️ UNKNOWN` yazılı |
 | 7 | mojibake var mı | hayır (2026-10-13 sayımı 0) |
 | 8 | son satır authority mi | evet (§23) |

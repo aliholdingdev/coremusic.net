@@ -127,7 +127,7 @@ footer `Authority: Bayram Ali / Vault Steward`.
 | 1 | `android/` kalan 4 dosya + `index.md` | her dosya ≥500 satır · 10 alan · URL kesişim 0 · index 40–100 satır + §GRUPLAR 7 satır | DEVAM |
 | 2 | `ios/` (6 + index) | `-coreaudio-stacki` (depends_on `K003-audio`) · `-audio-session` · `-audio-unit-ve-avaudioengine` · `-background-ve-lifecycle` · `-kod-ornekleri` · `-web-arastirma` · 56 URL · **2×404 URL hariç** | BEKLEMEDE |
 | 3 | `tizen/` (6 + index) | `-multimedia-stacki` · `-audio-api` (depends_on `isletim-sistemi-api`) · `-kernel-ve-surucu` · `-app-ve-lifecycle` · `-kod-ornekleri` · `-web-arastirma` · 77 URL | BEKLEMEDE |
-| 4 | `webos/` (6 + index) | `-multimedia-stacki` · `-audio-pipeline` · `-gstreamer-entegrasyonu` (depends_on `K015-media`) · `-app-ve-lifecycle` · `-kod-ornekleri` · `-web-arastirma` · 97 URL | BEKLEMEDE |
+| 4 | `webos/` (6 + index) | `-multimedia-stacki` · `-audio-pipeline` · `-gstreamer-entegrasyonu` (depends_on `K014-media`) · `-app-ve-lifecycle` · `-kod-ornekleri` · `-web-arastirma` · 97 URL | BEKLEMEDE |
 | 5 | parent `isletim-sistemi-turu/index.md` + final rapor | `children`'a 5 klasör + §GRUPLAR'a 5 satır · silme YOK · rapor formatı `✅ YENİ PLATFORM DERİN-DAL TAMAM` · **commit ATILMADI** | BEKLEMEDE |
 
 **Kapanış notu:** İş bittiğinde ölçüm olmadan "tamamlandı" denmez (§2). Her klasör

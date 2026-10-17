@@ -23,7 +23,7 @@ group: kanit
 
 # ai-service — Web Araştırması (K012)
 
-> **Konu:** Q1 — ai-service K012 servis katmanının arkasındaki YZ yeteneği K006-yapay-zeka mı, K016-AI mı?
+> **Konu:** Q1 — ai-service K012 servis katmanının arkasındaki YZ yeteneği K006-yapay-zeka mı, K015-AI mı?
 > (services-master.md §7/1 · services-dogrulama.md §4/Q1 → `UNKNOWN` · ai-service-kapsam.md §5/R1)
 >
 > **Yöntem:** 4 başlık → birincil/resmi kaynak → HTTP HEAD 200 (2026-10-16) → kesişim testi.
@@ -108,7 +108,7 @@ içerik okuması yapılmadığı için "hangi düğüm" iddiası tek başına ka
   `[[ai-service/ai-service-dogrulama]]` · `[[ai-service/ai-service-ornekler]]`
 - **Çapraz referans:** `services-master.md` §7/1 · `services-dogrulama.md` §4/Q1 ve §5 ·
   `ai-service-kapsam.md` §5/R1.
-- **Bu dosyada DEĞİL:** K016-AI kapsamlı okuma, sayfa içeriği/idddia çıkarma, repo kod çapraz bağ.
+- **Bu dosyada DEĞİL:** K015-AI kapsamlı okuma, sayfa içeriği/idddia çıkarma, repo kod çapraz bağ.
 
 ---
 

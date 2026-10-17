@@ -42,7 +42,7 @@ group: kod
 | O5 | Katman isareti zorunlu | Her ornek `uygulama` / `OS` / `her ikisi` etiketi tasir |
 | O6 | S1/S2 kapatilmaz | Ornekler mevcut durumu gosterir; hedef mimari karari degildir |
 
-> **K010 ayrimi (baglayici):** Bu dosya **OS duzeyi guvenlik + uygulama-OS guvenlik sinirini** kapsar. **Kimlik dogrulama, oturum (session), sifre ve MFA** -> `K010-identitiy` alt-dalinin konusudur; burada yalnizca bunlarin **OS dosya sistemi/surec kisitlari** (or. oturum dosyasi dizini `0750`) ele alinir — oturum is mantigina girilmez.
+> **K010 ayrimi (baglayici):** Bu dosya **OS duzeyi guvenlik + uygulama-OS guvenlik sinirini** kapsar. **Kimlik dogrulama, oturum (session), sifre ve MFA** -> `K0100-identitiy` alt-dalinin konusudur; burada yalnizca bunlarin **OS dosya sistemi/surec kisitlari** (or. oturum dosyasi dizini `0750`) ele alinir — oturum is mantigina girilmez.
 
 > **K009 ayrimi (baglayici):** Bu dosya **uygulama guvenliginin** degil, **OS duzeyi guvenliginin ve uygulama-OS sinirinin** ornekleridir. OWASP Top 10 denetimi, auth/CSRF/CSP tasarimi, kripto algoritma secimi (AES-256-GCM, Argon2id) ve rate limit politikasi -> `K009-security` + ilgili ADR'ler (ADR-010/013/022).
 
@@ -655,7 +655,7 @@ Select-Object -Index 59
 |---|---|
 | Ne yapar? | Oturum kimligini yeniler ve eski dosyayi siler (`true`) — session fixation karsiti |
 | Katman | **uygulama** |
-| K010 siniri | Is mantigi `K010-identitiy`'de; bu dosyada yalnizca **kimligin dosya sistemindeki karsiligi** (§1.1 `0750`) ele alinir |
+| K010 siniri | Is mantigi `K0100-identitiy`'de; bu dosyada yalnizca **kimligin dosya sistemindeki karsiligi** (§1.1 `0750`) ele alinir |
 
 ## §7 — Middleware zinciri ornegi (sira nasil kurulur?)
 
@@ -728,7 +728,7 @@ Select-Object -Index 31
 |---|---|---|
 | X1 | Kod degisikligi / refactor | Yetkisiz — beyazliste `.md` ile sinirli |
 | X2 | OWASP denetimi yurutulmesi | `K009-security` |
-| X3 | Oturum/MFA akisi tanimi | `K010-identitiy` |
+| X3 | Oturum/MFA akisi tanimi | `K0100-identitiy` |
 | X4 | ADR yazimi | Mimari sahibi (yeni ise `>=088`) |
 | X5 | OS araci kurulumu | S1 karari — `[UNKNOWN]` |
 | X6 | Sizma testi senaryosu | `K019-testing` |

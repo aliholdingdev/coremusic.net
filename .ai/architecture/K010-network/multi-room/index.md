@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/multi-room
+node_id: K010-network/multi-room
 node_type: subdomain
 status: draft
-parent_id: K014-network
+parent_id: K010-network
 children: []
 depends_on: []
 evidence:
@@ -19,7 +19,7 @@ group: mimari
 ---
 
 
-# multi-room — K014-network (kademe-2 · subdomain)
+# multi-room — K010-network (kademe-2 · subdomain)
 
 **ELI15:** Birden fazla odada/şehirde çalmanın zaman hizasını koruma.
 

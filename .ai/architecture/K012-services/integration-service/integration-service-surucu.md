@@ -241,7 +241,7 @@ Dinleyici adı **uydurulmaz**; boşluk boş bırakılır.
 |---|---|---|
 | K013 kontrat detayı / HTTP | protokol sahipliği K013 | K013-integraion (beyazliste dışı) |
 | Adaptör uygulaması | K013 | K013-integraion |
-| Ağ/timeout/retry | K014 | K014-network (bu görevde ayrı işlenir) |
+| Ağ/timeout/retry | K014 | K010-network (bu görevde ayrı işlenir) |
 | Event tanım kodu (birebir) | rol | anayasa §4–§9 + ornekler |
 | Kademe-3 BC kapsamı | faz C | ADR-097 K4 |
 

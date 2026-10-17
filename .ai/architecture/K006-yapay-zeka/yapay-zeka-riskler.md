@@ -15,7 +15,7 @@ children:
   - K006.9-testing
 depends_on:
   - K004-shared
-  - K016-AI
+  - K015-AI
 evidence:
   - "shared/src/AI/AIEngine.php L49–77, L84–86, L209–218, L315–330 (2026-10-12)"
   - "shared/src/AI/AIWorkflow.php L49–91 (JSON_THROW_ON_ERROR L70, prompt L66–72)"

@@ -82,7 +82,7 @@ ve o tanımın üstüne çizen araçlar doküman/istemci/sunucu iskeleti üreteb
 | **3** | **`K013-integraion/api-contracts/openapi`** | **Sözleşmenin yazıldığı somut standart: OpenAPI** |
 
 **Yukarı bağımlılık (depends_on):** `K013-integraion/api-contracts` → `K013-integraion` → `K007-data` (veri tipi karşılığı) ·
-**Aşağı kullanım (used_by):** `K012-services` (dış API çağrısı) · `K014-network` (HTTP taşıma) · `K011-application` (dış çağrı Sözleşmesi) ·
+**Aşağı kullanım (used_by):** `K012-services` (dış API çağrısı) · `K010-network` (HTTP taşıma) · `K011-application` (dış çağrı Sözleşmesi) ·
 Kademe-2 kardeşleri: `adapters` · `external-systems` · `event-contracts` · `protocol-adapters` · `synchronization` · `error-handling` · `integration-testing`.
 
 ---

@@ -468,7 +468,7 @@ doğrulama + DeviceCssMap. Bu dosya yalnız okunanı kopyalar; okumadığına ko
 | device-service/index.md | künye |
 | services-master.md §21.6 | kart |
 | services-bagimliliklar.md §1 · §17 | bağımlılık |
-| K010-identitiy | device-identity (Q6) |
+| K0100-identitiy | device-identity (Q6) |
 
 ## §18 Doğrulama Özeti
 

@@ -107,7 +107,7 @@ bileşen yoktur**.
 | Bileşen | İlişki |
 |---|---|
 | K006.3-recommendation | kişiselleştirme, önerinin **girdi katmanıdır** (profil→skor); bugün ikisi de boş skorlayıcıya dayanır |
-| K016-AI (dış) | MemorySystem oturum verisi → profil kaynağı olabilir; **sahiplik 3-way açık soru** |
+| K015-AI (dış) | MemorySystem oturum verisi → profil kaynağı olabilir; **sahiplik 3-way açık soru** |
 | K006.8-evaluation | profil kalitesi/drift ölçümü K006.8'e düşer — bugün metrik yok |
 | K007-data (dış) | profil tablosu BCNF şema ile Data Engineer sahipliğinde olmalı (tasarım iddiası) |
 

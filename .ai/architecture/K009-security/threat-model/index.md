@@ -14,7 +14,7 @@ children:
   - threat-model-web-arastirma
 depends_on:
   - K009-security/security-master
-  - K014-network
+  - K010-network
 evidence:
   - "v2 §2.9 satır 327 (ad) — STRIDE + attack.mitre.org / CWE eşlemesi"
   - ".ai/.decisions/accepted/ADR-010-csrf-protection-strategy.md (accepted)"
@@ -70,9 +70,9 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik deposu ve kimlik modeli tehditleri | `K010-identitiy` | Yalnız sınır referansı |
+| Kimlik deposu ve kimlik modeli tehditleri | `K0100-identitiy` | Yalnız sınır referansı |
 | OS/kernel/boot tehditleri | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
-| Ağ tehditleri (DDoS, MITM) | `K014-network` | Yalnız entegrasyon |
+| Ağ tehditleri (DDoS, MITM) | `K010-network` | Yalnız entegrasyon |
 
 ## §5 BAĞLANTILAR
 
@@ -81,7 +81,7 @@ group: mimari
 | `security-master` (parent) | yukarı | domen anayasası |
 | tüm K009 çocukları | hedef | kontrol ataması |
 | `security-testing` | sonrası | tehdit → test senaryosu |
-| `K014-network` | kardeş | ağ katmanı tehditleri |
+| `K010-network` | kardeş | ağ katmanı tehditleri |
 
 | İddia | URL | 2026-10-13 | Durum |
 |---|---|---|---|

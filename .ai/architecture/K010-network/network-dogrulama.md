@@ -1,5 +1,5 @@
 ---
-node_id: K014-network
+node_id: K010-network
 node_type: domain
 role: dogrulama
 status: draft
@@ -11,7 +11,7 @@ group: kanit
 ---
 
 
-# K014-network — network-dogrulama.md
+# K010-network — network-dogrulama.md
 
 > Bu belge **kanıt defteridir**: neyin doğrulandığı, neyin beklemede olduğu.
 > Doğrulanmayan hiçbir iddia "verified" sayılmaz.
@@ -79,7 +79,7 @@ group: kanit
 
 ## §6 Kapı tanımı (bu dosyanın geçerlilik sınırı)
 
-1. Bu belge yalnız K014-network'ü kapsar; kardeş domain dosyalarına iddia **taşıtmaz**.
+1. Bu belge yalnız K010-network'ü kapsar; kardeş domain dosyalarına iddia **taşıtmaz**.
 2. §2/1 (WebRTC URL) kapanmadan §4/1 "verified" sayılmaz.
 3. Yeni kanıt = yeni satır (§3), mevcut satırın **üzerine yazma** (append-only).
 
@@ -313,11 +313,11 @@ group: kanit
 |---|---|---|---|
 | 1 | K001-donanım | donanım düğümü var | v2 §2.1 (S2) |
 | 2 | K009-security | güvenlik düğümü var | v2 §2.9 (S2) |
-| 3 | K010-identitiy | kimlik düğümü var (imla korundu) | v2 §2.10 (S2) |
+| 3 | K0100-identitiy | kimlik düğümü var (imla korundu) | v2 §2.10 (S2) |
 | 4 | K011-application | uygulama düğümü var | v2 §2.11 (S2) |
 | 5 | K012-services | servisler düğümü var | v2 §2.12 (S2) |
 | 6 | K013-integraion | entegrasyon düğümü var (imla korundu) | v2 §2.13 (S2) |
-| 7 | K015-media | medya düğümü var | v2 §2.15 (S2) |
+| 7 | K014-media | medya düğümü var | v2 §2.15 (S2) |
 | 8 | K017-observability | gözlem düğümü var | v2 §2.17 (S2) |
 | 9 | K019-testing | test düğümü var | v2 §2.19 (S2) |
 
@@ -329,7 +329,7 @@ group: kanit
 
 | # | v2 §2.14 ifadesi | K014 karşılığı | Eşleşme |
 |---|---|---|---|
-| 1 | "Bağlantı kablolarının yazılımı" | K014-network master §1 | ✅ |
+| 1 | "Bağlantı kablolarının yazılımı" | K010-network master §1 | ✅ |
 | 2 | comms (5 torun) | comms/* (http · websocket · webrtc · tcp-ip · device-communication) | ✅ |
 | 3 | connectivity | connectivity/ | ✅ |
 | 4 | service-discovery | service-discovery/ | ✅ |
@@ -351,7 +351,7 @@ group: kanit
 
 ---
 
-## §20 Kanıt — Disk Envanteri (K014-network · 2026-10-13 ölçümü)
+## §20 Kanıt — Disk Envanteri (K010-network · 2026-10-13 ölçümü)
 
 | # | Dosya | Satır | Rol | Kanıt sınıfı |
 |---|---|---|---|---|

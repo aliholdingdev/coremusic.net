@@ -234,7 +234,7 @@ bu kartın karakteridir.
 ## §4 Sınır cümleleri
 
 > **K010 ayrımı (bağlayıcı):** Kimlik doğrulama, oturum, parola ve MFA →
-> `K010-identitiy`; burada yalnız Node.js'in OS'e açılan izin/süreç yüzeyi taşınır.
+> `K0100-identitiy`; burada yalnız Node.js'in OS'e açılan izin/süreç yüzeyi taşınır.
 > **K009 ayrımı (bağlayıcı):** OWASP denetimi, auth/CSRF/CSP tasarımı, kripto
 > seçimi (ADR-022) → `K009-security`; bu kart yalnız dil × OS matrisini taşır.
 > **Komşu alt-dal:** OS geneli anlatımı `isletim-sistemi-turu/*`, sistem

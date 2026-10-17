@@ -95,6 +95,18 @@ riskler) · `audio-dogrulama.md` (iddia·URL·tarih·durum + D-kriterleri) ·
 | mimari | `audio-dil-kapsami.md` | 4 dil grubu × 12 çocuk kapsama matrisi (48 hücre, tümü [TASARIM]) · **2026-10-14 eklendi** | Kademe-1 |
 | kanit | `audio-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
 
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | platform ses API leri |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ses donanimi (DAC/ADC/cihaz) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ses devresi ve analog zincir |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP efekt zinciri |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | ses firmware kontrol kanallari |
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12 · son hizalama 2026-10-14 · Red Team · Truth Mode

@@ -123,6 +123,23 @@ Kaynak kanıtları: [`os-dogrulama.md`](os-dogrulama.md) · Bağımlılık: [`os
 | mimari | `isletim-sistemi-turu/tizen/tizen-guvenlik.md` | OS güvenlik profili — K000↔K009 sınırı (254 satır · 6 URL · 2026-10-15) | Kademe-3 |
 | mimari | `isletim-sistemi-turu/reactos/reactos-guvenlik.md` | OS güvenlik profili — K000↔K009 sınırı (257 satır · 6 URL · 2026-10-15) | Kademe-3 |
 
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | elektronik donanim siniri |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | platform ses API leri (WASAPI/ALSA/CoreAudio) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | gercek-zamanli zamanlama kisitlari |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | boot ve firmware yasam dongusu |
+| K007-data | [[K007-data]] | ../K007-data/index.md | sistem ayarlari ve telemetri kalicliligi |
+| K009-security | [[K009-security]] | ../K009-security/index.md | cekirdek guvenlik modeli |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ag yiginı socket arayuzleri |
+| K011-application | [[K011-application]] | ../K011-application/index.md | uygulama surec modeli |
+| K012-services | [[K012-services]] | ../K012-services/index.md | servis surec bagimliliklari |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | entegrasyon protokolleri |
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

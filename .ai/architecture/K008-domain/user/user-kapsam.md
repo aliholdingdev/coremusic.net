@@ -29,8 +29,8 @@ değil** (bkz. §2 satır 4).
 
 | # | İçinde (bu dal) | Dışında | Sınır komşusu |
 |---|---|---|---|
-| 1 | Kullanıcı **kavramı**: id · username · displayName · avatar · gender | Parola, oturum, JWT, kimlik doğrulama | K010-identitiy (master §2.1 satır 55) |
-| 2 | Olaylardaki `userId` kimliğinin anlamı (kim ekledi/beğendi/çaldı) | Yetki/rol **tanımı** (`roles` alanı burada taşınır, anlamı K010'un) | K010-identitiy |
+| 1 | Kullanıcı **kavramı**: id · username · displayName · avatar · gender | Parola, oturum, JWT, kimlik doğrulama | K0100-identitiy (master §2.1 satır 55) |
+| 2 | Olaylardaki `userId` kimliğinin anlamı (kim ekledi/beğendi/çaldı) | Yetki/rol **tanımı** (`roles` alanı burada taşınır, anlamı K010'un) | K0100-identitiy |
 | 3 | Kullanıcı kavramının playlist'ten ayrı tanımı | Liste sahipliği/ortaklık kuralı | playlist (master §1 satır 41) |
 | 4 | Kullanıcı kavramının kütüphaneden ayrı tanımı | Koleksiyon içeriği | library (master §1 satır 41) |
 | 5 | Cinsiyet/görünen ad gibi profil alanlarının **kavramı** | Profilin şemada saklanması | K007-data (bagimliliklar §3/1) |
@@ -52,7 +52,7 @@ adlarını** (ubiquitous language) sahiplenir, tabloyu değil.
 | 7 | Invariant | **tanımsız** (ör. username benzersizliği kimin kuralı?) | ⚠️ VERIFICATION REQUIRED |
 
 **Yasak:** yetki/rol sözlüğü, kimlik doğrulama kuralı ve parola politikası bu dosyada
-**uydurulmaz** — bunlar `master §2.1` gereği K010-identitiy'nindir.
+**uydurulmaz** — bunlar `master §2.1` gereği K0100-identitiy'nindir.
 
 ## §4 Disk kanıtları
 
@@ -64,7 +64,7 @@ adlarını** (ubiquitous language) sahiplenir, tabloyu değil.
 | 4 | Kullanıcı DTO'su 7 alanlı (`id·username·email·displayName·avatar·gender·roles`) | `shared/src/Api/Dto/Response/UserResponse.php` satır 20–26 | ✅ shell ile okundu |
 | 5 | `gender` varsayılanı `neutral` (fromArray) | aynı dosya satır 96 | ✅ shell ile okundu |
 | 6 | 4 kullanıcı domain event'i gerçek: UserRegistered · UserLoggedIn · UserLoggedOut · GenderSet | `shared/src/Events/Domain/` (4 dosya, shell sayımı 2026-10-12) | ✅ shell ile okundu |
-| 7 | Yetki/rol tanımları kapsam DIŞI → K010-identitiy | `domain-master.md` §2.1 satır 55 | ✅ dosya okundu |
+| 7 | Yetki/rol tanımları kapsam DIŞI → K0100-identitiy | `domain-master.md` §2.1 satır 55 | ✅ dosya okundu |
 | 8 | user aggregate'sinin resmi kapsam tanımı | — | **UNKNOWN** (ADR-097 K4) |
 
 ## §5 Açık sorular

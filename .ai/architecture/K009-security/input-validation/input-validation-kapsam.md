@@ -7,7 +7,7 @@ children: []
 depends_on:
   - K009-security/input-validation/input-validation-anayasa
 evidence:
-  - "index.md §4 (sınır: K010-identitiy · K000-isletim-sistemi) — 2026-10-15 okundu"
+  - "index.md §4 (sınır: K0100-identitiy · K000-isletim-sistemi) — 2026-10-15 okundu"
   - "shared/src/Middleware/ValidationMiddleware.php:17-83 (PageRouter yüzeyi)"
   - "shared/src/Api/Middleware/RequestValidationMiddleware.php:46-96 (API yüzeyi)"
   - "shared/src/Security/ReturnUrlPolicy.php:25-89 (redirect yüzeyi)"
@@ -72,7 +72,7 @@ bağlayıcıdır.
 
 | # | Konu | Sahibi (K-space) | Neden bu çocukta değil | Bağ |
 |---|---|---|---|---|
-| X-1 | Kimlik alanlarının doğrulama modeli (kimlik deposu, parola kuralı) | `K010-identitiy` | kimlik modeli ayrı anayasa | index §4 |
+| X-1 | Kimlik alanlarının doğrulama modeli (kimlik deposu, parola kuralı) | `K0100-identitiy` | kimlik modeli ayrı anayasa | index §4 |
 | X-2 | OS girdi yüzeyi (komut satırı, dosya sistemi izni) | `K000-isletim-sistemi/security` | işletim sistemi katmanı | index §4 |
 | X-3 | Yetki kararı (kim, neye erişir) | `[[authorization-kapsam]]` | doğrulanmış girdi ÜZERİNDE çalışır | index §5 |
 | X-4 | Kota / anti-automation (girdi hacmi) | `[[rate-limiting-index]]` | hacim sınırı doğrulamanın ÖNCEsi | index §5 |
@@ -105,7 +105,7 @@ tamamen atlaması bir **açık** olarak işaretlidir (anayasa U-8, surucu D-10).
 
 | Tetik | Kaynak bölüm | Hedef | Öncelik |
 |---|---|---|---|
-| Doğrulama kuralı kimlik alanına değdi (email/parola) | §4 X-1 | `K010-identitiy` | HIGH |
+| Doğrulama kuralı kimlik alanına değdi (email/parola) | §4 X-1 | `K0100-identitiy` | HIGH |
 | Doğrulama reddi yetki kararıyla çelişti | §4 X-3 | `[[authorization-kapsam]]` | HIGH |
 | Girdi hacmi/bot şüphesi | §4 X-4 | `[[rate-limiting-index]]` | MEDIUM |
 | Injection testi talebi | §4 X-5 | `security-testing` | MEDIUM |

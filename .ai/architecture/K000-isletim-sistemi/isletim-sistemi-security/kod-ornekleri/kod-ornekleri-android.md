@@ -196,7 +196,7 @@ başlamamıştır**; bu dosya dolayısıyla **hedef referans** kartıdır.
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrımı (bağlayıcı):** Kimlik doğrulama, oturum, parola ve MFA → `K010-identitiy`; bu kartta yalnız Android dosya/UID/hedef kalıpları ele alınır.
+> **K010 ayrımı (bağlayıcı):** Kimlik doğrulama, oturum, parola ve MFA → `K0100-identitiy`; bu kartta yalnız Android dosya/UID/hedef kalıpları ele alınır.
 > **K009 ayrımı (bağlayıcı):** OWASP denetimi, auth/CSRF/CSP tasarımı, kripto seçimi (ADR-022) → `K009-security`; bu kart yalnız OS katmanı + sınır işaretlerini taşır.
 > **Komşu dal:** Çekirdek içi yapısı ve sürücü yazımı → `isletim-sistemi-kernel`; Android platform geneli → `cekirdek-guvenlik-android`.
 
@@ -377,7 +377,7 @@ plan satırları iddia değildir.
 | `kod-ornekleri-php.md` · `-js.md` · `-python.md` · `-go.md` · `-rust.md` · `-csharp.md` · `-c.md` | dil kardeşleri — bu kart **Android × 7 dil** kesiti |
 | `cekirdek-guvenlik/cekirdek-guvenlik-android` | FM `depends_on` — platform geneli (§4) |
 | `cekirdek-guvenlik/cekirdek-guvenlik-anayasa` | FM `depends_on` |
-| `K009-security` · `K010-identitiy` | sınır kartları (§4) |
+| `K009-security` · `K0100-identitiy` | sınır kartları (§4) |
 | `isletim-sistemi-kernel` | çekirdek içi yapı kardeş dalı (§4) |
 
 ---

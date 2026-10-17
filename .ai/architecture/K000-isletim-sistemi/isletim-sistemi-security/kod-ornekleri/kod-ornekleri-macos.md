@@ -206,7 +206,7 @@ başlamamıştır**; bu dosya dolayısıyla **hedef referans** kartıdır.
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrımı (bağlayıcı):** Kimlik doğrulama, oturum, parola ve MFA → `K010-identitiy`; bu kartta yalnız macOS dosya/izin/platform kalıpları ele alınır.
+> **K010 ayrımı (bağlayıcı):** Kimlik doğrulama, oturum, parola ve MFA → `K0100-identitiy`; bu kartta yalnız macOS dosya/izin/platform kalıpları ele alınır.
 > **K009 ayrımı (bağlayıcı):** OWASP denetimi, auth/CSRF/CSP tasarımı, kripto seçimi (ADR-022) → `K009-security`; bu kart yalnız OS katmanı + sınır işaretlerini taşır.
 > **Komşu dal:** Çekirdek içi yapısı ve sürücü yazımı → `isletim-sistemi-kernel`; boot zinciri/SIP/Gatekeeper → `cekirdek-guvenlik-macos`.
 
@@ -449,7 +449,7 @@ $src = Get-ChildItem 'C:\www\coremusic.net' -Recurse -File -Include *.php,*.js |
 
 | Konu | Sahip | Bu karttaki durum |
 |---|---|---|
-| Kimlik doğrulama, oturum, parola, MFA | `K010-identitiy` (bozuk ad **değiştirilmez**) | **YOK** — anılmaz |
+| Kimlik doğrulama, oturum, parola, MFA | `K0100-identitiy` (bozuk ad **değiştirilmez**) | **YOK** — anılmaz |
 | OWASP denetimi, auth/CSRF/CSP tasarımı, kripto (ADR-022) | `K009-security` | **YOK** — yalnız sınır işareti |
 | Boot zinciri / SIP / Gatekeeper | `cekirdek-guvenlik-macos` (depends_on) | **YOK** — halka kartı |
 | TCC izin penceresi, kod imzalama, sandbox profili | Bu kartın **konusu değildir** (§4) + doğrulanamadı (§0) | **ÇİFT ENGEL** — anılmaz |

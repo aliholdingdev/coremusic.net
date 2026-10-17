@@ -153,7 +153,7 @@ ReactOS/OS kanıtı yoktur.**
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy`; bu kartta yalnizca ReactOS dosya/surec/erisim kisitlari ele alinir.
+> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy`; bu kartta yalnizca ReactOS dosya/surec/erisim kisitlari ele alinir.
 
 > **K009 ayrimi (baglayici):** OWASP denetimi, auth/CSRF/CSP tasarimi, kripto secimi (ADR-022) -> `K009-security`; bu kart yalnız OS katmani + sinir isaretlerini tasinir.
 

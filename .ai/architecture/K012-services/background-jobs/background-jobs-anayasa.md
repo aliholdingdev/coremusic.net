@@ -89,7 +89,7 @@ group: mimari
 |---|---|---|---|
 | K007-veri | iş sonucu yazımı (iddia) | giden | S2 master §21.9 |
 | K012 kök servisleri | olay dinleyicisi olabilecekler (iddia) | giden | ⚠️ VERIFICATION REQUIRED |
-| K014-network | dış çağrı gerekebilir (iddia) | giden | ⚠️ VERIFICATION REQUIRED |
+| K010-network | dış çağrı gerekebilir (iddia) | giden | ⚠️ VERIFICATION REQUIRED |
 | K019-test | `EventDispatcherTest` mevcut | giden | S1 shared/tests/Events/ |
 | EventDispatcher | tek mevcut mekanizma | iç | S1:20 |
 | IntegrationEventInterface | olay sözleşmesi | iç | S1:17 |
@@ -420,7 +420,7 @@ group: mimari
 |---|---|---|
 | K007-veri | iş sonucu tablosu onda | S2 §21.9 |
 | K013-integration | dış protokol adaptörde | S2 §23/3 |
-| K014-network | taşıma/dış çağrı | S2 §23/6 |
+| K010-network | taşıma/dış çağrı | S2 §23/6 |
 | K018-dağıtım | cron/ortam kurulumu | S2 §23/8 |
 | K019-test | test altyapısı | S2 §23/7 |
 | service-contracts (K012) | iş mesajı biçimi | ⚠️ Q4 |

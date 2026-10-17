@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/offline-sync/standart-kanit
+node_id: K010-network/offline-sync/standart-kanit
 node_type: module
 status: draft
-parent_id: K014-network/offline-sync
+parent_id: K010-network/offline-sync
 role: kanit
 children: []
 depends_on: []

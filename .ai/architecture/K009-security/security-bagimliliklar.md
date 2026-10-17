@@ -8,10 +8,10 @@ depends_on:
   - K009-security/security-master
   - K000-isletim-sistemi
   - K007-data
-  - K010-identitiy
+  - K0100-identitiy
   - K011-application
   - K013-integraion
-  - K014-network
+  - K010-network
   - K017-observability
   - K018-devops
 evidence:
@@ -64,11 +64,11 @@ group: mimari
 
 | K | Yön | Sözleşme | Kanıt | Durum |
 |---|---|---|---|---|
-| K010-identitiy | K009 → K010 | auth akışı kimlik modelini kullanır | AuthMiddleware.php · 7 | ⚠️ sınır döngüsü |
-| K010-identitiy | K010 → K009 | K009 hash/oturum kurallarını uygular | Password.php · 38–49 | implement |
+| K0100-identitiy | K009 → K010 | auth akışı kimlik modelini kullanır | AuthMiddleware.php · 7 | ⚠️ sınır döngüsü |
+| K0100-identitiy | K010 → K009 | K009 hash/oturum kurallarını uygular | Password.php · 38–49 | implement |
 | K011-application | K009 → K011 | CSP nonce + header sözleşmesi | SecurityHeadersMiddleware.php · 18, 31 | implement |
 | K013-integraion | K009 → K013 | Origin/CORS/token kuralı | CorsMiddleware.php · 15 · OriginCheckMiddleware.php · 15 | implement |
-| K014-network | K014 → K009 | TLS/HSTS ön koşulu | NIST SP 800-52r2 referansı | verify-required |
+| K010-network | K014 → K009 | TLS/HSTS ön koşulu | NIST SP 800-52r2 referansı | verify-required |
 | K017-observability | K009 → K017 | redaksiyon kuralı | LoggerRedactionTest.php · 132 | partial |
 | K018-devops | K018 → K009 | secret scan çıktısı | .github/workflows/secret-scan.yml | partial |
 | K000-isletim-sistemi | K000 → K009 | dosya/izin/örtü modeli | — | verify-required |
@@ -117,7 +117,7 @@ group: mimari
 | CacheRateLimiter | CacheInterface (ApcuAdapter / MemoryAdapter) | ApcuAdapter.php · 5 · MemoryAdapter.php · 5 | IMPLEMENTED |
 | AuthMiddleware | JwtService (varsa bearer akışı) | JwtService.php · 22 | partial — bağlantı ⚠️ |
 | AuthMiddleware | SessionManagerMiddleware | SessionManagerMiddleware.php · 9 | IMPLEMENTED |
-| PermissionMiddleware | K010-identitiy rol modeli | PermissionMiddleware.php · 15 | ⚠️ sınır |
+| PermissionMiddleware | K0100-identitiy rol modeli | PermissionMiddleware.php · 15 | ⚠️ sınır |
 | OriginCheckMiddleware | CorsMiddleware allow-list | OriginCheckMiddleware.php · 15 · CorsMiddleware.php · 15 | IMPLEMENTED |
 | ValidationMiddleware | şema/kural kaynağı | ValidationMiddleware.php · 15 | IMPLEMENTED (kaynak ⚠️) |
 | BypassAuthMiddleware | AuthMiddleware (bypass) | BypassAuthMiddleware.php · 9 | ADR-008 izi ⚠️ |

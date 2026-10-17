@@ -402,7 +402,7 @@ satır "uygun" diye yazılmaz; `⚠️ VERIFICATION REQUIRED` ile işaretlenir v
 | `yetki-ve-erisim-modeli` | UID/GID, capability, ACL, MAC tanımı | yetki modeli oradadır |
 | `uygulama-guvenlik-siniri` | syscall yüzeyi, sandbox, cgroup | sınır mekanizması oradadır |
 | `K009-security` | OWASP, auth, CSRF, CSP, kripto | uygulama güvenlik denetimi kapsam dışı |
-| `K010-identitiy` | kimlik doğrulama akışı | uygulama auth kapsam dışı |
+| `K0100-identitiy` | kimlik doğrulama akışı | uygulama auth kapsam dışı |
 | `K019` | uygulama test stratejisi | test stratejisi kapsam dışı |
 | `isletim-sistemi-kernel` | çekirdek iç yapısı, patch politikası | burada yalnız **koruma sonucu** var |
 

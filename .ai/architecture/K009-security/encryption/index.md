@@ -71,7 +71,7 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik deposu / credentials kasası | `K010-identitiy` | Yalnız sınır referansı |
+| Kimlik deposu / credentials kasası | `K0100-identitiy` | Yalnız sınır referansı |
 | OS kripto sağlayıcısı, disk şifreleme, sertifika deposu | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
 | Anahtar sırrının saklandığı fiziksel/gizli depo | `secrets` (K009) | K009 içinde ayrı çocuk |
 

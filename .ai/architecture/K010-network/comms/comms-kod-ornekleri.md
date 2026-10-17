@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/comms/kod-ornekleri
+node_id: K010-network/comms/kod-ornekleri
 node_type: module
 status: draft
-parent_id: K014-network/comms
+parent_id: K010-network/comms
 role: ornek
 children: []
 depends_on: []
@@ -25,7 +25,7 @@ webrtc · tcp-ip · device-communication) nasıl tek bir `Transport` arayüzün�
 sığar?** Her dilde bu seam (dikiş) gösterilir. Protokol-bazlı ayrıntılı örnekler
 **torun dosyalarındadır** — bu dosya tekrar üretmez.
 
-**⚠️ TASARIM ÖRNEĞİ:** K014-network'de kod **YOKTUR** (status: PLANNED —
+**⚠️ TASARIM ÖRNEĞİ:** K010-network'de kod **YOKTUR** (status: PLANNED —
 `network-kapsam.md` §6/§29). Aşağıdaki bloklar üretim kodu değildir.
 
 **Sınır (ne DEĞİL):** Protokol iç mantığı (torun kod dosyaları) · şifreleme (K009) ·

@@ -25,7 +25,7 @@ Amaç: `evaluation-kapsam.md` içindeki iddiaların kaynaklarını listelemek. H
 | 7 | ai-master.md §3'te evaluation çıktısı "Metrik · drift · A/B ölçümü" olarak kayıtlıdır | `C:\www\coremusic.net\.ai\architecture\K006-yapay-zeka\ai-master.md` §3 (satır 71) | 2026-10-12 | ✅ |
 | 8 | ai-master.md §4'te "Model değerlendirme yöntemi: UNKNOWN" kayıtlıdır | `C:\www\coremusic.net\.ai\architecture\K006-yapay-zeka\ai-master.md` §4 (satır 94) | 2026-10-12 | ✅ |
 | 9 | ai-master.md §7'de model değerlendirme sorusu açık soru listesinde (satır 117) | `C:\www\coremusic.net\.ai\architecture\K006-yapay-zeka\ai-master.md` §7 (satır 117) | 2026-10-12 | ✅ |
-| 10 | K006 sınırı: K006 = ML ürün tarafı, K016-AI = ajan altyapısı (bu alt alan K006'da tanımlı) | `C:\www\coremusic.net\.ai\architecture\K006-yapay-zeka\v2.md §2.6` (satır 159) | 2026-10-12 | ✅ |
+| 10 | K006 sınırı: K006 = ML ürün tarafı, K015-AI = ajan altyapısı (bu alt alan K006'da tanımlı) | `C:\www\coremusic.net\.ai\architecture\K006-yapay-zeka\v2.md §2.6` (satır 159) | 2026-10-12 | ✅ |
 | 11 | CoreMusic'te model/öneri metrik hesabı yapan kod bulunamadı (precision/recall/NDCG/drift çağıran sınıf yok) | `C:\www\coremusic.net\shared\src` — grep `ndcg\|precision\|recall\|drift\|map@` (0 isabet) | 2026-10-12 | ⚠️ |
 | 12 | A/B test altyapısı (trafik bölme · anlamlılık testi) tanımlı değildir | UNKNOWN | 2026-10-12 | UNKNOWN |
 | 13 | Drift eşiği ve otomatik tepki kuralı (geri alma · uyarı) netleşmemiştir | UNKNOWN | 2026-10-12 | UNKNOWN |

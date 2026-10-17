@@ -14,7 +14,7 @@ children:
   - authentication-web-arastirma
 depends_on:
   - K009-security/security-master
-  - K010-identitiy
+  - K0100-identitiy
 evidence:
   - "v2 §2.9 satır 318 (ad) — kod: AuthenticationMiddleware, Password.php, BypassAuthMiddleware"
   - "shared/src/Api/Middleware/AuthenticationMiddleware.php (134 satır, 2026-10-13 envanter)"
@@ -29,7 +29,7 @@ group: mimari
 
 # K009 · çocuk · authentication (Kimlik Doğrulama Uygulaması)
 
-> **Sınır:** kimlik MODELİ `K010-identitiy`'de; bu çocuk uygulama katmanında **doğrulama**'dır.
+> **Sınır:** kimlik MODELİ `K0100-identitiy`'de; bu çocuk uygulama katmanında **doğrulama**'dır.
 
 ## §1 ROL (ELI10)
 
@@ -70,7 +70,7 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik deposu, kimlik modeli, credentials store | `K010-identitiy` | Yalnız sınır referansı |
+| Kimlik deposu, kimlik modeli, credentials store | `K0100-identitiy` | Yalnız sınır referansı |
 | OS düzeyi parola/uzak erişim güvenliği | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
 
 ## §5 BAĞLANTILAR
@@ -80,7 +80,7 @@ group: mimari
 | `K009-security` (parent) | yukarı | domen anayasasına tabi |
 | `authorization` | sonraki | doğrulama SONRASI yetki (PermissionMiddleware) |
 | `session-security` | kardeş | oturum yaşam döngüsü ayrı çocuk |
-| `K010-identitiy` | tek yönlü | kimlik modeli kaynağı |
+| `K0100-identitiy` | tek yönlü | kimlik modeli kaynağı |
 
 | İddia | URL | 2026-10-13 | Durum |
 |---|---|---|---|

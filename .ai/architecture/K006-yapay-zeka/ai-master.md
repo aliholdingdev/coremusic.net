@@ -98,20 +98,20 @@ bu tablo **tasarım yorumu** olarak işaretlidir ve kademe-3'te (ADR-097 K4) kil
 
 | # | Kapsam dışı | Nereye | Tür | Kaynak |
 |---|---|---|---|---|
-| 1 | LLM/ajan altyapısı, ajan çalışma zamanı, MCP, RAG pipeline | **K016-AI** | ✅ kapsam ayrımı | registry §6 · v2 §2.16 |
+| 1 | LLM/ajan altyapısı, ajan çalışma zamanı, MCP, RAG pipeline | **K015-AI** | ✅ kapsam ayrımı | registry §6 · v2 §2.16 |
 | 2 | Şarkı/kullanıcı/liste verisinin saklanması | K007-data | yapısal | v2 §2.7 |
 | 3 | İş kuralları ("çal", "beğen", "listeye ekle" anlamı) | K008-domain | yapısal | v2 §2.8 |
 | 4 | Öneri/keşif **domain sahipliği** | K020-recomenataion | ⚠️ SINIR AÇIK | ai-master §7/2 |
 | 5 | Öneriyi yürüten arka plan süreci | K012-services | TASARIM İDDIASI | — |
-| 6 | Kimlik · yetki · oturum güvenliği | K010-identitiy · K009-security | yapısal | v2 §2.9/§2.10 |
+| 6 | Kimlik · yetki · oturum güvenliği | K0100-identitiy · K009-security | yapısal | v2 §2.9/§2.10 |
 | 7 | UI'da öneri kartlarının çizimi | K011-application | TASARIM İDDIASI | — |
 | 8 | Ses motorunun gerçek DSP'si (EQ curve üretimi hariç) | K004-dsp · K003-audio | yapısal | v2 §2.3/§2.4 |
 | 9 | Model/depo güvenlik taraması · CI | K009-security · K018-devops | yapısal | v2 §2.18 |
 | 10 | Ölçüm/telemetri altyapısı | K017-observability | yapısal | v2 §2.17 |
 
-### §2.2 K006 ↔ K016-AI — bağlayıcı ayrım
+### §2.2 K006 ↔ K015-AI — bağlayıcı ayrım
 
-| | **K006-yapay-zeka** (bu domain) | **K016-AI** |
+| | **K006-yapay-zeka** (bu domain) | **K015-AI** |
 |---|---|---|
 | Ne | **ML ürün yetenekleri** — öneri, müzik analizi, personalizasyon | **Ajan altyapısı** — agent çalışma zamanı, orchestration, prompt/araç yönetimi |
 | Örnek | "Kullanıcıya 10 şarkı öner" | "Bir ajan başlat, aracı çağır, prompt'u yönet" |
@@ -125,12 +125,12 @@ bu tablo **tasarım yorumu** olarak işaretlidir ve kademe-3'te (ADR-097 K4) kil
 ### §2.3 Depodaki gerçek: `shared/src/AI/CLAUDE.md` ihlali
 
 `shared/src/AI/CLAUDE.md` (satır ~14–25) bileşenleri **AIOrchestrator · KnowledgeBase · MemorySystem ·
-PromptEngine · ToolCalling** olarak sayar — bunların 5'i ajan/RAG tarafıdır (K016-AI profilinde).
+PromptEngine · ToolCalling** olarak sayar — bunların 5'i ajan/RAG tarafıdır (K015-AI profilinde).
 Yani depo katmanı, registry §6'daki **kapsam ayrımıyla çelişmektedir**.
 
 | Bulgu | Durum |
 |---|---|
-| `shared/src/AI/` altında K016-AI profilinde 5 bileşen | ⚠️ **KAPSAM İHLALİ — VERIFY REQUIRED** |
+| `shared/src/AI/` altında K015-AI profilinde 5 bileşen | ⚠️ **KAPSAM İHLALİ — VERIFY REQUIRED** |
 | Registry §6 ayrımı (ML ürün vs ajan altyapısı) | ✅ kayıtlı |
 | Ayrımın kodda uygulanması | ❌ uygulanmamış → `yapay-zeka-riskler.md` R-07 |
 
@@ -184,8 +184,8 @@ Kaynak: v2 §2.6 mini-ağaç satır 255–268 — **9 çocuk · 0 derinlik** (v2
 | S3 | Modeli barındırmak & çağırmak | model-management · inference · local-inference | — | `AIOrchestrator::dispatchTask` L71–100 | ⚠️ kısmi |
 | S4 | Kaliteyi ölçmek | evaluation · testing | — | (repo'da karşılık **YOK**) | ❌ yok |
 | S5 | Oturum bağlamını tutmak | personalization | — | `MemorySystem` (K016 profilinde) | ⚠️ sınır açık |
-| S6 | Prompt/tool yönetimi | **(K006'DA DEĞİL)** | — | `PromptEngine` · `ToolCalling` | 🔴 K016-AI |
-| S7 | Bilgi bankası / RAG | **(K006'DA DEĞİL)** | — | `KnowledgeBase::ragQuery` L72–91 | 🔴 K016-AI |
+| S6 | Prompt/tool yönetimi | **(K006'DA DEĞİL)** | — | `PromptEngine` · `ToolCalling` | 🔴 K015-AI |
+| S7 | Bilgi bankası / RAG | **(K006'DA DEĞİL)** | — | `KnowledgeBase::ragQuery` L72–91 | 🔴 K015-AI |
 
 ### §4.1 Sorumluluk × çocuk kapsama tablosu
 
@@ -200,7 +200,7 @@ Kaynak: v2 §2.6 mini-ağaç satır 255–268 — **9 çocuk · 0 derinlik** (v2
 | local-inference | S3 | — |
 | evaluation | S4 | — |
 | testing | S4 | — |
-| **—** | — | **S6 · S7 bu domainde değil (K016-AI)** |
+| **—** | — | **S6 · S7 bu domainde değil (K015-AI)** |
 
 ---
 
@@ -215,7 +215,7 @@ Tam tablo: `yapay-zeka-bagimliliklar.md`. Özet — **hepsi TASARIM İDDİASI** 
 | → depends_on | K012-services | inference'ı çalıştıracak süreç | süreç yoksa iş kuyrukta kalır | TASARIM İDDİASI |
 | → depends_on | K003-audio · K004-dsp | ses özellikleri çıkarma (gerçek DSP) | `extractFeatures()` şu an **placeholder** | ✅ KOD KANITI |
 | ← used_by | K011-application | önerinin UI'da gösterilmesi | — | TASARIM İDDİASI |
-| ← used_by | K016-AI | ajanların ML yeteneğini çağırması | sınır ihlali riski (§2.3) | TASARIM İDDİASI |
+| ← used_by | K015-AI | ajanların ML yeteneğini çağırması | sınır ihlali riski (§2.3) | TASARIM İDDİASI |
 | ← used_by | K019-testing | model kalite / regresyon testi | — | TASARIM İDDİASI |
 
 > **Kod kanıtı ile tasarım iddiası ayrımı:** `extractFeatures()`'ın placeholder olduğu
@@ -250,7 +250,7 @@ Tam tablo: `yapay-zeka-dogrulama.md` §8 (30 satır). Özet:
 
 | # | Soru | Etiket | Kapanış koşulu | Kayıt |
 |---|---|---|---|---|
-| 1 | `ai-master.md` adı registry §5'te K016-AI ile de geçiyor (satır 6 ve 16) | ⚠️ VERIFICATION REQUIRED | ADR kararı | `-dogrulama` §7/1 |
+| 1 | `ai-master.md` adı registry §5'te K015-AI ile de geçiyor (satır 6 ve 16) | ⚠️ VERIFICATION REQUIRED | ADR kararı | `-dogrulama` §7/1 |
 | 2 | Öneri sahipliği: K006-recommendation · K008-recommendation · K020-recomenataion? | ⚠️ KISMEN KAPANDI — 2026-10-14 hibrit bölen kararı (K-11 · §18); ADR kaydı bekliyor | sahiplik ADR'si | `-dogrulama` §7/2 |
 | 3 | local-inference donanım gereksinimi (K001/K004 sınırı) | ⚠️ VERIFICATION REQUIRED | gereksinim kaydı | `-dogrulama` §7/3 |
 | 4 | Üretim modeli/runtime seçimi (hangi model, hangi format) | **UNKNOWN** | teknoloji karar kaydı | `-dogrulama` §7/4 |

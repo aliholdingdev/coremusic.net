@@ -72,7 +72,7 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik deposu test çiftleri (MFA, credentials) | `K010-identitiy` | Yalnız sınır referansı |
+| Kimlik deposu test çiftleri (MFA, credentials) | `K0100-identitiy` | Yalnız sınır referansı |
 | OS/firmware penetrasyon testi | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
 | Uygulama işlevsel testi | `K011-application` | Yalnız güvenlik alt kümesi |
 

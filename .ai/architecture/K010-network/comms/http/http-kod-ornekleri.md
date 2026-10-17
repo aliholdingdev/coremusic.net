@@ -1,12 +1,12 @@
 ---
-node_id: K014-network/comms/http/kod-ornekleri
+node_id: K010-network/comms/http/kod-ornekleri
 node_type: module
 status: draft
-parent_id: K014-network/comms/http
+parent_id: K010-network/comms/http
 role: ornek
 children: []
 depends_on:
-  - "K014-network/comms/http/http-standart-kanit.md"
+  - "K010-network/comms/http/http-standart-kanit.md"
 evidence:
   - "Kod kanıtı YOK (K014 PLANNED) — bu dosyadaki örnekler TASARIM ÖRNEĞİ'dir, üretim kodu değildir"
   - "Referans standartlar: http-standart-kanit.md §1 (RFC 9110/9112/9113/9114)"

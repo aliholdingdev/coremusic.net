@@ -99,7 +99,7 @@ alanı her dosyanın frontmatter'ında zorunludur.
 |---|---|---|---|
 | **Adaptör (bu düğüm)** | `K013-integraion/adapters` | Çeviri katmanının kendisi | v2 §2.13 |
 | Çağıran (iş kuralı) | `K012` / integration-service | Adaptörü **çağırır**, adaptör onun adına konuşur | v2 §2.13 (sınır) |
-| Taşıma (HTTP/TLS/socket) | `K014-network` | Adaptörün **altındaki** katman; adaptör taşımayı uydurmaz | v2 §2.13 (sınır) |
+| Taşıma (HTTP/TLS/socket) | `K010-network` | Adaptörün **altındaki** katman; adaptör taşımayı uydurmaz | v2 §2.13 (sınır) |
 | Secret / kimlik | `K009-security` | API anahtarı, token, imzalama — adaptör **üretmez**, K009'dan alır | v2 §2.13 (sınır) |
 | Dış sistem envanteri | `K013/external-systems` | "Hangi sistem var" sorusu — adaptör bunu **listelemez** | adapters/index.md §Sınır |
 | Protokol çevrimi | `K013/protocol-adapters` | gRPC/GraphQL vb. protokol dönüşümü — ayrı çocuk | adapters/index.md §Sınır |
@@ -139,7 +139,7 @@ Adaptörde iş kuralı yazılması = katman ihlali (`.ai/AGENTS.md` §18 uyarı 
 |---|---|---|
 | ↑ | `K013-integraion` | Bu rolün içindedir |
 | ↑ | `K009-security` | Secret/Token kaynağı |
-| ↑ | `K014-network` | Taşıma katmanı |
+| ↑ | `K010-network` | Taşıma katmanı |
 | ↑ | `K007-data` | İç model veri tipleri |
 | ↓ | `K012` / integration-service | Adaptörü çağıran katman |
 | ↓ | Dış sistem (üçüncü taraf) | Adaptörün konuştuğu muhatap |
@@ -360,7 +360,7 @@ başlamaz** — sözlü eşleme, kod değişince kaybolur.
 4. `adapters-web-arastirma.md` — tam URL kanıtı
 5. Dış sistem **envanteri** → `K013/external-systems`
 6. Protokol dönüşümü (gRPC/GraphQL) → `K013/protocol-adapters`
-7. Taşıma/HTTP ayrıntısı → `K014-network`
+7. Taşıma/HTTP ayrıntısı → `K010-network`
 8. Secret üretimi/ saklanması → `K009-security`
 9. Araç/kütüphane envanteri (resilience4j, Hystrix sürümleri vb.) →
    **sürümler çekilmedi → UNKNOWN**

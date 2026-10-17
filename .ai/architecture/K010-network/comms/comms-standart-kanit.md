@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/comms/standart-kanit
+node_id: K010-network/comms/standart-kanit
 node_type: module
 status: draft
-parent_id: K014-network/comms
+parent_id: K010-network/comms
 role: kanit
 children: []
 depends_on: []

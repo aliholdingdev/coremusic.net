@@ -31,7 +31,7 @@ group: mimari
 | K-07 | Return URL allowlist (aynı authority + kontrol karakteri guard) | Open redirect (A01 yüzeyi) | ReturnUrlPolicy.php·5-45 | ✅ UYGULANMIŞ |
 | K-08 | API anahtarı: SHA-256 hash + prefix; ham anahtar asla saklanmaz | A08 (secret sızıntısı) | ApiKeyRepository.php·12-30/171/304 | ✅ UYGULANMIŞ |
 | K-09 | CSRF bypass whitelist kaldırıldı | A01 riski taşıyordu (kod yorumu) | CsrfMiddleware.php·12-17 | ✅ UYGULANMIŞ |
-| K-10 | Kimlik modeli K010-identitiy'e devredildi | Katman sorumluluğu | K009 kapsam §KAPSAM-DIŞI | ✅ SINIR |
+| K-10 | Kimlik modeli K0100-identitiy'e devredildi | Katman sorumluluğu | K009 kapsam §KAPSAM-DIŞI | ✅ SINIR |
 | K-11 | ORM yasak; parametreli PDO (ADR-002) | Injection (A03) | ApiKeyRepository başlık kanıtı | ✅ BAĞLI ADR |
 | K-12 | Sıfır-uçurma: doğrulanmayan iddia UNKNOWN/⚠️ | Vault politikası | bu dosya §3 | ✅ SÜREKLİ |
 
@@ -87,7 +87,7 @@ group: mimari
 | O-01 | HSTS preload kaydı | preload başvurusu vs yalnız header | üst karar (deployment) |
 | O-02 | localhost allowlist (K-08/ReturnUrlPolicy) | üretimde kaldır vs koru | üst karar |
 | O-03 | AES-256-GCM nerede kullanılıyor? | kanıt oku vs envantere ekleme | kod okuma |
-| O-04 | MFA kapsamı | K010 mu K009 mu | K010-identitiy ile ortak karar |
+| O-04 | MFA kapsamı | K010 mu K009 mu | K0100-identitiy ile ortak karar |
 | O-05 | ASVS seviye hedefi | L1 vs L2 | üst karar |
 
 | Son Durum | |

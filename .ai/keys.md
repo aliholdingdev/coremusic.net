@@ -153,12 +153,13 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ndisuio, \\.\ndisuio, ioctl_ndisuio_query_binding, ioctl_ndisuio_open_device, ioctl_ndisuio_set_oid_value, ndis_wlan_bssid, nuiouser.h, xp felaket yolu, net stop wzcsvc, t-01 t-04 t-09 | projects/NevaConnect/09-xp-ndisuio-felaket-yolu-tasarimi |
 | registry, regedit, wzcsvc registry, software\microsoft\wzcsvc\parameters, interfaces\guid, activesettings, static#, wzconfig binary, layoutversion, gpszlocpolicyagent, wirelessspd, gptwirelesspolicy, gptwifipolicy, policy cache, pastore, eapol registry, elreadglobalregistryparams, authperiod, heldperiod, supplicantmode, eapolenabled, interfacelist, user eapinfo, ras_eap_registry_location, eapol.inx tracing, wzctrace yorumlu, netwzc.inx servicedll, ndisuio ndis 6.30, wlansvc dependonservice, dot3svc, eaphost, xp modern eşleme, ndisuio.inx, servicetype 1, starttype 3, errorcontrol, loadordergroup, characteristics 0x28, persist.c cache, classname, msieee80211-policy, wirelessname, wirelessid, wirelessdatatype, wirelesstype, whenchanged, layoutversion 1, reg_layout_version 4, allowapmode, vwifisettings | projects/NevaConnect/10-wzc-ndisuio-registry-degerleri |
 | wlanapi mimarisi, pe analizi, pefile, pe_arch.py, import tablosu, wzcsapi 19 fn, uuidfromstringw, ndr64asynccall, rpcasync, wnfn rtlsubscribewnf, threadpool, didat delay-load, guard_cf, dllcharacteristics, aslr dep, wfd export ailesi, wfd-int, querynetcon, wifidisplay, toplam vs wlan mutabakat, controlservice, OpenSCManagerW, security-base ace, wlan_write_access, setthreadtoken impersonation, wlanutil WlanStringToSsid, ucrt gecisi, getversionex, wlanregisternotification xp | projects/NevaConnect/11-windows-wlanapi-mimarisi |
+| novasearch, nova search engine, youtube arama motoru, metadata arama, youtubei.js, openrouter free, offline-first, cache-first, hybrid cache, iki cli, wizard cli, parametrik cli, bun test, coverage kapisi, sqlite mysql adapter, anti-ban jitter | projects/NovaSearchEngine/01-kurulum-mimari-ve-acik-konular |
 | 32-bit float, ring buffer | projects/NevaEngine/02-dsp-zincir-mimari |
 | 8.1 surround, PCM3168A | [[brain.md]] ADR-038-8-1-sound-card-chip-selection |
 | ASIO/WASAPI/CoreAudio | projects/NevaEngine/03-isletim-sistemi-kod-ornekleri |
 | audio service | architecture/K012-services/index.md |
 | device service, BT, WiFi | architecture/K012-services/index.md |
-| network audio, WebRTC | architecture/K014-network/index.md |
+| network audio, WebRTC | architecture/K010-network/index.md |
 | AI service | architecture/K006-yapay-zeka/index.md |
 | YouTube, deemix, FLAC | [[brain.md]] |
 

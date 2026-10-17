@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/network-testing/standart-kanit
+node_id: K010-network/network-testing/standart-kanit
 node_type: module
 status: draft
-parent_id: K014-network/network-testing
+parent_id: K010-network/network-testing
 role: kanit
 children: []
 depends_on: []

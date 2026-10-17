@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/connectivity/neva-connect-wlan-dallanma-mimarisi
+node_id: K010-network/connectivity/neva-connect-wlan-dallanma-mimarisi
 node_type: subdomain
 status: draft
-parent_id: K014-network/connectivity
+parent_id: K010-network/connectivity
 children: []
 depends_on: []
 evidence:
@@ -16,7 +16,7 @@ open_questions:
 group: mimari
 ---
 
-# neva-connect-wlan-dallanma-mimarisi — K014-network/connectivity (kademe-3 · subdomain · draft)
+# neva-connect-wlan-dallanma-mimarisi — K010-network/connectivity (kademe-3 · subdomain · draft)
 
 **ELI15:** CoreMusic'in RPi5/Linux üzerinde çalışan "Neva Connect" köprü sunucusunun (WebSocket 9742) **Windows WLAN dalı**: Windows makinelerinde wifi ağını listelemek, ağa bağlanmak ve bağlantı durumunu Web UI'a bildirmek için `wlanapi.dll` (Native Wifi API) üzerine kurulan çok-EXE'li C++ mimarisi.
 
@@ -62,7 +62,7 @@ Windows hedefinde Linux dbus/NetworkManager karşılığı **Native Wifi API**'d
 
 ### §1.3 Node konumu ve bağımlılık
 
-- **Parent:** `K014-network/connectivity` (bağlantıyı kurma/sürdürme/kopunca yeniden
+- **Parent:** `K010-network/connectivity` (bağlantıyı kurma/sürdürme/kopunca yeniden
   kurma — bağlantı durumunun tutulması). Bu node, "bağlantı durumu" tanımının Windows
   WLAN spesifik dallanmasıdır.
 - **Bağımlılık zinciri (özet):** 01 export matrisi (disk kanıtı) → bu tasarım node'u →

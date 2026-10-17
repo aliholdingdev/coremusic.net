@@ -132,7 +132,7 @@ ancak skorlar bugün hep boş kümeden gelir (§2.3).
 | K006.3-recommendation | değerlendirme, önerinin **ölçüm katmanıdır**; skor üreten `combineScores`/`getRecommendations` orada tanımlı — burada yalnızca kalite yorumu |
 | K006.9-testing | §2.3'ün boş gövdeleri + §3'teki `JSON_THROW_ON_ERROR` → karakteristik test önceliği |
 | K006.1-model-management | metrik/izleme çıksa nereye yazılır → model/çalışma kaydı (henüz yok) |
-| K016-AI (dış) | `dispatchTask`/`knowledge->search` ajan altyapısıdır — K006.8'in ölçüm sahası değildir |
+| K015-AI (dış) | `dispatchTask`/`knowledge->search` ajan altyapısıdır — K006.8'in ölçüm sahası değildir |
 
 ---
 

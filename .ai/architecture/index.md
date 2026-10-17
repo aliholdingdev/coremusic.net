@@ -70,13 +70,13 @@ architecture/
 | 7 | K007-data | data-master.md | -bagimliliklar · -dogrulama | draft |
 | 8 | K008-domain | domain-master.md | -bagimliliklar · -dogrulama | draft |
 | 9 | K009-security | security-master.md | -bagimliliklar · -dogrulama | draft |
-| 10 | K010-identitiy | identity-master.md | -bagimliliklar · -dogrulama | draft |
+| 10 | K0100-identitiy | identity-master.md | -bagimliliklar · -dogrulama | draft |
 | 11 | K011-application | application-master.md | -bagimliliklar · -dogrulama | draft |
 | 12 | K012-services | services-master.md | -bagimliliklar · -dogrulama | draft |
 | 13 | K013-integraion | integration-master.md | -bagimliliklar · -dogrulama | draft |
-| 14 | K014-network | network-master.md | -bagimliliklar · -dogrulama | draft |
-| 15 | K015-media | media-master.md | -bagimliliklar · -dogrulama | draft |
-| 16 | K016-AI | ai-master.md | -bagimliliklar · -dogrulama | draft |
+| 14 | K010-network | network-master.md | -bagimliliklar · -dogrulama | draft |
+| 15 | K014-media | media-master.md | -bagimliliklar · -dogrulama | draft |
+| 16 | K015-AI | ai-master.md | -bagimliliklar · -dogrulama | draft |
 | 17 | K017-observability | observability-master.md | -bagimliliklar · -dogrulama | draft |
 | 18 | K018-devops | devops-master.md | -bagimliliklar · -dogrulama | draft |
 | 19 | K019-testing | testing-master.md | -bagimliliklar · -dogrulama | draft |
@@ -96,7 +96,7 @@ architecture/
 | `K020-comere` = ne olduğu bilinmiyor | UNKNOWN | `⚠️ VERIFY REQUIRED` — içerik BOŞ, tahmin yasak |
 | `donanaım-type` · `identitiy` · `integraion` · `comilance` · `recomenataion` yazımları | imla (kaynak-sadık) | ✅ KORUNUR (v2 §3 KURAL 1) |
 | v2 §6'nın 23 eski-disk çakışması (K003-ses-motoru vs K003-audio…) | tarihsel | ✅ **ÇÖZÜLDÜ — disk kanıtı 20:31** (bkz §6.1): eski adların **21/21'i diskte yok**, önerilen **25/25'i mevcut** |
-| K006-yapay-zeka (ML ürün) ↔ K016-AI (ajan altyapısı) | kapsam ayrımı | ✅ v2 §2.6/§2.16'ya göre ikisi de meşru, ayrı domain |
+| K006-yapay-zeka (ML ürün) ↔ K015-AI (ajan altyapısı) | kapsam ayrımı | ✅ v2 §2.6/§2.16'ya göre ikisi de meşru, ayrı domain |
 | `shared/AGENTS.md:97` → *".ai/architecture/** kaldırıldı (2026-10-12)"* | boot-dosya ↔ disk | `⚠️ VERIFY REQUIRED` — ağaç diskte mevcut ve yeniden üretiliyor; **karar üst makamda**, bu tur düzeltilmedi |
 | `turu/macos/macos-kernel.md:429` · `turu/macos/macos-anayasa.md:499` | yer tutucu URL (`…` U+2026) | `⚠️ VERIFY REQUIRED` — çözülemez URL, cita edilmez; B2'de düzeltilecek |
 | `osek-vdx.org/mirror/os221.pdf` → HTTP 403 (2026-10-12) | erişim engelli | ℹ️ dürüstçe "erişim engelli · cita edilmez" kaydedildi |
@@ -188,13 +188,13 @@ tamamı diskten kalkmıştır. Dolayısıyla:
 
 | K | dosya | satır | ≥500 | K | dosya | satır | ≥500 |
 |---|---|---|---|---|---|---|---|
-| K000-isletim-sistemi | 94 | 21.796 | **21** | K010-identitiy | 23 | 2.293 | 0 |
+| K000-isletim-sistemi | 94 | 21.796 | **21** | K0100-identitiy | 23 | 2.293 | 0 |
 | K001-donanım | 28 | 3.774 | 2 | K011-application | 25 | 3.187 | 0 |
 | K003-audio | 63 | 10.232 | **12** | K012-services | 17 | 1.002 | 0 |
 | K004-dsp | 52 | 3.626 | 0 | K013-integraion | 16 | 2.652 | **3** |
-| K005-firmware | 24 | 2.796 | 0 | K014-network | 16 | 872 | 0 |
-| K006-yapay-zeka | 66 | 7.272 | 0 | K015-media | 15 | 840 | 0 |
-| K007-data | 27 | 4.087 | 0 | K016-AI | 17 | 969 | 0 |
+| K005-firmware | 24 | 2.796 | 0 | K010-network | 16 | 872 | 0 |
+| K006-yapay-zeka | 66 | 7.272 | 0 | K014-media | 15 | 840 | 0 |
+| K007-data | 27 | 4.087 | 0 | K015-AI | 17 | 969 | 0 |
 | K008-domain | 30 | 3.216 | 0 | K017-observability | 13 | 767 | 0 |
 | K009-security | 50 | 7.573 | 0 | K018-devops | 13 | 766 | 0 |
 | K019-testing | 14 | 937 | 0 | K020-adr | 3 | 247 | 0 |
@@ -282,7 +282,7 @@ openapi **hariç**) = **12 dosya / 633 satır, ≥500:0**.
 | `embedded-engineer` · `ses_ecec3a738ffeLNvv6fVs7rrMmA` | **P0 eşik altı düzeltme ✅** + android 6 + ios 6 · beyazliste `android`·`reactos`·`ios` | **20:52** | 🔄 **aktif** — `android-hal-ve-surucu.md` 497→**520 ✅** · `reactos-surucu-modeli.md` 472→**515 ✅** · `reactos-web-arastirma.md` 395→**511 ✅** (3/3 tamam) · android 3 dosya/≥500:**3** ✅ · `ios/` **YOK** (P2 başlamadı) |
 | `embedded-engineer` · `ses_ecf1ac142ffes7Uto27Gt36v5t` | linux 🔄 · macos · windows | **20:53** | 🔄 **aktif** — `linux-web-arastirma.md` 498 (eşiğin 2 satır altında, yazım sürüyor) |
 | `embedded-engineer` (ops üçlüsü) · `ses_ececa5a80ffePyI9jX9W8WuSUx` | K017 · K018 · K019 — min 12 dosya ≥500 | **20:53** | 🔄 **aktif** — ilk dosya `logging-yapilandirma-ve-seviyeler.md` 489 (dönüşte) |
-| `backend-developer` · `ses_ecebeb6cfffeVss4sZwea5PDN4` | **K010-identitiy · K011-application** — min 8 dosya ≥500 | — | 🔄 **21:00'de dispatch edildi** |
+| `backend-developer` · `ses_ecebeb6cfffeVss4sZwea5PDN4` | **K0100-identitiy · K011-application** — min 8 dosya ≥500 | — | 🔄 **21:00'de dispatch edildi** |
 | `embedded-engineer` · `ses_ecf1b6fc3ffeYyEpyP1Go1X4RM` | **ASIO eki 5 dosya** | 20:13 | ✅ **TAMAMLANDI** (completion bildirimi alındı) — K003/backend/asio = **14 dosya / 6.545 sat / ≥500:12** · 41 benzersiz URL, kesişim 0 · `group` tırnakları 20:26'da orkestratörce düzeltildi |
 | `backend-developer` · `ses_ecf0788caffeIBi7TwEgeU0Y6b` | openapi `sozlesme-dili` + `dogrulama` (2. devam **20:27**) | **20:01** | ⚠️ **54 dk sessiz** — hâlâ **4/6** · disk düşüşü yok · §8.1/§8.3 + §19 P0 ölçümü bekliyor |
 | `embedded-engineer` · `ses_eced80a68ffe1ZKQyKsLGmVdnJ` | **K004-dsp kademe-3 derin-dal** (min 12 dosya ≥500) | — | ⚠️ **~24 dk sessiz** — K004-dsp hâlâ 52 dosya / 3.626 sat / **≥500:0** |
@@ -468,7 +468,7 @@ Hepsi eski iskelet kuşağına ait — **canlı ajan üretimi bu gruba dahil de�
 | `tizen` | 0 | 0 | 0 | — | — | 🔄 sıfırdan (7 dosya) |
 | `webos` | 0 | 0 | 0 | — | — | 🔄 sıfırdan (7 dosya) |
 | `openapi` | 4 | 1.929 | **3** | 3 | 0 | 🔄 6/6 gate — 2 dosya |
-| `K010-identitiy` | 23 | 2.293 | **0** | 0 | 0 | 🔄 4 dosya |
+| `K0100-identitiy` | 23 | 2.293 | **0** | 0 | 0 | 🔄 4 dosya |
 | `K011-application` | 25 | 3.187 | **0** | 0 | 0 | 🔄 4 dosya |
 | **TOPLAM** | **689** | **110.537** | **97** | **60** | **+37** | hedef 150 → açık 53 |
 
@@ -541,7 +541,7 @@ Hepsi eski iskelet kuşağına ait — **canlı ajan üretimi bu gruba dahil de�
 | 1 | embedded | windows `kod-ornekleri`+`web-arastirma` · asio 3 dosya | `ses_ecbf4a8dfffeJg…tvD` |
 | 2 | embedded | **K017+K018 kök iskelet** (6 dosya + 2 yarım) | `ses_ecbf4a8dbffe6u5…ypf` |
 | 3 | embedded | tizen + webos sıfırdan (14 dosya) | `ses_ecbf4a8beffeIqI…WbO` |
-| 4 | backend | K010-identitiy + K011-application (8 dosya) | `ses_ecbf4a8bdffem3H…p1H` |
+| 4 | backend | K0100-identitiy + K011-application (8 dosya) | `ses_ecbf4a8bdffem3H…p1H` |
 | 5 | embedded | K004-dsp iskelet A (18 dosya) | `ses_ecbf4a8bcffef0D…Tbw` |
 | 6 | embedded | K004-dsp iskelet B + kök (21 dosya) | `ses_ecbf4a8bbffecZ2…455` |
 | 7 | embedded | **K001-donanım** (20 dosya — elektronik dalı) | `ses_ecbf08f71ffe5Av…AI6` |
@@ -637,7 +637,7 @@ Hepsi eski iskelet kuşağına ait — **canlı ajan üretimi bu gruba dahil de�
 
 #### §9.8.3 §9.3'e kayıt — K010/K011 çift-dispatch olayı
 
-**§9.3 ihlali:** `K010-identitiy` ve `K011-application` için **aynı anda iki ayrı ajan** dispatch edildi (beyazliste ihlali riski). Sonuç: **gerçek dosya çakışması tespit edilmedi** (K011 dosyaları 13:01–13:27 arası tutarlı biçimde yazıldı: `application-test-stratejisi` 505 · `application-bagimliliklar` 506 · `application-riskler` 516 · `application-evrensel-dil` 513 · `usecase-akislari-kapsam` 511), ancak **olay kayda geçti**: çift-dispatch, beyazliste ayrıştırma kuralının **subagent dispatch seviyesinde zorunlu** olduğunu doğruladı. Kural: **1 beyazliste = 1 ajan** — aynı dizin için ikinci ajan **yalnız birincisi bittikten sonra**.
+**§9.3 ihlali:** `K0100-identitiy` ve `K011-application` için **aynı anda iki ayrı ajan** dispatch edildi (beyazliste ihlali riski). Sonuç: **gerçek dosya çakışması tespit edilmedi** (K011 dosyaları 13:01–13:27 arası tutarlı biçimde yazıldı: `application-test-stratejisi` 505 · `application-bagimliliklar` 506 · `application-riskler` 516 · `application-evrensel-dil` 513 · `usecase-akislari-kapsam` 511), ancak **olay kayda geçti**: çift-dispatch, beyazliste ayrıştırma kuralının **subagent dispatch seviyesinde zorunlu** olduğunu doğruladı. Kural: **1 beyazliste = 1 ajan** — aynı dizin için ikinci ajan **yalnız birincisi bittikten sonra**.
 
 #### §9.8.4 Açık maddeler (§9.7'ye ek)
 
@@ -682,14 +682,14 @@ Hepsi eski iskelet kuşağına ait — **canlı ajan üretimi bu gruba dahil de�
 | `K002-electroncis` | 15 | 5.935 | 11 | 0 | ✅ (hedef 26 dosya) |
 | `K017-observability` | 20 | 5.668 | 10 | 0 | ✅ |
 | `K019-testing` | 22 | 5.239 | 8 | 2 | ⚠️ |
-| `K010-identitiy` | 27 | 4.614 | 4 | 8 | ❌ |
+| `K0100-identitiy` | 27 | 4.614 | 4 | 8 | ❌ |
 | `K007-data` | 27 | 4.087 | **0** | 0 | ❌ (ort. 151 sat) |
 | `K013-integraion` | 18 | 3.658 | 5 | 2 | ❌ |
 | `K008-domain` | 30 | 3.218 | **0** | 6 | ❌ |
 | `K012-services` | 17 | **1.035** | **0** | 5 | ❌ **en kötü** (ort. 61 sat) |
-| `K016-AI` | 17 | **997** | **0** | 2 | ❌ |
-| `K014-network` | 16 | **898** | **0** | 2 | ❌ |
-| `K015-media` | 15 | **864** | **0** | 1 | ❌ |
+| `K015-AI` | 17 | **997** | **0** | 2 | ❌ |
+| `K010-network` | 16 | **898** | **0** | 2 | ❌ |
+| `K014-media` | 26 | **14.556** | **14** | 12 | ✅ (11 `ornekler.md` ≥500 — 2026-10-17) |
 | `K020-*` (6 düğüm) | 16 | 1.197 | **0** | 1 | ❌ |
 | `.ai/electronic` (ayrı şema) | 60 | 17.859 | 20 | — | 3 ajan eşzamanlı çalışıyor |
 
@@ -699,10 +699,10 @@ Hepsi eski iskelet kuşağına ait — **canlı ajan üretimi bu gruba dahil de�
 
 | # | Beyazliste | Hedef | Durum |
 |---|---|---|---|
-| 1 | `K012-services/**` · `K014-network/**` · `K015-media/**` | 48 dosya / 2.797 sat / **≥500: 0** → ~14.000 sat | dispatch |
-| 2 | `K016-AI/**` · `K020-comere/**` · `K020-comilance/**` · `K020-discovery/**` · `K020-licence/**` · `K020-recomenataon/**` · `K020-adr/**` | 33 dosya / 2.194 sat / **≥500: 0** → ~16.500 sat | dispatch |
+| 1 | `K012-services/**` · `K010-network/**` · `K014-media/**` | 48 dosya / 2.797 sat / **≥500: 0** → ~14.000 sat | dispatch |
+| 2 | `K015-AI/**` · `K020-comere/**` · `K020-comilance/**` · `K020-discovery/**` · `K020-licence/**` · `K020-recomenataon/**` · `K020-adr/**` | 33 dosya / 2.194 sat / **≥500: 0** → ~16.500 sat | dispatch |
 
-**Sırada (dalga 4, soğuma sonrası):** `K009-security` (50/0) · `K006-yapay-zeka` (66/0) · `K007-data` (27/0) · `K008-domain` (30/0) · `K010-identitiy` (4/8) · `K013-integraion` · `K003-audio` (32 `<100`) · `K004-dsp` (26 `<100`) · `K001-donanım` kalan · `K002-electroncis` 15→26.
+**Sırada (dalga 4, soğuma sonrası):** `K009-security` (50/0) · `K006-yapay-zeka` (66/0) · `K007-data` (27/0) · `K008-domain` (30/0) · `K0100-identitiy` (4/8) · `K013-integraion` · `K003-audio` (32 `<100`) · `K004-dsp` (26 `<100`) · `K001-donanım` kalan · `K002-electroncis` 15→26.
 
 #### §9.9.3 Index kapısı kapanışı + ajan sonuçları (17:xx)
 
@@ -832,7 +832,7 @@ tüm C++/Neva içeriği `.ai/projects/NevaEngine` (49 md / 16.609 sat) +
 (`*.cpp+*.h = 0` — "repo C++ kodu var" iddiası yazılmadı).
 
 **Artakalan not:** `yapay-zeka-dogrulama.md` `status: verify-required` **korur** —
-gerekçe: 9 `-ornekler` derinleştirmesi bu turda kapandı, ancak `depends_on K016-AI`
+gerekçe: 9 `-ornekler` derinleştirmesi bu turda kapandı, ancak `depends_on K015-AI`
 hâlâ Band-3 kuyrukta (§9.9.2) + §3-2 erişilemeyen URL → K006 iç kapısı kapalı,
 **domain komple** sayıldı; `verified` bayrağı K016 dolunca ayrıca döner.
 
@@ -865,6 +865,100 @@ yalnız mevcut atıf yapılan dayanakların ölçüm envanteri.
 **Not (envanter düzeltmesi):** üstteki "34 md + 43 md" sayıları 2026-10-15 taze
 ölçümle düzeltilmiştir: NevaEngine **49 md / 16.609 sat** · electronic
 {dsp,firmware,drivers} **27 md / 9.816 sat** (bkz §9.12.5).
+
+#### §9.13 Tam Paket Turu — K000–K013 kanonik ölçüm + §BAĞLANTILAR geçişi (2026-10-17)
+
+> **Kullanıcı kararları (2026-10-17 soru kapısı):** (1) kapsam = **tam paket** (eksik içerik +
+> çok dilli kod örnekleri + derin web araştırması + K↔K bağlantıları), (2) diller = **tümü**
+> (çekirdek 8 + mobil/sistem + devOps = **17 dil**), (3) web = **derin tur** (≥10 benzersiz
+> kaynak/K), (4) yöntem = 4 ajan paralel → **fiilen 1'e düşürüldü** (bkz §9.13.3),
+> (5) bağlantı formatı = **depends_on + göreli link + wiki-link üçlüsü**.
+
+##### §9.13.1 Ölçüm yöntemi düzeltmesi (Truth Mode)
+
+Bu turun ilk ölçümü **yanlış yöntemle** (`Measure-Object -Line` — boş satırı saymaz) yapıldı →
+"K004·K005·K007·K008·K010 = 0 ≥500" sonucu **yanlış ve geçersizdir**. §9.12.1 kuralı gereği
+kanonik yöntemle (`[System.IO.File]::ReadAllLines().Length`) yeniden ölçüldü; aşağıdaki sayılar
+**geçerli tek kaynaktır**. (K004/K005/K006 zaten §9.12.5–§9.12.6'da kapanmıştı — çelişki yok,
+yalnız bu turun sayım hatasıydı.)
+
+##### §9.13.2 K000–K013 kanonik ölçüm (2026-10-17)
+
+| K | dosya | satır | ≥500 | <100 | Durum |
+|---|---|---|---|---|---|
+| K000-isletim-sistemi | 363 | 167.657 | **257** | 45 (kapı-dışı index) | ✅ güçlü — kalan iş §9.12.4 |
+| K001-donanım | 86 | 39.316 | **69** | 16 | ✅ (§9.12.3 kapanış) |
+| K002-electroncis | 26 | 12.340 | **20** | 1 | ✅ (§9.12.3 kapanış) |
+| K003-audio | 72 | 31.127 | **58** | 13 (kapı-dışı index) | ✅ (§9.12.3 kapanış) |
+| K004-dsp | 69 | 29.226 | **56** | 12 | ✅ (§9.12.1 kapanış) |
+| K005-firmware | 66 | 29.209 | **56** | 9 | ✅ (§9.12.6 kapanış) |
+| K006-yapay-zeka | 75 | 35.321 | **65** | 9 | ✅ (§9.12.5 kapanış) |
+| **K007-data** | 72 | 10.963 | **13** | 50 | 🔄 **ajan aktif** (§9.13.3) |
+| **K008-domain** | 72 | 6.661 | **0** | 51 | ❌ **en zayıf** — sıradaki |
+| **K009-security** | 102 | 23.927 | **7** | 13 | ❌ dosya çok / derinlik az |
+| **K010-network** | 42 | 9.284 | **7** | 24 | ❌ zayıf |
+| K011-application | 133 | 60.041 | **109** | 19 | ✅ |
+| **K012-services** | 50 | 19.868 | **35** | 10 | ⚠️ orta |
+| **K013-integraion** | 44 | 15.886 | **11** | 8 | ⚠️ zayıf |
+| **TOPLAM** | **1.272** | **490.826** | **763** | 280 | — |
+
+**Sıra (0/az ≥500 öncelikli):** K007 (🔄) → K008 → K010 → K009 → K013 → K012 → K000 kalan (§9.12.4).
+
+##### §9.13.3 Bağlantı geçişi + ajan olayı (2026-10-17)
+
+| İş | Sonuç |
+|---|---|
+| Çapraz referans taraması (14 K · dosya-içi `K0xx-` ad geçişleri) | her K'nın bağlandığı diğer K kümeleri ölçüldü (K000→10 · K001→13 · K011→11 · …) |
+| `## §BAĞLANTILAR` ekleme (orkestratör) | **14/14 index.md** · Authority bloğunun ÖNÜNE · **104 satır** · sütunlar: Hedef K · wiki-link · göreli yol · ilişki · UTF-8 (BOM=False) korundu · K003 spot-check read-tool ile doğrulandı |
+| Dürüstlük notu | §BAĞLANTILAR satırları **ölçülen ad-geçişleri + domain okuması** ile üretildi; ilişki başına ayrı doğrulama **yapılmadı** → taslak |
+| 4× paralel dispatch (embedded ×4 → K000·K001·K002·K003) | ❌ **4/4 Rate limit exceeded** (ses_eb6784af4… ×4) — §9.8.2 kuralı teyit: eşzamanlı tavan ≈1 |
+| 1× background dispatch | 🔄 `data-engineer` → **K007-data** (ses_eb66981bbffenGPc57yfncktNp) — beyazliste: `K007-data/**`, `index.md` hariç |
+
+##### §9.13.4 Açık maddeler
+
+| # | Madde | Durum |
+|---|---|---|
+| 1 | **K-serisi ad çelişkisi:** diskte `K016-observability` · `K17-devops` · `K18-testing` · `K019-comilance`; bu registry §5 ise `K017-observability` · `K018-devops` · `K019-testing` · `K020-comilance` yazıyor (2026-10-17 dizin kanıtı) | `⚠️ VERIFY REQUIRED` — yeniden adlandırma **kullanıcı onayı** ister |
+| 2 | §BAĞLANTILAR ilişki satırları doğrulanmadı (§9.13.3 notu) | sonraki turda cross-validate |
+| 3 | 17-dil kod örnekleri + derin web araştırması kapsamı henüz **hiçbir K'da başlamadı** (bağlantı geçişi tamamlandı, içerik/tur sonraki ajanlarda) | kota açıldıkça K007→K008→K010→K009→K013→K012 |
+| 4 | `git commit` — çalışma ağacında bu turda 14 index.md + registry değişikliği var, **commit yok** | kullanıcı onayıyla orkestratöre ait |
+
+##### §9.13.5 K007-data KAPANIŞI (2026-10-17 — tekli background ajan: data-engineer · ses_eb66981bbffenGPc57yfncktNp)
+
+| An | Dosya | Satır | ≥500 |
+|---|---|---|---|
+| Tur öncesi (§9.13.2 kanonik) | 72 | 10.963 | **13** |
+| Ajan işi + orkestratör kanonik doğrulama | 72 | **16.106** | **20** |
+
+**Ajan çıktısı (kendi raporu):** 8 dosya ≥500'e çekildi (schema-kapsam · schema-bilesenler ·
+transactions-anayasa · transactions-kapsam · cache-kapsam · cache-bilesenler · repositories-kapsam ·
+repositories-bilesenler) · `data-kod-ornekleri.md` 438→1.037 (kanonik 1.271) · 17 dil matrisi ·
+`migrations-web-arastirma` 42→146 · `schema-web-arastirma` 377→409 · 5 yeni URL **HTTP 200**
+(MySQL 8.4/9.7 refman: implicit-commit · CHECK constraints · InnoDB I_S · identifier case) ·
+2 URL **404 dürüstçe elendi** · yer tutucu 0 · mojibake 0 · commit 0.
+
+**Ölçüm yöntemi notu (Truth Mode):** ajan raporu `Measure-Object -Line` ile alındı (kendi
+raporunda da işaretlendi) → **orkestratör kanonik ReadAllLines ile bağımsız doğruladı**:
+72/16.106/≥500:**20** — ajanın 8 hedefinin hepsi kanonik olarak da ≥500; **kayıp yok,
+sayılar lehimize** (13→20).
+
+**Beyazliste denetimi:** K007 dışı yazım **0** (son 25 dk taraması). **Dış sinyal:**
+`K014-media` (4 dosya, 15:20) ve `K015-AI` (9 dosya, 15:32–15:39) son 25 dk içinde değişti —
+**bu oturumun ajanlarıyla ilişkili DEĞİL** (dış oturum/kalan iş). Bu tur kapsamı K000–K013
+olduğundan **dokunulmadı**; çakışma riski yok (beyazlisteler ayrışık).
+
+**Sıra güncellendi:** K008-domain (dispatch edildi — en zayıf, ≥500:0) → K010 → K009 → K013 → K012.
+
+##### §9.13.6 §BAĞLANTILAR yol doğrulaması (2026-10-17 — açık madde #2 kapandı)
+
+| Kontrol | Sonuç |
+|---|---|
+| 14 index.md'deki göreli yol taraması (`../K0xx-…/index.md` + `[[…]]`) | **103/104 script'ten geçti · kırık 0** |
+| Kalan 1 satır (regex `A-Za-z` sınırı — `K001-donanım` adında `ı`) | **elle doğrulandı**: `K001-donanım/index.md` mevcut + K003 index'inde `[[K001-donanım]]` satırı gerçek → **toplam 104/104 · kırık bağlantı 0** |
+| Wiki-link hedefleri | 14 K adının tamamı diskte birebir mevcut |
+
+> **Kalan tek doğrulama:** §BAĞLANTILAR *ilişki metinleri* (domain okuması) — encodingsiz
+> script ile ölçülemez, sonraki içerik turunda gözden geçirilecek (§9.13.4 #2 hâlâ açık).
 
 ---
 

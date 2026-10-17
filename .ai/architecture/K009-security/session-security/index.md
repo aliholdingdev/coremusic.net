@@ -14,7 +14,7 @@ children:
   - session-security-web-arastirma
 depends_on:
   - K009-security/authentication
-  - K010-identitiy
+  - K0100-identitiy
 evidence:
   - "v2 §2.9 satır 321 (ad) — kod: SessionConfig, SessionLifecycle, SessionBootstrapper, SessionKeys"
   - "shared/src/Session/ (4 dosya) · shared/src/Middleware/SessionManagerMiddleware.php"
@@ -29,7 +29,7 @@ group: mimari
 
 # K009 · çocuk · session-security (Oturum Güvenliği)
 
-> **Sınır:** oturum/jeton YAŞAM DÖNGÜSÜ burada; kimlik modeli ve kimlik deposu `K010-identitiy`'de.
+> **Sınır:** oturum/jeton YAŞAM DÖNGÜSÜ burada; kimlik modeli ve kimlik deposu `K0100-identitiy`'de.
 
 ## §1 ROL (ELI10)
 
@@ -70,7 +70,7 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik deposu, credentials, jeton ANAHTARI kaynağı | `K010-identitiy` | Yalnız sınır referansı |
+| Kimlik deposu, credentials, jeton ANAHTARI kaynağı | `K0100-identitiy` | Yalnız sınır referansı |
 | OS düzeyi oturum/servis hesabı güvenliği | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
 
 ## §5 BAĞLANTILAR

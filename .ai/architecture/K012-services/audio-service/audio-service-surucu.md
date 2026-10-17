@@ -257,9 +257,9 @@ Hata kaynağı
 | Hedef | Tür | Kanıt |
 |---|---|---|
 | K007-veri | okuma | S2 bagimliliklar §17 |
-| K015-media | dosya | S1:371 |
+| K014-media | dosya | S1:371 |
 | K008-kural | okuma (iddia) | S2 master §21.4 |
-| K014-network | protokol | S2 master §23/6 |
+| K010-network | protokol | S2 master §23/6 |
 | K011-arayuz | sunum | S2 master §23/5 |
 
 ## §16 İlgili Dosyalar
@@ -313,11 +313,11 @@ Hata kaynağı
 |---|---|---|
 | Sinyal isteği gelirse | K003-audio | sinyal motor sahibi |
 | EQ/kompresör isteği | K004-dsp | DSP zinciri sahibi |
-| Dosya silme | K015-media | kalıcılık sahibi |
-| Katalog yazma | K015-media | katalog sahibi |
+| Dosya silme | K014-media | kalıcılık sahibi |
+| Katalog yazma | K014-media | katalog sahibi |
 | Eşik/izin kuralı | K008-kural | kural sahibi |
 | Ekran çizimi | K011-arayuz | arayüz sahibi |
-| Taşıma protokolü değişikliği | K014-network | ağ sahibi |
+| Taşıma protokolü değişikliği | K010-network | ağ sahibi |
 | Zamanlanmış iş | background-jobs (K012 içi) | Q5 motor bilinmiyor |
 | Kontrat/DTO biçimi | service-contracts | Q4 kapsam belirsiz |
 
@@ -444,7 +444,7 @@ Hata kaynağı
 | T11 | cihaz profili | profil yolu | bayrak false/true | S1:463 |
 | T12 | sinyal isteği | devir | K003-audio | S2 index.md |
 | T13 | zamanlanmış iş | — | — | UNKNOWN |
-| T14 | katalog yazımı | devir | K015-media | S2 §23/4 |
+| T14 | katalog yazımı | devir | K014-media | S2 §23/4 |
 | T15 | oran aşımı | — | — | UNKNOWN |
 
 ## §28 Sürücü Kapsam Dışı Liste (net devir)
@@ -453,15 +453,15 @@ Hata kaynağı
 |---|---|---|---|
 | 1 | ses sinyali işleme | K003-audio | motor sahipliği |
 | 2 | DSP zinciri ayarı | K004-dsp | DSP sahipliği |
-| 3 | medya dosyası silme/üretme | K015-media | dosya sahipliği |
-| 4 | katalog yazma | K015-media | katalog sahipliği |
+| 3 | medya dosyası silme/üretme | K014-media | dosya sahipliği |
+| 4 | katalog yazma | K014-media | katalog sahipliği |
 | 5 | izin/eşik kuralı üretme | K008-kural | kural sahipliği |
 | 6 | şema/DB yazma | K007-veri | veri sahipliği |
 | 7 | ekran öğesi çizme | K011-arayuz | arayüz sahipliği |
-| 8 | taşıma protokolü seçme | K014-network | ağ sahipliği |
+| 8 | taşıma protokolü seçme | K010-network | ağ sahipliği |
 | 9 | zamanlanmış iş motoru | background-jobs | Q5 |
 | 10 | DTO/kontrat biçimi | service-contracts | Q4 |
-| 11 | cihaz kimliği/yetki | K010-identitiy | Q6 |
+| 11 | cihaz kimliği/yetki | K0100-identitiy | Q6 |
 | 12 | kullanıcı profili | user-service | komşu servis |
 | 13 | test altyapısı kurma | K019 | §23/7 |
 | 14 | dağıtım/CI | K018 | §23/8 |

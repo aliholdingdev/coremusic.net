@@ -62,8 +62,8 @@ Bu dosya-seti o daÄŸÄ±nÄ±klÄ±ÄŸÄ± tek envanterde birleÅŸtirir.
 | 2 | HTTP durum kodu *seÃ§imi* | routing/usecase | `AuthController.php:60-78` eÅŸleme |
 | 3 | KalÄ±cÄ±lÄ±k ÅŸemasÄ± / DB nullable | K007-data | `.ai/.sql/mysql/` ÅŸema sahipliÄŸi |
 | 4 | Cache/ETag/Cache-Control | caching kardeÅŸ | rota kaydÄ±nda `cacheable/cacheTtl` alanÄ± |
-| 5 | Session/JWT claim taÅŸÄ±ma | K010-identitiy | `JwtService` kimlik alanÄ±ndadÄ±r |
-| 6 | Protobuf/gRPC/MessagePack taÅŸÄ±ma | K014-network | Proje REST/JSON tabanlÄ± |
+| 5 | Session/JWT claim taÅŸÄ±ma | K0100-identitiy | `JwtService` kimlik alanÄ±ndadÄ±r |
+| 6 | Protobuf/gRPC/MessagePack taÅŸÄ±ma | K010-network | Proje REST/JSON tabanlÄ± |
 | 7 | Dosya yÃ¼kleme DTO'su | Kapsam dÄ±ÅŸÄ± | repo'da karÅŸÄ±lÄ±ÄŸÄ± bulunamadÄ± â†’ âš ï¸ Â§A.6 |
 | 8 | BFF dÃ¶nÃ¼ÅŸÃ¼mÃ¼nÃ¼n altyapÄ±sÄ± | routing kardeÅŸ | `Api/Bff/` yÃ¶nlendirme dosyasÄ±nda |
 
@@ -201,7 +201,7 @@ Grep Ã¶lÃ§Ã¼mÃ¼ (2026-10-15, `*.php`, repo geneli):
 | 2 | Rota doÄŸrulama kuralÄ±nÄ±n sahipliÄŸi | `routing` kardeÅŸ | `routes.php:59` kural seti |
 | 3 | BFF alan seÃ§imi/kÄ±rpma | `routing` kardeÅŸ | `Api/Bff/` orada |
 | 4 | Event payload ÅŸekli | K012-events | DTO ile taÅŸÄ±nmÄ±yor (Â§A.5) |
-| 5 | JWT claim ÅŸekli | K010-identitiy | `JwtService` orada |
+| 5 | JWT claim ÅŸekli | K0100-identitiy | `JwtService` orada |
 | 6 | Sayfalama sorgu Ã¼retimi (SQL LIMIT/OFFSET) | K007-data | DTO yalnÄ±z hesabÄ± taÅŸÄ±r |
 
 ---
@@ -247,106 +247,106 @@ Dosya: shared/tests/Api/DtoTest.php Â· SatÄ±r: 14
 
 ---
 
-## §G — GATE MATRİSİ (Detay)
+## ï¿½G ï¿½ GATE MATRï¿½Sï¿½ (Detay)
 
-| Gate | Kapsam Dosyası | Karar | Kanıt | Durum |
+| Gate | Kapsam Dosyasï¿½ | Karar | Kanï¿½t | Durum |
 |---|---|---|---|---|
-| G1 | dto-veri-tasiyicer-tasarimi.md (543 L) | Scope slot — DTO taşıyıcı tasarım kapsamı | `.ai/architecture/K011-application/dto/dto-veri-tasiyicer-tasarimi.md` | MEVCUT |
-| G2 | dto-kapsam.md (bu dosya) | Scope slot — DTO kapsam ve katalog | Bu dosya, §B–§F | YAZILDI |
-| G3 | dto-dogrulama.md | Verification slot — ölçüm ve doğrulama | `.ai/architecture/K011-application/dto/dto-dogrulama.md` | YAZILDI |
-| G4 | dto-web-arastirma.md | Kanıt slot — PSR-7 / JSON / HTTP referansları | URL havuzu (4 URL) | YAZILDI |
-| G5 | dto-ornekler.md | Kod slot — PHP/JS/SQL/CSS örnek kanıtları | Dosya·Satır kanıt blokları | YAZILDI |
-| G6 | dto-bilesenler.md | Mimari slot — bileşen envanteri | 14 DTO envanteri | YAZILDI |
-| G7 | index.md | Katalog — 6 dosya özet tablosu | 40–100 satır | YAZILDI |
+| G1 | dto-veri-tasiyicer-tasarimi.md (543 L) | Scope slot ï¿½ DTO taï¿½ï¿½yï¿½cï¿½ tasarï¿½m kapsamï¿½ | `.ai/architecture/K011-application/dto/dto-veri-tasiyicer-tasarimi.md` | MEVCUT |
+| G2 | dto-kapsam.md (bu dosya) | Scope slot ï¿½ DTO kapsam ve katalog | Bu dosya, ï¿½Bï¿½ï¿½F | YAZILDI |
+| G3 | dto-dogrulama.md | Verification slot ï¿½ ï¿½lï¿½ï¿½m ve doï¿½rulama | `.ai/architecture/K011-application/dto/dto-dogrulama.md` | YAZILDI |
+| G4 | dto-web-arastirma.md | Kanï¿½t slot ï¿½ PSR-7 / JSON / HTTP referanslarï¿½ | URL havuzu (4 URL) | YAZILDI |
+| G5 | dto-ornekler.md | Kod slot ï¿½ PHP/JS/SQL/CSS ï¿½rnek kanï¿½tlarï¿½ | Dosyaï¿½Satï¿½r kanï¿½t bloklarï¿½ | YAZILDI |
+| G6 | dto-bilesenler.md | Mimari slot ï¿½ bileï¿½en envanteri | 14 DTO envanteri | YAZILDI |
+| G7 | index.md | Katalog ï¿½ 6 dosya ï¿½zet tablosu | 40ï¿½100 satï¿½r | YAZILDI |
 
 ---
 
-## §H — MEVCUT DOSYA SLOTLARI (Silinmez, yeniden adlandırılmaz)
+## ï¿½H ï¿½ MEVCUT DOSYA SLOTLARI (Silinmez, yeniden adlandï¿½rï¿½lmaz)
 
-| Dosya | Satır | Slot Rolü | Yeni Set İçindeki Karşılığı |
+| Dosya | Satï¿½r | Slot Rolï¿½ | Yeni Set ï¿½ï¿½indeki Karï¿½ï¿½lï¿½ï¿½ï¿½ |
 |---|---|---|---|
-| dto-veri-tasiyicer-tasarimi.md | 543 | KAPSAM (orijinal, korunur) | KAPSAM slotunun bir parçası — dto-kapsam.md ile birlikte |
+| dto-veri-tasiyicer-tasarimi.md | 543 | KAPSAM (orijinal, korunur) | KAPSAM slotunun bir parï¿½asï¿½ ï¿½ dto-kapsam.md ile birlikte |
 | dto-kapsam.md | 500+ | KAPSAM (yeni) | Katalog + kapsam |
-| dto-dogrulama.md | 544 | DOĞRULAMA | Ölçüm + gate doğrulama |
-| dto-web-arastirma.md | 500+ | WEB ARAŞTIRMA | PSR-7/JSON/HTTP kanıt havuzu |
-| dto-ornekler.md | 500+ | ÖRNEKLER | Dosya·Satır kanıt kod blokları |
-| dto-bilesenler.md | 500+ | BİLEŞENLER | DTO bileşen envanteri |
-| index.md | 40–100 | KATALOG | 6 dosya özeti |
+| dto-dogrulama.md | 544 | DOï¿½RULAMA | ï¿½lï¿½ï¿½m + gate doï¿½rulama |
+| dto-web-arastirma.md | 500+ | WEB ARAï¿½TIRMA | PSR-7/JSON/HTTP kanï¿½t havuzu |
+| dto-ornekler.md | 500+ | ï¿½RNEKLER | Dosyaï¿½Satï¿½r kanï¿½t kod bloklarï¿½ |
+| dto-bilesenler.md | 500+ | Bï¿½LEï¿½ENLER | DTO bileï¿½en envanteri |
+| index.md | 40ï¿½100 | KATALOG | 6 dosya ï¿½zeti |
 
-**Kural:** dto-veri-tasiyicer-tasarimi.md bu setin KAPSAM slotunun orijinal kanıtıdır;
-dosya üzerinde revizyon YOK, taşıma/silme YOK.
+**Kural:** dto-veri-tasiyicer-tasarimi.md bu setin KAPSAM slotunun orijinal kanï¿½tï¿½dï¿½r;
+dosya ï¿½zerinde revizyon YOK, taï¿½ï¿½ma/silme YOK.
 
 ---
 
-## §I — DOSYA ADLANDIRMA ŞEMASI
+## ï¿½I ï¿½ DOSYA ADLANDIRMA ï¿½EMASI
 
 ```
 ai/architecture/K011-application/dto/
-+¦¦ dto-kapsam.md                    › kapsam
-+¦¦ dto-dogrulama.md                 › dogrulama
-+¦¦ dto-web-arastirma.md             › web-arastirma
-+¦¦ dto-ornekler.md                  › ornekler
-+¦¦ dto-bilesenler.md                › bilesenler
-+¦¦ index.md                         › katalog
-L¦¦ dto-veri-tasiyicer-tasarimi.md   › MEVCUT (korunur)
++ï¿½ï¿½ dto-kapsam.md                    ï¿½ kapsam
++ï¿½ï¿½ dto-dogrulama.md                 ï¿½ dogrulama
++ï¿½ï¿½ dto-web-arastirma.md             ï¿½ web-arastirma
++ï¿½ï¿½ dto-ornekler.md                  ï¿½ ornekler
++ï¿½ï¿½ dto-bilesenler.md                ï¿½ bilesenler
++ï¿½ï¿½ index.md                         ï¿½ katalog
+Lï¿½ï¿½ dto-veri-tasiyicer-tasarimi.md   ï¿½ MEVCUT (korunur)
 ```
 
-**Şablon:** `commands/` klasörü format referansı — §GRUPLAR tablosu frontmatter sonrası;
+**ï¿½ablon:** `commands/` klasï¿½rï¿½ format referansï¿½ ï¿½ ï¿½GRUPLAR tablosu frontmatter sonrasï¿½;
 footer Authority + Last Updated.
 
 ---
 
-## §J — GRUP HARİTASI
+## ï¿½J ï¿½ GRUP HARï¿½TASI
 
-| Dosya | Group | GRUPLAR Ana Hatları |
+| Dosya | Group | GRUPLAR Ana Hatlarï¿½ |
 |---|---|---|
-| dto-kapsam.md | mimari | Katalog, slot matrisi, kapsam sınırları |
-| dto-dogrulama.md | mimari | Ölçüm, gate matrisi, anti-verification |
+| dto-kapsam.md | mimari | Katalog, slot matrisi, kapsam sï¿½nï¿½rlarï¿½ |
+| dto-dogrulama.md | mimari | ï¿½lï¿½ï¿½m, gate matrisi, anti-verification |
 | dto-web-arastirma.md | kanit | PSR-7, JSON, Content-Type, 409 Conflict |
-| dto-ornekler.md | kod | DTO kod blokları, Dosya·Satır kanıtı |
+| dto-ornekler.md | kod | DTO kod bloklarï¿½, Dosyaï¿½Satï¿½r kanï¿½tï¿½ |
 | dto-bilesenler.md | mimari | 14 DTO envanteri, katman analizi |
-| index.md | mimari | Katalog, okuma sırası |
+| index.md | mimari | Katalog, okuma sï¿½rasï¿½ |
 
 ---
 
-## §K — KAPSAM SINIRLARI (IN / OUT)
+## ï¿½K ï¿½ KAPSAM SINIRLARI (IN / OUT)
 
-### IN — Bu kapsamın içinde
+### IN ï¿½ Bu kapsamï¿½n iï¿½inde
 
-- 11 shared/src/Api/Dto/ dosyası (final readonly class)
-- 3 auth.coremusic.net/include/Domain/DTO/ dosyası (final class)
+- 11 shared/src/Api/Dto/ dosyasï¿½ (final readonly class)
+- 3 auth.coremusic.net/include/Domain/DTO/ dosyasï¿½ (final class)
 - 14 toplam DTO envanteri
-- Kapsam slotları: dto-kapsam.md + dto-veri-tasiyicer-tasarimi.md
-- Doğrulama: dto-dogrulama.md (14/14 toArray gate)
-- Kod örnekleri: dto-ornekler.md (Dosya·Satır kanıtlı)
-- Bileşen analizi: dto-bilesenler.md
+- Kapsam slotlarï¿½: dto-kapsam.md + dto-veri-tasiyicer-tasarimi.md
+- Doï¿½rulama: dto-dogrulama.md (14/14 toArray gate)
+- Kod ï¿½rnekleri: dto-ornekler.md (Dosyaï¿½Satï¿½r kanï¿½tlï¿½)
+- Bileï¿½en analizi: dto-bilesenler.md
 
-### OUT — Bu kapsamın dışında
+### OUT ï¿½ Bu kapsamï¿½n dï¿½ï¿½ï¿½nda
 
-- Diğer K011 klasörleri (usecase/, events/, middleware/, commands/)
-- Kaynak kod değişikliği (.php / .js / .css / .sql)
-- git commit (orkestratöre ait)
-- URL uydurma (yalnız 4 URL havuzu)
-- PLANNED/VERIFICATION REQUIRED işaretlemesi yapılmayan iddialar
+- Diï¿½er K011 klasï¿½rleri (usecase/, events/, middleware/, commands/)
+- Kaynak kod deï¿½iï¿½ikliï¿½i (.php / .js / .css / .sql)
+- git commit (orkestratï¿½re ait)
+- URL uydurma (yalnï¿½z 4 URL havuzu)
+- PLANNED/VERIFICATION REQUIRED iï¿½aretlemesi yapï¿½lmayan iddialar
 
 ---
 
-## §L — PSR-7 DURUMU (Özet)
+## ï¿½L ï¿½ PSR-7 DURUMU (ï¿½zet)
 
-| Paket | Sürüm | Durum | Kod Kullanımı |
+| Paket | Sï¿½rï¿½m | Durum | Kod Kullanï¿½mï¿½ |
 |---|---|---|---|
-| nyholm/psr7 | ^1.8 | composer.json'da tanımlı | **SIFIR** — grep: 0 sonuç |
-| psr/http-message | (transitif) | composer.lock'ta | **SIFIR** — kodda yok |
+| nyholm/psr7 | ^1.8 | composer.json'da tanï¿½mlï¿½ | **SIFIR** ï¿½ grep: 0 sonuï¿½ |
+| psr/http-message | (transitif) | composer.lock'ta | **SIFIR** ï¿½ kodda yok |
 
 **Karar:** PSR-7 Message interface'i DTO'larda KULLANILMIYOR.
-DTO'lar `array` dönüyor (`toArray()`), `ResponseInterface` dönmüyor.
-?? VERIFICATION REQUIRED: PSR-7 paketi gelecekteki kullanım için mi eklendi, yoksa atık mı?
+DTO'lar `array` dï¿½nï¿½yor (`toArray()`), `ResponseInterface` dï¿½nmï¿½yor.
+?? VERIFICATION REQUIRED: PSR-7 paketi gelecekteki kullanï¿½m iï¿½in mi eklendi, yoksa atï¿½k mï¿½?
 
 ---
 
-## §M — DTO SAYIM ÖZETİ
+## ï¿½M ï¿½ DTO SAYIM ï¿½ZETï¿½
 
-| Katman | DTO Sayısı | Dosya | toArray |
+| Katman | DTO Sayï¿½sï¿½ | Dosya | toArray |
 |---|---|---|---|
 | shared/src/Api/Dto/ | 11 | ApiResponse, ErrorResponse, PaginatedResponse, PaginationRequest, ValidationFailedResponse, UnauthorizedResponse, ForbiddenResponse, NotFoundResponse, ConflictResponse, ServiceUnavailableResponse, RequestValidationError | 11/11 ? |
 | auth/include/Domain/DTO/ | 3 | LoginRequest, AuthResponse, (3. dosya) | 12/13 |
@@ -354,24 +354,24 @@ DTO'lar `array` dönüyor (`toArray()`), `ResponseInterface` dönmüyor.
 
 ---
 
-## §N — İLGİLİ KONULAR (Cross-Reference)
+## ï¿½N ï¿½ ï¿½LGï¿½Lï¿½ KONULAR (Cross-Reference)
 
-| Konu | Referans | Klasör |
+| Konu | Referans | Klasï¿½r |
 |---|---|---|
-| Application Service kullanımı | usecase-katmanı.md | K011-application/usecase/ |
-| Event DTO taşınması | events-katmanı.md | K011-application/events/ |
-| Middleware validate etkileşimi | middleware-katmanı.md | K011-application/middleware/ |
-| Command pattern | commands/ (format referansı) | K011-application/commands/ |
+| Application Service kullanï¿½mï¿½ | usecase-katmanï¿½.md | K011-application/usecase/ |
+| Event DTO taï¿½ï¿½nmasï¿½ | events-katmanï¿½.md | K011-application/events/ |
+| Middleware validate etkileï¿½imi | middleware-katmanï¿½.md | K011-application/middleware/ |
+| Command pattern | commands/ (format referansï¿½) | K011-application/commands/ |
 
 ---
 
-## §O — SONRAKİ ADIMLAR (Bu Kapsam Çıktısı)
+## ï¿½O ï¿½ SONRAKï¿½ ADIMLAR (Bu Kapsam ï¿½ï¿½ktï¿½sï¿½)
 
-1. dto-dogrulama.md › 14/14 toArray gate doğrulaması (G1)
-2. dto-web-arastirma.md › PSR-7/JSON/HTTP kanıt havuzu (4 URL)
-3. dto-ornekler.md › Dosya·Satır kanıtlı kod örnekleri
-4. dto-bilesenler.md › bileşen envanteri (14 DTO)
-5. index.md › katalog (6 dosya özeti)
+1. dto-dogrulama.md ï¿½ 14/14 toArray gate doï¿½rulamasï¿½ (G1)
+2. dto-web-arastirma.md ï¿½ PSR-7/JSON/HTTP kanï¿½t havuzu (4 URL)
+3. dto-ornekler.md ï¿½ Dosyaï¿½Satï¿½r kanï¿½tlï¿½ kod ï¿½rnekleri
+4. dto-bilesenler.md ï¿½ bileï¿½en envanteri (14 DTO)
+5. index.md ï¿½ katalog (6 dosya ï¿½zeti)
 
 ---
 
@@ -380,74 +380,74 @@ DTO'lar `array` dönüyor (`toArray()`), `ResponseInterface` dönmüyor.
 
 ---
 
-## §P — DOSYA-BY-DOSYA KAPSAM NOTLARI
+## ï¿½P ï¿½ DOSYA-BY-DOSYA KAPSAM NOTLARI
 
-### P.1 — dto-veri-tasiyicer-tasarimi.md (543 satır, MEVCUT)
+### P.1 ï¿½ dto-veri-tasiyicer-tasarimi.md (543 satï¿½r, MEVCUT)
 
-- Kapsam slotunun orijinal kanıtı
-- Veri taşıyıcı tasarım kararları: final readonly, toArray(), static factory
-- Dosya üzerinde revizyon YOK
+- Kapsam slotunun orijinal kanï¿½tï¿½
+- Veri taï¿½ï¿½yï¿½cï¿½ tasarï¿½m kararlarï¿½: final readonly, toArray(), static factory
+- Dosya ï¿½zerinde revizyon YOK
 
-### P.2 — dto-dogrulama.md (544 satır, YENİ)
+### P.2 ï¿½ dto-dogrulama.md (544 satï¿½r, YENï¿½)
 
-- §E — Ölçüm tablosu (14 DTO, toArray gate)
-- §F — Gate matrisi (G1–G7)
-- §K — Anti-verification (bilinen eksiklikler)
-- §L — Verification required işaretli iddialar
+- ï¿½E ï¿½ ï¿½lï¿½ï¿½m tablosu (14 DTO, toArray gate)
+- ï¿½F ï¿½ Gate matrisi (G1ï¿½G7)
+- ï¿½K ï¿½ Anti-verification (bilinen eksiklikler)
+- ï¿½L ï¿½ Verification required iï¿½aretli iddialar
 
-### P.3 — dto-web-arastirma.md (500+ satır, YENİ)
+### P.3 ï¿½ dto-web-arastirma.md (500+ satï¿½r, YENï¿½)
 
-- §A — PSR-7 Message interface (php.net/manual/en/class.psr-7-message.php)
-- §B — JsonSerializable (php.net/manual/en/class.jsonserializable.php)
-- §C — Content-Type header (mdn.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type)
-- §D — 409 Conflict status (mdn.org/en-US/docs/Web/HTTP/Reference/Status/409)
-- §E — Repo entegrasyon notları (?? VERIFICATION REQUIRED işaretli)
+- ï¿½A ï¿½ PSR-7 Message interface (php.net/manual/en/class.psr-7-message.php)
+- ï¿½B ï¿½ JsonSerializable (php.net/manual/en/class.jsonserializable.php)
+- ï¿½C ï¿½ Content-Type header (mdn.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type)
+- ï¿½D ï¿½ 409 Conflict status (mdn.org/en-US/docs/Web/HTTP/Reference/Status/409)
+- ï¿½E ï¿½ Repo entegrasyon notlarï¿½ (?? VERIFICATION REQUIRED iï¿½aretli)
 
-### P.4 — dto-ornekler.md (500+ satır, YENİ)
+### P.4 ï¿½ dto-ornekler.md (500+ satï¿½r, YENï¿½)
 
-- §A — shared/src/Api/Dto/ kod blokları (Dosya·Satır kanıtlı)
-- §B — auth/include/Domain/DTO/ kod blokları
-- §C — JS tarafı: gender-select.js JSON parse örneği
-- §D — SQL: DTO'ya besleyen sorgu kanıtları
-- §E — CSS: (uygunsa — DTO ile doğrudan ilişki yoksa PLANNED)
+- ï¿½A ï¿½ shared/src/Api/Dto/ kod bloklarï¿½ (Dosyaï¿½Satï¿½r kanï¿½tlï¿½)
+- ï¿½B ï¿½ auth/include/Domain/DTO/ kod bloklarï¿½
+- ï¿½C ï¿½ JS tarafï¿½: gender-select.js JSON parse ï¿½rneï¿½i
+- ï¿½D ï¿½ SQL: DTO'ya besleyen sorgu kanï¿½tlarï¿½
+- ï¿½E ï¿½ CSS: (uygunsa ï¿½ DTO ile doï¿½rudan iliï¿½ki yoksa PLANNED)
 
-### P.5 — dto-bilesenler.md (500+ satır, YENİ)
+### P.5 ï¿½ dto-bilesenler.md (500+ satï¿½r, YENï¿½)
 
-- §A — Bileşen ağacı (14 DTO)
-- §B — ApiResponse ailesi (base + 5 error)
-- §C — Request ailesi (PaginationRequest, LoginRequest)
-- §D — Response ailesi (PaginatedResponse, AuthResponse)
-- §E — ValidationFailedResponse (RequestValidationError içerir)
-- §F — Katman bağımlılığı matrisi
+- ï¿½A ï¿½ Bileï¿½en aï¿½acï¿½ (14 DTO)
+- ï¿½B ï¿½ ApiResponse ailesi (base + 5 error)
+- ï¿½C ï¿½ Request ailesi (PaginationRequest, LoginRequest)
+- ï¿½D ï¿½ Response ailesi (PaginatedResponse, AuthResponse)
+- ï¿½E ï¿½ ValidationFailedResponse (RequestValidationError iï¿½erir)
+- ï¿½F ï¿½ Katman baï¿½ï¿½mlï¿½lï¿½ï¿½ï¿½ matrisi
 
-### P.6 — index.md (40–100 satır, YENİ)
+### P.6 ï¿½ index.md (40ï¿½100 satï¿½r, YENï¿½)
 
-- §A — 6 dosya katalog tablosu
-- §B — OKUMA SIRASI (boot order)
-- §C — Kapılar (gate özeti)
-- §D — Cross-reference (diğer K011 klasörleri)
+- ï¿½A ï¿½ 6 dosya katalog tablosu
+- ï¿½B ï¿½ OKUMA SIRASI (boot order)
+- ï¿½C ï¿½ Kapï¿½lar (gate ï¿½zeti)
+- ï¿½D ï¿½ Cross-reference (diï¿½er K011 klasï¿½rleri)
 
 ---
 
-## §Q — REFERANS HAVUZU (Yalnız Bu 4 URL)
+## ï¿½Q ï¿½ REFERANS HAVUZU (Yalnï¿½z Bu 4 URL)
 
-| # | URL | Kullanım | Kullanıldığı Dosya |
+| # | URL | Kullanï¿½m | Kullanï¿½ldï¿½ï¿½ï¿½ Dosya |
 |---|---|---|---|
-| 1 | https://www.php.net/manual/en/class.psr-7-message.php | PSR-7 Message interface | dto-web-arastirma.md §A |
-| 2 | https://www.php.net/manual/en/class.jsonserializable.php | JsonSerializable | dto-web-arastirma.md §B |
-| 3 | https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type | Content-Type | dto-web-arastirma.md §C |
-| 4 | https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/409 | 409 Conflict | dto-web-arastirma.md §D |
+| 1 | https://www.php.net/manual/en/class.psr-7-message.php | PSR-7 Message interface | dto-web-arastirma.md ï¿½A |
+| 2 | https://www.php.net/manual/en/class.jsonserializable.php | JsonSerializable | dto-web-arastirma.md ï¿½B |
+| 3 | https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type | Content-Type | dto-web-arastirma.md ï¿½C |
+| 4 | https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/409 | 409 Conflict | dto-web-arastirma.md ï¿½D |
 
-**Yasak:** Bu 4 URL dışına çıkmak — herhangi bir URL uydurmak.
+**Yasak:** Bu 4 URL dï¿½ï¿½ï¿½na ï¿½ï¿½kmak ï¿½ herhangi bir URL uydurmak.
 
 ---
 
-## §R — TOPLAM ÖLÇÜM ÖZETİ
+## ï¿½R ï¿½ TOPLAM ï¿½Lï¿½ï¿½M ï¿½ZETï¿½
 
-| Metrik | Değer |
+| Metrik | Deï¿½er |
 |---|---|
-| shared/src toplam PHP dosyası | 165 |
-| Api/ alt klasör (DTO dahil) | 34 |
+| shared/src toplam PHP dosyasï¿½ | 165 |
+| Api/ alt klasï¿½r (DTO dahil) | 34 |
 | Events/ | 9 |
 | Contracts/ | 19 |
 | Middleware/ | 11 |
@@ -455,19 +455,19 @@ DTO'lar `array` dönüyor (`toArray()`), `ResponseInterface` dönmüyor.
 | assets/js (glob) | 98 |
 | DTO toplam (shared) | 11 |
 | DTO toplam (auth) | 3 |
-| DTO toplam (tüm) | 14 |
+| DTO toplam (tï¿½m) | 14 |
 | toArray gate | 13/14 |
 
 ---
 
-## §S — YORUMLAR VE NOTLAR
+## ï¿½S ï¿½ YORUMLAR VE NOTLAR
 
-- DTO'lar **final readonly class** (shared) veya **final class** (auth) — ikisi de immutable by convention.
-- **SRP:** Her DTO tek veri yapısı — request, response, error ayrılmış.
-- **Dependency:** DTO'larda framework bağımlılığı YOK (sadece `ArrayAccess` bir tane: RequestValidationError).
-- **PSR-7:** composer.json'da var ama kodda SIFIR kullanım — ?? VERIFICATION REQUIRED.
-- **Auth DTO'ları:** `LoginRequest` ve `AuthResponse` production'da AKTİF kullanılıyor (AuthPostHandler).
-- **Shared DTO'ları:** 11 dosya test dışında KULLANILMIYOR (grep 0 sonuç) — PLANNED-üretilmiş katman.
+- DTO'lar **final readonly class** (shared) veya **final class** (auth) ï¿½ ikisi de immutable by convention.
+- **SRP:** Her DTO tek veri yapï¿½sï¿½ ï¿½ request, response, error ayrï¿½lmï¿½ï¿½.
+- **Dependency:** DTO'larda framework baï¿½ï¿½mlï¿½lï¿½ï¿½ï¿½ YOK (sadece `ArrayAccess` bir tane: RequestValidationError).
+- **PSR-7:** composer.json'da var ama kodda SIFIR kullanï¿½m ï¿½ ?? VERIFICATION REQUIRED.
+- **Auth DTO'larï¿½:** `LoginRequest` ve `AuthResponse` production'da AKTï¿½F kullanï¿½lï¿½yor (AuthPostHandler).
+- **Shared DTO'larï¿½:** 11 dosya test dï¿½ï¿½ï¿½nda KULLANILMIYOR (grep 0 sonuï¿½) ï¿½ PLANNED-ï¿½retilmiï¿½ katman.
 
 ---
 
@@ -476,43 +476,43 @@ DTO'lar `array` dönüyor (`toArray()`), `ResponseInterface` dönmüyor.
 
 ---
 
-## §T — ÖNCEKİ KARARLAR (Precedent)
+## ï¿½T ï¿½ ï¿½NCEKï¿½ KARARLAR (Precedent)
 
 | Karar | Kaynak | Durum |
 |---|---|---|
-| DTO final readonly class olmalı | shared/src/Api/Dto/ (11 dosya) | ADOPTED |
+| DTO final readonly class olmalï¿½ | shared/src/Api/Dto/ (11 dosya) | ADOPTED |
 | toArray() interface method'u | Shared/src/Contracts/ | ADOPTED |
 | static factory method pattern | ApiResponse::success/error | ADOPTED |
 | HTTP status code sabitleri | ApiResponse.php const | ADOPTED |
-| Error kodları string enum | ErrorResponse.php | ADOPTED |
+| Error kodlarï¿½ string enum | ErrorResponse.php | ADOPTED |
 | PSR-7 Message interface | composer.json (var) / kod (yok) | VERIFICATION REQUIRED |
 
 ---
 
-## §U — KAPSAM KABUL KRİTERLERİ
+## ï¿½U ï¿½ KAPSAM KABUL KRï¿½TERLERï¿½
 
 | # | Kriter | Beklenen | Durum |
 |---|---|---|---|
-| 1 | Dosya sayısı (kapsam slotu) | ?2 (dto-kapsam + dto-veri-tasiyicer-tasarimi) | ? 2 |
+| 1 | Dosya sayï¿½sï¿½ (kapsam slotu) | ?2 (dto-kapsam + dto-veri-tasiyicer-tasarimi) | ? 2 |
 | 2 | toArray gate | 14/14 | ?? 13/14 (auth LoginRequest'te yok) |
 | 3 | URL havuzu | ?4 | ? 4 |
 | 4 | Frontmatter | 7 alan (group: son) | ? |
-| 5 | GRUPLAR tablosu | frontmatter sonrası | ? |
+| 5 | GRUPLAR tablosu | frontmatter sonrasï¿½ | ? |
 | 6 | Footer | Authority + Last Updated | ? |
 
 ---
 
-## §V — DOSYA YAŞAM DÖNGÜSÜ
+## ï¿½V ï¿½ DOSYA YAï¿½AM Dï¿½NGï¿½Sï¿½
 
 ```
-Oluşturma (bu görev)
-  › Kapsam tanımı (dto-kapsam.md)
-  › Doğrulama (dto-dogrulama.md — G1 gate)
-  › Web kanıt (dto-web-arastirma.md)
-  › Kod örnek (dto-ornekler.md)
-  › Bileşen envanter (dto-bilesenler.md)
-  › Katalog (index.md)
-  › Orkestratör commit (subagent commit ATMADI)
+Oluï¿½turma (bu gï¿½rev)
+  ï¿½ Kapsam tanï¿½mï¿½ (dto-kapsam.md)
+  ï¿½ Doï¿½rulama (dto-dogrulama.md ï¿½ G1 gate)
+  ï¿½ Web kanï¿½t (dto-web-arastirma.md)
+  ï¿½ Kod ï¿½rnek (dto-ornekler.md)
+  ï¿½ Bileï¿½en envanter (dto-bilesenler.md)
+  ï¿½ Katalog (index.md)
+  ï¿½ Orkestratï¿½r commit (subagent commit ATMADI)
 ```
 
 ---

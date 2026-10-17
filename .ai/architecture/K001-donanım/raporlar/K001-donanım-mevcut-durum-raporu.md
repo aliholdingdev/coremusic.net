@@ -172,9 +172,9 @@ mini-ağaçta K000 kademe-2 listesinde **YOKTU**". Kayıt `os-donanim-tespiti-ka
 
 | # | Dizin | md dosyası | # | Dizin | md dosyası |
 |---|---|---|---|---|---|
-| 1 | `K000-isletim-sistemi` | 267 | 15 | `K014-network` | 16 |
-| 2 | `K001-donanım` | **65** | 16 | `K015-media` | 15 |
-| 3 | `K002-electroncis` | 16 | 17 | `K016-AI` | 22 |
+| 1 | `K000-isletim-sistemi` | 267 | 15 | `K010-network` | 16 |
+| 2 | `K001-donanım` | **65** | 16 | `K014-media` | 15 |
+| 3 | `K002-electroncis` | 16 | 17 | `K015-AI` | 22 |
 | 4 | `K003-audio` | 68 | 18 | `K017-observability` | 20 |
 | 5 | `K004-dsp` | 69 | 19 | `K018-devops` | 21 |
 | 6 | `K005-firmware` | 35 | 20 | `K019-testing` | 22 |
@@ -182,7 +182,7 @@ mini-ağaçta K000 kademe-2 listesinde **YOKTU**". Kayıt `os-donanim-tespiti-ka
 | 8 | `K007-data` | 33 | 22 | `K020-comere` | 2 |
 | 9 | `K008-domain` | 30 | 23 | `K020-comilance` | 5 |
 | 10 | `K009-security` | 50 | 24 | `K020-discovery` | 3 |
-| 11 | `K010-identitiy` | 27 | 25 | `K020-licence` | 3 |
+| 11 | `K0100-identitiy` | 27 | 25 | `K020-licence` | 3 |
 | 12 | `K011-application` | 29 | 26 | `K020-recomenataion` | 5 |
 | 13 | `K012-services` | 46 | 27 | `adr` | 3 |
 | 14 | `K013-integraion` | 18 | 28 | `diagrams` | 5 |

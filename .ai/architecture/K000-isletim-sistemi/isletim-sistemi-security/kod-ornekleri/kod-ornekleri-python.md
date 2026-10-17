@@ -245,7 +245,7 @@ bu kartın karakteridir.
 ## §4 Sınır cümleleri
 
 > **K010 ayrımı (bağlayıcı):** Kimlik doğrulama, oturum, parola ve MFA →
-> `K010-identitiy`; burada yalnız Python'un OS'e açılan süreç/izin yüzeyi taşınır.
+> `K0100-identitiy`; burada yalnız Python'un OS'e açılan süreç/izin yüzeyi taşınır.
 > **K009 ayrımı (bağlayıcı):** OWASP denetimi, auth/CSRF/CSP tasarımı, kripto
 > seçimi (ADR-022) → `K009-security`; `secrets`/`hashlib` token-üretimi bu kartın
 > **konusu değildir**, uygulama katmanıdır.

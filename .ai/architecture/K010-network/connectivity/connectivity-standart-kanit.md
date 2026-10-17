@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/connectivity/standart-kanit
+node_id: K010-network/connectivity/standart-kanit
 node_type: module
 status: draft
-parent_id: K014-network/connectivity
+parent_id: K010-network/connectivity
 role: kanit
 children: []
 depends_on: []

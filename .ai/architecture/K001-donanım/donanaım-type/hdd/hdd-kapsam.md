@@ -66,7 +66,7 @@ depolama katmanındaki **rolünü ve sınırını** çizer.
 | B5 | DAC/codec/amfi çipleri | `[[ak4458-dac]]` · `[[pcm3168a-codec]]` · `[[tpa3255-amplifier]]` | `audio/cipler/*` |
 | B6 | Çıkış yolu ve ASIO/WASAPI tampon davranışı | K003-audio | `[[output-kapsam]]` |
 | B7 | Depolama cihazının firmware'i (SMART yazımı, init) | K005-firmware | `donanım-anayasa.md` §2 |
-| B8 | Ağ üzerinden depolama (NAS/HTTP akış) | K014-network · K015-media | komşu K düğümleri |
+| B8 | Ağ üzerinden depolama (NAS/HTTP akış) | K010-network · K014-media | komşu K düğümleri |
 
 ## §4 Mekanik Yapı
 
@@ -314,7 +314,7 @@ gürültüsünü yükseltir ve algılanan detayı düşürür. Bu, depolama seç
 |---|---|---|---|
 | 1 | Ham bayt (dosya) | **hdd** (bu konu) | Sektör/kümelenme §4.2 |
 | 2 | Dosya sistemi, tampon, fsync | K000-isletim-sistemi | `isletim-sistemi-core-kapsam.md` §A.2 (A3 satırı) |
-| 3 | Uygulama okuması + tampon doldurma | K015-media / K003-audio | §5.3 — 512 örnek = 10,67 ms |
+| 3 | Uygulama okuması + tampon doldurma | K014-media / K003-audio | §5.3 — 512 örnek = 10,67 ms |
 | 4 | DSP/zaman alanı | K003-audio engine · K004-dsp | 32-bit float (ADR-017) |
 | 5 | ASIO/WASAPI ile çıkış kuyruğu | K003-audio backend | `[[output-kapsam]]` · 512 örnek @ 48 kHz |
 | 6 | I2S/TDM ile dijital ses | K001 `[[pcm3168a-codec]]` · `[[ak4458-dac]]` | **Yalnız PCM3168A** (ADR-038 H001); PCM5122 **yasak** |
@@ -410,7 +410,7 @@ gerçek zamanlılığı **diske bağımlı değildir** — diskin görevi veriyi
 | 4 | SSD tarafı (flash, TRIM, TBW) | `ssd-kapsam.md` |
 | 5 | Depolama doğrulama uygulaması | `hdd-dogrulama.md` |
 | 6 | Depolama iş akışı örnekleri | `hdd-ornekler.md` |
-| 7 | Ağ/NAS depolama protokolleri | K014-network · K015-media |
+| 7 | Ağ/NAS depolama protokolleri | K010-network · K014-media |
 | 8 | DSP ve ses zinciri katsayıları | K003-audio · K004-dsp |
 
 ## §17 Kaynakça (bu dosyanın web kaynakları)

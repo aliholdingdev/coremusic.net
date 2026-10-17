@@ -15,7 +15,7 @@ children:
   - K006.9-testing
 depends_on:
   - K004-shared
-  - K016-AI
+  - K015-AI
   - K002-database
   - K001-core
 evidence:
@@ -218,7 +218,7 @@ K016 → K006 bağımlılığı **kodda gözlenmedi** (grep: K016 sınıfları A
 |---|---|---|---|---|---|
 | D1 | `php` | `>=8.4` | çalışma zamanı | tüm 7 dosya | sürüm üst sınırı **yok** |
 | D2 | `ext-apcu` · `ext-json` · `ext-mbstring` · `ext-pdo` | `*` | uzantılar (önbellek/JSON/metin/DB) | JSON çıktı (`json_encode` workflow) | `*` = sürüm bağımsız ⚠️ |
-| D3 | `firebase/php-jwt` | `^7.2` | JWT üretimi/doğrulama | bu domainde **görülmedi** | K010-identitiy sınırı |
+| D3 | `firebase/php-jwt` | `^7.2` | JWT üretimi/doğrulama | bu domainde **görülmedi** | K0100-identitiy sınırı |
 | D4 | `nyholm/psr7` | `^1.8` | PSR-7 mesaj implementasyonu | bu domainde **görülmedi** | K012 servis sınırı |
 | D5 | `php-di/php-di` | `^7.0` | DI konteyneri | `AIWorkflow` constructor (§1 grafik) | kayıt dosyası **okunmadı** |
 | D6 | `psr/cache` · `psr/container` · `psr/event-dispatcher` · `psr/log` | `^3.0`/`^2.0`/`^1.0`/`^3.0` | sözleşme arayüzleri | bkz. §9 | sözleşme-uygulama ayrışması |

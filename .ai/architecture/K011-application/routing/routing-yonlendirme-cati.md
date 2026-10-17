@@ -44,7 +44,7 @@ de kapsar: **API yönlendirme** (`shared/src/Api/`) ve **SPA sayfa yönlendirme*
 | # | Kapsam alanı | Bu dosyanın tanımı | Kapsam dışı (devredilen) |
 |---|---|---|---|
 | 1 | Route tablosu | Tanım biçimi, zorunlu anahtarlar, dokümantasyon satırı | Handler içi iş mantığı (use-case dosyası) |
-| 2 | Eşleme | URI normalizasyonu, öncelik, parametre çıkarma | DNS/host yönlendirme (K014-network) |
+| 2 | Eşleme | URI normalizasyonu, öncelik, parametre çıkarma | DNS/host yönlendirme (K010-network) |
 | 3 | Metod uyumu | 405 + `Allow` başlığı üretimi | CORS politikası (middleware, ayrı dosya) |
 | 4 | Middleware sırası | Pipeline sarmalama yönü | Middleware'in kendi kararı (ilgili dosyalar) |
 | 5 | Versiyonlama | `/api/v1` öneki ve eşleme kaydı | Sözleşme değişiklik yönetimi (K012-integraion) |

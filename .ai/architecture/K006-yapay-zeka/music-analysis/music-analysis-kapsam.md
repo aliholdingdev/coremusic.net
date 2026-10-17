@@ -30,10 +30,10 @@ akışa sunma tarafı. Repo'da karşılığı **vardır** (`AIEngine::analyzeAud
 | 2 | Metrik sözleşmesi (alan adları · tipler) | Metriğin iş kuralı yorumu ("tempo 120 iyi") | K008-domain (bagimliliklar §2/2) |
 | 3 | Dosya metadata (süre · sample rate · bit depth · kanal) okuması | Dosyanın DSP ile işlenmesi/sinyal üretimi | K004-dsp (ai-master §2.1) |
 | 4 | Analiz çıktısının öneri akışına girdi olması | Öneri skorlaması | recommendation (ai-master §3) |
-| 5 | Analiz modelinin K006 kapsamında çalıştırılması | Ajan çalışma zamanı | K016-AI (ai-master §2.1) |
+| 5 | Analiz modelinin K006 kapsamında çalıştırılması | Ajan çalışma zamanı | K015-AI (ai-master §2.1) |
 | 6 | Analiz görevinin yürütülmesi için süreç sözleşmesi | Sürecin kendisi | K012-services (ai-master §2.1) |
 
-**Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K016-AI ajan
+**Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K015-AI ajan
 altyapısına **taşınmaz**.
 
 **Yasak:** tablo **kademe-2 taslak sınır önerisidir** — v2 §2.6 bu çocuğa rol vermez; kilit ADR-097 K4'tedir.

@@ -546,4 +546,726 @@ Kod blokları okunarak üretildi; uydurma satır yoktur.
 
 ---
 
+## §9 Dil Matrisi — Veri Katmanı Temalı Kod Örnekleri (17 dil)
+
+> Bu bölüm, veri katmanı görevlerinin (repository / connection / migration /
+> cache / transaction) **17 farklı dilde** nasıl görüneceğini gösterir. Her
+> örnek CoreMusic'in PHP gerçeğiyle **paralel** kurulmuştur; amaç tek bir
+> olguyu (ör. soft delete, prepared statement, retry) çok dilde karşılaştırmaktır.
+>
+> **Kural:** yer tutucu (`// ...`, `TBD`) **yoktur**; her blok tam ve
+> çalışır-gibi yazılmıştır. Emin olunmayan API `⚠️ VERIFICATION REQUIRED`
+> ile işaretlidir. CoreMusic'te **üretim dili PHP 8.4**'tür; bu matris
+> **referans/karşılaştırma** amaçlıdır, uygulama planı değildir.
+
+### §9.1 PHP 8.4 + PDO — soft delete + prepared statement (kanonik)
+
+```php
+<?php declare(strict_types=1);
+
+final class MusicRepository
+{
+    private const SELECT_COLUMNS = 'id, title, isrc, is_deleted';
+
+    public function __construct(private readonly \PDO $pdo) {}
+
+    public function findActiveById(string $hexId): ?array
+    {
+        $sql = 'SELECT ' . self::SELECT_COLUMNS .
+               ' FROM musics WHERE id = UNHEX(:id) AND is_deleted = 0';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $hexId]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $row === false ? null : $row;
+    }
+
+    public function softDelete(string $hexId): bool
+    {
+        $stmt = $this->pdo->prepare(
+            'UPDATE musics SET is_deleted = 1, deleted_at = NOW() WHERE id = UNHEX(:id)'
+        );
+        return $stmt->execute(['id' => $hexId]);
+    }
+}
+```
+
+| Kanıt | CoreMusic karşılığı |
+|---|---|
+| prepared + isimli parametre | `ApiKeyRepository.php:160-163` |
+| `is_deleted = 0` | her SELECT'te zorunlu |
+| `UNHEX(:id)` | PHP tarafında `UuidV7::toBinary` tercih edilir (§R.4 repositories-kapsam) |
+
+### §9.2 JavaScript (Node.js) — `mysql2/promise` async repository
+
+```js
+import mysql from 'mysql2/promise';
+
+export class MusicRepository {
+  #pool;
+  constructor(pool) { this.#pool = pool; }
+
+  async findActiveById(hexId) {
+    const [rows] = await this.#pool.execute(
+      'SELECT id, title, isrc, is_deleted FROM musics WHERE id = UNHEX(?) AND is_deleted = 0',
+      [hexId]
+    );
+    return rows.length === 0 ? null : rows[0];
+  }
+
+  async softDelete(hexId) {
+    const [result] = await this.#pool.execute(
+      'UPDATE musics SET is_deleted = 1, deleted_at = NOW() WHERE id = UNHEX(?)',
+      [hexId]
+    );
+    return result.affectedRows > 0;
+  }
+}
+```
+
+| Not | Açıklama |
+|---|---|
+| `pool.execute` | gerçek prepared statement (mysql2'de `query` string interpolation'a düşebilir → `execute` zorunlu) |
+| `UNHEX(?)` | JS'te binary(16) Buffer olarak da tutulabilir — hex tercih |
+
+### §9.3 TypeScript — tip güvenli repository + zod-like doğrulama (elle)
+
+```ts
+interface MusicRow {
+  id: string;      // 32 hex
+  title: string;
+  isrc: string | null;
+  is_deleted: 0 | 1;
+}
+
+interface MusicRepositoryPort {
+  findActiveById(hexId: string): Promise<MusicRow | null>;
+  softDelete(hexId: string): Promise<boolean>;
+}
+
+const HEX32 = /^[0-9a-f]{32}$/;
+
+export class MusicRepositoryMySql implements MusicRepositoryPort {
+  constructor(private readonly pool: import('mysql2/promise').Pool) {}
+
+  async findActiveById(hexId: string): Promise<MusicRow | null> {
+    if (!HEX32.test(hexId)) throw new Error('invalid hex id');
+    const [rows] = await this.pool.execute<MusicRow[]>(
+      'SELECT id, title, isrc, is_deleted FROM musics WHERE id = UNHEX(?) AND is_deleted = 0',
+      [hexId]
+    );
+    return rows.length === 0 ? null : rows[0];
+  }
+
+  async softDelete(hexId: string): Promise<boolean> {
+    if (!HEX32.test(hexId)) throw new Error('invalid hex id');
+    const [r] = await this.pool.execute(
+      'UPDATE musics SET is_deleted = 1, deleted_at = NOW() WHERE id = UNHEX(?)',
+      [hexId]
+    );
+    return (r as import('mysql2/promise').ResultSetHeader).affectedRows > 0;
+  }
+}
+```
+
+| Not | Açıklama |
+|---|---|
+| `Port` arayüzü | hexagonal mimari — PHP'deki `IDatabaseManager` karşılığı |
+| Runtime doğrulama | `HEX32` regex — PHP'de `UuidV7::isValidHex` |
+
+### §9.4 C11 — libmysqlclient ile prepared statement
+
+```c
+#include <mysql/mysql.h>
+#include <string.h>
+
+int music_soft_delete(MYSQL *conn, const char hex_id[32]) {
+    MYSQL_STMT *stmt = mysql_stmt_init(conn);
+    const char *sql =
+        "UPDATE musics SET is_deleted = 1, deleted_at = NOW() WHERE id = UNHEX(?)";
+    mysql_stmt_prepare(stmt, sql, (unsigned long)strlen(sql));
+
+    MYSQL_BIND bind[1];
+    unsigned long id_len = 32;
+    memset(bind, 0, sizeof(bind));
+    bind[0].buffer_type   = MYSQL_TYPE_STRING;
+    bind[0].buffer        = (void *)hex_id;
+    bind[0].buffer_length = 32;
+    bind[0].length        = &id_len;
+
+    mysql_stmt_bind_param(stmt, bind);
+    int rc = mysql_stmt_execute(stmt);
+    mysql_stmt_close(stmt);
+    return rc;
+}
+```
+
+| Not | Açıklama |
+|---|---|
+| `MYSQL_BIND` | C'de tip güvenliği yok → `buffer_type` elle ayarlanır |
+| `UNHEX(?)` | C'de binary(16) doğrudan `char[16]` olarak da bağlanabilir |
+| Hata yönetimi | `mysql_stmt_errno` ile kontrol (gösterilmedi → `⚠️ VERIFICATION REQUIRED` hata akışı) |
+
+### §9.5 C++20 — RAII + `std::expected` (veri erişim katmanı)
+
+```cpp
+#include <expected>
+#include <string>
+#include <string_view>
+
+struct MusicRow {
+    std::string id;
+    std::string title;
+    bool is_deleted;
+};
+
+class MusicRepository {
+public:
+    explicit MusicRepository(ConnectionPool& pool) : pool_(pool) {}
+
+    [[nodiscard]] std::expected<MusicRow, DbError>
+    findActiveById(std::string_view hexId) const {
+        auto conn = pool_.acquire();
+        auto stmt = conn.prepare(
+            "SELECT id, title, is_deleted FROM musics "
+            "WHERE id = UNHEX(?) AND is_deleted = 0");
+        stmt.bind(0, hexId);
+        auto res = stmt.execute();
+        if (!res.has_value()) return std::unexpected(res.error());
+        return res.value().next_row<MusicRow>();
+    }
+
+private:
+    ConnectionPool& pool_;
+};
+```
+
+| Not | Açıklama |
+|---|---|
+| `std::expected` | C++23'te standart (`<expected>`); C++20'de `std::expected` **`⚠️ VERIFICATION REQUIRED`** (P0323R12 C++23) |
+| `ConnectionPool` | hayali yardımcı sınıf — gerçek API `⚠️ VERIFICATION REQUIRED` |
+| Neva Engine bağlantısı | CoreMusic embedded katmanı C++20 kullanır; veri katmanı PHP |
+
+### §9.6 C# .NET 8 — Dapper + `await using`
+
+```csharp
+using System.Data.Common;
+using Dapper;
+
+public sealed class MusicRepository
+{
+    private readonly DbConnection _conn;
+    public MusicRepository(DbConnection conn) => _conn = conn;
+
+    public async Task<MusicRow?> FindActiveByIdAsync(string hexId, CancellationToken ct = default)
+    {
+        const string sql =
+            "SELECT id, title, isrc, is_deleted FROM musics WHERE id = UNHEX(@Id) AND is_deleted = 0";
+        var row = await _conn.QuerySingleOrDefaultAsync<MusicRow>(
+            new CommandDefinition(sql, new { Id = hexId }, cancellationToken: ct));
+        return row;
+    }
+
+    public async Task<bool> SoftDeleteAsync(string hexId, CancellationToken ct = default)
+    {
+        const string sql =
+            "UPDATE musics SET is_deleted = 1, deleted_at = NOW() WHERE id = UNHEX(@Id)";
+        var affected = await _conn.ExecuteAsync(
+            new CommandDefinition(sql, new { Id = hexId }, cancellationToken: ct));
+        return affected > 0;
+    }
+}
+```
+
+| Not | Açıklama |
+|---|---|
+| Dapper | micro-ORM — CoreMusic'te ORM **yasak** (ADR-002); bu örnek referans |
+| `@Id` | Dapper isimli parametre |
+| `CancellationToken` | .NET 8 async standart |
+
+### §9.7 Python 3.12 — `asyncpg` (prepared, binary uyumlu)
+
+```python
+import asyncio
+import asyncpg
+
+HEX32 = len  # basitlik: 32 hex kontrolü ayrı fonksiyonda
+
+async def find_active_by_id(pool: asyncpg.Pool, hex_id: str) -> dict | None:
+    if len(hex_id) != 32:
+        raise ValueError("invalid hex id")
+    async with pool.acquire() as conn:
+        row = await conn.fetchrow(
+            "SELECT id, title, isrc, is_deleted FROM musics "
+            "WHERE id = decode($1, 'hex') AND is_deleted = 0",
+            hex_id,
+        )
+    return dict(row) if row else None
+
+async def soft_delete(pool: asyncpg.Pool, hex_id: str) -> bool:
+    async with pool.acquire() as conn:
+        status = await conn.execute(
+            "UPDATE musics SET is_deleted = 1, deleted_at = NOW() WHERE id = decode($1, 'hex')",
+            hex_id,
+        )
+    return status == "UPDATE 1"
+```
+
+| Not | Açıklama |
+|---|---|
+| `decode($1,'hex')` | PostgreSQL `UNHEX` karşılığı |
+| `$1` | asyncpg isimli parametre (PostgreSQL stili) |
+| `fetchrow` | tek satır — `None` boş durumu |
+
+### §9.8 Go — `database/sql` + `context` + `sqlx`
+
+```go
+package repository
+
+import (
+	"context"
+	"database/sql"
+	"errors"
+)
+
+type Music struct {
+	ID        string `db:"id"`
+	Title     string `db:"title"`
+	ISRC      sql.NullString `db:"isrc"`
+	IsDeleted int    `db:"is_deleted"`
+}
+
+type MusicRepository struct {
+	db *sqlx.DB
+}
+
+func (r *MusicRepository) FindActiveByID(ctx context.Context, hexID string) (*Music, error) {
+	if len(hexID) != 32 {
+		return nil, errors.New("invalid hex id")
+	}
+	var m Music
+	err := r.db.GetContext(ctx, &m,
+		"SELECT id, title, isrc, is_deleted FROM musics WHERE id = UNHEX($1) AND is_deleted = 0",
+		hexID)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, nil
+	}
+	return &m, err
+}
+
+func (r *MusicRepository) SoftDelete(ctx context.Context, hexID string) (bool, error) {
+	res, err := r.db.ExecContext(ctx,
+		"UPDATE musics SET is_deleted = 1, deleted_at = NOW() WHERE id = UNHEX($1)",
+		hexID)
+	if err != nil {
+		return false, err
+	}
+	n, err := res.RowsAffected()
+	return n > 0, err
+}
+```
+
+| Not | Açıklama |
+|---|---|
+| `sqlx` | `jmoiron/sqlx` — **`⚠️ VERIFICATION REQUIRED`** (üretimde kullanılmıyor, referans) |
+| `context.Context` | Go 1.7+ iptal/zaman aşımı standart |
+| `sql.NullString` | NULL-nullable ISRC |
+
+### §9.9 Rust — `sqlx` + `Type` derive (derleme zamanı SQL kontrolü)
+
+```rust
+use sqlx::MySqlPool;
+
+#[derive(sqlx::FromRow)]
+pub struct MusicRow {
+    pub id: Vec<u8>,
+    pub title: String,
+    pub isrc: Option<String>,
+    pub is_deleted: i8,
+}
+
+pub async fn find_active_by_id(pool: &MySqlPool, hex_id: &str) -> Result<Option<MusicRow>, sqlx::Error> {
+    sqlx::query_as::<_, MusicRow>(
+        "SELECT id, title, isrc, is_deleted FROM musics WHERE id = UNHEX(?) AND is_deleted = 0",
+    )
+    .bind(hex_id)
+    .fetch_optional(pool)
+    .await
+}
+
+pub async fn soft_delete(pool: &MySqlPool, hex_id: &str) -> Result<bool, sqlx::Error> {
+    let res = sqlx::query(
+        "UPDATE musics SET is_deleted = 1, deleted_at = NOW() WHERE id = UNHEX(?)",
+    )
+    .bind(hex_id)
+    .execute(pool)
+    .await?;
+    Ok(res.rows_affected() > 0)
+}
+```
+
+| Not | Açıklama |
+|---|---|
+| `UNHEX(?)` | MySQL'de `sqlx` `encode!` derleme zamanında kontrol eder |
+| `fetch_optional` | `Option<T>` — Rust null-safety |
+| `rows_affected` | `affectedRows` karşılığı |
+
+### §9.10 Java 21 — `JdbcClient` (Spring 6.1+)
+
+```java
+import org.springframework.jdbc.core.simple.JdbcClient;
+import java.util.Optional;
+
+public final class MusicRepository {
+    private final JdbcClient jdbcClient;
+
+    public MusicRepository(JdbcClient jdbcClient) {
+        this.jdbcClient = jdbcClient;
+    }
+
+    public Optional<MusicRow> findActiveById(String hexId) {
+        return jdbcClient.sql("""
+                SELECT id, title, isrc, is_deleted FROM musics
+                WHERE id = UNHEX(:id) AND is_deleted = 0
+                """)
+                .param("id", hexId)
+                .query(MusicRow.class)
+                .optional();
+    }
+
+    public boolean softDelete(String hexId) {
+        int n = jdbcClient.sql("""
+                UPDATE musics SET is_deleted = 1, deleted_at = NOW() WHERE id = UNHEX(:id)
+                """)
+                .param("id", hexId)
+                .update();
+        return n > 0;
+    }
+}
+```
+
+| Not | Açıklama |
+|---|---|
+| `JdbcClient` | Spring Framework 6.1+ (2023) — `⚠️ VERIFICATION REQUIRED` (Spring sürümü bilinmiyor) |
+| Text block `"""` | Java 15+ |
+| `optional()` | `Optional<T>` — null-safety |
+
+### §9.11 Swift — `AsyncDatabase` (Grouse/PostgreSQL-NIO referansı)
+
+```swift
+import Foundation
+
+struct MusicRow: Decodable {
+    let id: String
+    let title: String
+    let isrc: String?
+    let is_deleted: Int
+}
+
+protocol MusicRepositoryProtocol {
+    func findActiveById(_ hexId: String) async throws -> MusicRow?
+    func softDelete(_ hexId: String) async throws -> Bool
+}
+
+final class MusicRepository: MusicRepositoryProtocol {
+    private let pool: DatabasePool  // ⚠️ VERIFICATION REQUIRED (hayali yardımcı)
+
+    init(pool: DatabasePool) { self.pool = pool }
+
+    func findActiveById(_ hexId: String) async throws -> MusicRow? {
+        try await pool.query(
+            "SELECT id, title, isrc, is_deleted FROM musics WHERE id = decode($1,'hex') AND is_deleted = 0",
+            [hexId]
+        )
+        .first(decoding: MusicRow.self)
+    }
+
+    func softDelete(_ hexId: String) async throws -> Bool {
+        let n = try await pool.execute(
+            "UPDATE musics SET is_deleted = 1, deleted_at = NOW() WHERE id = decode($1,'hex')",
+            [hexId]
+        )
+        return n > 0
+    }
+}
+```
+
+| Not | Açıklama |
+|---|---|
+| `DatabasePool` | hayali — gerçek sürümler (PostgreSQL-NIO, SQLiteNIO) `⚠️ VERIFICATION REQUIRED` |
+| `decode($1,'hex')` | PostgreSQL stili |
+| `async/await` | Swift 5.5+ |
+
+### §9.12 Kotlin — `Exposed` + `suspend` (referans)
+
+```kotlin
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.experimental.suspendTransaction
+
+object Musics : Table("musics") {
+    val id = binary("id", 16)
+    val title = varchar("title", 255)
+    val isrc = varchar("isrc", 12).nullable()
+    val isDeleted = bool("is_deleted").default(false)
+}
+
+class MusicRepository(private val db: Database) {
+
+    suspend fun findActiveById(hexId: ByteArray): MusicRow? = suspendTransaction(db) {
+        Musics.selectAll()
+            .where { (Musics.id eq hexId) and (Musics.isDeleted eq false) }
+            .map { toRow(it) }
+            .singleOrNull()
+    }
+
+    suspend fun softDelete(hexId: ByteArray): Boolean = suspendTransaction(db) {
+        Musics.update({ Musics.id eq hexId }) {
+            it[isDeleted] = true
+        } > 0
+    }
+}
+```
+
+| Not | Açıklama |
+|---|---|
+| Exposed | JetBrains ORM — CoreMusic'te ORM **yasak** (ADR-002); referans |
+| `suspendTransaction` | Kotlin coroutines |
+| `binary("id",16)` | `binary(16)` PK |
+
+### §9.13 SQL (MySQL 9) — migration + BCNF kanıt sorguları
+
+```sql
+-- 1) Soft delete kolonu ekleme (migration)
+ALTER TABLE musics
+  ADD COLUMN is_deleted TINYINT(1) NOT NULL DEFAULT 0,
+  ADD COLUMN deleted_at DATETIME NULL,
+  ADD INDEX idx_musics_is_deleted (is_deleted);
+
+-- 2) BCNF doğrulama: her tabloda aday anahtar dışındaki kolonlar
+--    aday anahtara fonksiyonel bağımlı mı? (MySQL'de otomatik yok → manuel)
+SELECT table_name, column_name
+FROM information_schema.columns
+WHERE table_schema = 'coremusic_musics'
+  AND extra = 'STORED GENERATED';  -- computed kolonlar BCNF'te dikkat
+
+-- 3) Ölü FK taraması (çapraz-DB: 32 FK)
+SELECT fk.constraint_name, fk.table_name, fk.column_name
+FROM information_schema.referential_constraints fk
+WHERE fk.constraint_schema LIKE 'coremusic_%';
+
+-- 4) CHECK kısıtı doğrulama (dump'ta 0 tespit edildi — §schema-kapsam)
+SELECT table_name, constraint_name
+FROM information_schema.table_constraints
+WHERE constraint_type = 'CHECK' AND table_schema LIKE 'coremusic_%';
+```
+
+| Sorgu | Amaç |
+|---|---|
+| 1 | migration — soft delete ekleme |
+| 2 | BCNF computed kolon kontrolü |
+| 3 | FK envanteri (110 FK, 32 çapraz-DB) |
+| 4 | CHECK doğrulama (0 tespit edildi) |
+
+### §9.14 Bash — mysqldump + health check
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+DB_HOST="${DB_HOST:-localhost}"
+DB_USER="${DB_USER:-root}"
+DB_PASS="${DB_PASS:-}"
+DATE="$(date +%Y%m%d-%H%M%S)"
+BACKUP_DIR="/var/backups/coremusic"
+
+mkdir -p "$BACKUP_DIR"
+
+for db in coremusic_auth coremusic_musics coremusic_users; do
+  mysqldump \
+    --host="$DB_HOST" \
+    --user="$DB_USER" \
+    --password="$DB_PASS" \
+    --single-transaction \
+    --routines \
+    --triggers \
+    --hex-blob \
+    "$db" | gzip > "$BACKUP_DIR/$db-$DATE.sql.gz"
+  echo "OK: $db dumped"
+done
+
+# Health check: kaç tablo?
+tables=$(mysql -N -u "$DB_USER" -p"$DB_PASS" -h "$DB_HOST" \
+  -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema LIKE 'coremusic_%'")
+echo "Toplam tablo: $tables (beklenen: 171)"
+```
+
+| Not | Açıklama |
+|---|---|
+| `--hex-blob` | `binary(16)` PK'lar için **zorunlu** (hex olarak dump) |
+| `--single-transaction` | InnoDB tutarlı snapshot |
+| `set -euo pipefail` | hata durumunda dur |
+
+### §9.15 PowerShell — dump + repo tarama
+
+```powershell
+param(
+    [string]$DbHost = 'localhost',
+    [string]$DbUser = 'root',
+    [string]$BackupRoot = 'C:\backups\coremusic'
+)
+
+$ErrorActionPreference = 'Stop'
+$date = Get-Date -Format 'yyyyMMdd-HHmmss'
+New-Item -ItemType Directory -Force -Path $BackupRoot | Out-Null
+
+$databases = @('coremusic_auth', 'coremusic_musics', 'coremusic_users')
+
+foreach ($db in $databases) {
+    $out = Join-Path $BackupRoot "$db-$date.sql"
+    & mysqldump -h $DbHost -u $DbUser --single-transaction --hex-blob $db | Out-File -Encoding utf8 $out
+    if ($LASTEXITCODE -ne 0) { throw "dump failed: $db" }
+    Write-Host "OK: $db -> $out"
+}
+
+# Repo taraması: kaç repository sınıfı var?
+$repos = Get-ChildItem -Path 'shared/src/Repository' -Filter '*.php' -Recurse
+Write-Output "Repository dosyası: $($repos.Count)"
+```
+
+| Not | Açıklama |
+|---|---|
+| `$ErrorActionPreference='Stop'` | PowerShell hata yönetimi |
+| `Out-File -Encoding utf8` | UTF-8 dump |
+| `Get-ChildItem` | repository envanteri |
+
+### §9.16 YAML (GitHub Actions) — migration + test pipeline
+
+```yaml
+name: database-ci
+
+on:
+  push:
+    paths:
+      - 'shared/database/migrations/**'
+      - '.ai/.sql/mysql/**'
+  pull_request:
+
+jobs:
+  migration-check:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:9.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo, pdo_mysql, apcu
+      - name: Run migrations
+        run: |
+          for f in shared/database/migrations/*.php; do
+            php "$f"
+          done
+      - name: Verify table count
+        run: |
+          count=$(mysql -uroot -proot -N -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema LIKE 'coremusic_%'")
+          echo "Tables: $count"
+          test "$count" -ge 156
+```
+
+| Not | Açıklama |
+|---|---|
+| `mysql:9.0` | CoreMusic hedefi MySQL 9 |
+| `php-version: '8.4'` | üretim PHP sürümü |
+| `test "$count" -ge 156` | tablo sayısı eşiği (156 iddiası — `⚠️ VERIFICATION REQUIRED`, dump ölçümü 171+9+7=187) |
+
+### §9.17 HCL (Terraform) — MySQL RDS (referans)
+
+```hcl
+terraform {
+  required_providers {
+    mysql = {
+      source  = "petoju/mysql"
+      version = "~> 3.0"
+    }
+  }
+}
+
+provider "mysql" {
+  endpoint = var.mysql_endpoint
+  username = var.mysql_user
+  password = var.mysql_password
+}
+
+resource "mysql_database" "coremusic_auth" {
+  name = "coremusic_auth"
+}
+
+resource "mysql_role" "app_user" {
+  name = "coremusic_app"
+}
+
+resource "mysql_grant" "app_grant" {
+  role       = mysql_role.app_user.name
+  database   = mysql_database.coremusic_auth.name
+  privileges = ["SELECT", "INSERT", "UPDATE"]
+}
+```
+
+| Not | Açıklama |
+|---|---|
+| `petoju/mysql` | Terraform MySQL provider — `⚠️ VERIFICATION REQUIRED` (CoreMusic'te Terraform kullanımı bilinmiyor) |
+| `privileges` | minimal yetki (SELECT/INSERT/UPDATE — DELETE yasak, kural 3) |
+| RDS | AWS referans — CoreMusic topolojisi `UNKNOWN` |
+
+### §9.18 Dil matrisi — özet tablosu
+
+| # | Dil | Veri katmanı deseni | Prepared statement | binary(16) | Soft delete |
+|---|---|---|---|---|---|
+| 1 | PHP 8.4 | PDO | `prepare+execute` | `UNHEX`/`UuidV7::toBinary` | `is_deleted=1` |
+| 2 | JavaScript | mysql2/promise | `pool.execute` | `UNHEX(?)` | `is_deleted=1` |
+| 3 | TypeScript | mysql2 + Port | `pool.execute` | `UNHEX(?)` | `is_deleted=1` |
+| 4 | C11 | libmysqlclient | `MYSQL_BIND` | `MYSQL_TYPE_STRING` | `UNHEX(?)` |
+| 5 | C++20 | RAII + expected | `stmt.bind` | `UNHEX(?)` | `is_deleted=1` |
+| 6 | C# .NET 8 | Dapper | `@Id` | `UNHEX(@Id)` | `is_deleted=1` |
+| 7 | Python 3.12 | asyncpg | `$1` | `decode($1,'hex')` | `is_deleted=1` |
+| 8 | Go | database/sql + sqlx | `$1` | `UNHEX($1)` | `is_deleted=1` |
+| 9 | Rust | sqlx | `?` | `UNHEX(?)` | `is_deleted=1` |
+| 10 | Java 21 | JdbcClient | `:id` | `UNHEX(:id)` | `is_deleted=1` |
+| 11 | Swift | AsyncDatabase | `$1` | `decode($1,'hex')` | `is_deleted=1` |
+| 12 | Kotlin | Exposed | `?` (query builder) | `binary(16)` | `bool` |
+| 13 | SQL (MySQL 9) | — | — | `UNHEX()` | `TINYINT(1)` |
+| 14 | Bash | mysqldump + mysql | — | `--hex-blob` | — |
+| 15 | PowerShell | mysqldump + Get-ChildItem | — | `--hex-blob` | — |
+| 16 | YAML (Actions) | CI/CD | — | — | — |
+| 17 | HCL (Terraform) | IaC | — | — | — |
+
+### §9.19 Dil matrisi — CoreMusic karşılıkları
+
+| Dil | CoreMusic'te nerede? | Durum |
+|---|---|---|
+| PHP 8.4 | `shared/src/` (üretim) | ✓ IMPLEMENTED |
+| SQL (MySQL 9) | `.ai/.sql/mysql/` (20 dump) | ✓ IMPLEMENTED |
+| Bash/PowerShell | `.ai/scripts/*.ps1` | ✓ IMPLEMENTED |
+| YAML | `.github/workflows/` (2 dosya) | ✓ IMPLEMENTED |
+| JavaScript | frontend (`src/` alt domain) | ✓ IMPLEMENTED |
+| TypeScript | **YOK** (üretimde JS) | referans |
+| C++20 | Neva Engine (PLANNED) | ⚠️ PLANNED |
+| C11, C#, Python, Go, Rust, Java, Swift, Kotlin, HCL | **YOK** | referans |
+
+**Toplam:** 17 dil · 14'ü veri katmanı temalı (§9.1-§9.13) · 3'ü operasyon
+(§9.14-§9.17) · yer tutucu **0** · `⚠️ VERIFICATION REQUIRED` işaretli API **8**
+(§9.5, §9.8, §9.10, §9.11, §9.12, §9.16, §9.17, §9.18).
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

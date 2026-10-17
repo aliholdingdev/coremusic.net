@@ -15,7 +15,7 @@ children:
   - K006.9-testing
 depends_on:
   - K004-shared
-  - K016-AI
+  - K015-AI
 evidence:
   - "shared/src/AI/AIEngine.php — L1–77, L81–133, L205–235, L310–354 (2026-10-12 okundu)"
   - "shared/src/AI/AIWorkflow.php — L12–98 (2026-10-12 okundu)"

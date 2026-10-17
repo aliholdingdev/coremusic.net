@@ -72,8 +72,8 @@ Bu dosya, K011 uygulama katmanındaki **akış kapsamını** tanımlar: hangi ak
 | 3 | Dış API çağrısı (OAuth sağlayıcı vb.) | K013-integraion | kontrat orada |
 | 4 | Ödeme sağlayıcı akışı | K012-services | repo'da ödeme kodu yok → ⚠️ VERIFICATION REQUIRED |
 | 5 | Zamanlanmış tetikleyiciler (cron) | K018-operasyon | tanım burada, çalıştırıcı orada |
-| 6 | WebSocket/gerçek zamanlı kanal | K014-network | taşıma katmanı |
-| 7 | Medya oynatma akışı | K015-media | medya verisi |
+| 6 | WebSocket/gerçek zamanlı kanal | K010-network | taşıma katmanı |
+| 7 | Medya oynatma akışı | K014-media | medya verisi |
 | 8 | UI animasyon/etkileşim akışı | UI alanı (ui-design) | ITCSS/mockup |
 
 ## §4 — Akış şablonu (standart yapı)
@@ -107,8 +107,8 @@ Her akış kaydı şu alanları taşır:
 | K009-security | CSRF/auth/rate-limit politikasının kaynağı (kod burada, kural orada) |
 | K012-services | Uzun işlerin devredildiği yer (tetikleyen akış burada) |
 | K013-integraion | Dış çağrının kontratı |
-| K014-network | Taşıma katmanı |
-| K015-media | Oynatma verisi |
+| K010-network | Taşıma katmanı |
+| K014-media | Oynatma verisi |
 
 ## §7 — Ölçüm referansı
 
@@ -147,8 +147,8 @@ Her akış kaydı şu alanları taşır:
 | 3 | Dış API kontratı | K013-integraion | Kontrat orada | Dış |
 | 4 | Ödeme sağlayıcı | K012-services | Repo'da ödeme kodu yok | Dış |
 | 5 | Zamanlanmış tetikleyici | K018-operasyon | Tanım burada, çalıştırıcı orada | Dış |
-| 6 | Gerçek zamanlı kanal | K014-network | Taşıma katmanı | Dış |
-| 7 | Medya verisi | K015-media | Oynatma verisi | Dış |
+| 6 | Gerçek zamanlı kanal | K010-network | Taşıma katmanı | Dış |
+| 7 | Medya verisi | K014-media | Oynatma verisi | Dış |
 | 8 | Arayüz etkileşimi | UI alanı | ITCSS/mockup | Dış |
 
 ### §A.3 Kapsam Ayrım Kriterleri
@@ -307,8 +307,8 @@ Her akış kaydı şu alanları taşır:
 | 2 | Yukarı | K009-security | CSRF/auth/rate-limit politikası | Tek yön |
 | 3 | Yukarı | K012-services | Uzun iş devri | Tek yön |
 | 4 | Yukarı | K013-integraion | Dış çağrının kontratı | Tek yön |
-| 5 | Aşağı | K014-network | Taşıma katmanı | Tek yön |
-| 6 | Aşağı | K015-media | Oynatma verisi | Tek yön |
+| 5 | Aşağı | K010-network | Taşıma katmanı | Tek yön |
+| 6 | Aşağı | K014-media | Oynatma verisi | Tek yön |
 | 7 | Aşağı | K015-frontend | HTTP uçları | Tek yön |
 | 8 | Aşağı | K014-observability | Olay abonelikleri | Tek yön |
 

@@ -1,12 +1,12 @@
 ---
-node_id: K014-network/comms/webrtc/kod-ornekleri
+node_id: K010-network/comms/webrtc/kod-ornekleri
 node_type: module
 status: draft
-parent_id: K014-network/comms/webrtc
+parent_id: K010-network/comms/webrtc
 role: ornek
 children: []
 depends_on:
-  - "K014-network/comms/webrtc/webrtc-standart-kanit.md"
+  - "K010-network/comms/webrtc/webrtc-standart-kanit.md"
 evidence:
   - "Kod kanıtı YOK (K014 PLANNED) — örnekler TASARIM ÖRNEĞİ'dir"
   - "Referans: W3C WebRTC 1.0 + RFC 8445 ICE (webrtc-standart-kanit.md §1)"

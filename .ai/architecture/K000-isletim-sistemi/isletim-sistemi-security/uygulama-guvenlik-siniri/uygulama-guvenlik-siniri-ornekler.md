@@ -309,7 +309,7 @@ Select-Object -Index 34
 | `yetki-ve-erisim-modeli` | UID/GID, capability, ACL, MAC | yetki modeli oradadır |
 | `isletim-sistemi-testing` | kapı sırası, coverage eşiği | test stratejisi ayrı daldır |
 | `K009-security` | OWASP, auth, CSRF, CSP, kripto, rate limit politikası | uygulama güvenlik denetimi |
-| `K010-identitiy` | kimlik doğrulama akışı, MFA | uygulama auth |
+| `K0100-identitiy` | kimlik doğrulama akışı, MFA | uygulama auth |
 | `K019` | uygulama testi stratejisi | kapsam dışı |
 
 ## §4 Eşik / kabul kriteri
@@ -493,7 +493,7 @@ dayanır; hiçbiri “var” diye iddia edilmez.
 
 | Konu | Neden bu dosyada yok | İlgili dal |
 |---|---|---|
-| Uygulama kimlik doğrulama (login, MFA, rol) | Kapsam sınırı: K009/K010 | K009-security · K010-identitiy |
+| Uygulama kimlik doğrulama (login, MFA, rol) | Kapsam sınırı: K009/K010 | K009-security · K0100-identitiy |
 | Uygulama test stratejisi ve kapsam hedefi | Kapsam sınırı: K019 | K019 |
 | Kernel derleme / modül imzalama | Bu vault'ta OS çekirdek dalı ayrı | isletim-sistemi-kernel |
 | Ağ (network) paket filtreleme kuralları | Uygulama katmanında karşılığı yok | isletim-sistemi-cross |

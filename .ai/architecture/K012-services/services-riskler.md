@@ -85,7 +85,7 @@ kapatılmadı.
 
 | Alan | Değer |
 |---|---|
-| Başlık | ai-service hangi domene bağlı: K006-yapay-zeka mı K016-AI mı |
+| Başlık | ai-service hangi domene bağlı: K006-yapay-zeka mı K015-AI mı |
 | Kaynak | `services-master.md` §7/1 · `services-bagimliliklar.md` §6.1 |
 | Olasılık | yüksek (registry §6 kapsam ayrımı açık bırakmış) |
 | Etki | yüksek — yanlış domene kod/sahiplik yazılır |
@@ -145,7 +145,7 @@ sayılmaz; `services-master.md` §21.7'deki kart `⚠️` taşımaya devam eder.
 
 | Alan | Değer |
 |---|---|
-| Başlık | device-identity verisinin sahibi device-service mi K010-identitiy mi |
+| Başlık | device-identity verisinin sahibi device-service mi K0100-identitiy mi |
 | Kaynak | `services-bagimliliklar.md` §6.4 + §10/4 · `services-master.md` §7/7 |
 | Olasılık | orta |
 | Etki | yüksek (güvenlik — kimlik sızıntısı/iki yazma noktası) |
@@ -222,7 +222,7 @@ adı YAZILAMAZ; örnekler soyut pseudokod seviyesinde kalır.
 
 | Alan | Değer |
 |---|---|
-| Başlık | `K010-identitiy`, `K013-integraion` gibi yazım hataları |
+| Başlık | `K0100-identitiy`, `K013-integraion` gibi yazım hataları |
 | Kaynak | v2 §3 imla kuralı · `services-bagimliliklar.md` §4/7 |
 | Olasılık | kesin (adlar diskte böyle) |
 | Etki | düşük — yanlış arama/bozuk link riski |

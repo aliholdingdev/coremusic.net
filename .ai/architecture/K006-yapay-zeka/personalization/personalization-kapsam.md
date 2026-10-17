@@ -28,12 +28,12 @@ Repo'da karşılık **kısmen** var: workflow oturum tercihini okuyup öneriye e
 |---|---|---|---|
 | 1 | Kullanıcı bağlamının (user_id · mood · geçmiş) öneri modeline verilmesi | Bağlam/etkileşim verisinin saklanması | K007-data (bagimliliklar §2/1) |
 | 2 | Kişiselleştirme sinyallerinin sözleşmesi (alan adları) | "beğeni/tercih" iş kuralının tanımı | K008-domain (bagimliliklar §2/2) |
-| 3 | Oturum tercihinin okunması (öneri girdisi olarak) | Oturum güvenliği, CSRF, kimlik | K009-security · K010-identitiy (ai-master §2.1) |
+| 3 | Oturum tercihinin okunması (öneri girdisi olarak) | Oturum güvenliği, CSRF, kimlik | K009-security · K0100-identitiy (ai-master §2.1) |
 | 4 | Kişisel sıralamanın K006'da üretilmesi | Öneri kartının UI'da gösterimi | K011-application (ai-master §2.1) |
-| 5 | Kişiselleştirme sinyali ↔ K016 tek ML çağrı noktası | Ajan çalışma zamanı | K016-AI (ai-master §2.1) |
+| 5 | Kişiselleştirme sinyali ↔ K016 tek ML çağrı noktası | Ajan çalışma zamanı | K015-AI (ai-master §2.1) |
 | 6 | Kişiselleştirmenin öneri akışına entegrasyonu | Öneri motorunun skorlama çekirdeği | recommendation (ai-master §3) |
 
-**Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K016-AI ajan
+**Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K015-AI ajan
 altyapısına **taşınmaz**.
 
 **Yasak:** tablo **kademe-2 taslak sınır önerisidir** — v2 §2.6 bu çocuğa rol vermez; kilit ADR-097 K4'tedir.

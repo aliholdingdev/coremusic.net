@@ -46,13 +46,13 @@ group: mimari
     ├── K007-data/
     ├── K008-domain/
     ├── K009-security/
-    ├── K010-identitiy/
+    ├── K0100-identitiy/
     ├── K011-application/
     ├── K012-services/
     ├── K013-integraion/
-    ├── K014-network/
-    ├── K015-media/
-    ├── K016-AI/
+    ├── K010-network/
+    ├── K014-media/
+    ├── K015-AI/
     ├── K017-observability/
     ├── K018-devops/
     ├── K019-testing/
@@ -167,13 +167,13 @@ group: mimari
 
 | # | Klasör | # | Klasör | # | Klasör |
 |---|---|---|---|---|---|
-| 1 | K000-isletim-sistemi | 10 | K010-identitiy | 19 | K019-testing |
+| 1 | K000-isletim-sistemi | 10 | K0100-identitiy | 19 | K019-testing |
 | 2 | K001-donanım | 11 | K011-application | 20 | K020-adr |
 | 3 | K003-audio | 12 | K012-services | 21 | K020-comilance |
 | 4 | K004-dsp | 13 | K013-integraion | 22 | K020-comere |
-| 5 | K005-firmware | 14 | K014-network | 23 | K020-licence |
-| 6 | K006-yapay-zeka | 15 | K015-media | 24 | K020-discovery |
-| 7 | K007-data | 16 | K016-AI | 25 | K020-recomenataion |
+| 5 | K005-firmware | 14 | K010-network | 23 | K020-licence |
+| 6 | K006-yapay-zeka | 15 | K014-media | 24 | K020-discovery |
+| 7 | K007-data | 16 | K015-AI | 25 | K020-recomenataion |
 | 8 | K008-domain | 17 | K017-observability | | |
 | 9 | K009-security | 18 | K018-devops | | |
 
@@ -182,9 +182,9 @@ group: mimari
 **Sayım kontrolü (§A işaret tablosu ile aynı):** 19 tekil K (K000–K019, K002
 hariç) + 6× K020 = **25 klasör** ✅ `index.md` §5 ile aynı.
 
-### §D.3 Ağaçta K016-AI ↔ K006-yapay-zeka ayrımı
+### §D.3 Ağaçta K015-AI ↔ K006-yapay-zeka ayrımı
 
-İki ayrı klasör ağaçta **iki ayrı satırdır** (`K006-yapay-zeka/` ve `K016-AI/`):
+İki ayrı klasör ağaçta **iki ayrı satırdır** (`K006-yapay-zeka/` ve `K015-AI/`):
 biri tekil K serisinde (K006), diğeri K016'da. Aynı domainin iki yazımı mı,
 farklı domainler mi olduğu v2 §1.1'de **açıklanmamıştır** →
 `⚠️ VERIFICATION REQUIRED` (birleştirilmez, adlandırılmaz).
@@ -215,13 +215,13 @@ farklı domainler mi olduğu v2 §1.1'de **açıklanmamıştır** →
 | 7 | K007-data | normal | `depends_on` yazılmadı | ⏳ |
 | 8 | K008-domain | normal | `depends_on` yazılmadı | ⏳ |
 | 9 | K009-security | normal | `depends_on` yazılmadı | ⏳ |
-| 10 | K010-identitiy | normal (imla dokunulmaz) | `depends_on` yazılmadı | ⏳ |
+| 10 | K0100-identitiy | normal (imla dokunulmaz) | `depends_on` yazılmadı | ⏳ |
 | 11 | K011-application | normal | `depends_on` yazılmadı | ⏳ |
 | 12 | K012-services | normal | `depends_on` yazılmadı | ⏳ |
 | 13 | K013-integraion | normal (imla dokunulmaz) | `depends_on` yazılmadı | ⏳ |
-| 14 | K014-network | normal | `depends_on` yazılmadı | ⏳ |
-| 15 | K015-media | normal | `depends_on` yazılmadı | ⏳ |
-| 16 | K016-AI | normal | `depends_on` yazılmadı | ⏳ |
+| 14 | K010-network | normal | `depends_on` yazılmadı | ⏳ |
+| 15 | K014-media | normal | `depends_on` yazılmadı | ⏳ |
+| 16 | K015-AI | normal | `depends_on` yazılmadı | ⏳ |
 | 17 | K017-observability | normal | `depends_on` yazılmadı | ⏳ |
 | 18 | K018-devops | normal | `depends_on` yazılmadı | ⏳ |
 | 19 | K019-testing | normal | `depends_on` yazılmadı | ⏳ |
@@ -360,7 +360,7 @@ aralığı). 6 klasör tek K020 slotunu paylaştığı için iki sayı farklıd�
 **S3: K002'yi açalım mı?**
 Bu derinlemede **hayır**. GAP kaydı veridir; numara ADR'siz atanmaz (Band kuralı).
 
-**S4: K006-yapay-zeka ile K016-AI aynı mı?**
+**S4: K006-yapay-zeka ile K015-AI aynı mı?**
 Bilinmiyor → `⚠️ VERIFICATION REQUIRED` (§D.3). İkisi ağaçta ayrı satırdır,
 birleştirilmedi.
 

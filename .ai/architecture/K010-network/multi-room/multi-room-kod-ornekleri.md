@@ -1,12 +1,12 @@
 ---
-node_id: K014-network/multi-room/kod-ornekleri
+node_id: K010-network/multi-room/kod-ornekleri
 node_type: module
 status: draft
-parent_id: K014-network/multi-room
+parent_id: K010-network/multi-room
 role: ornek
 children: []
 depends_on:
-  - "K014-network/multi-room/multi-room-standart-kanit.md"
+  - "K010-network/multi-room/multi-room-standart-kanit.md"
 evidence:
   - "Kod kanıtı YOK (K014 PLANNED) — bu dosyadaki örnekler TASARIM ÖRNEĞİ'dir, üretim kodu değildir"
   - "Referans standartlar: multi-room-standart-kanit.md §1–§2 (RFC 5905 NTP · RFC 3550 · Performance.now)"

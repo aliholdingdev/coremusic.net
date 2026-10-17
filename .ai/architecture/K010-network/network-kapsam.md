@@ -1,14 +1,14 @@
 ---
-node_id: K014-network/network-kapsam
+node_id: K010-network/network-kapsam
 node_type: module
 status: draft
-parent_id: K014-network
+parent_id: K010-network
 role: kapsam
 children: []
 depends_on:
-  - "K014-network/network-master.md"
+  - "K010-network/network-master.md"
 evidence:
-  - "K014-network/network-master.md §2/§3/§9 — kapsam içeriği kaynağı (2026-10-13 okundu, 506 satır)"
+  - "K010-network/network-master.md §2/§3/§9 — kapsam içeriği kaynağı (2026-10-13 okundu, 506 satır)"
   - ".ai/architecture/index.md §5/14 — K014 çocuk listesi kaydı"
 validation:
   - "Kapsam içi/dışı tablosu master §2.2 ile çapraz karşılaştırıldı (2026-10-13)"
@@ -18,7 +18,7 @@ open_questions:
 group: mimari
 ---
 
-# K014-network — Kapsam (kademe-1 · module · rol: kapsam)
+# K010-network — Kapsam (kademe-1 · module · rol: kapsam)
 
 **ELI15:** Bu dosya K014'ün **ne içerdiğini ve ne içermediğini** netleştirir. Bağlantı katmanı = "konuşma kuralı". Bu odanın malı protokoller, bağlantı hayatı, çevrimdışı eşitleme ve teslimdir. Donanım, şifreleme, medya içeriği ve dış API anlamı burada DEĞİLDİR.
 
@@ -60,10 +60,10 @@ K014'ün beş işi (master §1):
 |---|---|---|
 | Ağ donanımı, sürücü, radyo | K001-donanım | K014 yalnız kullanır, kurmaz |
 | TLS/şifreleme/anahtar | K009-security | Politika orada yaşar; K014 şifreleme üretmez |
-| Cihaz kimliği / yetki | K010-identitiy | device-identity onun çocuğu |
+| Cihaz kimliği / yetki | K0100-identitiy | device-identity onun çocuğu |
 | Dış API anlamı, adaptör | K013-integraion | K014 yalnız taşır |
 | Servis keşfi/servis kaydı | K012/K016 vs K014 — belirsiz | §7 kapsam sorusu |
-| Medya akışının içeriği/indirme mantığı | K015-media | Taşıma burada, içerik orada |
+| Medya akışının içeriği/indirme mantığı | K014-media | Taşıma burada, içerik orada |
 | Çevrimdışı veri kuyruğu içeriği | K015/offline · K012 | §7 sınır sorusu |
 | Ağ gözlemi/metriği | K017-observability | K014 yalnız veri üretir |
 
@@ -75,9 +75,9 @@ K014'ün beş işi (master §1):
 |---|---|---|---|
 | 1 | comms/http | istek/yanıt internet konuşması | K013-integraion |
 | 2 | comms/websocket | sürekli çift yönlü canlı bağlantı | K012-services |
-| 3 | comms/webrtc | doğrudan medya/veri yolu | K015-media codec |
+| 3 | comms/webrtc | doğrudan medya/veri yolu | K014-media codec |
 | 4 | comms/tcp-ip | yerel ağ düzeyi taşıma | K001-donanım |
-| 5 | comms/device-communication | ev içi cihaz konuşması | K010-identitiy |
+| 5 | comms/device-communication | ev içi cihaz konuşması | K0100-identitiy |
 
 **Kademe notu:** Beş torun `bounded-context` (kademe-3) türündedir; kendi `index.md'leri` vardır; module'e inilmez (master §3.1).
 
@@ -103,11 +103,11 @@ K014'ün beş işi (master §1):
 | handoff/multi-room | YOK | TASARIM İDDİASI (master §13) |
 | network-testing | YOK | TASARIM İDDİASI (master §14) |
 
-**Kaynak:** Repo taraması — `K014-network/**` altında `*.php`/`*.cpp` **0 dosya** (2026-10-13 glob). K014'te kod kanıtı beklemek yanıltıcı olur; tüm kapsam `TASARIM İDDİASI` statüsündedir.
+**Kaynak:** Repo taraması — `K010-network/**` altında `*.php`/`*.cpp` **0 dosya** (2026-10-13 glob). K014'te kod kanıtı beklemek yanıltıcı olur; tüm kapsam `TASARIM İDDİASI` statüsündedir.
 
 ## §7 Kapsam Kıyaslama (komşu düğümlerle)
 
-| Ölçüt | K014 | K015-media | K012-services | Sonuç |
+| Ölçüt | K014 | K014-media | K012-services | Sonuç |
 |---|---|---|---|---|
 | Birincil mal | bağlantı/konuşma kuralı | medya dosyası/akış | servis iş mantığı | ayrışık |
 | Kod durumu | YOK (PLANNED) | var (media.coremusic.net) | var | K014 henüz kodlanmadı |
@@ -164,7 +164,7 @@ K014'ün beş işi (master §1):
 | Rol | doğrudan medya/veri yolu | — | v2 §2.14 (S2) |
 | Standard durumu | IETF iddiası kayıtlı | resmi URL yok | master §4/1 |
 | Traversal (STUN/TURN) | tasarım iddiası | TURN sahibi UNKNOWN | master §9.3 |
-| Medya codec'i | — | K015-media | master §2.2 |
+| Medya codec'i | — | K014-media | master §2.2 |
 | DTLS/SRTP | kanal sürme | anahtar/negotiation (K009) | master §19 |
 
 ### §10.4 comms/tcp-ip — Kapsam Sınırı
@@ -253,7 +253,7 @@ K014'ün beş işi (master §1):
 | Teslim/senkron | handoff/multi-room | K014/* | EVET |
 | Donanım/radyo | fiziksel erişim | K001-donanım | hayır |
 | Güvenlik | TLS/şifreleme | K009-security | hayır |
-| Kimlik | cihaz kimliği | K010-identitiy | hayır |
+| Kimlik | cihaz kimliği | K0100-identitiy | hayır |
 
 ## §17 Hata Sınıfı Kapsamı (master §17.3)
 
@@ -289,11 +289,11 @@ K014'ün beş işi (master §1):
 |---|---|---|---|
 | K001-donanım | — | ağ donanımı/sürücü/radyo erişimi | net |
 | K009-security | TLS çağrısı, hata raporu | şifreleme/anahtar üretimi | net |
-| K010-identitiy | cihaz kimliği taşıma | kimlik doğrulama | net |
+| K0100-identitiy | cihaz kimliği taşıma | kimlik doğrulama | net |
 | K011-application | ağ çağrısı yanıtı | hangi veri taşınacak | net |
 | K012-services | servisler arası taşıma | mesaj içeriği | net |
 | K013-integraion | dış API taşıması | API anlamı/adaptör | net |
-| K015-media | akış/indirme taşıması | medya codec'i, offline içerik | net (offline sınırı hariç) |
+| K014-media | akış/indirme taşıması | medya codec'i, offline içerik | net (offline sınırı hariç) |
 | K017-observability | bağlantı metriği verisi | gözlem/metrği toplama | net |
 | K019-testing | davranış testi verisi | test altyapısı | belirsiz (§15) |
 
@@ -335,7 +335,7 @@ K014'ün beş işi (master §1):
 
 | Kademe | K014 karşılığı | Dosya sayısı | Durum |
 |---|---|---|---|
-| Kademe-1 (domain) | K014-network | 4 root (index/master/bagimliliklar/dogrulama) | mevcut + kapsam/riskler/ornekler eklendi |
+| Kademe-1 (domain) | K010-network | 4 root (index/master/bagimliliklar/dogrulama) | mevcut + kapsam/riskler/ornekler eklendi |
 | Kademe-2 (subdomain) | 7 çocuk | 7 index.md | mevcut (stub) |
 | Kademe-3 (bounded-context) | comms 5 torun | 5 index.md | mevcut (stub) |
 | Kademe-4 (module) | — | 0 | ⏳ faz C (ADR-097 K4) |
@@ -399,8 +399,8 @@ K014'ün beş işi (master §1):
 
 | Tarama | Desen | Sonuç | Yorum |
 |---|---|---|---|
-| K014 altında kod | `K014-network/**/*.php` | 0 | domain henüz kodlanmadı |
-| K014 altında kod | `K014-network/**/*.cpp` | 0 | aynı |
+| K014 altında kod | `K010-network/**/*.php` | 0 | domain henüz kodlanmadı |
+| K014 altında kod | `K010-network/**/*.cpp` | 0 | aynı |
 | Şifreleme kodu K014'te | `K014/**/encrypt\|cipher\|tls` | 0 | K009 sınırı ihlal edilmedi |
 | Media codec K014'te | `K014/**/mp3\|flac\|codec` | 0 | K015 sınırı ihlal edilmedi |
 
@@ -481,8 +481,8 @@ K014'ün beş işi (master §1):
 | Bağlantı taşıma | EVET | — |
 | Şifreleme üretimi | hayır | K009-security |
 | Donanım/sürücü | hayır | K001-donanım |
-| Kimlik doğrulama | hayır | K010-identitiy |
-| Medya codec'i | hayır | K015-media |
+| Kimlik doğrulama | hayır | K0100-identitiy |
+| Medya codec'i | hayır | K014-media |
 | API anlamı | hayır | K013-integraion |
 | Ağ gözlemi | hayır (veri üretir) | K017-observability |
 | Test altyapısı | hayır (davranış verir) | K019-testing |

@@ -23,7 +23,7 @@ validation:
   - "2026-10-12 — 32 benzersiz URL exa ile açıldı, hepsi 200/gövde döndü"
   - "2026-10-12 — 5 başarısız URL kayda geçirildi (§6.2), hiçbiri doğrulanmadan kullanılmadı"
 open_questions:
-  - "ai-master.md adı registry §5'te K016-AI ile de geçiyor → ⚠️ VERIFICATION REQUIRED"
+  - "ai-master.md adı registry §5'te K015-AI ile de geçiyor → ⚠️ VERIFICATION REQUIRED"
   - "Öneri sahipliği: K006-recommendation · K008-recommendation · K020-recomenataion → ⚠️ VERIFICATION REQUIRED"
   - "9 çocuğun kademe-3 (bounded-context) yapısı → ⚠️ VERIFICATION REQUIRED (ADR-097 K4)"
 group: mimari
@@ -72,7 +72,7 @@ group: mimari
 | Alan | Değer |
 |---|---|
 | `status` | **draft** — 3 açık soru kapandığında `verified` (`-dogrulama.md` §8) |
-| Kanıt tabanı | 32 benzersiz URL (2026-10-12) + 14 repo dosyası · 5 başarısız URL · 8 UNKNOWN iddia · K006↔K016-AI = ML ürün vs ajan altyapısı (registry §6), kod yüzeyi salt-okunur |
+| Kanıt tabanı | 32 benzersiz URL (2026-10-12) + 14 repo dosyası · 5 başarısız URL · 8 UNKNOWN iddia · K006↔K015-AI = ML ürün vs ajan altyapısı (registry §6), kod yüzeyi salt-okunur |
 
 ## §GRUPLAR
 
@@ -94,6 +94,21 @@ group: mimari
 | kanit | `yapay-zeka-dogrulama.md` | İddia·URL·tarih·durum doğrulama matrisi | Kademe-1 |
 | kanit | `yapay-zeka-riskler.md` | Risk, etki, olasılık ve azaltma | Kademe-1 |
 | kanit | `yapay-zeka-web-arastirma.md` | Sistemli resmi kaynak tarama kaydı | Kademe-1 |
+
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ses analizi girdisi |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP on-isleme |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | cihaz ustu inference |
+| K007-data | [[K007-data]] | ../K007-data/index.md | model ve veri depolama |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | muzik domain modeli |
+| K009-security | [[K009-security]] | ../K009-security/index.md | model guvenligi ve gizlilik |
+| K011-application | [[K011-application]] | ../K011-application/index.md | AI uygulama ozellikleri |
+| K012-services | [[K012-services]] | ../K012-services/index.md | AI servis dagitimi |
 
 ---
 

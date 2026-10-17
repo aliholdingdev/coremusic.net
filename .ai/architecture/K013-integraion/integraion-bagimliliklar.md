@@ -34,8 +34,8 @@ group: mimari
 | 1 | K007-data | Senkron sonucunu saklamak | veri erişimi | Şema K007'de kalmalı; sync yazımı yarış riski ⚠️ |
 | 2 | K008-domain | Kontrat tiplerini almak | tip tüketimi | Dış şema ile domain tipi eşleşmeli ⚠️ |
 | 3 | K009-security | Anahtar/secret/imza güvenliği | güvenlik | Politika K009'da; K013 secret saklamaz |
-| 4 | K010-identitiy | OAuth/PKCE oturumu ve kimlik | kimlik | Yazım "identitiy" — dokunulmaz (v2 §3) |
-| 5 | K014-network | HTTP vb. taşıma | taşıma | Rate limit/TLS ayrıntısı K014/K009'da |
+| 4 | K0100-identitiy | OAuth/PKCE oturumu ve kimlik | kimlik | Yazım "identitiy" — dokunulmaz (v2 §3) |
+| 5 | K010-network | HTTP vb. taşıma | taşıma | Rate limit/TLS ayrıntısı K014/K009'da |
 
 ## §2 Gelen bağımlılıklar (used_by ←)
 
@@ -43,7 +43,7 @@ group: mimari
 |---|---|---|---|
 | 1 | K011-application | Kullanıcının başlattığı dış çağrı akışı | TASARIM İDDİASI |
 | 2 | K012-services | integration-service'in kontrat/adapter tüketimi | TASARIM İDDİASI |
-| 3 | K015-media | Dış katalog/meta senkronu | TASARIM İDDİASI (sınır ⚠️) |
+| 3 | K014-media | Dış katalog/meta senkronu | TASARIM İDDİASI (sınır ⚠️) |
 | 4 | Diğerleri | — | ⚠️ VERIFICATION REQUIRED |
 
 ## §3 Entegrasyon sınırları (K013 dışına çıkış kapıları)
@@ -51,12 +51,12 @@ group: mimari
 | # | Sınır | Hangi arayüzden geçilir | Sahip düğüm | Arayüz adı |
 |---|---|---|---|---|
 | 1 | Dış dünya | adaptör → üçüncü taraf API | K013 | ⚠️ UNKNOWN (biçim, sürüm stratejisi) |
-| 2 | Taşıma | HTTP vb. istek | K014-network | ⚠️ UNKNOWN (istemci kütüphanesi) |
-| 3 | Kimlik | OAuth/PKCE token akışı | K010-identitiy | ⚠️ UNKNOWN (akış sahipliği §7/5) |
+| 2 | Taşıma | HTTP vb. istek | K010-network | ⚠️ UNKNOWN (istemci kütüphanesi) |
+| 3 | Kimlik | OAuth/PKCE token akışı | K0100-identitiy | ⚠️ UNKNOWN (akış sahipliği §7/5) |
 | 4 | Güvenlik | anahtar okuma/imza | K009-security | ⚠️ UNKNOWN (politika biçimi) |
 | 5 | Kalıcılık | senkron sonucu yazma | K007-data | ⚠️ UNKNOWN (tablolar) |
 | 6 | İç servis | kontrat tüketimi (K012) | K012-services | ⚠️ UNKNOWN (yön §7/3) |
-| 7 | Medya | katalog senkronu (K015) | K015-media | ⚠️ UNKNOWN (sahiplik §7/2) |
+| 7 | Medya | katalog senkronu (K015) | K014-media | ⚠️ UNKNOWN (sahiplik §7/2) |
 
 ### §3.1 Sınır kuralı (Dependency Rule — bu domain için)
 

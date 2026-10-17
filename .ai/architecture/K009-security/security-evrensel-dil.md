@@ -26,7 +26,7 @@ group: mimari
 | G-03 | Kimlik kanıtı | Credential | Parola/token/API key | Password.php, ApiKeyRepository |
 | G-04 | Oturum | Session | Sunucu taraflı bağlam | SessionLifecycle |
 | G-05 | Token | Token | Taşıyıcı kanıt (JWT/CSRF) | JwtService, CsrfMiddleware |
-| G-06 | Katman | Layer | Sorumluluk alanı | K009 / K010-identitiy |
+| G-06 | Katman | Layer | Sorumluluk alanı | K009 / K0100-identitiy |
 | G-07 | Kanıt | Evidence | Dosya·Satır / URL | vault kuralı |
 | G-08 | Doğrulanmamış iddia | Unknown / Verification required | Kanıtsız ifade | §ZERO-HALLUCINATION |
 
@@ -104,7 +104,7 @@ group: mimari
 | Terim dili | Türkçe cümle + İngilizce terim ("CSRF token") | karışık çeviri ("siteler arası istek sahteciligi belirteci" günlük) |
 | Kod adı | CsrfMiddleware | "csrf middleware'i" (adı bozarak) |
 | Durum işareti | ⚠️ VERIFICATION REQUIRED / UNKNOWN | "tahmini", "sanırım" |
-| ID yazımı | K010-identitiy (özel yazım) | K010-identity (KURAL 1 ihlali) |
+| ID yazımı | K0100-identitiy (özel yazım) | K010-identity (KURAL 1 ihlali) |
 | Master dosya | security-master.md | security-anayasa.md (ADR-097 §5 önerisi uygulanmadı) |
 | Tarih | 2026-10-12 | "bugün" |
 

@@ -596,7 +596,7 @@ kanıtlanmış nötr durum (bypass/manuel hedef) anında döner.
 
 | # | Eski iddia (bu dosya/kapsam) | Güncel `ai-master.md` karşılığı | Durum |
 |---|---|---|---|
-| M-1 | §1/2 — "K006 = ML ürün · K016 = ajan altyapısı (§2.2)" | `ai-master.md` **Satır: 112** `### §2.2 K006 ↔ K016-AI — bağlayıcı ayrım` | ✅ içerik sağlam |
+| M-1 | §1/2 — "K006 = ML ürün · K016 = ajan altyapısı (§2.2)" | `ai-master.md` **Satır: 112** `### §2.2 K006 ↔ K015-AI — bağlayıcı ayrım` | ✅ içerik sağlam |
 | M-2 | §1/3 — K006 sınırı (İddia 10 benzeri) | **Satır: 95** `## §2 Sınır — ne DEĞİL` | ✅ |
 | M-3 | §1/14 — "ai-master §3 satır 263–264" | **C2**: §3 = **142** · audio-intelligence satırı = **153** | ⚠️ bayat |
 | M-4 | §1/15 — "K006 model/runtime/kütüphane ekosistemi §4 = UNKNOWN" | §4 = **176** (sorumluluk matrisi) · UNKNOWN listesi = **348–357** · teknoloji adayları = **318–346** | ⚠️ bayat konum / içerik gerçek |

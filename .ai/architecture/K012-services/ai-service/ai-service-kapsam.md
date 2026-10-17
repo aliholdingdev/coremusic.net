@@ -16,7 +16,7 @@ validation:
   - "tur-1 — 2026-10-12 ilk kapsam sınırı kaydı"
   - "tur-2 — 2026-10-13 frontmatter §4.2'ye yükseltildi + §6–§16 eklendi"
 open_questions:
-  - "R1 ai-service'in arkası K006-yapay-zeka mı K016-AI mı — VERIFICATION REQUIRED"
+  - "R1 ai-service'in arkası K006-yapay-zeka mı K015-AI mı — VERIFICATION REQUIRED"
   - "R2 YZ çağrısı senkron mu kuyruk işi mi — UNKNOWN (kuyruk teknolojisi de bilinmiyor)"
   - "R3 AIWorkflow · KnowledgeBase · MemorySystem · PromptEngine · ToolCalling içerikleri okunmadı"
   - "R4 YZ çağrılarının maliyet/limit politikası kimin — UNKNOWN"
@@ -32,12 +32,12 @@ group: mimari
 ## §1 Rol (ELI15)
 
 `services-master.md` §3 satır 69 bu dalı **"YZ servisi"** olarak yazar; kapsam notu
-"K006-yapay-zeka mı K016-AI mı → ⚠️" der. `ai-service/index.md` ELI15'i "Yapay zeka
+"K006-yapay-zeka mı K015-AI mı → ⚠️" der. `ai-service/index.md` ELI15'i "Yapay zeka
 işlerini diğer servislere sunan arayüz servisi" olarak tanımlar.
 
 Basitçe: CoreMusic'in yapay zeka yeteneklerinin (öneri, prompt, araç çağrısı) diğer
 servislere **kapı** olduğu yer. YZ'nin kendisi burada **üretilmez** — arkadaki motor
-başka düğümdedir ve hangi düğüm olduğu (K006-yapay-zeka ↔ K016-AI) **açık sorudur**.
+başka düğümdedir ve hangi düğüm olduğu (K006-yapay-zeka ↔ K015-AI) **açık sorudur**.
 
 | # | Rol cümlesi | Kaynak | Durum |
 |---|---|---|---|
@@ -50,10 +50,10 @@ başka düğümdedir ve hangi düğüm olduğu (K006-yapay-zeka ↔ K016-AI) **a
 
 | # | İçinde (bu dal) | Dışında | Sınır komşusu |
 |---|---|---|---|
-| 1 | YZ yeteneğini servislere sunma arayüzü (öneri, skorlama isteği) | YZ modeli / ML altyapısı | K006-yapay-zeka / K016-AI (hangisi ⚠️ — §5/R1) |
+| 1 | YZ yeteneğini servislere sunma arayüzü (öneri, skorlama isteği) | YZ modeli / ML altyapısı | K006-yapay-zeka / K015-AI (hangisi ⚠️ — §5/R1) |
 | 2 | Öneri bağlamının (context) taşınması: user_id · session_id · mood · genre | Öneri algoritmasının matematiği | K008-domain (iş kuralı) |
 | 3 | YZ çıktısının servis sözleşmesine uygun DTO'ya oturtulması | Sözleşme biçiminin sahipliği | service-contracts |
-| 4 | YZ çağrılarının kullanıcı/cihaz bağlamıyla yapılması | Kimlik doğrulama | K010-identitiy |
+| 4 | YZ çağrılarının kullanıcı/cihaz bağlamıyla yapılması | Kimlik doğrulama | K0100-identitiy |
 | 5 | YZ istek/sonuç kayıtlarının kalıcıya yazımı | Şema kararı | K007-data |
 
 **Durum:** satır 1'deki sınır, master §7/1 karar verilene kadar **tasarım önerisidir** —
@@ -74,7 +74,7 @@ bağlayıcı değildir.
 | # | Ayrım | Durum | Kaynak |
 |---|---|---|---|
 | A1 | ai-service (K012) ↔ K006-yapay-zeka | ⚠️ VERIFICATION REQUIRED | services-master.md §7/1 |
-| A2 | ai-service (K012) ↔ K016-AI | ⚠️ VERIFICATION REQUIRED | registry §6 kapsam ayrımı |
+| A2 | ai-service (K012) ↔ K015-AI | ⚠️ VERIFICATION REQUIRED | registry §6 kapsam ayrımı |
 | A3 | YZ çağrısı senkron mu, background-jobs üzerinden mi? | **UNKNOWN** — kuyruk motoru da bilinmiyor (§7/6) | services-master.md §4 |
 | A4 | YZ çıktısı domain kuralı üretir mi? (üretilirse K008 ihlali) | ⚠️ sınır kuralı: servis kuralı **üretmez** | services-bagimliliklar.md §1/3 |
 
@@ -116,7 +116,7 @@ bağlayıcı değildir.
 
 | # | Soru | İşaret |
 |---|---|---|
-| R1 | ai-service'in arkası K006-yapay-zeka mı, K016-AI mı? | ⚠️ VERIFICATION REQUIRED (master §7/1) |
+| R1 | ai-service'in arkası K006-yapay-zeka mı, K015-AI mı? | ⚠️ VERIFICATION REQUIRED (master §7/1) |
 | R2 | YZ yeteneği senkron çağrı mı, kuyruk işi mi (A3)? | ⚠️ UNKNOWN — kuyruk teknolojisi de bilinmiyor |
 | R3 | 7 AI sınıfından AIWorkflow · KnowledgeBase · MemorySystem · PromptEngine · ToolCalling içerikleri okunmadı — davranışları doğrulandı mı? | ⚠️ VERIFICATION REQUIRED (yalnız ad kanıtı) |
 | R4 | YZ çağrılarının maliyet/limit politikası kimin? | ⚠️ UNKNOWN |
@@ -228,7 +228,7 @@ sınıf olduğu → UNKNOWN (§2.1/3, R6).
 |---|---|---|---|
 | 1 | YZ modeli / ML altyapısı | §2/1 dışı sütunu | K006 / K016 (hangisi R1) |
 | 2 | Öneri matematiği (ALS, cosine) | §2/2 dışı sütunu + kaynak yorumları Satır: 216/233 | K008-domain / belirsiz |
-| 3 | Kimlik doğrulama | §2/4 dışı sütunu | K010-identitiy |
+| 3 | Kimlik doğrulama | §2/4 dışı sütunu | K0100-identitiy |
 | 4 | Şema kararı | §2/5 dışı sütunu | K007-data |
 | 5 | Sözleşme biçiminin sahipliği | §2/3 dışı sütunu | service-contracts |
 | 6 | EQ/analiz DSP çekirdeği | §7.1 kaydı | K003 (karar üstte) |
@@ -299,7 +299,7 @@ sınıf olduğu → UNKNOWN (§2.1/3, R6).
 | 6 | `parent:` yok | evet (yalnız `parent_id`) |
 | 7 | `group` değeri | `mimari` (kapsam rolü — -kapsam kuralı) |
 | 8 | authority son satır | evet (§23) |
-| 9 | identitiy yazımı korundu | evet (§2/4 — K010-identitiy) |
+| 9 | identitiy yazımı korundu | evet (§2/4 — K0100-identitiy) |
 
 ### §15.3 Sayım kaydı
 
@@ -411,9 +411,9 @@ satır gözcüsü taşınır (Red Team · Truth Mode).
 | # | Komşu | Hangi komşuluk | Kanıt | Karar durumu |
 |---|---|---|---|---|
 | 1 | K006-yapay-zeka | YZ motorunun sahibi olabilir | master §3 satır 69 + §7/1 | ⚠️ açık (R1) |
-| 2 | K016-AI | alternatif YZ düğümü | registry §6 aktarımı | ⚠️ açık (R1) |
+| 2 | K015-AI | alternatif YZ düğümü | registry §6 aktarımı | ⚠️ açık (R1) |
 | 3 | K008-domain | iş kuralı üretilirse ihlal | bagimliliklar §1/3 | ✅ kural yazılı ("üretmez") |
-| 4 | K010-identitiy | kimlik doğrulama | §2/4 | ✅ sınır yazılı |
+| 4 | K0100-identitiy | kimlik doğrulama | §2/4 | ✅ sınır yazılı |
 | 5 | K007-data | şema kararı | §2/5 | ✅ sınır yazılı |
 | 6 | K003 (audio/DSP) | analyzeAudio + optimizeEQ | AIEngine Satır: 82, 111 | ⚠️ açık (Q3) |
 | 7 | K002-hardware | analyzeHardware | AIEngine Satır: 138 | ⚠️ açık (adı da ⚠️) |

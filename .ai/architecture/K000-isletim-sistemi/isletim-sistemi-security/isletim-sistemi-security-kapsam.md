@@ -49,7 +49,7 @@ Bu subdomain, CoreMusic'in **iki guvenlik katmani arasindaki siniri** tanimlar: 
 
 | # | Konu | Hangi dalda | Gerekce | Ayrim cumlesi (bu dosyalarda yazilir) |
 |---|---|---|---|---|
-| X1 | Kimlik dogrulama / oturum (session) / sifre / MFA | `K010-identitiy` | Uygulama kimlik is mantigi | "Oturum is mantigi K010'da; burada yalniz OS dosya sistemi kisiti (0750)" |
+| X1 | Kimlik dogrulama / oturum (session) / sifre / MFA | `K0100-identitiy` | Uygulama kimlik is mantigi | "Oturum is mantigi K010'da; burada yalniz OS dosya sistemi kisiti (0750)" |
 | X2 | Ag guvenligi (firewall, DNS, TLS sonlandirma) | `K013-integraion` | Ag katmani OS cekirdek guvenliginin parcasi degil | "Rate limit'in ag karsiligi K013'te; burada yalniz uygulama-OS siniri" |
 | X3 | Sizma testi / pentest kampanyasi | `K019-testing` | Test faaliyeti != guvenlik mekanizmasi | "Pentest senaryolari K019'da; burada mekanizma ve olcum metodolojisi" |
 | X4 | Kriptografik algoritma secimi (AES-256-GCM, Argon2id) | `K009-security` + ADR-022 | Kripto karari dondurulmus ADR alanidir | "Kripto ADR-022'de; bu dal yalniz sinir etkisini isaretler" |
@@ -70,7 +70,7 @@ Bu subdomain, CoreMusic'in **iki guvenlik katmani arasindaki siniri** tanimlar: 
 | # | Karar | Durum | Kaynak | Not |
 |---|---|---|---|---|
 | K1 | Bu dal OS guvenlik araclarinin **secimini/kurulumunu** yapmaz; yalniz cercevesini ve olcumunu tanimlar | Baglayici | S1 [UNKNOWN] | Secim mimari sahibine ait |
-| K2 | Oturum is mantigi (`session_start`, yeniden uretimi, CSRF akisi) burada **tanimlanmaz** -> `K010-identitiy` | Baglayici | K010 ayrimi | Ayrim her alt-dalda acikca yazilir |
+| K2 | Oturum is mantigi (`session_start`, yeniden uretimi, CSRF akisi) burada **tanimlanmaz** -> `K0100-identitiy` | Baglayici | K010 ayrimi | Ayrim her alt-dalda acikca yazilir |
 | K3 | Repo'da OS araci bulunmasi bir **eksiklik bulgusu degil, mevcut durum gercegidir**; telafisi S1 kararina baglidir | Baglayici | §7 negatif kanit | "0 kullanim = hedef referans" |
 | K4 | Yeni guvenlik ADR taslagi bu daldan dogarsa numarasi `>=088` olmalidir (ADR 001-037 dondurulmus) | Baglayici | Vault ADR kurali | ADR-058/059 mevcut, yenisi >=088 |
 | K5 | Bu dal salt-okunur vault'tur; `*.php`/`*.js`/`*.css`/`*.sql` kaynak koduna **yazilmaz** | Baglayici | Gores beyazlistesi | Kod yalniz okunur, kanit olarak alinir |
@@ -171,7 +171,7 @@ Bu subdomain, CoreMusic'in **iki guvenlik katmani arasindaki siniri** tanimlar: 
 |---|---|---|
 | R1 | Bir savunma **mumkunse OS katmaninda** uygulanir; uygulama katmani ikinci savunma olarak kalir | CoreMusic'te OS katmani yok -> R2 devrede |
 | R2 | OS katmani mevcut degilse (bugunku durum) uygulama katmani **tek savundur** — tek-nokta-basarisizlik riski tasiir ve raporlanir | Tum C1-C9'da uygulama katmani tek savunma |
-| R3 | Kimlik/oturum/sifre/MFA savunmalari **her zaman** `K010-identitiy` katmaninda; OS katmani yalniz dosya/surec kisiti verir | `SessionConfig.php:35` yalniz dosya izni, oturum mantigi degil |
+| R3 | Kimlik/oturum/sifre/MFA savunmalari **her zaman** `K0100-identitiy` katmaninda; OS katmani yalniz dosya/surec kisiti verir | `SessionConfig.php:35` yalniz dosya izni, oturum mantigi degil |
 | R4 | Ag sinifi savunmalari `K013-integraion` komusuna devredilir; bu dal yalniz uygulama-OS sinirini tutar | RateLimiter uygulama katmani, ag katmani degil |
 | R5 | OWASP denetiminin tamami `K009-security` dali; bu dal yalniz "OS katmani var mi yok mu" sorusunu tutar | OWASP eslemesi §3.4 — sinir isareti only |
 
@@ -220,7 +220,7 @@ repo pratiigi (mevcut)  --(sinir + kanit)-------->  uygulama-guvenlik-siniri
                                                          +--> uygulama-guvenlik-siniri-ornekler
 
 Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
-                              K010-identitiy (kimlik/oturum/sifre/MFA)
+                              K0100-identitiy (kimlik/oturum/sifre/MFA)
                               K013-integraion (ag)
                               K019-testing (sizma testi)
 ```
@@ -233,7 +233,7 @@ Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
 | D2 | `yetki-ve-erisim-modeli` | `isletim-sistemi-core` | kavram (izin) | Izin kavraminin sahibi core; burada yalniz denetim akisi |
 | D3 | `uygulama-guvenlik-siniri` | `cekirdek-guvenlik` | savunma katmani | OS araclarinin devreye alma esigi S1'e bagli |
 | D4 | `uygulama-guvenlik-siniri` | `yetki-ve-erisim-modeli` | denetim | Uygulama erisimi OS denetim akisinin ustunde calisir |
-| D5 | `yetki-ve-erisim-modeli-ornekler` | `K010-identitiy` | sinir | Oturum dosyasi izni burada, oturum is mantigi K010'da |
+| D5 | `yetki-ve-erisim-modeli-ornekler` | `K0100-identitiy` | sinir | Oturum dosyasi izni burada, oturum is mantigi K010'da |
 | D6 | 3 alt-dal | `isletim-sistemi-security-dogrulama.md` | kanit | Tum iddialar dogrulama dosyasinda HTTP/disk kanitli |
 | D7 | `cekirdek-guvenlik-surucu` | `isletim-sistemi-kernel` | surucu siniri | Surucu yazimi -kernel'de; burada yalniz sinir denetimi |
 
@@ -257,7 +257,7 @@ Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
 | `isletim-sistemi-testing` | Yetki testi yuzeyi (test altyapisi) | Olcum **yontemi** (test ne dogrular) | Test kampanyasi yurutumu, CI kapisina baglilik |
 | `isletim-sistemi-runtime` | Runtime sandbox baglami | Sandbox **calisma zamani modeli** | Sandbox kurulumu, politika yazimi |
 | `isletim-sistemi-turu` | Isletim sistemi turu farkliliklari | **Fark matrisi** (Windows/Linux/macOS ayni mi) | Tur bazli kurulum kararlari |
-| `K010-identitiy` | Kimlik dogrulama, oturum, sifre, MFA uygulama katmani | **Sinir**: uygulama oturumunun OS'taki karsiligi (oturum dosyasi izni `0750`, TTY sahipligi) | Oturum is mantigi, session fixation korumasi, MFA akisi — **buraya girilmez** |
+| `K0100-identitiy` | Kimlik dogrulama, oturum, sifre, MFA uygulama katmani | **Sinir**: uygulama oturumunun OS'taki karsiligi (oturum dosyasi izni `0750`, TTY sahipligi) | Oturum is mantigi, session fixation korumasi, MFA akisi — **buraya girilmez** |
 | `K009-security` | OWASP, auth, CSRF, kripto ADR'leri (ADR-022) | Sinir etkisi isaretleme | OWASP denetimi, kripto algoritma secimi, CSRF tasarimi |
 | `K013-integraion` | Ag entegrasyonu, servis iletisim yuzeyi | — (yalniz sinir isareti) | Rate limit'in ag katmani karsiligi, TLS sonlandirma |
 | `K019-testing` | Sizma testi senaryolari | Test edilebilirlik yuzeyi (olcum metodolojisi) | Pentest kampanyasi yurutumu |
@@ -266,7 +266,7 @@ Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
 
 | Isaret | Sonuc | Yakalama yontemi |
 |---|---|---|
-| Bu daldan oturum akisi (login, MFA, session fixation) tanimlanmasi | Ihlal -> metin `K010-identitiy` dosyasina tasinir | Icerik taramasi: `session_start`, `login`, `MFA` |
+| Bu daldan oturum akisi (login, MFA, session fixation) tanimlanmasi | Ihlal -> metin `K0100-identitiy` dosyasina tasinir | Icerik taramasi: `session_start`, `login`, `MFA` |
 | Bu daldan ag/firewall kurali tanimlanmasi | Ihlal -> `K013-integraion` dosyasina tasinir | Icerik taramasi: `firewall`, `iptables`, `TLS sonlandirma` |
 | Bu daldan OWASP denetimi yurutulmesi | Ihlal -> `K009-security` dali sorumlu | Icerik taramasi: OWASP kontrol listesi |
 | Bu daldan `*.php`/`*.js`/`*.css`/`*.sql` kaynak kodu degisikligi | Ihlal -> vault bu dalda salt-okunur; kod yalniz okunur | `git status` + beyazliste denetimi |
@@ -274,7 +274,7 @@ Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
 
 ### §5.3 K010 ile ayrim cumlesi (her alt-dalda zorunlu)
 
-> **K010 ayrimi (baglayici):** Bu dosya **OS duzeyi guvenlik + uygulama-OS guvenlik sinirini** kapsar. **Kimlik dogrulama, oturum (session), sifre ve MFA** -> `K010-identitiy` alt-dalinin konusudur; burada yalnizca bunlarin **OS dosya sistemi/surec kisitlari** (or. oturum dosyasi dizini `0750`, TTY sahipligi) ele alinir — oturum is mantigina girilmez.
+> **K010 ayrimi (baglayici):** Bu dosya **OS duzeyi guvenlik + uygulama-OS guvenlik sinirini** kapsar. **Kimlik dogrulama, oturum (session), sifre ve MFA** -> `K0100-identitiy` alt-dalinin konusudur; burada yalnizca bunlarin **OS dosya sistemi/surec kisitlari** (or. oturum dosyasi dizini `0750`, TTY sahipligi) ele alinir — oturum is mantigina girilmez.
 
 ### §5.4 K009 ile ayrim cumlesi (her alt-dalda zorunlu)
 
@@ -415,7 +415,7 @@ Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
 | A02:2025 | `uygulama-guvenlik-siniri-ornekler` §1 | `.htaccess` + middleware basliklari | OWASP denetimi `K009-security` |
 | A04:2025 | `uygulama-guvenlik-siniri-anayasa` §4 | kripto sinir isareti | Kripto secimi `K009-security` + ADR-022 |
 | A05:2025 | `cekirdek-guvenlik-anayasa` §5 | seccomp/capability ile enjeksiyon sinirlama | OWASP denetimi `K009-security` |
-| A07:2025 | `yetki-ve-erisim-modeli-ornekler` §1 | oturum dosyasi izni siniri | Oturum is mantigi `K010-identitiy` |
+| A07:2025 | `yetki-ve-erisim-modeli-ornekler` §1 | oturum dosyasi izni siniri | Oturum is mantigi `K0100-identitiy` |
 | A10:2025 | `uygulama-guvenlik-siniri-surucu` §4 | fail-closed / fail-open esikleri | OWASP denetimi `K009-security` |
 
 ## §10 — Olcum metodolojisi (nasil sayildi?)
@@ -461,7 +461,7 @@ Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
 | C1 | 16 dosyanin tamami beyazliste icinde mi? | EVET |
 | C2 | `git commit` atildi mi? | HAYIR — subagent yasagi, orkestratöre ait |
 | C3 | `K009-security/**` dosyalarina girildi mi? | HAYIR |
-| C4 | `K010-identitiy/**` dosyalarina girildi mi? | HAYIR |
+| C4 | `K0100-identitiy/**` dosyalarina girildi mi? | HAYIR |
 | C5 | `isletim-sistemi-{core,cross,kernel,observability,plan,runtime,testing}/**` dosyalarina girildi mi? | HAYIR |
 | C6 | `isletim-sistemi-{api,audio,turu}/**` ve `electroncis/**` dosyalarina girildi mi? | HAYIR |
 | C7 | `*.php` / `*.js` / `*.css` / `*.sql` yazildi mi? | HAYIR — yalniz okundu (kanit) |
@@ -506,12 +506,12 @@ Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
 
 | # | Kapsar | Kapsamaz |
 |---|---|---|
-| E1 | DAC / MAC / RBAC / BEL karşılaştırma çerçevesi (BEL = `UNKNOWN`) | Kimlik doğrulama, oturum, sifre, MFA (`K010-identitiy`) |
+| E1 | DAC / MAC / RBAC / BEL karşılaştırma çerçevesi (BEL = `UNKNOWN`) | Kimlik doğrulama, oturum, sifre, MFA (`K0100-identitiy`) |
 | E2 | POSIX izinleri, umask, ACL girişleri | Uygulama RBAC politika tasarımı (`K009-security`) |
 | E3 | Capability modeli (root yetkisinin parçalanması) — **hedef referans** | Capability'nin çekirdek içinde uygulanması (`isletim-sistemi-kernel`) |
 | E4 | MAC politika türleri (SELinux/AppArmor/Landlock) — **hedef referans** | Politika dağıtımı/operasyonu (S1 kararına bağlı) |
 | E5 | Dosya sistemi üzerindeki etiketler ve denetim akışı (syscall → VFS → DAC → ACL → MAC) | Log toplama/analiz altyapısı (`isletim-sistemi-observability`) |
-| E6 | Repo disk kanıtları: `mkdir 0750`, cookie bayrakları, `PermissionMiddleware` | Oturum iş mantığı (login, fixation, MFA akışı — `K010-identitiy`) |
+| E6 | Repo disk kanıtları: `mkdir 0750`, cookie bayrakları, `PermissionMiddleware` | Oturum iş mantığı (login, fixation, MFA akışı — `K0100-identitiy`) |
 | E7 | S2 sorusu: uygulama ↔ OS sorumluluk sınırı — `[UNKNOWN]` | Sınırın **onaylanması** (mimari sahibi kararı) |
 
 ### §14.3 `uygulama-guvenlik-siniri/` kapsam sözleşmesi

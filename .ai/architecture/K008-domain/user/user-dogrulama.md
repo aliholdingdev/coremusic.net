@@ -30,7 +30,7 @@ group: kanit
 | 9 | user, v2 §2.8'de ad olarak geçer (satır 300) | `domain-master.md` §3 satır 76 · `user/index.md` satır 9 | 2026-10-12 | ✅ dosya okundu |
 | 10 | Yetki/rol tanımları K008 kapsamı DIŞI | `domain-master.md` §2.1 satır 55 | 2026-10-12 | ✅ dosya okundu |
 | 11 | user rol tanımı v2'de YOK | `user/index.md` satır 13 | 2026-10-12 | ⚠️ VERIFICATION REQUIRED |
-| 12 | user ↔ K010-identitiy sınırı (email/parola hangi BC'de?) | — (master §7'de bu soru yok) | 2026-10-12 | ⚠️ VERIFICATION REQUIRED |
+| 12 | user ↔ K0100-identitiy sınırı (email/parola hangi BC'de?) | — (master §7'de bu soru yok) | 2026-10-12 | ⚠️ VERIFICATION REQUIRED |
 | 13 | CoreMusic'te tanımlı `User` aggregate'si (K008 domain katmanı) | — | 2026-10-12 | **UNKNOWN** (kanıt yok) |
 | 14 | `user` ↔ `auth.coremusic.net/include/Domain/Entity/User.php` karşılıklı kaydı | — (dosya var, vault'ta ilişki kaydı yok) | 2026-10-12 | **UNKNOWN** (kanıt yok) |
 | 15 | CoreMusic'in kullanıcı verisini sakladığı BC/şema sahipliği (K007 ile) | — | 2026-10-12 | **UNKNOWN** (kanıt yok) |

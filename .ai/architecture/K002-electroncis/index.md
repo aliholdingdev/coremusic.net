@@ -93,6 +93,19 @@ Elektronik, fiziksel dünyadaki sinyalin (akım/gerilim) hesaplanabilir, tasarla
 | Q-K2-4 | `.ai/electronic/**` 60 dosyanın hangi bölümü hangi alt-konuya taşınacak? (3 ajan bekleniyor) | UNKNOWN |
 | Q-K2-5 | 8.1 surround topolojisi bu domainin hangi alt-konu sınırında? | ⚠️ VERIFICATION REQUIRED |
 
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | isletim sistemi donanim destegi |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | sinyal zinciri DSP |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | mikroislemci firmware |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ag arayuzu devresi |
+| K011-application | [[K011-application]] | ../K011-application/index.md | cihaz uygulama katmani |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | harici baglanti protokolleri |
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

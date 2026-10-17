@@ -42,7 +42,7 @@ group: mimari
 HTTP↔gRPC, REST↔SOAP, SSE↔WebSocket, bearer↔API key — aynı anlamı iki farklı
 konuşma biçimi arasında taşır.
 
-**Sınır (ne DEĞİL):** İş kuralı K008-domain · ağ taşıması K014-network ·
+**Sınır (ne DEĞİL):** İş kuralı K008-domain · ağ taşıması K010-network ·
 üçüncü parti sistem/ACL dönüşümü kardeş `adapters` klasörü · dış API
 sözleşmesi kardeş `api-contracts/openapi` (protokol ≠ sistem, protokol ≠ uç
 nokta belgesi — `proto-anayasa.md` §2).

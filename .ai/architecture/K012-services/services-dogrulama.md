@@ -1,4 +1,4 @@
-﻿---
+---
 node_id: K012-services
 node_type: module
 role: dogrulama
@@ -41,7 +41,7 @@ group: kanit
 | Dosya | `K012-services/services-dogrulama.md` |
 | Rol | kanıt defteri — doğrulama sonuçlarının tek kayıt yeri |
 | Kapsam | K012-services kök dosyaları + 10 alt alan kanıt durumu |
-| Kapsam dışı | K014-network, K015-media (sıradaki kökler), kaynak kod değişikliği |
+| Kapsam dışı | K010-network, K014-media (sıradaki kökler), kaynak kod değişikliği |
 | Yöntem | kanıt sınıfı S1–S5 (§2) + kriter tablosu (§3) + açık sorular (§4) |
 | Tarih | 2026-10-13 (tur-2) |
 | Otorite | Vault Steward — Red Team · Human Mode · Truth Mode |
@@ -90,12 +90,12 @@ oturtulur; sınıfı belirsiz iddia `UNKNOWN` sayılır.
 
 | # | Soru | Etkilenen alan | Durum |
 |---|---|---|---|
-| Q1 | ai-service bağlılığı K006-yapay-zeka mı K016-AI mı | alt alan sahipliği | UNKNOWN |
+| Q1 | ai-service bağlılığı K006-yapay-zeka mı K015-AI mı | alt alan sahipliği | UNKNOWN |
 | Q2 | playback-service sahipliği (K015 playback ile sınır) | playback odak kapsamı | UNKNOWN |
 | Q3 | audio-service sınırı — servis mi, motor mu (K003-audio) | sınır iddiaları | UNKNOWN |
 | Q4 | service-contracts kapsamı (tüm K'lar mı, K012 mi) | sözleşme kapsamı | UNKNOWN |
 | Q5 | background-jobs iş motoru (queue kütüphanesi bilinmiyor) | iş motoru iddiası | UNKNOWN |
-| Q6 | device-identity sahipliği (K010-identitiy yazımı korunur) | cihaz kimlik iddiası | UNKNOWN |
+| Q6 | device-identity sahipliği (K0100-identitiy yazımı korunur) | cihaz kimlik iddiası | UNKNOWN |
 | Q7 | BC/DB ilişkisi — hangi BC hangi DB'ye bağlı | DB iddiaları | tasarım-seviyesi |
 | Q8 | swagger / PSR-7 / PSR-15 otomasyonu repo'da var mı | sözleşme otomasyonu | tasarım-seviyesi |
 | Q9 | servisler arası çağrının gerçek taşıyıcısı (HTTP? CLI? queue?) | transport iddiası | UNKNOWN |

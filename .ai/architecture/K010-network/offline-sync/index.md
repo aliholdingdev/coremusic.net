@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/offline-sync
+node_id: K010-network/offline-sync
 node_type: subdomain
 status: draft
-parent_id: K014-network
+parent_id: K010-network
 children: []
 depends_on: []
 evidence:
@@ -19,7 +19,7 @@ group: mimari
 ---
 
 
-# offline-sync — K014-network (kademe-2 · subdomain)
+# offline-sync — K010-network (kademe-2 · subdomain)
 
 **ELI15:** Bağlantı yokken çalışmaya devam etme ve bağlantı gelince eşitleme akışı.
 

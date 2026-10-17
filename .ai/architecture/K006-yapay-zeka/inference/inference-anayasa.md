@@ -43,11 +43,11 @@ skor/sonuç döner. Öğrenme (training) bu alanda **yapılmaz**; model burada *
 | 1 | `AIEngine` tahmin çağrıları (`getRecommendations` L49, `analyzeAudio` L82) | Model ağırlıklarının eğitilmesi/güncellenmesi | K006.model-management |
 | 2 | `AIWorkflow` tahmin akışları (5 workflow, L49–L299) | Yerel donanımda çalışma zamanı seçimi | K006.local-inference |
 | 3 | Sonuç skorlaması birleştirme (`combineScores` L243) | Öneri kalitesinin metrikle ölçülmesi | K006.evaluation |
-| 4 | Prompt/ bağlam hazırlığı (`PromptEngine::generatePrompt` L48) | Ajan çalışma zamanı / agent döngüsü | K016-AI (**kapsam dışı**) |
+| 4 | Prompt/ bağlam hazırlığı (`PromptEngine::generatePrompt` L48) | Ajan çalışma zamanı / agent döngüsü | K015-AI (**kapsam dışı**) |
 | 5 | Tahmin çıktısının şekli ve sözleşmesi (`AIEngineInterface` L28–L60) | Çıktının UI'da gösterimi | K011-application |
 
 **Sınır cümlesi (v2 §2.6 · registry §6):** Bu dal yalnız **K006 = ML ürün tarafını**
-kapsar. K016-AI ajan altyapısına tahmin yeteneği **taşınamaz**; ajanlar K006'yı **çağırır**.
+kapsar. K015-AI ajan altyapısına tahmin yeteneği **taşınamaz**; ajanlar K006'yı **çağırır**.
 
 ## §2 Bozulmaz İlkeler (invariants)
 
@@ -92,7 +92,7 @@ olarak kilitlemek bu anayasanın görevidir.
 | Küçük sınıflandırıcı (ONNX) | Uygun — vault planı | ADAY (repo kodu yok) | `ai-models.md` satır 265 |
 | Süper-çözünürlük modeli (AudioSR) | Uzun süreli çıkarım | ADAY (batch tarafı) | `ai-models.md` satır 74 |
 | Denoising (DeepFilterNet2) | Gerçek zamanlıye uygun | ADAY | `ai-models.md` satır 102 |
-| Büyük dil modeli (LLM) | Tahmin çekirdeği DEĞİL | KAPSAM DIŞI | K016-AI sınırı |
+| Büyük dil modeli (LLM) | Tahmin çekirdeği DEĞİL | KAPSAM DIŞI | K015-AI sınırı |
 | Bulut API'ye tam devir | Gizlilik nedeniyle sınırlı | VARSAYILAN RED | §7 |
 
 **İlke I12:** Inference için seçilen model ailesi **ölçeklenebilirlik bütçesiyle**
@@ -136,9 +136,9 @@ yasal değerlendirme K006 root `-kararlar.md` ve `.ai/.decisions/` yetkisindedir
 | P5 | Log satırları maskelenir | Hassas veri | `Redactor.php` satır 65 |
 | P6 | Tahmin sonuçları üçüncü tarafa sızdırılmaz | Gizlilik | tasarım iddiası — ⚠️ VERIFICATION REQUIRED |
 
-## §8 K016-AI Sınırı (KAPSAM DIŞI — bağlayıcı)
+## §8 K015-AI Sınırı (KAPSAM DIŞI — bağlayıcı)
 
-| # | K006.inference (BU DAL) | K016-AI (DIŞARI) | Ayrım cümlesi |
+| # | K006.inference (BU DAL) | K015-AI (DIŞARI) | Ayrım cümlesi |
 |---|---|---|---|
 | 1 | `AIEngine` tahmin çağrıları | Ajan çalışma zamanı (agent loop) | "Model çağrılır" ≠ "ajan çalışır" |
 | 2 | `AIWorkflow` 5 akışı | Ajan görev dağılımı (`AIOrchestrator` ürün tarafı) | Akı = iş akışı, ajan = karar döngüsü |
@@ -146,7 +146,7 @@ yasal değerlendirme K006 root `-kararlar.md` ve `.ai/.decisions/` yetkisindedir
 | 4 | `ToolCalling::checkPermission` (L145) | Ajan izin politikası | Araç çağrısı burada, politika orada |
 | 5 | Tahmin sonucu (`array`) | Ajan kararı/metni | Sonuç veri, karar metni kapsam dışı |
 
-**İlke I15:** K016-AI bu dalı **çağırır**, bu dal K016-AI'yı **beslemez**. Ajanlara
+**İlke I15:** K015-AI bu dalı **çağırır**, bu dal K015-AI'yı **beslemez**. Ajanlara
 öneri/tahmin yeteneği taşımak mimari ihlaldir (registry §18/1).
 
 ## §9 Terim Sözlüğü (TR↔EN)
@@ -180,7 +180,7 @@ yasal değerlendirme K006 root `-kararlar.md` ve `.ai/.decisions/` yetkisindedir
 | 2 | Yerel çalışma zamanı, donanım seçimi, offline | `local-inference` |
 | 3 | Öneri kalitesi ölçümü, A/B test | `evaluation` |
 | 4 | Öğrenme/tuning döngüsü (varsa) | `model-management` |
-| 5 | Ajan döngüsü, agent çalışma zamanı | K016-AI |
+| 5 | Ajan döngüsü, agent çalışma zamanı | K015-AI |
 | 6 | DSP gerçek zamanlı zinciri (C++ tarafı) | `.ai/electronic/dsp/` + Neva Engine |
 | 7 | UI bileşeni çizimi | K011-application |
 

@@ -15,7 +15,7 @@ children:
   - K006.9-testing
 depends_on:
   - K004-shared
-  - K016-AI
+  - K015-AI
 evidence:
   - "ADR-097 §5 (isimlendirme) — 2026-10-12 okundu"
   - ".ai/architecture/index.md §5 satır 6 · §6 satır 94 (K006↔K016) — 2026-10-12"
@@ -57,7 +57,7 @@ group: mimari
 - **Karar:** K006 = **ML ürün yüzeyi** (öneri, ses analizi, tahmin, kişiselleştirme). K016 = **ajan/MCP/
   RAG/prompt/altyapı**. `KnowledgeBase` · `MemorySystem` · `PromptEngine` · `ToolCalling` K016'ya ait;
   `AIWorkflow` onları **çağırır ama sahibi değildir**.
-- **Kaynak:** v2 §2.6 ve §2.16 · registry §6 satır 94 (`K006-yapay-zeka (ML ürün) ↔ K016-AI (ajan
+- **Kaynak:** v2 §2.6 ve §2.16 · registry §6 satır 94 (`K006-yapay-zeka (ML ürün) ↔ K015-AI (ajan
   altyapısı) — ikisi de meşru, ayrı domain`).
 - **Disk kanıtı:** 4 sınıf `use CoreMusic\Contracts\AI\{KnowledgeBaseInterface|MemorySystemInterface|
   PromptEngineInterface|ToolCallingInterface}` (her dosya L13).

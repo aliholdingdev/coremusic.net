@@ -408,7 +408,7 @@ saniyede üretilen ID'ler sıralanamaz. `microtime(true)*1000` tek doğru seçim
 | 4 | K011/application-services | Servis çağrısı zamanlaması | ⚠️ sınır → §6-1 |
 | 5 | K009-security | Rotation/nonce güvenlik kararı | `SessionConfig` sabitleri |
 | 6 | K008-domain | `radio_schedules` iş mantığı | `coremusic_musics.sql:442` |
-| 7 | K015-media | Radyo yayın akışı | `radio_schedules` tüketicisi |
+| 7 | K014-media | Radyo yayın akışı | `radio_schedules` tüketicisi |
 | 8 | K017-observability | `HEALTH_CHECK` enum değeri | `coremusic_logs.sql:325` |
 | 9 | K019-testing | Zamanlayıcı testleri | 45 PHP test / 9 JS spec |
 | 10 | K11-ux / ui-design | Animasyon tasarım kararı | token **değerleri** burada |

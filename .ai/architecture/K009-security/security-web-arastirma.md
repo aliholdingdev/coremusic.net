@@ -93,7 +93,7 @@ group: kanit
 |---|---|
 | 800-52r2 + 800-57pt1r5 → kripto geçiş planı (security-master §FOSSA) | TLS 1.2+ zorunlu; DES/3DES/RC4 yasağı; RSA-2048+ hedefi |
 | 800-171r3 → veri sınıflandırma referansı (kapsam dosyası) | Hassas veri tanımı K009 kapsam §x |
-| 800-63-3 → AAL seviyeleri K010-identitiy'e devredildi | K009 kimlik modeline GİRMEZ (sınır kuralı) |
+| 800-63-3 → AAL seviyeleri K0100-identitiy'e devredildi | K009 kimlik modeline GİRMEZ (sınır kuralı) |
 | 800-61r2 + 800-137 → audit/izleme dalga-3 (audit dosyası) | audit.md yol listesinde |
 | 800-190/193 → deployment katmanı; konteyner kanıtı yok | UNKNOWN — deployment kanıtı okunmadı |
 
@@ -123,20 +123,20 @@ group: kanit
 | §2 Top10 A03 | Girdi doğrulama middleware'i | ValidationMiddleware.php·15 | EŞLEŞİYOR |
 | §3 Kimlik doğrulama | MFA/ikinci faktör | — (kanıt yok) | EŞLEŞMİYOR → ⚠️ VERIFICATION REQUIRED |
 
-## §7 K010-identitiy'e DEVİR KAYDI (SINIR KONTROLÜ)
+## §7 K0100-identitiy'e DEVİR KAYDI (SINIR KONTROLÜ)
 
 | Konu | Kaynak (§) | Neden K009 DIŞI | Giden Dosya |
 |---|---|---|---|
-| AAL seviyesi seçimi | §4 800-63-3 | Kimlik/kullanıcı modeli K010 kapsamı | K010-identitiy |
-| Login akışı, MFA, parola sıfırlama | §3 Authentication | Kimlik doğrulama akışı K010 kapsamı | K010-identitiy |
-| OAuth2/OIDC uçları (authoriz. server) | §4 (temel) | Kimlik sağlayıcı rolü K010 kapsamı | K010-identitiy |
+| AAL seviyesi seçimi | §4 800-63-3 | Kimlik/kullanıcı modeli K010 kapsamı | K0100-identitiy |
+| Login akışı, MFA, parola sıfırlama | §3 Authentication | Kimlik doğrulama akışı K010 kapsamı | K0100-identitiy |
+| OAuth2/OIDC uçları (authoriz. server) | §4 (temel) | Kimlik sağlayıcı rolü K010 kapsamı | K0100-identitiy |
 | Kullanıcı rolleri modeli (rol tanımı) | §3 Authorization | Yetki TANIMI K010, uygulaması K009 | K010 → K009 devri |
 
 | Sınır Kuralı | Açıklama |
 |---|---|
 | K009 ne yapar | Uygulama katmanında doğrulama/yetkilendirme/oturum/kripto/güvenlik başlığı denetimi |
-| K009 ne yapmaz | Kimlik, kullanıcı, hesap, rol TANIMI üretmez (K010-identitiy) |
-| Çakışma halinde | K010-identitiy dosyaları otorite; K009 yalnız tüketici |
+| K009 ne yapmaz | Kimlik, kullanıcı, hesap, rol TANIMI üretmez (K0100-identitiy) |
+| Çakışma halinde | K0100-identitiy dosyaları otorite; K009 yalnız tüketici |
 
 ## §8 OWASP TOP 10:2025 → BİLEŞEN → KOD KANITI X-REF
 
@@ -336,7 +336,7 @@ group: kanit
 |---|---|---|
 | HTTP Headers CS → başlık envanteri §10 satırlarını genişletir | security-master §14 · SecurityHeadersMiddleware | Kaynaklı; kod satırı §10'da |
 | SSRF Prevention CS → A10 boşluğu için tek resmi kaynak | input-validation (dalga-3) | A10 KANIT YOK durumunu değiştirmez |
-| Forgot Password CS → parola sıfırlama K010 sınırında | K010-identitiy devri (§7) | Sınır kaydı korunur |
+| Forgot Password CS → parola sıfırlama K010 sınırında | K0100-identitiy devri (§7) | Sınır kaydı korunur |
 | Denial of Service CS → rate-limiting tasarım girdisi | RateLimiterMiddleware · CacheRateLimiter | Kod kanıtı §6'da |
 | PHP Configuration CS → php.ini yüzeyi deployment katmanında | K009 root'ta yalnız referans | php.ini okunmadı → UNKNOWN |
 | Nodejs Security CS → CoreMusic PHP tabanlı | K009 kapsamı DIŞI | Bilgi notu; uygulanmaz |
@@ -344,7 +344,7 @@ group: kanit
 | SAML Security CS → CoreMusic'te SAML kanıtı yok | — | ⚠️ VERIFICATION REQUIRED (SAML kullanımı) |
 | SP 800-38B CMAC → kimlik doğrulamalı şifreleme modu referansı | encryption | AES-GCM tercihi ADR-022'de; CMAC uygulanmadı |
 | SP 800-92 log → audit dalga-3 girdisi | audit | LoggerRedactionTest kanıtı §6'da |
-| SP 800-94 IDPS → izleme katmanı; K009'da SIEM yok | audit / K014-network | UNKNOWN — izleme altyapısı okunmadı |
+| SP 800-94 IDPS → izleme katmanı; K009'da SIEM yok | audit / K010-network | UNKNOWN — izleme altyapısı okunmadı |
 | SP 800-123 sunucu güvenliği → deployment yüzeyi | K000 / K018-devops | K009 kapsamı DIŞI (sınır) |
 | SP 800-40r4 yama → bağımlılık güncelliği (A06) | bagimliliklar | composer.json envanteri §8'de |
 | SP 800-83r1 malware → olay müdahale öncesi hazırlık | audit dalga-3 | — |
@@ -381,7 +381,7 @@ group: kanit
 |---|---|---|---|---|
 | 1 | HTTP Headers CS | security-master.md §14 | başlık envanteri genişletmesi | bu dosya havuzu |
 | 2 | SSRF Prevention CS | input-validation (dalga-3) | A10 kontrol listesi | bu dosya havuzu (dalga-3'e hazır) |
-| 3 | Forgot Password CS | K010-identitiy | sıfırlama akışı | devir (§7) |
+| 3 | Forgot Password CS | K0100-identitiy | sıfırlama akışı | devir (§7) |
 | 4 | Denial of Service CS | rate-limiting/ | limit politikası girdisi | bu dosya havuzu |
 | 5 | PHP Configuration CS | security-master §18 | php.ini yüzeyi | bu dosya havuzu |
 | 6 | Nodejs Security CS | — | kapsam dışı bilgi | bu dosya havuzu (kullanılmaz) |
@@ -488,11 +488,11 @@ group: kanit
 | # | Açık konu | Kaynak | Tetikleyici | Sahip | Durum |
 |---|---|---|---|---|---|
 | A-17 | A10 SSRF için kontrol listesi uygulanabilir mi? | §17 satır 2 (SSRF Prevention CS) | input-validation dosyası açılınca | dalga-3 | ⚠️ VERIFICATION REQUIRED |
-| A-18 | Parola sıfırlama akışı kodda var mı? | §17 satır 3 (Forgot Password CS) | K010-identitiy dosyası okununca | K010 | ⚠️ VERIFICATION REQUIRED |
+| A-18 | Parola sıfırlama akışı kodda var mı? | §17 satır 3 (Forgot Password CS) | K0100-identitiy dosyası okununca | K010 | ⚠️ VERIFICATION REQUIRED |
 | A-19 | php.ini yüzeyi deployment'ta nasıl? | §17 satır 5 (PHP Configuration CS) | sunucu yapılandırması okununca | K018-devops | UNKNOWN |
 | A-20 | SAML kullanılıyor mu? | §17 satır 8 (SAML Security CS) | composer.json + kod taraması | authentication/ | ⚠️ VERIFICATION REQUIRED |
 | A-21 | Log yönetimi standardı uygulanıyor mu? | §17 satır 10 (SP 800-92) | audit dosyası açılınca | dalga-3 | UNKNOWN |
-| A-22 | İzleme/IDPS katmanı var mı? | §17 satır 11 (SP 800-94) | K014/K017 okununca | K014-network | UNKNOWN |
+| A-22 | İzleme/IDPS katmanı var mı? | §17 satır 11 (SP 800-94) | K014/K017 okununca | K010-network | UNKNOWN |
 | A-23 | Yama/yüncelik döngüsü tanımlı mı? | §17 satır 13 (SP 800-40r4) | bagimliliklar derinleştirmesinde | security-bagimliliklar.md | UNKNOWN |
 | A-24 | Test yöntemi (SP 800-115) WSTG ile eşleşiyor mu? | §17 satır 15 | security-testing dosyasında | dalga-3 | ⚠️ VERIFICATION REQUIRED |
 | A-25 | Tedarik zinciri riski (SP 800-161r1) değerlendirildi mi? | §17 satır 16 | A06/A08 denetiminde | bagimliliklar | UNKNOWN |

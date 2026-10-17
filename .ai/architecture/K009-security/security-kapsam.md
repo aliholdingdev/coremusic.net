@@ -6,10 +6,10 @@ parent_id: K009-security
 children: []
 depends_on:
   - K009-security/security-master
-  - K010-identitiy
+  - K0100-identitiy
   - K011-application
   - K013-integraion
-  - K014-network
+  - K010-network
 evidence:
   - "coremusic-katmanli-mimari-agaci-v2.md §2.9 satır 310–329"
   - "shared/src/Middleware/ envanteri (11 dosya, 2026-10-12)"
@@ -47,12 +47,12 @@ group: mimari
 
 | # | Alan | Sahip | Gerekçe |
 |---|---|---|---|
-| 1 | User entity, hesap, kayıt akışı | K010-identitiy | v2 §2.10 — "Kim olduğun" |
-| 2 | Credentials veri modeli (tablo/şema) | K010-identitiy | veri modeli ≠ güvenlik politikası |
-| 3 | Roller/izinlerin veri modeli | K010-identitiy | authorization yalnız KARAR kuralını koyar |
+| 1 | User entity, hesap, kayıt akışı | K0100-identitiy | v2 §2.10 — "Kim olduğun" |
+| 2 | Credentials veri modeli (tablo/şema) | K0100-identitiy | veri modeli ≠ güvenlik politikası |
+| 3 | Roller/izinlerin veri modeli | K0100-identitiy | authorization yalnız KARAR kuralını koyar |
 | 4 | SQL şema, migration | K007-data | .ai/AGENTS.md §5 domain boundary |
 | 5 | API routing sözleşmesi | K013-integraion | K013 API kontratlarını taşır |
-| 6 | DNS / firewall / altyapı | K014-network | K009 yalnız TLS gereksinimi koyar |
+| 6 | DNS / firewall / altyapı | K010-network | K009 yalnız TLS gereksinimi koyar |
 | 7 | Loglama altyapısı, metrik, izleme | K017-observability | redaksiyon kuralı K009'da, altyapı K017'de |
 | 8 | CI/CD, secret scan aracı, deploy | K018-devops | tarama K018; kural K009 |
 | 9 | DSP/firmware güvenliği | K004-dsp / K005-firmware | donanım yüzeyi |
@@ -65,8 +65,8 @@ group: mimari
 | K009 → K011-application | CSP nonce + header seti | IMPLEMENTED (SecurityHeadersMiddleware) |
 | K009 → K013-integraion | Origin/CORS allow-list kuralı | IMPLEMENTED (CorsMiddleware, OriginCheckMiddleware) |
 | K009 → K007-data | prepared statement zorunluluğu | kural (kod denetimi K007/K019) |
-| K014-network → K009 | TLS sağlığı (HSTS ön koşulu) | partial — HSTS header kod kanıtı YOK |
-| K010-identitiy ↔ K009 | auth akışı sözleşmesi | ⚠️ VERIFICATION REQUIRED (döngü riski) |
+| K010-network → K009 | TLS sağlığı (HSTS ön koşulu) | partial — HSTS header kod kanıtı YOK |
+| K0100-identitiy ↔ K009 | auth akışı sözleşmesi | ⚠️ VERIFICATION REQUIRED (döngü riski) |
 | K017-observability → K009 | redaksiyon hook'u | partial (test kanıtlı, hook bağlantısı ⚠️) |
 | K018-devops → K009 | secret scan raporu | partial (.github/workflows/secret-scan.yml var) |
 
@@ -140,9 +140,9 @@ Kaynak: https://owasp.org/www-project-top-ten/ (HTTP 200 · 2026-10-12).
 
 | Kalem | Neden Dışarıda | Giden Yer |
 |---|---|---|
-| Kullanıcı/hesap modeli (tablo, alan) | Kimlik katmanı tanımı K010-identitiy | K010-identitiy |
-| Login/MFA/şifre sıfırlama akışı | Kimlik doğrulama deneyimi K010 | K010-identitiy |
-| OAuth2/OIDC sağlayıcı rolü | Kimlik sağlayıcı mimarisi K010 | K010-identitiy |
+| Kullanıcı/hesap modeli (tablo, alan) | Kimlik katmanı tanımı K0100-identitiy | K0100-identitiy |
+| Login/MFA/şifre sıfırlama akışı | Kimlik doğrulama deneyimi K010 | K0100-identitiy |
+| OAuth2/OIDC sağlayıcı rolü | Kimlik sağlayıcı mimarisi K010 | K0100-identitiy |
 | Fiziksel/altyapı güvenlik (DC, kilit) | Yazılım katmanı değil | Dış (opsyonel) |
 | GDPR/kanuni saklama süreleri | Hukuki politika | policies (dalga-3) |
 | DSP/ses motoru güvenliği | K004/K005 kapsamı | İlgili katman |
@@ -163,7 +163,7 @@ Kaynak: https://owasp.org/www-project-top-ten/ (HTTP 200 · 2026-10-12).
 |---|---|
 | Aşım | K009'dan K010'a tek yönlü bağımlılık: K009 kimlik SORGULAMAZ, yalnız token/session DOĞRULAR |
 | Belirsiz | Sınır ötesi her iddia K010'da kanıt bekler (⚠️ VERIFICATION REQUIRED) |
-| Çakışma | K010-identitiy dosyaları otoritedir (Authority sırası: .ai/CLAUDE.md §2.1) |
+| Çakışma | K0100-identitiy dosyaları otoritedir (Authority sırası: .ai/CLAUDE.md §2.1) |
 
 ## §KAPSAM KABUL KRİTERLERİ
 

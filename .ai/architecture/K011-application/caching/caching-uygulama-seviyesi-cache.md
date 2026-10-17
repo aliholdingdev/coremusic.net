@@ -45,7 +45,7 @@ sözleşme altına almaktır.
 | 1 | Adapter arayüzü | `get/set/delete/increment/clear/has` | Fiziksel depo altyapısı (K018-operasyon) |
 | 2 | APCu katmanı | Fonksiyon varlık denetimi, TTL | Sunucu yapılandırması (ops) |
 | 3 | Sayfa cache | URI + kimlik anahtarı, `remember` | Sayfa render (presentation) |
-| 4 | HTTP cache | ETag, 304, Cache-Control | CDN/proxy yapılandırması (K014-network) |
+| 4 | HTTP cache | ETag, 304, Cache-Control | CDN/proxy yapılandırması (K010-network) |
 | 5 | Anahtar politikası | Önek, namespace, kimlik ayrımı | Veritabanı cache (K005-data) |
 | 6 | TTL | Sınıf bazlı ömürler | İş kuralı ömürleri (domain) |
 | 7 | Invalidasyon | Yazma sonrası temizlik | Event altyapısı (ADR-086) |
@@ -419,9 +419,9 @@ uygulamaya yükler (§13 kaynağı: cache-aside dokümanı).
 | Rota `cacheable` tanımı | `routing` §7.1 | Bayrak routing'de |
 | HTTP durum kodu listesi | `routing` §12 | Kod listesi orada |
 | ETag/md5 kararı | Bu dosya (§10.2) | — |
-| CDN/proxy | `K014-network` | Altyapı ayrı |
+| CDN/proxy | `K010-network` | Altyapı ayrı |
 | Veritabanı query cache | `K005-data` | Sorgu katmanı ayrı |
-| Session cache | `K010-identitiy/session` | Kimlik ayrı |
+| Session cache | `K0100-identitiy/session` | Kimlik ayrı |
 | Kota değerleri | `K010` / ADR-013 | Politika ayrı |
 | Log/ölçüm | `K013-audit` | Gözlem ayrı |
 | BFF cache | Yok (bilinmiyor) | §17 #6 |

@@ -32,6 +32,19 @@ open_questions:
   - "shared/AGENTS.md (2026-10-12) 'K-space kaldırıldı' notu ile ADR-097 sıfırdan kurulum kararı arasındaki ilişki → ⚠️ VERIFICATION REQUIRED"
   - "Kademe-3 (bounded-context) yapısı v2'de tanımlı değil → her çocuk için -bilesenler.md taslağı ADR onayı bekliyor"
 group: mimari
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | audio domain modelleri |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP domain sinirlari |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | AI domain baglami |
+| K007-data | [[K007-data]] | ../K007-data/index.md | entity persistence |
+| K012-services | [[K012-services]] | ../K012-services/index.md | servis sozlesmeleri |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | event ve DTO paylasimi |
+
 ---
 
 # K008-domain — Domain Künyesi

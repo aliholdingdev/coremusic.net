@@ -62,7 +62,7 @@ birlikte okunur, biri diğerinin özeti değildir.
 | Linux çekirdek SELinux dokümanı | SELinux'un LSM çekirdek tarafı | sınır: bu kartta yalnız referans | upstream docs (docs.kernel.org) · repo 0 |
 
 **Okuma:** 9 satırın 8'i `upstream docs`, 0'ı bu repoda uygulanmıştır. Bu kart
-**yetki modeli** kartıdır; kimlik doğrulama/oturum/MFA `K010-identitiy` kapsamıdır
+**yetki modeli** kartıdır; kimlik doğrulama/oturum/MFA `K0100-identitiy` kapsamıdır
 (bkz. §4).
 
 ## §2 Kod örnekleri
@@ -144,7 +144,7 @@ kanıtı sayılır.
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy`; bu kartta yalnizca Android dosya/surec/erisim kisitlari ele alinir.
+> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy`; bu kartta yalnizca Android dosya/surec/erisim kisitlari ele alinir.
 
 > **K009 ayrimi (baglayici):** OWASP denetimi, auth/CSRF/CSP tasarimi, kripto secimi (ADR-022) -> `K009-security`; bu kart yalnız OS katmani + sinir isaretlerini tasinir.
 

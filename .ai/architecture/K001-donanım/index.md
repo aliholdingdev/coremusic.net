@@ -95,6 +95,26 @@ group: mimari
 | kanit | `donanım-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
 | kanit | `donanım-riskler.md` | Risk, etki, olasılık ve azaltım planı | Kademe-1 |
 | kanit | `donanım-web-arastirma.md` | Sistemli resmi kaynak tarama kaydı | Kademe-1 |
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | isletim sistemi donanim erisimi |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | elektronik devre ve topoloji |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ses donanimi (DAC/ADC/cihaz) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP donanimi |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | firmware yukleme ve guncelleme |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | model donanim gereksinimleri |
+| K007-data | [[K007-data]] | ../K007-data/index.md | donanim envanteri verisi |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | donanim domain modeli |
+| K009-security | [[K009-security]] | ../K009-security/index.md | secure boot ve donanim guvenligi |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ag donanimi (NIC/radyo) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | cihaz erisim uygulamasi |
+| K012-services | [[K012-services]] | ../K012-services/index.md | cihaz servisi |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | cihaz entegrasyon protokolleri |
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward

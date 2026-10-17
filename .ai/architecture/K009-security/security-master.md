@@ -6,9 +6,9 @@ parent_id: K009-security
 children: []
 depends_on:
   - K009-security/index
-  - K010-identitiy
+  - K0100-identitiy
   - K011-application
-  - K014-network
+  - K010-network
 evidence:
   - "coremusic-katmanli-mimari-agaci-v2.md §2.9 satır 310–329 (master adı: security-master.md)"
   - ".ai/architecture/index.md §5 satır 9 (master dosya adı = security-master.md)"
@@ -134,17 +134,17 @@ Sıra, kod dosyalarının alfabetik envanterinden türetilmiştir; **çalışma 
 | 6 | Session/cookie değerinin log'a yazılması | auth.coremusic.net/AGENTS.md §4 yasaklar |
 | 7 | Password ValueObject dışında hash üretimi | auth.coremusic.net/AGENTS.md §4.1 |
 | 8 | Subagent'ın git commit atması | .ai/AGENTS.md §13.9/5 (bu üretim için de geçerli) |
-| 9 | K010-identitiy kapsamına (user entity, hesap, credential veri modeli) girmek | v2 §2.10 sınırı |
+| 9 | K0100-identitiy kapsamına (user entity, hesap, credential veri modeli) girmek | v2 §2.10 sınırı |
 | 10 | K010/K019/K020 çakışan K020 ID'leri gibi ID CONFLICT'i onaysız çözmek | v2 §3 KURAL 2 |
 
 ## §8 Sınır komşuları
 
 | Komşu | K009'un verdiği | K009'un almadığı | Risk |
 |---|---|---|---|
-| K010-identitiy | oturum güvenliği, CSRF/CSP, hash kuralları | user entity, hesap, credentials veri modeli, rollerin veri modeli | döngü → ⚠️ VERIFICATION REQUIRED |
+| K0100-identitiy | oturum güvenliği, CSRF/CSP, hash kuralları | user entity, hesap, credentials veri modeli, rollerin veri modeli | döngü → ⚠️ VERIFICATION REQUIRED |
 | K011-application | security header/CSP sözleşmesi | sayfa/ekran UI kodu | header sözleşmesi ihlali → revert |
 | K013-integraion | origin/CORS/token kuralları | adaptör implementasyonu | SSRF yüzeyi → kısmi (A10 eşlemesi) |
-| K014-network | TLS politikası gereksinimi | DNS/firewall/altyapı | NIST SP 800-52r2 → security-dogrulama.md §2 |
+| K010-network | TLS politikası gereksinimi | DNS/firewall/altyapı | NIST SP 800-52r2 → security-dogrulama.md §2 |
 | K017-observability | redaksiyon kuralı (log secret yazmaz) | loglama altyapısı, metrik | log sızıntısı → [REDACTED] |
 | K018-devops | secret envanteri kuralı | CI pipeline, tarama araçları | GitLeaks ZAP korelasyonu → K018 |
 
@@ -359,7 +359,7 @@ Kaynak: https://owasp.org/www-project-application-security-verification-standard
 
 | Well-known URI | Resmi amaç (RFC 5785) | K009 tutumu | Durum |
 |---|---|---|---|
-| /.well-known/change-password | parola değiştirme keşfi | K010-identitiy sınırı | ⚠️ VERIFICATION REQUIRED |
+| /.well-known/change-password | parola değiştirme keşfi | K0100-identitiy sınırı | ⚠️ VERIFICATION REQUIRED |
 | /.well-known/security.txt | güvenlik iletişim kanalı | doğrudan K009'a uygun | UNKNOWN — mevcut değil mi? |
 | /.well-known/openid-configuration | OIDC keşfi | K010 devri | UNKNOWN |
 | /.well-known/oauth-authorization-server | OAuth sunucu keşfi | K010 devri | UNKNOWN |
@@ -473,9 +473,9 @@ Kaynak: https://owasp.org/www-project-application-security-verification-standard
 
 | Konu | Sahibi | K009 tutumu | İlgili § |
 |---|---|---|---|
-| Kimlik modeli, kullanıcı, hesap, rol TANIMI | K010-identitiy | yalnız tüketici; tanımlanmaz | §7 · §8 |
+| Kimlik modeli, kullanıcı, hesap, rol TANIMI | K0100-identitiy | yalnız tüketici; tanımlanmaz | §7 · §8 |
 | İşletim sistemi güvenliği (kernel, disk, servis) | K000-isletim-sistemi/security | yalnız sınır referansı | §7 |
-| Ağ katmanı (DNS, TLS sonlandırma, firewall) | K014-network | deployment kanıtı UNKNOWN | §18 |
+| Ağ katmanı (DNS, TLS sonlandırma, firewall) | K010-network | deployment kanıtı UNKNOWN | §18 |
 | Gözlemlenebilirlik (SIEM, metrik, alarm) | K017-observability | audit dalga-3'e devredilir | §17 |
 | Dağıtım ve altyapı (CI/CD, konteyner) | K018-devops | php.ini/tls yapılandırması burada | §18 |
 | CSRF stratejisi | ADR-010 | `csrf_token` adı bağlayıcı | §7 |

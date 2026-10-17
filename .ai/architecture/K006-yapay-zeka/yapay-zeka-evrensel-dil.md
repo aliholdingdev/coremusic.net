@@ -15,7 +15,7 @@ children:
   - K006.9-testing
 depends_on:
   - K004-shared
-  - K016-AI
+  - K015-AI
 evidence:
   - "Terimler shared/src/AI/*.php ve Contracts/AI/*.php docblock/identifier'larından türetildi (2026-10-12)"
   - "Kavramsal terimler doğrulanmış kaynaklardan: yapay-zeka-dogrulama.md §2 (32 URL)"

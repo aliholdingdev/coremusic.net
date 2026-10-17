@@ -345,7 +345,7 @@ Beklenen değer: `base64( SHA-1( key_dizesi + "258EAFA5-E914-47DA-95CA-C5AB0DC85
 | # | Konu | Nereye gider | Neden bu dosyada değil |
 |---|---|---|---|
 | 1 | Token'ın kriptografik çözülmesi (imza, ömür, iptal) | K009 kimlik/güvenlik | Bu dosya yalnız **taşınma şeklini** doğrular (§5) |
-| 2 | TCP/TLS/HTTP2 bağlantı kurma, retry, backoff zamanlaması | K014-network | L3 yalnızca **başlık/biçim** doğrular, soket değil |
+| 2 | TCP/TLS/HTTP2 bağlantı kurma, retry, backoff zamanlaması | K010-network | L3 yalnızca **başlık/biçim** doğrular, soket değil |
 | 3 | Üçüncü parti sistem entegrasyonu (Discord vb. sağlayıcılar) | K013 `adapters` (kardeş) | Orası SYSTEM/ACL dönüşümüdür, protokol değil (proto-anayasa §2) |
 | 4 | İş kuralı doğrulaması (geçerlilik, yetki iş mantığı) | K008-domain | Protokol düzlemi iş düzlemine karıştırılmaz (proto-anayasa §4) |
 | 5 | Gözlemlenebilirlik (metrik/trace/log alan adları) | Gözlemlenebilirlik düğümü — **adı UNKNOWN** (registry'de karşılığı bu turda doğrulanmadı) | Bu dosyada telemetri iddiası edilmez |

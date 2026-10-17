@@ -25,7 +25,7 @@ Amaç: `model-management-kapsam.md` içindeki iddiaların kaynaklarını listele
 | 7 | AIEngine'de model referansı tek satırda (`$model`) tutulur; sürüm/registry alanı yoktur | `C:\www\coremusic.net\shared\src\AI\AIEngine.php` satır 30 | 2026-10-12 | ✅ |
 | 8 | ai-master.md §4'te registry teknolojisi UNKNOWN olarak kayıtlıdır | `C:\www\coremusic.net\.ai\architecture\K006-yapay-zeka\ai-master.md` §4 (satır 87) | 2026-10-12 | ✅ |
 | 9 | ai-master.md §7'de model/veri sürümleme · dokümanı sorusu açık soru listesinde yer alır | `C:\www\coremusic.net\.ai\architecture\K006-yapay-zeka\ai-master.md` §7 (satır 118) | 2026-10-12 | ✅ |
-| 10 | K006 sınırı: K006 = ML ürün tarafı, K016-AI = ajan altyapısı (bu alt alan K006'da tanımlı) | `C:\www\coremusic.net\.ai\architecture\K006-yapay-zeka\v2.md §2.6` (satır 159) | 2026-10-12 | ✅ |
+| 10 | K006 sınırı: K006 = ML ürün tarafı, K015-AI = ajan altyapısı (bu alt alan K006'da tanımlı) | `C:\www\coremusic.net\.ai\architecture\K006-yapay-zeka\v2.md §2.6` (satır 159) | 2026-10-12 | ✅ |
 | 11 | Repo'da model registry/artifact store çağıran kod bulunamadı (model dosyası yükleyen veya sürüm kaydeden sınıf yok) | `C:\www\coremusic.net\shared\src` — grep `registry\|artifact\|mlflow` (0 isabet) | 2026-10-12 | ⚠️ |
 | 12 | Model sürümü / etiket (Production·Staging) politikası tanımlı değildir | UNKNOWN | 2026-10-12 | UNKNOWN |
 | 13 | Artifact saklama yeri (yerel disk · object store) ve boyut bütçesi belirsizdir | UNKNOWN | 2026-10-12 | UNKNOWN |
@@ -501,7 +501,7 @@ Faz 3 kademeli dağıtım `PLANNED` · Faz 4 donanım doğrulama `PLANNED`.
 | L21 | Kapsam içi 3 — artifact saklama (ağırlık · ONNX · vektör indeksi) | T5 (0 dosya) · İddia 13 `UNKNOWN` | ⚠️ 0 / UNKNOWN |
 | L22 | Kapsam içi 4 — deploy + rollback | EK §4.1–§4.5 · İddia 14 `UNKNOWN` | ⚠️ tasarım + emsal, kod 0 |
 | L23 | Kapsam içi 5 — model envanteri (M01–M12) "ai-master §1 sorumluluk tablosu" | **C8**: `ai-master.md` içinde `M01` **0 isabet**; sorumluluk matrisi §4 (L176) | ⚠️ ÇELİŞKİ |
-| L27–31 | Kapsam dışı 5 madde (eğitim · K016 · inference · feature store · etik) | ai-master **Satır: 187–188** (S6/S7 = 🔴 K016-AI) | ✅ uyumlu |
+| L27–31 | Kapsam dışı 5 madde (eğitim · K016 · inference · feature store · etik) | ai-master **Satır: 187–188** (S6/S7 = 🔴 K015-AI) | ✅ uyumlu |
 | L37 | Disk kanıtı — ai-master §1 (satır 30–47) + `core-algorithm-orchestrator` | **C3** · **C8** | ⚠️ ÇELİŞKİ |
 | L38 | Disk kanıtı — ai-master §3 (satır 59–73) | **C4**: güncel §3 = L142, satır = L148 | ⚠️ BAYAT |
 | L39 | Disk kanıtı — bagimliliklar (satır 14) M01 tablo satırı | **C5**: L14 = `- K006.8-recommendation` (children listesi) | ⚠️ ÇELİŞKİ |
@@ -534,7 +534,7 @@ Faz 3 kademeli dağıtım `PLANNED` · Faz 4 donanım doğrulama `PLANNED`.
 | 6 | `§1.3 Kimliğin 4 dayanağı` | 84 | T6 (D3 · D4) |
 | 7 | `§2 Sınır — ne DEĞİL` | 95 | EK §7 (kapsam dışı) |
 | 8 | `§2.1 Kapsam DIŞI` | 97 | — |
-| 9 | `§2.2 K006 ↔ K016-AI` | 112 | İddia 10 ✅ |
+| 9 | `§2.2 K006 ↔ K015-AI` | 112 | İddia 10 ✅ |
 | 10 | `§2.3 Depodaki gerçek: shared/src/AI/CLAUDE.md ihlali` | 125 | T6 (7 PHP) |
 | 11 | `§3 Kademe-2 envanter (9 çocuk)` | 142 | **C4** (eski iddia L59–73) |
 | 12 | `§3.1 Kademe-2 sayım özeti` | 162 | EK §10 (ölçüm) |

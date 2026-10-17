@@ -15,7 +15,7 @@ children:
   - K006.9-testing
 depends_on:
   - K004-shared
-  - K016-AI
+  - K015-AI
 evidence:
   - "URL_fetcher ile 2026-10-12 tarihli 27 iddia·URL doğrulaması (§2)"
   - "5 başarısız URL — çelişki olarak kaydedildi (§3)"
@@ -476,7 +476,7 @@ kapanış checklist'i sıradaki turun kabul kriteridir.
 
 ---
 
-## 17. Bağımlılık Sınırı Doğrulaması (`depends_on`: K004-shared · K016-AI)
+## 17. Bağımlılık Sınırı Doğrulaması (`depends_on`: K004-shared · K015-AI)
 
 > FM `depends_on` alanındaki iki düğümün **vardoluğu ve kapısı** ölçüldü — sınır
 > iddiası diskle teyit edilmeden yazılmaz.
@@ -484,12 +484,12 @@ kapanış checklist'i sıradaki turun kabul kriteridir.
 | Bağımlılık | Beklenen durum | 2026-10-15 disk ölçümü | Sonuç |
 |---|---|---|---|
 | `K004-shared` → `K004-dsp` | ≥500 eşiği Band-1'de kapalı olmalı | 69 dosya / 29.215 sat / **≥500: 56** · index 49–97 ✓ | ✅ sınır sağlam |
-| `K016-AI` | Band-3'te, `≥500: 0` beklenir (§9.9.2 kuyruğu) | 2026-10-15 ölçümünde **kuyrukta** (dalga 4 dispatch) | ⚠️ `VERIFICATION REQUIRED` — K016 dolmadan K006 `verified`'a geçmez |
+| `K015-AI` | Band-3'te, `≥500: 0` beklenir (§9.9.2 kuyruğu) | 2026-10-15 ölçümünde **kuyrukta** (dalga 4 dispatch) | ⚠️ `VERIFICATION REQUIRED` — K016 dolmadan K006 `verified`'a geçmez |
 | K006 kendi iç sınırı (9 alt-dal) | 7 dosyalık kanonik set / alt-dal | §8 matrisi: 54 hücrenin 45'i ✅ · açık = 9 `-ornekler` | ⚠️ açık |
 
-**Karar:** `K004-shared` sınırı **doğrulandı** (kapı kapalı); `K016-AI` hâlâ kuyrukta
+**Karar:** `K004-shared` sınırı **doğrulandı** (kapı kapalı); `K015-AI` hâlâ kuyrukta
 olduğu için K006 `status=verify-required` gerekçelerine **yeni madde eklendi**:
-`depends_on K016-AI henüz Band-3 kuyruğunda → verified bloke`. Bu madde, §10'daki
+`depends_on K015-AI henüz Band-3 kuyruğunda → verified bloke`. Bu madde, §10'daki
 açık kalemlerle birlikte değerlendirilir; tek başına silinmez.
 
 ---

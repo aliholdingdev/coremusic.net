@@ -28,7 +28,7 @@ group: mimari
 2. **Modelin eğitilmesi** — eğitim işlemi hype loop'un kendisidir; burada yalnız ölçüm.
 3. **Model kayıt/dağıtım** — `model-management/` kapsamındadır (metrik buradan registry'e akar).
 4. **Guardian/6-axis gate kararları** — `yapay-zeka-dogrulama.md`'deki gate; bu alt alan girdiyi hazırlar, kararı vermez (karar gate/insan).
-5. **Ajan / zeka altyapısı (K016-AI)** — ajan orkestrasyonu K016'ya aittir (K006 sınırı, `v2.md §2.6`).
+5. **Ajan / zeka altyapısı (K015-AI)** — ajan orkestrasyonu K016'ya aittir (K006 sınırı, `v2.md §2.6`).
 
 ## 3. Disk kanıtları
 
@@ -224,7 +224,7 @@ eski metinde **sessiz silme yok**.
 | 2 | Modelin eğitilmesi → hype loop | `ai-master.md` [Satır: 353] eğitim çatısı UNKNOWN | ✅ sınır net (döngü sahibi tanımsız) |
 | 3 | Model kayıt/dağıtım → `model-management/` | `ai-master.md` [Satır: 154] `model-management/` → v2 262 | ✅ |
 | 4 | Guardian/6-axis gate → `yapay-zeka-dogrulama.md` | **C5** — atıf dosyasında kavram yok | ⚠️ sınır **doğrulanamadı** |
-| 5 | K016-AI ajan altyapısı | `ai-master.md` §2.1 [Satır: 101]: "LLM/ajan altyapısı ... → **K016-AI** · ✅ kapsam ayrımı" | ✅ |
+| 5 | K015-AI ajan altyapısı | `ai-master.md` §2.1 [Satır: 101]: "LLM/ajan altyapısı ... → **K015-AI** · ✅ kapsam ayrımı" | ✅ |
 
 ## EK §6 — Eski §3 "Disk kanıtları" tablosunun yeniden doğrulaması
 
@@ -500,8 +500,8 @@ metrik adayları yazılı ama eşikler `UNKNOWN` → "ölçüm üretilse bile ka
 | S3 | Modeli barındırmak & çağırmak | model-management · inference · local-inference | — | `AIOrchestrator::dispatchTask` L71–100 | ⚠️ kısmi |
 | S4 | Kaliteyi ölçmek | evaluation · testing | — | (repo'da karşılık **YOK**) | ❌ yok |
 | S5 | Oturum bağlamını tutmak | personalization | — | `MemorySystem` (K016 profilinde) | ⚠️ sınır açık |
-| S6 | Prompt/tool yönetimi | **(K006'DA DEĞİL)** | — | `PromptEngine` · `ToolCalling` | 🔴 K016-AI |
-| S7 | Bilgi bankası / RAG | **(K006'DA DEĞİL)** | — | `KnowledgeBase::ragQuery` L72–91 | 🔴 K016-AI |
+| S6 | Prompt/tool yönetimi | **(K006'DA DEĞİL)** | — | `PromptEngine` · `ToolCalling` | 🔴 K015-AI |
+| S7 | Bilgi bankası / RAG | **(K006'DA DEĞİL)** | — | `KnowledgeBase::ragQuery` L72–91 | 🔴 K015-AI |
 ```
 
 **Gözlem A7-1:** `evaluation` matriste **yalnız S4'te** geçer (birincil) + S1'de (ikincil) —

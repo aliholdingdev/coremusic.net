@@ -65,7 +65,7 @@ UserLoggedInEvent.php · UserLoggedOutEvent.php · UserRegisteredEvent.php
 ```
 
 > **Kapsam disiplini:** `roles` alanı `UserResponse` içinde **taşınır** ama rol
-> **tanımı** K010-identitiy'nindir (`domain-master.md` §2.1 satır 55) — bu DTO'yu
+> **tanımı** K0100-identitiy'nindir (`domain-master.md` §2.1 satır 55) — bu DTO'yu
 > yetki kaynağı gibi okumak yasaktır. K008 user domain'i için ayrı aggregate sınıfı: **— yok**.
 
 ## §2 Resmi doküman örneği
@@ -88,7 +88,7 @@ ayrı kavramlardır ve ikisi de tek `userId` kimliğine bağlanır.
 1. `userId` bu dalın **paylaşılan kimliği**dir; playback · playlist · library olayları
    onu **okur**, tanımlamaz.
 2. Parola/oturum olayları (`PasswordResetRequestedEvent`) burada **kapsanmaz** —
-   K010-identitiy'ye ait kanıt olarak §4'te listelenir.
+   K0100-identitiy'ye ait kanıt olarak §4'te listelenir.
 
 ## §4 İlişkili dosyalar
 

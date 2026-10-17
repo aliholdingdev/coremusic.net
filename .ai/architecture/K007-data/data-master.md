@@ -593,7 +593,7 @@ REPEATABLE READ)** varsayılır — bu bir **kanıtlanmış seçim değil, varsa
 | Deploy/zamanlama/pipeline | K018-devops | yedek operasyonu |
 | Keşif/katalog kuralları | K020-discovery | arama sahipliği sınırı (S-1) |
 | Telemetri/metrik kaydı | K017-observability | ölçüm veri akışı |
-| Kimlik doğrulama/oturum | K010-identitiy | veri değil, kimlik |
+| Kimlik doğrulama/oturum | K0100-identitiy | veri değil, kimlik |
 
 ---
 

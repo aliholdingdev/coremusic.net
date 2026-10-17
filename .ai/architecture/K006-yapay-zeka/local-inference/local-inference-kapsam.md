@@ -27,7 +27,7 @@ group: mimari
 1. **Bulut inference (QPS · stream · pipeline)** — canlı tahmin yürütme `inference/` alt alanındadır (v2 §2.4-4).
 2. **Model eğitimi (hype loop)** — eğitim `evaluation/` + `local-inference/` sınırındaki hype döngüsüne aittir; yerelde yalnız **çalıştırma**.
 3. **Donanım topolojisi / DSP · ASIO donanımı (K004)** — ses donanımı seçimi K004-KALEM-SES'e aittir; burada yalnız donanımın hızlandırıcı rolü.
-4. **Ajan / zeka altyapısı (K016-AI)** — ajan orkestrasyonu K016'ya aittir (K006 sınırı, `v2.md §2.6`).
+4. **Ajan / zeka altyapısı (K015-AI)** — ajan orkestrasyonu K016'ya aittir (K006 sınırı, `v2.md §2.6`).
 5. **Depolama · DB (K001-KAYNAK-HAVUZU)** — veri katmanı K001'e aittir (`v2.md §2.4-2`); yerel model dosyalarının saklama yeri ayrı karar.
 
 ## 3. Disk kanıtları
@@ -89,7 +89,7 @@ group: mimari
 | T9 | `local-inference/index.md` | L43–45 | üst düğüm bağlantıları `` `../index.md» `` biçiminde — "henüz oluşturulmadı" alıntısı **L45'te yok** |
 | T10 | `yapay-zeka-bagimliliklar.md` | L6–15 | children listesi: K006.1 audio-intelligence … **K006.4-local-inference** … K006.9 testing (9 satır) |
 | T11 | `yapay-zeka-bagimliliklar.md` | grep `M09\|yerel model` | **0 isabet** — kapsam L41'deki "M09 · yerel model" satırı dosyada yok |
-| T12 | `yapay-zeka-bagimliliklar.md` | L18 | `  - K016-AI` (depends_on girdisi — "M09 envanter satırı" değil) |
+| T12 | `yapay-zeka-bagimliliklar.md` | L18 | `  - K015-AI` (depends_on girdisi — "M09 envanter satırı" değil) |
 | T13 | `yapay-zeka-bagimliliklar.md` | L333 | C5 satırı: "Donanım (GPU/NPU) — ❌ UNKNOWN (`ai-master` §11.2) → K006.4-local-inference" |
 | T14 | `local-inference-web-arastirma.md` | §2 tablosu | 9 benzersiz URL, tamamı 2026-10-12 (L44–52) |
 | T15 | `local-inference-web-arastirma.md` | L90 | `shared/src/**` grep `ollama\|llama\|gguf\|onnx\|whisper` → **0 eşleşme** (2026-10-12) |
@@ -147,7 +147,7 @@ children:
   - K006.9-testing
 depends_on:
   - K004-shared
-  - K016-AI
+  - K015-AI
   - K002-database
   - K001-core
 ```
@@ -219,7 +219,7 @@ yerel çıkarım entegrasyonunun oturacağı iki mevcut seam'dir. Bu, K006.7'nin
 | C3 | "ai-master.md §7 (satır 116)" (L42, L46) | dogrulama §17: L116 ilgisiz karşılaştırma satırıdır; donanım sorusu **L355**, gereksinim **L255** | satır referansı hatalı → L355/L255 |
 | C4 | "index.md (satır 45) … 'Kademe-2 kapsamları ayrı dosyalarda; henüz oluşturulmadı'" (L39) | index.md 75 satır; **L45** = "Bu düğüm: `children: []»" — alıntılanan cümle dosyanın hiçbir yerinde yok | **alıntı doğrulanamadı** → ⚠️ VERIFICATION REQUIRED |
 | C5 | "index.md (satır 1–47)" (ELI15, L15) | dosya **75 satır** (T6) | aralık hatalı → 1–75 |
-| C6 | "bagimliliklar (satır 18) — M09 · yerel model" (L41) | grep `M09\|yerel model` = **0**; L18 = `- K016-AI` (T11–T12) | **iddia diskte yok** → geçersiz |
+| C6 | "bagimliliklar (satır 18) — M09 · yerel model" (L41) | grep `M09\|yerel model` = **0**; L18 = `- K015-AI` (T11–T12) | **iddia diskte yok** → geçersiz |
 | C7 | Alt dal numaraları | bagimliliklar L10: `K006.4-local-inference` · web-arastirma L2: `K006.7-local-inference` · dogrulama §8 L207: `K006.4-evaluation` (bagimliliklar'da evaluation = K006.2) | **numaralandırma çatışması** — iki ayrı seri; hangisi bağlayıcı ADR-097'ye bağlı → UNKNOWN |
 | C8 | dogrulama §12 iddia sayıları: "kapsam içi 6 · dışı 4 · kanıt 3 · soru 4" [Satır: 304–309] | bu dosya: §1 = **5** madde (L19–23) · §2 = **5** (L27–31) · §3 = **6** satır (L37–42) · §4 = **5** (L46–50) | çapraz sayım tutmaz; bu ek esas (ölçüm: dosya içeriği) |
 | C9 | "K006'nın çocuk tablosunda 7. sırada" (L15) | ai-master L154: `| 7 | local-inference/ | 265 | …` | **✅ teyit edildi** |
@@ -245,7 +245,7 @@ yerel çıkarım entegrasyonunun oturacağı iki mevcut seam'dir. Bu, K006.7'nin
 | Öğe | Kaynak | Bulgu |
 |---|---|---|
 | Çocuk listesi | L7–15 (B2) | 9 satır; local-inference **K006.4** (web-arastirma `K006.7` der → C7) |
-| depends_on | L16–20 | K004-shared · **K016-AI** · K002-database · K001-core — kapsam L27–31'deki K016/K001 hariçleriyle uyumlu ✅ |
+| depends_on | L16–20 | K004-shared · **K015-AI** · K002-database · K001-core — kapsam L27–31'deki K016/K001 hariçleriyle uyumlu ✅ |
 | M09 satırı | grep 0 (T11) | kapsam L41'idaki iddia geçersiz (C6) |
 | Donanım C5 | L333 (T13) | "GPU/NPU UNKNOWN → K006.4-local-inference" — kapsam §4.1 açık soruyla aynı ✅ |
 | evidence L25 | "web: onnxruntime / pytorch / tensorflow / vLLM / librosa — 2026-10-12" | bu ek EK §9'da yalnız ilgili 14 URL'yi taşır |
@@ -404,13 +404,13 @@ sütunu bu turda dosyadan doğrulanmadı; yalnız dosya·satır referansı veril
 | 6 | §2.1 bulut inference `inference/` alt alanında | inference/ dizini 6 çocuk (T27 ailesi) | ✅ |
 | 7 | §2.2 eğitim `evaluation/` sınırında | ai-master L155 evaluation rolü ✅ | ✅ |
 | 8 | §2.3 donanım topolojisi → K004 | bagimliliklar L17 `K004-shared` vs kapsam L29 `K004-KALEM-SES` → **C13** | ⚠️ ad çatışması |
-| 9 | §2.4 ajan → K016 | bagimliliklar L18 `- K016-AI` ✅ | ✅ |
+| 9 | §2.4 ajan → K016 | bagimliliklar L18 `- K015-AI` ✅ | ✅ |
 | 10 | §2.5 depolama → K001 | bagimliliklar L20 `- K001-core` ✅ | ✅ |
 | 11 | §3.1 alt alan envanteri (ai-master §3) | L154 (B1) — "satır 69" iddiası → C2 | ✅ içerik / ❌ satır no |
 | 12 | §3.2 kapsam sınırı `v2.md §2.4-7` | `v2.md` = 0 glob (T1) | UNKNOWN (C1) |
 | 13 | §3.3 çocuk index "henüz oluşturulmadı" alıntısı | index.md L45 ≠ alıntı (T9) | ⚠️ (C4) |
 | 14 | §3.4 fallback sinyali `v2.md §2.4-4` | dosya yok; ayrıca **L27'de de aynı atıf var → C1'in 5. örneği (C14)** | UNKNOWN |
-| 15 | §3.5 "M09 · yerel model" (bagimliliklar L18) | grep 0 · L18 = `- K016-AI` (T11–T12) | ❌ geçersiz (C6) |
+| 15 | §3.5 "M09 · yerel model" (bagimliliklar L18) | grep 0 · L18 = `- K015-AI` (T11–T12) | ❌ geçersiz (C6) |
 | 16 | §3.6 donanım bilinmiyor (ai-master §7) | gerçek satır L355 (T23) — "satır 116" → C3 | ✅ içerik / ❌ satır no |
 | 17 | §4.1 donanım kesin değil | ai-master L355 `**UNKNOWN**` + bagimliliklar L333 | ✅ |
 | 18 | §4.2 fallback kuralı netleşmedi | dogrulama U3 [L192] | ✅ (açık soru doğru) |

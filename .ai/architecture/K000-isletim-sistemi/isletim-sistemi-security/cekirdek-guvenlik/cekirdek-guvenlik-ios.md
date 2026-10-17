@@ -39,7 +39,7 @@ doğrular), **anahtar** (şifreleme anahtarları donanımda üretilir ve korunur
 > Dolayısıyla bu dosya **hedef platform + resmi kaynak** kartıdır: her iddia
 > §5'teki URL'lere bağlıdır, hiçbir iddia "repo'da uygulanıyor" diye yazılmaz.
 
-> **Kapsam disi:** Kimlik doğrulama/oturum/parola/MFA -> `K010-identitiy`;
+> **Kapsam disi:** Kimlik doğrulama/oturum/parola/MFA -> `K0100-identitiy`;
 > OWASP, auth/CSRF/CSP, kripto secimi -> `K009-security`. Bu kart yalnızca
 > iOS dosya/surec/erisim kisitlari ve onyukleme zincirini tasir (§4).
 
@@ -168,7 +168,7 @@ iOS boot zincirinin karşılığı **değildir** (katman karıştırılmaz).
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy`; bu kartta yalnizca iOS dosya/surec/erisim kisitlari (Keychain, data protection) ele alinir.
+> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy`; bu kartta yalnizca iOS dosya/surec/erisim kisitlari (Keychain, data protection) ele alinir.
 
 > **K009 ayrimi (baglayici):** OWASP denetimi, auth/CSRF/CSP tasarimi, kripto secimi (ADR-022) -> `K009-security`; bu kart yalnız OS katmani + sinir isaretlerini tasinir.
 

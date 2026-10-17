@@ -263,7 +263,7 @@ teknoloji seçim kaydıyla (`yapay-zeka-dogrulama.md` §4) kapanır — kanıt g
 | C10 | kapsam A3 "skor ağırlıkları hardcoded" | hardcoded | §5/P5 — doğrulandı | ✅ uyumlu |
 | C11 | kapsam R1 "öneri sahibi kim?" | açık | §13/Ç1–Ç5 — bu turda da açık | ✅ korundu |
 | C12 | §1/6 "öneri sahipliği üç düğüm arasında açık" | açık | §13/Ç1–Ç5 ile yeniden tarandı, sonuç değişmedi | ✅ korundu |
-| C13 | anayasa §8 "K016-AI sınırı" | K016 dışarıda | §12/T6 bu ekte tekrarlanır | ✅ uyumlu |
+| C13 | anayasa §8 "K015-AI sınırı" | K016 dışarıda | §12/T6 bu ekte tekrarlanır | ✅ uyumlu |
 | C14 | "repo C++ kodu var" iddiası yasak | yasak | §3/§4 başlık notunda yinelendi; §6/G1–G2 ölçüldü | ✅ uyumlu |
 
 **§8 sayımı:** 14 kontrol · 14 ✅ · 0 çelişki.
@@ -359,7 +359,7 @@ teknoloji seçim kaydıyla (`yapay-zeka-dogrulama.md` §4) kapanır — kanıt g
 | # | Konu | Gözlem | Kaynak | Durum |
 |---|---|---|---|---|
 | Ç1 | Öneri domain'i sahibi | üç düğüm arasında **açık** — bu tur yeni ADR bulgusu yok | `ai-master.md §7/2` (§1/6) | ⚠️ korundu |
-| Ç2 | K006 sınırı | K006 = ML ürün tarafı, K016-AI = ajan altyapısı | `ai-master.md §2.2` (§1/3 ile aynı aile) | ✅ korundu |
+| Ç2 | K006 sınırı | K006 = ML ürün tarafı, K015-AI = ajan altyapısı | `ai-master.md §2.2` (§1/3 ile aynı aile) | ✅ korundu |
 | Ç3 | AI Act kapısı | anayasa §31'de ayrı bölüm başlığı vardır | `recommendation-anayasa.md` §31 (460. satır başlığı) | ✅ dosya başlığı okundu |
 | Ç4 | GDPR kapısı | anayasa §31 aynı bölümde haritalanır | `recommendation-anayasa.md` §31 | ✅ dosya başlığı okundu |
 | Ç5 | Kapsam dışı beyanı | anayasa §10 "Kapsam Dışı" ayrı bölümdür | `recommendation-anayasa.md` §10 (141. satır başlığı) | ✅ dosya başlığı okundu |
@@ -368,7 +368,7 @@ teknoloji seçim kaydıyla (`yapay-zeka-dogrulama.md` §4) kapanır — kanıt g
 | Ç8 | Anayasa kalite kapıları | §16 "Kalite Kapıları (anayasa gate)" ayrı bölümdür | `recommendation-anayasa.md` §16 (238. satır başlığı) | ✅ dosya başlığı okundu |
 | Ç9 | Anayasa önyargı/denklik | §5 "Önyargı & Denklik (Bias & Fairness) Anayasası" ayrı bölümdür | `recommendation-anayasa.md` §5 (81. satır başlığı) | ✅ dosya başlığı okundu |
 | Ç10 | Anayasa gizlilik | §7 "Gizlilik & Veri Anayasası" ayrı bölümdür | `recommendation-anayasa.md` §7 (106. satır başlığı) | ✅ dosya başlığı okundu |
-| Ç11 | Anayasa K016 sınırı | §8 "K016-AI Sınırı (KAPSAM DIŞI — bağlayıcı)" ayrı bölümdür | `recommendation-anayasa.md` §8 (115. satır başlığı) | ✅ dosya başlığı okundu |
+| Ç11 | Anayasa K016 sınırı | §8 "K015-AI Sınırı (KAPSAM DIŞI — bağlayıcı)" ayrı bölümdür | `recommendation-anayasa.md` §8 (115. satır başlığı) | ✅ dosya başlığı okundu |
 | Ç12 | Anayasa öğrenme türü | §3 "Öğrenme Türü Anayasası" ayrı bölümdür | `recommendation-anayasa.md` §3 (55. satır başlığı) | ✅ dosya başlığı okundu |
 | Ç13 | Anayasa model ailesi | §4 "Model Ailesi Sınırı" ayrı bölümdür | `recommendation-anayasa.md` §4 (68. satır başlığı) | ✅ dosya başlığı okundu |
 | Ç14 | Anayasa kaynak turları | §29 "Anayasa Kaynak Turları (2026-10-13 HEAD doğrulaması)" ayrı bölümdür | `recommendation-anayasa.md` §29 (423. satır başlığı) | ✅ dosya başlığı okundu |

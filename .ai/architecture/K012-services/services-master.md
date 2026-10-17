@@ -20,13 +20,13 @@ children:
   - "service-contracts"
 depends_on:
   - "K006-yapay-zeka"
-  - "K016-AI"
+  - "K015-AI"
   - "K007-data"
   - "K008-domain"
-  - "K010-identitiy"
+  - "K0100-identitiy"
   - "K013-integraion"
-  - "K014-network"
-  - "K015-media"
+  - "K010-network"
+  - "K014-media"
 evidence:
   - "v2 §2.12 çocuk listesi (10/10 birebir)"
   - "repo S1 kanıtı: shared/src/Api Registry+Versioning+RateLimit (dogrulama §6)"
@@ -89,11 +89,11 @@ yalnız oradan gelen kontratı kullanır), ses sinyali işlemez (K003-audio/K004
 |---|---|---|
 | Uygulama akışı / arayüz | K011-application | K011 yalnız çağırır |
 | Dış API protokolü, adaptör, hata | K013-integraion | integration-service K013'ün kontratını kullanır |
-| Ağ taşıması ayrıntısı | K014-network | K012 yalnız kullanır |
-| Kitaplık/metadata/akış dosyaları | K015-media | Servis veriyi okur, sahibi değildir |
+| Ağ taşıması ayrıntısı | K010-network | K012 yalnız kullanır |
+| Kitaplık/metadata/akış dosyaları | K014-media | Servis veriyi okur, sahibi değildir |
 | İş kuralı / domain modeli | K008-domain | Servis kuralı uygular, üretmez |
 | Kalıcılık ve şema | K007-data | ORM/SQL kararı burada verilmez |
-| ML modeli / ajan altyapısı | K006-yapay-zeka / K016-AI | ai-service yalnız sunar (hangisi ⚠️) |
+| ML modeli / ajan altyapısı | K006-yapay-zeka / K015-AI | ai-service yalnız sunar (hangisi ⚠️) |
 | Servislerin dağıtımı/dağıtım hattı | K018-devops | |
 | Servis test altyapısı | K019-testing | K012 yalnız testini yazar |
 
@@ -107,7 +107,7 @@ yalnız oradan gelen kontratı kullanır), ses sinyali işlemez (K003-audio/K004
 | 4 | audio-service | Ses işleri servisi | K003-audio ile sınır belirsiz ⚠️ | draft |
 | 5 | user-service | Kullanıcı servisi | Profil, tercih, abonelik (ayrıntı ⚠️) | draft |
 | 6 | device-service | Cihaz servisi | Cihaz kaydı, durum, yetki (K010 ile sınır ⚠️) | draft |
-| 7 | ai-service | YZ servisi | K006-yapay-zeka mı K016-AI mı → ⚠️ | draft |
+| 7 | ai-service | YZ servisi | K006-yapay-zeka mı K015-AI mı → ⚠️ | draft |
 | 8 | integration-service | Dış bağlantı servisi | K013 kontratlarını çağıran servis | draft |
 | 9 | background-jobs | Arka plan işleri | Zamanlanmış/kuyruk işleri (motor ⚠️) | draft |
 | 10 | service-contracts | Servis sözleşmeleri | Mesaj/DTO biçimi; evrensel spec iddiası §4/2 | draft |
@@ -140,13 +140,13 @@ yalnız oradan gelen kontratı kullanır), ses sinyali işlemez (K003-audio/K004
 
 | Hedef | Ne için | Etiket |
 |---|---|---|
-| K006-yapay-zeka / K016-AI | ai-service'in arkası | TASARIM İDDİASI + ⚠️ (hangisi) |
+| K006-yapay-zeka / K015-AI | ai-service'in arkası | TASARIM İDDİASI + ⚠️ (hangisi) |
 | K007-data | Kalıcı veri erişimi | TASARIM İDDİASI |
 | K008-domain | İş kuralı | TASARIM İDDİASI |
-| K010-identitiy | Kimlik doğrulama | TASARIM İDDİASI |
+| K0100-identitiy | Kimlik doğrulama | TASARIM İDDİASI |
 | K013-integraion | Dış kontratlar | TASARIM İDDİASI |
-| K014-network | Taşıma | TASARIM İDDİASI |
-| K015-media | Medya verisi | TASARIM İDDİASI |
+| K010-network | Taşıma | TASARIM İDDİASI |
+| K014-media | Medya verisi | TASARIM İDDİASI |
 
 ### §5.2 Gelen (← used_by)
 
@@ -162,9 +162,9 @@ yalnız oradan gelen kontratı kullanır), ses sinyali işlemez (K003-audio/K004
 K011-application → K012-services
 K012-services
 ├─→ K008-domain · K007-data          (kural + kalıcılık)
-├─→ K010-identitiy · K006/K016-AI    (kimlik + YZ arkası)
-├─→ K013-integraion → K014-network   (dış dünya + taşıma)
-└─→ K015-media                       (medya verisi)
+├─→ K0100-identitiy · K006/K015-AI    (kimlik + YZ arkası)
+├─→ K013-integraion → K010-network   (dış dünya + taşıma)
+└─→ K014-media                       (medya verisi)
 K012'ye geri dönüş: yalnız used_by okları (döngü yok)
 ~~~
 
@@ -182,13 +182,13 @@ K012'ye geri dönüş: yalnız used_by okları (döngü yok)
 
 ## §7 Açık sorular
 
-1. ai-service → K006-yapay-zeka mı, K016-AI mı? (registry §6 kapsam ayrımı) → ⚠️ VERIFICATION REQUIRED
+1. ai-service → K006-yapay-zeka mı, K015-AI mı? (registry §6 kapsam ayrımı) → ⚠️ VERIFICATION REQUIRED
 2. playback-service (K012) ↔ K015/playback kimin? → ⚠️ VERIFICATION REQUIRED
 3. audio-service ↔ K003-audio sınırı (servis mi, motor mu)? → ⚠️ VERIFICATION REQUIRED
 4. service-contracts evrensel Playlist/Track spec'ini mi taşıyor? → TASARIM İDDİASI
 5. hub-and-spoke + Protobuf seçenekleri için ADR var mı? → onay bekliyor
 6. background-jobs motoru (kuyruk/zamanlayıcı) nedir? → ⚠️ UNKNOWN
-7. device-service ↔ K010-identitiy/device-identity sahipliği → ⚠️ VERIFICATION REQUIRED
+7. device-service ↔ K0100-identitiy/device-identity sahipliği → ⚠️ VERIFICATION REQUIRED
 8. K012 ile K015 arasındaki veri yönlendirmesi tek yönlü mü? → ⚠️ VERIFICATION REQUIRED
 
 ## §8 Kaynaklar
@@ -345,8 +345,8 @@ tam görsellik için tur-3 gerekir.
 | Uygulama arayüzü | K011-application | yazılmaz |
 | Şema/SQL | K007-data | yazılmaz |
 | Dış API protokolü | K013-integraion | yazılmaz |
-| Ağ ayrıntısı | K014-network | yalnız bağımlılık satırı |
-| Medya dosyası sahipliği | K015-media | yalnız bağımlılık satırı |
+| Ağ ayrıntısı | K010-network | yalnız bağımlılık satırı |
+| Medya dosyası sahipliği | K014-media | yalnız bağımlılık satırı |
 | CI/CD/dağıtım | K018-devops | yazılmaz |
 | Test altyapısı | K019-testing | yalnız test yazarlığı |
 | Kaynak kod (`*.php` vb.) | ilgili agent'lar | salt-okunur |
@@ -422,7 +422,7 @@ Her kart TASARIM İDDİASI seviyesindedir; ayrıntı `⚠️` ile işaretlidir.
 | Rol (ELI15) | Cihaz servisi |
 | Kapsam | cihaz kaydı, durum, yetki |
 | Giden bağımlılık | K007, K010 |
-| Açık soru | Q6 — device-identity sahipliği (K010-identitiy ile sınır) |
+| Açık soru | Q6 — device-identity sahipliği (K0100-identitiy ile sınır) |
 | Repo kanıtı | ⚠️ VERIFICATION REQUIRED |
 
 ### §21.7 ai-service

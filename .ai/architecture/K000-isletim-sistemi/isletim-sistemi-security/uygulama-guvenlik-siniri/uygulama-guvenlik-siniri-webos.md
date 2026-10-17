@@ -149,7 +149,7 @@ cümlesi **kurulamaz** → OS sandbox satırı YOK, `[UNKNOWN]` değil.
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy`; bu kartta yalnizca webOS dosya/surec/erisim kisitlari ele alinir.
+> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy`; bu kartta yalnizca webOS dosya/surec/erisim kisitlari ele alinir.
 > **K009 ayrimi (baglayici):** OWASP denetimi, auth/CSRF/CSP tasarimi, kripto secimi (ADR-022) -> `K009-security`; bu kart yalnız OS katmani + sinir isaretlerini tasinir.
 > **Komşu dal:** Linux cekirdegi ici yapisi -> `isletim-sistemi-kernel`; webOS platform geneli -> `isletim-sistemi-turu/webos`.
 
@@ -157,7 +157,7 @@ cümlesi **kurulamaz** → OS sandbox satırı YOK, `[UNKNOWN]` değil.
 |---|---|---|
 | webOS | süreç ayrımı + ACG/red akışı + paket beyanı varsayılanları | yetki modelinin tanımı (asıl tablolar → `yetki-ve-erisim-modeli`) |
 | Repo | 6 negatif + 3 pozitif sınır satırı (189 · 200 · 292) | CSRF/CSP/OWASP denetimi (`K009-security`) |
-| Kimlik | yalnız erişim/süreç kısıtları | auth akışı, oturum, MFA (`K010-identitiy`) |
+| Kimlik | yalnız erişim/süreç kısıtları | auth akışı, oturum, MFA (`K0100-identitiy`) |
 | Eksik yüzey | `⚠️ VERIFICATION REQUIRED` işaretleme | "sandbox yok/yoktur" iddiası — kanıt yoksa iddia yok |
 
 ## §5 Referans

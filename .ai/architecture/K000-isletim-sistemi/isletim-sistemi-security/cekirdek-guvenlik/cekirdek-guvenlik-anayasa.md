@@ -258,11 +258,11 @@ Hepsini "hedef mimari referansi" olarak etiketler, **mevcut durum olarak sunmaz*
 | X4 | Container/namespace/cgroup ayrintisi | `uygulama-guvenlik-siniri` |
 | X5 | DAC/MAC/RBAC denetim akisi | `yetki-ve-erisim-modeli` |
 | X6 | OWASP denetimi, kripto secimi (AES-256-GCM, Argon2id) | `K009-security` + ADR-022 |
-| X7 | Kimlik/oturum/sifre/MFA | `K010-identitiy` |
+| X7 | Kimlik/oturum/sifre/MFA | `K0100-identitiy` |
 | X8 | Ag/firewall/TLS sonlandirma | `K013-integraion` |
 
 > **K010 ayrimi (baglayici):** Bu dosya **OS duzeyi guvenlik + uygulama-OS guvenlik sinirini**
-> kapsar; kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy` — oturum is mantigina girilmez.
+> kapsar; kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy` — oturum is mantigina girilmez.
 > **K009 ayrimi (baglayici):** OWASP denetimi, auth/CSRF/CSP tasarimi, kripto secimi ve rate
 > limit politikasi -> `K009-security` + ADR-010/013/022.
 
@@ -428,7 +428,7 @@ Invoke-WebRequest -Method Head -UseBasicParsing -TimeoutSec 20 -Uri $url
 | D3 | gelen | `uygulama-guvenlik-siniri` | bagimli | S1 karari burayi besler |
 | D4 | gelen | `yetki-ve-erisim-modeli` | bagimli | LSM/capability tanimi buradan gider |
 | D5 | komsu | `K009-security` | sinir | OWASP denetimi orada |
-| D6 | komsu | `K010-identitiy` | sinir | Oturum is mantigi orada |
+| D6 | komsu | `K0100-identitiy` | sinir | Oturum is mantigi orada |
 
 ## §18 — Dürüstlük disiplini (bu dosyada ne yapilmedi)
 

@@ -180,7 +180,7 @@ K008-domain ──veri modeli──▶ K007-data ◀──şifreleme çağrısı
              synchronization◀─┤
              (K013-integraion)│
              kimlik ◀─────────┘
-             (K010-identitiy)
+             (K0100-identitiy)
 ```
 
 > Kenar etiketleri: sol tarafta `K007`'ye **giren** (used_by/depends kaynak), sağda **çıkıyor**
@@ -207,7 +207,7 @@ K008-domain ──veri modeli──▶ K007-data ◀──şifreleme çağrısı
 | S-1 | search ↔ discovery | K020-discovery | iki düğüm "arama" diyor | sahiplik ADR'si |
 | S-2 | backup ↔ devops | K018-devops | politika (K007) vs operasyon (K018) | sahiplik ADR'si |
 | S-3 | synchronization ↔ entegrasyon | K013-integraion | tazelik vs entegrasyon olayı | sınır kaydı |
-| S-4 | identity ↔ kimlik | K010-identitiy | identity verisi vs kimlik doğrulama | sınır kaydı |
+| S-4 | identity ↔ kimlik | K0100-identitiy | identity verisi vs kimlik doğrulama | sınır kaydı |
 
 ---
 
@@ -300,7 +300,7 @@ K008-domain ──veri modeli──▶ K007-data ◀──şifreleme çağrısı
 |---|---|---|---|
 | schema | K008-domain | — | — |
 | migrations | — | K018-devops | pipeline sahipliği |
-| repositories | K008-domain, K009-security | K011-application, K012-services | K010-identitiy |
+| repositories | K008-domain, K009-security | K011-application, K012-services | K0100-identitiy |
 | transactions | — | K012-services | — |
 | indexing | — | search, cache | — |
 | cache | — | K011-application | invalidation kuralı |
@@ -370,7 +370,7 @@ K008-domain ──veri modeli──▶ K007-data ◀──şifreleme çağrısı
 
 | Alan | Değer |
 |------|-------|
-| Kenar | `used_by: K010-identitiy` |
+| Kenar | `used_by: K0100-identitiy` |
 | Kırılma | identity verisi değişirse oturum/erişim kırılır |
 | Etki | yanlış kullanıcı erişimi |
 | Azaltma | sınır kaydı + RBAC testi |

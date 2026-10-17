@@ -16,8 +16,8 @@ depends_on:
   - K007-data
   - K008-domain
   - K009-security
-  - K010-identitiy
-  - K014-network
+  - K0100-identitiy
+  - K010-network
 evidence:
   - "v2 §2.13 K013-integraion/ — çocuk listesi kaynağı (8 çocuk, birebir)"
   - ".ai/architecture/index.md §5/13 — integration-master.md adı kaydı"
@@ -66,11 +66,11 @@ Yazım notu: klasör adı "integraion" **kaynağa sadık, dokunulmaz** (v2 §3 K
 | depends_on → | K007-data | Senkron sonucunun saklanması (synchronization) |
 | depends_on → | K008-domain | Kontrat tipleri / domain modeli |
 | depends_on → | K009-security | Anahtar, imza, gizli bilgi güvenliği |
-| depends_on → | K010-identitiy | OAuth/PKCE akışlarında kimlik doğrulama |
-| depends_on → | K014-network | Taşıma (HTTP vb.) |
+| depends_on → | K0100-identitiy | OAuth/PKCE akışlarında kimlik doğrulama |
+| depends_on → | K010-network | Taşıma (HTTP vb.) |
 | ← used_by | K011-application | Uygulama akışının dış çağrısı |
 | ← used_by | K012-services | integration-service kontrat tüketimi |
-| ← used_by | K015-media | Dış katalog senkronu (kapsam sınırı ⚠️) |
+| ← used_by | K014-media | Dış katalog senkronu (kapsam sınırı ⚠️) |
 
 ## 4. Durum & açık sorular
 
@@ -95,3 +95,16 @@ Yazım notu: klasör adı "integraion" **kaynağa sadık, dokunulmaz** (v2 §3 K
 | mimari | `integraion-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
 | kanit | `integraion-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
 | mimari | `integration-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
+
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K007-data | [[K007-data]] | ../K007-data/index.md | veri senkronizasyonu |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | DTO ve domain paylasimi |
+| K009-security | [[K009-security]] | ../K009-security/index.md | API guvenlik zinciri |
+| K010-network | [[K010-network]] | ../K010-network/index.md | gateway ve protokoller |
+| K011-application | [[K011-application]] | ../K011-application/index.md | adaptor cagrilari |
+| K012-services | [[K012-services]] | ../K012-services/index.md | servis sozlesmeleri |

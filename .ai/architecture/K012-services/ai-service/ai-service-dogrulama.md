@@ -1,4 +1,4 @@
-﻿---
+---
 node_id: K012-services/ai-service
 node_type: module
 role: dogrulama
@@ -17,7 +17,7 @@ validation:
   - "tur-1 — 2026-10-12 ilk kanıt tablosu (12 iddia)"
   - "tur-2 — 2026-10-13 iddialar yeniden teyit edildi (§4–§6)"
 open_questions:
-  - "Q1 ai-service → K006-yapay-zeka mı K016-AI mı — UNKNOWN"
+  - "Q1 ai-service → K006-yapay-zeka mı K015-AI mı — UNKNOWN"
   - "YZ modeli/sağlayıcı/API anahtarı düzeni — UNKNOWN (iddia 10)"
   - "YZ çağrılarının senkron/asyenkron dağılımı — UNKNOWN (iddia 11)"
   - "YZ sonuç önbelleği (cache/TTL) — UNKNOWN (iddia 12)"
@@ -366,7 +366,7 @@ Dağılım: S1 = 5 · S2 = 2 · S3 = 1 · S5-kısmi = 1 · UNKNOWN = 3 (toplam 1
 | `*.php` değişikliği | salt-okunur — bu dosya yalnız okur |
 | K006/K016 içeriği | o domenler bu görevde yazma yasağı |
 | YZ sağlayıcı seçimi | karar yetkisi üst karar + ADR |
-| K016-AI adı | yazım/varsayım — registry §6 okunmadan yazılmaz |
+| K015-AI adı | yazım/varsayım — registry §6 okunmadan yazılmaz |
 
 ## §21 Tur-3 Bekleyen İşler
 

@@ -506,3 +506,47 @@ Bu bölüm kanıt oranını DEĞİŞTİRmez — yeni içerik yeni kanıt değild
 tarama oturumunun başlangıç noktası olarak işaretlenir.
 
 Bu bölüm kanıt oranını DEĞİŞTİRmez — yeni içerik yeni kanıt değildir.
+
+---
+
+## §29. İkinci Tur Tarama — §13 Adayları Doğrulama Sonucu (2026-10-17)
+
+§28'deki sınır satırı, bu ikinci tur taramanın başlangıç noktasıdır. Bu bölüm
+**§13'te listelenen üç doğrulanmamış aday URL'nin erişim sonucunu** kayda geçirir
+ve yeni tarama turunun kaynak bütçesini açar. §1-25'teki 11 kaynaklı birinci tur
+bütçesine DOKUNMAZ; §29 kendi oturumunun kanıtını taşır.
+
+### §29.1 §13 adaylarının erişim sonucu
+
+| Aday URL (§13) | HTTP | Sonuç |
+|---|---|---|
+| dev.mysql.com/doc/refman/8.4/en/constraint-checking.html | **404** | Sayfa var değil — elendi; CHECK constraint kaynağı olarak `create-table-check-constraints.html` kullanıldı (§29.2 SN-2) |
+| dev.mysql.com/doc/refman/8.4/en/innodb-information-schema.html | **200** | Alındı — §17.15 InnoDB INFORMATION_SCHEMA tablo ailesi (transaction/locking · buffer pool · metrics · compression · temporary table · tablespace); listeleme kanıtı: `SHOW TABLES FROM INFORMATION_SCHEMA LIKE 'INNODB%';` |
+| dev.mysql.com/doc/refman/8.4/en/identifier-case-sensitivity.html | **200** | Alındı — §11.2.3 `lower_case_table_names` 0/1/2 · Unix default 0 / Windows default 1 / macOS default 2 · initialize sonrası değiştirilemez · lctn=0 + case-insensitive fs + MyISAM = index corruption riski · InnoDB tablo/view isimleri her zaman lowercase saklanır (cross-platform hedefse tüm platformlarda lctn=1 önerilir) · kolon/index/partition isimleri hiçbir platformda case-sensitive değil · duplicate isim kuralı cursor/procedure/function/savepoint vb. için binary collation geçerli, kolon/constraint/tablo için değil |
+
+### §29.2 Bu tur eklenen yeni kaynaklar (2026-10-17)
+
+| # | URL | HTTP | Ne verdi | K007 karşılığı |
+|---|-----|------|----------|----------------|
+| SN-1 | dev.mysql.com/doc/refman/8.4/en/implicit-commit.html | 200 | §15.3.3 — DDL implicit commit listesi · TEMPORARY TABLE istisnası (commit tetiklemez ama rollback de edilemez → atomiklik ihlali) · CREATE TABLE InnoDB tek transaction · CREATE TABLE ... SELECT önce+sonra commit · mysql DBMS dokunmaları · admin statement'lar | migration'ın forward-only olmasının fizik dayanağı; DDL/DML faz ayrımı |
+| SN-2 | dev.mysql.com/doc/refman/8.4/en/create-table-check-constraints.html | 200 | §15.1.20.6 — `[CONSTRAINT [symbol]] CHECK (expr) [[NOT] ENFORCED]` · ad 64 karakter · schema-unique namespace (her constraint tipinin kendi namespace'i) · yasaklar: AUTO_INCREMENT / başka tablo kolonu / nondeterministic fonksiyon / subquery / değişken · FK aksiyonlu kolonda CHECK yasak (çift yönlü) · IGNORE modunda satır atlanır · INFORMATION_SCHEMA.CHECK_CONSTRAINTS | soft-delete + UNIQUE çelişkisi çözüm çerçevesi (NOT ENFORCED köprüsü) |
+| SN-3 | dev.mysql.com/doc/refman/9.7/en/implicit-commit.html | 200 (redirect; istenen `/9.4/` sürümü refman'da yok, sunucu 9.7'ye yönlendirdi) | §15.3.3 — SN-1 ile aynı içerik + "Transactions cannot be nested" (START TRANSACTION mevcut transaction'ı implicit commit ile bitirir) · XA ACTIVE state'inde implicit commit tetikleyen statement yasak · BEGIN…END compound statement BEGIN'i commit tetiklemez | PDO repository'de iç içe beginTransaction() yasağı (REK-1) |
+
+### §29.3 Erişim günlüğü (bu tur)
+
+| Tarih | Taranan | 200 | 404 | Redirect |
+|---|---|---|---|---|
+| 2026-10-17 | 7 URL (3 aday + 3 yeni + 1 sürüm denemesi) | 5 | 2 (`check-constraint.html`, `constraint-checking.html`) | 1 (`9.4 → 9.7`, 200 sayfa döndü) |
+
+**404 dürüstlük kuralı:** 404 dönen URL'ler kaynak sayımına DAHİL EDİLMEZ; erişilemeyen
+sayfanın içeriği hiçbir bölümde özetlenmez, "erişildi" olarak kullanılmaz. 404'ler yalnız
+bu günlük tablosunda ve `migrations-web-arastirma.md` §3.1'de taşınır.
+
+**Bu turun K007 karşılıkları tam metni:** `migrations-web-arastirma.md` §3-§3.6
+(implicit commit → migration faz ayrımı · CHECK → soft-delete köprüsü · InnoDB I_S →
+kanıt katmanı · identifier case → cross-platform taşınabilirlik). Bu dosya (schema)
+yalnız erişim kaydını taşır; derinleştirme ve karar çerçeveleri migrations dosyasındadır
+(devir kuralı §21 — iki gerçeklik yaratılmaz).
+
+Bu bölüm bir **yeni oturum kanıtıdır** — §1-25'teki 11 kaynaklı birinci tur bütçesini
+ve onaylanmış sonuçları DEĞİŞTİRmez.

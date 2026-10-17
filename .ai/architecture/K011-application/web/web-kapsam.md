@@ -66,9 +66,9 @@ kapsamı "fetch çağrıları nasıl davranır" sorusunu da içerir.
 | 1 | İş kuralı kararı (ör. çalma listesi kuralı) | Hayır | K008-domain | İş kuralı istemcide yaşamaz |
 | 2 | Sunucu çalışma zamanı (PHP FPM, CLI, kurulum) | Hayır | K011/server-runtime · local-runtime | Barındırma ≠ arayüz |
 | 3 | HTTP yanıt başlıklarının üretimi (sunucu tarafı) | Hayır | K012-services / sunucu katmanı | İstemci başlıkları okur, sunucu üretir |
-| 4 | Ağ taşıması, TLS, CDN, yeniden yönlendirme altyapısı | Hayır | K014-network | Taşıma katmanı |
+| 4 | Ağ taşıması, TLS, CDN, yeniden yönlendirme altyapısı | Hayır | K010-network | Taşıma katmanı |
 | 5 | Veritabanı şeması ve sorgular | Hayır | K015 / data alanı | Veri sahipliği |
-| 6 | Medya kodlama ve dosya saklama | Hayır | K015-media | Medya verisi |
+| 6 | Medya kodlama ve dosya saklama | Hayır | K014-media | Medya verisi |
 | 7 | Electron paketleme, masaüstü pencere kabuğu | Hayır | K011/electron · K011/desktop | OS seviyesi ≠ tarayıcı |
 | 8 | API gateway sözleşmesi (DTO, sürümleme) | Hayır | K011/application-services · API alanı | Sözleşme sunucu tarafındadır |
 | 9 | Uygulama seviyesi cache anahtarları | Hayır | K011/caching | Cache politikası sunucudadır |
@@ -421,7 +421,7 @@ emit("router:navigate", veri)
 | 3 | K011/electron | Renderer penceresi | Giden (paylaşım) | ⚠️ VERIFICATION REQUIRED |
 | 4 | K011/desktop | BFF `clientType` | Giden (ayrışma) | desktop-kapsam §2 |
 | 5 | K012-services | JSON gövdesi | Gelen | DTO görünümü |
-| 6 | K014-network | Taşıma | Gelen | İstemci algısı |
+| 6 | K010-network | Taşıma | Gelen | İstemci algısı |
 
 ---
 
@@ -478,7 +478,7 @@ emit("router:navigate", veri)
 | 5 | Kullanıcı tema tercihi | KAPSAM İÇİ | `ThemeManager.js` |
 | 6 | Veritabanı indeksi | KAPSAM DIŞI | K015/data |
 | 7 | İstemci rota guard'ı | KAPSAM İÇİ | `router/GuardPipeline.js` |
-| 8 | CDN cache TTL | KAPSAM DIŞI | K014-network |
+| 8 | CDN cache TTL | KAPSAM DIŞI | K010-network |
 | 9 | Toast bildirimi gösterimi | KAPSAM İÇİ | `ToastComponent.js` |
 | 10 | Bildirim iş kuralı ("ne zaman") | KAPSAM DIŞI | K008-domain |
 | 11 | WCAG kontrast düzeltmesi | KAPSAM İÇİ | UI + QA |

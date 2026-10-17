@@ -29,8 +29,8 @@ erişildiğinin** anlamı — `stream` mi, `download` mı, hangi kullanıcı, ne
 
 | # | İçinde (bu dal) | Dışında | Sınır komşusu |
 |---|---|---|---|
-| 1 | Erişim türü kavramı (`accessType`: stream · download · preview) | Dosyanın kodlanması, bitrate, codec | K015-media · K004-dsp (master §2.1) |
-| 2 | Erişimin kiminle ilgili olduğu (`mediaId` + `userId`) | Kimlik/rol tanımı | K010-identitiy (master §2.1) |
+| 1 | Erişim türü kavramı (`accessType`: stream · download · preview) | Dosyanın kodlanması, bitrate, codec | K014-media · K004-dsp (master §2.1) |
+| 2 | Erişimin kiminle ilgili olduğu (`mediaId` + `userId`) | Kimlik/rol tanımı | K0100-identitiy (master §2.1) |
 | 3 | "erişildi" olayının kurala dönüşü | Olmanın fiziksel üretilmesi/ses yolu | K003-audio (master §2.1 — ⚠️ SINIR AÇIK) |
 | 4 | Medya kavramının katalogdan **ayrı** tanımı | Şarkı/albüm kimliği | music (master §1/1) |
 | 5 | Yerel dosya ↔ katalog içeriği ayrımı kavramı | Yerel dosyanın taranması/indexlenmesi | K007-data (bagimliliklar §4/1) |

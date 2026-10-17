@@ -92,6 +92,17 @@ KöK (12 dosya): `index.md` · `dsp-master.md` · `dsp-kapsam.md` · `dsp-bagiml
 | kanit | `dsp-web-arastirma.md` | İddia·URL·tarih·durum tablosu | Kademe-1 |
 | kanit | `dsp-riskler.md` | Risk ve azaltma tablosu | Kademe-1 |
 
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | gercek-zamanli zamanlama |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | sinyal giris devreleri |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ses giris/cikis akisi |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | DSP algoritma firmware yerlesimi |
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12

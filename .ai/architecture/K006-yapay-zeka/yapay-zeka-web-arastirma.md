@@ -15,7 +15,7 @@ children:
   - K006.9-testing
 depends_on:
   - K004-shared
-  - K016-AI
+  - K015-AI
 evidence:
   - "URL_fetcher sistematik tarama — 32 benzersiz URL, 2026-10-12"
   - "5 başarısız URL — §6.2 çelişki kaydı"

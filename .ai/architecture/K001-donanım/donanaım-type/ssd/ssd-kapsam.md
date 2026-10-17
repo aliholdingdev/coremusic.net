@@ -270,7 +270,7 @@ cümlesi kanıt sayılmaz (ölçüm PLANNED · Q-SK1 UNKNOWN).
 |---|---|---|---|
 | 1 | Bayt (SSD sayfası) | **ssd** (bu konu) | §4 |
 | 2 | Dosya sistemi + fsync | K000 | `isletim-sistemi-core-kapsam.md` |
-| 3 | Uygulama okuma + ön yükleme | K015-media · K003-audio | 512 örnek = 10,667 ms |
+| 3 | Uygulama okuma + ön yükleme | K014-media · K003-audio | 512 örnek = 10,667 ms |
 | 4 | DSP / 32-bit float | K003-audio · K004-dsp | ADR-017 |
 | 5 | ASIO/WASAPI çıkış kuyruğu | `[[output-kapsam]]` | 512 / 48 kHz |
 | 6 | I2S/TDM → DAC | `[[pcm3168a-codec]]` · `[[ak4458-dac]]` | **Yalnız PCM3168A**; PCM5122 yasak (ADR-038 H001) |

@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/multi-room/standart-kanit
+node_id: K010-network/multi-room/standart-kanit
 node_type: module
 status: draft
-parent_id: K014-network/multi-room
+parent_id: K010-network/multi-room
 role: kanit
 children: []
 depends_on: []

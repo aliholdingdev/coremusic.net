@@ -75,9 +75,9 @@ API'sidir.
 
 | Kapsam dışı konu | Nereye gider | Gerekçe |
 |---|---|---|
-| Sürücü / WDI / dot11wificx / NDIS miniport iç yapısı | `K001-donanım` + `K014-network` (sürücü katmanı) | Bu node yalnız user-mode API yüzeyini belgeler; OID_WDI vb. sürücü DDI'si radyo katmanındadır (NevaConnect 03 §3.6 F3: FTM'nin gerçek katmanı `OID_WDI_TASK_REQUEST_FTM`) |
+| Sürücü / WDI / dot11wificx / NDIS miniport iç yapısı | `K001-donanım` + `K010-network` (sürücü katmanı) | Bu node yalnız user-mode API yüzeyini belgeler; OID_WDI vb. sürücü DDI'si radyo katmanındadır (NevaConnect 03 §3.6 F3: FTM'nin gerçek katmanı `OID_WDI_TASK_REQUEST_FTM`) |
 | Neva Connect uygulama tasarımı (çoklu-EXE, resolver, fazlar) | `.ai/projects/NevaConnect/01..04` | 01 §4.1 katman tasarımı ve 03 §4 resolver bu projenin dokümanıdır; burada **kavramsal API katmanı** vardır, kod/plan yoktur |
-| Bağlantı durumu dallanması (WebSocket 9742 köprüsü, IPC) | `K014-network/connectivity/neva-connect-wlan-dallanma-mimarisi` | Uygulama mimarisi — bu node'un tüketicisidir, parçası değildir |
+| Bağlantı durumu dallanması (WebSocket 9742 köprüsü, IPC) | `K010-network/connectivity/neva-connect-wlan-dallanma-mimarisi` | Uygulama mimarisi — bu node'un tüketicisidir, parçası değildir |
 | Soket / TCP / UDP / TLS / POSIX ↔ Winsock | Kardeş `ag-api` node'ları | Ağ sırtı ayrı katman (bkz §7) |
 | Kernel ağ yığını (TCP durum makinesi, yönlendirme) | `isletim-sistemi-kernel` | Üst dal `isletim-sistemi-api` §4 sınırı |
 | Linux wifi (NetworkManager/dbus) | `neva-connect` L0-L3 (Linux dalı) | Bu node Windows API'sine aittir |
@@ -623,7 +623,7 @@ Yeni özellik çağrısı
 | gider → | `.ai/projects/NevaConnect/02-coklu-exe-windows-sdk-derleme-mimarisi` | Çoklu-EXE + SDK derleme matrisi (bu dosya kapsam dışı) |
 | gider → | `.ai/projects/NevaConnect/03-wlan-api-ozellik-kisitlama-tablosu` | İkili kapı, XP 20 fn + 9 kısıtlama, resolver (§4.2) |
 | gider → | `.ai/projects/NevaConnect/04-kapsam-yol-haritasi-wifi7-bluetooth-usb-depolama` | Wi-Fi 7/EHT kapsamı, netsh karşılaştırması (§3.7/§6) |
-| gider → | `K014-network/connectivity/neva-connect-wlan-dallanma-mimarisi` | Bu API'nin uygulama mimarisi tüketicisi (WebSocket 9742) |
+| gider → | `K010-network/connectivity/neva-connect-wlan-dallanma-mimarisi` | Bu API'nin uygulama mimarisi tüketicisi (WebSocket 9742) |
 | gider → | `K001-donanım` | Sürücü/WDI katmanı — sınır (§1.2) |
 | dış referans | `E:\Belgeler\coremusic.net.old\cpp-projects\wireless-connect\AGENTS.md` | Parser + `WlanCloseHandle` race gotcha (disk dışı, 01 §2 / 04 §V4 üzerinden) |
 
@@ -702,7 +702,7 @@ Yeni özellik çağrısı
 | D1 | `.ai/projects/NevaConnect/01-wlanapi-sürüm-matrisi-ve-windows-plani.md` | Export matrisi (36→148, −0 omurgası), katman planı, D1-D6 kararları |
 | D2 | `.ai/projects/NevaConnect/03-wlan-api-ozellik-kisitlama-tablosu.md` | XP 20 fn beyaz liste + 9 kısıtlama, ikili kapı (Y1-Y3), 16 fonksiyon siyah listesi |
 | D3 | `.ai/projects/NevaConnect/04-kapsam-yol-haritasi-wifi7-bluetooth-usb-depolama.md` | Wi-Fi 7 (Win11 24H2), EHT=11, netsh karşılaştırma kararı |
-| D4 | `.ai/architecture/K014-network/connectivity/neva-connect-wlan-dallanma-mimarisi.md` | Uygulama mimarisi, WinRT kapsam dışı kararı, gotcha kayıtları |
+| D4 | `.ai/architecture/K010-network/connectivity/neva-connect-wlan-dallanma-mimarisi.md` | Uygulama mimarisi, WinRT kapsam dışı kararı, gotcha kayıtları |
 | D5 | `.ai/architecture/K000-isletim-sistemi/isletim-sistemi-api/ag-api/` kardeşleri | Format/ton + ağ sırtı bağlamı |
 
 ---

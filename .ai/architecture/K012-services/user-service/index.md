@@ -23,7 +23,7 @@ group: mimari
 
 **ELI15:** Kullanıcı profili, tercihi ve abonelik işlerini yürüten servis.
 
-**Sınır (ne DEĞİL):** Kimlik doğrulama K010-identitiy'de · profil verisi K007-data'da.
+**Sınır (ne DEĞİL):** Kimlik doğrulama K0100-identitiy'de · profil verisi K007-data'da.
 
 **Bağımlılık (özet):** Düğümün tamamı üst kademeye bağlıdır; ayrıntı ve etiketler services-bagimliliklar.md §1'dedir. Bu dosyadaki satırlar TASARIM İDDİASI'dır.
 

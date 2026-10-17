@@ -25,6 +25,23 @@ validation:
 open_questions:
   - "search (K007) ile K020-discovery/search/ sahipliği sınırı → VERIFICATION REQUIRED"
 group: mimari
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | dosya sistemi ve bellek |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | depolama donanimi (SSD) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ses dosya formatlari |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ML veri hatti |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | domain entity persistence |
+| K009-security | [[K009-security]] | ../K009-security/index.md | seifreleme ve erisim kontrolu |
+| K010-network | [[K010-network]] | ../K010-network/index.md | replication ve ag aktarimi |
+| K011-application | [[K011-application]] | ../K011-application/index.md | repository katmani |
+| K012-services | [[K012-services]] | ../K012-services/index.md | servis veri erisimi |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | sync ve entegrasyon verisi |
+
 ---
 
 # K007-data — Domain Künyesi

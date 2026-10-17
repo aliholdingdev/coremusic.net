@@ -1,12 +1,12 @@
 ---
-node_id: K014-network/comms/websocket/kod-ornekleri
+node_id: K010-network/comms/websocket/kod-ornekleri
 node_type: module
 status: draft
-parent_id: K014-network/comms/websocket
+parent_id: K010-network/comms/websocket
 role: ornek
 children: []
 depends_on:
-  - "K014-network/comms/websocket/websocket-standart-kanit.md"
+  - "K010-network/comms/websocket/websocket-standart-kanit.md"
 evidence:
   - "Kod kanıtı YOK (K014 PLANNED) — örnekler TASARIM ÖRNEĞİ'dir"
   - "Referans: RFC 6455 (websocket-standart-kanit.md §1/1) — ping/pong, reconnect uygulama katmanı"

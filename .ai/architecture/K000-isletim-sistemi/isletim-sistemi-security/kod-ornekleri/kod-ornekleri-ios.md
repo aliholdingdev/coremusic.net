@@ -190,7 +190,7 @@ başlamamıştır**; bu dosya dolayısıyla **hedef referans** kartıdır.
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrımı (bağlayıcı):** Kimlik doğrulama, oturum, parola ve MFA → `K010-identitiy`; bu kartta yalnız iOS dosya/izin/hedef kalıpları ele alınır.
+> **K010 ayrımı (bağlayıcı):** Kimlik doğrulama, oturum, parola ve MFA → `K0100-identitiy`; bu kartta yalnız iOS dosya/izin/hedef kalıpları ele alınır.
 > **K009 ayrımı (bağlayıcı):** OWASP denetimi, auth/CSRF/CSP tasarımı, kripto seçimi (ADR-022) → `K009-security`; bu kart yalnız OS katmanı + sınır işaretlerini taşır.
 > **Komşu dal:** Çekirdek içi yapısı ve sürücü yazımı → `isletim-sistemi-kernel`; Apple platform geneli → `cekirdek-guvenlik-ios` · `cekirdek-guvenlik-macos`.
 

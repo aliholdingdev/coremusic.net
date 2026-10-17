@@ -1,12 +1,12 @@
 ---
-node_id: K014-network/connectivity/kod-ornekleri
+node_id: K010-network/connectivity/kod-ornekleri
 node_type: module
 status: draft
-parent_id: K014-network/connectivity
+parent_id: K010-network/connectivity
 role: ornek
 children: []
 depends_on:
-  - "K014-network/connectivity/connectivity-standart-kanit.md"
+  - "K010-network/connectivity/connectivity-standart-kanit.md"
 evidence:
   - "Kod kanıtı YOK (K014 PLANNED) — bu dosyadaki örnekler TASARIM ÖRNEĞİ'dir, üretim kodu değildir"
   - "Referans standartlar: connectivity-standart-kanit.md §1–§3 (RFC 8305/6555/3927 · MDN online/offline · WLAN API)"

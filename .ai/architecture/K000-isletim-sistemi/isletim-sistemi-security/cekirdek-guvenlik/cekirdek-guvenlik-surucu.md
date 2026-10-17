@@ -28,7 +28,7 @@ group: mimari
 
 **Olcum tarihi:** 2026-10-13 · **Kademe:** 4 (alt-dal icerigi) · **group:** mimari · **Ana gercek:** repoda **surucu kodu 0** — tum surucu icerigi **hedef mimari referansidir**.
 
-> **K010 ayrimi (baglayici):** Bu dosya **OS duzeyi guvenlik + uygulama-OS guvenlik sinirini** kapsar; kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy` — oturum is mantigina girilmez.
+> **K010 ayrimi (baglayici):** Bu dosya **OS duzeyi guvenlik + uygulama-OS guvenlik sinirini** kapsar; kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy` — oturum is mantigina girilmez.
 > **K009 ayrimi (baglayici):** OWASP denetimi, auth/CSRF/CSP tasarimi, kripto secimi (AES-256-GCM, Argon2id) ve rate limit politikasi -> `K009-security` + ADR-010/013/022.
 
 ## §0 — ELI15 (15 yasinda birine anlatim)
@@ -215,7 +215,7 @@ kapanmadi (`[UNKNOWN]`).
 | X5 | Container/namespace/cgroup | `uygulama-guvenlik-siniri` |
 | X6 | Denetim akisi (DAC/MAC/ACL/RBAC) | `yetki-ve-erisim-modeli` |
 | X7 | OWASP denetimi, kripto secimi, CSRF tasarimi | `K009-security` + ADR |
-| X8 | Kimlik/oturum/sifre/MFA | `K010-identitiy` |
+| X8 | Kimlik/oturum/sifre/MFA | `K0100-identitiy` |
 | X9 | Ag/firewall/TLS | `K013-integraion` |
 
 ## §7 — Referans (HTTP 200 · 2026-10-13 · envanter disi)

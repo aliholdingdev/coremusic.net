@@ -80,13 +80,13 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 | 1 | "beğen" kelimesinin **anlamı** | K008-domain | veri saklar; kural domain'in |
 | 2 | Şifreleme **anahtarı ve politikası** | K009-security | biz yalnız **çağırırız** |
 | 3 | Fiziksel disk/RAID/dosya sistemi | K000-isletim-sistemi · K001-donanım | biz mantıksal modeliz |
-| 4 | HTTP cache-header / CDN | K014-network · K011-application | sayfa-önbellek **veri** katmanı; transport network'un |
+| 4 | HTTP cache-header / CDN | K010-network · K011-application | sayfa-önbellek **veri** katmanı; transport network'un |
 | 5 | Model eğitimi / özellik çıkarımı | K006-yapay-zeka | biz yalnız **girdi verisi**ni veririz |
 | 6 | Metrik/telemetri **kaydı** | K017-observability | biz veriyi tutar; olay akışı onun |
 | 7 | CI/CD pipeline · deploy zamanlaması | K018-devops | ⚠️ SINIR AÇIK — backup sahipliği bekliyor |
 | 8 | Keşif/katalog **kuralları** | K020-discovery | ⚠️ SINIR AÇIK — search sahipliği bekliyor |
 | 9 | API sözleşmesi/versiyonlama | K013-integraion | biz repository'yiz; endpoint onun |
-| 10 | Kimlik **verimiz** (hesap, rol) | K010-identitiy | veri tutulur; kimlik **anlamı** orada |
+| 10 | Kimlik **verimiz** (hesap, rol) | K0100-identitiy | veri tutulur; kimlik **anlamı** orada |
 
 ## §4 Komşularla sınır (paylaşım/karşılayıcı tablosu)
 
@@ -194,7 +194,7 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 | PDO prepared statement sarmalayıcı | İÇİNDE | `DatabaseManager.php:32-43` |
 | Repository sözleşmeleri | İÇİNDE | `IUserRepository.php` (20 metot) |
 | Domain nesnesi/ValueObject | DIŞINDA → K008-domain | ⚠️ sınır |
-| Oturum/identity doğrulama | DIŞINDA → K010-identitiy | ⚠️ sınır |
+| Oturum/identity doğrulama | DIŞINDA → K0100-identitiy | ⚠️ sınır |
 
 ### §8.4 Transaction (transactions) — içinde / dışında
 
@@ -264,7 +264,7 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 |-------|-----|----------|-----------|--------|
 | K008-domain | → depends_on | entity/kavram tanımı | şifreleme anahtarı | TASARIM İDDİASI |
 | K009-security | → depends_on | şifreleme **çağrısı** | anahtarın kendisi | TASARIM İDDİASI |
-| K010-identitiy | ↔ sınır | — | oturum/identity | ⚠️ SINIR AÇIK |
+| K0100-identitiy | ↔ sınır | — | oturum/identity | ⚠️ SINIR AÇIK |
 | K011-application | ← used_by | repo üzerinden veri | domain kuralı | TASARIM İDDİASI |
 | K012-services | ← used_by | servis kalıcılığı | atomiklik kararı | TASARIM İDDİASI |
 | K013-integraion | ↔ sınır | — | synchronization | ⚠️ SINIR AÇIK |
@@ -376,7 +376,7 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 | Domain kuralı koyma | K008-domain |
 | Şifreleme anahtarı üretme | K009-security |
 | Arama keşif kuralı yazma | K020-discovery |
-| Kimlik doğrulama akışı | K010-identitiy |
+| Kimlik doğrulama akışı | K0100-identitiy |
 
 ---
 

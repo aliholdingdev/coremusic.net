@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/comms/webrtc/standart-kanit
+node_id: K010-network/comms/webrtc/standart-kanit
 node_type: module
 status: draft
-parent_id: K014-network/comms/webrtc
+parent_id: K010-network/comms/webrtc
 role: kanit
 children: []
 depends_on: []

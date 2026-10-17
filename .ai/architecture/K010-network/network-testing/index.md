@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/network-testing
+node_id: K010-network/network-testing
 node_type: subdomain
 status: draft
-parent_id: K014-network
+parent_id: K010-network
 children: []
 depends_on: []
 evidence:
@@ -19,7 +19,7 @@ group: mimari
 ---
 
 
-# network-testing — K014-network (kademe-2 · subdomain)
+# network-testing — K010-network (kademe-2 · subdomain)
 
 **ELI15:** Ağ davranışının testleri: gecikme, kopma, çevrimdışı senaryoları.
 

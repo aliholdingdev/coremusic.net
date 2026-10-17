@@ -83,7 +83,7 @@ group: kanit
   **çıkış (logout) sonrası** oturum anahtarının/`page_auth_` girdilerinin temizliği
   kodda gösterilemedi — TTL 600 sn'ye kadar eski içerik kalabilir.
 - **Kanıt:** Ö-4 (anahtar üretimi), çıkış-temizleme kanıtı `⚠️ VERIFICATION REQUIRED`.
-- **A:** Logout'ta `page_auth_*` taraması/kök-silme; kısa TTL bilinçli kabul. **S:** K007-cache + K010-identitiy.
+- **A:** Logout'ta `page_auth_*` taraması/kök-silme; kısa TTL bilinçli kabul. **S:** K007-cache + K0100-identitiy.
 
 ## R-07 · Kalıcı PDO bağlantı + `getPdo()` sızıntısı — `E:Orta · O:Düşük`
 

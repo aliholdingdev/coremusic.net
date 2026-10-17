@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/handoff
+node_id: K010-network/handoff
 node_type: subdomain
 status: draft
-parent_id: K014-network
+parent_id: K010-network
 children: []
 depends_on: []
 evidence:
@@ -19,7 +19,7 @@ group: mimari
 ---
 
 
-# handoff — K014-network (kademe-2 · subdomain)
+# handoff — K010-network (kademe-2 · subdomain)
 
 **ELI15:** Çalan şeyi bir cihazdan diğerine teslim etme (el değiştirmesi).
 

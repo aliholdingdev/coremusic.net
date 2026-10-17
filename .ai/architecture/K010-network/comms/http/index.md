@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/comms/http
+node_id: K010-network/comms/http
 node_type: bounded-context
 status: draft
-parent_id: K014-network/comms
+parent_id: K010-network/comms
 children: []
 depends_on: []
 evidence:
@@ -19,13 +19,13 @@ group: mimari
 ---
 
 
-# http — K014-network/comms (kademe-3 · bounded-context)
+# http — K010-network/comms (kademe-3 · bounded-context)
 
 **ELI15:** İstek/yanıt biçimiyle internet üzerinden konuşmayı sağlayan temel protokol.
 
 **Sınır (ne DEĞİL):** Sürekli canlı bağlantı websocket · doğrudan medya yolu webrtc · anlam K012/K013.
 
-**Bağımlılık (özet):** Üstü comms/ → K014-network; ayrıntı network-bagimliliklar.md §1.
+**Bağımlılık (özet):** Üstü comms/ → K010-network; ayrıntı network-bagimliliklar.md §1.
 
 **Durum:** draft · kademe-4 (module) ADR-097 K4 fazı (C) bekler · module'e inilmez.
 

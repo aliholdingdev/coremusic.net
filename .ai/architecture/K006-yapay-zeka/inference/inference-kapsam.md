@@ -26,14 +26,14 @@ inference runtime'ı (ör. ONNX oturumu) repo'da **görülmedi** (bkz. §3/7).
 
 | # | İçinde (bu dal) | Dışında | Sınır komşusu |
 |---|---|---|---|
-| 1 | Modelin K006 ürünü olarak çalıştırılması (tek ML çağrı noktası) | Ajan çalışma zamanı / prompt orkestrasyonu | K016-AI (ai-master §2.1 · bagimliliklar §4) |
+| 1 | Modelin K006 ürünü olarak çalıştırılması (tek ML çağrı noktası) | Ajan çalışma zamanı / prompt orkestrasyonu | K015-AI (ai-master §2.1 · bagimliliklar §4) |
 | 2 | Inference girdi/çıktı sözleşmesi (context → skor/liste) | Girdi verisinin saklanması | K007-data (bagimliliklar §2/1) |
 | 3 | Inference'ın çalıştırılacağı süreçle arayüz | Sürecin kendisi | K012-services (bagimliliklar §2/3) |
 | 4 | Inference çıktısının UI'a verilmesi (sözleşme) | Kartın çizimi | K011-application (ai-master §2.1) |
 | 5 | Inference performans/girdi doğrulaması (sözleşme) | Model kalitesi metrikleri | evaluation (ai-master §3) |
 | 6 | Bulut mu yerel mi kararı için kanıt toplama | **Yerel** çalışma ayrıntıları | local-inference (ai-master §3) |
 
-**Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K016-AI ajan
+**Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K015-AI ajan
 altyapısına **taşınmaz** — ajanlar inference'ı **çağırır**.
 
 **Yasak:** tablo **kademe-2 taslak sınır önerisidir** — v2 §2.6 bu çocuğa rol vermez; kilit ADR-097 K4'tedir.
@@ -110,7 +110,7 @@ değişmemiştir (append-only · `.ai/AGENTS.md` §25.3 madde 1–2). Eski metin
 | T1 | Çocuk satırı (2. sıra) | `K006-yapay-zeka/ai-master.md` | 149 | `| 2 | inference/ | 260 | Uzak/merkezi model çalıştırma — istek başına tahmin | ✅ 6/6 | draft |` |
 | T2 | Komşu çocuk satırları | `ai-master.md` | 148, 154 | `model-management/` → v2 **259** · `local-inference/` → v2 **265** |
 | T3 | Sorumluluk satırı S3 | `ai-master.md` | 184 | `S3 | Modeli barındırmak & çağırmak | model-management · inference · local-inference | — | AIOrchestrator::dispatchTask L71–100 | ⚠️ kısmi` |
-| T4 | Ayrım §2.1 (K016) | `ai-master.md` | 101 | "LLM/ajan altyapısı ... → K016-AI · ✅ kapsam ayrımı" |
+| T4 | Ayrım §2.1 (K016) | `ai-master.md` | 101 | "LLM/ajan altyapısı ... → K015-AI · ✅ kapsam ayrımı" |
 | T5 | Ayrım §2.1 (K012) | `ai-master.md` | 105 | "Öneriyi yürüten arka plan süreci → K012-services · **TASARIM İDDIASI**" |
 | T6 | Ayrım §2.1 (K011) | `ai-master.md` | 107 | "UI'da öneri kartlarının çizimi → K011-application · TASARIM İDDIASI" |
 | T7 | Açık soru #4 (§7) | `ai-master.md` | 256 | "Üretim modeli/runtime seçimi (hangi model, hangi format) → **UNKNOWN** · teknoloji karar kaydı · `-dogrulama` §7/4" |
@@ -353,7 +353,7 @@ eski kapanış cümlesi (L72–73) aynen bağlayıcıdır; bu ek yalnız numaral
 | §5 Önyargı & Denklik | 102 | — |
 | §6 Etik & Regülasyon Sınırı | 115 | — |
 | §7 Gizlilik & Veri Anayasası | 128 | C5 |
-| §8 K016-AI Sınırı (bağlayıcı) | 139 | EK §4/1 |
+| §8 K015-AI Sınırı (bağlayıcı) | 139 | EK §4/1 |
 | §9 Terim Sözlüğü | 152 | — |
 | §10 Kapsam Dışı | 175 | EK §4 |
 | §11 Açık Sorular (anayasa kilidi) | 187 | EK §7 |

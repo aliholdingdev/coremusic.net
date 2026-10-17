@@ -415,7 +415,7 @@ dizinlerinden geçer (adlar diskte **aynen** bu şekilde, imla dahil yazıldı):
 | E3 | K000 ↔ K004-dsp | `K004-dsp` | DSP kavramı ↔ firmware/DSP bağımlılığı | §B.3 C6 (ffmpeg DSP sınırı değil) | `[TASARIM]` |
 | E4 | K000 ↔ K005-firmware | `K005-firmware` | Firmware ↔ OS/driver bağımlılığı | §C.1 sürücü basamağı | `[TASARIM]` |
 | E5 | K000 ↔ K009-security | `K009-security` | Güvenlik domaini ↔ `security` düğümü (B3·B9) | §B.2 B3·B9 | `[KANIT]` (repo) + `[TASARIM]` (sınır) |
-| E6 | K000 ↔ K010-identitiy | `K010-identitiy` | Kimlik doğrulama ↔ oturum/izin bağımlılığı | §B.2 B3 (oturum yolu) | `[TASARIM]` |
+| E6 | K000 ↔ K0100-identitiy | `K0100-identitiy` | Kimlik doğrulama ↔ oturum/izin bağımlılığı | §B.2 B3 (oturum yolu) | `[TASARIM]` |
 | E7 | K000 ↔ K017-observability | `K017-observability` | Ölçüm/izleme ↔ `observability` düğümü (B7·B12) | §B.2 B7·B12 | `[KANIT]` (repo) |
 | E8 | K000 ↔ K018-devops | `K018-devops` | CI/CD ↔ P1 platform bağımlılığı | §B.4 P1 | `[KANIT]` (ci.yml) |
 | E9 | K000 ↔ K019-testing | `K019-testing` | Test domaini ↔ `testing` düğümü (V3·C2) | §F V3 · §B.3 C2 | `[KANIT]` (composer·ci.yml) |

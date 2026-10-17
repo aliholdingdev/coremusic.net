@@ -146,7 +146,7 @@ app_check_and_request_permission(void)
 |---|---|
 | R (referans) | YOK — paylaşım yolu API'leri repoda 0 (§3) |
 | Uyarı | Upstream, `shared/data` kullanımını açıkça **zayıf** sınıflandırır ve deprecate edeceğini bildirir |
-| Sınır | Bu blok paylaşım **politikasıdır**; kimlik doğrulama değildir → `K010-identitiy` |
+| Sınır | Bu blok paylaşım **politikasıdır**; kimlik doğrulama değildir → `K0100-identitiy` |
 
 ## §3 CoreMusic repo durumu
 
@@ -176,7 +176,7 @@ değildir; bunları "sandbox" diye sunmak abartı olurdu (bkz. §6 S2).
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy`; bu kartta yalnizca Tizen dosya/surec/erisim kisitlari ele alinir.
+> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy`; bu kartta yalnizca Tizen dosya/surec/erisim kisitlari ele alinir.
 
 > **K009 ayrimi (baglayici):** OWASP denetimi, auth/CSRF/CSP tasarimi, kripto secimi (ADR-022) -> `K009-security`; bu kart yalnız OS katmani + sinir isaretlerini tasinir.
 

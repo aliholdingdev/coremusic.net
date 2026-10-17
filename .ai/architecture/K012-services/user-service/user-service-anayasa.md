@@ -19,7 +19,7 @@ validation:
   - "§3 kod kanıtı 2026-10-13 read — birebir"
   - "§2 sınır services-master §2.2 ile hizalı"
 open_questions:
-  - "K010-identitiy ile user-service sınırı (kimlik kimde?) → ⚠️ VERIFICATION REQUIRED"
+  - "K0100-identitiy ile user-service sınırı (kimlik kimde?) → ⚠️ VERIFICATION REQUIRED"
   - "IUserRepository/IRateLimiter implementasyonu okunmadı → ⚠️ VERIFICATION REQUIRED"
   - "Parola hash algoritması (Argon2id iddiası) Password VO içinde doğrulanmadı → ⚠️ VERIFICATION REQUIRED"
 date: 2026-10-13
@@ -41,7 +41,7 @@ group: mimari
 
 Kullanıcıyla ilgili **veriyi ve tercihleri** işler: kayıt, giriş, oturum,
 profil, cinsiyet tercihi, parola sıfırlama. Arayüz çizmez (K011); kimlik
-protokolünü kendisi üretmez (K010-identitiy olabilir); yalnız iş mantığını
+protokolünü kendisi üretmez (K0100-identitiy olabilir); yalnız iş mantığını
 uygular ve sonucu döner. Repo kanıtı auth.coremusic.net altındadır ve bu
 servisin **kimlik-doğrulama yarısını** kapsar.
 
@@ -53,7 +53,7 @@ servisin **kimlik-doğrulama yarısını** kapsar.
 | Oturum yönetimi | İÇİNDE | K012 | S1 SessionManager:15 |
 | Parola sıfırlama akışı | İÇİNDE | K012 | S1 AuthService:254/282 |
 | Cinsiyet tercihi | İÇİNDE | K012 | S1 AuthService:99–104 |
-| Kullanıcı kimliği (protokol/JWT) | DIŞINDA (iddia) | K010-identitiy | §5 ⚠️ |
+| Kullanıcı kimliği (protokol/JWT) | DIŞINDA (iddia) | K0100-identitiy | §5 ⚠️ |
 | Kalıcı kullanıcı şeması | DIŞINDA | K007-data | master §2.2 |
 | Arayüz (login/register sayfası) | DIŞINDA | K011 | master §2.2 |
 | Parola hash algoritması (Argon2id) | sınır | Password VO | §6 ⚠️ |
@@ -101,7 +101,7 @@ saldırıya karşı **iki boyutlu**. Hash geri-dönüştürülemez; var olmayan 
 sayılır (enumeration sinyali vermez) — bu bilinçli bir güvenlik tasarımıdır
 (kod yorumu S1:61–62).
 
-## §5 Sınır Açıklığı: user-service vs K010-identitiy (Açık Kapı)
+## §5 Sınır Açıklığı: user-service vs K0100-identitiy (Açık Kapı)
 
 | # | Soru | Durum |
 |---|---|---|
@@ -112,7 +112,7 @@ sayılır (enumeration sinyali vermez) — bu bilinçli bir güvenlik tasarımı
 
 **Sınır notu (S1):** AuthService **hem** iş mantığı **hem** oturum/açık-anahtar
 ( auth_key ) yönetimini içerir (S1:122–124). `validateSessionKey` (S1:310) bir
-**doğrulama** işidir — bu, K010-identitiy ile sınır bölgesindedir. Kesin sahiplik
+**doğrulama** işidir — bu, K0100-identitiy ile sınır bölgesindedir. Kesin sahiplik
 bu turda yazılmaz → açık kapı (master §7/Q1 benzeri).
 
 ## §6 Parola Hash Sınırı
@@ -134,7 +134,7 @@ kullanılıyor" kod düzeyinde **yazılmaz**.
 
 | Hedef | Ne için | Etiket |
 |---|---|---|
-| K010-identitiy | kimlik protokolü (iddia) | TASARIM İDDİASI + §5 |
+| K0100-identitiy | kimlik protokolü (iddia) | TASARIM İDDİASI + §5 |
 | K007-data | kullanıcı kalıcılığı (UserRepository PDO) | S1 (auth AGENTS.md §2) |
 | K008-domain | User/Email/Password/Gender VO + iş kuralı | S1 (AuthService import) |
 | K011-application | login/register arayüzü | TASARIM İDDİASI |
@@ -248,7 +248,7 @@ iş mantığı kod-içi yorumda açıkça belgelenmiştir (S1:96–98).
 
 | Bağımlılık | Anayasa karşılığı |
 |---|---|
-| K010-identitiy | §5 · §7 |
+| K0100-identitiy | §5 · §7 |
 | K007-data (UserRepository) | §7 · §10-8 |
 | K008-domain (VO) | §3 · §13 |
 | K011 (arayüz) | §2 |
@@ -373,7 +373,7 @@ izinlerinin **toplamı**nı verir (union).
 | user-service-ornekler.md | kod blokları |
 | user-service/index.md | künye |
 | services-master.md §21.5 | kart |
-| K010-identitiy | kimlik sınırı (§5) |
+| K0100-identitiy | kimlik sınırı (§5) |
 
 ## §24 Hexagonal Katman Yerleşimi (auth.coremusic.net envanteri)
 
@@ -457,9 +457,9 @@ dosyadan gelir; kesin satır ucu `wc -l` ile doğrulanır → `⚠️ VERIFICATI
 | Dosya | Kesişen konu | Bu dosyanın tutumu | Çakışma durumu |
 | --- | --- | --- | --- |
 | `K012-services/services-master.md` §21.8 | user-service kapsamı (RBAC, gender gate, K010) | Kapsamı birebir alır, kapı yönetimini genişletir | Uyumlu |
-| `K010-identitiy` sınırı (bkz §5) | 11. adım RBAC yetki katkısı | K010 verir — K012 uygular | Uyumlu |
+| `K0100-identitiy` sınırı (bkz §5) | 11. adım RBAC yetki katkısı | K010 verir — K012 uygular | Uyumlu |
 | `K012-services/device-service` anayasası | Cihaz tespiti (§24.4) | Tespit K012'de; ölçüm/doluluk K015'te | Uyumlu |
-| `K015-media` anayasası | Cihaz başına codec doluluğu (Q2) | K012 sayı vermez, ölçüm verir | Çakışma yok — veri yönü tek |
+| `K014-media` anayasası | Cihaz başına codec doluluğu (Q2) | K012 sayı vermez, ölçüm verir | Çakışma yok — veri yönü tek |
 | `shared/AGENTS.md` §2.2 heartbeat paylaşımı | Session key'i dışında ek paylaşım | Bu anayasada yalnız session key paylaşımı tespit edildi | `⚠️ VERIFICATION REQUIRED` |
 | `auth.coremusic.net/AGENTS.md` §1 | Modül envanteri (11 satır) | Giriş / oturum / şifre satırları eşleşir | Uyumlu |
 

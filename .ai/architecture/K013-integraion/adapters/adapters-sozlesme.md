@@ -79,7 +79,7 @@ olsun**, çünkü sözlü eşleme kod değişince kaybolur.
 | 3 | **Hata sözleşmesi** | Hata kodu, mesajı, yeniden denenebilirlik | Dış sistem + iç hata modeli (`error-handling`) |
 | 4 | **Kimlik sözleşmesi** | Token/anahtar alma, yenileme, kapsam (scope) | `K009-security` |
 | 5 | **Sürüm sözleşmesi** | Dış sürüm ↔ iç sürüm eşlemesi | Bu dosya §6 |
-| 6 | **Limit sözleşmesi** | Rate limit, timeout, boyut sınırı | `K014-network` + bu dosya §5.4 |
+| 6 | **Limit sözleşmesi** | Rate limit, timeout, boyut sınırı | `K010-network` + bu dosya §5.4 |
 
 > **Kural:** Altı katmandan **hiçbiri** adaptörün dışında yazılmaz ama
 > **hiçbiri** adaptörde icat edilmez — hepsi dış kaynaktan okunur,
@@ -272,7 +272,7 @@ olmadan **değiştirilmez**; test, tabloyu **yansıtmıyorsa** test eksiktir.
 | Hata **eşlemesi** | Hata **modeli** (o `K013/error-handling`) |
 | Sürüm **koruması** | API **versioning** tasarımı (o `K013/api-contracts`) |
 | Secret **sınırı** | Secret **saklama** (o `K009-security`) |
-| Limit/tipik timeout **taşıması** | Ağ **yapılandırması** (o `K014-network`) |
+| Limit/tipik timeout **taşıması** | Ağ **yapılandırması** (o `K010-network`) |
 | Dış **şema** okuması | Dış sistem **envanteri** (o `K013/external-systems`) |
 | Protokol-süzgüsüz çeviri | Protokol **dönüşümü** (o `K013/protocol-adapters`) |
 
@@ -331,7 +331,7 @@ olmadan **değiştirilmez**; test, tabloyu **yansıtmıyorsa** test eksiktir.
 3. `adapters-web-arastirma.md` — tam URL defteri
 4. İç hata modelinin kendisi → `K013/error-handling`
 5. Açık API belgesi üretimi → `K013/api-contracts/openapi`
-6. Rate limit/algoritma → `K014-network` (adaptör yalnız **taşır**)
+6. Rate limit/algoritma → `K010-network` (adaptör yalnız **taşır**)
 7. Araç seçimi (Pact/WireMock vb.) → `adapters-dogrulama.md` §3
 
 ---
@@ -365,7 +365,7 @@ olmadan **değiştirilmez**; test, tabloyu **yansıtmıyorsa** test eksiktir.
 | 4 | Bilinmeyen enum politikası | UNKNOWN | M7 |
 | 5 | Idempotency hangi uçlarda zorunlu? | UNKNOWN | ADR |
 | 6 | `shared/src/Api/Versioning/` içeriği eşlemeye uygun mu? | ⚠️ VERIFICATION REQUIRED | sonraki tur (dosya okunacak) |
-| 7 | Dış sistem başına limit/timeout değerleri | UNKNOWN | K014-network |
+| 7 | Dış sistem başına limit/timeout değerleri | UNKNOWN | K010-network |
 
 > Bu tablo frontmatter `open_questions` alanını genişletir; yeni iddia eklemez.
 

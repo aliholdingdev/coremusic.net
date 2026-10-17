@@ -54,11 +54,11 @@ politika/kripto üretmez (K009'un işidir).
 |---|---|---|
 | Çağıran servis (dış çağrıyı başlatan) | K012-services (integration-service) | K013 yalnız kontrat/çeviri sunar |
 | Kullanıcı akışı (dış servisi başlatan ekran) | K011-application | |
-| Ağ taşıması, TLS, soket | K014-network | K013 yalnız HTTP vb. kullanır |
+| Ağ taşıması, TLS, soket | K010-network | K013 yalnız HTTP vb. kullanır |
 | Anahtar/secret saklama, imza | K009-security | Politika orada |
-| OAuth/PKCE oturumu, kullanıcı kimliği | K010-identitiy | |
+| OAuth/PKCE oturumu, kullanıcı kimliği | K0100-identitiy | |
 | Kalıcı veri şeması | K007-data | synchronization sonucu yazar, şema K007'de |
-| Medya dosyası/akış | K015-media | Dış katalog senkronu sınırı ⚠️ |
+| Medya dosyası/akış | K014-media | Dış katalog senkronu sınırı ⚠️ |
 | Servis dağıtım/hat sorumluluğu | K018-devops | |
 
 ## §3 Kademe-2 çocuk tablosu (v2 §2.13 birebir — 8 çocuk)
@@ -108,8 +108,8 @@ politika/kripto üretmez (K009'un işidir).
 | K007-data | Senkron sonucunun saklanması | TASARIM İDDİASI |
 | K008-domain | Kontrat tipleri | TASARIM İDDİASI |
 | K009-security | Anahtar/imza/güvenlik | TASARIM İDDİASI |
-| K010-identitiy | OAuth/PKCE kimlik doğrulama | TASARIM İDDİASI |
-| K014-network | Taşıma (HTTP vb.) | TASARIM İDDİASI |
+| K0100-identitiy | OAuth/PKCE kimlik doğrulama | TASARIM İDDİASI |
+| K010-network | Taşıma (HTTP vb.) | TASARIM İDDİASI |
 
 ### §5.2 Gelen (← used_by)
 
@@ -117,17 +117,17 @@ politika/kripto üretmez (K009'un işidir).
 |---|---|---|
 | K011-application | Kullanıcı akışının dış çağrısı | TASARIM İDDİASI |
 | K012-services | integration-service kontrat tüketimi | TASARIM İDDİASI |
-| K015-media | Dış katalog senkronu (sınır ⚠️) | TASARIM İDDİASI |
+| K014-media | Dış katalog senkronu (sınır ⚠️) | TASARIM İDDİASI |
 | Diğerleri | — | ⚠️ VERIFICATION REQUIRED |
 
 ### §5.3 Graf özeti (özet iddia — DAG denetimi 2026-10-12)
 
 ~~~text
-K011-application · K012-services · K015-media
+K011-application · K012-services · K014-media
         └─→ K013-integraion (dış kapıyı kullanır)
 K013-integraion
-├─→ K014-network   (taşıma)  ─→ dış dünya
-├─→ K010-identitiy (OAuth/PKCE) · K009-security (anahtar/imza)
+├─→ K010-network   (taşıma)  ─→ dış dünya
+├─→ K0100-identitiy (OAuth/PKCE) · K009-security (anahtar/imza)
 ├─→ K008-domain    (kontrat tipleri)
 └─→ K007-data      (senkron sonucu)
 K013'ün K012'ye geri dönüşü: YOK (yalnız used_by oku) → döngü yok

@@ -29,11 +29,11 @@ v2'de yoktur**; ayrıntı §3'teki R sorularındadır.
 | 1 | Aday üretimi + hybrid skorlama (collaborative + content-based) | Etkileşim/katalog verisinin saklanması | K007-data (bagimliliklar §2/1) |
 | 2 | Çeşitlilik (diversity) filtresi ve minimum skor eşiği | "beğeni/öneri" iş kuralının tanımı | K008-domain (bagimliliklar §2/2) |
 | 3 | Öneri sonucunun tek ML çağrı noktası olarak verilmesi | Öneri kartının UI'da çizimi | K011-application (ai-master §2.1) |
-| 4 | Öneri modelinin K006'da çalıştırılması | Ajan çalışma zamanı / prompt yönetimi | K016-AI (ai-master §2.1) |
+| 4 | Öneri modelinin K006'da çalıştırılması | Ajan çalışma zamanı / prompt yönetimi | K015-AI (ai-master §2.1) |
 | 5 | Öneri kalitesinin ölçülmesi (evaluation ile birlikte) | Genel uygulama testi | K019-testing (bagimliliklar §3/3) |
 | 6 | Öneri akışının arka plan süreciyle ilişkisi (sözleşme) | Sürecin kendisi | K012-services (ai-master §2.1) |
 
-**Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K016-AI ajan altyapısına
+**Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K015-AI ajan altyapısına
 öneri yeteneği **taşınamaz**, ajanlar K006'yı **çağırır**.
 
 **Yasak:** tablo **kademe-2 taslak sınır önerisidir**. `ai-master.md` §7/2 ve bagimliliklar §5/2'ye göre

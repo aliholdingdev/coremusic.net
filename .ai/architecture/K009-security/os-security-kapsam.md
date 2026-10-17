@@ -84,7 +84,7 @@ Bir güvenlik konusu elinize geldiğinde bu sırayı izleyin; ilk eşleşmede du
 |---|---|---|---|
 | 1 | Konu çekirdek/dosya sistemi/servis/süreç kısıtı mı? (kernel, disk, servis, sandbox, patch) | **K000** → `isletim-sistemi-security/` (§3.1–§3.3) — K009'a gelmeyin | 2'ye geçin |
 | 2 | Konu parola/CSRF/rate-limit/session/CSP/OWASP mı? | **K009** → ilgili çocuk dal (§4.2) — K000'e gitmeyin | 3'e geçin |
-| 3 | Konu kimlik modeli / kullanıcı varlığı mı? | **K010-identitiy** | 4'e geçin |
+| 3 | Konu kimlik modeli / kullanıcı varlığı mı? | **K0100-identitiy** | 4'e geçin |
 | 4 | Konu ağ (firewall, DNS, TLS sonlandırma) mı? | **K013-integraion** | 5'e geçin |
 | 5 | Konu hâlâ sınırda mı (iki katman da dokunuyor)? | Bu dosya §4'teki devir kurallarına başvurun; karar yoksa **orkestratöre eskalasyon** | Konu sahibi dalın dosyasında çözülür |
 

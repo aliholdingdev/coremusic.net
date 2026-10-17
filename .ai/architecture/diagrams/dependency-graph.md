@@ -258,13 +258,13 @@ v2 §4.3 yalnız **K003'ün** `depends_on` alanını verir; başka bir domainin
 | 6 | K007-data | kendi kenarı yazılmadı | ⏳ |
 | 7 | K008-domain | kendi kenarı yazılmadı | ⏳ |
 | 8 | K009-security | kendi kenarı yazılmadı | ⏳ |
-| 9 | K010-identitiy | kendi kenarı yazılmadı | ⏳ |
+| 9 | K0100-identitiy | kendi kenarı yazılmadı | ⏳ |
 | 10 | K011-application | kendi kenarı yazılmadı | ⏳ |
 | 11 | K012-services | kendi kenarı yazılmadı | ⏳ |
 | 12 | K013-integraion | kendi kenarı yazılmadı | ⏳ |
-| 13 | K014-network | kendi kenarı yazılmadı | ⏳ |
-| 14 | K015-media | kendi kenarı yazılmadı | ⏳ |
-| 15 | K016-AI | kendi kenarı yazılmadı | ⏳ |
+| 13 | K010-network | kendi kenarı yazılmadı | ⏳ |
+| 14 | K014-media | kendi kenarı yazılmadı | ⏳ |
+| 15 | K015-AI | kendi kenarı yazılmadı | ⏳ |
 | 16 | K017-observability | kendi kenarı yazılmadı | ⏳ |
 | 17 | K018-devops | kendi kenarı yazılmadı | ⏳ |
 | 18 | K019-testing | kendi kenarı yazılmadı | ⏳ |

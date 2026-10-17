@@ -542,7 +542,7 @@ Bir operasyon, başarı durumunda sunucunun **kendisi** geri çağırma
 | ↑ | `K013-integraion/api-contracts` | Bu teknoloji o rolün içindedir |
 | ↑ | `K013-integraion` | Dış dünya köprüsü |
 | ↑ | `K009-security` | `securitySchemes` için kimlik/kripto katmanı |
-| ↑ | `K014-network` | HTTP taşıma katmanı |
+| ↑ | `K010-network` | HTTP taşıma katmanı |
 | ↓ | `K012-services` | Kontratı tüketen servis |
 | ↓ | `K011-application` | Uygulama akışının dış çağrısı |
 

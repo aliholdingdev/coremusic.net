@@ -101,8 +101,8 @@ group: "mimari"
 
 | # (§2) | Hariç konu | Sahibi | Geri dönüş koşulu (kapsama alınma tetikleyicisi) |
 |---|---|---|---|
-| 1 | 3p OAuth sağlayıcı iç güvenlikleri | K010-identitiy (yalnız entegrasyon sınırı) | redirect_uri/token saklama yüzeyi değişirse → yalnız sınır yeniden modellenir |
-| 2 | Fiziksel/altyapı (sunucu, ağ, DNS) | K014-network · devops-engineer | altyapı gate/runbook kanıtı vault'a girerse (⚠️ şu an YOK) → S-6 yeniden değerlendirilir |
+| 1 | 3p OAuth sağlayıcı iç güvenlikleri | K0100-identitiy (yalnız entegrasyon sınırı) | redirect_uri/token saklama yüzeyi değişirse → yalnız sınır yeniden modellenir |
+| 2 | Fiziksel/altyapı (sunucu, ağ, DNS) | K010-network · devops-engineer | altyapı gate/runbook kanıtı vault'a girerse (⚠️ şu an YOK) → S-6 yeniden değerlendirilir |
 | 3 | Kullanıcı cihazı / phishing | kullanıcı + istemci tarafı | sunucu tarafı yeni doğrulama yüzeyi eklerse → S-1 kapsamına girer |
 | 4 | `.ai/` vault + `.opencode/` kuralları | Vault Steward | secret yasağı (kök `AGENTS.md` §16.3) ihlal edilirse → anayasa §7 tetikleyicisi 8 (olay) |
 | 5 | Statik içerik (CSS/JS) | frontend | XSS yüzeyi zaten T-01 kapsamında; yeni script enjeksiyon yüzeyi çıkarsa → modellenir |
@@ -137,7 +137,7 @@ group: "mimari"
 
 | Adım | İşlem | Çıktı | Sorumlu |
 |---|---|---|---|
-| D-1 | Yüzeyin sahibi domen belirlenir (K010-identitiy / K000-isletim-sistemi / K014-network) | domen adı | security-engineer |
+| D-1 | Yüzeyin sahibi domen belirlenir (K0100-identitiy / K000-isletim-sistemi / K010-network) | domen adı | security-engineer |
 | D-2 | Kanıt (Dosya·Satır) ile sınır gerekçesi yazılır | devir satırı | security-engineer |
 | D-3 | Vault Steward onayı | ONAY / RED | Vault Steward |
 | D-4 | Onay sonrası bu modelde yalnız **sınır referansı** kalır | §2 / §3 satırı | bu çocuk |

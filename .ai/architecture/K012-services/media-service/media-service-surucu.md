@@ -220,7 +220,7 @@ akış JSONL'de kalır (§7).
 
 | Konu | Neden | Giden yer |
 |---|---|---|
-| Dosya fiziksel saklama | K015 | K015-media |
+| Dosya fiziksel saklama | K015 | K014-media |
 | DB şeması/migration | K007 | Data Engineer yüzeyi |
 | GUI (Faz 3) | ayrı görev | docs/faz3-gui-spec.md |
 | Birebir kod blokları | rol ayrımı | ornekler dosyası |

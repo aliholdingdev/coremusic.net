@@ -24,7 +24,7 @@ depends_on:
   - K007-data
   - K008-domain
   - K009-security
-  - K010-identitiy
+  - K0100-identitiy
   - K012-services
   - K013-integraion
   - K017-observability
@@ -82,7 +82,7 @@ yalnızca `depends_on` ile bağ taşır.
 | 4 | `DTO` ↔ entity/map dönüşümünü yapar | BCNF şema kararı vermez | K007-data |
 | 5 | Zamanlanmış görevi tanımlar ve çalıştırır | Cron altyapısını barındırmaz | K018-devops |
 | 6 | Middleware zincirini sırayla yürütür | Güvenlik politikasını sahiplenmez | K009-security |
-| 7 | Kimlik doğrulama adımını çağırır | Kimlik deposunu tutmaz | K010-identitiy |
+| 7 | Kimlik doğrulama adımını çağırır | Kimlik deposunu tutmaz | K0100-identitiy |
 | 8 | Sayfa/API zarfını üretir | Dış API adaptörü yazmaz | K013-integraion |
 
 ## §4 — Kademe-2 çocuk kataloğu (16 çocuk)

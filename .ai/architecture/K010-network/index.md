@@ -1,5 +1,5 @@
 ---
-node_id: K014-network
+node_id: K010-network
 node_type: domain
 status: draft
 parent_id: "K000–K5000 Architecture Registry"
@@ -14,9 +14,9 @@ children:
 depends_on:
   - K001-donanım
   - K009-security
-  - K010-identitiy
+  - K0100-identitiy
 evidence:
-  - "v2 §2.14 K014-network/ — çocuk listesi kaynağı (7 çocuk, birebir; comms'un 5 torunu da v2'de)"
+  - "v2 §2.14 K010-network/ — çocuk listesi kaynağı (7 çocuk, birebir; comms'un 5 torunu da v2'de)"
   - ".ai/architecture/index.md §5/14 — network-master.md adı kaydı"
   - "WebRTC = IETF standardı (teknik terim) — 2026-10-12 beyanı; tur-3'te W3C TR/webrtc + RFC 8825/8826 ile kanıtlandı (network-dogrulama.md §30.5, S1)"
   - "tur-3 (2026-10-15): 12 klasör × (*-standart-kanit.md + *-kod-ornekleri.md) = 24 yeni dosya; 58 benzersiz S1 URL (network-dogrulama.md §30.2)"
@@ -33,7 +33,7 @@ group: mimari
 ---
 
 
-# K014-network — Bağlantı Katmanı
+# K010-network — Bağlantı Katmanı
 
 ## 1. ELI15 — bu oda ne işe yarar?
 
@@ -58,7 +58,7 @@ Bağlantının kendisi donanım işidir (K001-donanım), güvenliği K009'dur.
 | 7 | network-testing | Ağ testleri (gecikme/kopma/simülasyon) | draft |
 
 > comms torunları **kademe-3 (bounded-context)** türündedir: ayrı
-> K014-network/comms/*/index.md dosyaları vardır; module'e ininmez.
+> K010-network/comms/*/index.md dosyaları vardır; module'e ininmez.
 
 ## 3. Bağımlılık özeti (tam metin: network-bagimliliklar.md)
 
@@ -66,11 +66,11 @@ Bağlantının kendisi donanım işidir (K001-donanım), güvenliği K009'dur.
 |---|---|---|
 | depends_on → | K001-donanım | Ağ donanımı/sürücü (bağlantının fiziksel tarafı) |
 | depends_on → | K009-security | TLS/şifreleme ve güvenli oturum kuralları |
-| depends_on → | K010-identitiy | Cihaz kimliği ile yetkilendirme |
+| depends_on → | K0100-identitiy | Cihaz kimliği ile yetkilendirme |
 | ← used_by | K011-application | Arayüzün ağ çağrıları |
 | ← used_by | K012-services | Servisler arası taşıma |
 | ← used_by | K013-integraion | Dış API taşıması |
-| ← used_by | K015-media | Akış/indirme taşıması |
+| ← used_by | K014-media | Akış/indirme taşıması |
 
 ## 4. Durum & açık sorular
 
@@ -102,6 +102,18 @@ Bağlantının kendisi donanım işidir (K001-donanım), güvenliği K009'dur.
 > tur-3 notu: 24 yeni dosyanın tamamı `group: kanit` / `group: kod` frontmatter'lıdır;
 > birebir satırlar ilgili klasör `index.md` §GRUPLAR tablolarındadır (kök tablo
 > tekrarı önlemek için grup satırı olarak özetlenmiştir).
+
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | akis protokolleri (RTP/DLNA) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | TLS ve zaman sinirlama |
+| K011-application | [[K011-application]] | ../K011-application/index.md | ag uygulama katmani |
+| K012-services | [[K012-services]] | ../K012-services/index.md | servis kesfi ve load balancing |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | gateway ve protokoller |
 
 ---
 

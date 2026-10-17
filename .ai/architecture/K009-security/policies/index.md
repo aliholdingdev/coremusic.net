@@ -71,7 +71,7 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik/parola politikasının kimlik deposu tarafı | `K010-identitiy` | Yalnız sınır referansı |
+| Kimlik/parola politikasının kimlik deposu tarafı | `K0100-identitiy` | Yalnız sınır referansı |
 | OS güvenlik politikası (patch, servis, izin) | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
 | Sürüm/deploy politikası ayrı domen | `K018-devops` | Yalnız entegrasyon |
 

@@ -70,7 +70,7 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik deposu, kullanıcı kimlik alanı | `K010-identitiy` | Yalnız sınır referansı |
+| Kimlik deposu, kullanıcı kimlik alanı | `K0100-identitiy` | Yalnız sınır referansı |
 | OS/systemd journal, dosya izinleri, zaman sunucusu | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
 | Gözlemlenebilirlik metrikleri/trace saklama | `K017-observability` | Yalnız entegrasyon |
 

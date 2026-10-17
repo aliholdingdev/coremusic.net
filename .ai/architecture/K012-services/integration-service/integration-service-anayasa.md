@@ -26,7 +26,7 @@ open_questions:
   - "K013 ile çağrı yönü ve hata sınırı → ⚠️ VERIFICATION REQUIRED (index FM)"
   - "Kademe-3 bounded-context kapsamı → ⚠️ VERIFICATION REQUIRED (faz C)"
   - "Integration event'lerin üretime yayılmış tek bir tetikleyicisi yok → nerede dispatch edileceği bilinmiyor → ⚠️ VERIFICATION REQUIRED"
-  - "K014-network ile ilişki (giden bağımlılık iddiası) kodda kanıtlanmadı → ⚠️ VERIFICATION REQUIRED"
+  - "K010-network ile ilişki (giden bağımlılık iddiası) kodda kanıtlanmadı → ⚠️ VERIFICATION REQUIRED"
 date: 2026-10-13
 updated: 2026-10-13
 version: 1.0.0
@@ -64,7 +64,7 @@ gerçek event sözleşmesi.
 | Integration event sözleşmesi (4 method) | İÇİNDE (repo) | K012 (shared Events) | S1 IntegrationEventInterface:17 |
 | Event dispatch mekanizması | ortak altyapı | shared/src/Events | S1 EventDispatcher:20 |
 | Domain event'ler (9 adet) | DIŞINDA (ailiği) | K012'nin diğer servisleri | §11 |
-| Ağ/bağlantı yönetimi | DIŞINDA (iddia) | K014-network | master §21.8 giden bağımlılık |
+| Ağ/bağlantı yönetimi | DIŞINDA (iddia) | K010-network | master §21.8 giden bağımlılık |
 | Kademe-3 bounded-context kapsamı | AÇIK | — | §20 Q2 ⚠️ |
 
 ## §3 IntegrationEventInterface — Sözleşme (Birebir)
@@ -270,7 +270,7 @@ question birlikte taşınır (index FM + §20).
 
 ## §14 K014 İlişkisi
 
-master §21.8 "Giden bağımlılık: K013, K014" der. K014-network ile doğrudan
+master §21.8 "Giden bağımlılık: K013, K014" der. K010-network ile doğrudan
 iletişim kuran bir kod parçası repo'da tespit edilmemiştir (§12 taraması
 kapsamında); bu nedenle K014 bağımlılığı bu dosyada **iddia olarak** kalır →
 ⚠️ VERIFICATION REQUIRED. K014 dosyalarına yazım bu anayasa kapsamında
@@ -363,7 +363,7 @@ Hiçbiri bu dosyada uydurma yanıtla kapatılmaz.
 | `CoreMusic\Contracts\Events\{Domain,Integration}EventInterface` | yerel interface | shared/src/Contracts/Events/ |
 | `CoreMusic\Events\StoppableEventTrait` | yerel trait | StoppableEventTrait.php:17 |
 | K013-integraion kontratları | vault iddiası | master §21.8 ⚠️ |
-| K014-network | vault iddiası | master §21.8 ⚠️ |
+| K010-network | vault iddiası | master §21.8 ⚠️ |
 
 ## §24 Kod Bloğu — Duraklama Akışı (Birebir Özet)
 
@@ -453,7 +453,7 @@ okunmalı): dispatcher test teorisi sağlam, üretimde tetik yok.
 | Birebir kod blokları (tam dosya) | rol ayrımı | integration-service-ornekler.md |
 | Kademe-3 kapsam genişletmesi | faz C bekliyor | ADR-097 K4 |
 | K013 kontrat metinleri | başka K-düğümü | K013-integraion (beyazliste dışı) |
-| K014 bağlantı ayrıntıları | başka K-düğümü | K014-network (beyazliste dışı, bu görevde ayrıca işleniyor) |
+| K014 bağlantı ayrıntıları | başka K-düğümü | K010-network (beyazliste dışı, bu görevde ayrıca işleniyor) |
 
 ## §29 Bilgi Kaynakları ve Güven Sırası
 

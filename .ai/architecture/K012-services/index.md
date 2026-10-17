@@ -14,7 +14,7 @@ children:
   - integration-service
   - background-jobs
   - service-contracts
-depends_on: [K006-yapay-zeka, K007-data, K008-domain, K010-identitiy, K013-integraion, K014-network, K015-media]
+depends_on: [K006-yapay-zeka, K007-data, K008-domain, K0100-identitiy, K013-integraion, K010-network, K014-media]
 evidence:
   - "v2 §2.12 K012-services/ — çocuk listesi kaynağı (10 çocuk, birebir)"
   - ".ai/architecture/index.md §5/12 — services-master.md adı kaydı"
@@ -23,7 +23,7 @@ validation:
   - "Çocuk adları v2 §2.12 ile birebir karşılaştırıldı (10/10) — 2026-10-12"
   - "Web kanıtları services-dogrulama.md §3'e işlendi — 2026-10-12"
 open_questions:
-  - "ai-service K006-yapay-zeka'ya mı K016-AI'ye mi bağlanır? → ⚠️ VERIFICATION REQUIRED"
+  - "ai-service K006-yapay-zeka'ya mı K015-AI'ye mi bağlanır? → ⚠️ VERIFICATION REQUIRED"
   - "playback-service (K012) ile K015/playback sahipliği → ⚠️ VERIFICATION REQUIRED"
   - "service-contracts evrensel Playlist/Track spec'i mi? → TASARIM İDDİASI"
   - "background-jobs ile K018-devops/dağıtım sınırı → ⚠️ VERIFICATION REQUIRED"
@@ -59,13 +59,13 @@ iş kuralı K008'de, dış dünya K013'te durur.
 
 | Yön | Düğüm | Ne için (TASARIM İDDİASI) |
 |---|---|---|
-| depends_on → | K006-yapay-zeka / K016-AI | ai-service'in arkası (hangisi ⚠️ §4) |
+| depends_on → | K006-yapay-zeka / K015-AI | ai-service'in arkası (hangisi ⚠️ §4) |
 | depends_on → | K007-data | Kalıcı veri erişimi |
 | depends_on → | K008-domain | İş kuralı ve domain modeli |
-| depends_on → | K010-identitiy | Kullanıcı/cihaz kimliği doğrulama |
+| depends_on → | K0100-identitiy | Kullanıcı/cihaz kimliği doğrulama |
 | depends_on → | K013-integraion | Dış sistem kontratları (integration-service) |
-| depends_on → | K014-network | Servisler arası taşıma |
-| depends_on → | K015-media | Kitaplık/metadata/akış verisi |
+| depends_on → | K010-network | Servisler arası taşıma |
+| depends_on → | K014-media | Kitaplık/metadata/akış verisi |
 | ← used_by | K011-application | Uygulamanın servis çağrıları |
 | ← used_by | K019-testing | Servis testleri (sahiplik ⚠️) |
 
@@ -90,6 +90,21 @@ iş kuralı K008'de, dış dünya K013'te durur.
 | mimari | `services-riskler.md` | Risk kaydı (R1–R8) ve azaltım planı | Kademe-1 |
 | kod | `services-ornekler.md` | Kanıt kartları (S1) ve pseudocode örnekler | Kademe-1 |
 | kanit | `services-web-arastirma.md` | Q1–Q9 web kanıtlı seçenek matrisleri (11 URL + 4 kardeş pointer; karar ADR bekler) | Kademe-1 |
+
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ses servisi |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP servisi |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | AI servisi |
+| K007-data | [[K007-data]] | ../K007-data/index.md | veri servisi |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | domain sozlesmeleri |
+| K010-network | [[K010-network]] | ../K010-network/index.md | servis agi |
+| K011-application | [[K011-application]] | ../K011-application/index.md | use-case tetikleyicileri |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | servis entegrasyonu |
 
 ---
 

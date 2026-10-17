@@ -58,7 +58,7 @@ yazmaz (K008-domain iddiası), arayüzü çizmez (K011). Çıktıları: yeniden
 
 | Konu | Kapsam | Sahibi | Kanıt |
 |---|---|---|---|
-| Medya dosyası saklama/akış | DIŞINDA | K015-media | index sınır satırı |
+| Medya dosyası saklama/akış | DIŞINDA | K014-media | index sınır satırı |
 | İş kuralı (domain) | DIŞINDA (iddia) | K008-domain | index sınır satırı |
 | Tarama/taşıma/denetim iş akışı | İÇİNDE | K012/media-service (CLI kanıtı) | S1 bin/scan·ingest·audit |
 | Şema doğrulama (sınırlı) | İÇİNDE (repo) | media.coremusic.net Validator | S1 Validator:22 |
@@ -375,7 +375,7 @@ kendisi değiştirilmez (append-only).
 | İddia | Kaynak | Durum |
 |---|---|---|
 | Dosyanın sahibi K015 | master §21.2 | kural |
-| "Medya → servis ↔ kitaplık/akış → K015-media → görünüm sözleşmesi UNKNOWN" | bagimliliklar §8 satır 82 | ⚠️ UNKNOWN |
+| "Medya → servis ↔ kitaplık/akış → K014-media → görünüm sözleşmesi UNKNOWN" | bagimliliklar §8 satır 82 | ⚠️ UNKNOWN |
 | "Kitaplık/metadata/akış verisi → veri okuma → iki gerçeklik riski (playback sahipliği)" | bagimliliklar satır 63 | risk kaydı |
 | JSONL/DB vs K015 kitaplık verisi — hangisi gerçek? | — | ⚠️ VERIFICATION REQUIRED (Q4) |
 
@@ -458,7 +458,7 @@ kullanılır (§30 eksik listesi ile birlikte okunmalı).
 
 | Yüzey | Sahibi | Neden bu dosyada yok |
 |---|---|---|
-| Medya dosyasının fiziksel saklanması | K015-media | master §21.2 sınır satırı |
+| Medya dosyasının fiziksel saklanması | K014-media | master §21.2 sınır satırı |
 | `media_catalog` şeması/migration | K007-data (Data Engineer) | media AGENTS.md §3.1 #2 |
 | İş kuralı tanımı | K008-domain (iddia) | index sınır satırı |
 | Arayüz / GUI (Faz 3) | `docs/faz3-gui-spec.md` sahibi — ayrı görev | media AGENTS.md §2 |

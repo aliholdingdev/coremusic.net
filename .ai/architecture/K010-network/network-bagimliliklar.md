@@ -1,5 +1,5 @@
 ---
-node_id: K014-network
+node_id: K010-network
 node_type: domain
 role: bagimliliklar
 status: draft
@@ -11,7 +11,7 @@ group: mimari
 ---
 
 
-# K014-network — network-bagimliliklar.md
+# K010-network — network-bagimliliklar.md
 
 > **Etiket kuralı:** Aşağıdaki her bağımlılık satırı **TASARIM İDDİASI**'dır —
 > isimlerden ve v2 ağacından türetildi, test edilmedi. Kanıt olarak yalnızca
@@ -32,7 +32,7 @@ group: mimari
 |---|---|---|---|---|
 | 1 | K001-donanım | Ağ donanımı ve sürücüsüne erişim | donanım erişimi | Donanım yoksa bağlantı yok → fallback belirsiz ⚠️ |
 | 2 | K009-security | TLS/şifreleme/anahtar kuralları | güvenlik | Şifreleme burada üretilirse güvenlik ihlali |
-| 3 | K010-identitiy | Cihaz kimliği ile yetkilendirme | kimlik | device-identity sahipliği belirsiz ⚠️ |
+| 3 | K0100-identitiy | Cihaz kimliği ile yetkilendirme | kimlik | device-identity sahipliği belirsiz ⚠️ |
 
 ## §2 Gelen bağımlılıklar (used_by ←)
 
@@ -41,7 +41,7 @@ group: mimari
 | 1 | K011-application | Arayüzün ağ çağrıları | TASARIM İDDİASI |
 | 2 | K012-services | Servisler arası taşıma | TASARIM İDDİASI |
 | 3 | K013-integraion | Dış API taşıması | TASARIM İDDİASI |
-| 4 | K015-media | Akış/indirme taşıması | TASARIM İDDİASI |
+| 4 | K014-media | Akış/indirme taşıması | TASARIM İDDİASI |
 | 5 | Diğerleri (ör. K017-observability) | Ağ metrikleri | ⚠️ VERIFICATION REQUIRED |
 
 ## §3 Entegrasyon sınırları (K014 dışına çıkış kapıları)
@@ -50,11 +50,11 @@ group: mimari
 |---|---|---|---|---|
 | 1 | Donanım | sürücü/OS erişimi | K001-donanım | ⚠️ UNKNOWN (erişim biçimi) |
 | 2 | Güvenlik | TLS/anahtar kullanımı | K009-security | ⚠️ UNKNOWN (politika biçimi) |
-| 3 | Kimlik | cihaz kimliği sorgusu | K010-identitiy | ⚠️ UNKNOWN (token/oturum) |
+| 3 | Kimlik | cihaz kimliği sorgusu | K0100-identitiy | ⚠️ UNKNOWN (token/oturum) |
 | 4 | Uygulama | ağ isteği alan taraf | K011-application | ⚠️ UNKNOWN (API biçimi) |
 | 5 | Servisler | servisler arası çağrı | K012-services | ⚠️ UNKNOWN (protokol seti) |
 | 6 | Dış dünya | dış API taşıması | K013-integraion | ⚠️ UNKNOWN (protokol seti) |
-| 7 | Medya | akış/indirme | K015-media | ⚠️ UNKNOWN (akış biçimi) |
+| 7 | Medya | akış/indirme | K014-media | ⚠️ UNKNOWN (akış biçimi) |
 
 ### §3.1 Sınır kuralı (Dependency Rule — bu domain için)
 
@@ -95,7 +95,7 @@ group: mimari
 |---|---|---|---|---|---|---|
 | 1 | K001-donanım | sürücü/OS erişimi | ağ paketleri (TX/RX) | K014 → K001 | K001 → K014 (durum: link-up/link-down) | ⚠️ TASARIM İDDİASI |
 | 2 | K009-security | TLS/anahtar/şifreleme | handshake · key exchange | K014 → K009 (çağrı) | K009 → K014 (session/ticket) | ⚠️ TASARIM İDDİASI |
-| 3 | K010-identitiy | cihaz kimliği sorgusu | device-id/token | K014 → K010 (sorgu) | K010 → K014 (kimlik doğrulama) | ⚠️ TASARIM İDDİASI |
+| 3 | K0100-identitiy | cihaz kimliği sorgusu | device-id/token | K014 → K010 (sorgu) | K010 → K014 (kimlik doğrulama) | ⚠️ TASARIM İDDİASI |
 
 ### §6.2 Gelen bağımlılıklar — detay matrisi
 
@@ -104,7 +104,7 @@ group: mimari
 | 1 | K011-application | arayüzün ağ çağrıları | istek/yanıt | K011 → K014 | arayüz K011'de, taşıma K014'te |
 | 2 | K012-services | servisler arası taşıma | servis paketleri | K012 → K014 | anlam K012'de |
 | 3 | K013-integraion | dış API taşıması | dış istek/yanıt | K013 → K014 | dış anlamı K013 anlar |
-| 4 | K015-media | akış/indirme taşıması | medya paketleri | K015 → K014 | medya içeriği K015 |
+| 4 | K014-media | akış/indirme taşıması | medya paketleri | K015 → K014 | medya içeriği K015 |
 | 5 | K017-observability | ağ metrikleri | sayaç/log | K014 → K017 (veri) | K014 yalnız üretir |
 
 ### §6.3 Bağımlılık yoğunluk matrisi (giden × gelen)
@@ -122,9 +122,9 @@ group: mimari
 | # | Risk | Neden | Olası sonuç | Azaltma (tasarım) |
 |---|---|---|---|---|
 | 1 | K009-security down | TLS/anahtar üretimi durursa | tüm bağlantılar kırılır | K009 health-check; fail-safe: bağlantı kesilir, şifreleme atlanmaz |
-| 2 | K010-identitiy down | cihaz kimliği doğrulanamazsa | yetkisiz cihaz erişimi riski | fail-closed: kimlik yoksa bağlantı reddedilir |
+| 2 | K0100-identitiy down | cihaz kimliği doğrulanamazsa | yetkisiz cihaz erişimi riski | fail-closed: kimlik yoksa bağlantı reddedilir |
 | 3 | K001-donanım down | donanım yoksa | bağlantı yok | offline-sync devreye girer |
-| 4 | K015-media down | akış taşıması durursa | medya erişilemez | K014 yalnız kanalı sürer; K015 fallback |
+| 4 | K014-media down | akış taşıması durursa | medya erişilemez | K014 yalnız kanalı sürer; K015 fallback |
 | 5 | K012 down | servis taşıması durursa | iş akışı kırılır | retry + dead-letter |
 
 > Bu bölüm kanıt oranını DEĞİŞTİRmez.
@@ -137,7 +137,7 @@ group: mimari
 
 ```text
 K011-application
-  → K014-network (http/ws/webrtc/tcp-ip)
+  → K010-network (http/ws/webrtc/tcp-ip)
     → K009-security (TLS/anahtar)
     → K001-donanım (sürücü/radyo)
       → fiziksel ağ
@@ -162,7 +162,7 @@ K011 (kullanıcı tetikleri)
   → K014/handoff (devir sinyali)
     → K014/service-discovery (hedef keşfi)
       → K014/comms/websocket veya webrtc (taşıma)
-        → K015-media/playback (hedef cihaz çalar)
+        → K014-media/playback (hedef cihaz çalar)
 ```
 
 > Bu bölüm kanıt oranını DEĞİŞTİRmez.
@@ -199,11 +199,11 @@ K011 (kullanıcı tetikleri)
 |---|---|---|---|---|
 | 1 | K001-donanım | sürücü/OS erişimi | ağ paketleri | donanım kurulumu/sürücü kodu |
 | 2 | K009-security | TLS/anahtar çağrısı | handshake | şifreleme algoritması/anahtar üretimi |
-| 3 | K010-identitiy | cihaz kimliği sorgusu | device-id | kimlik üretimi/veritabanı |
+| 3 | K0100-identitiy | cihaz kimliği sorgusu | device-id | kimlik üretimi/veritabanı |
 | 4 | K011-application | arayüz ağ çağrısı | istek/yanıt | arayüz mantığı/gösterim |
 | 5 | K012-services | servis taşıması | servis paketleri | iş mantığı/kuyruk içeriği |
 | 6 | K013-integraion | dış API taşıması | dış istek/yanıt | dış API anlamı/adaptör |
-| 7 | K015-media | akış/indirme taşıması | medya paketleri | medya codec'i/decode |
+| 7 | K014-media | akış/indirme taşıması | medya paketleri | medya codec'i/decode |
 | 8 | K017-observability | ağ metrikleri | sayaç/log | metrik analizi/alert |
 
 > Her sınır ihlali = domain violation (AGENTS.md §18 Warnings #6).
@@ -257,7 +257,7 @@ K011 (kullanıcı tetikleri)
 | K009 down | tüm şifreli bağlantılar kırılır | fail-safe: bağlantı kesilir | K009 health-check |
 | Şifreleme atlanamaz (fail-closed) | K014 asla şifreleme atlamaz | güvenlik ihlali yok | §19/5 kuralı |
 
-### §12.3 K010-identitiy bağımlılığı — etki analizi
+### §12.3 K0100-identitiy bağımlılığı — etki analizi
 
 | Senaryo | K014 etkisi | Sonuç | Azaltma (tasarım) |
 |---|---|---|---|
@@ -271,7 +271,7 @@ K011 (kullanıcı tetikleri)
 |---|---|---|---|
 | K001-donanım | evet (tek donanım) | offline-sync | HIGH |
 | K009-security | evet (tek TLS) | fail-safe (kesilir) | CRITICAL |
-| K010-identitiy | evet (tek kimlik) | fail-closed (reddet) | CRITICAL |
+| K0100-identitiy | evet (tek kimlik) | fail-closed (reddet) | CRITICAL |
 
 > Bu bölüm kanıt oranını DEĞİŞTİRmez.
 
@@ -385,7 +385,7 @@ K011 (kullanıcı tetikleri)
 | 9 | sağlık gösterge | 5 | §14 |
 | 10 | log olayı | 8 | §15 |
 
-> Toplam bağımlılık satırı: 3 giden + 5 gelen = **8 bağımlılık** (K014-network).
+> Toplam bağımlılık satırı: 3 giden + 5 gelen = **8 bağımlılık** (K010-network).
 
 > Bu bölüm kanıt oranını DEĞİŞTİRmez.
 
@@ -456,8 +456,8 @@ K011 (kullanıcı tetikleri)
 | 1 | v2 ağacı §2.14 | coremusic-katmanli-mimari-agaci-v2.md | çocuk/torun adları |
 | 2 | ADR-097 (draft) §5.2 | .ai/.decisions/draft/ADR-097-… | bağımlılık kaydı kuralı |
 | 3 | Registry | .ai/architecture/index.md §5/14 · §8 | master adı |
-| 4 | network-master.md | K014-network/network-master.md | master §2.2 sınır tablosu |
-| 5 | network-dogrulama.md | K014-network/network-dogrulama.md | verified/UNKNOWN defteri |
+| 4 | network-master.md | K010-network/network-master.md | master §2.2 sınır tablosu |
+| 5 | network-dogrulama.md | K010-network/network-dogrulama.md | verified/UNKNOWN defteri |
 | 6 | AGENTS.md §18 | .ai/AGENTS.md §18 | domain violation uyarıları |
 | 7 | Bu dosya §6–§21 | network-bagimliliklar.md | derinleştirme eki |
 
@@ -469,7 +469,7 @@ K011 (kullanıcı tetikleri)
 |---|---|
 | K014 neye muhtaç? | K001 (donanım) · K009 (güvenlik) · K010 (kimlik) — 3 giden |
 | Kim K014'e muhtaç? | K011 · K012 · K013 · K015 — 4 gelen + K017 (veri) |
-| En kritik bağımlılık? | K009-security (CRITICAL — fail-safe) · K010-identitiy (CRITICAL — fail-closed) |
+| En kritik bağımlılık? | K009-security (CRITICAL — fail-safe) · K0100-identitiy (CRITICAL — fail-closed) |
 | Döngü var mı? | Hayır — DAG (2026-10-12) |
 | En büyük belirsizlik? | offline-sync sahipliği (3 aday) + service-discovery kapsamı (§7/2–3) |
 | Etiket kuralı? | her satır TASARIM İDDİASI / ⚠️ / ✅ ile işaretli |

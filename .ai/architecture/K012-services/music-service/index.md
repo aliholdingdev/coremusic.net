@@ -23,7 +23,7 @@ group: mimari
 
 **ELI15:** Müzik katalog/arama/sıralama işlerini yürüten servis ('çalan parça servisi' ailesinin katalog tarafı).
 
-**Sınır (ne DEĞİL):** Katalog verisinin sahibi K007-data · dosya varlığı K015-media'dır.
+**Sınır (ne DEĞİL):** Katalog verisinin sahibi K007-data · dosya varlığı K014-media'dır.
 
 **Bağımlılık (özet):** Düğümün tamamı üst kademeye bağlıdır; ayrıntı ve etiketler services-bagimliliklar.md §1'dedir. Bu dosyadaki satırlar TASARIM İDDİASI'dır.
 

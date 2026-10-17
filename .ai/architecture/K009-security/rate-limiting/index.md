@@ -71,8 +71,8 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik deposu, kullanıcı hesabı kilidi kaynağı | `K010-identitiy` | Yalnız sınır referansı |
-| Ağ düzeyi yavaşlatma / DDoS / firewall | `K014-network` + `K000-isletim-sistemi/security` | Yalnız sınır referansı |
+| Kimlik deposu, kullanıcı hesabı kilidi kaynağı | `K0100-identitiy` | Yalnız sınır referansı |
+| Ağ düzeyi yavaşlatma / DDoS / firewall | `K010-network` + `K000-isletim-sistemi/security` | Yalnız sınır referansı |
 
 ## §5 BAĞLANTILAR
 

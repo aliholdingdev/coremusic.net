@@ -74,7 +74,7 @@ K003'e (ses işlemesi) aittir.
 | B7 | BOM/satın alma kararı, tedarik | K001 envanter (Q4) + owner onayı | bu dosya karar üretmez |
 | B8 | PCB/şema/üretim çizimi | `.ai/electronic/**` (owner onayı) | cip dosyaları §Authority |
 | B9 | Güç kaynağı ağacı (rail tasarımı) | K001 güç kaynağı envanteri + ADR-063 | envanter UNKNOWN |
-| B10 | Kablosuz/ağ üzerinden ses dağıtımı | K014-network · K015-media | komşu K düğümleri |
+| B10 | Kablosuz/ağ üzerinden ses dağıtımı | K010-network · K014-media | komşu K düğümleri |
 
 ## §4 Ses Donanımı Sınıfı — K001 Tür Envanteri
 

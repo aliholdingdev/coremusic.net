@@ -512,7 +512,146 @@ Ağ/dosya/IO işlemi var mı?
 | Durum | draft (U-1..U-7 açık) |
 | Erişim | `.ai/architecture/K007-data/transactions/transactions-anayasa.md` |
 
+## §39 Ek — İyileştirme Kaydı (2026-10-17, append-only)
 
+§1-§38 silinmemiştir; bu bölüm 2026-10-17 disk ölçümüyle eklenmiştir.
+
+### §39.1 Ölçüm sonuçları (repo yüzeyi)
+
+| Ölçüm | Sonuç | Kanıt |
+|---|---|---|
+| `beginTransaction` tanımı | 1 | `DatabaseManager.php:49-52` |
+| `commit` tanımı | 1 | `:54-57` |
+| `rollBack` tanımı | 1 | `:59-62` |
+| Repository'de transaction kullanımı | **0** | `ApiKeyRepository.php` (317 satır) — §36 |
+| `SELECT ... FOR UPDATE` | **0** | tarama |
+| `FOR SHARE` | **0** | tarama |
+| `SET TRANSACTION ISOLATION` | **0** | tarama |
+| `SHOW ENGINE INNODB STATUS` | **0** | tarama |
+| `performance_schema.data_lock*` sorgusu | **0** | tarama |
+| Deadlock retry döngüsü | **0** | tarama |
+
+### §39.2 Yeni tespit — `ATTR_PERSISTENT` + transaction etkileşimi
+
+`DatabaseManager.php:26` → `\PDO::ATTR_PERSISTENT => true`.
+
+| Risk | Mekanizma | Savunma |
+|---|---|---|
+| Açık transaction havuza döner | `commit`/`rollBack` çağrılmadan bağlantı bırakılırsa | `finally` zorunluluğu |
+| Sonraki istek beklenmedik durumla karşılaşır | havuz aynı fiziksel bağlantıyı verir | istek başına `inTransaction()` kontrolü |
+| `PDO::inTransaction()` | mevcut API — repo'da **çağrılmıyor** | `⚠️` |
+
+### §39.3 Yeni tespit — deadlock retry politikası (tasarım boşluğu)
+
+| Seviye | Davranış | CoreMusic |
+|---|---|---|
+| MySQL | deadlock'da bir transaction'ı **seçip öldürür** (`1213`) | — |
+| PDO | exception `ERRMODE_EXCEPTION` ile yükselir | ✓ (`:23`) |
+| Repository | yakalamaz, yükseltir | ✓ (bilinçli) |
+| Service/Controller | `UNKNOWN` | `⚠️` |
+| Retry | **yok** | ❌ |
+
+**Önerilen politika (kod yazılmadan):** en fazla 3 deneme, 10-50 ms
+rastgele jitter, yalnız `40001`/`1213` için; `1205` için retry **yapılmaz**.
+
+### §39.4 Yeni tespit — salt okuma transaction'ı
+
+| Durum | Sonuç |
+|---|---|
+| `execute()` salt okumada transaction | repo'da yok ✓ (AP-3 uygun) |
+| Amaç olsaydı | `START TRANSACTION READ ONLY` + `SET TRANSACTION READ ONLY` |
+| Avantaj | undo kullanmaz, replica uyumu |
+
+### §39.5 İyileştirme kuyruğu (öncelik sıralı)
+
+| # | İyileştirme | Öncelik | Sahip |
+|---|---|---|---|
+| 1 | `finally` + `inTransaction()` guard | YÜKSEK | transactions |
+| 2 | Deadlock retry yardımcı sınıfı | YÜKSEK | transactions |
+| 3 | İzolasyon seviyesini açıkça ayarla | ORTA | transactions |
+| 4 | `data_lock_waits` izleme sorgusu | ORTA | observability |
+| 5 | `FOR UPDATE` rehberi | DÜŞÜK | transactions |
+| 6 | Savepoint kararı (U-4) | DÜŞÜK | ADR |
+
+---
+
+# §40 Çapraz-DB Transaction Analizi (32 FK kanıtı türevli)
+
+> Kanıt: `.ai/.sql/mysql/` dump'larında **110 FK, bunların 32'si çapraz-DB**
+> (şema-kapsam.md §FK). Çapraz-DB FK, MySQL'de InnoDB'de yalnız
+> `foreign_key_checks=0` ile mümkün; distributed transaction **farklı konudur**.
+
+## §40.1 Çapraz-DB FK ↔ transaction etkileşimi
+
+| Senaryo | Tek DB | Çapraz-DB (coremusic_*) |
+|---|---|---|
+| `BEGIN ... COMMIT` | atomik ✓ | **atomik ✓** (InnoDB tek undo log havuzu — aynı sunucu) |
+| `ROLLBACK` | tam geri alma ✓ | tam geri alma ✓ (aynı sunucu) |
+| Deadlock | `1213` | `1213` (fark yok) |
+| FK child→parent sırası | FK sırası korunur | FK kontrolü `foreign_key_checks=0` ile **atlanabilir** |
+| Farklı sunucu (XA) | — | **BU REPO'DA YOK** — tek MySQL sunucu, XA gerekmez |
+
+**Kritik bilgi:** 32 çapraz-DB FK'nın varlığı, verilerin **aynı MySQL instance'ında**
+olduğunu ima eder; dump dosyaları tek `mysqldump` oturumundan geldiği için bu
+`⚠️ VERIFICATION REQUIRED` (prod topolojisi bilinmiyor). Ama **farklı sunucularda**
+olsaydı bu FK'lar hiç kurulamazdı → tek-instance varsayımı **güçlü** ama kanıt
+dolaylı.
+
+## §40.2 `foreign_key_checks=0` risk matrisi
+
+| Risk | Açıklama | Önlem |
+|---|---|---|
+| Yetim satır | child, olmayan parent'a referans edebilir | migrate sonrası `CHECK TABLE` / orphan sorgu |
+| Çevrim | parent↔child döngüsü | BCNF + dump sırası |
+| İndeks atlaması | FK kontrolü kapalıyken optimizer davranışı değişebilir | migrate sonrası `ANALYZE TABLE` |
+| Restore hatası | `SET FOREIGN_KEY_CHECKS=0` restore'da **zorunlu** | backup planına yazıldı |
+
+## §40.3 Transaction boyutu sınırları (InnoDB)
+
+| Parametre | Varsayılan | CoreMusic durumu |
+|---|---|---|
+| `innodb_log_file_size` | MySQL 8+ varsayılanı sürüm bağımlı → `⚠️ VERIFICATION REQUIRED` | sunucu ayarı — repo'da yok |
+| `max_allowed_packet` | varsayılan sürüm bağımlı | dump'larda büyük `json` kolonlar (113 adet) → **packet boyutu riski** |
+| Batch boyutu | — | migration'lar (3 PHP dosyası) içinde `UNKNOWN` |
+
+## §40.4 Retry matrisi (§39.3 üzerine genişletme)
+
+| Hata kodu | MySQL kaynağı | Retry? | Jitter |
+|---|---|---|---|
+| `40001` (SRDEADLOCK) | deadlock victim | ✓ evet | 10-50ms rastgele |
+| `1213` (ER_LOCK_DEADLOCK) | deadlock victim | ✓ evet | 10-50ms rastgele |
+| `1205` (ER_LOCK_WAIT_TIMEOUT) | lock timeout | **hayır** | — (lock kaynaklı, tekrarlanır) |
+| `1040` (ER_CON_COUNT_ERROR) | bağlantı taşması | ✓ evet ama azami 2 | 100ms+ |
+| `2006` / `2013` | bağlantısı koptu | **transaction durumu belirsiz** → uygulama seviyesinde reconcile gerekir |
+
+## §40.5 Uygulanmamış ama tasarlanmış: `data_lock_waits` izleme
+
+```sql
+-- MySQL 8/9 Performance Schema tabanlı (sorgu yapısı MySQL 8.0+ varsayımı —
+-- sürüm-specific sütunlar ⚠️ VERIFICATION REQUIRED, sunucu sürümü bilinmiyor)
+SELECT r.trx_id              AS waiting_trx_id,
+       r.trx_mysql_thread_id AS waiting_thread,
+       r.trx_query          AS waiting_query,
+       b.trx_id              AS blocking_trx_id,
+       b.trx_mysql_thread_id AS blocking_thread,
+       b.trx_query          AS blocking_query
+FROM performance_schema.data_lock_waits w
+JOIN information_schema.innodb_trx b ON b.trx_id = w.requesting_trx_id
+JOIN information_schema.innodb_trx r ON r.trx_id = w.blocking_trx_id;
+```
+
+> `performance_schema.data_lock_waits` adı MySQL 8.0+ içindir; MySQL 5.7'de
+> `innodb_lock_waits` idi. Sorgu **repoya yazılmadı** — bu vault'ta öneri
+> olarak duruyor (iyileştirme kuyruğu madde 4).
+
+## §40.6 İyileştirme kuyruğu güncellemesi
+
+| # | İyileştirme | Öncelik | § |
+|---|---|---|---|
+| 7 | Migrate sonrası orphan satır taraması (orphan FK) | YÜKSEK | §40.2 |
+| 8 | `2006`/`2013` bağlantı kopması politikası | YÜKSEK | §40.4 |
+| 9 | `ANALYZE TABLE` sonrası doğrulama | ORTA | §40.2 |
+| 10 | Büyük `json` kolonlar için `max_allowed_packet` denetimi | ORTA | §40.3 |
 
 ---
 

@@ -60,14 +60,14 @@ Kabul kriteri: (a) birincil/resmi kaynak, (b) iki envanter dosyasında kesişim 
 
 ## §2 SEÇENEK MATRİLERİ (Q1–Q9)
 
-### §2.1 Q1 — ai-service bağlılığı: K006-yapay-zeka mı K016-AI mı?
+### §2.1 Q1 — ai-service bağlılığı: K006-yapay-zeka mı K015-AI mı?
 
 | Seçenek | Kaynak (URL W-x) | Artı | Eksi | Etkilenen dosya |
 |---------|------------------|------|------|-----------------|
 | A: ai-service = YZ **serving/sunum katmanı** — K012'de servis olarak yaşar; model/agent altyapısı K006/K016'da kalır | W-1 (YZ API'sinin serving yüzeyi resmi dokümanda ayrı katman olarak tanımlanır) | servis sınırı net; master §1 "iş yapan sırtı" rolüyle uyumlu | YZ platformu sahipliği (K006 vs K016) yine açık kalır | ai-service/index.md · services-master.md §7/1 |
 | B: ai-service = **K006-yapay-zeka'nın** K012'deki sunum yüzü (domain K006, servis K012) | W-1 | sahiplik tekilleşir; K006 vault içeriği mevcut | K006↔K016 ayrımı netleşmeden bağlama erken olabilir | ai-service · K006-yapay-zeka |
-| C: ai-service = **K016-AI platformunun** K012'deki sunum yüzü | W-1 | "AI platform" tanımı K016'daysa doğal hizalanma | K016 kapsamı registry §6'da ayrıca doğrulanmalı | ai-service · K016-AI |
-| D: **AI gateway deseni** — birden çok YZ sağlayıcısı/modeli tek arayüzde toplayan katman; ai-service bir gateway olarak konumlanır | W-2 (API gateway kavramı — sağlayıcı-özel API'yi tek kontratta toplama) | sağlayıcı bağımsızlığı; service-contracts ile uyum | tek sağlayıcıda ek katman; K014 gateway ile sınır tanımlanmalı | ai-service · service-contracts · K014-network |
+| C: ai-service = **K015-AI platformunun** K012'deki sunum yüzü | W-1 | "AI platform" tanımı K016'daysa doğal hizalanma | K016 kapsamı registry §6'da ayrıca doğrulanmalı | ai-service · K015-AI |
+| D: **AI gateway deseni** — birden çok YZ sağlayıcısı/modeli tek arayüzde toplayan katman; ai-service bir gateway olarak konumlanır | W-2 (API gateway kavramı — sağlayıcı-özel API'yi tek kontratta toplama) | sağlayıcı bağımsızlığı; service-contracts ile uyum | tek sağlayıcıda ek katman; K014 gateway ile sınır tanımlanmalı | ai-service · service-contracts · K010-network |
 
 öneri-seviyesi: A/D servis-katmanı vurgusu, B/C domain-sahipliği vurgusu taşır; tüm seçenekler tek bir vault gerçeğine (K006↔K016 ayrımı) bağlıdır — ADR bu ayrımdan önce yazılamaz.
 
@@ -75,9 +75,9 @@ Kabul kriteri: (a) birincil/resmi kaynak, (b) iki envanter dosyasında kesişim 
 
 | Seçenek | Kaynak (URL W-x) | Artı | Eksi | Etkilenen dosya |
 |---------|------------------|------|------|-----------------|
-| A: **oynatma durumu playback-service'indir** (sıra, konum, komut durumu) — K015 yalnız medya dosyası/metadata sahibidir | W-3 (sunucu tarafı oturum/durum sahipliği kavramı) | komut-durum döngüsü servis içinde kalır; master §3/3 kapsamıyla birebir | durumun kalıcılığı K007'ye bağımlı | playback-service/index.md · K015-media |
-| B: **oynatma durumu medya kitaplığının (K015/playback) parçasıdır** — playback-service yalnız komut yönlendiricisidir | W-4 (oynatıcı yazılımı — durum oynatıcıda yaşar) | durum + medya tek yerde; K008 playback odak ile hizalı | master §3/3 kapsamı ("sıra, konum, durum") daralmış olur | K015-media · playback-service |
-| C: **ayrık sahiplik + tek yönlü akış** — K012 durumu *tutar* (command/state servisi), K015 medya *bilgisini* tutar; veri K015→K012 tek yönlü akar | W-3 + W-4 (iki kavramın ayrıştırılması) | iki K'nin otonomisi korunur; master §5.3 DAG iddiası ile uyumlu | senkron sorumluluğu (kim kimi günceller) ADR'de tanımlanmalı | playback-service · K015-media · services-bagimliliklar.md |
+| A: **oynatma durumu playback-service'indir** (sıra, konum, komut durumu) — K015 yalnız medya dosyası/metadata sahibidir | W-3 (sunucu tarafı oturum/durum sahipliği kavramı) | komut-durum döngüsü servis içinde kalır; master §3/3 kapsamıyla birebir | durumun kalıcılığı K007'ye bağımlı | playback-service/index.md · K014-media |
+| B: **oynatma durumu medya kitaplığının (K015/playback) parçasıdır** — playback-service yalnız komut yönlendiricisidir | W-4 (oynatıcı yazılımı — durum oynatıcıda yaşar) | durum + medya tek yerde; K008 playback odak ile hizalı | master §3/3 kapsamı ("sıra, konum, durum") daralmış olur | K014-media · playback-service |
+| C: **ayrık sahiplik + tek yönlü akış** — K012 durumu *tutar* (command/state servisi), K015 medya *bilgisini* tutar; veri K015→K012 tek yönlü akar | W-3 + W-4 (iki kavramın ayrıştırılması) | iki K'nin otonomisi korunur; master §5.3 DAG iddiası ile uyumlu | senkron sorumluluğu (kim kimi günceller) ADR'de tanımlanmalı | playback-service · K014-media · services-bagimliliklar.md |
 | D: **oynatma durumu K008-domain'dedir** (iş kuralı), servisler yalnızca yazar/okur | W-3 | kural ile durum ayrımı net | K008'in "kural üretmez, servis uygular" ilkesiyle gerilim | K008-domain · playback-service |
 
 öneri-seviyesi: C seçeneği vault DAG iddiası (§5.3) ile en uyumlu görünen seçenektir, ancak bu bir **gözlemdir, karar değildir** — sınır ADR ile sabitlenmezse her iki düğümde de kapsam sürüklenmesi riski kalır.
@@ -110,21 +110,21 @@ Kabul kriteri: (a) birincil/resmi kaynak, (b) iki envanter dosyasında kesişim 
 |---------|------------------|------|------|-----------------|
 | A: **DB tabanlı kuyruk + cron** — iş tablosu + periyodik tarayıcı; ek altyapı yok (cron için resmi URL bu turda doğrulanamadı ⚠️) | W-15 (mikroservis pratiğinde bağımlı servis/kuyruk tartışması) | yeni bağımlılık yok; K007 MySQL ile doğal uyum | yüksek yükte DB kilit/performance baskısı; visibility-timeout elde yazılır | background-jobs/index.md · K007-data |
 | B: **Redis kuyruk** (List veri tipi) | W-9 (Redis listelerin kuyruk olarak kullanımı — resmi doküman) | hafif, hızlı; PHP erişimi yaygın | ek süreç/altyapı; dayanıklılık yapılandırması gerekir | background-jobs · K007/K014 |
-| C: **RabbitMQ (AMQP broker)** | W-10 (resmi doküman) | ack/retry/DLQ hazır; ola yayını güçlü | en ağır operasyon yükü; yönetim arayüzü ek yük | background-jobs · K014-network |
+| C: **RabbitMQ (AMQP broker)** | W-10 (resmi doküman) | ack/retry/DLQ hazır; ola yayını güçlü | en ağır operasyon yükü; yönetim arayüzü ek yük | background-jobs · K010-network |
 | D: **framework kurye sarmalayıcısı** — Laravel queue / Symfony Messenger (birden çok taşııcıyı tek API ile soyutlar) | W-11 (Laravel queues) · W-12 (Symfony Messenger) | taşııcı soyutlanır; PHP ekosistemi olgun | framework bağımlılığı, AGENTS §18/8 "framework = bağımlılık artışı" ilkesiyle gerilim yaratır | background-jobs |
 
 öneri-seviyesi: repo S5 kanıtı (motor kaynağı YOK — dogrulama §7/3) hiçbir seçeneği dışlamaz; operasyonel olgunluk (C) ile hafiflik (A/B) arasındaki denge K018-devops koşullarına bağlıdır — karar ADR.
 
-### §2.6 Q6 — device-identity sahipliği (K010-identitiy vs device-service)
+### §2.6 Q6 — device-identity sahipliği (K0100-identitiy vs device-service)
 
 | Seçenek | Kaynak (URL W-x) | Artı | Eksi | Etkilenen dosya |
 |---------|------------------|------|------|-----------------|
-| A: **device-identity K010-identitiy'nindir** — cihaz kimlik kanıtı/token'ı K010 üretir; device-service yalnız kayıt+durum işini yapar | W-13 (RFC 8628 device authorization grant — cihaz-özel kimlik akışı standarttır, kimlik katmanında tanımlanır) | kimlik tek merkezde; standart akış uyumu | device-service'in "yetki" kapsamı (master §3/6) K010'a kayar | device-service/index.md · K010-identitiy |
+| A: **device-identity K0100-identitiy'nindir** — cihaz kimlik kanıtı/token'ı K010 üretir; device-service yalnız kayıt+durum işini yapar | W-13 (RFC 8628 device authorization grant — cihaz-özel kimlik akışı standarttır, kimlik katmanında tanımlanır) | kimlik tek merkezde; standart akış uyumu | device-service'in "yetki" kapsamı (master §3/6) K010'a kayar | device-service/index.md · K0100-identitiy |
 | B: **device-identity device-service'indir** — cihaz kaydı + cihaz-özel kimlik servisin kendi dikey alanında | W-13 (aynı standart, farklı sahiplik yorumu) | dikey sahiplik; cihaz yaşam döngüsü servisle ölçeklenir | kimlik ikiye bölünür (user-identity K010 · device-identity K012) — tutarlılık zor | device-service/index.md · K010 |
 | C: **DCR benzeri dinamik kayıt** — cihazlar dinamik client registration ile kayıt olur; sahiplik standart protokole bağlanır | W-14 (RFC 7591 dynamic client registration) | standart-uyumlu; dış ekosistem uyumu | CoreMusic cihaz modeli OAuth-client'a birebir oturmayabilir → uyarlama gerekir | device-service · K010 · K013-integraion |
-| D: **bölünmüş sahiplik** — kimlik kanıtı K010'da, cihaz envanteri/durumu device-service'te; sınır ADR ile sabitlenir | W-13 + W-14 | net ayrım: "kim kim" (K010) vs "cihaz ne" (K012) | sınır ADR'siz sürüklenir | K010-identitiy · device-service |
+| D: **bölünmüş sahiplik** — kimlik kanıtı K010'da, cihaz envanteri/durumu device-service'te; sınır ADR ile sabitlenir | W-13 + W-14 | net ayrım: "kim kim" (K010) vs "cihaz ne" (K012) | sınır ADR'siz sürüklenir | K0100-identitiy · device-service |
 
-öneri-seviyesi: A/D kimlik-merkezli, B/D cihaz-dikey dengesi kurar; K010-identitiy yazım hatası korunmalıdır (dogrulama §4/Q6) — karar ADR.
+öneri-seviyesi: A/D kimlik-merkezli, B/D cihaz-dikey dengesi kurar; K0100-identitiy yazım hatası korunmalıdır (dogrulama §4/Q6) — karar ADR.
 
 ### §2.7 Q7 — BC/DB ilişkisi (database-per-service vs paylaşımlı DB)
 
@@ -152,7 +152,7 @@ Kabul kriteri: (a) birincil/resmi kaynak, (b) iki envanter dosyasında kesişim 
 
 | Seçenek | Kaynak (URL W-x) | Artı | Eksi | Etkilenen dosya |
 |---------|------------------|------|------|-----------------|
-| A: **HTTP/REST** — servisler HTTP üzerinden çağırır (aynı veya farklı süreç) | W-2 (API gateway + HTTP taşıma) · §4 pointer: RFC 9110/9112 (dogrulama §5) | repo S1 kanıtı zaten REST yönlendirme (.htaccess:26 · web.config:14); araç olgunluğu | senkron kırılganlığı; ağ gecikmesi | services-master.md §22.2 · K014-network |
+| A: **HTTP/REST** — servisler HTTP üzerinden çağırır (aynı veya farklı süreç) | W-2 (API gateway + HTTP taşıma) · §4 pointer: RFC 9110/9112 (dogrulama §5) | repo S1 kanıtı zaten REST yönlendirme (.htaccess:26 · web.config:14); araç olgunluğu | senkron kırılganlığı; ağ gecikmesi | services-master.md §22.2 · K010-network |
 | B: **gRPC (Protobuf IDL)** — tip-güvenli süreçler arası çağrı | W-8 (Protobuf = gRPC sözleşmesi) | hızlı, sözleşmeli; Q4-C ile hizalı | PHP ekosistemi + mevcut HTTP katmanına köprü gerekir; repo kanıtı YOK (S5) | service-contracts · K014 |
 | C: **mesaj kuyruğu (ola/yayın)** — senkron olmayan işler kuyrukla taşınır | W-9 · W-10 (Q5 kaynaklarıyla ortak altyapı) | gevşek bağlama; background-jobs ile ortak zemin | senkron sorgu-yanıt için uygun değil; izleme zor | background-jobs · K014 |
 | D: **tek-süreç (in-process)** — servisler süreç içi nesne çağrılarıdır | W-15 (mikroservis tanımı ile tezat) + repo S1 (ServiceRegistry bellek-içi diziler: :19, :38) | sıfır ağ maliyeti; **mevcut repo durumuyla birebir** | "servis" kavramı süreç-içi sınıfa iner; ölçekleme tek süreçle sınırlı | services-master.md §10.2 · K012 tümü |

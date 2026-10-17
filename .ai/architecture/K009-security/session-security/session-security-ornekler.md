@@ -248,7 +248,7 @@ return [
 
 | Dikkat Noktası | Açıklama |
 |---|---|
-| `secure` dinamik | `HTTP_X_FORWARDED_PROTO`'ya bağlı — proxy arkasında güvenilir mi? → K014-network sınırı, ⚠️ VERIFICATION REQUIRED |
+| `secure` dinamik | `HTTP_X_FORWARDED_PROTO`'ya bağlı — proxy arkasında güvenilir mi? → K010-network sınırı, ⚠️ VERIFICATION REQUIRED |
 | `lifetime = 0` | tarayıcı oturumu sonunda cookie silinir (session cookie) |
 | SSOT docblock | "session_* API çağrıları YALNIZCA SessionBootstrapper içinde yapılır" (satır 11) |
 
@@ -269,7 +269,7 @@ return [
 | Açık Soru | Durum |
 |---|---|
 | HTTPS zorunlu değilse `secure=false` üretimi | ⚠️ VERIFICATION REQUIRED (HSTS/redirect okunmadı) |
-| `HTTP_X_FORWARDED_PROTO` sahtelenmesi | K014-network — UNKNOWN |
+| `HTTP_X_FORWARDED_PROTO` sahtelenmesi | K010-network — UNKNOWN |
 
 > **Bu bölüm kanıt oranını DEĞİŞTİRmez.**
 
@@ -410,7 +410,7 @@ public function testRegenerateCalledWithDeleteOldSession(): void
 | `secure` dinamiği değişimi | §11 · §15 | CWE-614 matrisi yeniden yazılır |
 | Yeni `session_set_cookie_params` çağıran dosya | §12 | SSOT docblock'u ile çelişki aranır |
 | `gc_maxlifetime` ayarı | §15 | açık soru kapanır |
-| Proxy arkası HTTPS tespiti | §10 · §11 | K014-network'e devir |
+| Proxy arkası HTTPS tespiti | §10 · §11 | K010-network'e devir |
 | Yeni URL | §11-§12 | yalnız HEAD 200 + başlık |
 
 > **Bu bölüm kanıt oranını DEĞİŞTİRmez.**
@@ -497,7 +497,7 @@ return (time() - (int)$createdAt) >= SessionConfig::MAX_LIFETIME;     // mutlak
 | Devir | Hedef | Ne devredildi |
 |---|---|---|
 | `gc_maxlifetime` / php.ini | K013-config veya ops | §15 açık sorusu |
-| `HTTP_X_FORWARDED_PROTO` sahtelenmesi | K014-network | §10-§11 |
+| `HTTP_X_FORWARDED_PROTO` sahtelenmesi | K010-network | §10-§11 |
 | `restartFresh()` iç yapısı | K009 session-bootstrapper (§3 dosyası) | §19 |
 | `csrf_token` anahtar sözleşmesi | ADR-010 (frozen — okundu, değiştirilmedi) | §19 |
 | Session cookie lifetime farkı (42000 vs 3600) | K010-auth politikası | §15 |

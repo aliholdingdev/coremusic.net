@@ -222,8 +222,8 @@ için içerik iddiası üretilmez (⚠️ VERIFICATION REQUIRED).
 | # | Konu | Sahip |
 |---|---|---|
 | 1 | Gerçek C++ kodu (ring buffer, tarama) | K003-audio / L0 (PLANNED, repo 0 dosya) |
-| 2 | İndeks şeması / veritabanı | K015-media · K000 dosya sistemi |
-| 3 | Dosya biçimi çözümleme (metaveri) | K015-media |
+| 2 | İndeks şeması / veritabanı | K014-media · K000 dosya sistemi |
+| 3 | Dosya biçimi çözümleme (metaveri) | K014-media |
 | 4 | Yedekleme yazılımı seçimi | ⚠️ üst karar (Q-HO3) |
 | 5 | RAID kurulumu | K001 envanter + Q-HK3 |
 | 6 | Doğrulama kapıları | `hdd-dogrulama.md` |

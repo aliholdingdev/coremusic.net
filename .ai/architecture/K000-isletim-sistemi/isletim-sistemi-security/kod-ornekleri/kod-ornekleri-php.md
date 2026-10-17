@@ -215,7 +215,7 @@ izinli `mkdir(` satırlarıdır. S1 kararı olmadan §2 blokları repoya taşın
 > seçimi (ADR-022) → `K009-security`; bu kart yalnız OS yüzeyine özgü PHP
 > desenlerini + negatif kanıtı taşır.
 > **K010 ayrımı (bağlayıcı):** kimlik doğrulama, oturum, sifre ve MFA →
-> `K010-identitiy`; burada yalnız dosya modu ve süreç sinyali desenleri vardır.
+> `K0100-identitiy`; burada yalnız dosya modu ve süreç sinyali desenleri vardır.
 > **Komşu dal:** macOS OS kartı → `cekirdek-guvenlik/cekirdek-guvenlik-macos`
 > (depends_on); POSIX DAC detayı → `yetki-ve-erisim-modeli-*` kartları.
 

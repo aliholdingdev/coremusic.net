@@ -146,13 +146,13 @@ mekanizma var" cümlesi bu veriyle **kurulamaz** → `[UNKNOWN]` değil, **YOK**
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy`; bu kartta yalnizca webOS dosya/surec/erisim kisitlari ele alinir.
+> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy`; bu kartta yalnizca webOS dosya/surec/erisim kisitlari ele alinir.
 > **K009 ayrimi (baglayici):** OWASP denetimi, auth/CSRF/CSP tasarimi, kripto secimi (ADR-022) -> `K009-security`; bu kart yalnız OS katmani + sinir isaretlerini tasinir.
 > **Komşu dal:** Linux cekirdegi ici yapisi -> `isletim-sistemi-kernel`; webOS platform geneli -> `isletim-sistemi-turu/webos`.
 
 | Sınır | Bu kart TAŞIR | Bu kart TAŞIMAZ |
 |---|---|---|
-| Yetki ekseni | ACG + Trust Level + 5 yapılandırma dosyası tipi | hangi role hangi kullanıcının gireceği (`K010-identitiy`) |
+| Yetki ekseni | ACG + Trust Level + 5 yapılandırma dosyası tipi | hangi role hangi kullanıcının gireceği (`K0100-identitiy`) |
 | Repo | 7 negatif + 2 pozitif (hash_equals, 0750) | CSRF/CSP tasarımı ve OWASP denetimi (`K009-security`) |
 | İzolasyon | yetki **tanımını** | süreç sandbox mekanizması → `uygulama-guvenlik-siniri` |
 | Değişiklik | bu kart salt-okunur denetim çıktısı | düzeltme backend-architect'te, yeniden ölçüm security-engineer'da |

@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/comms/websocket
+node_id: K010-network/comms/websocket
 node_type: bounded-context
 status: draft
-parent_id: K014-network/comms
+parent_id: K010-network/comms
 children: []
 depends_on: []
 evidence:
@@ -19,13 +19,13 @@ group: mimari
 ---
 
 
-# websocket — K014-network/comms (kademe-3 · bounded-context)
+# websocket — K010-network/comms (kademe-3 · bounded-context)
 
 **ELI15:** Sunucu ile istemci arasında sürekli, çift yönlü canlı bağlantı.
 
 **Sınır (ne DEĞİL):** İstek/yanıt http · doğrudan medya yolu webrtc · paket güvenliği K009.
 
-**Bağımlılık (özet):** Üstü comms/ → K014-network; ayrıntı network-bagimliliklar.md §1.
+**Bağımlılık (özet):** Üstü comms/ → K010-network; ayrıntı network-bagimliliklar.md §1.
 
 **Durum:** draft · kademe-4 (module) ADR-097 K4 fazı (C) bekler · module'e inilmez.
 

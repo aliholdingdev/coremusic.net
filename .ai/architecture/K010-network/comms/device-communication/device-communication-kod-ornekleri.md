@@ -1,12 +1,12 @@
 ---
-node_id: K014-network/comms/device-communication/kod-ornekleri
+node_id: K010-network/comms/device-communication/kod-ornekleri
 node_type: module
 status: draft
-parent_id: K014-network/comms/device-communication
+parent_id: K010-network/comms/device-communication
 role: ornek
 children: []
 depends_on:
-  - "K014-network/comms/device-communication/device-communication-standart-kanit.md"
+  - "K010-network/comms/device-communication/device-communication-standart-kanit.md"
 evidence:
   - "Kod kanıtı YOK (K014 PLANNED) — bu dosyadaki örnekler TASARIM ÖRNEĞİ'dir, üretim kodu değildir"
   - "Referans standartlar: device-communication-standart-kanit.md §1–§3 (RFC 6762/6763/7252/7641/8323/3927)"

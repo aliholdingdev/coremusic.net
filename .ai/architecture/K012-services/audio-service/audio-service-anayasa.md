@@ -105,11 +105,11 @@ sınıf adı yazılmaz — yalnızca yokluk kaydedilir.
 |---|---|---|---|
 | K007-veri | dosya satırı ve kayıt okuma | giden | S2 bagimliliklar §17 |
 | K008-kural | izin/eşik kararları (üretim K008'de) | giden | S2 master §21.4 |
-| K015-media | ses verisi/dosya sahipliği iddiası | giden | S2 master §21.4 |
+| K014-media | ses verisi/dosya sahipliği iddiası | giden | S2 master §21.4 |
 | K003-audio | sinyal işleme delege yolu | sınır | S2 master §21.4 · Q3 |
 | K004-dsp | DSP zinciri (motor) | sınır | S2 index.md "ses sinyali işleme K003/K004" |
 | K011-arayuz | görsel öğe sahipliği | giden | S2 master §23/5 |
-| K014-network | taşıma protokolü kararları | giden | S2 master §23/6 |
+| K010-network | taşıma protokolü kararları | giden | S2 master §23/6 |
 
 **Giriş (bu düğümü besleyenler):** K012 kök servis sözleşmeleri (service-contracts),
 K011'ten gelen kullanıcı isteği (iddia) → ⚠️ VERIFICATION REQUIRED (yönlendirme
@@ -303,7 +303,7 @@ zinciri bu dosyada kanıtlanmadı).
 | fallback | asıl kaynak olmadığında devreye giren yedek |
 | müzikIdHex | onaltılık kimlik — akış girdisi |
 | K003-audio | ses motoru düğümü (motor sahibi, iddia) |
-| K015-media | medya dosyası sahibi düğüm |
+| K014-media | medya dosyası sahibi düğüm |
 | S5 | yokluk kanıtı |
 | Q3 | servis mi motor mu sorusu |
 
@@ -317,7 +317,7 @@ zinciri bu dosyada kanıtlanmadı).
 | services-master.md §21.4 | kart kaynağı |
 | services-bagimliliklar.md §17 | bağımlılık matrisi |
 | services-riskler.md | kök risk kaydı |
-| K015-media (dosya sahipliği) | sınır komşusu |
+| K014-media (dosya sahipliği) | sınır komşusu |
 | K003-audio (motor) | sınır komşusu |
 
 ## §19 Sınır Senaryoları (edge cases)
@@ -375,11 +375,11 @@ zinciri bu dosyada kanıtlanmadı).
 | İstek gelen iş | Gideceği düğüm | Gerekçe |
 |---|---|---|
 | EQ eğrisi uygulama | K004-dsp | sinyal işleme |
-| Dosya silme/kalıcı yazma | K015-media | dosya sahipliği |
+| Dosya silme/kalıcı yazma | K014-media | dosya sahipliği |
 | Dinleme geçmişi satırı ekleme | K007-veri | şema sahipliği |
 | Ses seviyesi eşik kuralı | K008-kural | kural üretimi |
 | Çalma sırası UI'sı | K011-arayuz | arayüz |
-| Taşıma protokolü seçimi | K014-network | ağ |
+| Taşıma protokolü seçimi | K010-network | ağ |
 | Test altyapısı | K019 | test altyapısı |
 | YZ önerisi | K006/K016 | Q1 |
 | Cihaz kayıt/yetkilendirme | K010 | cihaz kimliği |

@@ -221,7 +221,7 @@ $src = Get-ChildItem 'C:\www\coremusic.net' -Recurse -File -Include *.php,*.js |
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K010-identitiy`; bu kartta yalnizca Rust ile OS dosya/surec/erisim kaliplari (izn, bayrak, filtre) tasinir.
+> **K010 ayrimi (baglayici):** Kimlik dogrulama, oturum, sifre ve MFA -> `K0100-identitiy`; bu kartta yalnizca Rust ile OS dosya/surec/erisim kaliplari (izn, bayrak, filtre) tasinir.
 > **K009 ayrimi (baglayici):** OWASP denetimi, auth/CSRF/CSP tasarimi, kripto secimi (ADR-022) -> `K009-security`; bu kart yalniz OS katmani + sinir isaretlerini tasinir.
 > **Komşu dal:** Cekirdek ici yapisi ve surucu yazimi -> `isletim-sistemi-kernel`; dil bagimsiz guvenlik kartlari -> `cekirdek-guvenlik/*`.
 

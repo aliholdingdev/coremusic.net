@@ -19,7 +19,7 @@ validation:
   - "§2 sınır tablosu services-master §2.2 ile hizalı"
   - "§4 kod kanıtı 2026-10-13 read — birebir"
 open_questions:
-  - "Q6 — device-identity sahipliği (K010-identitiy ile sınır) → ⚠️ VERIFICATION REQUIRED"
+  - "Q6 — device-identity sahipliği (K0100-identitiy ile sınır) → ⚠️ VERIFICATION REQUIRED"
   - "§5 kimlik doğrulama zinciri okunmadı → ⚠️ VERIFICATION REQUIRED"
   - "DeviceCssMap içeriği okunmadı → ⚠️ VERIFICATION REQUIRED"
 date: 2026-10-13
@@ -43,7 +43,7 @@ Cihazın **ne olduğunu** (telefon/tablet/masaüstü/TV/gömülü) ve **ne durum
 olduğunu** (ses, oynatma çubuğu) işleyen servis. Kullanıcıya arayüz çizmez
 (K011'in işi); yalnız "bu istek hangi cihazdan geliyor, o cihaz ne göstermeli"
 sorusunu yanıtlar. Sahiplik notu (master §21.6): cihaz **kimliği**
-(device-identity) K010-identitiy'nin çocuğu olabilir — sınır belirsiz (Q6).
+(device-identity) K0100-identitiy'nin çocuğu olabilir — sınır belirsiz (Q6).
 
 ## §2 Sınır Tablosu (Kapsam İçi / Dışı)
 
@@ -52,7 +52,7 @@ sorusunu yanıtlar. Sahiplik notu (master §21.6): cihaz **kimliği**
 | Cihaz tespiti (UA + viewport) | İÇİNDE | K012/device-service | S1 DeviceDetector:57 |
 | Breakpoint haritası (7 kademe) | İÇİNDE | K012 | S1 DeviceDetector:10–17 |
 | Cihaz-başlı arayüz durumu (ses/seekbar) | İÇİNDE | K012 | S1 DeviceManager:463/487/529 |
-| Cihaz kimliği (device-identity) | DIŞINDA (iddia) | K010-identitiy | Q6 ⚠️ |
+| Cihaz kimliği (device-identity) | DIŞINDA (iddia) | K0100-identitiy | Q6 ⚠️ |
 | Arayüz çizimi | DIŞINDA | K011-application | master §2.2 |
 | Kalıcı cihaz kaydı / şema | DIŞINDA | K007-data | master §2.2 |
 | CSS breakpoint token'ları | DIŞINDA (görsel) | A3 / tokens | S1 notu:8 |
@@ -98,7 +98,7 @@ viewport'a bakılmadan `embedded` olur. Bu öncelik **bilinçli** görünür
 
 | # | Soru | Durum |
 |---|---|---|
-| 1 | device-service, K010-identitiy'den device-identity'yi tüketiyor mu? | okunmadı ⚠️ |
+| 1 | device-service, K0100-identitiy'den device-identity'yi tüketiyor mu? | okunmadı ⚠️ |
 | 2 | Cihaz kaydı kalıcı mı (K007) yoksa oturum-içi mi? | okunmadı ⚠️ |
 | 3 | `HTTP_X_DEVICE_TYPE` başlığı doğrulanıyor mu (spoof riski)? | §7 |
 | 4 | Yetkilendirme (authorization) cihaz bazlı mı? | okunmadı ⚠️ |
@@ -111,7 +111,7 @@ güvenlik gözlemidir (§7-R1). Doğrulama katmanının olup olmadığı okunmad
 
 | Hedef | Ne için | Etiket |
 |---|---|---|
-| K010-identitiy | cihaz kimliği (iddia) | TASARIM İDDİASI + Q6 ⚠️ |
+| K0100-identitiy | cihaz kimliği (iddia) | TASARIM İDDİASI + Q6 ⚠️ |
 | K007-data | kalıcı cihaz kaydı (iddia) | TASARIM İDDİASI |
 | K011-application | cihaz bilgisini tüketir | TASARIM İDDİASI |
 | A3 / CSS token | breakpoint senkronu | S1 notu (senkron elle) |
@@ -317,7 +317,7 @@ HTTP istek
 | device-service-ornekler.md | kod örnekleri |
 | services-master.md §21.6 | kart |
 | services-bagimliliklar.md §1 · §17 | bağımlılık |
-| K010-identitiy | device-identity sahibi (iddia, Q6) |
+| K0100-identitiy | device-identity sahibi (iddia, Q6) |
 
 ## §18 Bağımsız Doğrulama Matrisi (Anayasa)
 

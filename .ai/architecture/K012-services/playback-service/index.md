@@ -25,7 +25,7 @@ group: mimari
 
 **ELI15:** 'Ne çalıyor / ne çalacak' durumunu (sıra, konum, komut) yöneten servis.
 
-**Sınır (ne DEĞİL):** Asıl ses üretimi K003-audio + K015-media · durum saklama K007-data.
+**Sınır (ne DEĞİL):** Asıl ses üretimi K003-audio + K014-media · durum saklama K007-data.
 
 **Bağımlılık (özet):** Düğümün tamamı üst kademeye bağlıdır; ayrıntı ve etiketler services-bagimliliklar.md §1'dedir. Bu dosyadaki satırlar TASARIM İDDİASI'dır.
 

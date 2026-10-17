@@ -20,7 +20,7 @@ children:
   - queries
   - workflows
   - application-testing
-depends_on: [K008-domain, K009-security, K010-identitiy, K012-services, K013-integraion, K014-network, K015-media]
+depends_on: [K008-domain, K009-security, K0100-identitiy, K012-services, K013-integraion, K010-network, K014-media]
 evidence:
   - "v2 §2.11 K011-application/ — çocuk listesi kaynağı (16 çocuk birebir korundu)"
   - ".ai/architecture/index.md §5/11 · §8.1 — ad kaydı + iki-ekseni gruplama kuralı"
@@ -44,7 +44,7 @@ group: mimari
 
 ## §1 — ELI15: bu oda ne işe yarar?
 
-v2 §2.11: *"Uygulamanın kendisi — web sayfası, masaüstü penceresi, Electron çatısı."* Kullanıcının gördüğü ve tıkladığı **her şey** bu odadır: arayüzü çizmek ve "çal, ara, ekle" talebini alıp doğru servise iletmek. İş kuralı burada **yaşamaz** → K008-domain · arka plan → K012-services · dış dünya → K013-integraion → bağlantı → K014-network · medya → K015-media. K011 yalnız A2 bandında kodlar; politika K009'dan gelir.
+v2 §2.11: *"Uygulamanın kendisi — web sayfası, masaüstü penceresi, Electron çatısı."* Kullanıcının gördüğü ve tıkladığı **her şey** bu odadır: arayüzü çizmek ve "çal, ara, ekle" talebini alıp doğru servise iletmek. İş kuralı burada **yaşamaz** → K008-domain · arka plan → K012-services · dış dünya → K013-integraion → bağlantı → K010-network · medya → K014-media. K011 yalnız A2 bandında kodlar; politika K009'dan gelir.
 
 ## §2 — GRUPLAR kuralı
 
@@ -60,11 +60,11 @@ v2 §2.11: *"Uygulamanın kendisi — web sayfası, masaüstü penceresi, Electr
 |---|---|---|
 | depends_on → | K008-domain | Entity/VO sözleşmesi (link, kod taşımaz) |
 | depends_on → | K009-security | Güvenlik politikası, CSRF/CSP kuralları |
-| depends_on → | K010-identitiy | Oturum, rol, cihaz kimliği doğrulaması |
+| depends_on → | K0100-identitiy | Oturum, rol, cihaz kimliği doğrulaması |
 | depends_on → | K012-services | Arka plan/servis çağrıları (adaptör) |
 | depends_on → | K013-integraion | Dış API kontratları ve adaptörler |
-| depends_on → | K014-network | Taşıma katmanı (HTTP/WebSocket) |
-| depends_on → | K015-media | Oynatma ve medya verisi görünümü |
+| depends_on → | K010-network | Taşıma katmanı (HTTP/WebSocket) |
+| depends_on → | K014-media | Oynatma ve medya verisi görünümü |
 | ← used_by | K017-observability · K019-testing | Uygulama telemetrisi ve test hedefi |
 
 ## §5 — Durum & açık sorular
@@ -88,6 +88,24 @@ v2 §2.11: *"Uygulamanın kendisi — web sayfası, masaüstü penceresi, Electr
 | kanit | `application-riskler.md` | Risk, etki, olasılık ve azaltım planı | Kademe-1 |
 | kod | `application-test-stratejisi.md` | domain testleri: unit, property, contract | Kademe-1 |
 | kanit | `application-web-arastirma.md` | Sistemli resmi kaynak tarama kaydı | Kademe-1 |
+
+## §BAĞLANTILAR
+
+> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+|---|---|---|---|
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | surec ve zamanlama |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | cihaz donanim entegrasyonu |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | oynatma motoru |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP efekt kullanimi |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | AI ozellikleri |
+| K007-data | [[K007-data]] | ../K007-data/index.md | repository erisimi |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | use-case ve domain |
+| K009-security | [[K009-security]] | ../K009-security/index.md | auth ve authz |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ag cagrilari |
+| K012-services | [[K012-services]] | ../K012-services/index.md | servis cagrilari |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | entegrasyon adaptorleri |
 
 ---
 

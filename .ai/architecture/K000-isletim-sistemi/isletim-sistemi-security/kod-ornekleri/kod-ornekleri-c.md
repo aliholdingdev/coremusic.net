@@ -196,7 +196,7 @@ $src = Get-ChildItem 'C:\www\coremusic.net' -Recurse -File -Include *.php,*.js |
 
 ## §4 Sınır cümleleri
 
-> **K010 ayrımı (bağlayıcı):** Kimlik doğrulama, oturum, parola ve MFA → `K010-identitiy`; bu kartta yalnız C ile OS dosya/süreç/erişim kalıpları (filtre, iş nesnesi, izin) taşınır.
+> **K010 ayrımı (bağlayıcı):** Kimlik doğrulama, oturum, parola ve MFA → `K0100-identitiy`; bu kartta yalnız C ile OS dosya/süreç/erişim kalıpları (filtre, iş nesnesi, izin) taşınır.
 > **K009 ayrımı (bağlayıcı):** OWASP denetimi, auth/CSRF/CSP tasarımı, kripto seçimi (ADR-022) → `K009-security`; bu kart yalnız OS katmanı + sınır işaretlerini taşır.
 > **Komşu dal:** Çekirdek içi yapısı ve sürücü yazımı → `isletim-sistemi-kernel`; dil bağımsız güvenlik kartları → `cekirdek-guvenlik/*`.
 
@@ -369,7 +369,7 @@ güvenliği (overflow/UAF) bu kartın konusu **değildir** (kod güvenliği ≠ 
 | `kod-ornekleri-linux.md` · `-windows.md` | bu karttaki ✅ iki kombinasyonun uzman kartları |
 | `kod-ornekleri-macos.md` · `-ios.md` · `-android.md` · `-tizen.md` · `-webos.md` · `-reactos.md` | 6 ⚠️ kombinasyonun kartları — her ⚠️ §2.x'te "ayrıntı: ..." bağıyla işaretli |
 | `cekirdek-guvenlik/cekirdek-guvenlik-anayasa` · `-linux` | FM `depends_on` |
-| `K009-security` · `K010-identitiy` | §4 sınır kartları |
+| `K009-security` · `K0100-identitiy` | §4 sınır kartları |
 | `isletim-sistemi-kernel` | çekirdek içi yapı kardeş dalı |
 
 ---

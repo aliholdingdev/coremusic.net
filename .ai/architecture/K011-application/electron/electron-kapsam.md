@@ -195,7 +195,7 @@ hiçbir satırda Electron kodu için `IMPLEMENTED` kullanılmamıştır.
 | 2 | HTTP sunucusu | `local-runtime` / `server-runtime` | `php -S` / nginx |
 | 3 | Kimlik doğrulama akışı | `K009-security` | auth ayrı katman |
 | 4 | Veritabanı erişimi | `K005-K006` | PDO/shared |
-| 5 | Medya dosyası okuma | `K015-media` | sunucu tarafı |
+| 5 | Medya dosyası okuma | `K014-media` | sunucu tarafı |
 | 6 | Sürücü/donanım erişimi | `L0` | ASIO/WASAPI ayrı |
 | 7 | CI paketleme hattı | `K017-devops` | `.github/workflows/` |
 | 8 | Lisans/üçüncü taraf denetimi | `dependency-manager` | — |

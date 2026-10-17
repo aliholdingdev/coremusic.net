@@ -1,12 +1,12 @@
 ---
-node_id: K014-network/service-discovery/kod-ornekleri
+node_id: K010-network/service-discovery/kod-ornekleri
 node_type: module
 status: draft
-parent_id: K014-network/service-discovery
+parent_id: K010-network/service-discovery
 role: ornek
 children: []
 depends_on:
-  - "K014-network/service-discovery/service-discovery-standart-kanit.md"
+  - "K010-network/service-discovery/service-discovery-standart-kanit.md"
 evidence:
   - "Kod kanıtı YOK (K014 PLANNED) — bu dosyadaki örnekler TASARIM ÖRNEĞİ'dir, üretim kodu değildir"
   - "Referans standartlar: service-discovery-standart-kanit.md §1 (RFC 6762/6763/6761/7252)"

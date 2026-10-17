@@ -106,7 +106,7 @@ zinciri: ROM Bootloader → XMOS firmware → DSP chain → I2S → PCM3168A →
 | 3 | Sürücü katmanı | Uygulama → HAL → OS ses → kernel → donanım | K000/electroncis |
 | 4 | Platform | Windows (WASAPI/ASIO), Linux (ALSA), macOS (CoreAudio) | K000 |
 | 5 | Akış protokolleri | DLNA/AirPlay/Roon | K013-integraion |
-| 6 | Cihaz kimliği | USB descriptor, BT MAC | K010-identitiy |
+| 6 | Cihaz kimliği | USB descriptor, BT MAC | K0100-identitiy |
 
 **Kanıt (vault):** `.ai/electronic/drivers/device-integration.md` satır 27-34 —
 cihaz türleri tablosu (USB DAC, BT, WiFi, Roon, araç sistemi).
@@ -196,7 +196,7 @@ topolojisi diyagramları (Class D / Class AB / toroidal alternatif).
 | # | Arayüz | Standart | Kullanım | Komşu |
 |---|---|---|---|---|
 | 1 | USB Audio | USB 2.0 (480Mbps) | Stüdyo DAC | K000 |
-| 2 | Bluetooth | 5.0+ (A2DP/LDAC) | Mobil | K014-network |
+| 2 | Bluetooth | 5.0+ (A2DP/LDAC) | Mobil | K010-network |
 | 3 | WiFi | DLNA/AirPlay | Ev medya | K014 |
 | 4 | Ethernet | 100/1000BASE-T | Roon endpoint | K014 |
 | 5 | analog giriş | RCA/XLR 47kΩ | Kaynak | devre |

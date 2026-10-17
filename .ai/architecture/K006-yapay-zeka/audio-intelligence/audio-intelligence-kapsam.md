@@ -29,11 +29,11 @@ ayrımı §3/R1'e sorar.
 | 1 | Ses dosyasından öznitelik (feature) çıkarımının planı | Özniteliklerin veritabanında saklanması | K007-data (bagimliliklar §2/1) |
 | 2 | Ses zekâsı modelinin K006 kapsamında çalıştırılması | DSP zinciri ve sinyal üretimi | K004-dsp (ai-master §2.1) |
 | 3 | Çıktının (BPM/key/energy/mood) öneri akışına verilmesi | Öneri sıralamasının kendisi | recommendation (ai-master §3) |
-| 4 | Ses zekâsı için K006 ↔ K016 tek ML çağrı noktası | Ajan çalışma zamanı, prompt yönetimi | K016-AI (ai-master §2.1) |
+| 4 | Ses zekâsı için K006 ↔ K016 tek ML çağrı noktası | Ajan çalışma zamanı, prompt yönetimi | K015-AI (ai-master §2.1) |
 | 5 | Metrik **sözleşmesi** (alan adları, tipler) | "çal/beğen" iş kuralının yorumu | K008-domain (ai-master §2.1) |
 | 6 | Model/format seçimi için kanıt toplama | Firmware seviyesinde ses işleme | K005-firmware (ai-master §2.1) |
 
-**Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K016-AI ajan altyapısı
+**Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K015-AI ajan altyapısı
 bu kapsama **taşınamaz**.
 
 **Yasak:** yukarıdaki tablo resmi sınır değil, **kademe-2 taslak sınır önerisidir** — v2 §2.6 bu çocuğa rol vermez;
@@ -291,7 +291,7 @@ gerçek dönüş 10 anahtardır (EK §2.1) → üç sayım arasında **3/6/10** 
 |---|---|---|---|
 | K007-data | feature'ların DB'de saklanması hariç (satır 29) | `yapay-zeka-bagimliliklar.md` Satır: 496–579: §21 "K006 → K007 gereksinim taslağı" — **şemayı K007 üretir, K006 üretmez** (Satır: 572, 578–579) | ✅ sınır net |
 | K004-dsp | DSP zinciri/sinyal hariç (satır 30) | `yapay-zeka-bagimliliklar.md` Satır: 180: "Yön kuralı: K006 → K004 (iç)" | ✅ yön net |
-| K016-AI | ajan çalışma zamanı/prompt hariç (satır 32) | `yapay-zeka-bagimliliklar.md` Satır: 55, 57–58: KnowledgeBase/PromptEngine/ToolCalling = K016 (K006 DIŞI); Satır: 181: "K016 → K006 bağımlılığı **kodda gözlenmedi**" | ✅ tek yön (K006 → K016 çağrısı) |
+| K015-AI | ajan çalışma zamanı/prompt hariç (satır 32) | `yapay-zeka-bagimliliklar.md` Satır: 55, 57–58: KnowledgeBase/PromptEngine/ToolCalling = K016 (K006 DIŞI); Satır: 181: "K016 → K006 bağımlılığı **kodda gözlenmedi**" | ✅ tek yön (K006 → K016 çağrısı) |
 | K008-domain | "çal/beğen" kuralı hariç (satır 33) | `yapay-zeka-bagimliliklar.md` Satır: 193: "`MemorySystem` sahipliği (K006 personalization mı K016 mı) — sınır açık" | ⚠️ sınır açık |
 | K005-firmware | firmware ses işleme hariç (satır 34) | K006 envanterinde firmware'e dair satır **görülmedi** (yapay-zeka-bagimliliklar.md taraması 2026-10-15) | ⚠️ VERIFICATION REQUIRED |
 | recommendation | çıktı öneri akışına verilir (satır 31) | `ai-master.md` Satır: 198–199: `music-analysis` ve `audio-intelligence` → sorumlu `S2` (öneri değil) | ✅ ayrım korunuyor |

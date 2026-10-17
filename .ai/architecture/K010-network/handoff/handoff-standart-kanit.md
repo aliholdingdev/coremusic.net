@@ -1,8 +1,8 @@
 ---
-node_id: K014-network/handoff/standart-kanit
+node_id: K010-network/handoff/standart-kanit
 node_type: module
 status: draft
-parent_id: K014-network/handoff
+parent_id: K010-network/handoff
 role: kanit
 children: []
 depends_on: []

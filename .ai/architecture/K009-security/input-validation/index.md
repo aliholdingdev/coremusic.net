@@ -70,7 +70,7 @@ group: mimari
 
 | Konu | Sahibi | Bu çocukta |
 |---|---|---|
-| Kimlik alanlarının doğrulama modeli (kimlik deposu) | `K010-identitiy` | Yalnız sınır referansı |
+| Kimlik alanlarının doğrulama modeli (kimlik deposu) | `K0100-identitiy` | Yalnız sınır referansı |
 | OS girdi yüzeyi (komut satırı, dosya sistemi izni) | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
 
 ## §5 BAĞLANTILAR

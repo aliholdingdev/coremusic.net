@@ -474,8 +474,8 @@ yüksek, tablo büyüklüğünde **switch/match yeniden değerlendirilmelidir** 
 | URI eşlemesi | `routing/routing-yonlendirme-cati` | Ayrı çatı dosyası |
 | Response DTO alanları | `dto/dto-veri-tasiyici-tasarimi` | Taşıyıcı tasarımı ayrı |
 | Cache'leme ve ETag | `caching/caching-uygulama-seviyesi-cache` | Cache bayrağı routing'de tanımlı |
-| Rol/izin kararı | `K010-identitiy/authorization` | Yetki ayrı K |
-| Session/JWT | `K010-identitiy/session` | Kimlik zemini ayrı K |
+| Rol/izin kararı | `K0100-identitiy/authorization` | Yetki ayrı K |
+| Session/JWT | `K0100-identitiy/session` | Kimlik zemini ayrı K |
 | Rate limit sayacı | `caching/caching-uygulama-seviyesi-cache` | APCu sayacı bu dosyada değil |
 | SQL şema ve index | `K005-data` | Kalıcılık tasarımı ayrı |
 | Event yayım altyapısı | ADR-086 | Yalnız kullanım kuralı burada |
@@ -484,7 +484,7 @@ yüksek, tablo büyüklüğünde **switch/match yeniden değerlendirilmelidir** 
 | BFF dönüşümü | `routing` §16 | Yönlendirme dosyasında işlendi |
 | HTTP durum kodu semantiği | `routing` §12 | Kod listesi orada |
 | OpenAPI/şema üretimi | `K012-integraion` | Sözleşme dışa aktarımı ayrı |
-| Zaman aşımı stratejisi | `K010-identitiy/session` | Oturum ömrü ayrı |
+| Zaman aşımı stratejisi | `K0100-identitiy/session` | Oturum ömrü ayrı |
 
 ## §25 — Karar matrisi (bu dosyada verilen kararlar)
 

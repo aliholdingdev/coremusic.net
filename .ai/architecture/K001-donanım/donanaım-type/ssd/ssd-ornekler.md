@@ -102,7 +102,7 @@ diye sunulamaz.
 | 6 | Çalınma sayacı | sayı | (boş) |
 | 7 | Katman etiketi (sıcak/soğuk) | enum | (boş) |
 
-**Not:** Şema **kavramsaldır** — gerçek indeks tasarımı K015-media
+**Not:** Şema **kavramsaldır** — gerçek indeks tasarımı K014-media
 sınırındadır (§6/1); alan adları bu vault'ta **bağlayıcı değildir**.
 
 ### §2.6 Tarama performansı - kestirim tablosu (formül açık)
@@ -353,7 +353,7 @@ hangi bilginin alındığı yazılır (append-only, §9 ilkesi).
 
 | # | Konu | Sahip |
 |---|---|---|
-| 1 | İndeks dosya biçimi tasarımı | K015-media (medya katmanı) ⚠️ registry'de teyit gerek |
+| 1 | İndeks dosya biçimi tasarımı | K014-media (medya katmanı) ⚠️ registry'de teyit gerek |
 | 2 | Dosya sistemi seçimi / fsync | K000-isletim-sistemi |
 | 3 | TRIM komutu üretimi | K000 (`isletim-sistemi-core-kapsam.md` §A.2) |
 | 4 | FTL/GC firmware | K005-firmware |

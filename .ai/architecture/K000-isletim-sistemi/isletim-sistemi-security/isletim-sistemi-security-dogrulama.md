@@ -265,7 +265,7 @@ group: kanit
 |---|---|---|
 | `electroncis` | kardes dal adi | KORUNDU |
 | `donanaım-type` | `K001-donanaım-type` | KORUNDU |
-| `identitiy` | `K010-identitiy` | KORUNDU |
+| `identitiy` | `K0100-identitiy` | KORUNDU |
 | `integraion` | `K013-integraion` | KORUNDU |
 | `comilance` | vault adi | KORUNDU (kullanildiysa) |
 | `comere` | vault adi | KORUNDU (kullanildiysa) |
@@ -276,7 +276,7 @@ group: kanit
 | # | Yasak yuzey | Denetlenen yol | Sonuc |
 |---|---|---|---|
 | Z-01 | `K009-security/**` | `git status` + yazilan dosya listesi | GIRILMEDI |
-| Z-02 | `K010-identitiy/**` | ayni | GIRILMEDI |
+| Z-02 | `K0100-identitiy/**` | ayni | GIRILMEDI |
 | Z-03 | `K001..K019/**` (digerleri) | ayni | GIRILMEDI |
 | Z-04 | `isletim-sistemi-{core,cross,kernel,observability,plan,runtime,testing}/**` | ayni | GIRILMEDI |
 | Z-05 | `isletim-sistemi-{api,audio,turu}/**` | ayni | GIRILMEDI |
