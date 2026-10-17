@@ -1046,7 +1046,6 @@
 
 .player-stars {
     display: inline-flex;
-    align-items: center;
     justify-content: center;
     gap: 2px;
     line-height: 1;
@@ -2471,13 +2470,11 @@ html body .page-history--wide.page-layout {
     text-align: left !important;
 }
 
-/* Track 1486–1645 (159px), yıldız grubu 99px (15 + 4×6 aralık) → 30px yanda boşluk */
+/* Track 1486–1645 (159px), yıldız grubu 79px (15 + 4×1 aralık) — Figma pitch 15px'e en yakın */
 .page-player--wide .player-stars {
     display: flex;
-    align-items: flex-start;
-    align-self: start;
     justify-content: center;
-    gap: 6px;
+    gap: 1px;
     height: 15px;
     margin-top: 2px;
 }
