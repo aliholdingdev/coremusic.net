@@ -549,14 +549,18 @@
 }
 
 /* ============================================================
-   28. SCROLLBAR TOKENS
+   28. SCROLLBAR TOKENS — İNCE + PEMBE THUMB (kullanıcı 2026-10-17)
+   Kaynak: kullanıcı görseli — açık (saydam beyaz) track + magenta thumb,
+   yuvarlak uçlar, ince gövde. Önceki klasik-gri değerler kaldırıldı.
    ============================================================ */
 :root {
   --scrollbar-w: 6px;
   --scrollbar-h: 6px;
-  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
-  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.35);
-  --scrollbar-track: transparent;
+  --scrollbar-thumb: #ff4fd8;
+  --scrollbar-thumb-hover: #e025a8;
+  --scrollbar-thumb-active: #c41e9e;
+  --scrollbar-track: rgba(217, 217, 217, 0.55);
+  --scrollbar-border: transparent;
   --scrollbar-radius: var(--radius-full);
 }
 

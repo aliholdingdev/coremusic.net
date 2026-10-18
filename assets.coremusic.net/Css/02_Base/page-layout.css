@@ -36,7 +36,6 @@
   padding: var(--space-6) var(--space-6) var(--space-2);
   overflow-y: auto;
   overflow-x: hidden;
-  scrollbar-width: thin;
   box-sizing: border-box;
   /* Cihaz geçişlerinde yumuşak geçiş */
   opacity: 1;

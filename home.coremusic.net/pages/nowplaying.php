@@ -203,8 +203,6 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
                     </tbody>
                 </table>
             </div>
-
-            <span class="player-scroll-track" aria-hidden="true"></span>
         </section>
 
         <?php $loader->display('wide-sidebar', $variant); ?>

@@ -95,23 +95,6 @@ input, select, textarea {
   outline-offset: var(--cm-pos-2px);
 }
 
-::-webkit-scrollbar {
-  width: var(--scrollbar-w);
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--cm-color-white-15);
-  border-radius: var(--cm-radius-3px);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--cm-color-white-25);
-}
-
 .center {
     margin: 0;
     position: absolute;

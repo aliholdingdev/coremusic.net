@@ -22,8 +22,8 @@
 @import '../03_Layout/_footer.css';
 @import '../06_Utilities/u-helpers-utility.css';   /* .is-hidden — footer pause/play ikonu */
 @import '../05_Pages/_home.css';
-@import '../05_Pages/_player.css?v=1.0.0';
-@import '../05_Pages/p-history.css?v=1.0.0';
+@import '../05_Pages/_player.css?v=1.1.0';
+@import '../05_Pages/p-history.css?v=1.2.0';
 
 /* ============================================================
    DEVICE TOKEN OVERRIDES (4K Monitor)
@@ -106,8 +106,8 @@ html {
    ============================================================ */
 .home-layout {
   grid-template-columns: var(--sidebar-w) 1fr;
-  max-width: calc(var(--content-max-w) + var(--sidebar-w));
-  margin: 0 auto;
+  max-width: 100%; /* 4K: tam genişlik — ortalama YOK (kullanıcı kararı 2026-10-16) */
+  margin: 0;
 }
 
 .home-quick-links {

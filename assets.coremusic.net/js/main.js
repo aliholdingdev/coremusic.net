@@ -33,6 +33,7 @@ import ComponentRegistry from './components/base/ComponentRegistry.js';
 import ComponentLoader from './components/base/ComponentLoader.js';
 import AccordionComponent from './components/interactive/AccordionComponent.js';
 import InfiniteScroll from './components/interactive/InfiniteScroll.js';
+import HorizontalScroll from './components/interactive/HorizontalScroll.js';
 import PlayerInfoComponent from './components/interactive/PlayerInfoComponent.js';
 import HistoryComponent from './components/interactive/HistoryComponent.js';
 
@@ -148,6 +149,7 @@ import MiniCardComponent from './components/composites/MiniCardComponent.js';
             .register('cm-accordion', AccordionComponent)
             .register('cm-toast', ToastComponent)
             .register('cm-infinite-scroll', InfiniteScroll)
+            .register('cm-h-scroll', HorizontalScroll)
             .register('cm-player-info', PlayerInfoComponent)
             .register('cm-history', HistoryComponent)
             /* Faz 2 Batch 1 — primitive bileşenler (Figma 18:2907) */

@@ -21,7 +21,7 @@
 <?php if ($this->variant->isWide()): ?>
     <section class="home_song__btn-dashboard" aria-label="En Son Dinlenen Şarkılar" data-cm-component="cm-infinite-scroll">
         <h2 class="home_song__btn-title">En Son Dinlenen Şarkılar</h2>
-        <div class="home_song__btn-card home_song__btn-card-grid home_song__btn-card-grid--scroll">
+        <div class="home_song__btn-card home_song__btn-card-grid home_song__btn-card-grid--scroll" data-cm-component="cm-h-scroll">
     <?php foreach ($this->cards as $card): ?>
             <?= $card ?>
     <?php endforeach; ?>
@@ -29,7 +29,7 @@
     </section>
     <section class="home_song__btn-dashboard" aria-label="Son Oluşturlan Playlistler">
         <h2 class="home_song__btn-title">Son Oluşturlan &amp; Sistem Taraından Oluşturlan Playlistler</h2>
-        <div class="home_song__btn-card home_song__btn-card-grid home_song__btn-card-grid--scroll">
+        <div class="home_song__btn-card home_song__btn-card-grid home_song__btn-card-grid--scroll" data-cm-component="cm-h-scroll">
     <?php foreach ($this->playlistCards as $card): ?>
             <?= $card ?>
     <?php endforeach; ?>

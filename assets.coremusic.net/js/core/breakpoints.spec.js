@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 /* WP2/J2 — Breakpoint SSOT sözleşmesi:
    1) sınır değerleri (birebir eski device-loader davranışı)
@@ -108,12 +109,17 @@ describe('Breakpoint SSOT — spec', () => {
     let phpConsts;
 
     beforeAll(() => {
-      // jsdom'da import.meta.url file:// degildir → process.cwd() (repo koku,
-      // npm script repo kokunden calisir) uzerinden resolve edilir.
-      const path = resolve(
-        process.cwd(),
-        'shared/src/Device/DeviceDetector.php'
-      );
+      // jsdom'da import.meta.url file:// şemasında değil → iki adaylı çözüm:
+      // (1) import.meta.url dosya şemasındaysa spec dosyasına göre,
+      // (2) değilse cwd (repo kökünden VE assets.coremusic.net içinden çalışır).
+      const fromSpec = new URL('.', import.meta.url);
+      const specDir = fromSpec.protocol === 'file:' ? fileURLToPath(fromSpec) : null;
+      const candidates = [
+        specDir && resolve(specDir, '../../../shared/src/Device/DeviceDetector.php'),
+        resolve(process.cwd(), 'shared/src/Device/DeviceDetector.php'),
+        resolve(process.cwd(), '../shared/src/Device/DeviceDetector.php'),
+      ].filter(Boolean);
+      const path = candidates.find((p) => existsSync(p));
       const src = readFileSync(path, 'utf8');
       phpConsts = {};
       const re = /const\s+([A-Z_0-9]+)\s*=\s*(\d+);/g;

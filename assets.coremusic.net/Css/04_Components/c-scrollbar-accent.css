@@ -1,13 +1,45 @@
 /**
  * Dosya: c-scrollbar-accent.css
  * Katman: 04_Components - yeniden kullanılabilir UI bileşenleri
- * Rol: İnce (5px) glass accent scrollbar görünümü
- * Bağımlılık: token tüketir: var(--glass-*), var(--r-*)
- * Güncelleme: 2026-10-03
+ * Rol: İNCE + PEMBE THUMB scrollbar görünümü (6px · yuvarlak uç · açık track)
+ * Bağımlılık: token tüketir: var(--scrollbar-*)  (01_Abstracts/a-design-tokens.css §28)
+ * Not: 2026-10-17 — kullanıcı görseli referans alındı: açık saydam track +
+ *      magenta thumb, pill (yuvarlak) uçlar. Tüm değerler token SSOT'undan gelir;
+ *      ham hex bu dosyaya yazılmaz (ITCSS kuralı). Ok (↑↓) butonu tanımlanmaz —
+ *      Chrome scrollbar gövdesini ok'larsız çizer.
+ * Güncelleme: 2026-10-17
  *
  *  CoreMusic — Scrollbar Accent | ITCSS: 04_Components
  */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: var(--r-full); }
-::-webkit-scrollbar-thumb:hover { background: var(--glass-border-light); }
+
+/* Gövde — ince6px, yuvarlatılmış */
+::-webkit-scrollbar {
+  width: var(--scrollbar-w);
+  height: var(--scrollbar-h);
+}
+
+/* Track — açık saydam beyaz */
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: var(--scrollbar-radius);
+}
+
+/* Thumb — magenta, pill uçlu */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border: 1px solid var(--scrollbar-border);
+  border-radius: var(--scrollbar-radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--scrollbar-thumb-active);
+}
+
+/* Dikey+yatay kesişim köşesi */
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

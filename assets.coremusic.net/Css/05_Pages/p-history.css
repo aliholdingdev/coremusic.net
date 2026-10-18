@@ -447,20 +447,6 @@
   padding: 4px;
   flex: 1;
   overflow-y: auto;
-  scrollbar-width: thin;
-}
-
-.history-col__items::-webkit-scrollbar {
-  width: 4px;
-}
-
-.history-col__items::-webkit-scrollbar-track {
-  background: var(--scrollbar-track, rgba(0, 0, 0, 0.1));
-}
-
-.history-col__items::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb, rgba(255, 255, 255, 0.2));
-  border-radius: 2px;
 }
 
 .history-row--mini {
@@ -983,31 +969,27 @@
     overflow: hidden;
 }
 
-/* Kaydırma izi — kolon sağ kenarı 4×796: üst 51.32px siyah başparmak, kalanı #D9D9D9 */
-.page-history--wide .history-col::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 4px;
-    height: 796px;
-    background: linear-gradient(to bottom, #000 0, #000 51.32px, #d9d9d9 51.32px, #d9d9d9 796px);
-}
-
-/* Başlık bandı — Figma "label text" (24,171) 1612×25 · #383838 @ .35 */
+/* Başlık bandı — Figma "label text" (24,171) 1612×25 · #383838 @ .35
+   2026-10-17: etiketler artık satırlarla AYNI grid'i kullanır (kullanıcı "bu textleri eşitle").
+   padding 0 40px 0 7px → içerik alanı = items(pad-l 7) + row(100%-40) ile birebir aynı;
+   arka plan bandı tam kolon genişliğinde kalır (padding background'ı daraltmaz). */
 .page-history--wide .history-col__head {
     position: relative;
+    display: grid;
+    grid-template-columns: 31px minmax(0, 168fr) minmax(0, 30fr);
+    gap: 6px;
+    align-items: center;
     height: 25px;
     margin: 0;
-    padding: 0;
+    padding: 0 40px 0 7px;
     background: rgba(56, 56, 56, 0.35);
     border: 0;
     box-shadow: none;
 }
 
 .page-history--wide .history-col__label {
-    position: absolute;
-    top: 8px;
+    position: static;
+    margin: 0;
     font-family: 'Avalon Medium', sans-serif;
     font-size: 7px;
     font-weight: 500;
@@ -1018,9 +1000,9 @@
     text-shadow: none;
 }
 
-.page-history--wide .history-col__label--album { left: 9px; }
-.page-history--wide .history-col__label--title { left: 38px; }
-.page-history--wide .history-col__label--duration { left: 218px; }
+.page-history--wide .history-col__label--album { left: auto; }
+.page-history--wide .history-col__label--title { left: auto; }
+.page-history--wide .history-col__label--duration { left: auto; text-align: right; }
 
 .page-history--wide .history-col__items {
     list-style: none;
@@ -1033,7 +1015,6 @@
     border: 0;
     height: calc(100% - 33px);
     overflow-y: auto;
-    scrollbar-width: none;
 }
 
 .page-history--wide .history-list__item {

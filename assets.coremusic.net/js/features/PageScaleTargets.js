@@ -13,13 +13,10 @@
  *
  * Scale kurallari (ScaleManager.ScaleCalculator kurali formati):
  *   embedded (<=1024) : skip -- CSS @media kontrollu
- *   wide (1025-1919)  : lineer 0.78 -> 1.00 (1024 tasarim 1920'ye yumusak gecis)
- *   fhd  (1920)       : 1.00 (tam orijinal boyut)
- *   2k   (1921-3839)  : lineer 1.00 -> 1.35 (oransal buyume)
- *   4k   (>=3840)     : 0.95 (4K ekranda hafif kucultme -- okunabilirlik)
+ *   wide (1025+)      : skip (v1.1.0) — history/player wide fluid CSS ile 100% genişlik
  *
  * @module features/PageScaleTargets
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 'use strict';
@@ -30,12 +27,9 @@ const HISTORY_WIDE_SCALE_TARGET = {
     origin: 'top left',
     compensateWidth: false,
     customProp: '--scale-history-wide',
+    // v1.1.0: wide sayfa ölçeklenmez — 1025px+ her ekranda 100% genişlik, fluid CSS (ortalama/scale yok)
     rules: [
-        { max: 1024, skip: true },
-        { min: 1025, max: 1919, from: 0.78, to: 1.00 },
-        { min: 1920, max: 1920, scale: 1.00 },
-        { min: 1921, max: 3839, from: 1.00, to: 1.35 },
-        { min: 3840, scale: 0.95 },
+        { min: 0, skip: true },
     ],
 };
 
@@ -45,12 +39,9 @@ const PLAYER_WIDE_SCALE_TARGET = {
     origin: 'top left',
     compensateWidth: false,
     customProp: '--scale-player-wide',
+    // v1.1.0: wide sayfa ölçeklenmez — 1025px+ her ekranda 100% genişlik, fluid CSS (ortalama/scale yok)
     rules: [
-        { max: 1024, skip: true },
-        { min: 1025, max: 1919, from: 0.78, to: 1.00 },
-        { min: 1920, max: 1920, scale: 1.00 },
-        { min: 1921, max: 3839, from: 1.00, to: 1.35 },
-        { min: 3840, scale: 0.95 },
+        { min: 0, skip: true },
     ],
 };
 
