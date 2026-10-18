@@ -23,6 +23,21 @@ export default class FocusManager {
             a.id = ANNOUNCER_ID;
             a.setAttribute('aria-live', 'polite');
             a.className = 'visually-hidden';
+            // CSSOM inline gizleme: .visually-hidden kuralı yalnız 07_Vendors
+            // bootstrap-utilities içinde ve her shell sayfasında yüklü değil.
+            // Annunciator her koşulda görünmez olmalı (CSP uyumlu: style
+            // atribütü değil, CSSOM ataması — ekran okuyucu aria-live ile okur).
+            Object.assign(a.style, {
+                position: 'absolute',
+                width: '1px',
+                height: '1px',
+                padding: '0',
+                margin: '-1px',
+                overflow: 'hidden',
+                clip: 'rect(0, 0, 0, 0)',
+                whiteSpace: 'nowrap',
+                border: '0',
+            });
             document.body.appendChild(a);
         }
         a.textContent = title || 'Sayfa yüklendi';
