@@ -63,6 +63,14 @@ img, svg, video, canvas {
   max-width: 100%;
 }
 
+/* Kalıcı medya hedef elemanları (HtmlShellRenderer: <audio>/<video class="vdisplay">).
+   Bunlar layout akışında yer KAPLAMAZ — 300×150 default boyut tüm sayfayı
+   150px aşağı itiyordu (1920 home satırı y99 yerine y249). coreplayer
+   #video/#audio'yu getElementById ile erişir; display:none media API'yi bozmaz. */
+audio.vdisplay, video.vdisplay {
+  display: none;
+}
+
 a {
   color: inherit;
   text-decoration: none;

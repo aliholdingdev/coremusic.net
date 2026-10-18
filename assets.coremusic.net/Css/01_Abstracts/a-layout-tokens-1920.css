@@ -59,9 +59,11 @@
   --sidebar-w-min: 200px;
   --sidebar-w-max: 400px;
 
-  /* Player Info */
-  --cm-player-info-h: 202px;
-  --cm-player-info-w: 455px;
+  /* Player Info — Figma 1920 SSOT (extracted-1920.md 2849:21489 "Player Info" w=469 h=184).
+     Kapak 150×150 (2849:21461). grid kolonu 469fr ile eşleşir; satır yüksekliği 184
+     (banner 184 · Div2 widget 184.44 ile hizalı). */
+  --cm-player-info-h: 184px;
+  --cm-player-info-w: 469px;
   --cm-player-info-pad-top: 20px;
   --cm-player-info-pad-left: 25px;
   --cm-player-info-pad-right: 25px;
