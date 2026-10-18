@@ -222,10 +222,11 @@
                 newDevice = uaDevice;
             }
 
-            // Viewport çerezini güncelle
+            // Viewport çerezini güncelle (C4c: Secure https'te)
             try {
-                document.cookie = 'cm_viewport_w=' + w + ';path=/;max-age=86400;SameSite=Lax';
-                document.cookie = 'cm_viewport_h=' + h + ';path=/;max-age=86400;SameSite=Lax';
+                const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+                document.cookie = 'cm_viewport_w=' + w + ';path=/;max-age=86400;SameSite=Lax' + secure;
+                document.cookie = 'cm_viewport_h=' + h + ';path=/;max-age=86400;SameSite=Lax' + secure;
             } catch (e) {}
 
             const oldTier = getTier(lastDevice, w);
@@ -323,10 +324,11 @@
             device = uaDevice;
         }
 
-        // Viewport bilgisini cookie'ye yaz (sunucu tarafı tespit için)
+        // Viewport bilgisini cookie'ye yaz (sunucu tarafı tespit için; C4c: Secure https'te)
         try {
-            document.cookie = 'cm_viewport_w=' + w + ';path=/;max-age=86400;SameSite=Lax';
-            document.cookie = 'cm_viewport_h=' + h + ';path=/;max-age=86400;SameSite=Lax';
+            const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+            document.cookie = 'cm_viewport_w=' + w + ';path=/;max-age=86400;SameSite=Lax' + secure;
+            document.cookie = 'cm_viewport_h=' + h + ';path=/;max-age=86400;SameSite=Lax' + secure;
         } catch (e) {}
 
         // Server tahmini: sadece viewport belirsiz olduğunda (desktop default) kullan

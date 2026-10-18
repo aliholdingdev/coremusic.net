@@ -88,8 +88,12 @@ final class JwtService
 
         try {
             $claims = JWT::decode($token, new Key($this->publicKey(), self::ALGORITHM));
-        } catch (\Throwable) {
-            // imza/süre/format hataları — hiçbir ayrıntı sızdırılmaz
+        } catch (\JsonException | \SodiumException | \InvalidArgumentException
+                 | \UnexpectedValueException | \DomainException) {
+            // Yalnız beklenen tipler: bozuk segment/JSON, imza/süre/aud reddi
+            // (php-jwt: SignatureInvalid/Expired/BeforeValid → UnexpectedValueException,
+            //  bozuk JSON/openssl yolları → DomainException).
+            // Diğer her şey yukarı fırlar (görünmeyen hata sessizce yutulmaz).
             return null;
         }
 

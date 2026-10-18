@@ -107,8 +107,10 @@
             startBtn.addEventListener('click', () => {
                 const name = nameInput ? nameInput.value.trim() : '';
                 if (name !== '') {
+                    // C4b: Secure yalnız https'te (http://localhost'da kırılmasın)
+                    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
                     document.cookie = 'MM_Username=' + encodeURIComponent(name) +
-                        '; path=/; max-age=31536000; SameSite=Lax';
+                        '; path=/; max-age=31536000; SameSite=Lax' + secure;
                 }
                 dismiss();
             });

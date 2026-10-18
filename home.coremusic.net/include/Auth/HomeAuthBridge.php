@@ -51,8 +51,29 @@ final class HomeAuthBridge
             return ['success' => false, 'error' => 'invalid_key'];
         }
 
+        // Session oluştur (session fixation C3: doğrulama sonrası ID rotasyonu dahil)
+        $this->establishSession($userInfo);
+
+        return [
+            'success' => true,
+            'user'    => $userInfo,
+        ];
+    }
+
+    /**
+     * Doğrulanmış kullanıcı bilgisiyle home session'ını kurar.
+     *
+     * Session fixation (C1/C3): setAuthUser'dan hemen sonra
+     * HomeSessionManager::regenerateId() zorunlu — auth.coremusic.net'teki
+     * login/register deseniyle aynı (AuthService::register 186-187).
+     *
+     * Public: unit test bu noktadan auth success sonrası ID değişimini doğrular.
+     */
+    public function establishSession(array $userInfo): void
+    {
         // Session oluştur
         $this->session->setAuthUser($userInfo);
+        $this->session->regenerateId();
 
         // Gender'ı session'a kaydet
         if (!empty($userInfo['gender'])) {
@@ -67,11 +88,6 @@ final class HomeAuthBridge
         $_SESSION['_session_last_active'] = $now;
         $_SESSION['_session_rotated_at']  = $now;
         $_SESSION['last_activity']        = $now;
-
-        return [
-            'success' => true,
-            'user'    => $userInfo,
-        ];
     }
 
     /**

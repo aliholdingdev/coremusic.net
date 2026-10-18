@@ -3,12 +3,12 @@
 namespace CoreMusic\Middleware;
 
 use CoreMusic\Contracts\Middleware\IMiddleware;
-use CoreMusic\Cache\CacheInterface;
+use CoreMusic\Contracts\Security\IRateLimiter;
 use CoreMusic\Cache\CacheManager;
+use CoreMusic\Security\CacheRateLimiter;
 
 final class RateLimiterMiddleware implements IMiddleware
 {
-    private const CACHE_KEY_PREFIX = 'rl:';
     private const DEFAULT_IP       = '0.0.0.0';
 
     /**
@@ -39,7 +39,7 @@ final class RateLimiterMiddleware implements IMiddleware
         private readonly int $maxRequests   = 60,
         private readonly int $windowSeconds = 60,
         ?array $trustedProxies = null,
-        private readonly ?CacheInterface $cache = null,
+        private readonly ?IRateLimiter $rateLimiter = null,
         ?array $failClosedPaths = null,
     ) {
         $this->trustedProxies = $trustedProxies
@@ -49,8 +49,8 @@ final class RateLimiterMiddleware implements IMiddleware
 
     public function handle(array $request, callable $next): array
     {
-        $cache = $this->cache ?? $this->resolveCacheAdapter();
-        if ($cache === null) {
+        $limiter = $this->resolveRateLimiter();
+        if ($limiter === null) {
             $path = $this->resolveRequestPath($request);
             if (in_array($path, $this->failClosedPaths, true)) {
                 // ADR-013 §5.4 şart 1a: auth uçları fail-closed.
@@ -69,21 +69,10 @@ final class RateLimiterMiddleware implements IMiddleware
         }
 
         $ip  = $this->resolveClientIp($request);
-        $key = self::CACHE_KEY_PREFIX . md5($ip);
+        $key = md5($ip);
 
-        $isNew = $cache->set($key, 1, $this->windowSeconds);
-        if ($isNew) {
-            return $next($request);
-        }
-
-        $count = $cache->increment($key, 1);
-        if ($count === false) {
-            \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('rate_limiter_increment_failed', ['path' => $this->resolveRequestPath($request)]);
-            $cache->set($key, 1, $this->windowSeconds);
-            return $next($request);
-        }
-
-        if ((int)$count > $this->maxRequests) {
+        // Varlık kontrolü önce: sayaç maxRequests'e ulaştıysa istek sayılır ve 429 döner.
+        if ($limiter->isLimited($key, $this->maxRequests, $this->windowSeconds)) {
             // P5-32: 429 artık gözlemlenir (öncekte hiç loglanmıyordu).
             \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('rate_limited', [
                 'ip'   => $ip,
@@ -98,6 +87,8 @@ final class RateLimiterMiddleware implements IMiddleware
                 'halt'       => true,
             ];
         }
+
+        $limiter->increment($key, $this->windowSeconds);
 
         return $next($request);
     }
@@ -126,10 +117,14 @@ final class RateLimiterMiddleware implements IMiddleware
         return in_array($ip, $this->trustedProxies, true);
     }
 
-    private function resolveCacheAdapter(): ?CacheInterface
+    private function resolveRateLimiter(): ?IRateLimiter
     {
+        if ($this->rateLimiter !== null) {
+            return $this->rateLimiter;
+        }
+
         try {
-            return CacheManager::getAdapter();
+            return new CacheRateLimiter(CacheManager::getAdapter());
         } catch (\RuntimeException) {
             return null;
         }

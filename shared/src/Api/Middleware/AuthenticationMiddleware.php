@@ -121,10 +121,13 @@ final class AuthenticationMiddleware
             return true;
         }
 
-        $uri = $_SERVER['REQUEST_URI'] ?? '/';
+        $uri = (string) ($_SERVER['REQUEST_URI'] ?? '/');
+        $path = parse_url($uri, PHP_URL_PATH);
+        $uri  = is_string($path) && $path !== '' ? $path : '/';
 
         foreach (self::PUBLIC_ROUTE_PATTERNS as $pattern) {
-            if (str_starts_with($uri, $pattern)) {
+            // Segment sınırı: '/api/v1/auth/login-evil' gibi önek-uydurmalar public sayılmaz.
+            if ($uri === $pattern || str_starts_with($uri, $pattern . '/')) {
                 return true;
             }
         }

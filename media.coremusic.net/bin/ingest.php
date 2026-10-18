@@ -98,23 +98,42 @@ function adDuzelt(string $ad, array $mojibake): string
     return str_replace(array_keys($mojibake), array_values($mojibake), $ad);
 }
 
-/** Yol sinirlari: hedef her zaman proje koku icinde (ADR-092 §8 madde 2). */
+/** Yol normalizasyonu: separator tekillestirme + Windows'ta kucuk harf.
+ *  realpath() Windows'ta '\', aday yol '/' ile kurulur — karsilastirma oncesi
+ *  ayni bicime cevrilmeden on ek dogrulamasi hem kacinir hem sahte gecer. */
+function yoluNormallestir(string $yol): string
+{
+    $n = rtrim(str_replace('\\', '/', $yol), '/');
+
+    return DIRECTORY_SEPARATOR === '\\' ? strtolower($n) : $n;
+}
+
+/** Yol sinirlari: hedef her zaman proje koku icinde (ADR-092 §8 madde 2).
+ *  Kalip:  $yol === $kok || str_starts_with($yol, $kok . '/')
+ *  Sonunda ayirici '/' olmadan "/kok-evil" klasoru "/kok" icinde sayilir
+ *  (on ek guvenlik yanilgisi) — ayni mantik home MusicStreamHandler:199-201. */
 function kokIcindeMi(string $kok, string $goreliYol): bool
 {
     $gercekKok = realpath($kok);
     if ($gercekKok === false) {
         return false;
     }
-    $aday = $gercekKok . '/' . str_replace('\\', '/', $goreliYol);
+    /* ".." segmenti her kosulda reddedilir: realpath() false donen
+       (henuz olusturulmamis) dallanda on ek kontrolu "kok/../dis" ile
+       yanilabilir; bu dal kokIcindeMi'nin tek kacak noktasiydi. */
+    $parcalar = preg_split('#[/\\\\]+#', $goreliYol) ?: [];
+    if (in_array('..', $parcalar, true)) {
+        return false;
+    }
+
+    $kokNorm = yoluNormallestir($gercekKok);
+    $aday = $kokNorm . '/' . str_replace('\\', '/', $goreliYol);
     $dizin = dirname($aday);
     /* henuz olusturulmamis dizinlerde dirname uzerinden kontrol. */
     $gercekDizin = realpath($dizin);
-    if ($gercekDizin === false) {
-        /* kokun kendisine klasor acmak uzereyse kok kontrolu yeter. */
-        return str_starts_with($dizin, $gercekKok);
-    }
+    $kontrol = yoluNormallestir($gercekDizin === false ? $dizin : $gercekDizin);
 
-    return str_starts_with($gercekDizin, $gercekKok) || $gercekDizin === $gercekKok;
+    return $kontrol === $kokNorm || str_starts_with($kontrol, $kokNorm . '/');
 }
 
 /* ------------------------------------------------------------------ */
@@ -332,13 +351,25 @@ foreach ($adaylar as $a) {
         continue;
     }
     $kopyalanan++;
-    /* Kopya sonrasi hash dogrulamasi (dokunulmazlik). */
+    /* Kopya sonrasi hash dogrulamasi (dokunulmazlik).
+       Eslesmeyen kopya BOZUK KOPYADIR: hemen silinir (rollback); arsivde kalmasin. */
     $yeniHash = @hash_file('sha256', $hedefTam);
-    if ($yeniHash !== $a['sha256']) {
+    $rollBack = false;
+    if ($yeniHash === false || $yeniHash !== $a['sha256']) {
         $taramaHata++;
-        fwrite(STDERR, "HATA | {$hedefGoreli} | sha256-format | kopya hashi kaynakla ayni degil\n");
+        $gercekKisa = $yeniHash === false ? 'HESAPLANAMADI' : substr($yeniHash, 0, 12);
+        fwrite(STDERR, "HATA | {$hedefGoreli} | sha256-format | kopya hashi kaynakla ayni degil (beklenen "
+            . substr($a['sha256'], 0, 12) . '… | gercek ' . $gercekKisa . "…) — bozuk kopya siliniyor\n");
+        if (@unlink($hedefTam)) {
+            $rollBack = true;
+            $kopyalanan--;
+        } else {
+            fwrite(STDERR, "HATA | {$hedefGoreli} | dosya-var | bozuk kopya SILENEMEDI (unlink basarisiz)"
+                . " — arsivde duruyor, elle temizlik gerekli\n");
+        }
     }
-    if ($verbose) {
+    if ($verbose && !$rollBack) {
+        /* Roll-back'lenmis (silinmis) kopya icin "KOPYA | ..." satiri basilmaz. */
         fwrite(STDOUT, "KOPYA | {$a['kaynak']} -> {$hedefGoreli}\n");
     }
 }

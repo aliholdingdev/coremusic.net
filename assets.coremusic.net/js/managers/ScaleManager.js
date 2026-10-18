@@ -2,8 +2,8 @@
  * CoreMusic — ScaleManager v7.0.0
  * Dinamik, modüler ve iç içe (nested) hiyerarşileri destekleyen SOLID Ölçeklendirme Motoru.
  *
- * Referans: G:\Drive'ım\www\Yeni klasör\assets.coremusic.net\scale\
- * (scale.coordinator.js, footer.scale.js, header.scale.js, home.scale.js)
+ * Referans: eski scale modülleri (assets.coremusic.net/scale:
+ * scale.coordinator.js, footer.scale.js, header.scale.js, home.scale.js)
  *
  * SOLID Prensipleri:
  *   SRP — Sorumlulukların ayrımı:

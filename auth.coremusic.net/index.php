@@ -57,7 +57,12 @@ $appConfig['session']['cookie_secure'] = $isHttps;
 $config = new ConfigManager($appConfig);
 
 $isProductionEnv = defined('APP_ENV_MODE') && APP_ENV_MODE === 'production';
-$bypassActive     = !$isProductionEnv && defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS;
+// C2 fail-closed: APP_PEPPER yok/boşsa auth bypass ASLA üretilmez (pepper şartı
+// $isProductionEnv kontrolünün ÖNCESİNE alındı). config/constants.php:61-68 zaten
+// boş pepper'da 500 ile çıkıyor; buradaki ek şart harici/boş define'a karşı
+// savunma katmanıdır — hardcoded pepper yedek sabiti silindi.
+$bypassActive     = defined('APP_PEPPER') && APP_PEPPER !== ''
+    && !$isProductionEnv && defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS;
 
 /* â”€â”€â”€ Request Parsing â”€â”€â”€ */
 $requestUri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -129,7 +134,7 @@ if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '
 if ($requestUri === '' || $requestUri === '/') {
     // Auth bypass aktifse -> direkt home'a redirect et
     if ($bypassActive) {
-        $bypassKey = hash_hmac('sha256', 'bypass_' . date('Y-m-d'), defined('APP_PEPPER') ? APP_PEPPER : 'coremusic-bypass');
+        $bypassKey = hash_hmac('sha256', 'bypass_' . date('Y-m-d'), APP_PEPPER);
         $redirectUrl = (defined('MUSIC_URL') ? MUSIC_URL : 'http://home.coremusic.net:81')
             . '/auth/callback?auth_key=' . urlencode($bypassKey);
         header('Location: ' . $redirectUrl, true, 302);

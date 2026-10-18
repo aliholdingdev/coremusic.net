@@ -3,70 +3,111 @@
 namespace CoreMusic\Test\Middleware;
 
 use PHPUnit\Framework\TestCase;
-use CoreMusic\Middleware\RateLimiterMiddleware;
 use CoreMusic\Cache\CacheInterface;
+use CoreMusic\Cache\MemoryAdapter;
+use CoreMusic\Middleware\RateLimiterMiddleware;
+use CoreMusic\Security\CacheRateLimiter;
 
 /**
  * RateLimiterMiddleware — Rate Limiting Testleri
  *
- * ADR-013: APCu tabanlı rate limiting (60 req/60s)
- * Cache mock ile test edilir.
+ * ADR-013: cache tabanlı rate limiting (60 req/60s).
+ *
+ * ÖNEMLİ: Sahte (mock) cache kontratı YOK — eski mock `set => true` her koşulda
+ * döndüğü için 429 ÜRETİMİ asla kanıtlanamıyordu. Tüm sayaç testleri GERÇEK
+ * MemoryAdapter ile yazılır: limit altı geçer, limit aşımında 429 döner.
  *
  * @covers \CoreMusic\Middleware\RateLimiterMiddleware
+ * @covers \CoreMusic\Security\CacheRateLimiter
  */
 final class RateLimiterMiddlewareTest extends TestCase
 {
+    private MemoryAdapter $cache;
+
+    protected function setUp(): void
+    {
+        $this->cache = new MemoryAdapter();
+    }
+
+    private function middleware(
+        int $maxRequests = 60,
+        int $windowSeconds = 60,
+        ?array $trustedProxies = null,
+        ?CacheInterface $cache = null,
+    ): RateLimiterMiddleware {
+        return new RateLimiterMiddleware(
+            maxRequests: $maxRequests,
+            windowSeconds: $windowSeconds,
+            trustedProxies: $trustedProxies,
+            rateLimiter: new CacheRateLimiter($cache ?? $this->cache),
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $server
+     */
+    private function request(string $ip = '192.168.1.1', array $server = []): array
+    {
+        return ['method' => 'GET', 'server' => array_merge(['REMOTE_ADDR' => $ip], $server)];
+    }
+
+    /**
+     * @param array<string, mixed> $request
+     * @return array{0: array<string, mixed>, 1: bool}
+     */
+    private function passThrough(RateLimiterMiddleware $middleware, array $request): array
+    {
+        $coreCalled = false;
+        $result = $middleware->handle($request, function (array $req) use (&$coreCalled): array {
+            $coreCalled = true;
+
+            return ['status' => 200];
+        });
+
+        return [$result, $coreCalled];
+    }
+
     /* ============================================================
-       İLK İSTEK — HER ZAMAN İZİN
+       İLK İSTEK + SINIR ALTI — HER ZAMAN İZİN
        ============================================================ */
 
     public function testFirstRequestAlwaysAllowed(): void
     {
-        $cache = $this->createCacheMock([
-            'set' => true,  // İlk istek — yeni key
-        ]);
+        $middleware = $this->middleware(maxRequests: 60);
 
-        $middleware = new RateLimiterMiddleware(
-            maxRequests: 60,
-            windowSeconds: 60,
-            cache: $cache
-        );
-
-        $coreCalled = false;
-        $result = $middleware->handle(
-            ['method' => 'GET', 'server' => ['REMOTE_ADDR' => '192.168.1.1']],
-            function (array $req) use (&$coreCalled) {
-                $coreCalled = true;
-                return ['status' => 200];
-            }
-        );
+        [$result, $coreCalled] = $this->passThrough($middleware, $this->request());
 
         $this->assertTrue($coreCalled, 'First request should pass through');
         $this->assertSame(200, $result['status']);
     }
 
+    public function testRequestsBelowLimitPassThrough(): void
+    {
+        $middleware = $this->middleware(maxRequests: 3);
+
+        for ($i = 1; $i <= 3; $i++) {
+            [$result, $coreCalled] = $this->passThrough($middleware, $this->request());
+            $this->assertTrue($coreCalled, "Request #{$i} (limit 3) pass-through olmalı");
+            $this->assertSame(200, $result['status']);
+        }
+    }
+
     /* ============================================================
-       LIMIT AŞIMI — 429 DÖNÜR
+       LIMIT AŞIMI — 429 GERÇEK ADAPTER İLE ÜRETİLİR
        ============================================================ */
 
     public function testRateLimitExceededReturns429(): void
     {
-        $cache = $this->createCacheMock([
-            'set' => false,     // Mevcut key — yeni değil
-            'increment' => 61,  // Limit aşıldı (60+1)
-        ]);
+        $middleware = $this->middleware(maxRequests: 60, windowSeconds: 60);
 
-        $middleware = new RateLimiterMiddleware(
-            maxRequests: 60,
-            windowSeconds: 60,
-            cache: $cache
-        );
+        // 60 istek tamam, 61. istek limiti aşar.
+        for ($i = 1; $i <= 60; $i++) {
+            $this->assertTrue($this->passThrough($middleware, $this->request())[1], "Istek #{$i} izinli olmalı");
+        }
 
-        $result = $middleware->handle(
-            ['method' => 'GET', 'server' => ['REMOTE_ADDR' => '192.168.1.1']],
-            fn(array $req) => ['status' => 200]
-        );
+        [$result, $coreCalled] = $this->passThrough($middleware, $this->request());
 
+        $this->assertFalse($coreCalled, 'Limit aşılan istek handler\'a geçmemeli');
         $this->assertSame(429, $result['httpStatus']);
         $this->assertSame('rate_limit_exceeded', $result['body']['error']);
         $this->assertSame('60', $result['headers']['Retry-After']);
@@ -75,245 +116,163 @@ final class RateLimiterMiddlewareTest extends TestCase
 
     public function testRateLimitExactlyAtMaxAllowed(): void
     {
-        $cache = $this->createCacheMock([
-            'set' => false,
-            'increment' => 60,  // Tam limit — hala izinli
-        ]);
+        $middleware = $this->middleware(maxRequests: 60);
 
-        $middleware = new RateLimiterMiddleware(
-            maxRequests: 60,
-            windowSeconds: 60,
-            cache: $cache
-        );
+        for ($i = 1; $i <= 60; $i++) {
+            [$result, $coreCalled] = $this->passThrough($middleware, $this->request());
+            $this->assertTrue($coreCalled, "Tam limitte (#{$i}) istek hala izinli olmalı");
+        }
+    }
 
-        $coreCalled = false;
-        $middleware->handle(
-            ['method' => 'GET', 'server' => ['REMOTE_ADDR' => '192.168.1.1']],
-            function (array $req) use (&$coreCalled) {
-                $coreCalled = true;
-                return ['status' => 200];
-            }
-        );
+    public function testRateLimitStaysClosedForRestOfWindow(): void
+    {
+        $middleware = $this->middleware(maxRequests: 2);
 
-        $this->assertTrue($coreCalled, 'Exactly at max should still pass');
+        $this->passThrough($middleware, $this->request());
+        $this->passThrough($middleware, $this->request());
+
+        // 429 sonrası sayaç resetlenmemeli — pencere kapanana dek 429 sürer.
+        for ($i = 0; $i < 3; $i++) {
+            [$result, $coreCalled] = $this->passThrough($middleware, $this->request());
+            $this->assertFalse($coreCalled);
+            $this->assertSame(429, $result['httpStatus']);
+        }
     }
 
     /* ============================================================
-       CACHE HATASI — GEÇİŞ İZİN
+       IP BAĞIMSIZ SAYAÇ + ANAHTAR BİÇİMİ (rl: + md5(ip))
        ============================================================ */
 
-    public function testCacheIncrementFailureAllowsRequest(): void
+    public function testCountersArePerClientIp(): void
     {
-        $cache = $this->createCacheMock([
-            'set' => false,
-            'increment' => false,  // Cache hatası
-        ]);
+        $middleware = $this->middleware(maxRequests: 1);
 
-        $middleware = new RateLimiterMiddleware(
-            maxRequests: 60,
-            windowSeconds: 60,
-            cache: $cache
-        );
+        [$first, $firstCalled] = $this->passThrough($middleware, $this->request('203.0.113.10'));
+        $this->assertTrue($firstCalled);
 
-        $coreCalled = false;
-        $middleware->handle(
-            ['method' => 'GET', 'server' => ['REMOTE_ADDR' => '192.168.1.1']],
-            function (array $req) use (&$coreCalled) {
-                $coreCalled = true;
-                return ['status' => 200];
-            }
-        );
+        [$second, $secondCalled] = $this->passThrough($middleware, $this->request('203.0.113.10'));
+        $this->assertFalse($secondCalled);
+        $this->assertSame(429, $second['httpStatus']);
 
-        $this->assertTrue($coreCalled, 'Cache failure should allow request (fail-open)');
+        // Farklı IP aynı pencereden etkilenmez.
+        [, $otherIpCalled] = $this->passThrough($middleware, $this->request('203.0.113.11'));
+        $this->assertTrue($otherIpCalled, 'Farklı IP ayrı sayaca sahip olmalı');
     }
 
-    public function testCacheIncrementNullAllowsRequest(): void
+    public function testCounterKeyIsRlPrefixWithHashedIp(): void
     {
-        $cache = $this->createCacheMock([
-            'set' => false,
-            'increment' => null,
-        ]);
+        $middleware = $this->middleware(maxRequests: 60);
 
-        $middleware = new RateLimiterMiddleware(
-            maxRequests: 60,
-            windowSeconds: 60,
-            cache: $cache
-        );
+        $this->passThrough($middleware, $this->request('10.0.0.1'));
 
-        $coreCalled = false;
-        $middleware->handle(
-            ['method' => 'GET', 'server' => ['REMOTE_ADDR' => '192.168.1.1']],
-            function (array $req) use (&$coreCalled) {
-                $coreCalled = true;
-                return ['status' => 200];
-            }
-        );
-
-        $this->assertTrue($coreCalled);
-    }
-
-    /* ============================================================
-       CACHE YOKSA — DOĞRUDAN GEÇİŞ
-       ============================================================ */
-
-    public function testNoCacheAvailableAllowsRequest(): void
-    {
-        $middleware = new RateLimiterMiddleware(
-            maxRequests: 60,
-            windowSeconds: 60,
-            cache: null
-        );
-
-        $coreCalled = false;
-        $result = $middleware->handle(
-            ['method' => 'GET', 'server' => ['REMOTE_ADDR' => '192.168.1.1']],
-            function (array $req) use (&$coreCalled) {
-                $coreCalled = true;
-                return ['status' => 200];
-            }
-        );
-
-        $this->assertTrue($coreCalled, 'No cache should allow request');
-    }
-
-    /* ============================================================
-       IP RESOLUTION
-       ============================================================ */
-
-    public function testClientIpFromRemoteAddr(): void
-    {
-        $cache = $this->createCacheMock(['set' => true]);
-        $capturedKey = null;
-
-        // Cache key IP bazlı olmalı
-        $cache->method('set')
-            ->willReturnCallback(function (string $key, mixed $value, int $ttl) use (&$capturedKey) {
-                $capturedKey = $key;
-                return true;
-            });
-
-        $middleware = new RateLimiterMiddleware(
-            maxRequests: 60,
-            windowSeconds: 60,
-            cache: $cache
-        );
-
-        $middleware->handle(
-            ['method' => 'GET', 'server' => ['REMOTE_ADDR' => '10.0.0.1']],
-            fn(array $req) => ['status' => 200]
-        );
-
-        $this->assertNotNull($capturedKey);
-        $this->assertStringStartsWith('rl:', $capturedKey);
+        $this->assertSame(1, $this->cache->get('rl:' . md5('10.0.0.1')));
+        $this->assertFalse($this->cache->get('rl:' . md5('10.0.0.2')));
     }
 
     public function testTrustedProxyXForwardedFor(): void
     {
-        $cache = $this->createCacheMock(['set' => true]);
-        $capturedKey = null;
-
-        $cache->method('set')
-            ->willReturnCallback(function (string $key, mixed $value, int $ttl) use (&$capturedKey) {
-                $capturedKey = $key;
-                return true;
-            });
-
-        $middleware = new RateLimiterMiddleware(
+        $middleware = $this->middleware(
             maxRequests: 60,
-            windowSeconds: 60,
             trustedProxies: ['127.0.0.1'],
-            cache: $cache
         );
 
-        $middleware->handle(
-            [
-                'method' => 'GET',
-                'server' => [
-                    'REMOTE_ADDR' => '127.0.0.1',
-                    'HTTP_X_FORWARDED_FOR' => '203.0.113.50, 70.41.3.18',
-                ],
-            ],
-            fn(array $req) => ['status' => 200]
-        );
+        $this->passThrough($middleware, $this->request('127.0.0.1', [
+            'HTTP_X_FORWARDED_FOR' => '203.0.113.50, 70.41.3.18',
+        ]));
 
-        // X-Forwarded-For'daki ilk IP kullanılmalı
-        $this->assertNotNull($capturedKey);
+        // X-Forwarded-For'daki ilk IP sayaç anahtarı olmalı.
+        $this->assertSame(1, $this->cache->get('rl:' . md5('203.0.113.50')));
+        $this->assertFalse($this->cache->get('rl:' . md5('127.0.0.1')));
     }
 
     public function testUntrustedProxyUsesRemoteAddr(): void
     {
-        $cache = $this->createCacheMock(['set' => true]);
-        $capturedKey = null;
-
-        $cache->method('set')
-            ->willReturnCallback(function (string $key, mixed $value, int $ttl) use (&$capturedKey) {
-                $capturedKey = $key;
-                return true;
-            });
-
-        $middleware = new RateLimiterMiddleware(
+        $middleware = $this->middleware(
             maxRequests: 60,
-            windowSeconds: 60,
             trustedProxies: ['10.0.0.1'],  // 192.168.1.1 trusted değil
-            cache: $cache
         );
 
-        $middleware->handle(
-            [
-                'method' => 'GET',
-                'server' => [
-                    'REMOTE_ADDR' => '192.168.1.1',
-                    'HTTP_X_FORWARDED_FOR' => '203.0.113.50',
-                ],
-            ],
-            fn(array $req) => ['status' => 200]
-        );
+        $this->passThrough($middleware, $this->request('192.168.1.1', [
+            'HTTP_X_FORWARDED_FOR' => '203.0.113.50',
+        ]));
 
-        $this->assertNotNull($capturedKey);
+        $this->assertSame(1, $this->cache->get('rl:' . md5('192.168.1.1')));
+        $this->assertFalse($this->cache->get('rl:' . md5('203.0.113.50')));
     }
 
     /* ============================================================
        CUSTOM LIMITS
        ============================================================ */
 
-    public function testCustomMaxRequests(): void
+    public function testCustomMaxRequestsAndWindow(): void
     {
-        $cache = $this->createCacheMock([
-            'set' => false,
-            'increment' => 11,  // Custom limit 10'u aştı
-        ]);
+        $middleware = $this->middleware(maxRequests: 10, windowSeconds: 30);
 
-        $middleware = new RateLimiterMiddleware(
-            maxRequests: 10,
-            windowSeconds: 30,
-            cache: $cache
-        );
+        for ($i = 1; $i <= 10; $i++) {
+            $this->assertTrue($this->passThrough($middleware, $this->request())[1]);
+        }
 
-        $result = $middleware->handle(
-            ['method' => 'GET', 'server' => ['REMOTE_ADDR' => '192.168.1.1']],
-            fn(array $req) => ['status' => 200]
-        );
+        [$result, $coreCalled] = $this->passThrough($middleware, $this->request());
 
+        $this->assertFalse($coreCalled);
         $this->assertSame(429, $result['httpStatus']);
         $this->assertSame('30', $result['headers']['Retry-After']);
     }
 
     /* ============================================================
-       HELPER
+       CACHE KULLANILAMAZSA — ADR-013 fail-open (genel uçlar)
        ============================================================ */
 
-    private function createCacheMock(array $behaviors): CacheInterface
+    public function testCacheOutageFailsOpen(): void
     {
-        $cache = $this->createMock(CacheInterface::class);
+        $deadCache = new class implements CacheInterface {
+            public function get(string $key): mixed
+            {
+                return false;
+            }
 
-        if (isset($behaviors['set'])) {
-            $cache->method('set')->willReturn($behaviors['set']);
+            public function set(string $key, mixed $value, int $ttl = 0): bool
+            {
+                return false;
+            }
+
+            public function delete(string $key): bool
+            {
+                return false;
+            }
+
+            public function increment(string $key, int $step = 1): int|false
+            {
+                return false;
+            }
+
+            public function clear(): bool
+            {
+                return false;
+            }
+
+            public function has(string $key): bool
+            {
+                return false;
+            }
+        };
+
+        $middleware = $this->middleware(maxRequests: 1, cache: $deadCache);
+
+        for ($i = 1; $i <= 3; $i++) {
+            [, $coreCalled] = $this->passThrough($middleware, $this->request());
+            $this->assertTrue($coreCalled, 'Cache=outage → genel uçlar fail-open (ADR-013)');
         }
+    }
 
-        if (isset($behaviors['increment'])) {
-            $cache->method('increment')->willReturn($behaviors['increment']);
-        }
+    public function testDefaultAdapterAllowsFirstRequest(): void
+    {
+        // rateLimiter enjekte edilmezse CacheManager adapter'ı devreye girer.
+        $middleware = new RateLimiterMiddleware(maxRequests: 60, windowSeconds: 60);
 
-        return $cache;
+        [$result, $coreCalled] = $this->passThrough($middleware, $this->request('198.51.100.1'));
+
+        $this->assertTrue($coreCalled, 'Varsayılan adapter ile ilk istek geçmeli');
+        $this->assertSame(200, $result['status']);
     }
 }

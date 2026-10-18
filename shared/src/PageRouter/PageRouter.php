@@ -47,16 +47,18 @@ final class PageRouter
             return RouteResult::notFound($uri);
         }
 
+        // Guard sırası: auth kontrolü POST handler'INDAN ÖNCE çalışır —
+        // kimliksiz istek handler'a hiç ulaşmaz (yetki atlama önlenir).
+        $authResult = $this->authGuard?->check($uri, $route, $isSpaRequest);
+        if ($authResult !== null) {
+            return $authResult;
+        }
+
         if (($request['method'] ?? 'GET') === 'POST' && $route->handler !== null) {
             $handler = $this->handlers[$uri] ?? null;
             if ($handler !== null && method_exists($handler, 'handle')) {
                 return $handler->handle($request);
             }
-        }
-
-        $authResult = $this->authGuard?->check($uri, $route, $isSpaRequest);
-        if ($authResult !== null) {
-            return $authResult;
         }
 
         return $this->renderRoute($uri, $route, $csrfToken);

@@ -89,14 +89,27 @@
             : null;
     }
 
-    function cookiesSet(name, value, days) {
+    /**
+     * Cookie yaz — Secure flag https'te otomatik eklenir (http://localhost'da
+     * cookie kırılmasın diye http'de eklenmez). `secure` parametresi ile
+     * açıkça ezilebilir.
+     * @param {string} name
+     * @param {string} value
+     * @param {number} [days]
+     * @param {boolean} [secure] — varsayılan: location.protocol === 'https:'
+     */
+    function cookiesSet(name, value, days, secure) {
         let expires = '';
         if (days) {
             const d = new Date();
             d.setTime(d.getTime() + (days * 86400000));
             expires = '; expires=' + d.toUTCString();
         }
-        document.cookie = name + '=' + (value == null ? '' : value) + expires + '; path=/';
+        const isSecure = (secure === undefined)
+            ? (window.location && window.location.protocol === 'https:')
+            : !!secure;
+        document.cookie = name + '=' + (value == null ? '' : value) + expires + '; path=/'
+            + (isSecure ? '; Secure' : '');
         cookieVersion++;
     }
 

@@ -26,11 +26,17 @@ final class CacheRateLimiter implements IRateLimiter
     public function increment(string $key, int $windowSeconds): void
     {
         $cacheKey = self::KEY_PREFIX . $key;
-        $existing = $this->cache->get($cacheKey);
-        if ($existing === false || $existing === null) {
-            $this->cache->set($cacheKey, 1, $windowSeconds);
-        } else {
-            $this->cache->increment($cacheKey, 1);
+
+        // Tek atomik adım: get-then-set yarışı yok; dönüş değeri artık yok sayılmıyor.
+        $count = $this->cache->increment($cacheKey, 1);
+        if ($count !== false) {
+            return;
+        }
+
+        // Key yok (yeni pencere) veya increment başarısız → pencereyi sıfırdan başlat.
+        if (!$this->cache->set($cacheKey, 1, $windowSeconds)) {
+            // Fail-safe: sayaç tutulamazsa istekler fail-open akar — sessiz değil, gözlemlenir.
+            \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('rate_limiter_increment_failed', ['key' => $cacheKey]);
         }
     }
 

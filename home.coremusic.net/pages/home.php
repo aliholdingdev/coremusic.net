@@ -10,7 +10,7 @@
  * ------------------------------------------------------------------
  *
  * Bileşen Mimarisi v4 (Component System v1.0):
- *   Shared: CoreMusic\Component\* (ComponentRegistry, ComponentRenderer)
+ *   Shared: CoreMusic\Component\* (AbstractComponent, TemplateEngine)
  *   Home:   CoreMusic\Home\Component\* (PlayerInfo, RecentTracks)
  *   JS:     ComponentLoader + data-cm-component auto-mount
  * ------------------------------------------------------------------

@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
  * Guardrail §21 / ADR-091 regresyon kanıtı:
  *  - eval kullanımı yok, davranış aynı (extract + ob_start + exception yeniden yayma)
  *  - geçici cache dosyası her yolda temizlenir
+ *  - renderString fail-closed: `<?php` / `<?=` içeren şablon reddedilir (RCE yüzeyi)
  */
 final class TemplateEngineTest extends TestCase
 {
@@ -39,31 +40,41 @@ final class TemplateEngineTest extends TestCase
         );
     }
 
-    public function testRenderStringInjectsVariablesAndGlobalFunctions(): void
+    /**
+     * renderString GÜVENLİK (fail-closed): `<?=` / `<?php` içeren şablon reddedilir —
+     * şablonlar yalnız kaynak koddan gelir, user input yasaktır.
+     */
+    public function testRenderStringRejectsPhpTags(): void
     {
         $engine = new TemplateEngine();
-        $engine->registerFunction('shout', static fn (string $v): string => strtoupper($v));
 
-        $html = $engine->renderString(
-            'Hi <?= htmlspecialchars($name, ENT_QUOTES) ?>! <?= $__functions["shout"]($tag) ?>',
-            ['name' => 'Ada & Co', 'tag' => 'music']
-        );
+        $rejected = [
+            'short_echo' => 'Hi <?= htmlspecialchars($name, ENT_QUOTES) ?>!',
+            'php_tag'    => '<?php echo "unterminated ' . self::LEAK_MARKER,
+            'php_tag_uppercase' => '<?PHP echo 1;',
+        ];
 
-        $this->assertSame('Hi Ada &amp; Co! MUSIC', $html);
+        foreach ($rejected as $label => $template) {
+            try {
+                $engine->renderString($template, ['name' => 'Ada & Co']);
+                $this->fail("PHP içeren şablon reddedilmeli ({$label})");
+            } catch (\InvalidArgumentException $e) {
+                $this->assertStringContainsString('user input yasaktır', $e->getMessage());
+            }
+        }
     }
 
-    public function testRenderStringBrokenTemplateThrowsAndCleansTempFile(): void
+    public function testRenderStringRejectedTemplateWritesNoTempFile(): void
     {
         $engine = new TemplateEngine();
         $before = $this->tempCacheFiles();
 
-        $broken = '<?php echo "unterminated ' . self::LEAK_MARKER;
-
         try {
-            $engine->renderString($broken);
+            $engine->renderString('<?php echo "unterminated ' . self::LEAK_MARKER);
             $this->fail('Bozuk şablon bir Throwable fırlatmalıdır');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(\ParseError::class, $e);
+        } catch (\InvalidArgumentException $e) {
+            // Guard dosyayı yazmadan önce tetiklenir → yazma/yürütme yok.
+            $this->assertStringContainsString('PHP kodu içeremez', $e->getMessage());
         }
 
         $after = $this->tempCacheFiles();
@@ -78,7 +89,7 @@ final class TemplateEngineTest extends TestCase
             }
         }
 
-        $this->assertSame([], $leaked, 'Bozuk şablondan sonra geçici cache dosyası kalmamalı');
+        $this->assertSame([], $leaked, 'Reddedilen şablondan sonra geçici cache dosyası kalmamalı');
     }
 
     public function testRenderUsesTemplateFilePathWithoutRegression(): void

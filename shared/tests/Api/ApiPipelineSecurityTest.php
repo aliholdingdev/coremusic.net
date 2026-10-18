@@ -6,6 +6,7 @@ namespace CoreMusic\Test\Api;
 use CoreMusic\Api\Auth\ApiSessionManager;
 use CoreMusic\Api\Gateway;
 use CoreMusic\Api\Middleware\ApiMiddlewarePipeline;
+use CoreMusic\Api\Middleware\AuthenticationMiddleware;
 use CoreMusic\Api\Middleware\AuthorizationMiddleware;
 use CoreMusic\Api\Registry\ServiceRegistry;
 use CoreMusic\Api\Versioning\VersionResolver;
@@ -156,6 +157,46 @@ final class ApiPipelineSecurityTest extends TestCase
 
         $this->assertFalse($session->isAuthenticated());
         $this->assertNull($session->getUserId());
+    }
+
+    /**
+     * PUBLIC_ROUTE_PATTERNS segment sınırında eşleşir:
+     * '/api/v1/auth/login-evil' gibi önek-uydurmalar public sayılmaz (fail-closed),
+     * tam eşleşme / alt segment / query string public kalır.
+     */
+    public function testPublicRoutePatternRequiresSegmentBoundary(): void
+    {
+        unset($_SERVER['HTTP_AUTHORIZATION']);
+        $middleware = new AuthenticationMiddleware(new ApiSessionManager());
+
+        $_SERVER['REQUEST_URI'] = '/api/v1/auth/login-evil';
+        $called = false;
+        $response = $middleware([], static function () use (&$called): array {
+            $called = true;
+
+            return ['ok' => true];
+        });
+
+        $this->assertFalse($called, 'Önek-uydurma yol public sayılmamalı');
+        $this->assertSame('UNAUTHORIZED', $response['error']['code'] ?? null);
+
+        $publicUris = [
+            '/api/v1/auth/login',
+            '/api/v1/auth/login?next=%2Fhome',
+            '/api/v1/public/reports',
+        ];
+
+        foreach ($publicUris as $uri) {
+            $_SERVER['REQUEST_URI'] = $uri;
+            $publicCalled = false;
+            $middleware([], static function () use (&$publicCalled): array {
+                $publicCalled = true;
+
+                return ['ok' => true];
+            });
+
+            $this->assertTrue($publicCalled, "Public yol pass-through olmalı: {$uri}");
+        }
     }
 
     public function testIndexRegistersPipelineInFrozenOrder(): void

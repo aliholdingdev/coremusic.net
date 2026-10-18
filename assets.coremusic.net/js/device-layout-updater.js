@@ -186,6 +186,20 @@
         }
     }
 
+    /**
+     * Token bazlı class strip — yalnız `layout--` ile BAŞLAYAN token'lar
+     * silinir. Eski regex (`/layout--\S+/g`) substring olarak eşleştiği için
+     * "home-layout--phone" token'ını "home-" çöpü bırakırdı; token bazlı
+     * strip bu korupsiyonu önler (başka bloğun modifier'ı KORUNUR).
+     * @param {string} className
+     * @returns {string} Tek boşlukla ayrılmış temiz className
+     */
+    function stripLayoutModifierTokens(className) {
+        return className.split(/\s+/)
+            .filter((t) => t !== '' && !t.startsWith('layout--'))
+            .join(' ');
+    }
+
     /* ============================================================
        LAYOUT UPDATER
        ============================================================ */
@@ -209,7 +223,11 @@
         // Main element — layout--* ve data-tier güncelle
         const main = document.querySelector('main.page-home, main.home-layout');
         if (main) {
-            main.className = main.className.replace(/layout--\S+/g, '').replace(/home-layout--(phone|embedded|wide|4k)\b/g, '').trim();
+            // F2a: token bazlı strip — eski regex (/layout--\S+/g) "home-layout--phone"
+            // token'ındaki substring'i yiyip "home-" çöpü bırakıyordu.
+            main.className = stripLayoutModifierTokens(
+                main.className.replace(/home-layout--(phone|embedded|wide|4k)\b/g, '')
+            );
             main.classList.add('layout--' + device);
             if (tier === 'phone') {
                 main.classList.add('home-layout--phone');
@@ -226,7 +244,12 @@
         // Header — BEM modifier'ları güncelle
         const header = document.querySelector('.site-header');
         if (header) {
-            header.className = header.className.replace(/site-header--(embedded|phone|tablet|laptop|desktop|4k-tv|4k-monitor|tv|wide|1920|1024)\b/g, '').trim();
+            // F2b: header regex'i layout--* strip etmiyordu → desktop+phone aynı
+            // anda birikiyordu. Token bazlı strip eklendi; site-header--* listesi
+            // korundu. (classList.add tekrar eklemede zaten idempotent.)
+            header.className = stripLayoutModifierTokens(
+                header.className.replace(/site-header--(embedded|phone|tablet|laptop|desktop|4k-tv|4k-monitor|tv|wide|1920|1024)\b/g, '')
+            );
             if (tier === 'phone') {
                 header.classList.add('site-header--phone');
             } else if (tier === '4k') {
@@ -243,7 +266,11 @@
         // Footer — BEM modifier'ları güncelle
         const footer = document.querySelector('footer');
         if (footer) {
-            footer.className = footer.className.replace(/footer--(mobile|embedded|phone|tablet|laptop|desktop|4k-tv|4k-monitor|tv|wide|1920|1024)\b/g, '').trim();
+            // F2b: footer da layout--* strip etmiyordu (header ile aynı birikim
+            // hatası) — token bazlı strip eklendi.
+            footer.className = stripLayoutModifierTokens(
+                footer.className.replace(/footer--(mobile|embedded|phone|tablet|laptop|desktop|4k-tv|4k-monitor|tv|wide|1920|1024)\b/g, '')
+            );
             if (tier === 'phone') {
                 footer.classList.add('footer--mobile');
             } else if (tier === '4k') {

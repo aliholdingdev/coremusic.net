@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 namespace CoreMusic\Api\Middleware;
 
-use CoreMusic\Security\CacheRateLimiter;
+use CoreMusic\Contracts\Security\IRateLimiter;
 use CoreMusic\Api\ApiResponse;
 
 /**
- * Rate Limit Middleware using CacheRateLimiter.
+ * Rate Limit Middleware using IRateLimiter (default: CacheRateLimiter).
  */
 final class RateLimitMiddleware
 {
@@ -23,7 +23,7 @@ final class RateLimitMiddleware
     private const DEFAULT_WINDOW_SECONDS = 60;
 
     public function __construct(
-        private readonly CacheRateLimiter $rateLimiter,
+        private readonly IRateLimiter $rateLimiter,
         private int $maxRequests = self::DEFAULT_MAX_REQUESTS,
         private int $windowSeconds = self::DEFAULT_WINDOW_SECONDS
     ) {}

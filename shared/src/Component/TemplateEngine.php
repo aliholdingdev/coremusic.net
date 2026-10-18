@@ -58,15 +58,25 @@ final class TemplateEngine
      * Şablon geçici bir cache dosyasına yazılır ve require ile çalıştırılır;
      * akış (extract + ob_start + exception yeniden yayma) eval ile birebir aynıdır.
      *
+     * GÜVENLİK: Şablonlar yalnız kaynak koddan gelir — user input YASAKTIR.
+     * `<?php` / `<?=` içeren şablon reddedilir (fail-closed, RCE yüzeyi kapatılır).
+     *
      * @param string                $template PHP template kodu
      * @param array<string, mixed> $data     Template değişkenleri
      *
      * @return string Render edilmiş HTML
      *
+     * @throws \InvalidArgumentException Şablon PHP kodu içeriyorsa
      * @throws \RuntimeException Cache dosyası yazılamazsa
      */
     public function renderString(string $template, array $data = []): string
     {
+        if (stripos($template, '<?php') !== false || str_contains($template, '<?=')) {
+            throw new \InvalidArgumentException(
+                'renderString(): şablon PHP kodu içeremez — şablonlar yalnız kaynak koddan gelir, user input yasaktır.'
+            );
+        }
+
         $data['__functions'] = $this->functions;
 
         // Guardrail §21: eval yok — cache dosyası + require (ADR-091)

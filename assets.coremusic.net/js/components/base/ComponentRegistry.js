@@ -20,6 +20,9 @@ export default class ComponentRegistry {
     /** @type {ComponentRegistry|null} */
     static #instance = null;
 
+    /** @type {number} Benzersiz cmId üretim sayacı (JS tek thread — atomiklik gerekmez) */
+    static #seq = 0;
+
     /** @returns {ComponentRegistry} */
     static getInstance() {
         return (ComponentRegistry.#instance ??= new ComponentRegistry());
@@ -67,6 +70,12 @@ export default class ComponentRegistry {
      * @returns {import('./ComponentBase.js').default|null}
      */
     getInstance(name, element, initialState) {
+        // F1: id'siz + cmId'siz aynı isimli 2+ element tek anahtara düşüyordu
+        // (yanlış singleton + çift DOM mount). cmId yoksa benzersiz kimlik
+        // üretilir ve elemente kaydedilir; id/cmId önceliği korunur.
+        if (!element.dataset.cmId) {
+            element.dataset.cmId = 'cm-' + (++ComponentRegistry.#seq);
+        }
         const key = `${name}#${element.id || element.dataset.cmId || ''}`;
         if (this.#instances.has(key)) {
             return this.#instances.get(key);

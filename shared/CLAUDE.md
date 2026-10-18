@@ -30,7 +30,7 @@ shared/
 ├── config/ ← Route, domain, OAuth yapılandırması
 ├── database/migrations/ ← oauth_connections + oauth_states
 ├── src/ ← 20 alt klasör, tüm shared kaynak kodu
-│ ├── AI/ ← AIEngine, Orchestrator, KnowledgeBase, MemorySystem
+│ ├── AI/ ← DECOMMISSIONED (ADR-030, 2026-10-18)
 │ ├── Api/ ← Gateway, BFF×4, DTO, Middleware×6, Registry, Versioning
 │ ├── Bootstrap/ ← RuntimeBootstrap.php
 │ ├── Cache/ ← Apcu, Memory, PageCache (ADR-007)
@@ -64,7 +64,7 @@ shared/
 | Domain event | 9, Integration event | 3 |
 | OAuth provider | 12 (Discord, Facebook, Instagram, LinkedIn, Pinterest, Reddit, Snapchat, TikTok, X, YouTube...) |
 | PageRouter dosyası | 14 (Kernel, HtmlShellRenderer, AuthGuard, RouteRegistry, RequestNormalizer, ResponseEmitter...) |
-| API BFF | 4 (Desktop, Embedded, Mobile, Spa) + BffLayer |
+| API BFF | 0 — DECOMMISSIONED (ADR-084, 2026-10-18) |
 | API Middleware | 6 (Authentication, Authorization, RateLimit, RequestValidation, ResponseNormalization, Validator) |
 | API Versioning | ApiVersion, VersionRegistry, VersionResolver |
 | Test dizinleri | 9 (Api, Component, Events, Fixtures, Middleware, OAuth, Repository, Security, Unit) |
@@ -133,7 +133,9 @@ Mimari referanslar `.ai/CLAUDE.md` ve `.ai/.decisions/index.md` üzerinden veril
 | ResponseEmitter.php | Response emit |
 | + 7 diğer | Helper, Config, Exception vb. |
 
-### 5.3 API Gateway & BFF
+### 5.3 API Gateway & BFF — DECOMMISSIONED
+
+> 2026-10-18: BffLayer + Desktop/Mobile/Embedded/Spa Bff sınıfları 0 dış referans kanıtıyla silindi (ADR-084). Aşağıdaki tablo tarihsel referanstır.
 
 | BFF | Hedef İstemci | Response Tipi |
 |-----|---------------|---------------|

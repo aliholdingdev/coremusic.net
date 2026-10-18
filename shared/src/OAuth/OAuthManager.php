@@ -111,7 +111,13 @@ final class OAuthManager
         array $tokenData,
         array $userData
     ): int {
-        $accessTokenEncrypted = $this->encrypt($tokenData['access_token']);
+        $accessToken = $tokenData['access_token'] ?? null;
+        if (!is_string($accessToken) || $accessToken === '') {
+            // Erişim token'ı yoksa bağlantı asla yazılmaz (eksik veriyle sessiz bozuk satır değil).
+            throw new \InvalidArgumentException("OAuth token data eksik: access_token (provider: {$provider})");
+        }
+
+        $accessTokenEncrypted = $this->encrypt($accessToken);
         $refreshTokenEncrypted = isset($tokenData['refresh_token'])
             ? $this->encrypt($tokenData['refresh_token'])
             : null;
@@ -200,6 +206,11 @@ final class OAuthManager
             '',
             16
         );
+
+        if ($ciphertext === false) {
+            // Sessiz bozuk blob yazma: şifreleme başarısızsa kayıt üretmez, hata yukarı çıkar.
+            throw new \RuntimeException('openssl_encrypt başarısız (aes-256-gcm) — OAuth token şifrelenemedi');
+        }
 
         return base64_encode($iv . $tag . $ciphertext);
     }

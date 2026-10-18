@@ -32,9 +32,9 @@ Paylaşılan PHP altyapısı (ADR-039): tüm subdomainlerin ortak middleware, ro
 | `config/domain.php` | Domain haritası (7 subdomain: auth, home, assets, music, admin, media, api) |
 | `config/oauth-platforms.php` | OAuth sağlayıcı listesi |
 | `database/migrations/` | oauth_connections + oauth_states migration'ları |
-| `src/AI/` + `src/Contracts/AI/` | AIEngine, Orchestrator, KnowledgeBase, MemorySystem, PromptEngine, ToolCalling (ADR-030) |
+| `src/AI/` + `src/Contracts/AI/` | DECOMMISSIONED 2026-10-18 (ADR-030 — 0 dış referans kanıtıyla silindi) |
 | `src/Api/` | Gateway, ApiRequest/Response |
-| `src/Api/Bff/` | BffLayer + Desktop/Embedded/Mobile/Spa BFF (ADR-084) |
+| `src/Api/Bff/` | DECOMMISSIONED 2026-10-18 (ADR-084 — 0 dış referans kanıtıyla silindi; BffInterface dahil) |
 | `src/Api/Dto/Request\|Response/` | API DTO'ları |
 | `src/Api/Middleware/` | 6 API middleware (Auth, Authorization, RateLimit, Validation, ...) |
 | `src/Api/Registry/` | ServiceRegistry + sağlık tanımları |

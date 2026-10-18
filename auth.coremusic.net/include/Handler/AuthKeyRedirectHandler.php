@@ -8,6 +8,7 @@ use CoreMusic\Auth\Controller\AuthController;
 use CoreMusic\Auth\Container\AuthContainer;
 use CoreMusic\Config\ConfigManager;
 use CoreMusic\Config\DomainConfig;
+use CoreMusic\Contracts\Auth\ISessionManager;
 use CoreMusic\Log\LoggerFactory;
 use CoreMusic\Session\SessionBootstrapper;
 
@@ -51,10 +52,7 @@ final class AuthKeyRedirectHandler
         if (($result['httpStatus'] ?? 0) === 200 && !empty($result['body']['success'])) {
             $user = $result['body']['user'];
             $session = $container->get(\CoreMusic\Contracts\Auth\ISessionManager::class);
-            $session->setAuthUser($user);
-            if (!empty($user['gender'])) {
-                $session->setGender($user['gender']);
-            }
+            $this->establishAuthenticatedSession($session, $user);
 
             $logger->debug('Root auth_key validated, redirecting to /home', [
                 'user_id' => $user['id'] ?? '-',
@@ -72,5 +70,24 @@ final class AuthKeyRedirectHandler
 
         header('Location: /login?error=invalid_key', true, 302);
         exit;
+    }
+
+    /**
+     * auth_key doğrulaması başarılıysa authenticated session'ı kurar.
+     *
+     * Session fixation (C1): setAuthUser'dan hemen sonra session ID rotasyonu
+     * zorunlu — login/register akışındaki desenle aynı
+     * (bkz. AuthService::register satır 186-187, AuthController::handleLogin 144).
+     *
+     * Public: unit test bu noktadan auth_key sonrası ID değişimini doğrular.
+     */
+    public function establishAuthenticatedSession(ISessionManager $session, array $user): void
+    {
+        $session->setAuthUser($user);
+        $session->regenerateId();
+
+        if (!empty($user['gender'])) {
+            $session->setGender($user['gender']);
+        }
     }
 }
