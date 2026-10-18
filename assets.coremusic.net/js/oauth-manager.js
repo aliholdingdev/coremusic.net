@@ -74,6 +74,17 @@ const OAuthManager = (() => {
                     `width=${width},height=${height},left=${left},top=${top},scrollbars=yes`
                 );
 
+                // P1-3: popup engellendi (blocker / izin yok) → window.open null
+                // döner. popup.closed üzerinden TypeError ATMAZ ve 60sn lock
+                // beklemez: hemen {success:false} dönülür → buton caller'da
+                // yeniden açılır, kullanıcı "Popup engellendi" mesajını görür.
+                if (!popup) {
+                    return {
+                        success: false,
+                        message: 'Popup engellendi — tarayıcı ayarlarından pop-up iznini kontrol edip tekrar deneyin.',
+                    };
+                }
+
                 // C-F-05: reverse tabnabbing — sağlayıcı penceresi window.opener'ı
                 // gezdirmesin. 'noopener' feature'ı YAZMAK popup referansını null'a
                 // çevirir (aşağıdaki popup.closed/popup.location kontrolü kırılırdı);

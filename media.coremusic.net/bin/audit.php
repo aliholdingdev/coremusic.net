@@ -245,6 +245,9 @@ $klasorSlugDenetle = static function (string $klasorAd) use ($rapor): void {
     }
 };
 
+/* validator tek olusum: $kok sabit (satir 46) — her JSON icin yeniden schema
+   okuma/parse yok (Nx -> 1x); dongude yalnizca validate() calisir. */
+$val = Validator::fromProject($kok);
 $yigin = [$kok . '/media'];
 while (($dizin = array_pop($yigin)) !== null) {
     $girisler = @scandir($dizin);
@@ -336,7 +339,6 @@ while (($dizin = array_pop($yigin)) !== null) {
                 continue;
             }
             /* validator mesajlari "yol => neden" bicimindedir; kural kimligine cevir. */
-            $val = Validator::fromProject($kok);
             foreach ($val->validate($giris, $veri) as $mesaj) {
                 $kural = match (true) {
                     str_contains($mesaj, 'enum disi') || str_contains($mesaj, 'taxonomy drift') => 'tag-enum',

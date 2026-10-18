@@ -50,7 +50,11 @@ final class ConfigManager implements IConfigManager
 
     public function getEnv(string $key, mixed $default = null): mixed
     {
-        return $_ENV[$key] ?? getenv($key) ?: $default;
+        // '0' meşru bir değerdir; `?:` ile yutulmaması gerekir.
+        // getenv() yalnızca değişken yoksa false döndürür → default bu durumda uygulanır.
+        $env = getenv($key);
+
+        return $_ENV[$key] ?? ($env !== false ? $env : $default);
     }
 
     public function maskSecret(string $value, int $visibleStart = 3, int $visibleEnd = 3): string

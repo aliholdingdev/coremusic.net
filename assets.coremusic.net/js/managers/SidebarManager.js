@@ -276,6 +276,9 @@ export class ResizeHandle {
     #maxWidth = 400;
     #onMouseMoveBound;
     #onMouseUpBound;
+    /** @type {(e: Event) => void} handle dinleyicileri — destroy() bunları kaldırır (P1-5) */
+    #onMouseDownBound;
+    #onTouchStartBound;
 
     /**
      * @param {HTMLElement} sidebar
@@ -290,12 +293,14 @@ export class ResizeHandle {
         this.#onResize = opts.onResize || (() => { /* no-op default */ });
         this.#onMouseMoveBound = (e) => this.#onMouseMove(e);
         this.#onMouseUpBound = () => this.#onMouseUp();
+        this.#onMouseDownBound = (e) => this.#onMouseDown(e);
+        this.#onTouchStartBound = (e) => this.#onTouchStart(e);
     }
 
     /** Dinleyicileri bağla */
     init() {
-        this.#handle.addEventListener('mousedown', (e) => this.#onMouseDown(e));
-        this.#handle.addEventListener('touchstart', (e) => this.#onTouchStart(e), { passive: false });
+        this.#handle.addEventListener('mousedown', this.#onMouseDownBound);
+        this.#handle.addEventListener('touchstart', this.#onTouchStartBound, { passive: false });
     }
 
     #onMouseDown(e) {
@@ -363,8 +368,13 @@ export class ResizeHandle {
     }
 
     destroy() {
+        // P1-5: handle + yarım kalmış drag (document) dinleyicileri de kaldırılır
+        this.#handle.removeEventListener('mousedown', this.#onMouseDownBound);
+        this.#handle.removeEventListener('touchstart', this.#onTouchStartBound);
         document.removeEventListener('mousemove', this.#onMouseMoveBound);
         document.removeEventListener('mouseup', this.#onMouseUpBound);
+        document.removeEventListener('touchmove', this.#onTouchMoveBound);
+        document.removeEventListener('touchend', this.#onTouchEndBound);
     }
 }
 
@@ -606,6 +616,8 @@ export default class SidebarManager {
     #state = {};
     #isInitialized = false;
     #resizeObserver = null;
+    /** @type {Array<{target: EventTarget, type: string, handler: Function}>} Eklenen dinleyiciler — destroy() temizler */
+    #listeners = [];
 
     /** Responsive mode breakpoint'leri — sıralama önemli: büyükten küçüğe */
     static MODES = {
@@ -689,7 +701,7 @@ export default class SidebarManager {
 
         // Toggle butonu
         if (this.#toggleBtn) {
-            this.#toggleBtn.addEventListener('click', () => this.toggle());
+            this.#listen(this.#toggleBtn, 'click', () => this.toggle());
         }
 
         this.#isInitialized = true;
@@ -812,9 +824,30 @@ export default class SidebarManager {
             this.#resizeObserver.observe(document.documentElement);
         }
 
-        window.addEventListener('resize', () => {
+        this.#listen(window, 'resize', () => {
             this.#applyResponsiveMode();
         }, { passive: true });
+    }
+
+    /**
+     * Dinleyici ekle + kaydet — P1-5: destroy() removeEventListener ile
+     * aynı referanstan kaldırabilsin (inline addEventListener sızıntısı).
+     * @param {EventTarget} target
+     * @param {string} type
+     * @param {Function} handler
+     * @param {AddEventListenerOptions} [opts]
+     */
+    #listen(target, type, handler, opts) {
+        target.addEventListener(type, handler, opts);
+        this.#listeners.push({ target, type, handler });
+    }
+
+    /** Kayıtlı tüm dinleyicileri kaldır */
+    #unbindAll() {
+        for (const { target, type, handler } of this.#listeners) {
+            target.removeEventListener(type, handler);
+        }
+        this.#listeners = [];
     }
 
     /** Event binding */
@@ -822,7 +855,7 @@ export default class SidebarManager {
         if (!this.#sidebarEl) return;
 
         // Section header tıklama
-        this.#sidebarEl.addEventListener('click', (e) => {
+        this.#listen(this.#sidebarEl, 'click', (e) => {
             const header = e.target.closest('.sidebar__section-header');
             if (header) {
                 const section = header.closest('.sidebar__section');
@@ -833,7 +866,7 @@ export default class SidebarManager {
         });
 
         // View toggle
-        this.#sidebarEl.addEventListener('click', (e) => {
+        this.#listen(this.#sidebarEl, 'click', (e) => {
             const toggle = e.target.closest('.sidebar__view-toggle');
             if (toggle) {
                 const sectionId = toggle.dataset.section;
@@ -843,7 +876,7 @@ export default class SidebarManager {
         });
 
         // Sort button
-        this.#sidebarEl.addEventListener('click', (e) => {
+        this.#listen(this.#sidebarEl, 'click', (e) => {
             const sortBtn = e.target.closest('.sidebar__sort-btn');
             if (sortBtn) {
                 const sectionId = sortBtn.dataset.section;
@@ -853,13 +886,13 @@ export default class SidebarManager {
 
         // Overlay click → close
         if (this.#overlay) {
-            this.#overlay.addEventListener('click', () => {
+            this.#listen(this.#overlay, 'click', () => {
                 if (!this.#state.collapsed) this.toggle();
             });
         }
 
         // Keyboard navigation
-        this.#sidebarEl.addEventListener('keydown', (e) => {
+        this.#listen(this.#sidebarEl, 'keydown', (e) => {
             this.#handleKeyboard(e);
         });
     }
@@ -1042,6 +1075,8 @@ export default class SidebarManager {
 
     /** Modülü temizle */
     destroy() {
+        // P1-5: #bindEvents/#bindResize/init eklenen dinleyiciler kaldırılır
+        this.#unbindAll();
         if (this.#resizeObserver) {
             this.#resizeObserver.disconnect();
             this.#resizeObserver = null;

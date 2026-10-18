@@ -7,6 +7,73 @@ use CoreMusic\Config\ConfigManager;
 
 final class ConfigManagerTest extends TestCase
 {
+    /** @var array<string, string|false> */
+    private array $envBackup = [];
+
+    /** @var array<string, mixed> */
+    private array $underscoreEnvBackup = [];
+
+    private const TEST_KEYS = ['CM_TEST_ZERO', 'CM_TEST_UNSET', 'CM_TEST_ABC', 'CM_TEST_PRIORITY'];
+
+    protected function setUp(): void
+    {
+        foreach (self::TEST_KEYS as $key) {
+            $this->envBackup[$key] = getenv($key);
+            $this->underscoreEnvBackup[$key] = $_ENV[$key] ?? null;
+            putenv($key);
+            unset($_ENV[$key]);
+        }
+    }
+
+    protected function tearDown(): void
+    {
+        foreach (self::TEST_KEYS as $key) {
+            putenv($this->envBackup[$key] === false ? $key : $key . '=' . $this->envBackup[$key]);
+            if ($this->underscoreEnvBackup[$key] === null) {
+                unset($_ENV[$key]);
+            } else {
+                $_ENV[$key] = $this->underscoreEnvBackup[$key];
+            }
+        }
+    }
+
+    public function testGetEnvZeroIsNotSwallowed(): void
+    {
+        putenv('CM_TEST_ZERO=0');
+
+        $this->assertSame('0', (new ConfigManager())->getEnv('CM_TEST_ZERO', 'fallback'));
+    }
+
+    public function testGetEnvUnsetReturnsDefault(): void
+    {
+        $config = new ConfigManager();
+
+        $this->assertSame('fallback', $config->getEnv('CM_TEST_UNSET', 'fallback'));
+        $this->assertNull($config->getEnv('CM_TEST_UNSET'));
+    }
+
+    public function testGetEnvReturnsPlainStringValue(): void
+    {
+        putenv('CM_TEST_ABC=abc');
+
+        $this->assertSame('abc', (new ConfigManager())->getEnv('CM_TEST_ABC', 'fallback'));
+    }
+
+    public function testGetEnvEnvSuperglobalHasPriority(): void
+    {
+        putenv('CM_TEST_PRIORITY=from-putenv');
+        $_ENV['CM_TEST_PRIORITY'] = 'from-underscore-env';
+
+        $this->assertSame('from-underscore-env', (new ConfigManager())->getEnv('CM_TEST_PRIORITY', 'fallback'));
+    }
+
+    public function testGetEnvZeroViaEnvSuperglobal(): void
+    {
+        $_ENV['CM_TEST_ZERO'] = '0';
+
+        $this->assertSame('0', (new ConfigManager())->getEnv('CM_TEST_ZERO', 'fallback'));
+    }
+
     public function testGetWithDotNotation(): void
     {
         $config = new ConfigManager([

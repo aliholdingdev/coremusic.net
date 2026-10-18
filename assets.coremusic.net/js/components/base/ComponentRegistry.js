@@ -14,7 +14,10 @@ export default class ComponentRegistry {
     /** @type {Map<string, typeof ComponentBase>} Name → Class mapping */
     #registry = new Map();
 
-    /** @type {Map<string, ComponentBase>} id → Instance cache */
+    /**
+     * @type {Map<string, {instance: object, element: HTMLElement}>}
+     * key → instance + kök element (SPA sonrası kopuk tespiti için — P1-6)
+     */
     #instances = new Map();
 
     /** @type {ComponentRegistry|null} */
@@ -77,8 +80,9 @@ export default class ComponentRegistry {
             element.dataset.cmId = 'cm-' + (++ComponentRegistry.#seq);
         }
         const key = `${name}#${element.id || element.dataset.cmId || ''}`;
-        if (this.#instances.has(key)) {
-            return this.#instances.get(key);
+        const cached = this.#instances.get(key);
+        if (cached) {
+            return cached.instance;
         }
 
         const Class = this.#registry.get(name);
@@ -88,7 +92,7 @@ export default class ComponentRegistry {
         }
 
         const instance = new Class(element, initialState);
-        this.#instances.set(key, instance);
+        this.#instances.set(key, { instance, element });
         return instance;
     }
 
@@ -103,16 +107,42 @@ export default class ComponentRegistry {
     /**
      * Tüm instance'ları destroy eder (her biri try/catch — bozuk instance
      * temizliği durdurmaz; Faz 2 sağlamlaştırma).
+     *
+     * ⚠️ P1-6: SPA route change'de BU metod çağrılmaz (bkz destroyDetached) —
+     * MutationObserver yeni component'ları nav:complete'ten önce mount eder,
+     * destroyAll o an canlı olanları da öldürürdü.
      */
     destroyAll() {
-        this.#instances.forEach((inst) => {
+        this.#instances.forEach((entry) => {
             try {
-                inst.destroy();
+                entry.instance.destroy();
             } catch {
                 // Bozuk instance — yut, temizliğe devam et
             }
         });
         this.#instances.clear();
+    }
+
+    /**
+     * P1-6 — SPA instance sızıntısı: element'i DOM'dan KOPMUŞ instance'ları
+     * destroy edip cache'ten çıkarır. Bağlı (canlı) instance'lara dokunmaz —
+     * bu yüzden route change'de güvenle çağrılır (nav:complete).
+     *
+     * @returns {number} temizlenen instance sayısı
+     */
+    destroyDetached() {
+        let removed = 0;
+        for (const [key, entry] of this.#instances) {
+            if (entry.element && entry.element.isConnected) continue;
+            try {
+                entry.instance.destroy();
+            } catch {
+                // Bozuk instance — yut, temizliğe devam et
+            }
+            this.#instances.delete(key);
+            removed++;
+        }
+        return removed;
     }
 
     /**

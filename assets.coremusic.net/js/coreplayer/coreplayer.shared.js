@@ -19,7 +19,9 @@
     function setCookie(name, value, days) {
         const d = new Date();
         d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-        document.cookie = name + '=' + value + ';expires=' + d.toUTCString() + ';path=/';
+        // C4d: Secure yalnız https'te (http://localhost'da cookie kırılmasın)
+        const secure = window.location && window.location.protocol === 'https:' ? '; Secure' : '';
+        document.cookie = name + '=' + value + ';expires=' + d.toUTCString() + ';path=/' + secure;
     }
 
     function getMediaElement() {

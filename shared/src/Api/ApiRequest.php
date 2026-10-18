@@ -87,12 +87,19 @@ final class ApiRequest
     }
 
     /**
-     * Set a request attribute.
+     * Return a new instance with the given attribute set.
+     *
+     * Immutable (PSR-7 `with*` sözleşmesi): orijinal nesne değişmez.
+     * Not: `clone` sığ (shallow) kopyadır; attributes dizisi PHP'de
+     * copy-on-write ile kopyalanır, ancak attribute değeri bir nesne ise
+     * orijinal ve klon aynı nesne referansını paylaşır.
      */
     public function withAttribute(string $name, mixed $value): self
     {
-        $this->attributes[$name] = $value;
-        return $this;
+        $clone = clone $this;
+        $clone->attributes[$name] = $value;
+
+        return $clone;
     }
 
     /**

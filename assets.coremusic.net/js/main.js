@@ -174,6 +174,14 @@ import MiniCardComponent from './components/composites/MiniCardComponent.js';
         componentLoader.observe();
         app.registerModule('components', { registry: componentRegistry, loader: componentLoader });
 
+        /* P1-6 — SPA instance sızıntısı: navigasyon DomPatcher.replaceChildren ile
+           eski route DOM'unu koparır; instance cache temizlenmezse heap'te kalır.
+           GÜVENLİ BAĞLAM: destroyDetached() (yalnız isConnected=false) — nav:complete
+           anında MUTASYON OBSERVER yeni component'ları çoktan mount etmiştir;
+           destroyAll() orada CANLI component'ları öldürecekti (WeakSet yüzünden
+           geri mount edilemez) → bu yüzden destroyAll route change'e bağlanmaz. */
+        eventBus.on('nav:complete', () => componentRegistry.destroyDetached());
+
         /* Toast singleton'ı global erişime aç */
         window.CoreMusic.Toast = ToastComponent.getInstance();
 

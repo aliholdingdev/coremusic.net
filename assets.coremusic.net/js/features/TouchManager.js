@@ -12,6 +12,11 @@ export default class TouchManager {
     #longPressTimer = null;
     /** @type {{x: number, y: number}|null} */
     #touchStart = null;
+    /* P1-4: bind(this) referansları KAYDEDİLİR — removeEventListener aynı
+       fonksiyon referansını ister; inline bind() sızıntı üretiyordu. */
+    #onTouchStartBound = (e) => this.#onTouchStart(e);
+    #onTouchEndBound = (e) => this.#onTouchEnd(e);
+    #onTouchMoveBound = (e) => this.#onTouchMove(e);
 
     static LONG_PRESS_MS = 500;
     static SWIPE_THRESHOLD = 50;
@@ -25,9 +30,9 @@ export default class TouchManager {
         const device = window.CoreMusic?.deviceType || document.body?.dataset?.device;
         if (device !== 'embedded') return;
 
-        document.addEventListener('touchstart', this.#onTouchStart.bind(this), { passive: true });
-        document.addEventListener('touchend', this.#onTouchEnd.bind(this), { passive: true });
-        document.addEventListener('touchmove', this.#onTouchMove.bind(this), { passive: true });
+        document.addEventListener('touchstart', this.#onTouchStartBound, { passive: true });
+        document.addEventListener('touchend', this.#onTouchEndBound, { passive: true });
+        document.addEventListener('touchmove', this.#onTouchMoveBound, { passive: true });
     }
 
     /** @param {TouchEvent} e */
@@ -92,6 +97,11 @@ export default class TouchManager {
     }
 
     destroy() {
+        // P1-4: eklenen HER dinleyici removeEventListener ile kaldırılır
+        // (aksi halde SPA'da document üzerinde biriken dinleyici sızıntısı).
+        document.removeEventListener('touchstart', this.#onTouchStartBound);
+        document.removeEventListener('touchend', this.#onTouchEndBound);
+        document.removeEventListener('touchmove', this.#onTouchMoveBound);
         if (this.#longPressTimer !== null) {
             clearTimeout(this.#longPressTimer);
             this.#longPressTimer = null;

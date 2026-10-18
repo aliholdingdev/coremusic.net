@@ -133,4 +133,59 @@ describe('ComponentRegistry', () => {
 
         expect(second).not.toBe(first);
     });
+
+    /* ─── P1-6: SPA instance sızıntısı — destroyDetached ─── */
+
+    it('destroyDetached: KOPMUŞ element destroy edilir + cache temizlenir', () => {
+        registry.register('cm-stub', StubComponent);
+        const drop = document.createElement('div');
+        document.body.append(drop);
+
+        const stale = registry.getInstance('cm-stub', drop);
+        const destroySpy = vi.spyOn(stale, 'destroy');
+
+        // SPA navigasyonu: DomPatcher.replaceChildren ile DOM kopar
+        drop.remove();
+        const removed = registry.destroyDetached();
+
+        expect(removed).toBe(1);
+        expect(destroySpy).toHaveBeenCalledTimes(1);
+
+        // Cache temiz: element geri gelse bile YENİ instance üretilir
+        document.body.append(drop);
+        expect(registry.getInstance('cm-stub', drop)).not.toBe(stale);
+    });
+
+    it('destroyDetached: BAĞLI (canlı) instance’a DOKUNMAZ — canlı UI bozulmaz', () => {
+        registry.register('cm-stub', StubComponent);
+        const live = document.createElement('div');
+        const stale = document.createElement('div');
+        document.body.append(live, stale);
+
+        const liveInst = registry.getInstance('cm-stub', live);
+        const staleInst = registry.getInstance('cm-stub', stale);
+        const liveDestroy = vi.spyOn(liveInst, 'destroy');
+        const staleDestroy = vi.spyOn(staleInst, 'destroy');
+
+        stale.remove();
+        registry.destroyDetached();
+
+        expect(staleDestroy).toHaveBeenCalledTimes(1);
+        expect(liveDestroy).not.toHaveBeenCalled();
+        // canlı instance aynı referans olarak cache'te durur
+        expect(registry.getInstance('cm-stub', live)).toBe(liveInst);
+    });
+
+    it('destroyDetached: kopuk element yoksa 0 döner, kimse destroy edilmez', () => {
+        registry.register('cm-stub', StubComponent);
+        const a = document.createElement('div');
+        document.body.append(a);
+
+        const inst = registry.getInstance('cm-stub', a);
+        const spy = vi.spyOn(inst, 'destroy');
+
+        expect(registry.destroyDetached()).toBe(0);
+        expect(spy).not.toHaveBeenCalled();
+        expect(registry.getInstance('cm-stub', a)).toBe(inst);
+    });
 });

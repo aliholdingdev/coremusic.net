@@ -171,8 +171,11 @@
             removeCSS('cm-view-css');
         } else {
             // Home: d-{device}.css + v-{viewMode}.css
+            // P1-11: `+` > `||` — parantez ZORUNLU: `base + undefined` truthy
+            // olduğu için fallback asla uygulanmıyor, /Css/undefined isteği
+            // (404) gidiyordu. HOME_CSS satırında `||` yok — aynı desen yok.
             loadCSS(base + HOME_CSS[device], 'cm-device-css');
-            loadCSS(base + VIEW_CSS[viewMode] || VIEW_CSS['home'], 'cm-view-css');
+            loadCSS(base + (VIEW_CSS[viewMode] || VIEW_CSS['home']), 'cm-view-css');
             removeCSS('cm-auth-bundled');
         }
     }

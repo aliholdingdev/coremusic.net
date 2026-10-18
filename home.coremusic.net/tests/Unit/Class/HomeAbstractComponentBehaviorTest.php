@@ -11,13 +11,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * Karakterizasyon testleri — CoreMusic\Home\Class\AbstractComponent (home).
  *
- * Amaç: home AbstractComponent'in MEVCUT davranışını korumak (K5).
- * Bu testler "ideal" değil "mevcut" davranışı sabitler; shared/src/Component/
- * AbstractComponent ile bilinen drift (asset slash normalizasyonu) burada
- * KASITLI olarak korunur — shared tarafı yalnızca okuma referansıdır:
+ * Amaç: home AbstractComponent davranışını sabitlemek (K5).
+ * NOT (2026-10-18): asset slash normalizasyonu home'a TAŞINDI — drift
+ * shared ile çözüldü; home artık shared ile AYNI normalize'ı uygular:
  *
- *   - home asset():  ASSETS_URL . $path               (normalize YOK, satır 58-61)
- *   - shared asset(): rtrim($base,'/') . '/' . ltrim  (normalize VAR, satır 252-256)
+ *   - home asset():   rtrim($base,'/') . '/' . ltrim($path,'/')  (normalize VAR)
+ *   - shared asset(): aynı normalize (satır 252-256)
  */
 final class HomeAbstractComponentBehaviorTest extends TestCase
 {
@@ -64,7 +63,7 @@ final class HomeAbstractComponentBehaviorTest extends TestCase
         $this->assertSame($base . '/x.css', $url);
     }
 
-    public function testAsset_pathWithoutLeadingSlash_concatenatesWithoutSeparator(): void
+    public function testAsset_pathWithoutLeadingSlash_addsSeparator(): void
     {
         // Arrange
         $base = self::assetsBase();
@@ -73,13 +72,11 @@ final class HomeAbstractComponentBehaviorTest extends TestCase
         // Act
         $url = $stub->exposedAsset('x.css');
 
-        // Assert — DRIFT KANITI: home 'x.css' için ayraç EKLEMEZ;
-        // shared ise ltrim/rtrim + '/' eklerdi ('...net/x.css').
-        $this->assertSame($base . 'x.css', $url);
-        $this->assertStringNotContainsString('/x.css', $url);
+        // Assert — normalize (K5): ltrim/rtrim + '/' ekler → shared ile AYNI
+        $this->assertSame($base . '/x.css', $url);
     }
 
-    public function testAsset_neverNormalizesInputSlashes(): void
+    public function testAsset_normalizesMultipleLeadingSlashes(): void
     {
         // Arrange
         $base = self::assetsBase();
@@ -88,8 +85,8 @@ final class HomeAbstractComponentBehaviorTest extends TestCase
         // Act
         $url = $stub->exposedAsset('//x.css');
 
-        // Assert — shared rtrim/ltrim uygulardı (tek slash); home olduğu gibi birleştirir
-        $this->assertSame($base . '//x.css', $url);
+        // Assert — normalize (K5): ltrim tüm leading slash'ları strip eder → tek slash (shared ile AYNI)
+        $this->assertSame($base . '/x.css', $url);
     }
 
     #[RunInSeparateProcess]

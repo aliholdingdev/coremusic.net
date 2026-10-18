@@ -79,7 +79,7 @@ final class Gateway implements GatewayInterface
                         return ApiResponse::error('NOT_FOUND', 'Route not found', 404);
                     }
 
-                    $apiRequest->withAttribute('route', $route);
+                    $apiRequest = $apiRequest->withAttribute('route', $route);
 
                     return $this->invokeHandler($route, $request);
                 }

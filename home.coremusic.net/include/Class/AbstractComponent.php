@@ -57,7 +57,8 @@ abstract class AbstractComponent implements ComponentInterface
     /** ASSETS_URL önekli varlık adresi. */
     final protected function asset(string $path): string
     {
-        return (defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net') . $path;
+        $base = defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net';
+        return rtrim($base, '/') . '/' . ltrim($path, '/');
     }
 
     /** Session string okuma (salt okuma). */

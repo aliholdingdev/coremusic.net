@@ -110,7 +110,9 @@ export default class ThemeManager {
 
     /** Temayı cookie'ye kaydet */
     #saveTheme(gender) {
-        document.cookie = `cm_gender=${gender}; path=/; domain=.coremusic.net; max-age=31536000; samesite=Lax`;
+        // C4d: Secure yalnız https'te (http://localhost'da cookie kırılmasın)
+        const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+        document.cookie = `cm_gender=${gender}; path=/; domain=.coremusic.net; max-age=31536000; samesite=Lax${secure}`;
     }
 
     /* ============================================================
@@ -170,10 +172,12 @@ export default class ThemeManager {
     /** Mode'u cookie'ye kaydet */
     #saveMode(mode) {
         if (mode === null) {
-            // Cookie'yi sil
+            // Cookie'yi sil (max-age=0 — Secure EKLENMEZ: http'de de silinebilsin)
             document.cookie = 'cm_color_mode=; path=/; domain=.coremusic.net; max-age=0; samesite=Lax';
         } else {
-            document.cookie = `cm_color_mode=${encodeURIComponent(mode)}; path=/; domain=.coremusic.net; max-age=31536000; samesite=Lax`;
+            // C4d: Secure yalnız https'te (http://localhost'da cookie kırılmasın)
+            const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+            document.cookie = `cm_color_mode=${encodeURIComponent(mode)}; path=/; domain=.coremusic.net; max-age=31536000; samesite=Lax${secure}`;
         }
     }
 
