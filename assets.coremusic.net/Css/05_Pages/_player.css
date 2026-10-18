@@ -2937,41 +2937,196 @@ html body .page-history--wide.page-layout {
     right: 257px;
 }
 
+/* ÔöÇÔöÇ Toolbar ÔÇö Figma 2831:9485 "Navigate Div" (PNG'de G├ûR├£N├£R katman) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+   2├ù30px back @abs27.677/62.677 ┬À ba┼şl─▒k Avalon 9.5/500 ls0.712 @abs100.677
+   ┬À home 13├ù13 @abs186.677. Markup'ta TEK back butonu var (btnCount=1) ÔåÆ
+   yaln─▒z boyut/konum uygulan─▒r. Dikey (top) header offset'i nedeniyle
+   kapsam d─▒┼ş─▒ b─▒rak─▒ld─▒. */
+.page-player--embedded .player-toolbar__btn {
+    left: 4.677px;
+    width: 30px;
+    height: 30px;
+}
+
+.page-player--embedded .player-toolbar__btn img {
+    width: 30px;
+    height: 30px;
+}
+
+.page-player--embedded .player-toolbar__title {
+    left: 77.677px;
+    font-family: 'Avalon Medium', 'Avalon', sans-serif;
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.712px;
+}
+
+/* ÔöÇÔöÇ Search ÔÇö Figma 2831:9476 159├ù25 @abs597,85 ┬À radius 4
+   stroke #FF00B2 alpha1 0.5px INSIDE ┬À DROP_SHADOW 0/1/1 %80
+   input "┼Şark─▒ Ara" Avalon 10/500 #000 @box+5,+6 w130 ┬À ikon 15├ù15 @box+138,+5 */
+.page-player--embedded .player-toolbar__search {
+    width: 159px;
+    box-shadow: inset 0 0 0 0.5px #ff00b2, 0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.page-player--embedded .player-toolbar__search-input {
+    left: 5px;
+    width: 130px;
+}
+
+.page-player--embedded .player-toolbar__search-icon {
+    left: 138px;
+}
+
+/* ÔöÇÔöÇ Tablo ÔÇö Figma 2831:9465 "label text" 742├ù34 @rel(24,127) ┬À thead bg
+   #383838 .35 (2831:9466) ┬À sat─▒r 725├ù31 pitch 46 @relx31 ┬À scrollbar
+   2831:9473 3├ù320 r50 #C4C4C4 .42 @rel(763,152).
+   Ba┼şl─▒klar Poppins 10/400 lh15 ┬À h├╝cre metinleri Avalon 11/500 ls0.11
+   lh14.851 (2831:9491-9494).
+   Sat─▒r-i├ği kolon s─▒n─▒rlar─▒: 0 ┬À 47 ┬À 250 ┬À 433 ┬À 575 ┬À 650 ┬À 725
+   (= metin ba┼şlang─▒├ğlar─▒ ┼ŞARKI 47 / ALBUM 250 / SANATCI 433 / SURE 575 /
+    y─▒ld─▒z 650; sat─▒r x=32 ÔåÆ frame 79 / 282 / 465 / 607 / 682).
+   1920 frame'ine (1390:24448) g├Âre yaz─▒lm─▒┼ş transform/margin hileleri
+   embedded'de ge├ğersiz ÔÇö s─▒f─▒rlan─▒r. */
+.page-player--embedded .player-table-panel::-webkit-scrollbar {
+    width: 3px;
+}
+
+.page-player--embedded .player-table-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.page-player--embedded .player-table-panel::-webkit-scrollbar-thumb {
+    background: rgba(196, 196, 196, 0.42);
+    border-radius: 50px;
+}
+
+/* Sabit track'ler 1024'├╝n alt─▒nda ta┼şma ├╝retiyor (min toplam 724px);
+   media guard ile yaln─▒z 1024+ embedded'de uygulan─▒r ÔÇö dar viewport'ta
+   payla┼ş─▒ml─▒ fr tablona (min toplam 182px) d├╝┼şer. */
+@media (min-width: 1024px) {
+
+    .page-player--embedded .player-table thead tr,
+    .page-player--embedded .player-row {
+        grid-template-columns: 47px 203px 183px 142px 75px 74px;
+        margin-right: 8px;
+    }
+
+}
+
+.page-player--embedded .player-table thead .player-col--icon {
+    padding-left: 16px;
+    text-align: left !important;
+    transform: none;
+}
+
+.page-player--embedded .player-table thead .player-col--title {
+    padding-left: 1px;
+    margin-left: 0;
+}
+
+.page-player--embedded .player-table thead .player-col--album {
+    padding-left: 1px;
+    margin-left: 0;
+}
+
+.page-player--embedded .player-table thead .player-col--artist {
+    margin-left: 0;
+}
+
+.page-player--embedded .player-table thead .player-col--duration {
+    padding-left: 8px;
+}
+
+.page-player--embedded .player-table thead .player-col--stars {
+    margin-left: 0;
+    text-align: center;
+}
+
+/* sat─▒r: 31px + margin-bottom 15 = pitch 46 (2831:9463-9464) */
+.page-player--embedded .player-row {
+    height: 31px;
+    margin-bottom: 15px;
+}
+
+/* height:auto ÔåÆ grid align-items:center metni sat─▒r─▒n dikey ortas─▒na koyar
+   (+8.07; Figma +8) */
+.page-player--embedded .player-row td {
+    height: auto;
+    font-size: 11px;
+    line-height: 14.851px;
+    letter-spacing: 0.11px;
+}
+
+.page-player--embedded .player-row .player-col--title {
+    margin-left: 0;
+}
+
+/* 2831:9494 cd_case 33.546├ù30 @sat─▒r+0.284 ÔÇö kaynak PNG 108├ù84 (aspect
+   1.286); Figma scaleMode=FILL ÔåÆ object-fit: cover (k─▒rpma, deformasyon yok) */
+.page-player--embedded .player-row__disc {
+    width: 33.546px;
+    height: 30px;
+    margin: 0;
+    transform: none;
+    object-fit: cover;
+}
+
+/* y─▒ld─▒zlar sat─▒r ba┼şlang─▒c─▒na hizal─▒ (PNG: 5 y─▒ld─▒zl─▒ ve 2 y─▒ld─▒zl─▒ sat─▒r
+   da x=682'den ba┼şlar) */
+.page-player--embedded .player-stars {
+    margin-top: 0;
+    justify-content: flex-start;
+}
+
+/* ÔöÇÔöÇ Sa─ş panel ÔÇö Figma 2831:9486 219├ù420 @abs782,69 radius 8 ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ */
 .page-player--embedded .page-sidebar--figma-wide {
-    right: 28px;
-    width: 203px;
+    right: 23px;
+    width: 219px;
+    border-radius: 8px;
     padding: 14px 12px;
     gap: 10px;
 }
 
+/* Figma 2831:9490 Foto 100├ù100 @abs842,104 stroke #FF6BD2 r50 */
 .page-player--embedded .page-sidebar__art {
-    width: 97px;
-    height: 97px;
+    width: 100px;
+    height: 100px;
 }
 
 .page-player--embedded .page-sidebar__meta {
     margin-top: 10px;
 }
 
+/* 2831:9495 Poppins 12/500 lh18 CENTER ┬À 2831:9496 Poppins 10/300 lh15 CENTER
+   ÔÜá´©Å Poppins font dosyas─▒ repo'da YOK (Fonts/ 0 isabet, @font-face 0) ÔåÆ
+   fallback zinciri yerel geometric sans 'Avalon Medium'e d├╝┼şer. */
 .page-player--embedded .page-sidebar__song-title {
-    font-size: 14px;
+    font-family: "Poppins", "Avalon Medium", "Segoe UI", system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
 }
 
 .page-player--embedded .page-sidebar__song-sub {
-    font-size: 11px;
+    font-family: "Poppins", "Avalon Medium", "Segoe UI", system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    line-height: 15px;
 }
 
+/* 2831:9497-9506 ÔÇö 5├ù(30├ù30 r3) @x803..951 pitch 37 ÔåÆ gap 7 */
 .page-player--embedded .page-sidebar__actions {
-    gap: 8px;
+    gap: 7px;
     margin-top: 12px;
 }
 
 .page-player--embedded .page-action-btn {
-    width: 34px;
+    width: 30px;
     height: 30px;
-    min-width: 34px;
+    min-width: 30px;
     min-height: 30px;
-    border-radius: 9px;
+    border-radius: 3px;
 }
 
 .page-player--embedded .page-action-btn svg {
@@ -2979,11 +3134,38 @@ html body .page-history--wide.page-layout {
     height: 16px;
 }
 
+/* 2831:9540/9525 Poppins 7/500 lh10.5 ls0 ÔÇö label sat─▒r─▒ 804..973 (w169);
+   i├ğerik kolonu 795'te de─şil 804'te ba┼şl─▒yor (SSOT x=804) ÔåÆ margin-left 9.
+   margin-bottom 10 ÔåÆ 1.5: Figma rec-label sonu (346.5) ile ilk daire (353)
+   aras─▒ 6.5px; tabanda 10 + item border/padding 5 = 15 geliyordu (+8.5). */
+.page-player--embedded .page-sidebar__rec-labels {
+    width: 170px;
+    margin-left: 9px;
+    margin-bottom: 1.5px;
+}
+
 .page-player--embedded .page-sidebar__rec-label {
-    font-size: 10px;
+    font-family: "Poppins", "Avalon Medium", "Segoe UI", system-ui, sans-serif;
+    font-size: 7px;
+    font-weight: 500;
+    line-height: 10.5px;
+    letter-spacing: 0;
+}
+
+/* 2831:9542-9549 4├ù35 @x804,849,894,894,939 ÔåÆ pitch 45 = item 39 + gap 6.
+   min-content: item padding 1px├ù2 + border 1px├ù2 = thumb 35 + 4 = 39.
+   margin-left 7: daire 797ÔåÆ804 (Figma x=804).
+   margin-bottom 5.5 (taban 18): Figma name1 sonu (name0 +62.5) ile
+   rec-label2 aras─▒ 10.5px ÔÇö tabanda 4 (padding-bottom) + 1 (border) + 18 = 23
+   geliyordu (+12.5). */
+.page-player--embedded .page-sidebar__rec-labels + .page-sidebar__artist-grid {
+    margin-left: 7px;
+    margin-bottom: 5.5px;
 }
 
 .page-player--embedded .page-sidebar__artist-grid {
+    grid-template-columns: repeat(4, min-content);
+    justify-content: start;
     gap: 6px;
 }
 
@@ -2992,11 +3174,17 @@ html body .page-history--wide.page-layout {
 }
 
 .page-player--embedded .page-sidebar__artist-thumb {
-    width: 34px;
-    height: 34px;
+    width: 35px;
+    height: 35px;
 }
 
+/* 2831:9536-9539 Poppins 5/500 lh7.5 ls0 CENTER ÔÇö margin-top 3 (taban 4):
+   daire sonu (809) ile name (812) aras─▒ 3px (Figma 388ÔåÆ391). */
 .page-player--embedded .page-sidebar__artist-name {
-    margin-top: 4px;
-    font-size: 9px;
+    margin-top: 3px;
+    font-family: "Poppins", "Avalon Medium", "Segoe UI", system-ui, sans-serif;
+    font-size: 5px;
+    font-weight: 500;
+    line-height: 7.5px;
+    letter-spacing: 0;
 }
