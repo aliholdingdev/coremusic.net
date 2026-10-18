@@ -62,8 +62,8 @@ kendisi üretim yapmaz.
 
 | Kapsam (bu domain) | Kapsam DIŞI |
 |---|---|
-| Uygulama logları (yazım/redaction/format) | Test stratejisi, coverage, E2E → **K019-testing** |
-| Metrik/trace/health/alert toplama | CI kapısı, deploy, rollback → **K018-devops** (alert → deploy geri beslemesi entegrasyondur, sınır çekilecek) |
+| Uygulama logları (yazım/redaction/format) | Test stratejisi, coverage, E2E → **K18-testing** |
+| Metrik/trace/health/alert toplama | CI kapısı, deploy, rollback → **K17-devops** (alert → deploy geri beslemesi entegrasyondur, sınır çekilecek) |
 | Olay müdahale (incident-response) | Sistem auth/audit politikası → **K009-security** (security audit logları sınır komşusu) |
 | audio-diagnostics (ses teşhisi) | Ses motorunun kendisi (DSP zinciri) → **K003-audio / K004-dsp** |
 | Performance gözlemi | Performans **optimizasyonu** kod tarafı → ilgili üretim domaini (K003/K011/K012) |
@@ -108,8 +108,8 @@ biri ajan/vault izi, diğeri ürün logu. Ayrım kademe-3'te tescillenecek (aç�
 | depends_on | K012-services | planlanan | log/metric üreten katman servislerdir |
 | depends_on | K010-network | planlanan | tracing/health ağ katmanına dokunur |
 | depends_on | K014-media | planlanan | audio-diagnostics ses zincirini izler |
-| depends_on | K018-devops | planlanan | alert → pipeline/ortam geri beslemesi |
-| used_by | K018-devops | kanıtlı (kısmi) | CI job logları gözetimin parçası (ci.yml) |
+| depends_on | K17-devops | planlanan | alert → pipeline/ortam geri beslemesi |
+| used_by | K17-devops | kanıtlı (kısmi) | CI job logları gözetimin parçası (ci.yml) |
 | used_by | K009-security · operatör | planlanan | audit logları + olay müdahale kullanımı |
 
 ## §6 Doğrulama Özeti (detay: observability-dogrulama.md)
@@ -259,9 +259,9 @@ alanlarıyla yazılır. Karar olmadan alt dosya üretmek yasaktır (kök AGENTS.
 | # | Kural | Komşu domain | Yön | Kaynak |
 |---|---|---|---|---|
 | 1 | Hassas veri (token/şifre/CSRF) log'a yazılmaz, `[REDACTED]` maskelenir | K009-security | K016 → K009 uyumu | .ai/AGENTS.md §17 edge-3 |
-| 2 | Uyarı üretimi K016'de; deploy/rollback aksiyonu K018'dedir | K018-devops | K016 ↔ K018 | v2 §2.17/§2.18 |
-| 3 | CI job logları K018'in borusudur; K016 yalnız okur | K018-devops | K018 → K016 | ci.yml Satır 158 |
-| 4 | Test stratejisi/coverage K019'da; K016 yalnız gözlemler | K019-testing | K016 ↔ K019 | v2 §2.19 |
+| 2 | Uyarı üretimi K016'de; deploy/rollback aksiyonu K018'dedir | K17-devops | K016 ↔ K018 | v2 §2.17/§2.18 |
+| 3 | CI job logları K018'in borusudur; K016 yalnız okur | K17-devops | K018 → K016 | ci.yml Satır 158 |
+| 4 | Test stratejisi/coverage K019'da; K016 yalnız gözlemler | K18-testing | K016 ↔ K019 | v2 §2.19 |
 | 5 | DSP zinciri düzeltmesi K003/K004'te; K016 yalnız teşhis koyar | K003-audio · K004-dsp | K016 ↔ K003/K004 | v2 §2.17 |
 | 6 | Servis log/metrik yüzeyi K012'de üretilir, K016 toplar | K012-services | K012 → K016 | v2 §2.12 |
 | 7 | Ağ katmanı izlemesi (trace/health) K014'e dokunur | K010-network | K016 ↔ K014 | v2 §2.14 |
@@ -274,14 +274,14 @@ alanlarıyla yazılır. Karar olmadan alt dosya üretmek yasaktır (kök AGENTS.
 | 14 | Domain sınırı ihlalinde sistem durur, MO müdahale eder | tümü | genel | .ai/AGENTS.md §18 kural 1 |
 | 15 | Bilinmeyen API/class `VERIFICATION REQUIRED` ile işaretlenir | tümü | genel | .ai/AGENTS.md §18 kural 3 |
 | 16 | Health-check sahipliği serviste (K012), tanımı bu domainde | K012-services | K016 ↔ K012 | v2 §2.12 |
-| 17 | Alert → koşul eşikleri K016'de; koşulun eşiği K019 testlerince sınanır | K019-testing | K016 → K019 | v2 §2.19 |
+| 17 | Alert → koşul eşikleri K016'de; koşulun eşiği K019 testlerince sınanır | K18-testing | K016 → K019 | v2 §2.19 |
 | 18 | Redaction anahtar listesi değiştirilirse K009'a bilgi verilir | K009-security | K016 → K009 | Redactor.php Satır 31 |
 | 19 | Trace-id üretimi tek noktada yapılır (correlation), dağıtılmaz | K016 iç | internal | Psr3LoggerTest.php Satır 116 |
 | 20 | Ses ölçüm birimleri (xrun/clip) K004-DSP sözlüğüyle aynı adlandırılır | K004-dsp | K016 ↔ K004 | v2 §2.4 |
-| 21 | Log dosyası diski doldurursa kesme/döndürme kararı K018 depo politikasındadır | K018-devops | K016 → K018 | v2 §2.18 |
-| 22 | Performance raporu K019 regresyon eşiğiyle paylaşılır | K019-testing | K016 → K019 | v2 §2.19 |
+| 21 | Log dosyası diski doldurursa kesme/döndürme kararı K018 depo politikasındadır | K17-devops | K016 → K018 | v2 §2.18 |
+| 22 | Performance raporu K019 regresyon eşiğiyle paylaşılır | K18-testing | K016 → K019 | v2 §2.19 |
 | 23 | Alert kanalı (Slack/e-mail/webhook) seçimi K009 gizlilik kurallarına tabidir | K009-security | K016 ↔ K009 | .github/AGENTS.md §3.3 kural 2 |
-| 24 | Incident sırasında geçici loglama seviyesi yükseltilebilir; kalıcı değişiklik ADR ister | K018-devops | K016 ↔ K018 | v2 §2.18 |
+| 24 | Incident sırasında geçici loglama seviyesi yükseltilebilir; kalıcı değişiklik ADR ister | K17-devops | K016 ↔ K018 | v2 §2.18 |
 | 25 | `.ai/log.md` girdileri K015-AI otomasyonunun girdisidir, ürün logu değildir | K015-AI | K016 → K015-AI | .ai/log.md Satır 17-20 |
 | 26 | Domain dışı loglama (ör. framework varsayılanı) yasaktır; tek fabrika LoggerFactory | K016 iç | internal | LoggerFactory.php Satır 11 |
 

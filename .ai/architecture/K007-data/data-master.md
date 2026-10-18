@@ -35,7 +35,7 @@ evidence:
 validation: "2026-10-12 — v2 §2.7 rol cümlesi + registry §5 + 10 çocuk disk enumerate ✅ · 2026-10-15 — §3 çocuk tablosu 10/10 index.md linklendi; 10 çocuk × 6 MD = 60 dosya disk enumerate ✅"
 open_questions:
   - "S-1 arama sahipliği: K007 search mi K020-discovery mi?"
-  - "S-2 yedekleme sahipliği: K007 backup mı K018-devops mu?"
+  - "S-2 yedekleme sahipliği: K007 backup mı K17-devops mu?"
   - "S-3 senkronizasyon sınırı: K007 synchronization mı K013-integraion mı?"
   - "S-4 kademe-3 yapısı ADR-097 K4 ile sabitlenecek (TASLAK ADR)"
   - "S-5 MIT/AGPL referans sınırı (K020-licence kaydı bekleniyor)"
@@ -104,15 +104,15 @@ yorumudur**, v2'de karşılığı yoktur:
 | Sorumluluk | Sahip çocuk | Besleyen komşu | Ölçülen şey | Ölçüm aracı (repo) |
 |---|---|---|---|---|
 | Kayıt biçimi | schema | K008-domain (entity tanımı) | tablo/kolon/sınır sayısı · BCNF | `.ai/.sql/mysql/*.sql` (20 dosya) |
-| Şema değişimi | migrations | K018-devops (pipeline) | up/down çifti · geri alınabilirlik | `shared/database/migrations/*.php` |
+| Şema değişimi | migrations | K17-devops (pipeline) | up/down çifti · geri alınabilirlik | `shared/database/migrations/*.php` |
 | Veri erişimi | repositories | K011-application · K012-services | repository başına sorgu sayısı | `shared/src/Repository/` |
 | Atomiklik | transactions | K012-services | rollback başarı oranı | `DatabaseManager::rollBack()` |
 | Sorgu hızı | indexing | search · cache | EXPLAIN planı · fullscan sayısı | `dev.mysql.com/…/explain` (web) |
-| Önbellek | cache | K017-observability (oran) | hit/miss · TTL uyumu | `shared/src/Cache/` |
+| Önbellek | cache | K016-observability (oran) | hit/miss · TTL uyumu | `shared/src/Cache/` |
 | Bulma | search | K020-discovery (⚠️ sınır) | precision@k · typo toleransı | MySQL FULLTEXT (web) |
 | Tazelik | synchronization | K013-integraion (⚠️ sınır) | gecikme · çakışma sayısı | outbox/CDC (web) |
-| Kurtarma | backup | K018-devops (⚠️ sınır) | RTO/RPO · kurtarma testi | mysqldump + binlog (web) |
-| Bütünlük | data-quality | K019-testing | expectation geçme oranı | Great Expectations (web) + PHPStan |
+| Kurtarma | backup | K17-devops (⚠️ sınır) | RTO/RPO · kurtarma testi | mysqldump + binlog (web) |
+| Bütünlük | data-quality | K18-testing | expectation geçme oranı | Great Expectations (web) + PHPStan |
 
 ## §2 Kapsam / Sınır (özet — tam metin `data-kapsam.md`)
 
@@ -123,9 +123,9 @@ yorumudur**, v2'de karşılığı yoktur:
 | İş kuralları ("çal", "beğen" anlamı) | K008-domain | yapısal | v2 §2.8 |
 | Şifreleme/anahtar sahipliği | K009-security | yapısal | v2 §2.9 |
 | Fiziksel disk/donanım | K000-isletim-sistemi · K001-donanım | yapısal | v2 §2.1/§2.2 |
-| Deploy/zamanlama/pipeline | K018-devops | ⚠️ SINIR AÇIK | sahiplik ADR'si bekliyor |
+| Deploy/zamanlama/pipeline | K17-devops | ⚠️ SINIR AÇIK | sahiplik ADR'si bekliyor |
 | Keşif/katalog kuralları | K020-discovery | ⚠️ SINIR AÇIK | sahiplik ADR'si bekliyor |
-| Telemetri/metrik kaydı | K017-observability | TASARIM | v2 §2.17 |
+| Telemetri/metrik kaydı | K016-observability | TASARIM | v2 §2.17 |
 | Öneri modeli eğitimi | K006-yapay-zeka | TASARIM | v2 §2.6 |
 
 ### §2.2 Kapsam İÇİ (10 çocuk)
@@ -192,8 +192,8 @@ tanımları bu üretimde tasarım yorumudur** ve kademe-3'te (ADR-097 K4) kilitl
 | ← used_by | K006-yapay-zeka | öneri girdisi (etkileşim + katalog) | TASARIM İDDİASI |
 | ← used_by | K011-application | sayfa verisi (repo üzerinden) | TASARIM İDDİASI |
 | ← used_by | K012-services | servis kalıcılığı (repo üzerinden) | TASARIM İDDİASI |
-| ← used_by | K019-testing | test verisi kurulumu | TASARIM İDDİASI |
-| ⚠️↔ | K018-devops | yedek zamanlama/pipeline | SINIR AÇIK |
+| ← used_by | K18-testing | test verisi kurulumu | TASARIM İDDİASI |
+| ⚠️↔ | K17-devops | yedek zamanlama/pipeline | SINIR AÇIK |
 | ⚠️↔ | K020-discovery | arama keşif kuralları | SINIR AÇIK |
 | ⚠️↔ | K013-integraion | `synchronization/` çift-kaydı | SINIR AÇIK |
 
@@ -430,7 +430,7 @@ sızabilir. Azaltma: bağlantı açılışında sabit `SET` veya request-scope r
 | Atomicity | `beginTransaction()` + `rollBack()` | `DatabaseManager.php` (IDatabaseManager sözleşmesi) |
 | Consistency | FK + `UNIQUE` kısıtları | dump'larda `CONSTRAINT`/`UNIQUE KEY` |
 | Isolation | InnoDB MVCC (varsayılan REPEATABLE READ) | ⚠️ repo'da açık `SET TRANSACTION` **YOK** → default |
-| Durability | InnoDB flush + binlog (operasyon) | ⚠️ K018-devops sınırı → VERIFICATION REQUIRED |
+| Durability | InnoDB flush + binlog (operasyon) | ⚠️ K17-devops sınırı → VERIFICATION REQUIRED |
 
 ### §14.2 İzolasyon seviyesi dürüstlüğü
 
@@ -450,16 +450,16 @@ REPEATABLE READ)** varsayılır — bu bir **kanıtlanmış seçim değil, varsa
 
 ## §15 Saklama & yedekleme (backup · kurtarma)
 
-> Yedekleme operasyoneldir; bu vault yalnız **politika + sınır** tutar, zamanlama K018-devops'a aittir.
+> Yedekleme operasyoneldir; bu vault yalnız **politika + sınır** tutar, zamanlama K17-devops'a aittir.
 
 ### §15.1 Politika matrisi
 
 | Katman | Ne | Sahip | Kanıt/Not |
 |--------|----|-------|-----------|
-| Tam yedek (dump) | `mysqldump` · schema + data | K018-devops (⚠️ sınır) | migration'da yedek talimatı: `2026-10_07_drop_…migration.php:14-20` |
-| Artık yedek (binlog/PITR) | point-in-time recovery | K018-devops | repo kod kanıtı **YOK** → VERIFICATION REQUIRED |
+| Tam yedek (dump) | `mysqldump` · schema + data | K17-devops (⚠️ sınır) | migration'da yedek talimatı: `2026-10_07_drop_…migration.php:14-20` |
+| Artık yedek (binlog/PITR) | point-in-time recovery | K17-devops | repo kod kanıtı **YOK** → VERIFICATION REQUIRED |
 | KVKK imha | `is_deleted` + `deleted_at` soft-delete | K007 (şema) | dump'larda `deleted_at timestamp NULL` |
-| Kurtarma testi | periyodik restore provası | K018-devops | repo kanıtı YOK → VERIFICATION REQUIRED |
+| Kurtarma testi | periyodik restore provası | K17-devops | repo kanıtı YOK → VERIFICATION REQUIRED |
 
 ### §15.2 Resmi kaynak (doğrulanmış HTTP 200)
 
@@ -580,7 +580,7 @@ REPEATABLE READ)** varsayılır — bu bir **kanıtlanmış seçim değil, varsa
 |------|----------|-------|
 | Ham API anahtarı | asla DB'ye yazılmaz (yalnız SHA-256 hash + prefix) | `ApiKeyRepository.php:18-22` docblock |
 | Kişisel veri (KVKK) | soft-delete `deleted_at` | dump'larda `deleted_at` |
-| Log | K017-observability / K009-security | komşu sınırı |
+| Log | K016-observability / K009-security | komşu sınırı |
 
 ---
 
@@ -590,9 +590,9 @@ REPEATABLE READ)** varsayılır — bu bir **kanıtlanmış seçim değil, varsa
 |-------------|--------|-----|
 | Domain kuralları / ValueObject | K008-domain | şemanın dayanağı |
 | Şifreleme anahtarı sahipliği | K009-security | K007 yalnız çağırır |
-| Deploy/zamanlama/pipeline | K018-devops | yedek operasyonu |
+| Deploy/zamanlama/pipeline | K17-devops | yedek operasyonu |
 | Keşif/katalog kuralları | K020-discovery | arama sahipliği sınırı (S-1) |
-| Telemetri/metrik kaydı | K017-observability | ölçüm veri akışı |
+| Telemetri/metrik kaydı | K016-observability | ölçüm veri akışı |
 | Kimlik doğrulama/oturum | K0100-identitiy | veri değil, kimlik |
 
 ---

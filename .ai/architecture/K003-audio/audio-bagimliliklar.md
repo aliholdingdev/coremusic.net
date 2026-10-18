@@ -35,7 +35,7 @@ group: mimari
 | # | Bağımlılık | Tür | Neden | Kanıt |
 |---|---|---|---|---|
 | D-01 | `K001-infrastructure` | mimari | OS çekirdeği (Windows/macOS/Linux), sürücü katmanı,thread zamanlaması ve driver/host köprüsü bu domainin altındaki her şeyin fiziksel taşıyıcısı. | v2 §2.1 K001 kapsamı; repo'da karşılığı yok (K001 zaten `backend/asio/*` ile örtüşüyor) |
-| D-02 | `K002-data` | mimari | Ses kaynağı (ffmpeg metadata, mix verisi, kullanıcı profili) ve BI/veri ambarı bu domainin üst veri kaynağı. | `shared/src/AI/AIEngine.php` satır 300-339 (`ffmpeg` metadata akışı + ISO 31-band `bandToFrequency`) |
+| D-02 | `K007-data` | mimari | Ses kaynağı (ffmpeg metadata, mix verisi, kullanıcı profili) ve BI/veri ambarı bu domainin üst veri kaynağı. | `shared/src/AI/AIEngine.php` satır 300-339 (`ffmpeg` metadata akışı + ISO 31-band `bandToFrequency`) |
 | D-03 | `K000-frontend` | UI | Sesle ilgili UI yüzeyi (equalizer widget'ı) `K000` altında; K003 yalnız veri/grafik sağlar. | `home.coremusic.net/footer.php` satır 121-122 · `WidgetGridComponent.php` satır 35, 56 |
 | D-04 | `.ai/CLAUDE.md` §6 LINT + `.ai/.rules/senior-mode.md` | kural | Kod yazımı LINT ve senior-mode kurallarına tabi. | `.ai/CLAUDE.md` §6; `.ai/.rules/error-recovery.md` diskte YOK (2026-10-12) |
 | D-05 | `.ai/adr/` — ADR-0003 (ACL input separation) ve omurga ADR'leri | karar | Üst kararlar bu domainin uygulanabilirliğini sınırlar; frozen ADR'lere dokunulmaz. | `.ai/adr/index.md` (ADR-0001…0004 mevcut) |
@@ -68,8 +68,8 @@ group: mimari
 
 | Komşu | İlişki (yalnız açıklama) | Kanıt |
 |---|---|---|
-| `K001-infrastructure` | altta sürücü/timing altyapısını sağlar (upstream). | v2 §2.1 |
-| `K002-data` | yukarıda kaynak veriyi üretir (upstream). | `AIEngine.php` 300-339 |
+| `K001-donanım` | altta sürücü/timing altyapısını sağlar (upstream). | v2 §2.1 |
+| `K007-data` | yukarıda kaynak veriyi üretir (upstream). | `AIEngine.php` 300-339 |
 | `K004-dsp` | aşağıda DSP grafiğini işler (downstream). | `K004-dsp/index.md` |
 | `K005-testing` | kalite kontrolde ölçüm üretir (downstream). | `K005-testing/index.md` |
 | `K006-diagnostics` | hata teşhisi ve izleme (downstream). | `K006-diagnostics/index.md` |
@@ -77,8 +77,8 @@ group: mimari
 ## 5. Bağımlılık yönü özeti (tek bakışta)
 
 ```
-K001-infrastructure   (OS çekirdeği, sürücü, timing) ──┐
-K002-data             (ffmpeg/metadata, BI)          ──┼──► K003-audio ──► K004-dsp
+K001-donanım           (OS çekirdeği, sürücü, timing) ──┐
+K007-data             (ffmpeg/metadata, BI)          ──┼──► K003-audio ──► K004-dsp
 K000-frontend         (UI/equalizer)                 ──┘        │
                                                           ├────► K005-testing
                                                           ├────► K006-diagnostics
@@ -103,11 +103,11 @@ okuma: satır bağımlı olan, sütun bağımlı olunan. `→` = bağımlılık 
 (yukarıdan aşağı). Bu matris **v2 §2.x ve disk kanıtlarından** türetildi;
 yeni iddia üretmez.
 
-| Bağımlı ↓ / Bağımlı olunan → | K000-frontend | K001-infra | K002-data | K003-audio | K004-dsp | K005-firmware |
+| Bağımlı ↓ / Bağımlı olunan → | K000-frontend | K001-infra | K007-data | K003-audio | K004-dsp | K005-firmware |
 |---|---|---|---|---|---|---|
 | K000-frontend | — | — | — | veri (U-01) | — | — |
 | K001-infra | — | — | — | — | — | — |
-| K002-data | — | — | — | — | — | — |
+| K007-data | — | — | — | — | — | — |
 | **K003-audio** | UI (D-03) | OS/sürücü (D-01) | kaynak (D-02) | — | — | boot (master §6) |
 | K004-dsp | — | — | — | akış (U-03) | — | — |
 | K005-firmware | — | — | — | — | — | — |
@@ -177,7 +177,7 @@ görselidir.
 ### §9.2 Veri akışı (runtime)
 
 ```text
-K002-data ──(kaynak veri: metadata, mix, profil)──► K003-audio
+K007-data ──(kaynak veri: metadata, mix, profil)──► K003-audio
 K003-audio ──(ses akışı / ölçüm / durum)──────────► K004-dsp
 K003-audio ──(ölçüm, jitter, hata)────────────────► K005-testing · K006-diagnostics
 K003-audio ──(grafik/veri)────────────────────────► K000-frontend (UI)

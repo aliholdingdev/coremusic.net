@@ -37,7 +37,7 @@ group: mimari
 | D-01 | `K003-audio` | çalışma zamanı | K004'ün **tek** ses kaynağı vardır; DSP işleyicisi K003'ün realtime grafiğine düğüm olarak eklenir, ayrı clock/thread iddia etmez. | `dsp-master.md` §5 · v2 §2.3/§2.4 |
 | D-02 | `K000-isletim-sistemi` | kaynak | CPU, thread önceliği, bellek ve zaman kaynağı (ör. period/quantum). | `dsp-master.md` §5 |
 | D-03 | `K001-donanım` | fiziksel | DSP çıktısı nihai olarak DAC → amplifikatör → hoparlör zincirine iner. | `dsp-master.md` §5 · `.ai/AGENTS.md` §4 (audio-hw) |
-| D-04 | `K002-data` | veri | Ses kaynağı metadata (ffmpeg) ve BI ölçüm katmanı; EQ band eşlemesi `bandToFrequency()` ISO 31-band. | `shared/src/AI/AIEngine.php` satır 300–339 |
+| D-04 | `K007-data` | veri | Ses kaynağı metadata (ffmpeg) ve BI ölçüm katmanı; EQ band eşlemesi `bandToFrequency()` ISO 31-band. | `shared/src/AI/AIEngine.php` satır 300–339 |
 | D-05 | `.ai/CLAUDE.md` §6 LINT + `.ai/.rules/senior-mode.md` | kural | Kod/LINT kuralları bu alanın yazımına tabi; `error-recovery.md` diskte YOK. | `.ai/CLAUDE.md` §6 · disk envanteri 2026-10-12 |
 | D-06 | `.ai/adr/` — ADR-017 `dsp-hardware-mode` · ADR-0003 ACL input separation | karar | Üst kararlar K004'ün donanım/host sınırını ve veri girişini sınırlar; frozen ADR'ler değiştirilmez. | `.ai/AGENTS.md` §21 (Cross References) |
 
@@ -71,7 +71,7 @@ D-03/D-04 bağlam kanıtıdır; D-05/D-06 kural/üst-karar katmanıdır.
 |---|---|---|
 | `K000-frontend` | UI preset'i K004'ün ürettiği band verisini gösterir. | `footer.php` 121–122 |
 | `K001-donanım` | nihai fiziksel çıkış (DAC/amp). | `.ai/AGENTS.md` §4 audio-hw |
-| `K002-data` | metadata/BI kaynağı. | `AIEngine.php` 300–339 |
+| `K007-data` | metadata/BI kaynağı. | `AIEngine.php` 300–339 |
 | `K003-audio` | akış kaynağı + ekleme noktası (gerçek `depends_on`). | v2 §2.4 |
 | `K005-firmware` | donanım-içi DSP sınırı (belirsiz → Q5). | [TASARIM] ⚠️ |
 | `K005-testing` / `K006-diagnostics` | bozulma kontrolü ve ölçüm raporu. | `dsp-master.md` §4 T7 |
@@ -81,7 +81,7 @@ D-03/D-04 bağlam kanıtıdır; D-05/D-06 kural/üst-karar katmanıdır.
 ```
 K000-isletim-sistemi (CPU/thread/zaman)  ──┐
 K003-audio           (akış + graph)      ──┼──► K004-dsp ──► K005-firmware ⚠️(Q5)
-K002-data            (metadata/BI)       ──┘        │
+K007-data            (metadata/BI)       ──┘        │
                                                     ├────► K005-testing / K006-diagnostics
                                                     └────► Uygulama/UI (equalizer widget)
         K001-donanım ◄── (nihai fiziksel çıkış)
@@ -96,7 +96,7 @@ K002-data            (metadata/BI)       ──┘        │
 
 1. **Q5:** DSP hedefi donanım içinde mi (→ `K005-firmware`) yoksa host'ta mı (→ `K003-audio` üstü)?
    Cevap `K004 → K005` satırını ya `[KANIT]` yapar ya bu satırı tamamen kaldırır.
-2. **Q-K002:** `K004 → K002-data` yönü var mı? v2 §2.4'te yazılmış değil → **UNKNOWN**,
+2. **Q-K002:** `K004 → K007-data` yönü var mı? v2 §2.4'te yazılmış değil → **UNKNOWN**,
    `depends_on` alanına eklenmez (kanıtsız satır eklenmez).
 3. **Q-R2:** latency bütçesi UNKNOWN iken hangi satırlar `[TASARIM]` olarak kalacak?
    → `dsp-dogrulama.md` D6 ile ölçülür.

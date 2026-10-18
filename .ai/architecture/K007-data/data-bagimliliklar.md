@@ -74,8 +74,8 @@ kapanır ve satır `REPO` etiketine döner. Uydurma bağımlılık yazılmaz.
 | 1 | K006-yapay-zeka | öneri girdisi (etkileşim + katalog) | temiz, eksiksiz, gecikmesiz | TASARIM |
 | 2 | K011-application | sayfa verisi (repo üzerinden) | hızlı + önbellekli | TASARIM |
 | 3 | K012-services | servis kalıcılığı (repo üzerinden) | atomik yazma | TASARIM |
-| 4 | K019-testing | test verisi kurulumu (SQLite sahte şema) | şema-parite | **REPO** (`ApiKeyRepositoryTest.php:23-30`) |
-| 5 | K018-devops | yedek artefaktı | uygun format + kurtarma talimatı | ⚠️ SINIR AÇIK |
+| 4 | K18-testing | test verisi kurulumu (SQLite sahte şema) | şema-parite | **REPO** (`ApiKeyRepositoryTest.php:23-30`) |
+| 5 | K17-devops | yedek artefaktı | uygun format + kurtarma talimatı | ⚠️ SINIR AÇIK |
 | 6 | K020-discovery | arama indeksi verisi | taze indeks | ⚠️ SINIR AÇIK |
 
 ## §3 Dikey bağımlılık (kademe-içi — 10 çocuk)
@@ -90,8 +90,8 @@ kapanır ve satır `REPO` etiketine döner. Uydurma bağımlılık yazılmaz.
 | 6 | cache | repositories | K017 (oran) | kirletme unutulursa **eski veri** gösterilir |
 | 7 | search | indexing · schema | K020-discovery | indeks gecikirse sonuç eski |
 | 8 | synchronization | transactions | K013-integraion | yarım-olay = tutarsız cihaz |
-| 9 | backup | schema · migrations | K018-devops | kurtarma testi yoksa yedek **varsayım**dır |
-| 10 | data-quality | schema · repositories | K019-testing | yanlış beklenti = yanlış alarm |
+| 9 | backup | schema · migrations | K17-devops | kurtarma testi yoksa yedek **varsayım**dır |
+| 10 | data-quality | schema · repositories | K18-testing | yanlış beklenti = yanlış alarm |
 
 ## §4 Entegrasyon sınırları (paylaşılır / paylaşılmaz)
 
@@ -101,7 +101,7 @@ kapanır ve satır `REPO` etiketine döner. Uydurma bağımlılık yazılmaz.
 | K007 ↔ K009-security | şifreleme **çağrısı** | anahtar saklama, politika yazımı | `data-kod-ornekleri.md` §2.7 |
 | K007 ↔ K000-os | saklama yolu/izin | disk kuyruğu, fsync | os-master |
 | K007 ↔ K006-ai | veriye erişim sözleşmesi | model eğitimi/öneri mantığı | ai-master |
-| K007 ↔ K018-devops | yedek artefaktı | zamanlama/pipeline | ⚠️ AÇIK |
+| K007 ↔ K17-devops | yedek artefaktı | zamanlama/pipeline | ⚠️ AÇIK |
 | K007 ↔ K020-discovery | arama indeksi verisi | keşif/ranking kuralları | ⚠️ AÇIK |
 | K007 ↔ K013-integraion | olay şeması (outbox) | taşıma protokolü | ⚠️ AÇIK |
 
@@ -119,10 +119,10 @@ K009-security ──(şifreleme çağrısı)──► repositories
 K000-os ──(disk)──► schema · backup
 schema ──► migrations ──► K018-devops (pipeline)   ⚠️ sınır
 schema ──► indexing ──► search ──► K020-discovery    ⚠️ sınır
-repositories ──► cache (TTL) ──► K017-observability (oran)
+repositories ──► cache (TTL) ──► K016-observability (oran)
 transactions ──► synchronization ──► K013-integraion ⚠️ sınır
 schema+transactions ──► backup ──► K018-devops       ⚠️ sınır
-schema+repositories ──► data-quality ──► K019-testing
+schema+repositories ──► data-quality ──► K18-testing
 ```
 
 ## §6 Riskli bağımlılıklar
@@ -130,7 +130,7 @@ schema+repositories ──► data-quality ──► K019-testing
 | # | Risk | Neden | Etki | Olasılık | Öneri | Durum |
 |---|---|---|---|---|---|---|
 | 1 | search sahipliği çakışması | K007-search ↔ K020-discovery/search | çift indeks, tutarsız sonuç | yüksek | sahiplik ADR'si | ⚠️ |
-| 2 | backup sahipliği belirsiz | K007 ↔ K018-devops | kimsenin almadığı yedek | orta | sahiplik ADR'si | ⚠️ |
+| 2 | backup sahipliği belirsiz | K007 ↔ K17-devops | kimsenin almadığı yedek | orta | sahiplik ADR'si | ⚠️ |
 | 3 | synchronization çift-kaydı | K007 ↔ K013-integraion | iki senkron tasarımı | orta | sınır kaydı | ⚠️ |
 | 4 | şema değişimi sessiz kırar | K008/K011/K012 okuyucu | üretim hatası | orta | şema sözleşmesi + K019 testi | TASARIM |
 | 5 | cache kirletme unutulursa eski veri | cache ↔ repositories | hatalı içerik gösterimi | orta | kirletme sözleşmesi (`data-kararlar.md` K-05) | TASARIM |
@@ -173,14 +173,14 @@ schema+repositories ──► data-quality ──► K019-testing
 K008-domain ──veri modeli──▶ K007-data ◀──şifreleme çağrısı── K009-security
                               │  ▲
               pipeline ◀──────┤  └────repo üzerinden veri──── K011-application
-             (K018-devops)    │                              K012-services
-                              │                              K019-testing
+             (K17-devops)    │                              K012-services
+                              │                              K18-testing
              arama keşfi ◀────┤
              (K020-discovery) │
              synchronization◀─┤
              (K013-integraion)│
              kimlik ◀─────────┘
-             (K0100-identitiy)
+             (⚠️)
 ```
 
 > Kenar etiketleri: sol tarafta `K007`'ye **giren** (used_by/depends kaynak), sağda **çıkıyor**
@@ -205,7 +205,7 @@ K008-domain ──veri modeli──▶ K007-data ◀──şifreleme çağrısı
 | # | Sınır | Komşu | Risk | Kapanış koşulu |
 |---|-------|-------|------|----------------|
 | S-1 | search ↔ discovery | K020-discovery | iki düğüm "arama" diyor | sahiplik ADR'si |
-| S-2 | backup ↔ devops | K018-devops | politika (K007) vs operasyon (K018) | sahiplik ADR'si |
+| S-2 | backup ↔ devops | K17-devops | politika (K007) vs operasyon (K018) | sahiplik ADR'si |
 | S-3 | synchronization ↔ entegrasyon | K013-integraion | tazelik vs entegrasyon olayı | sınır kaydı |
 | S-4 | identity ↔ kimlik | K0100-identitiy | identity verisi vs kimlik doğrulama | sınır kaydı |
 
@@ -299,15 +299,15 @@ K008-domain ──veri modeli──▶ K007-data ◀──şifreleme çağrısı
 | Omurga ayağı | → depends_on | ← used_by | ⚠️ açık sınır |
 |---|---|---|---|
 | schema | K008-domain | — | — |
-| migrations | — | K018-devops | pipeline sahipliği |
-| repositories | K008-domain, K009-security | K011-application, K012-services | K0100-identitiy |
+| migrations | — | K17-devops | pipeline sahipliği |
+| repositories | K008-domain, K009-security | K011-application, K012-services | ⚠️ |
 | transactions | — | K012-services | — |
 | indexing | — | search, cache | — |
 | cache | — | K011-application | invalidation kuralı |
 | search | — | — | K020-discovery (S-1) |
 | synchronization | — | — | K013-integraion (S-3) |
-| backup | — | — | K018-devops (S-2) |
-| data-quality | — | K019-testing | — |
+| backup | — | — | K17-devops (S-2) |
+| data-quality | — | K18-testing | — |
 
 ---
 
@@ -350,7 +350,7 @@ K008-domain ──veri modeli──▶ K007-data ◀──şifreleme çağrısı
 
 | Alan | Değer |
 |------|-------|
-| Kenar | `used_by: K018-devops` (operasyon) |
+| Kenar | `used_by: K17-devops` (operasyon) |
 | Kırılma | yedek alınamazsa RPO aşılır |
 | Etki | veri kaybı (geri alınamaz) |
 | Azaltma | PITR + kurtarma provası |
@@ -431,15 +431,15 @@ K008-domain ──veri modeli──▶ K007-data ◀──şifreleme çağrısı
 | Omurga ayağı | Kademe-3'e taşınacak bağımlılık | Beklenen sınır |
 |---|---|---|
 | schema | K008-domain entity | net (kanıt var) |
-| migrations | K018-devops pipeline | ⚠️ sınır ADR'si |
+| migrations | K17-devops pipeline | ⚠️ sınır ADR'si |
 | repositories | K011/K012 + K010 identity | net + ⚠️ identity |
 | transactions | K012-services atomiklik | net |
 | indexing | search/cache iç bağımlılık | net |
 | cache | K011 invalidation | ⚠️ kural sahipliği |
 | search | K020-discovery | ⚠️ S-1 |
 | synchronization | K013-integraion | ⚠️ S-3 |
-| backup | K018-devops | ⚠️ S-2 |
-| data-quality | K019-testing | net |
+| backup | K17-devops | ⚠️ S-2 |
+| data-quality | K18-testing | net |
 
 ---
 
