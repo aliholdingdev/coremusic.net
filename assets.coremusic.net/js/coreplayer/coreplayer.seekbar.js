@@ -11,18 +11,10 @@
       this._mediaElement = el;
     },
 
-    getCookie(name) {
-      return window.CorePlayerShared.getCookie(name);
-    },
-
     getMediaElement() {
       if (this._mediaElement) return this._mediaElement;
-      const type = this.getCookie('MM_PlaybackType');
-      if (type === '1') {
-        const v = document.getElementById('main-video');
-        if (v) return v;
-      }
-      return document.getElementById('audio') || document.getElementById('main-audio');
+      /* Tek kaynak: fallback zinciri CorePlayerShared içinde (DRY) */
+      return window.CorePlayerShared.getMediaElement();
     },
   };
 

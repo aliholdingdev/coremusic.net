@@ -6,7 +6,10 @@
  * SeekRepository, and VolumeRepository.
  *
  * Must be loaded BEFORE all other coreplayer scripts.
- * Exposes: window.CorePlayerShared
+ * Cookie contract: mediaType = audio|video (default audio)
+ *                  isPlaying = play|pause|stop (default stop)
+ * Exposes: window.CorePlayerShared (getCookie, setCookie, getMediaElement,
+ *          setMediaType, savePlaybackStatus, formatTime)
  */
 (function (window) {
     'use strict';
@@ -25,11 +28,35 @@
     }
 
     function getMediaElement() {
-        const type = getCookie('MM_PlaybackType');
-        if (type === '1') {
-            return document.querySelector('video');
+        const type = getCookie('mediaType');
+        if (type === 'video') {
+            return document.getElementById('video') || document.querySelector('video');
         }
-        return document.getElementById('audio');
+        return document.getElementById('audio') || document.getElementById('main-audio');
+    }
+
+    /** Persist media type — allowlist: audio|video (rejects anything else). */
+    function setMediaType(type) {
+        if (type !== 'audio' && type !== 'video') return false;
+        setCookie('mediaType', type, 365);
+        document.dispatchEvent(new CustomEvent('cm:player:mediatype', {
+            detail: { type: type },
+            bubbles: true,
+            composed: true
+        }));
+        return true;
+    }
+
+    /** Persist playback status — allowlist: play|pause|stop (rejects anything else). */
+    function savePlaybackStatus(status) {
+        if (status !== 'play' && status !== 'pause' && status !== 'stop') return false;
+        setCookie('isPlaying', status, 365);
+        document.dispatchEvent(new CustomEvent('cm:player:status', {
+            detail: { status: status },
+            bubbles: true,
+            composed: true
+        }));
+        return true;
     }
 
     function formatTime(secs) {
@@ -45,6 +72,8 @@
         getCookie: getCookie,
         setCookie: setCookie,
         getMediaElement: getMediaElement,
+        setMediaType: setMediaType,
+        savePlaybackStatus: savePlaybackStatus,
         formatTime: formatTime
     };
 

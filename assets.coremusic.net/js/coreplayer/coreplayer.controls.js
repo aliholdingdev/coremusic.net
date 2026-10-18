@@ -43,7 +43,8 @@
 
     getAudio() {
       if (this._mediaElement) return this._mediaElement;
-      return document.getElementById('audio') || document.getElementById('main-audio');
+      /* Tek kaynak: mediaType cookie'ye göre aktif element + fallback zinciri (DRY) */
+      return window.CorePlayerShared.getMediaElement();
     },
 
     getVideo() {
@@ -131,6 +132,9 @@
         el.currentTime = 0;
       }
       PlaybackRepository.savePlayingState('0');
+      /* Durum kalıcılığı: stop = pause + konum sıfırlama. Cookie senkron yazılır;
+         pause olayı asenkron geldiğinde footer kancası 'stop'ı 'pause' ile ezmez. */
+      CorePlayerShared.savePlaybackStatus('stop');
       this._updateViewStop();
     }
 
@@ -267,12 +271,8 @@
     getMediaElement() {
       const override = PlaybackRepository._mediaElement;
       if (override) return override;
-      const type = PlaybackRepository.getCookie('MM_PlaybackType');
-      if (type === '1') {
-        const v = document.getElementById('main-video');
-        if (v) return v;
-      }
-      return document.getElementById('audio') || document.getElementById('main-audio');
+      /* Tek kaynak: mediaType cookie'ye göre aktif element + fallback zinciri (DRY) */
+      return window.CorePlayerShared.getMediaElement();
     },
   };
 

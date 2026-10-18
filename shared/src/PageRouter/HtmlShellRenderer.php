@@ -190,6 +190,7 @@ final class HtmlShellRenderer
         /* Kalıcı medya elementi — SPA navigasyonunda shell sabit kalır,
            footer.init.js (getAudio) + PlaybackRepository #audio'yu bekler. */
         echo '<audio id="audio" class="vdisplay" preload="metadata"></audio>';
+        echo '<video id="video" class="vdisplay" preload="metadata" playsinline></video>';
         echo '<input type="hidden" name="csrf_token" id="csrf-global" value="' . $csrfEsc . '">';
 
         // C-F-13: header/footer chrome ARTIK container DIŞINDA (shell seviyesi).

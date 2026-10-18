@@ -3,6 +3,7 @@
 namespace CoreMusic\Home\Session;
 
 use CoreMusic\Contracts\Auth\ISessionManager;
+use CoreMusic\Security\SessionKeys;
 use CoreMusic\Session\SessionBootstrapper;
 
 /**
@@ -97,6 +98,52 @@ final class HomeSessionManager implements ISessionManager
     public function getGender(): string
     {
         return $_SESSION['cm_gender'] ?? $_SESSION['MM_Gender'] ?? 'neutral';
+    }
+
+    /**
+     * Medya tipi yaz — allowlist: audio|video.
+     * Geçersiz değerde YAZMAZ (mevcut değer korunur).
+     */
+    public function setMediaType(string $type): void
+    {
+        if (!in_array($type, ['audio', 'video'], true)) {
+            return;
+        }
+        SessionBootstrapper::ensureStarted();
+        $_SESSION[SessionKeys::GET_MEDIA_TYPE] = $type;
+    }
+
+    /** Medya tipi oku — yoksa 'audio'. */
+    public function getMediaType(): string
+    {
+        $type = $_SESSION[SessionKeys::GET_MEDIA_TYPE] ?? null;
+        if (!is_string($type) || !in_array($type, ['audio', 'video'], true)) {
+            return 'audio';
+        }
+        return $type;
+    }
+
+    /**
+     * Medya durumu yaz — allowlist: play|pause|stop.
+     * Geçersiz değerde YAZMAZ (mevcut değer korunur).
+     */
+    public function setMediaStatus(string $status): void
+    {
+        if (!in_array($status, ['play', 'pause', 'stop'], true)) {
+            return;
+        }
+        SessionBootstrapper::ensureStarted();
+        $_SESSION[SessionKeys::GET_MEDIA_STATUS] = $status;
+    }
+
+    /** Medya durumu oku — yoksa 'stop'. */
+    public function getMediaStatus(): string
+    {
+        $status = $_SESSION[SessionKeys::GET_MEDIA_STATUS] ?? null;
+        if (!is_string($status) || !in_array($status, ['play', 'pause', 'stop'], true)) {
+            return 'stop';
+        }
+        return $status;
     }
 
     public function setPendingRedirect(string $uri): void

@@ -18,6 +18,7 @@
  */
 
 use CoreMusic\Device\DeviceManager;
+use CoreMusic\Home\Session\HomeSessionManager;
 
 if (!isset($dm)) {
     $dm = DeviceManager::instance([
@@ -62,6 +63,24 @@ $iconBitrate = $h($assetsUrl . '/Image/res-pink/bit-rate.png');
 $footerTierClass = $dm->shouldRender4kLayout()
     ? 'footer-player--4k'
     : ($dm->shouldRenderWideLayout() ? 'footer-player--wide' : 'footer-player--embedded');
+
+/* ─── Player kalıcılığı: cookie → session mirror (footer tek yükleme noktası)
+       Cookie yoksa: session'daki mevcut değer korunur, o da yoksa default
+       (audio / stop). Sunucu tarafında cookie ÜRETİLMEZ. */
+$homeSession = new HomeSessionManager();
+
+$cookieMediaType = $_COOKIE['mediaType'] ?? null;
+if (is_string($cookieMediaType) && in_array($cookieMediaType, ['audio', 'video'], true)) {
+    $homeSession->setMediaType($cookieMediaType);
+}
+
+$cookieMediaStatus = $_COOKIE['isPlaying'] ?? null;
+if (is_string($cookieMediaStatus) && in_array($cookieMediaStatus, ['play', 'pause', 'stop'], true)) {
+    $homeSession->setMediaStatus($cookieMediaStatus);
+}
+
+$mediaType   = $homeSession->getMediaType();
+$mediaStatus = $homeSession->getMediaStatus();
 ?>
 <footer class="footer footer-player <?= $footerTierClass ?> <?= $dm->allClasses() ?>" role="contentinfo" aria-label="Oynatıcı" <?= $dm->dataAttributes() ?>>
 
@@ -163,12 +182,15 @@ $footerTierClass = $dm->shouldRender4kLayout()
     </div>
 </footer>
 
+<!-- Player boot: session kalıcılığı → JS (coreplayer script'lerinden ÖNCE) -->
+<script nonce="<?= $nonce ?>">window.CM_PLAYER_BOOT = <?= json_encode(['mediaType' => $mediaType, 'mediaStatus' => $mediaStatus], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;</script>
+
 <!-- CorePlayer modülleri -->
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.shared.js?v=2.0.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.volume.js?v=2.0.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.seekbar.js?v=2.0.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.controls.js?v=2.0.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.progressbar.js?v=2.0.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.shared.js?v=2.1.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.volume.js?v=2.1.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.seekbar.js?v=2.1.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.controls.js?v=2.1.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.progressbar.js?v=2.1.0"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/helper.js?v=2.0.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/footer.init.js?v=2.0.1"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/footer.init.js?v=2.1.0"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/features/welcome-modal.js?v=2.0.0"></script>

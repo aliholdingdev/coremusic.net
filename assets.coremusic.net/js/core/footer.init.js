@@ -6,6 +6,19 @@
    * Safe binding for Seek, Volume, Playback, and Progress modules.
    */
 
+  /* Video uzantı listesi — SSOT kaynak: media.coremusic.net/bin/ingest.php L157
+     $videoUzanti = ['mp4', 'mkv', 'avi', 'webm'] (liste uydurulmaz, oradan kopyalanır).
+     Uzantısı olmayan stream (bugünkü /stream/{32hex}) → default 'audio'. */
+  const VIDEO_EXTENSIONS = Object.freeze(['mp4', 'mkv', 'avi', 'webm']);
+
+  const detectMediaType = function (url) {
+    const clean = String(url).split(/[?#]/)[0];
+    const base = clean.slice(clean.lastIndexOf('/') + 1);
+    const dot = base.lastIndexOf('.');
+    const ext = dot > -1 ? base.slice(dot + 1).toLowerCase() : '';
+    return VIDEO_EXTENSIONS.indexOf(ext) !== -1 ? 'video' : 'audio';
+  };
+
   function initCorePlayerModules() {
     const audio = document.getElementById('audio');
 
@@ -30,6 +43,19 @@
     if (volumeInit && window.CorePlayerShared && typeof CorePlayerShared.getCookie === 'function') {
       if (CorePlayerShared.getCookie('MM_Volume') === null) {
         CorePlayerShared.setCookie('MM_Volume', volumeInit.value || '1', 365);
+      }
+    }
+
+    /* Session → cookie rehidrasyonu (S3): cookie silinmişse sunucunun
+       session'dan doğrulayıp bastığı CM_PLAYER_BOOT değerleri cookie'ye geri yazılır.
+       setter'lar allowlist uygular → boot'ta geçersiz değer olsa bile cookie'ye sızmaz. */
+    if (window.CorePlayerShared && window.CM_PLAYER_BOOT && typeof CorePlayerShared.getCookie === 'function') {
+      const boot = window.CM_PLAYER_BOOT;
+      if (CorePlayerShared.getCookie('mediaType') === null && typeof boot.mediaType === 'string') {
+        CorePlayerShared.setMediaType(boot.mediaType);
+      }
+      if (CorePlayerShared.getCookie('isPlaying') === null && typeof boot.mediaStatus === 'string') {
+        CorePlayerShared.savePlaybackStatus(boot.mediaStatus);
       }
     }
 
@@ -86,6 +112,49 @@
       } catch (e) {
         if (window.dbg) window.dbg.warn('[footer.init] ProgressController.init error:', e);
       }
+    }
+
+    /* ── Oynatma durumu kalıcılığı (isPlaying cookie) ────────────────
+       Aktif media elementi kancaları: play → 'play' · pause → 'pause'
+       (stop yolu hariç) · ended → 'stop'. Medya tipi değişince olay
+       (cm:player:mediatype) kanıca yeni aktif elementi taşır. */
+    if (window.CorePlayerShared && typeof CorePlayerShared.getMediaElement === 'function'
+      && !document.documentElement.hasAttribute('data-cm-status-bound')) {
+      document.documentElement.setAttribute('data-cm-status-bound', '1');
+
+      let statusMedia = null;
+
+      const onMediaPlay = function () {
+        CorePlayerShared.savePlaybackStatus('play');
+      };
+
+      const onMediaPause = function () {
+        /* stop() yolu pause olayı üretir; cookie'de 'stop' varken
+           pause kancası bu yazımı 'pause' ile ezmesin (olay asenkron) */
+        if (CorePlayerShared.getCookie('isPlaying') === 'stop') return;
+        CorePlayerShared.savePlaybackStatus('pause');
+      };
+
+      const onMediaEnded = function () {
+        CorePlayerShared.savePlaybackStatus('stop');
+      };
+
+      const bindStatusHooks = function () {
+        const media = CorePlayerShared.getMediaElement();
+        if (!media || media === statusMedia) return;
+        if (statusMedia) {
+          statusMedia.removeEventListener('play', onMediaPlay);
+          statusMedia.removeEventListener('pause', onMediaPause);
+          statusMedia.removeEventListener('ended', onMediaEnded);
+        }
+        statusMedia = media;
+        media.addEventListener('play', onMediaPlay);
+        media.addEventListener('pause', onMediaPause);
+        media.addEventListener('ended', onMediaEnded);
+      };
+
+      bindStatusHooks();
+      document.addEventListener('cm:player:mediatype', bindStatusHooks);
     }
 
     /* Media Play butonları — KAİ global API (mplay/mpause/mstop/mgeri/mileri)
@@ -161,7 +230,16 @@
         if (!stream) return;
         e.preventDefault();
 
-        const media = document.getElementById('audio') || document.getElementById('main-audio');
+        /* Otomatik medya tipi seçimi — stream URL uzantısına göre anlık
+           mediaType cookie güncellemesi (uzantı listesi: ingest.php L157) */
+        if (window.CorePlayerShared && typeof CorePlayerShared.setMediaType === 'function') {
+          CorePlayerShared.setMediaType(detectMediaType(stream));
+        }
+
+        /* Play hedefi: mediaType cookie'sine göre aktif element (tek kaynak) */
+        const media = (window.CorePlayerShared && typeof CorePlayerShared.getMediaElement === 'function')
+          ? CorePlayerShared.getMediaElement()
+          : document.getElementById('audio') || document.getElementById('main-audio');
         if (!media) return;
 
         media.src = stream;

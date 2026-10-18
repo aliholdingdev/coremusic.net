@@ -14,6 +14,10 @@ final class SessionKeys
     public const LAST_ACTIVE   = '_session_last_active';
     public const ROTATED_AT    = '_session_rotated_at';
 
+    // Player medya kalıcılığı (cookie → session hydrate, footer.php boot)
+    public const GET_MEDIA_TYPE   = 'GET_MEDIA_TYPE';
+    public const GET_MEDIA_STATUS = 'GET_MEDIA_STATUS';
+
     public const USER_KEYS = [
         self::USER_ID,
         self::USERNAME,
