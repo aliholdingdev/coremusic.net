@@ -1,4 +1,4 @@
-# Token Cakisma Logu (2026-10-17)
+# Token Cakisma Logu (2026-10-18)
 
 > Figma taze degeri SSOT olarak alindi; asagidaki anahtarlarda eski ve yeni deger farkliydi (eski anahtar korundu, yeni node-id'li anahtar eklendi).
 

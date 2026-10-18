@@ -4,9 +4,9 @@ title: "CoreMusic — Figma Çıkarımı — Sayfa 462:5874 · Linux 1920"
 type: reference
 category: ui-design
 date: 2026-10-16
-updated: 2026-10-17
+updated: 2026-10-18
 status: active
-version: 1.1.0
+version: 1.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -21,7 +21,7 @@ reference:
 ## 1. Amaç
 
 Bu dosya, Figma dosyası **Sayfa `462:5874`** (dosya adı: `Core Music`) altındaki **4 ekranlık Linux 1920 sayfasının**
-API üzerinden **taze (2026-10-17) tam ham çıkarımıdır**: tüm node ağaçları, dolgu/kenarlık/efekt/otomatik yerleşim
+API üzerinden **taze (2026-10-18) tam ham çıkarımıdır**: tüm node ağaçları, dolgu/kenarlık/efekt/otomatik yerleşim
 alanları, tipografi değerleri ve ASCII bölge haritaları burada, ham JSON ise SSOT kaynaktır.
 Amaç: later UI implementation — kod yazılacak arayüzün Figma tasarımına **birebir** (değer, CSS, efekt) uyması.
 
@@ -34,43 +34,42 @@ Amaç: later UI implementation — kod yazılacak arayüzün Figma tasarımına 
 
 | Alan | Değer |
 |---|---|
-| Çekim tarihi | 2026-10-17 |
+| Çekim tarihi | 2026-10-18 |
 | Figma dosya adı | `Core Music` |
 | Page node | `462:5874` |
-| API sürümü (version) | `2411290726990257863` |
-| lastModified | `2026-10-17T12:59:45Z` |
+| API sürümü (version) | `2411746660332637475` |
+| lastModified | `2026-10-18T18:01:58Z` |
 | editorType | figma |
 | Kimlik/belirteç kaynağı | `.ai/.env.figma` (git-ignore; değer bu dosyaya yazılmaz) |
 | Ham JSON (SSOT) | `reference/figma/raw/page-462-5874.json` |
-| Ham JSON bayt | 3414381 |
-| Toplam node (CANVAS + 4 frame) | 3644 |
+| Ham JSON bayt | 3424959 |
+| Toplam node (CANVAS + 4 frame) | 3654 |
 
-### 2.2 Eski → Yeni Karşılaştırma (2026-10-17 taze çekim)
+### 2.2 Eski → Yeni Karşılaştırma (2026-10-18 taze çekim)
 
-| | Eski (2026-10-16 çekimi · yedek) | Yeni (bu çekim) |
+| | Eski (2026-10-17 çekimi · yedek) | Yeni (bu çekim) |
 |---|---|---|
-| version | `2410933437250453593` | `2411290726990257863` |
-| lastModified | `2026-10-16T12:56:08Z` | `2026-10-17T12:59:45Z` |
-| Ham JSON bayt | 3212649 | 3414381 |
+| version | `2411290726990257863` | `2411746660332637475` |
+| lastModified | `2026-10-17T12:59:45Z` | `2026-10-18T18:01:58Z` |
+| Ham JSON bayt | 3414381 | 3424959 |
 | Root children | 4 | 4 |
-| Toplam node (CANVAS + frame) | 3452 | 3644 |
-| `2831:13747` | 803 · Linux - 1920 - Home | 803 · Linux 1920 - Home |
-| `3155:18252` | 274 · Linux 1920 -  Göz At Page | 338 · Linux 1920 -  Göz At Page |
-| `3155:19834` | 729 · Linux 1920 -  Playlist  Page | 793 · Linux 1920 -  Playlist  Page |
-| `3155:22392` | 1645 · Linux 1920 -  Geçmiş Page | 1709 · Linux 1920 -  Geçmiş Page |
+| Toplam node (CANVAS + frame) | 3644 | 3654 |
+| `2831:13747` | 803 · Linux 1920 - Home | 813 · Linux 1920 - Home |
+| `3155:18252` | 338 · Linux 1920 -  Göz At Page | 338 · Linux 1920 -  Göz At Page |
+| `3155:19834` | 793 · Linux 1920 -  Playlist  Page | 793 · Linux 1920 -  Playlist  Page |
+| `3155:22392` | 1709 · Linux 1920 -  Geçmiş Page | 1709 · Linux 1920 -  Geçmiş Page |
 
 - **Silinen root children:** yok
 - **Eklenen root children:** yok
-- **Node artışı:** +192 (2831:13747 sabit (803) · 3155:18252 +64 · 3155:19834 +64 · 3155:22392 +64)
-- **Frame rename:** `2831:13747`: `Linux - 1920 - Home` → `Linux 1920 - Home` (PNG adı da değişti; `.ai/.png/home-1920/` altında yeni ad mevcut)
-- **Supersession:** Önceki sürüm (2026-10-16 · `2410933437250453593` · `2026-10-16T12:56:08Z`) git geçmişinde saklıdır;
-  bu çekim `page-462-5874.json`'u `2026-10-17T12:59:45Z` / `2411290726990257863` ile günceller.
+- **Node artışı:** +10 (2831:13747 +10 · 3155:18252 sabit (338) · 3155:19834 sabit (793) · 3155:22392 sabit (1709))
+- **Supersession:** Önceki sürüm (2026-10-17 · `2411290726990257863` · `2026-10-17T12:59:45Z`) git geçmişinde saklıdır;
+  bu çekim `page-462-5874.json`'u `2026-10-18T18:01:58Z` / `2411746660332637475` ile günceller.
 
 ### 2.3 Frame Tablosu
 
 | # | Node | Frame | Boyut | 1. seviye çocuk | Toplam node | PNG (`.ai/.png/home-1920/`) |
 |---|---|---|---|---|---|---|
-| 1 | `2831:13747` | Linux 1920 - Home | 1920×1080 | 12 | 803 | ✅ Linux 1920 - Home.png |
+| 1 | `2831:13747` | Linux 1920 - Home | 1920×1080 | 13 | 813 | ✅ Linux 1920 - Home.png |
 | 2 | `3155:18252` | Linux 1920 -  Göz At Page | 1920×1080 | 9 | 338 | ✅ Linux 1920 -  Göz At Page.png |
 | 3 | `3155:19834` | Linux 1920 -  Playlist  Page | 1920×1080 | 9 | 793 | ✅ Linux 1920 -  Playlist  Page.png |
 | 4 | `3155:22392` | Linux 1920 -  Geçmiş Page | 1920×1080 | 9 | 1709 | ✅ Linux 1920 -  Geçmiş Page.png |
@@ -101,7 +100,7 @@ y=0040 |222222222222222222222222222222222222222222222222222.....................
 y=0080 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
 y=0120 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
 y=0160 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
-y=0200 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
+y=0200 |..333333333333333333333333355555555555C55555555555555444444444444444444444444444444444444444....|
 y=0240 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
 y=0280 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
 y=0320 |..BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB..|
@@ -133,13 +132,14 @@ y=1040 |111111111111111111111111111111111111111111111111111111111111111111111111
 | 2 | INSTANCE | `2831:13748` | Navbar | 12 | 17 | 993 | 27 | — |
 | 3 | GROUP | `2849:21489` | Player Info | 53 | 99 | 469 | 184 | — |
 | 4 | GROUP | `2850:21494` | Div2 Button | 1073 | 99 | 752 | 184 | — |
-| 5 | RECTANGLE | `2849:21492` | Banner Div | 552 | 99 | 491 | 184 | — |
+| 5 | GROUP | `3171:9566` | Group 52 | 552 | 99 | 491 | 184 | — |
 | 6 | FRAME | `2856:22290` | Şarkılar Item Btn | 53 | 369 | 169 | 43 | **GIZLI** |
 | 7 | GROUP | `3155:14616` | Önerilen Sanacılar | 53 | 682 | 1815 | 98 | — |
 | 8 | GROUP | `3155:14718` | Önerilen Albumler | 53 | 812 | 1805 | 79 | — |
 | 9 | GROUP | `3155:8292` | En Son Dinlenen Albumler | 53 | 552 | 1815 | 98 | — |
 | A | GROUP | `3155:8147` | Son Oluşturlan & Sistem Taraından Oluşturlan Playlistler | 53 | 442 | 1825 | 78 | — |
 | B | GROUP | `3154:7556` | En Son Dinlenen Şarkılar | 53 | 332 | 1825 | 78 | — |
+| C | RECTANGLE | `3175:13498` | bunu_scppit_el_yazs_fonmtuna_uygun_hale_geitr_cubnku_ayznn_y 1 | 770 | 214 | 9 | 9 | — |
 
 ### 3.2 Linux 1920 -  Göz At Page — `3155:18252`
 
@@ -295,11 +295,11 @@ y=1040 |333333333333333333333333333333333333333333333333333333333333333333333333
 - **effect:** yok
 - **radius:** yok · **opacity:** yok (1 varsayımı) · **blend:** PASS_THROUGH · **clipsContent:** true
 - **auto-layout:** yok
-- **1. seviye çocuk:** 12 · **toplam node (frame dahil):** 803
-- **Node türü:** TEXT 219 · RECTANGLE 172 · GROUP 154 · VECTOR 149 · FRAME 55 · INSTANCE 53 · ELLIPSE 1
+- **1. seviye çocuk:** 13 · **toplam node (frame dahil):** 813
+- **Node türü:** TEXT 222 · RECTANGLE 173 · GROUP 156 · VECTOR 152 · FRAME 55 · INSTANCE 53 · ELLIPSE 2
 - **ASCII:** §3.1 · **PNG:** `.ai/.png/home-1920/Linux 1920 - Home.png`
 
-### 4.1 Alt Node Ağacı (802 satır — koordinatlar frame-rel)
+### 4.1 Alt Node Ağacı (812 satır — koordinatlar frame-rel)
 
 - `2831:13955` INSTANCE "Romantic_Background_03 (2)" (w=1920 h=1080 @x=0 y=0) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=1962:11911
   - `I2831:13955;1962:11912` RECTANGLE "Romantic_Background_03 (2)" (w=1920 h=1080 @x=0 y=0) | fill: IMAGE scaleMode=FILL (renk yok)
@@ -526,7 +526,16 @@ y=1040 |333333333333333333333333333333333333333333333333333333333333333333333333
       - `2850:21569` GROUP "Group 21" (w=52.2 h=4.3 @x=1117 y=198)
         - `2850:21570` RECTANGLE "Value" (w=52.2 h=4.3 @x=1117 y=198) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0) | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.294 align=INSIDE
         - `2850:21571` RECTANGLE "Tick" (w=5.5 h=4.3 @x=1168.9 y=198) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE [GIZLI]
-- `2849:21492` RECTANGLE "Banner Div" (w=491 h=184 @x=552 y=99) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.8 | radius=8
+- `3171:9566` GROUP "Group 52" (w=491 h=184 @x=552 y=99) | effect: DROP_SHADOW x=2 y=2 blur=4 #FFFFFF alpha=0.5 · DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.8
+  - `3171:9567` GROUP "container bg" (w=491 h=184 @x=552 y=99)
+    - `3171:9568` VECTOR "Color Overlay" (w=491 h=184 @x=552 y=99) | fill: SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE
+    - `3171:9569` VECTOR "Stroke Effect" (w=491 h=184 @x=552 y=99) | fill: GRADIENT_LINEAR [pos=0% #070607 alpha=0.85 · pos=69.1% #5B5A5B alpha=0.75] handles=(0.5,0)(0.5,1)(0,0) (gizli) | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE | opacity=0.18
+  - `2849:21492` RECTANGLE "Banner Div" (w=491 h=184 @x=552 y=99) | fill: IMAGE scaleMode=STRETCH (renk yok) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.8 | radius=8
+  - `3173:9576` VECTOR "Rectangle 20" (w=360 h=184 @x=552 y=99) | fill: SOLID #1B1B1B alpha=0.55
+  - `3173:9575` ELLIPSE "Ellipse 1" (w=50 h=50 @x=707 y=157) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #FF8EE3 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.5 · pos=100% #FFFFFF alpha=0.5] handles=(0.5,0)(0.5,1)(0,0) weight=1 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=2 #000000 alpha=0.8
+  - `3173:9580` TEXT "Şarkı Adı : Göksel - Sevil Neşelen" (w=93 h=30 @x=568 y=111) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.15 (gizli) weight=0.2 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.5 #000000 alpha=0.8 | font=GERALDINE PERSONAL USE size=20px weight=400 style=Italic align=LEFT ls=1.56 (unit:YOK) line-height=29.98px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hoş Geldin "
+  - `3173:9582` TEXT "Şarkı Adı : Göksel - Sevil Neşelen" (w=71 h=14 @x=697 y=212) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.15 (gizli) weight=0.2 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.5 #000000 alpha=0.8 | font=Anilla Roeslan size=13px weight=400 style=Regular align=LEFT ls=1.014 (unit:YOK) line-height=13.59px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Işıl Peri Yıldız"
+  - `3175:13499` TEXT "Şarkı Adı : Göksel - Sevil Neşelen" (w=119 h=14 @x=675 y=223) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.15 (gizli) weight=0.2 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.5 #000000 alpha=0.8 | font=Anilla Roeslan size=13px weight=400 style=Regular align=LEFT ls=1.014 (unit:YOK) line-height=13.59px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Müziğn dünyasına hoş gelin!"
 - `2856:22290` FRAME "Şarkılar Item Btn" (w=169 h=43 @x=53 y=369) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 [GIZLI]
   - `2856:22291` GROUP "Container" (w=169 h=50 @x=53 y=369) | radius=3
     - `2856:22292` VECTOR "Color Overlay" (w=169 h=50 @x=53 y=369) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
@@ -1103,6 +1112,7 @@ y=1040 |333333333333333333333333333333333333333333333333333333333333333333333333
       - `3154:7430` TEXT "Name" (w=49 h=18 @x=1765 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yeni Sevilen Türl...\n"
     - `3154:7431` FRAME "Frame 16" (w=102 h=29 @x=1755 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
       - `3154:7432` TEXT "Sanatci" (w=82 h=9 @x=1765 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Sistem Tarafında..."
+- `3175:13498` RECTANGLE "bunu_scppit_el_yazs_fonmtuna_uygun_hale_geitr_cubnku_ayznn_y 1" (w=9 h=9 @x=770 y=214) | fill: IMAGE scaleMode=FILL (renk yok)
 
 ## 5. Frame 2 — "Linux 1920 -  Göz At Page" (`3155:18252`)
 
@@ -3998,33 +4008,33 @@ y=1040 |333333333333333333333333333333333333333333333333333333333333333333333333
 
 | Metrik | Değer |
 |---|---|
-| Toplam node | 3644 |
-| Node türü | RECTANGLE 1241 · GROUP 962 · TEXT 844 · INSTANCE 287 · VECTOR 181 · FRAME 115 · ELLIPSE 13 · CANVAS 1 |
-| Paint türleri (fill+stroke) | SOLID 1893 · IMAGE 1083 · GRADIENT_LINEAR 95 |
-| Distinct SOLID renk | 18 |
-| Efekt türleri | DROP_SHADOW 1399 · BACKGROUND_BLUR 41 · INNER_SHADOW 18 (toplam 1458, gizli 3) |
+| Toplam node | 3654 |
+| Node türü | RECTANGLE 1242 · GROUP 964 · TEXT 847 · INSTANCE 287 · VECTOR 184 · FRAME 115 · ELLIPSE 14 · CANVAS 1 |
+| Paint türleri (fill+stroke) | SOLID 1904 · IMAGE 1085 · GRADIENT_LINEAR 97 |
+| Distinct SOLID renk | 20 |
+| Efekt türleri | DROP_SHADOW 1405 · BACKGROUND_BLUR 41 · INNER_SHADOW 18 (toplam 1464, gizli 3) |
 | Auto-layout node | 98 (4'lü padding alanı: 43 · padding alanı hiç yok: 55) |
-| Corner | tek değer 381 · köşe bazlı 530 · alan yok 2733 |
+| Corner | tek değer 381 · köşe bazlı 532 · alan yok 2741 |
 | INSTANCE | 287 · distinct componentId 23 |
-| opacity alanı tanımlı | 172 / 3644 |
+| opacity alanı tanımlı | 173 / 3654 |
 | Görünmez node `visible=false` | 120 |
-| TEXT | 844 · `style` alanı boş (mixed) 0 · lineHeightUnit: INTRINSIC_% 844 |
+| TEXT | 847 · `style` alanı boş (mixed) 0 · lineHeightUnit: INTRINSIC_% 847 |
 
 ### 8.2 API'den Gelmeyen Alanlar (Zero-Hallucination kaydı)
 
 | Alan | Ham veri sayımı | Etki |
 |---|---|---|
-| `letterSpacingUnit` | TEXT alanlarında 0/844 (mevcut `ls` değeri: 844) | letter-spacing **birimi belirsiz** → CSS `em/px` kararı mockup ölçümüyle |
-| `layoutGrids` | 0/3644 | grid tanımları API'den gelmedi → [[grid-rules]] + mockup |
-| efekt `spread` | efekt anahtarlarında yok (1458 efekt) | box-shadow `spread` mockup ölçümünden |
-| `textCase` / `textDecoration` / `paragraphSpacing` | `style` anahtar birleşiminde: fontFamily, fontPostScriptName, fontSize, fontStyle, fontWeight, letterSpacing, lineHeightPercent, lineHeightPx, lineHeightUnit, textAlignHorizontal, textAlignVertical, textAutoResize | büyük harf/kalın-metin kararı API alanıyla değil metin içeriğiyle |
+| `letterSpacingUnit` | TEXT alanlarında 0/847 (mevcut `ls` değeri: 847) | letter-spacing **birimi belirsiz** → CSS `em/px` kararı mockup ölçümüyle |
+| `layoutGrids` | 0/3654 | grid tanımları API'den gelmedi → [[grid-rules]] + mockup |
+| efekt `spread` | efekt anahtarlarında yok (1464 efekt) | box-shadow `spread` mockup ölçümünden |
+| `textCase` / `textDecoration` / `paragraphSpacing` | `style` anahtar birleşiminde: fontFamily, fontPostScriptName, fontSize, fontStyle, fontWeight, italic, letterSpacing, lineHeightPercent, lineHeightPx, lineHeightUnit, textAlignHorizontal, textAlignVertical, textAutoResize | büyük harf/kalın-metin kararı API alanıyla değil metin içeriğiyle |
 | padding alan eksikliği | auto-layout 98 node'nin 55'inde paddingTop/Right/Bottom/Left **hiçbiri yok** | 0 mı belirsiz → o node'larda `padding: API'den gelmedi` basıldı |
 | `primaryAxisAlignItems` vb. layout anahtarları | layout anahtar birleşimi: absoluteBoundingBox, absoluteRenderBounds, background, backgroundColor, blendMode, children, clipsContent, complexStrokeProperties, constraints, counterAxisAlignItems, counterAxisSizingMode, effects, fills, id, interactions, itemSpacing, layoutAlign, layoutGrow, layoutMode, layoutSizingHorizontal, layoutSizingVertical, layoutWrap, name, paddingBottom, paddingLeft, paddingRight, paddingTop, preserveRatio, primaryAxisAlignItems, primaryAxisSizingMode, scrollBehavior, strokeAlign, strokeWeight, strokes, targetAspectRatio, type | yalnız listede olanlar ağaçta basıldı |
-| `opacity` | 172/3644 node'da alan var | diğerlerinde alan yok → çıktıda basılmadı (varsayılan 1) |
+| `opacity` | 173/3654 node'da alan var | diğerlerinde alan yok → çıktıda basılmadı (varsayılan 1) |
 
 ### 8.3 Hygiene Notları (tasarım temizliği — "düzeltme YASAK", kayıt)
 
-- **TEXT isim ≠ metin uyuşmazlığı:** 485 kayıt; ilk 25 aşağıda (node adı eski/kalıntı olabilir, **karakterler görsel gerçektir**).
+- **TEXT isim ≠ metin uyuşmazlığı:** 488 kayıt; ilk 25 aşağıda (node adı eski/kalıntı olabilir, **karakterler görsel gerçektir**).
 
 | Node | name | characters |
 |---|---|---|
@@ -4038,6 +4048,9 @@ y=1040 |333333333333333333333333333333333333333333333333333333333333333333333333
 | `2850:21544` | Dosya Yöneticisi | Kütüphanelerim |
 | `2850:21564` | System Disk | Depolama |
 | `2850:21565` | System Disk | 32GB / 128GB |
+| `3173:9580` | Şarkı Adı : Göksel - Sevil Neşelen | Hoş Geldin |
+| `3173:9582` | Şarkı Adı : Göksel - Sevil Neşelen | Işıl Peri Yıldız |
+| `3175:13499` | Şarkı Adı : Göksel - Sevil Neşelen | Müziğn dünyasına hoş gelin! |
 | `2856:22300` | Name | Şarkı Adı |
 | `2856:22302` | Sanatci | Sanatcı |
 | `2856:22303` | Sure | 00:03:05 |
@@ -4050,16 +4063,13 @@ y=1040 |333333333333333333333333333333333333333333333333333333333333333333333333
 | `I3155:14619;910:10411` | Sure | 00:10:05 |
 | `I3155:14619;2056:16095` | Name | Bergen - Tüm Şarkılar |
 | `I3155:14619;2056:16096` | Sanatcı | Bergen |
-| `I3155:14619;2056:16097` | Tür | Tür : Arabesk |
-| `I3155:14619;2056:16098` | Yıl | Yıl : Bilinmeyen Yıl |
-| `I3155:14620;910:10411` | Sure | 00:10:05 |
 
 - **1. seviye tekrar eden adlar:** Linux 1920 -  Göz At Page: "Navbar" ×2 · Linux 1920 -  Playlist  Page: "Navbar" ×2 · Linux 1920 -  Geçmiş Page: "Navbar" ×2
 
 - **Home grup adları yer değiştirmiş (kod için `metin:` + PNG esastır):** `3155:14616` "Önerilen Sanacılar" grubunun başlık metni (`3155:14617`) = **"Önerilen Albumler"** ve içerik "Albumler btn" kartlarıdır; `3155:14718` "Önerilen Albumler" grubu ise "Sanatcılar Btn" avatarlarını taşır. PNG ile doğrulandı: 4. satır "Önerilen Albümler" (kart), 5. satır "Önerilen Sanatçılar" (avatar).
 - **Navbar tekrarı (Göz At · Playlist · Geçmiş):** iki Navbar örneği üst üste — biri `[GIZLI]` (miras, y=17), aktif olan y=20'deki (`3155:18257` vb.). Düzeltme YASAK, tasarım kararı olarak kayıtlıdır.
 - **"Fiel Manager" yazım hatası:** Göz At içerik grubu `3155:18261` "Fiel Manager" (File Manager) — düzeltilmez, kayıt.
-- **Stale node adları — `characters` görsel gerçektir:** 485 TEXT'te ad≠metin (ör. navbar `Göz At`→metin "Sanatcılar" · `Dosya Yöneticisi`→"Kütüphanelerim" · `Bit rate : 350 kpps`→"350 kbps"). Home PNG spot-check: "Sanatcılar", "Kütüphanelerim", "350 kbps" karakterlerle birebir → CSS/metin üretiminde `characters` alınır, node adı değil.
+- **Stale node adları — `characters` görsel gerçektir:** 488 TEXT'te ad≠metin (ör. navbar `Göz At`→metin "Sanatcılar" · `Dosya Yöneticisi`→"Kütüphanelerim" · `Bit rate : 350 kpps`→"350 kbps"). Home PNG spot-check: "Sanatcılar", "Kütüphanelerim", "350 kbps" karakterlerle birebir → CSS/metin üretiminde `characters` alınır, node adı değil.
 
 ## 9. Quality Report
 
@@ -4070,7 +4080,7 @@ y=1040 |333333333333333333333333333333333333333333333333333333333333333333333333
 | 3 | Cross References | §1–§8 arası iç atıf: [[grid-rules]] · [[token-conflicts]] · [[_extraction-notes]] · [[extracted-1920]] |
 | 4 | Placeholder | 0 kalan placeholder — XREF sayacı dolduruldu |
 | 5 | Template Compliance | 12 alanlı frontmatter ✓ · §1 Amaç ✓ · §9 Quality Report (son H2) ✓ · Authority footer ✓ |
-| 6 | Sayımlar (disk) | 4 frame · 3644 node · 3639 ağaç satırı · 4 ASCII harita · 4 PNG · ham 3414381 bayt |
+| 6 | Sayımlar (disk) | 4 frame · 3654 node · 3649 ağaç satırı · 4 ASCII harita · 4 PNG · ham 3424959 bayt |
 | 7 | Zero-Hallucination | yalnız ham verideki alanlar basıldı; eksikler §8.2'de sayımla · dosya adı/id/hash uydurulmadı |
 | 8 | Gizlilik | token/file-key bu dosyaya yazılmadı (`.ai/.env.figma`, git-ignore) |
 
@@ -4087,4 +4097,4 @@ y=1040 |333333333333333333333333333333333333333333333333333333333333333333333333
 | **Conflict Resolution** | Çelişkide `.ai/CLAUDE.md` §2 — çelişen içerik doğrulanana dek `UNKNOWN` |
 | **Status** | active |
 
-> **Authority:** SSOT · CoreMusic Vault · _Owner: Master Session_ · _Last Updated: 2026-10-17_
+> **Authority:** SSOT · CoreMusic Vault · _Owner: Master Session_ · _Last Updated: 2026-10-18_

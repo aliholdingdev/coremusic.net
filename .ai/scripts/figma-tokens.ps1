@@ -26,7 +26,7 @@ $script:CONFLICT_OVERFLOW = 0
 # Kural seti (R1-R6) ana dongu icinde uygulanir; token uretimi, Merge-Old, cakisma logu
 # ve SSOT (.env.figma regex'i) AYNEN KALIR - yalnizca dogrulama + raporlama eklenir.
 $SECTIONS     = @('colors','typography','shadows','radii','spacing','sizes')
-$EXPECT_EMPTY = @('3840','tv')   # Figma'da bos sayfalar (olcum: raw 326:3386 / 16:106 -> 0 token)
+$EXPECT_EMPTY = @('tv')   # Figma'da bos sayfa (olcum: raw 16:106 -> 0 token); 3840 artik tasarimli (page-3175-13501.json, 2026-10-18)
 $passCount = 0; $bosCount = 0; $failCount = 0
 $bosBps = @(); $failBps = @()
 
@@ -36,7 +36,7 @@ New-Item -ItemType Directory -Force -Path $TOK | Out-Null
 $SRC = @{
   '1024'   = @('page-1047-15802.json','page-2135-19832.json','nodes-user-12.json')
   '1920'   = @('page-462-5874.json','page-319-2789.json','page-608-11052.json','page-2161-12438.json','page-1988-14156.json','page-15-403.json','page-1801-12472.json','page-1801-12473.json','nodes-user-12.json')
-  '3840'   = @('page-326-3386.json')
+  '3840'   = @('page-3175-13501.json','page-326-3386.json')
   'mobile' = @('page-2003-24752.json')
   'tv'     = @('page-16-106.json')
   'system' = @('page-18-2907.json')

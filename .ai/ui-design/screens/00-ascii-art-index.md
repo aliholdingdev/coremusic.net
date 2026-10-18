@@ -3,17 +3,17 @@ title: "CoreMusic — Screen Specification Index (T07 · Shared · T17)"
 type: spec
 category: index
 date: 2026-09-27
-updated: 2026-10-16
-version: 6.3.0
+updated: 2026-10-18
+version: 6.4.0
 status: active
 authority: "Single Source of Truth (SSOT) — .ai/ui-design/screens/00-ascii-art-index.md"
 governance: Red Team · Human Mode · Truth Mode
 total_spec_files: 23
 total_active: 22
 total_draft: 1
-total_png_mockups: 25
+total_png_mockups: 26
 total_figma_frames: 25
-changelog: "v6.0.0 — screens/ dizini tamamen yıkılıp 20 yeni spec dosyasıyla yeniden yazıldı; merkezi indeks sıfırdan üretildi (eski indeks içeriği kullanılmadı). v6.1.0 (2026-09-28) — §7 açık konular: madde 2 (4 spec node etiketi v1.1.0) ve madde 3 (mockup-index v6.1.0 senkronu) düzeltildi; madde 1 = T08→T07 taşıma ÖNERİSİ (owner onayı). v6.2.0 (2026-09-29) — embedded dizin taşındı → T07-embedded (owner onayı, matrix L92): 12 spec `tier: T07` + version 1.1.0; §7 madde 1 kapatıldı. v6.3.0 (2026-10-16) — Figma sayfası `2161:12438` (Core Music - Music Admin) için 3 yeni admin spec (T17): `admin-layout` · `admin-login` · `admin-register`; PNG 19→25 (`admin-1920/` 3 + `home-1920/` 4), figma frame 22→25; §7 madde 5 (tier T17 vs T42) ve madde 6 (spec'siz 3 PNG) açıldı."
+changelog: "v6.0.0 — screens/ dizini tamamen yıkılıp 20 yeni spec dosyasıyla yeniden yazıldı; merkezi indeks sıfırdan üretildi (eski indeks içeriği kullanılmadı). v6.1.0 (2026-09-28) — §7 açık konular: madde 2 (4 spec node etiketi v1.1.0) ve madde 3 (mockup-index v6.1.0 senkronu) düzeltildi; madde 1 = T08→T07 taşıma ÖNERİSİ (owner onayı). v6.2.0 (2026-09-29) — embedded dizin taşındı → T07-embedded (owner onayı, matrix L92): 12 spec `tier: T07` + version 1.1.0; §7 madde 1 kapatıldı. v6.3.0 (2026-10-16) — Figma sayfası `2161:12438` (Core Music - Music Admin) için 3 yeni admin spec (T17): `admin-layout` · `admin-login` · `admin-register`; PNG 19→25 (`admin-1920/` 3 + `home-1920/` 4), figma frame 22→25; §7 madde 5 (tier T17 vs T42) ve madde 6 (spec'siz 3 PNG) açıldı. v6.4.0 (2026-10-18) — yeni Figma sayfası `3175:13501` (Core Music - Linux 3840, frame `3175:13502`) çekildi; `.ai/.png/home-3840/Linux 3840 - Home.png` eklendi (PNG 25→26, extract: `reference/figma/extracted-3175-13501.md`); spec eklenmedi — 3840 PNG'nin spec'i yok (§7 madde 6)."
 ---
 
 # CoreMusic — Screen Specification Index (T07 · Shared · T17)
@@ -45,7 +45,7 @@ PNG Mockup > Figma (extracted) > ASCII Art > Component Inventory > Tokens > Impl
 
 > **✅ KAPANDI (2026-09-29 — tier ataması):** dizin taşındı → `screens/T07-embedded/` (owner onayı) + 12 spec `tier: T07`; kanıt [[../00-device-matrix]] L92 `T07 = RPi5 7" 1024×600`, L93 `T08 = RPi5 10" 1280×800`.
 >
-> **PNG envanteri:** 25/25 PNG diskte mevcut (`.ai/.png/home-1024/` 12 · `.ai/.png/home-1920/` 4 · `.ai/.png/shared-1024/` 6 · `.ai/.png/admin-1920/` 3 → [[../01-mockup-index]]). 22 spec'in PNG'si var; **istisna:** T17 `welcome-popup.md` (draft) — 1920 popup PNG'si yok; `home-1920/` içindeki **3 PNG'nin spec'i yok** (§7 madde 6).
+> **PNG envanteri (2026-10-18):** 26/26 PNG diskte mevcut (`.ai/.png/home-1024/` 12 · `.ai/.png/home-1920/` 4 · `.ai/.png/shared-1024/` 6 · `.ai/.png/admin-1920/` 3 · `.ai/.png/home-3840/` 1 → [[../01-mockup-index]] v6.4.0). 22 spec'in PNG'si var; **istisna:** T17 `welcome-popup.md` (draft) — 1920 popup PNG'si yok; `home-1920/` içindeki **3 PNG'nin** ve `home-3840/Linux 3840 - Home.png`'nin **spec'i yok** (§7 madde 6).
 
 ## 3. Screen Files — T07 Embedded (1024×600) — 12 dosya
 
@@ -109,7 +109,7 @@ Sayfa `2161:12438` içinde `visible: false` gizli `mavi` varyant grubu (2 kare) 
 |---------|-------|
 | Spec dosya sayısı | **23/23** (T07 12 · shared 6 · T17 5) ✅ glob + frontmatter doğrulaması |
 | Status dağılımı | **22 active · 1 draft** (draft = `T17-monitor-22fhd/welcome-popup`) ✅ |
-| PNG eşleştirme | **25/25 PNG diskte var**; 22 spec PNG'li, 1 spec PNG'siz (T17 welcome, `status: draft`); **3 PNG'nin spec'i yok** (madde 6) ✅ |
+| PNG eşleştirme | **26/26 PNG diskte var** (2026-10-18: +`home-3840/` 1); 22 spec PNG'li, 1 spec PNG'siz (T17 welcome, `status: draft`); **4 PNG'nin spec'i yok** (madde 6) ✅ |
 | Figma kare | **25** (20 kök + browse-clicked 5 varyant) + 2 T17 referans kare + 2 gizli `mavi` varyant kare (spec edilmedi) ✅ |
 | `wiki-link` çözümü | **347 link · 6 raporlanan → gerçek kırık 0** (6'sı `AGENTS.md` §13.7 **bilinen sahte kırık** — şablon değişkeni/kaçış dizgeleri: `flow/auth/01-login`, `flow/auth/04-select-gender`, `flow/music/01-playback`, `flow/settings/04-general`, `reference/legacy-inventory` ×2; düzeltme YASAK) ✅ kökten `wiki-link-check.ps1` ölçümü (2026-10-16) |
 | Frontmatter gate | `screens-frontmatter-check.ps1` → **24 dosya / 0 sorunlu** ✅ (kökten, `AGENTS.md` §13.6) |
@@ -122,7 +122,7 @@ Sayfa `2161:12438` içinde `visible: false` gizli `mavi` varyant grubu (2 kare) 
 3. ✅ **düzeltildi (2026-09-28):** [[../01-mockup-index]] v6.1.0 — §4 = 20 spec (dosya · Figma node · PNG · status, tier bazlı), §7 = yeni adlar + eski ad haritası (silinenler → yeni karşılık).
 4. `screens/T07-embedded/home-dashboard` kök node'u Figma **COMPONENT** (`1639:10160`), FRAME değil. *(bilgi notu — madde 1 taşınması önerilirse korunmalı)*
 5. **Tier ataması (2026-10-16 — owner onayı bekliyor):** 3 admin ekranı `T17`'ye atandı (viewport 1920×1080 + matrix §4c CatID `DM-T17` eşlemesi `2161:12438` → 1920 Figma sayfaları). [[../00-device-matrix]] §4c'deki `T42 NAS Web Interface (Viewport 1920×1080, Layout: Admin panel)` satırı semantik olarak da uyuşur; T42 `Special/Variant` kategorisindedir ve `screens/T42-*/` dizini **diskte yoktur**. T42'ye taşınma istenirse 3 spec + bu indeks + [[../01-mockup-index]] §4.3/§4.4 birlikte güncellenmelidir (owner onayı gerekir).
-6. **Spec'siz PNG'ler (2026-10-16):** `.ai/.png/home-1920/` içindeki `Geçmiş` / `Göz At` / `Playlist` 3 PNG'nin ekran spec'i yok (`⚠️ VERIFICATION REQUIRED` — ya spec yazılır, ya bu üçü envanter dışı bırakılır).
+6. **Spec'siz PNG'ler (2026-10-18):** `.ai/.png/home-1920/` içindeki `Geçmiş` / `Göz At` / `Playlist` 3 PNG ve `.ai/.png/home-3840/Linux 3840 - Home.png` (Figma sayfası `3175:13501`, frame `3175:13502` — 3840×2160 Linux 4K) toplam **4 PNG'nin ekran spec'i yok** (`⚠️ VERIFICATION REQUIRED` — ya spec yazılır, ya bu dördü envanter dışı bırakılır; 3840 için ham çıkarım `reference/figma/extracted-3175-13501.md` hazırdır).
 
 ---
 

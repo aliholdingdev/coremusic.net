@@ -1,20 +1,20 @@
 ---
 reference_doc: CoreMusic UI Design System
-title: "CoreMusic — Mockup Index (25 PNG)"
+title: "CoreMusic — Mockup Index (26 PNG)"
 type: index
 category: ui-design
 date: 2026-09-20
-updated: 2026-10-16
+updated: 2026-10-18
 status: active
-version: 6.3.0
+version: 6.4.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/ui-design/01-mockup-index.md"
-  source_of_truth: ".ai/.png/home-1024/ · .ai/.png/home-1920/ · .ai/.png/shared-1024/ · .ai/.png/admin-1920/"
+  source_of_truth: ".ai/.png/home-1024/ · .ai/.png/home-1920/ · .ai/.png/shared-1024/ · .ai/.png/admin-1920/ · .ai/.png/home-3840/"
 ---
 
-# CoreMusic — Mockup Index (25 PNG)
+# CoreMusic — Mockup Index (26 PNG)
 
 **Zorunlu Bağlantılar:** [[00-device-matrix]] · [[02-component-inventory]] · [[05-responsive-architecture]]
 
@@ -22,7 +22,7 @@ reference:
 
 ## 1. Amaç
 
-CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 25 PNG mockup dosyası, tüm frontend geliştirme görevlerinde tartışmasız başlangıç noktasıdır.
+CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 26 PNG mockup dosyası, tüm frontend geliştirme görevlerinde tartışmasız başlangıç noktasıdır.
 
 > **⚠️ Mockup Before Frontend:** CSS/HTML/JS/layout/bileşen görevlerinde ilgili görsel okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir.
 
@@ -54,6 +54,8 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 25 PNG
 │   ├── Admin - layout.png
 │   ├── Admin - Login.png
 │   └── Admin - Register.png
+├── home-3840/          ← 1 PNG (Linux 4K 3840×2160)
+│   └── Linux 3840 - Home.png
 └── shared-1024/        ← 6 PNG (Auth ekranları 1024×600)
     ├── Linux  1024 - Select Gender.png
     ├── Linux  1024 - Select Gender - selected.png
@@ -63,11 +65,11 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 25 PNG
     └── Linux  1024 - Register Girl step 3.png
 ```
 
-> **İki PNG kaynağı (disk kanıtı, 2026-10-16):**
-> - **Vault mockup'ı (SSOT):** `.ai/.png/` → **25 PNG** (12 `home-1024` + 4 `home-1920` + 6 `shared-1024` + 3 `admin-1920`; klasörlerde ayrıca `CLAUDE.md` vardır, PNG sayılmaz).
-> - **Figma çekim arşivi:** `.ai/ui-design/reference/figma/png/` → **149 PNG** (2026-09-29 tam çekim; `_extraction-notes.md` çekim kaydı 129 → 149 olarak iki adımda güncellenmiştir). Bu arşiv ham referanstır; Mockup Before Frontend gate'i **önce `.ai/.png/`** için geçerlidir.
+> **İki PNG kaynağı (disk kanıtı, 2026-10-18):**
+> - **Vault mockup'ı (SSOT):** `.ai/.png/` → **26 PNG** (12 `home-1024` + 4 `home-1920` + 6 `shared-1024` + 3 `admin-1920` + 1 `home-3840`; klasörlerde ayrıca `CLAUDE.md` vardır, PNG sayılmaz).
+> - **Figma çekim arşivi:** `.ai/ui-design/reference/figma/png/` → **154 PNG** (2026-09-29 tam çekim 149 + 2026-10-18 taze export 5: 4× `home-1920` frame adıyla + 1× `3175-13502-Linux-3840---Home`). Bu arşiv ham referanstır; Mockup Before Frontend gate'i **önce `.ai/.png/`** için geçerlidir.
 >
-> **Not (açık madde):** `home-1920/` içindeki `Geçmiş` / `Göz At` / `Playlist` 3 PNG'nin ekran spec'i **yok** (`screens/00-ascii-art-index.md` §7 madde 6).
+> **Not (açık madde):** `home-1920/` içindeki `Geçmiş` / `Göz At` / `Playlist` 3 PNG'nin ve `home-3840/Linux 3840 - Home.png`'nin ekran spec'i **yok** (`screens/00-ascii-art-index.md` §7 madde 6).
 
 ---
 
@@ -117,6 +119,12 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 25 PNG
 | 23 | `Admin - layout.png` | 1920×1080 | 22" FHD Monitor (T17) | Admin ana layout: sol sidebar 250px (menü), navbar, içerik paneli, footer (username/IP/usertype) |
 | 24 | `Admin - Login.png` | 1920×1080 | 22" FHD Monitor (T17) | Yönetici girişi: sol fotoğraf %74, sağ 500px panel (başlık, bilgi notu, kullanıcı/parola formu, QR bloğu) |
 | 25 | `Admin - Register.png` | 1920×1080 | 22" FHD Monitor (T17) | Yönetici kaydı: sağ 500px panel (5 alan + onay kutusu, buton, QR bloğu) |
+
+### 3.5 Home Dashboard — Linux 4K (1 PNG)
+
+| # | Dosya Adı | Viewport | Cihaz | İçerik |
+|---|-----------|----------|-------|--------|
+| 26 | `Linux 3840 - Home.png` | 3840×2160 | Linux 4K | Ana sayfa (4K): frame `3175:13502` · Figma sayfası `3175:13501` (ilk çekim 2026-10-18) — ⚠️ ekran spec'i yok · içerik grupları 1920 ile aynı adlar (Footer · Navbar · Player Info · Önerilen Sanacılar/Albumler · En Son Dinlenen …); çıkarım: `reference/figma/extracted-3175-13501.md` |
 
 ---
 
@@ -171,7 +179,7 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 25 PNG
 | Dizin | CatID | Tier | Viewport | Ekran spec | Figma tasarım durumu |
 |-------|-------|------|----------|-----------|----------------------|
 | `screens/T07-embedded/` | `EM-T07` | T07 | 1024×600 | 12 md | ✅ `1047:15802` (Linux Pi sayfası) |
-| `screens/T17-monitor-22fhd/` | `DM-T17` | T17 | 1920×1080 | 5 md | ✅ `462:5874` (Linux 1920 sayfası) · `2161:12438` (Music Admin sayfası) |
+| `screens/T17-monitor-22fhd/` | `DM-T17` | T17 | 1920×1080 | 5 md | ✅ `462:5874` (Linux 1920 sayfası) · `2161:12438` (Music Admin sayfası) · ek: `3175:13501` (Linux 3840 sayfası — spec'i yok, §3.5) |
 | `screens/shared/` | `EM-T07` (frontmatter `tier: T07`) | T07 | 1024×600 | 6 md | ✅ `2135:19832` (Linux Pi Son Kullanıcı) |
 
 **Çakışan tier'lar ve durumları:**
@@ -238,26 +246,26 @@ PNG Mockup > ASCII Art > Component Inventory > Tokens > Implementation Plan
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 6.3.0 |
+| Version | 6.4.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| Total PNG | 25 (12 home-1024 + 4 home-1920 + 6 shared-1024 + 3 admin-1920) |
-| Figma PNG Arşivi | 149 (`.ai/ui-design/reference/figma/png/` — çekim 129 → 149) |
-| Viewports | 2 (1024×600, 1920×1080) |
-| OS | Linux Embedded + Linux Desktop |
+| Total PNG | 26 (12 home-1024 + 4 home-1920 + 6 shared-1024 + 3 admin-1920 + 1 home-3840) |
+| Figma PNG Arşivi | 154 (`.ai/ui-design/reference/figma/png/` — çekim 129 → 149 → 154; +5 2026-10-18 taze export) |
+| Viewports | 3 (1024×600, 1920×1080, 3840×2160) |
+| OS | Linux Embedded + Linux Desktop + Linux 4K |
 | Themes | 3 (Female #ff4fd8, Male #4f9fff, Neutral #a0a0b0) |
 | Components | 19 (C01-C16 + C17 Widget Area + C18 Quick Apps + C19 Mini Card) |
 | Layout Patterns | 7 (Standard 60/40, Split Home 1024, Split Home 1920, Fullscreen, Modal, Auth 72/28, Admin Right Panel 500px) |
 | Auth Flow | Select Gender → Login → Register (3 adım) |
-| Screen Specs | 23 spec dosya (22 active · 1 draft) · 22'si PNG'li · `screens/` toplam 24 md (23 spec + 1 indeks) · `.ai/.png` 25 PNG (3'ün spec'i yok: `home-1920` Geçmiş / Göz At / Playlist) |
+| Screen Specs | 23 spec dosya (22 active · 1 draft) · 22'si PNG'li · `screens/` toplam 24 md (23 spec + 1 indeks) · `.ai/.png` 26 PNG (4'ün spec'i yok: `home-1920` Geçmiş / Göz At / Playlist + `home-3840` Home) |
 | Spec Senkronu | 4b9ef53 (2026-09-27) → §4/§7 2026-09-28 20 dosya → 2026-10-16 admin 3 ekran eklendi (23 dosya) |
-| Figma Sources | 1024×600 (Embedded) + 1920×1080 (Desktop + Admin) pixel-perfect |
+| Figma Sources | 1024×600 (Embedded) + 1920×1080 (Desktop + Admin) + 3840×2160 (Linux 4K) pixel-perfect |
 | Bayat Ad Taraması | 0 isabet — eski ekran adları bu dosyada tutulmuyor (§7) |
 | ADR Uyumlu | ADR-001 (Vanilla JS), ADR-044 (Theme Engine) |
 | Cross References | 3 |
-| Last Updated | 2026-10-16 |
+| Last Updated | 2026-10-18 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-10-16
+**Last Updated:** 2026-10-18
 **Mode:** Red Team · Human Mode · Truth Mode

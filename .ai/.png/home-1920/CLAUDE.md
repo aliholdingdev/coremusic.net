@@ -28,4 +28,4 @@ Yeni mockup eklenir; mevcut korunur. Log.
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-18

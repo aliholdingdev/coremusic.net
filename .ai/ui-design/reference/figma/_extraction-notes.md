@@ -322,3 +322,47 @@ Figma `/v1/images` endpoint'i bu 15 node için **NULL** döndürüyor (HTTP 200,
 **Açık konu:** `.templates/ui-design/screen-spec-template.md` L42 "19 PNG / home-1920 1" envanter iddiası eskimiş (diskte 25 PNG / home-1920 4) - şablon statik, sahip onayı ile güncellenmeli.
 
 **Commit:** atılmadı (subagent kuralı - orkestratöre ait).
+
+---
+
+## Extract: refresh çekim — 462:5874 (Linux 1920) + YENİ sayfa 3175:13501 (Linux 3840) — 2026-10-18
+
+**Tetikleyici:** kullanıcı talimatı — yeni Figma verisi (462:5874 güncellendi + yeni sayfa "Core Music - Linux 3840") API'den çekilecek; eskiler tazelenecek; `.png` referansları verilecek.
+
+**Çekim:** `C:\temp\opencode\fetch-20261018.ps1` (token yalnız `.ai/.env.figma`). İki sayfa tek oturumda çekildi (21:00).
+
+| Sayfa | Ad | Sürüm | lastModified | Bayt | Node (CANVAS+frame) | Durum |
+|---|---|---|---|---|---|---|
+| `462:5874` | Core Music (Linux 1920) | `2411746660332637475` | `2026-10-18T18:01:58Z` | 3.424.959 | 3654 | **tazeleme** (önceki `2411290726990257863` / `2026-10-17T12:59:45Z` yedekte `C:\temp\opencode\page-462-5874-OLD-20261017.json`) |
+| `3175:13501` | Core Music - Linux 3840 | `2411746660332637475` | `2026-10-18T18:01:58Z` | 814.298 | 814 | **yeni sayfa** (vault'a ilk kez giriyor) |
+
+**Compare (462:5874 — 2026-10-17 → 2026-10-18):** toplam node 3644 → 3654 (+10); yalnız Home `2831:13747` değişti (803 → 813 node · 1. seviye çocuk 12 → 13 · TEXT 844 → 847); diğer 3 frame sabit (Göz At 338 · Playlist 793 · Geçmiş 1709). Root child silinmedi/eklenmedi, rename yok.
+
+**3175:13501 (yeni):** 1 frame `3175:13502` "Linux 3840 - Home" 3840×2160 · 13 çocuk · TEXT 222 · INSTANCE 53 · VECTOR 152 · grup adları 1920 ile aynı (Footer · Navbar · Player Info · Div2 Button · Önerilen Sanacılar/Albumler · En Son Dinlenen …). Boş öncül sayfa `326:3386` ("Web-Monitor-3840") ile ilişkisi extracted doc §2.2'dedir — farklı sayfalardır, biri diğerinin sürümü değildir; `raw/page-326-3386.json` korunur.
+
+**PNG export (`png-export-20261018.ps1`):**
+
+| Hedef | Ölçek | Dosya | Bayt |
+|---|---|---|---|
+| `.ai/.png/home-1920/` ×4 | scale=2 | Home · Göz At · Playlist · Geçmiş | 6.095.027 – 7.717.587 |
+| `.ai/.png/home-3840/` ×1 | scale=1 | `Linux 3840 - Home.png` | 6.665.774 |
+| `reference/figma/png/` (id-prefixed) ×5 | scale=2/1 | 4× `3155-*`/`2831-*` + `3175-13502-Linux-3840---Home` | — |
+
+`.ai/.png` toplam: **26 PNG** (admin-1920 3 · home-1024 12 · home-1920 4 · home-3840 1 · shared-1024 6) · `reference/figma/png` **154** (149 + 5). `.png/home-3840/CLAUDE.md` oluşturuldu; `.png/CLAUDE.md` envanteri 19 → 26'ya güncellendi.
+
+> ⚠️ **Eşzamanlı oturum uyarısı:** `.png/home-1920/Home.png` + `.png/home-3840/` bu oturumdan **önce** (20:58) başkası tarafından yazılmış — paralel oturum ihtimali. PNG'ler sürümle senkron yeniden export edildi (21:12–21:15); extracted/token yüzeylerine başka yazım tespit edilmedi.
+
+**Token üretimi (`figma-tokens.ps1`, repo kökünden):** Faz 9 gate `toplam=7 | pass=6 | bos=1 | fail=0 | bos_bp=tv` + `BITTI` — **3840 ilk kez doldu** (`tokens-3840.json`: colors 278 · typography 168 · shadows 153 · radii 64 · spacing 50 · sizes 634; boş öncül `326:3386` kaynağı boş kaldı). 1920 tazelendi (node=28874 · korunan eski=2469). Çakışma günlüğü `token-conflicts.md` (400 satır). Yedek: `C:\temp\opencode\tokens-backup-20261018/`. `figma-tokens.ps1` §SRC 3840 satırı güncellendi (`page-3175-13501.json` + `page-326-3386.json`); `EXPECT_EMPTY` artık yalnız `tv`.
+
+**Extracted doc üretimi (`C:\temp\opencode\gen-extracted.mjs` — parametrik):**
+
+1. `extracted-462-5874.md` **v1.2.0** (2026-10-18) — 713.086 bayt · 4101 satır · 3654 node · 3649 ağaç satırı · wiki-link 16 · PNG 4/4 · §2.2 eski→yeni karşılaştırma (eski 3644 → yeni 3654, Home +10) · statik prosa id kontrolü TAMAMI mevcut. Eski doc yedekte `C:\temp\opencode\extracted-462-5874-OLD-20261018.md`.
+2. `extracted-3175-13501.md` **v1.0.0** (2026-10-18, YENİ) — 1055 satır · 814 node · 812 ağaç satırı · wiki-link 16 · PNG 1/1 · §2.2 boş-öncül ilişkisi · §5.3'te 1920'ye özgü hygiene notları basılmadı (farklı sayfa, dinamik sayım).
+
+Üreteç düzeltmeleri: §istatistik/§Quality Report numaraları artık dinamik (`SN = 4 + frame`, 1920 → §8/§9 · 3840 → §5/§6) · `--created` parametresi (regen'de `date:` korunur) · Ham JSON SSOT satırı `PAGEFILE`'e bağlandı · statik-prosa id uyarısı yalnız 462:5874'te.
+
+**Vault senkron (bu oturum):** `01-mockup-index.md` v6.4.0 (26 PNG · §3.5 Linux 4K · figma arşivi 154 · CatID tablosuna `3175:13501` eklentisi) · `screens/00-ascii-art-index.md` v6.4.0 (toplam PNG 26 · §7 madde 6: spec'siz PNG 3 → 4) · `.png/CLAUDE.md` · `.png/home-3840/CLAUDE.md` (yeni) · `tokens/design-tokens-master.md` + `tokens/color-palettes.md` (3840 artık dolu) · `reference/04-verification.md` · `reference/legacy-inventory.md`.
+
+**Açık konu:** `.templates/ui-design/screen-spec-template.md` L42 envanter iddiası ("19 PNG / home-1920 1") eskimiş — şablon statik, sahip onayı ile güncellenmeli (2026-10-17'de de açıktı).
+
+**Commit:** atılmadı (subagent kuralı — orkestratöre ait).

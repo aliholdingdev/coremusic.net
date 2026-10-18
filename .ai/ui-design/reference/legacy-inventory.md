@@ -1,12 +1,12 @@
-﻿---
+---
 reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Legacy Inventory — ui-design (Eski Referans + Mevcut Durum)"
 type: inventory
 category: ui-design
 date: 2026-09-24
-updated: 2026-09-29
+updated: 2026-10-18
 status: active
-version: 1.0.0
+version: 1.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -50,7 +50,7 @@ Bu dosya, CoreMusic `ui-design` vault'unun **salt-okunur tarama envanteridir**: 
 | Dosya | Satır | Durum | Başlık yapısı (`##`) |
 |---|---:|---|---|
 | `00-device-matrix.md` | 315 | DOLU (45 tier tabloları, tespit önceliği, Quality Report) | 1. Amaç · 2. Device Tier Sistemi · 3. Tüm Tiers · 3A. Viewport Bazlı Özet Tablosu · 4. Cihaz Tespit Önceliği · 5. Quality Report |
-| `01-mockup-index.md` | 183 | DOLU (19 PNG tablosu, screen spec eşleme, qr- sistemi) | 1. Amaç · 2. PNG Dizin Yapısı · 3. Mockup Kategorileri (3.1-3.3) · 4. Screen Spec Eşleştirmesi · 5. Referans Sıralaması · 6. Kullanım Protokolü · 7. Quick Reference (qr-) Sistemi · 8. Quality Report |
+| `01-mockup-index.md` | 271 | DOLU (26 PNG tablosu, screen spec eşleme, qr- sistemi — v6.4.0, 2026-10-18) | 1. Amaç · 2. PNG Dizin Yapısı · 3. Mockup Kategorileri (3.1-3.3) · 4. Screen Spec Eşleştirmesi · 5. Referans Sıralaması · 6. Kullanım Protokolü · 7. Quick Reference (qr-) Sistemi · 8. Quality Report |
 | `02-component-inventory.md` | 239 | DOLU (C01-C19 tek tek BEM/piksel/token tabloları) | 1. Amaç · 2. Bileşen Envanteri · 3. Quality Report |
 | `03-implementation-plan.md` | 184 | DOLU (15 adım + bağımlılık grafik + 31 saat) | 1. Amaç · 2. 15 Adımlık CSS Planı · 3. Bağımlılık Grafisi · 4. Toplam Süre Tahmini · 5. Quality Report |
 | `04-accessibility-gaps.md` | 210 | DOLU (12 gap + CSS düzeltme blokları) | 1. Amaç · 2. Touch Target Analizi · 3. Contrast Analizi · 4. Keyboard Navigation · 5. Screen Reader Desteği · 6. Reduced Motion · 7. Focus Management · 8. Quality Report |
@@ -141,19 +141,25 @@ Bu dosya, CoreMusic `ui-design` vault'unun **salt-okunur tarama envanteridir**: 
 
 ## PNG envanteri
 
-**`.png\AGENTS.md` YOK.** Toplam 19 PNG + 4 CLAUDE.md.
+**`.png\AGENTS.md` YOK.** Toplam 26 PNG + 5 CLAUDE.md (2026-10-18 disk ölçümü: 5 dizin).
+
+**admin-1920/ (3 PNG):** `Admin - layout.png` · `Admin - Login.png` · `Admin - Register.png` — CLAUDE.md **YOK**.
 
 **home-1024/ (12 PNG):** `Linux  1024 - Albumler Details Detay Page.png` · `Linux  1024 - Albumler Page.png` · `Linux  1024 - Bluetooth Quick Page Base.png` · `Linux  1024 - Göz At - Tıklama Clicked.png` · `Linux  1024 - Göz At Page.png` · `Linux  1024 - Home Page Welcome Popup.png` · `Linux  1024 - Home Page.png` · `Linux  1024 - Playlist Page - Video Played.png` · `Linux  1024 - Playlist Page.png` · `Linux  1024 - Singer Page.png` · `Linux  1024 - Wifi Connect Light.png` · `Linux  1024 - Wifi Quick Page Base.png`
 
 **home-1920/ (4 PNG):** `Linux 1920 - Home.png` · `Linux 1920 -  Geçmiş Page.png` · `Linux 1920 -  Göz At Page.png` · `Linux 1920 -  Playlist  Page.png`
 
+**home-3840/ (1 PNG):** `Linux 3840 - Home.png` — 2026-10-18 eklendi (node `3175:13502`, scale=1 export); `CLAUDE.md` mevcut (v1.0.0).
+
 **shared-1024/ (6 PNG):** `Linux  1024 - Login Girl.png` · `Linux  1024 - Register Girl.png` · `Linux  1024 - Register Girl step 2.png` · `Linux  1024 - Register Girl step 3.png` · `Linux  1024 - Select Gender.png` · `Linux  1024 - Select Gender - selected.png`
 
 **CLAUDE.md özeti:**
-- `.png/CLAUDE.md` — Guardrail #11 kaynaklı bağlam: 19 PNG (12+1+6), sıralama `PNG > ASCII art > Component Inventory > Tokens > Implementation Plan`, "PNG okunamıyorsa DUR". **Eski ad veriyor:** indeks `ui-design/00-mockup-index.md` (gerçek: `01-mockup-index.md`).
+- `.png/CLAUDE.md` — Guardrail #11 kaynaklı bağlam: 26 PNG (admin-1920 3 + home-1024 12 + home-1920 4 + home-3840 1 + shared-1024 6), sıralama `PNG > ASCII art > Component Inventory > Tokens > Implementation Plan`, "PNG okunamıyorsa DUR". İndeks adı **doğru** (`ui-design/01-mockup-index.md`) — 2026-09-29'daki "eski ad" notu geçersiz kaldı.
 - `.png/home-1024/CLAUDE.md` — 12 PNG, kanonik 1024×600 referans seti; append-only protokol.
-- `.png/home-1920/CLAUDE.md` — 1 PNG, desktop setinin başlangıcı.
+- `.png/home-1920/CLAUDE.md` — 4 PNG, desktop 1920×1080 seti (2026-10-18 taze export).
+- `.png/home-3840/CLAUDE.md` — 1 PNG, 4K 3840×2160 seti (2026-10-18, v1.0.0).
 - `.png/shared-1024/CLAUDE.md` — 6 PNG, auth ekranları SSOT; auth.coremusic.net kodu buradan doğrulanır.
+- `.png/admin-1920/CLAUDE.md` — **YOK** (3 PNG, bağlam dosyasız).
 
 ## Kayıt noktaları
 
@@ -161,7 +167,7 @@ Bu dosya, CoreMusic `ui-design` vault'unun **salt-okunur tarama envanteridir**: 
 - L117 — §13.4 istisna: `.ai/ui-design/screens/**`, `.ai/.png/**`
 - L119 — §13 Mockup Before Frontend: `.ai/ui-design/` görseli okunmadan kod YAZILAMAZ
 - L189 — §6 keyword routing: `ui-design, c01-c16, 45-tier, device-matrix, screen-spec, token` → UI Designer
-- L229 — §7.2 `[[ui-design/01-mockup-index]]` (19 PNG) + C01-C16; sıra: PNG > ASCII > Inventory > Tokens > Reference(01-10)
+- L229 — §7.2 `[[ui-design/01-mockup-index]]` (19 PNG) + C01-C16; sıra: PNG > ASCII > Inventory > Tokens > Reference(01-10) · ⚠️ **19 PNG iddiası bayat** (gerçek 26, 2026-10-18) — `.ai/AGENTS.md` SSOT olduğu için bu dosyada yalnızca işaretlenir, düzeltme sahip onayı ister
 - L230 — §7.2 `[[ui-design/reference/10-device-specific-guidelines]]`
 - L231 — §7.2 `[[ui-design/05-responsive-architecture]] §7.4 + §12` ← **bu bölümler dosyada yok**
 - L478 — §24.3 Frontend zorunlu okuma: `ui-design/01-mockup-index.md`, `02-component-inventory.md`

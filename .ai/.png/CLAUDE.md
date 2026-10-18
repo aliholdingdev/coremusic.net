@@ -14,10 +14,14 @@ Orijinal PNG mockup görselleri. Frontend görünmez otorite (Guardrail #11). İ
 
 | Klasör | Görsel Sayısı | Kullanım |
 |--------|---------------|----------|
+| `admin-1920/` | 3 PNG | Admin panel mockup'ları (layout · Login · Register — 2026-10-16) |
 | `home-1024/` | 12 PNG | Ana sayfa mockup'ları (1024×600 RPi5) |
-| `home-1920/` | 1 PNG | Ana sayfa mockup'ı (1920×1080 desktop) |
+| `home-1920/` | 4 PNG | Ana sayfa mockup'ları (1920×1080 desktop — Home · Göz At · Playlist · Geçmiş; 2026-10-18 scale=2 taze export) |
+| `home-3840/` | 1 PNG | Ana sayfa mockup'ı (3840×2160 4K — Home; 2026-10-18 scale=1 export) |
 | `shared-1024/` | 6 PNG | Paylaşılan ekran mockup'ları (1024×600) |
-| **TOPLAM** | **19 PNG** | Frontend geliştirme referansı |
+| **TOPLAM** | **26 PNG** | Frontend geliştirme referansı |
+
+(2026-10-18 ölçümü: 5 klasör · 26 PNG — `Get-ChildItem .ai/.png -Recurse -Filter *.png`.)
 
 ---
 
@@ -38,4 +42,4 @@ PNG > ASCII art > Component Inventory > Tokens > Implementation Plan
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-18
