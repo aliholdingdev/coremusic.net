@@ -26,8 +26,8 @@ depends_on:
   - "K000-isletim-sistemi (fiziksel disk/dosya — §5)"
   - "K011-application · K012-services (repo üzerinden veri talebi — §5 used_by)"
   - "K013-integraion (⚠️ sınır — synchronization çift kaydı)"
-  - "K018-devops (⚠️ sınır — yedek operasyonu)"
-  - "K020-recomenataion (⚠️ sınır — arama keşfi)"
+  - "K17-devops (⚠️ sınır — yedek operasyonu)"
+  - "K021-recomenataion (⚠️ sınır — arama keşfi)"
 evidence:
   - ".ai/architecture/index.md §5 satır 7 (master adı) + §7-§8 — 2026-10-12"
   - ".ai/.decisions/draft/ADR-097-k-space-v3-sifirdan-kurulum-coklu-md-ve-bant-rezervasyonu.md §2 (K2/K4) + §5.1-5.2 (adlandırma) — 2026-10-12"

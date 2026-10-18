@@ -21,8 +21,8 @@ children:
   - diagnostics
   - testing
 depends_on:
-  - "K001-infrastructure"
-  - "K002-data"
+  - "K001-donanım"
+  - "K007-data"
 evidence: "exa/websearch ile 2026-10-12 çekilmiş URL listesi (oturum içi URL bankası)"
 validation: "kanıt-hiyerarşisi: has-been-fetched 2026-10-12 > ⚠️ VERIFICATION REQUIRED > UNKNOWN"
 open_questions:

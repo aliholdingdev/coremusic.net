@@ -24,11 +24,10 @@ depends_on:
   - K007-data
   - K008-domain
   - K009-security
-  - K0100-identitiy
   - K012-services
   - K013-integraion
-  - K017-observability
-  - K019-testing
+  - K016-observability
+  - K18-testing
 evidence:
   - "coremusic-katmanli-mimari-agaci-v2.md §2.11 satır 352–370 (K011 tanımı + 10 çocuk mini-ağaç)"
   - "shared/src/PageRouter/ — 14 PHP dosyası / 1.575 satır (envanter 2026-10-12)"

@@ -8,7 +8,7 @@ depends_on:
   - K012-services
   - K010-network
   - K014-media
-  - K018-devops
+  - K17-devops
 evidence:
   - "shared/src/Log/LoggerFactory.php · Satır 11 — final class LoggerFactory (tek log fabrikası, 34 satır)"
   - "shared/src/Log/FileHandler.php · Satır 30 — final class FileHandler implements LoggerInterface (253 satır)"

@@ -9,7 +9,6 @@ depends_on:
   - "K006-yapay-zeka"
   - "K007-data"
   - "K008-domain"
-  - "K0100-identitiy"
   - "K013-integraion"
   - "K010-network"
   - "K014-media"

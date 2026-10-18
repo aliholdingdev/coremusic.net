@@ -5,7 +5,7 @@ status: verify-required
 parent_id: K000–K5000 Architecture Registry
 children: []
 depends_on:
-  - K019-testing
+  - K18-testing
   - K009-security
 evidence:
   - "shared/tests/ — 44 PHP test dosyası (2026-10-12)"

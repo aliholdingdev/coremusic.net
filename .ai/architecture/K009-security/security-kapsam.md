@@ -6,7 +6,6 @@ parent_id: K009-security
 children: []
 depends_on:
   - K009-security/security-master
-  - K0100-identitiy
   - K011-application
   - K013-integraion
   - K010-network

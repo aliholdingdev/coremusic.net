@@ -24,7 +24,7 @@ depends_on:
   - "K008-domain (anlam sınırı — §4/§5)"
   - "K009-security (şifreleme çağrısı sınırı — §4)"
   - "K000-isletim-sistemi (fiziksel saklama sınırı — §4)"
-  - "K018-devops (⚠️ yedek sahipliği — S-2)"
+  - "K17-devops (⚠️ yedek sahipliği — S-2)"
   - "K020-discovery (⚠️ arama sahipliği — S-1)"
   - "K013-integraion (⚠️ senkronizasyon sınırı — S-3)"
 evidence:

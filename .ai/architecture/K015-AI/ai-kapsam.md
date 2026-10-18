@@ -8,7 +8,7 @@ depends_on:
   - K006-yapay-zeka
   - K007-data
   - K009-security
-  - K019-testing
+  - K18-testing
 evidence:
   - "shared/src/AI/AIOrchestrator.php:26-38"
   - "shared/src/Api/Middleware/AuthenticationMiddleware.php:33-38"

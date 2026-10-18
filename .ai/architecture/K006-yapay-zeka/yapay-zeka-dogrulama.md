@@ -14,7 +14,6 @@ children:
   - K006.8-recommendation
   - K006.9-testing
 depends_on:
-  - K004-shared
   - K015-AI
 evidence:
   - "URL_fetcher ile 2026-10-12 tarihli 27 iddia·URL doğrulaması (§2)"

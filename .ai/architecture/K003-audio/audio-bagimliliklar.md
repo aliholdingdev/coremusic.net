@@ -18,8 +18,8 @@ children:
   - diagnostics
   - testing
 depends_on:
-  - "K001-infrastructure"
-  - "K002-data"
+  - "K001-donanım"
+  - "K007-data"
 evidence: "repo envanteri + v2 §2.3 + agır-trigger Skill/Agent registry (`.ai/CLAUDE.md`)"
 validation: "agır tetikleyici Skill/Agent'lar: ADR + ses-sistemi omurgası ile eşleşti; doğrulanmış URL'ler `audio-dogrulama.md` içinde"
 open_questions:

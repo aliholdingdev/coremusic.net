@@ -14,10 +14,8 @@ children:
   - K006.8-recommendation
   - K006.9-testing
 depends_on:
-  - K004-shared
   - K015-AI
-  - K002-database
-  - K001-core
+  - K007-data
 evidence:
   - "repo: shared/src/AI/*.php use satırları — 2026-10-12 grep ile doğrulandı"
   - "repo: shared/composer.json — 2026-10-12 okundu"

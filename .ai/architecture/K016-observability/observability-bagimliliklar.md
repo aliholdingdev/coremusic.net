@@ -9,9 +9,9 @@ depends_on:
   - K012-services
   - K010-network
   - K014-media
-  - K018-devops
+  - K17-devops
   - K009-security
-  - K019-testing
+  - K18-testing
 evidence:
   - "shared/composer.json · Satır 19 — \"psr/log\": \"^3.0\" (log sözleşmesi girdisi, 50 satır)"
   - "shared/composer.lock · Satır 611-612 — psr/log kilitli sürüm 3.0.2 (2.760 satır)"

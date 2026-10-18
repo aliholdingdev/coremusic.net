@@ -8,7 +8,7 @@ children: []
 depends_on:
   - K016-observability/observability-master
   - K016-observability/observability-bagimliliklar
-  - K019-testing
+  - K18-testing
 evidence:
   - "shared/tests/Unit/Log/Psr3LoggerTest.php · Satır 44 — testImplementsPsr3LoggerInterface (163 satır, okundu)"
   - "shared/tests/Unit/Log/LoggerRedactionTest.php · Satır 122 — hash/UUID ayrım testi (189 satır, okundu)"

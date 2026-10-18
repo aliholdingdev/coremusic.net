@@ -4,7 +4,7 @@ node_type: doc
 status: draft
 parent_id: K000-isletim-sistemi
 children: []
-depends_on: [K002-altyapi]
+depends_on: [K002-electroncis]
 evidence: [https://man7.org/linux/man-pages/man2/syscalls.2.html, https://learn.microsoft.com/en-us/windows/win32/coreaudio/about-the-windows-core-audio-apis, https://pubs.opengroup.org/onlinepubs/9799919799/]
 validation: "2026-10-13 · B/C/P/T envanteri repo satır no ile doğrulandı · 12×12 matris [TASARIM] mimari harita olarak işaretlendi · döngü denetimi 0 döngü"
 open_questions: ["Q1 electroncis", "Q4 hedef platform seti", "Q5 turu↔altyapı gap"]

@@ -21,9 +21,9 @@ depends_on:
   - K012-services
   - K010-network
   - K014-media
-  - K018-devops
+  - K17-devops
   - K009-security
-  - K019-testing
+  - K18-testing
 evidence:
   - "shared/src/Log/LoggerFactory.php · Satır 11 — final class LoggerFactory (34 satır, 2026-10-13)"
   - "shared/src/Log/FileHandler.php · Satır 30 — final class FileHandler implements LoggerInterface (253 satır)"

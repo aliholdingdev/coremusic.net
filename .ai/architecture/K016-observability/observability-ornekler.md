@@ -6,7 +6,7 @@ parent_id: K016-observability
 children: []
 depends_on:
   - K009-security
-  - K019-testing
+  - K18-testing
 evidence:
   - "shared/src/Log/LoggerFactory.php · Satır 11-33 — final class LoggerFactory (tek singleton, 34 satır)"
   - "shared/src/Log/FileHandler.php · Satır 30-253 — final class FileHandler implements LoggerInterface (253 satır)"

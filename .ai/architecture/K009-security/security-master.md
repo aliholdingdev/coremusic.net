@@ -6,7 +6,6 @@ parent_id: K009-security
 children: []
 depends_on:
   - K009-security/index
-  - K0100-identitiy
   - K011-application
   - K010-network
 evidence:

@@ -14,7 +14,6 @@ children:
   - K006.8-recommendation
   - K006.9-testing
 depends_on:
-  - K004-shared
   - K015-AI
 evidence:
   - "URL_fetcher sistematik tarama — 32 benzersiz URL, 2026-10-12"

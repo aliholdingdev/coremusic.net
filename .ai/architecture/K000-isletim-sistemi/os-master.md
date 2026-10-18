@@ -4,7 +4,7 @@ node_type: doc
 status: draft
 parent_id: K000-isletim-sistemi
 children: []
-depends_on: [K002-altyapi]
+depends_on: [K002-electroncis]
 evidence: [https://man7.org/linux/man-pages/man2/syscalls.2.html, https://docs.kernel.org/core-api/index.html, https://learn.microsoft.com/en-us/windows/win32/coreaudio/about-the-windows-core-audio-apis, https://pubs.opengroup.org/onlinepubs/9799919799/, https://www.kernel.org/]
 validation: "2026-10-13 · §K'daki tüm URL'ler HTTP HEAD 200 ile doğrulandı · §B/§G repo dosyalarından okundu · 3 ölü URL §K sonuna taşındı"
 open_questions: ["Q1 electroncis kapsamı (KAPANDI 2026-10-14)", "Q2 core↔kernel sınırı", "Q3 plan kapsamı", "Q4 hedef platform seti", "Q5 turu↔altyapı gap"]

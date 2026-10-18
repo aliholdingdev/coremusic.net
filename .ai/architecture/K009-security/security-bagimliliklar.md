@@ -8,12 +8,11 @@ depends_on:
   - K009-security/security-master
   - K000-isletim-sistemi
   - K007-data
-  - K0100-identitiy
   - K011-application
   - K013-integraion
   - K010-network
-  - K017-observability
-  - K018-devops
+  - K016-observability
+  - K17-devops
 evidence:
   - "shared/src/Middleware/ — 11 middleware (envanter 2026-10-12)"
   - "shared/src/Security/ — 6 sınıf (envanter 2026-10-12)"

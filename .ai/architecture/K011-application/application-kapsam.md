@@ -9,7 +9,6 @@ depends_on:
   - K012-services
   - K013-integraion
   - K009-security
-  - K0100-identitiy
 evidence:
   - "coremusic-katmanli-mimari-agaci-v2.md §2.11 (K011) · §2.8 (K008) · §2.12 (K012) · §2.13 (K013)"
   - "coremusic-katmanli-mimari-agaci-v2.md §3 KURAL 1 (imla/numara korunumu)"

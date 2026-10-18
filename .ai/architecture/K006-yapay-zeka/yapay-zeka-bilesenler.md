@@ -14,7 +14,6 @@ children:
   - K006.8-recommendation
   - K006.9-testing
 depends_on:
-  - K004-shared
   - K015-AI
 evidence:
   - "shared/src/AI/* — 7 PHP + 1 CLAUDE.md, 1.988 PHP satırı (2026-10-12 glob + sayım)"

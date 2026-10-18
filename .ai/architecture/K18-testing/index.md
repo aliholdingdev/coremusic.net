@@ -17,7 +17,7 @@ children:
   - hardware-validation
   - build-verification
 depends_on:
-  - K018-devops       # testler ci.yml joblarında koşulur — kanıtlı (ci.yml php-test/js-test/js-e2e, okundu 2026-10-12)
+  - K17-devops       # testler ci.yml joblarında koşulur — kanıtlı (ci.yml php-test/js-test/js-e2e, okundu 2026-10-12)
   - K009-security     # security testi auth/middleware yüzeyini yoklar — kanıtlı (tests/Security · tests/Middleware · ApiPipelineSecurityTest)
   - K007-data         # integration test DB/Repository katmanına dokunur — kanıtlı (tests/Repository ×2 dosya)
   - K003-audio        # audio-quality/hardware-validation ölçtüğü sisteme bağımlı — planlanan (ölçüm kanıtı YOK)
