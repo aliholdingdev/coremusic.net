@@ -6,18 +6,8 @@
    * Safe binding for Seek, Volume, Playback, and Progress modules.
    */
 
-  /* Video uzantı listesi — SSOT kaynak: media.coremusic.net/bin/ingest.php L157
-     $videoUzanti = ['mp4', 'mkv', 'avi', 'webm'] (liste uydurulmaz, oradan kopyalanır).
-     Uzantısı olmayan stream (bugünkü /stream/{32hex}) → default 'audio'. */
-  const VIDEO_EXTENSIONS = Object.freeze(['mp4', 'mkv', 'avi', 'webm']);
-
-  const detectMediaType = function (url) {
-    const clean = String(url).split(/[?#]/)[0];
-    const base = clean.slice(clean.lastIndexOf('/') + 1);
-    const dot = base.lastIndexOf('.');
-    const ext = dot > -1 ? base.slice(dot + 1).toLowerCase() : '';
-    return VIDEO_EXTENSIONS.indexOf(ext) !== -1 ? 'video' : 'audio';
-  };
+  /* Medya tipi çözümü (data-kind ipucu + uzantı) → CorePlayerShared.resolveMediaType
+     (spec kapsamı; uzantı SSOT: media.coremusic.net/bin/ingest.php L157). */
 
   function initCorePlayerModules() {
     const audio = document.getElementById('audio');
@@ -230,10 +220,13 @@
         if (!stream) return;
         e.preventDefault();
 
-        /* Otomatik medya tipi seçimi — stream URL uzantısına göre anlık
-           mediaType cookie güncellemesi (uzantı listesi: ingest.php L157) */
-        if (window.CorePlayerShared && typeof CorePlayerShared.setMediaType === 'function') {
-          CorePlayerShared.setMediaType(detectMediaType(stream));
+        /* Otomatik medya tipi seçimi — data-kind ipucu (markup, k alanından)
+           ÖNCE, yoksa stream URL uzantısı → anlık mediaType cookie güncellemesi */
+        if (window.CorePlayerShared && typeof CorePlayerShared.setMediaType === 'function'
+          && typeof CorePlayerShared.resolveMediaType === 'function') {
+          CorePlayerShared.setMediaType(
+            CorePlayerShared.resolveMediaType(stream, target.getAttribute('data-kind'))
+          );
         }
 
         /* Play hedefi: mediaType cookie'sine göre aktif element (tek kaynak) */

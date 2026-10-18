@@ -59,6 +59,21 @@
         return true;
     }
 
+    /* Medya tipi çözümü — URL uzantısı + markup ipucu (data-kind).
+       data-kind sunucudan (HomeSongButton 'k' alanından) geldiği için ÖNCELYINIR;
+       geçersiz/eksik ipucu → uzantıya düşer; uzantısız stream → 'audio'.
+       Uzantı SSOT: media.coremusic.net/bin/ingest.php L157 $videoUzanti. */
+    const VIDEO_EXTENSIONS = Object.freeze(['mp4', 'mkv', 'avi', 'webm']);
+
+    function resolveMediaType(url, hint) {
+        if (hint === 'video' || hint === 'audio') return hint;
+        const clean = String(url).split(/[?#]/)[0];
+        const base = clean.slice(clean.lastIndexOf('/') + 1);
+        const dot = base.lastIndexOf('.');
+        const ext = dot > -1 ? base.slice(dot + 1).toLowerCase() : '';
+        return VIDEO_EXTENSIONS.indexOf(ext) !== -1 ? 'video' : 'audio';
+    }
+
     function formatTime(secs) {
         if (!isFinite(secs) || secs < 0) return '0:00';
         const s = Math.floor(secs);
@@ -74,6 +89,7 @@
         getMediaElement: getMediaElement,
         setMediaType: setMediaType,
         savePlaybackStatus: savePlaybackStatus,
+        resolveMediaType: resolveMediaType,
         formatTime: formatTime
     };
 

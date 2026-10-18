@@ -41,7 +41,11 @@ final class HomeSongButton
         $stream = is_string($item['stream'] ?? null) ? $item['stream'] : '';
         $streamAttr = '';
         if (preg_match('#^/stream/[0-9a-f]{32}$#i', $stream) === 1) {
+            /* Medya tipi sinyali — footer.init/CorePlayerShared.resolveMediaType
+               bunu okur; uzantısız /stream/{32hex} URL'lerinde tipin tek kaynağıdır. */
+            $kind       = ($item['k'] ?? 'song') === 'video' ? 'video' : 'audio';
             $streamAttr = ' data-stream="' . $h($stream) . '"'
+                . ' data-kind="' . $kind . '"'
                 . ' data-title="' . $h((string)$item['t']) . '"'
                 . ' data-artist="' . $h((string)($item['s'] ?? '')) . '"';
         }

@@ -30,6 +30,32 @@ final class HomeSongButtonTest extends TestCase
         $this->assertStringContainsString('data-no-spa', $html);
     }
 
+    public function testHtml_dataKind_videoSinyaliYalnizKVideoDa(): void
+    {
+        // Arrange — geçerli stream kapısı açıkken tip sinyali k alanından üretilir
+        $stream = '/stream/' . str_repeat('a', 32);
+        $video  = HomeSongButton::html(['t' => 'V', 's' => 'S', 'k' => 'video', 'stream' => $stream], 'm', 'meta');
+        $song   = HomeSongButton::html(['t' => 'T', 's' => 'S', 'k' => 'song', 'stream' => $stream], 'm', 'meta');
+        $weird  = HomeSongButton::html(['t' => 'T', 's' => 'S', 'k' => 'banana', 'stream' => $stream], 'm', 'meta');
+        $none   = HomeSongButton::html(['t' => 'T', 's' => 'S', 'stream' => $stream], 'm', 'meta');
+
+        // Assert
+        $this->assertStringContainsString('data-kind="video"', $video);
+        $this->assertStringContainsString('data-kind="audio"', $song);
+        $this->assertStringContainsString('data-kind="audio"', $weird);
+        $this->assertStringContainsString('data-kind="audio"', $none);
+    }
+
+    public function testHtml_dataKind_streamKapisiKapaliykenAttrYok(): void
+    {
+        // Arrange + Act — stream regex'i geçmiyorsa data bloğu hiç üretilmez (mevcut kapı)
+        $html = HomeSongButton::html(['t' => 'T', 's' => 'S', 'k' => 'video', 'stream' => 'javascript:x'], 'm', 'meta');
+
+        // Assert
+        $this->assertStringNotContainsString('data-kind', $html);
+        $this->assertStringNotContainsString('data-stream', $html);
+    }
+
     public function testHtml_escapesXssInTitleSubtitleAndMeta(): void
     {
         // Arrange

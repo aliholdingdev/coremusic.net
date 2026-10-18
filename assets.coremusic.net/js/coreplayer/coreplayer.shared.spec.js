@@ -193,6 +193,30 @@ describe('savePlaybackStatus — allowlist play|pause|stop', () => {
     );
 });
 
+describe('resolveMediaType — data-kind ipucu + uzantı düşüşü', () => {
+    it('geçerli data-kind ipucu ÖNCELİKLİ: .mp4 URL + hint=audio → audio (markup sunucudan gelir)', () => {
+        expect(S.resolveMediaType('/media/clip.mp4', 'audio')).toBe('audio');
+    });
+
+    it('geçerli data-kind ipucu ÖNCELİKLİ: uzantısız stream + hint=video → video', () => {
+        expect(S.resolveMediaType('/stream/' + 'a'.repeat(32), 'video')).toBe('video');
+    });
+
+    it.each([null, undefined, '', 'bogus'])(
+        'geçersiz/eksik hint (%s): uzantıya düşer — .mp4 → video, uzantısız stream → audio',
+        (hint) => {
+            expect(S.resolveMediaType('/media/clip.mp4', hint)).toBe('video');
+            expect(S.resolveMediaType('/stream/' + 'b'.repeat(32), hint)).toBe('audio');
+        }
+    );
+
+    it('uzantı SSOT (ingest.php L157): mp4/mkv/avi/webm → video; query string ayıklanır', () => {
+        expect(S.resolveMediaType('/v.mkv')).toBe('video');
+        expect(S.resolveMediaType('/v.webm?tok=1#frag')).toBe('video');
+        expect(S.resolveMediaType('/v.mp3')).toBe('audio');
+    });
+});
+
 describe('getCookie / setCookie yardımcıları', () => {
     it('roundtrip: setCookie’nin yazdığı değeri getCookie aynen okur', () => {
         S.setCookie('cm_spec_round', 'hello-world', 7);
