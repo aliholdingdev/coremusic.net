@@ -354,3 +354,162 @@ Yeni dış sistem mi?
 | RFC 7636 (kimlik akışı referansı) | 2026-10-16 | https://www.rfc-editor.org/rfc/rfc7636 |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## EK-G-2026-10-18 — Dış sistem derinleştirmesi (§G1–§G9)
+
+> Append-only ek; §0–§356 (§GRUPLAR dahil) korunmuştur. Ek kaynak kısaltmaları
+> `../integration-master.md` §19 ana tablosundandır (W-12 Stripe imza ·
+> W-17 Stripe rate limit · W-18 GitHub rate limit · W-19 AWS SigV4 ·
+> W-05 circuit breaker · W-04 retry).
+
+## §G1 Dış-sistem kayıt şeması genişlemesi (§3'ün derinleşmesi)
+
+§3'teki kayıt şemasına eklenen **zorunlu alanlar** (TASARIM İDDİASI):
+
+| Alan | Neden zorunlu | İddia |
+|---|---|---|
+| `api_surum_bicimi` | dış sürüm nasıl bildirilir: header mı URL mı | §E5 envanter boşluğu |
+| `kota_bicimi` | rate limit biçimi: header mı body mı | ✅ W-17/W-18 iki farklı biçim |
+| `imza_bicimi` | hangi HMAC biçimi | ✅ W-12 · W-18 · (E6 Slack) |
+| `geri_cekilebilir_mi` | dış çağrı iade edilebilir mi? (saga geri çekme) | §26/§30 bağımlılığı |
+| `hukuki_durum` | TOS/hukuki izin durumu | §G2 |
+
+## §G2 Hukuki risk defteri — YouTube Music (§4/1'in derinleşmesi)
+
+| # | İddia | Durum | Sonuç |
+|---|---|---|---|
+| 1 | "YouTube Music resmi public API yok" | ⚠️ VERIFY REQUIRED | hukuki inceleme **ön koşul** (bagimliliklar §16) |
+| 2 | TOS riski varsa adaptör **kurulmaz** | TASARIM İDDİASI | kapı: §G8/1 |
+| 3 | Alternatif (resmi olmayan) kullanım | bu vault'ta **kod yazılmaz** | red kararı ADR'de |
+
+**Kural (iddia):** hukuki durum `✅ verified` olmadan YouTube Music adaptörü
+için **kod yazımı başlamaz**; bu anayasanın en yüksek öncelikli kapısıdır.
+
+## §G3 Secret rotasyonu — iki-anahtar penceresi (§9/3 kopuşunun kuralı)
+
+| # | Adım | Kural | İddia |
+|---|---|---|---|
+| 1 | Yeni secret K009'da üretilir | K013 **asla** secret üretmez (§1/3) | TASARIM İDDİASI |
+| 2 | Çift-doğrulama penceresi açılır | alıcı **iki** secret'ı da kabul eder | TASARIM İDDİASI (W-12 çoklu `v1=` ile uyumlu — §D2) |
+| 3 | Dış sağlayıcıya yeni secret bildirilir | Stripe/GitHub: secret rotasyonu sağlayıcı panelinde | ⚠️ sağlayıcı-bazlı |
+| 4 | Eski secret emekliye ayrılır | pencere kapanır — tek doğrulama | TASARIM İDDİASI |
+
+**Yasa:** eski secret **anında** kapatılamaz (tüm webhook'lar 401 olur — §9/3);
+ani kapanış yalnız **sızıntı** durumunda (güvenlik olayı) yapılır (iddia).
+
+## §G4 Dış API sürüm-atlaması — adaptör bağımsızlığı (§E5'in derinleşmesi)
+
+| # | Kural | İddia |
+|---|---|---|
+| 1 | Dış sürüm değişimi **yalnız** adaptörü vurur (§12/7) | TASARIM İDDİASI |
+| 2 | Adaptör, dış sürümü **zarfın dışına** yaymaz — iç olay şeması sabit (§F1) | TASARIM İDDİASI |
+| 3 | Dış sürüm sunset (emeklilik) duyurusu → adaptör sürüm planı | ⚠️ duyuru izleme — UNKNOWN |
+| 4 | SigV4 benzeri imzalama (W-19) değişirse KAPI-3 güncellenir | ✅ W-19 kavramı |
+
+## §G5 Kota ekonomisi — dış çağrının maliyeti (W-17 + W-18)
+
+| # | Kural | İddia |
+|---|---|---|
+| 1 | Her adaptör, dış kota-yanıt başlıklarını **loglar** | ✅ W-18 (`X-RateLimit-*`) |
+| 2 | Kota-tükenmesi beklenir (retry değil — §E2) | TASARIM İDDİASI |
+| 3 | Kota ekonomisi raporu: dış çağrı/dakika → adaptör envanteri (§E5) | ⚠️ ölçüm bekliyor |
+| 4 | Kota aşımı = adaptör **kendini** kısıtlar (token bucket) | TASARIM İDDİASI — sayısal değer ADR |
+
+## §G6 Devreye-bırak (degradation) hiyerarşisi — dış sistem yokken (W-05)
+
+```text
+1. circuit breaker AÇIK (W-05) → istekler atılır, iç sistem yaşar
+2. outbox BİRİKİR (W-01) → dış sistem döndüğünde yayın sürer
+3. DLQ EŞİĞİ (KAPI-6) → alarm çalar, operatör görür
+4. kullanıcıya DÜŞÜK-HİZMET durumu → sahte "başarılı" YOK
+```
+
+**Kural (iddia):** dış sistem çöktüğünde CoreMusic **sahte başarı üretmez** —
+kullanıcı "kuyrukta" bilgisini alır; bu bilgi sahtesi veri kaybından (§9/10)
+daha az zararlıdır.
+
+## §G7 Gözlemlenebilirlik — dış çağrının izi (ölçülebilir — iddia)
+
+| # | Ölçüm | Etiket | Neden |
+|---|---|---|---|
+| 1 | dış-latansı (p50/p95) | adaptör-bazlı | §E1/4 timeout eşitsizliği |
+| 2 | dış-hata-oranı (4xx/5xx ayrımı) | adaptör-bazlı | kalıcı/geçici ayrımı (§E6/3) |
+| 3 | circuit-breaker durumu | adaptör-bazlı | W-05 alarmı |
+| 4 | kota-kalanı | W-18 başlığından | §G5 |
+| 5 | imza-red oranı | gateway (§D5/401) | güvenlik olayı (§G3) |
+
+## §G8 Dış-sistem kapısı — anayasa seviyesi kapılar
+
+| # | Kapı | Şart | Açılmazsa |
+|---|---|---|---|
+| 1 | Hukuki kapı (§G2) | TOS durumu `✅ verified` | adaptör kurulmaz |
+| 2 | Sözleşme kapısı (KAPI-1) | olay şeması dondurulmuş | dış çağrı başlamaz |
+| 3 | İmza kapısı (KAPI-3) | ham gövde + tolerance ≠ 0 | webhook alınmaz |
+| 4 | Kopuş kapısı (§G6) | devreye-bırak hiyerarşisi hazır | dış çöküşe karşı hazırlıksız |
+
+## §G9 Ek kapanışı
+
+1. Bu ek yalnız **dış-sistem** derinleştirmesidir; §GRUPLAR **değişmedi**
+   (ekteki bölümler mimari/kanıt gruplarındadır — kod grubu hâlâ YOK,
+   kod örnekleri `external-kod-ornekleri.md` PLACEHOLDER'ında kalır).
+2. En yüksek öncelikli kapı: **§G2 hukuki** — diğer tüm dış adaptör kapıları
+   ona bağlıdır (bagimliliklar §16 zinciri).
+3. `⚠️ VERIFICATION REQUIRED`: YouTube Music API durumu · sağlayıcı-bazlı secret
+   rotasyonu · sunset duyuru izleme — uydurulmadı.
+
+---
+
+*EK-G-2026-10-18 · external-anayasa.md · Authority: Bayram Ali / Vault Steward · Mode: Red Team · Human Mode · Truth Mode*
+
+---
+
+## §G10 EK-G eklemesi — dış-sistem kapı denetimi (2026-10-18)
+
+| # | Kapı (§G8) | EK-G'te derinleşen | Dayanak | Durum |
+|---|---|---|---|---|
+| 1 | Hukuki (§G2) | 3 iddia satırı | (kanıt YOK — hukuki inceleme) | ⚠️ ön koşul |
+| 2 | Sözleşme (KAPI-1) | §G1 şema genişlemesi (5 alan) | event-sozlesme.md §F6 | ✅ eşleşti |
+| 3 | İmza (KAPI-3) | §G3 çift-anahhtar penceresi | W-12 çoklu `v1=` (§D2) | ✅ eşleşti |
+| 4 | Kopuş (§G6) | 4 kademeli hiyerarşi | W-05 · W-01 · KAPI-6 | ✅ eşleşti |
+
+**Denetim sonucu:** 4 kapının **3'ü** vault içi karşılıkla eşleşti; 1'i (hukuki)
+dış inceleme bekliyor — bu kapı kapanmadan YouTube Music adaptörü **kurulamaz**
+(§G2 kuralı).
+
+## §G11 EK-G kapanış denetimi
+
+1. §GRUPLAR tablosu **değişmedi** (satır sayısı/kapıları birebir korundu) —
+   kod grubu hâlâ YOK, kod örnekleri PLACEHOLDER `external-kod-ornekleri.md`'de.
+2. Yeni URL: **0**. Dayanaklar: W-04 · W-05 · W-12 · W-17 · W-18 · W-19 —
+   hepsi `../integration-master.md` §19'da.
+3. `⚠️ VERIFICATION REQUIRED` satır sayısı (EK-G içinde): **6** — hukuki durum ·
+   sağlayıcı-bazlı secret rotasyonu · sunset izleme · kota-raporu ölçümü ·
+   kota-aşımı-token-bucket sayısal değeri · §G5/3 ölçüm bekliyor.
+4. EK-G + §G10–§G11, §0–§356 arası hiçbir satırı **silmedi/değiştirmedi**
+   (append-only doğrulandı).
+
+---
+
+*EK-G-2 · external-anayasa.md · 2026-10-18 · Vault Steward*
+
+---
+
+## §G12 EK-G eklemesi 2 — dış-sistem gözlem-eşiği sözleşmesi (TASARIM İDDİASI)
+
+| Sinyal | Eşik (iddia) | Aksiyon | Sahip |
+|---|---|---|---|
+| circuit-breaker OPEN süresi | ⚠️ ADR | servis sahibi alarmı | adaptör sahibi |
+| 429 oranı p95 | ⚠️ ADR | kota-ekonomisi gözden geçirme (§G5) | K013 |
+| imza-red oranı | ⚠️ ADR | güvenlik olayı (§G7/5) | K009 |
+| outbox en-eski satır | ⚠️ ADR (§14/2 ile hizalı) | yayın-gecikmesi alarmı | K013 |
+
+**Kural (iddia):** dört sinyalin de **eşiği ADR'dedir**; bu dosyada sayısal değer
+yazılmaz. Eşik gelene kadar sinyaller **yalnız loglanır** (gözlem başlar, alarm
+çalmaz) — bu, "gözlem yoksa eşik tahmini uydurmadır" disiplininin aynısıdır
+(`integraion-bagimliliklar.md` §23/3).
+
+---
+
+*EK-G-3 · external-anayasa.md · 2026-10-18 · Vault Steward*

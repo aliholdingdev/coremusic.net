@@ -41,10 +41,22 @@ open_questions:
   - "phpstan yalnız shared'de — subdomainler static analysis dışında mı? (⚠️ VERIFICATION REQUIRED)"
   - "media.coremusic.net neden phpunit.xml'siz? tests/ = 0 dosya (doğrulandı) — test kapsamı dışı mı?"
 group: mimari
+updated: 2026-10-18
 ---
 
 
 # K019-testing — Kodun Çalıştığını Kanıtlayan Alan (Domain)
+
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K18-testing (klasör adı · FM node_id/title: K019-testing — ⚠️ ID CONFLICT, onaysız yeniden adlandırma YASAK) |
+| **K Adı** | Testing (kodun çalıştığını kanıtlayan alan) |
+| **Kapsam** | "Yazayım da çalışır herhalde" inancının yeridir: kod yazıldıktan sonra çalıştığını, bozulmadığını, güvenli olduğunu ve ses kalitesini tekrarlanabilir gözlemle kanıtlar. Bir özellik değil, güven kapısıdır — CI (K17-devops) burada ölçüleni kapıya uygular. Test pyramid · unit/integration/contract/E2E · regression/güvenlik/performans · audio-quality/hardware-validation · build-verification. 11 kademe-2 çocuk. |
+| **Kritik Bağımlılıklar** | K007-data · K009-security · K003-audio · K004-dsp (kanıt: FM depends_on — FM'deki K018-devops kaydının diske karşılığı K17-devops ⚠️; K003/K004 "planlanan" etiketli) |
+| **Durum** | draft (11 kademe-2 çocuk · shared/tests 40 + alt alan 15 *Test.php) |
+| **Son Güncelleme** | 2026-10-17 (yapı birleştirme: children 10 → 11 · e2e + flaky · web doğrulama turu) |
 
 > **ELI15:** Bu domain, "yazayım da çalışır herhalde" inancının yeridir: kod yazıldıktan sonra
 > çalıştığını, bozulmadığını, güvenli olduğunu ve ses kalitesini **tekrarlanabilir gözlemle** kanıtlar.
@@ -86,6 +98,36 @@ group: mimari
 | status | draft (registry §5 satır 19) |
 | Kanıt dengesi | 5/11 çocuk doğrudan kanıtlı (unit · integration · contract · security · build-verification) + 1 kısmi (e2e) + 5 kanıt bekliyor (flaky · regression · performance · audio-quality · hardware-validation) |
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
+
+## §BAĞLANTILAR
+
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K18-testing | [[K18-testing]] | ./K18-testing/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ↔ | iki yönlü atıf | M→1 · M←2 (kök .md, 2026-10-18) |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ← | karşı taraf referanslıyor | M→0 · M←1 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ↔ | bağımlı (depends_on) | M→3 · M←2 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | → | bağımlı (depends_on) | M→3 · M←0 (kök .md, 2026-10-18) |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | → | bağımlı (depends_on) | M→2 · M←0 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | → | bağımlı (depends_on) | M→3 · M←0 (kök .md, 2026-10-18) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | → | bu K referanslıyor | M→3 · M←0 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ← | karşı taraf referanslıyor | M→0 · M←1 (kök .md, 2026-10-18) |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ← | bağımlı (depends_on) | M→0 · M←14 (kök .md, 2026-10-18) |
 
 ## §GRUPLAR
 

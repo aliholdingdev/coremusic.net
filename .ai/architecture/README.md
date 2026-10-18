@@ -36,16 +36,18 @@ K003-audio/
 
 ## 3 kırmızı çizgi (v2 §3 + ADR-097)
 
-1. **Mevcut isimler dokunulmaz** — `identitiy`, `integraion`, `comilance`, `recomenataion`, `donanaım-type`, `comere`… hepsi kaynaktaki gibi yazılır; düzeltme = onay ister.
+1. **Mevcut isimler dokunulmaz** — `identitiy`, `integraion`, `comilance`, `recomenataion`, `donanaım-type`, `comere`… hepsi kaynaktaki gibi yazılır; düzeltme = onay ister. *(2026-10-18 notu: bu isimlerden `K0100-identitiy` ve `K020-comere` diskte **hiç yok** — registry'de `⚠️ VERIFY REQUIRED` kaydı olarak taşıyorlar, klasör üretilmedi — bkz `index.md` §6.2.)*
 2. **Yeni isimler**: Türkçe + İngilizce teknik terim, kebab-case, ≤3 kelime, anlaşılır, tutarlı (`audio-routing`, `donanım-kernel`, `odeme-altyapisi` gibi).
-3. **Bilinmeyen = `⚠️ VERIFY REQUIRED`** — uydurma dosya yolu, uydurma domain, uydurma star/yorum **yok**. `K020-comere` içeriği öyle boş duruyor.
+3. **Bilinmeyen = `⚠️ VERIFY REQUIRED`** — uydurma dosya yolu, uydurma domain, uydurma star/yorum **yok**.
 
 ## Sayım iki türlü (karıştırma!)
 
 | Sayım | Ne? | Değer |
 |---|---|---|
-| **K slotu** | üst seviye numara (K000…K5000) | **5.001** (20 tanımlı + 1 GAP + 4.980 rezerve) |
+| **K slotu** | üst seviye numara (K000…K5000) | **5.001** (20 tanımlı + **1 kapanan GAP** + 4.980 rezerve) |
 | **Katman** | hiyerarşideki her node | hedef **6.720+** (4. kademede, v2 §4.6) |
+
+**Diskteki gerçek K klasörü sayısı (2026-10-18): 22** — `K000`…`K016-observability` (17) + `K17-devops` + `K18-testing` + `K019-comilance` + `K020-discovery` + `K021-recomenataion`. İsim uyuşmazlığı kayıtları: `index.md` §6.2.
 
 Band-2..7 (K021–K5000) **rezerve** — klasörleri yok; slotu ancak gerçek bir domain ADR ile isim alır (ADR-097 K5).
 

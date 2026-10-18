@@ -28,6 +28,17 @@ open_questions:
 group: mimari
 ---
 # K001-donanım — Kayıt
+
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K001-donanım |
+| **K Adı** | Donanım (Hardware) |
+| **Kapsam** | Kasadaki fiziksel parçaların vault karşılığı — disk, ses kartı, ekran, kablolar ve 10 tür alt bağlam (hdd · audio · ssd · display · power · cables · network · memory · cpu · gpu). DAC/ADC çipleri (PCM3168A · AK4458) ve Class AB amplifikatör tarafının mimari evidir; kart/PCB tasarımı K002-electroncis'e aittir (sınır KAPANDI 2026-10-15). 5 kademe-2 çocuk + donanaım-type altında 10 bounded-context. |
+| **Kritik Bağımlılıklar** | K000-isletim-sistemi · K005-firmware (kanıt: FM depends_on · donanım-bagimliliklar.md §2 "Giden: K000 · K005") |
+| **Durum** | draft (5 kademe-2 çocuk + 10 alt bağlam) |
+| **Son Güncelleme** | 2026-10-14 (§1.5 İlişkili Proje Kaydı — Neva Engine K1 donanım eşlemesi) |
 ## §1.5 İlişkili Proje Kaydı (2026-10-14)
 
 **Neva Engine K1 donanım eşlemesi** — `.ai/projects/NevaEngine/00-sdk-lib-envanter.md` + `01-gelistirme-plani.md`. Yazılım tarafı: ASIO/WASAPI/ALSA/CoreAudio backends (Faz 1) → PCM3168A (6-in/8-out, SNR 112dB) / AK4458 (8-kanal 32-bit DAC) çıkışları. Loopback THD+N/SNR ölçüm kapısı (02-dsp-zincir-mimari §4): THD+N <0.005% · SNR >105dB · gerçek DAC'ta AES17 ölçümü (ADR-038). donanaım-type/audio/cipler/ (ak4458-dac · pcm3168a-codec) ile birebir eşleşme.
@@ -97,24 +108,31 @@ group: mimari
 | kanit | `donanım-web-arastirma.md` | Sistemli resmi kaynak tarama kaydı | Kademe-1 |
 ## §BAĞLANTILAR
 
-> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
 
-| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
-|---|---|---|---|
-| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | isletim sistemi donanim erisimi |
-| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | elektronik devre ve topoloji |
-| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ses donanimi (DAC/ADC/cihaz) |
-| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP donanimi |
-| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | firmware yukleme ve guncelleme |
-| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | model donanim gereksinimleri |
-| K007-data | [[K007-data]] | ../K007-data/index.md | donanim envanteri verisi |
-| K008-domain | [[K008-domain]] | ../K008-domain/index.md | donanim domain modeli |
-| K009-security | [[K009-security]] | ../K009-security/index.md | secure boot ve donanim guvenligi |
-| K010-network | [[K010-network]] | ../K010-network/index.md | ag donanimi (NIC/radyo) |
-| K011-application | [[K011-application]] | ../K011-application/index.md | cihaz erisim uygulamasi |
-| K012-services | [[K012-services]] | ../K012-services/index.md | cihaz servisi |
-| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | cihaz entegrasyon protokolleri |
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K001-donanım | [[K001-donanım]] | ./K001-donanım/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ↔ | bağımlı (depends_on) | M→19 · M←11 (kök .md, 2026-10-18) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ↔ | iki yönlü güçlü referans | M→8 · M←25 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ↔ | iki yönlü güçlü referans | M→12 · M←10 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | ↔ | iki yönlü güçlü referans | M→12 · M←13 (kök .md, 2026-10-18) |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | ↔ | iki yönlü güçlü referans | M→15 · M←27 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | ↔ | iki yönlü atıf | M→1 · M←2 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ← | karşı taraf güçlü referanslıyor | M→0 · M←20 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ← | karşı taraf referanslıyor | M→0 · M←2 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ← | karşı taraf referanslıyor | M→0 · M←1 (kök .md, 2026-10-18) |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
 
----
-
-**Authority:** Bayram Ali / Vault Steward

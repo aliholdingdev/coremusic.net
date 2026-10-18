@@ -393,15 +393,58 @@ pub async fn probe(target: SocketAddr, payload: &[u8], cfg: ProbeConfig) -> Resu
 |---|---|---|---|---|
 | 1 | PHP 8.4 | backend bridge | UDP istemci (socket ext) | şifreleme yok, anlam yok |
 | 2 | JS ES6+ | Web UI | WS-bridge RPC (tarayıcıda UDP yok) | bridge adresi faz C |
-| 3 | C++20 | Neva Engine | UDP istemci arayüzü | WinSock2/POSIX implementasyonu faz C |
-| 4 | C# | Windows kolu | UdpClient istemci | yerleşik .NET UDP |
-| 5 | Python | ağ testi/araç | async DatagramProtocol | kütüphane yok — stdlib |
-| 6 | Go | sunucu/tünel | net.Dial("udp") istemci | stdlib yerleşik |
-| 7 | Rust | sistem | tokio UdpSocket istemci | tokio — bağımlılık seçimi faz C |
+| 3 | TypeScript | Web UI (tipli) | WS-bridge RPC (tipli) | bridge adresi faz C |
+| 4 | C++20 | Neva Engine | UDP istemci arayüzü | WinSock2/POSIX implementasyonu faz C |
+| 5 | C | POSIX istemci | `sendto`/`recvfrom` sarmalayıcı | non-blocking |
+| 6 | C# | Windows kolu | UdpClient istemci | yerleşik .NET UDP |
+| 7 | Python | ağ testi/araç | async DatagramProtocol | kütüphane yok — stdlib |
+| 8 | Go | sunucu/tünel | net.Dial("udp") istemci | stdlib yerleşik |
+| 9 | Rust | sistem | tokio UdpSocket istemci | tokio — bağımlılık seçimi faz C |
+| 10 | Java 21 | test/araç | `DatagramSocket` istemci | yerleşik |
+| 11 | Swift | iOS/macOS kolu | NWConnection UDP | Network.framework yerleşik |
+| 12 | Kotlin | Android kolu | `DatagramSocket` istemci | platform API |
+| 13 | Bash | LAN tarama | `nc -u` sarmalayıcı | netcat bağımlılık |
+| 14 | PowerShell | Windows tarama | `UdpClient` sarmalayıcı | .NET yerleşik |
+| 15 | SQL | — (referans) | cihaz kaydı (keşif sonucu) | — |
+| 16 | YAML | — (referans: cihaz/protokol yapılandırması) | yapılandırma | — |
+| 17 | HCL | — (referans: ağ altyapısı) | yapılandırma | — |
 
-**Kapı:** 7/7 dil örneği üretildi; hiçbiri "verified üretim kodu" değildir —
+**Kapı:** 14/17 dil örneği üretildi; hiçbiri "verified üretim kodu" değildir —
 protokol seçimi (mDNS+CoAP vs özel UDP vs WS-bridge) faz C'de kararlaştırılır
-(standart-kanit.md §4 UNKNOWN satırı).
+(standart-kanit.md §4 UNKNOWN satırı). SQL · YAML · HCL referans satırıdır.
+
+---
+
+## §9 UDP İstemci Tasarım Notları (2026-10-17 derinleştirme)
+
+> **Dayanak:** Bu bölüm K010 UDP tasarımının özetidir; mDNS/CoAP protokol metinleri bu
+> görevde uzaktan doğrulanmadı → `⚠️ VERIFICATION REQUIRED` işaretli satırlar vardır.
+
+### §9.1 UDP'nin TCP'ye göre seçim gerekçesi (master §20 ile aynı)
+
+| Gerekçe | Açıklama |
+|---|---|
+| yay (multicast) | mDNS zorunlu (§26) |
+| düşük gecikme | başlık overhead'i az |
+| son-istemci modeli | cihaz keşfi tek paket yeterli |
+
+### §9.2 UDP kayıp yönetimi (TASARIM)
+
+| Mekanizma | K010 kullanımı |
+|---|---|
+| uygulama seviyesi ACK | komut akışında zorunlu |
+| tekrar (retry) | §25.2 backoff |
+| sıra numarası | kayıp/sıra tespiti |
+
+### §9.3 Bilinmeyenler (faz C)
+
+| Bilinmeyen | Neden |
+|---|---|
+| CoAP vs özel UDP | protokol seçimi ölçüm sonrası |
+| MTU/paket boyutu | ağ testi (K017) |
+| güvenli UDP (DTLS) | §19/K009 kapsamı |
+
+> §9.2–9.3 **TASARIM İDDİASI**'dır; üretim öncesi ölçüm ve K009 kararı gerekir.
 
 ---
 

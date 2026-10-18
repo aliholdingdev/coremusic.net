@@ -14,7 +14,6 @@ children:
 depends_on:
   - K001-donanım
   - K009-security
-  - K0100-identitiy
 evidence:
   - "v2 §2.14 K010-network/ — çocuk listesi kaynağı (7 çocuk, birebir; comms'un 5 torunu da v2'de)"
   - ".ai/architecture/index.md §5/14 — network-master.md adı kaydı"
@@ -30,10 +29,22 @@ open_questions:
   - "service-discovery kapsamı (yerel cihaz keşfi mi, servis kaydı mı) → ⚠️ VERIFICATION REQUIRED"
   - "comms torunlarının kademe-4 module listesi → ⚠️ VERIFICATION REQUIRED (faz C)"
 group: mimari
+updated: 2026-10-18
 ---
 
 
 # K010-network — Bağlantı Katmanı
+
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K010-network |
+| **K Adı** | Ağ / Bağlantı (Network) |
+| **Kapsam** | Bağlantı kablolarının yazılımı — internet, evdeki cihazlar arası iletişim. Paketin nereye gideceği ve nasıl gideceği burada bilinir: HTTP, WebSocket, WebRTC, TCP/IP ve device-communication (comms/ altında 5 torun). Bağlantının kendisi donanım işidir (K001-donanım), güvenliği K009'dur. 7 kademe-2 çocuk. |
+| **Kritik Bağımlılıklar** | K001-donanım · K009-security (kanıt: FM depends_on — FM'deki K0100-identitiy kaydının diske karşılığı YOK ⚠️) |
+| **Durum** | draft (7 kademe-2 çocuk · tur-3 2026-10-15 · 58 S1 URL) |
+| **Son Güncelleme** | 2026-10-15 (tur-3: 12 klasör × standart-kanıt + kod-ornekleri = 24 yeni dosya) |
 
 ## 1. ELI15 — bu oda ne işe yarar?
 
@@ -76,14 +87,18 @@ Bağlantının kendisi donanım işidir (K001-donanım), güvenliği K009'dur.
 
 - **Durum:** draft — kademe-3/4 genişletmesi ADR-097 K4 fazı (C) bekliyor.
 - Ayrıntı: network-bagimliliklar.md (§1–§5) · network-dogrulama.md (§1–§32) · network-master.md (§4/§6/§7/§15).
-- **tur-3 (2026-10-15):** her 12 klasöre `*-standart-kanit.md` (S1 URL matrisi) + `*-kod-ornekleri.md` (7 dil TASARIM ÖRNEĞİ) eklendi — 24 dosya; per-klasör satırlar kendi index.md §GRUPLAR'ında.
-- Kısa liste:
-  1. handoff ↔ multi-room sınırı (teslim mi, senkron mu) → ⚠️ VERIFICATION REQUIRED
-  2. offline-sync ↔ K015/offline ↔ K013/synchronization üçlüsü → ⚠️ VERIFICATION REQUIRED
-  3. service-discovery kapsamı → ⚠️ VERIFICATION REQUIRED
-  4. WebRTC standardı kanıtı (IETF) → ✅ kapandı (tur-3): W3C https://www.w3.org/TR/webrtc/ + RFC 8825/8826 (S1, §30.5); kalan açık: sürüm sahipliği/bölünme kararı (faz C)
+## §GRUPLAR
 
-**Kaynak:** v2 §2.14 · .ai/architecture/index.md §5/14 · ADR-097 §5
+> İki-ekseni gruplama (registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**. `Kademe` ataması şeffaf rol kuralıdır (index/master/kapsam → Kademe-1; destek → Kademe-2) — diskte `kademe` alanı yok, uydurma yok.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Bağlantı katmanı künyesi | Kademe-1 |
+| mimari | `network-master.md` | Network master | Kademe-1 |
+| mimari | `network-kapsam.md` | Kapsam (kademe-1) | Kademe-1 |
+| mimari | `network-bagimliliklar.md` | Bağımlılıklar | Kademe-2 |
+| kanit | `network-web-arastirma.md` | Doğrulanmış kaynaklar | Kademe-2 |
+| kanit | `network-dogrulama.md` | Doğrulama | Kademe-2 |
 
 
 ## §GRUPLAR
@@ -105,16 +120,31 @@ Bağlantının kendisi donanım işidir (K001-donanım), güvenliği K009'dur.
 
 ## §BAĞLANTILAR
 
-> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
 
-| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
-|---|---|---|---|
-| K003-audio | [[K003-audio]] | ../K003-audio/index.md | akis protokolleri (RTP/DLNA) |
-| K009-security | [[K009-security]] | ../K009-security/index.md | TLS ve zaman sinirlama |
-| K011-application | [[K011-application]] | ../K011-application/index.md | ag uygulama katmani |
-| K012-services | [[K012-services]] | ../K012-services/index.md | servis kesfi ve load balancing |
-| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | gateway ve protokoller |
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K010-network | [[K010-network]] | ./K010-network/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | → | bağımlı (depends_on) | M→20 · M←0 (kök .md, 2026-10-18) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ← | karşı taraf referanslıyor | M→0 · M←1 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | ← | karşı taraf referanslıyor | M→0 · M←1 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | ↔ | bağımlı (depends_on) | M→20 · M←12 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | → | bu K referanslıyor | M→9 · M←0 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ↔ | iki yönlü güçlü referans | M→12 · M←15 (kök .md, 2026-10-18) |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | ↔ | iki yönlü güçlü referans | M→14 · M←10 (kök .md, 2026-10-18) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ↔ | iki yönlü güçlü referans | M→17 · M←24 (kök .md, 2026-10-18) |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ← | karşı taraf referanslıyor | M→0 · M←8 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
 
----
-
-**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

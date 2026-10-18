@@ -389,14 +389,63 @@ where
 |---|---|---|---|---|
 | 1 | PHP 8.4 | backend bridge | durum + backoff denetçisi | taşıyıcı (dial) çağırıcıdan |
 | 2 | JS ES6+ | Web UI | online/offline olay + backoff | tarayıcı sinyali MDN §2 |
-| 3 | C++20 | Neva Engine | durum + backoff denetçisi | ASIO taşıyıcısı faz C |
-| 4 | C# | Windows kolu | async denetçisi | CancellationToken zinciri |
-| 5 | Python | ağ testi/araç | async döngü | stdlib asyncio — kütüphane yok |
-| 6 | Go | sunucu/tünel | fonksiyonel backoff | context iptali yerleşik |
-| 7 | Rust | sistem | async denetçisi | tokio — bağımlılık seçimi faz C |
+| 3 | TypeScript | Web UI (tipli) | durum makinesi (tipli) | `navigator.onLine` tipli |
+| 4 | C++20 | Neva Engine | durum + backoff denetçisi | ASIO taşıyıcısı faz C |
+| 5 | C | POSIX durum | ham socket + errno | non-blocking dial |
+| 6 | C# | Windows kolu | async denetçisi | CancellationToken zinciri |
+| 7 | Python | ağ testi/araç | async döngü | stdlib asyncio — kütüphane yok |
+| 8 | Go | sunucu/tünel | fonksiyonel backoff | context iptali yerleşik |
+| 9 | Rust | sistem | async denetçisi | tokio — bağımlılık seçimi faz C |
+| 10 | Java 21 | test/araç | durum denetçisi | `java.net.ConnectException` eşleme |
+| 11 | Swift | iOS/macOS kolu | NWPathMonitor sarmalayıcı | Network.framework yerleşik |
+| 12 | Kotlin | Android kolu | ConnectivityManager sarmalayıcı | platform API |
+| 13 | Bash | health-check | `ping`/`curl` sarmalayıcı | ping/curl bağımlılık |
+| 14 | PowerShell | Windows health-check | `Test-Connection` | yerleşik |
+| 15 | SQL | — (referans) | durum yok | — |
+| 16 | YAML | — (referans: backoff yapılandırması) | yapılandırma | — |
+| 17 | HCL | — (referans: health-check altyapısı) | yapılandırma | — |
 
-**Kapı:** 7/7 dil örneği üretildi; backoff **sırası/parametreleri** strateji değildir —
-index §A/2 (UNKNOWN) faz C'de kararlaştırılır (connectivity-standart-kanit.md §4).
+**Kapı:** 14/17 dil örneği üretildi; backoff **sırası/parametreleri** strateji değildir —
+index §A/2 (UNKNOWN) faz C'de kararlaştırılır (connectivity-standart-kanit.md §4). SQL ·
+YAML · HCL referans satırıdır.
+
+---
+
+## §9 Bağlantı Durum Makinesi (2026-10-17 derinleştirme)
+
+> **Dayanak:** `https://developer.mozilla.org/en-US/docs/Web/API/Navigator/onLine` ve
+> `.../Window/offline_event` — HTTP 200 · 2026-10-17 (MDN). Durum makinesi K010
+> tasarımıdır; RFC dayanağı yoktur.
+
+### §9.1 Durumlar
+
+| Durum | Anlam | Tetikleyici |
+|---|---|---|
+| CONNECTED | taşıyıcı hazır | dial başarılı |
+| DEGRADED | yavaş/kararsız | RTT/timeout eşiği (§27.1) |
+| DISCONNECTED | bağlantı yok | dial hatası / `offline` olayı |
+| RECONNECTING | backoff bekliyor | §25.2 backoff döngüsü |
+
+### §9.2 Geçiş tablosu
+
+| Kaynak → Hedef | Koşul |
+|---|---|
+| CONNECTED → DEGRADED | RTT > taban×2 (⚠️ ölçüm) |
+| DEGRADED → CONNECTED | RTT normal |
+| CONNECTED → DISCONNECTED | `offline` olayı / dial ECONNREFUSED |
+| DISCONNECTED → RECONNECTING | backoff zamanlayıcısı başladı |
+| RECONNECTING → CONNECTED | dial başarılı |
+| RECONNECTING → DISCONNECTED | max deneme aşıldı (§25.2) |
+
+### §9.3 Tarayıcı sinyali sınırları (MDN §2)
+
+| Sinyal | Güvenilirlik |
+|---|---|
+| `navigator.onLine` | yalnız arayüz varlığını gösterir — sunucuya erişim GARANTİSİ DEĞİL |
+| `online`/`offline` olayı | tarayıcı seviyesi; sunucu kesintisini yakalamaz |
+
+> Bu yüzden K010 gerçek bağlantı durumunu **uygulama seviyesi ping** ile doğrular
+> (network-testing §2).
 
 ---
 

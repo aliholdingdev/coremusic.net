@@ -508,4 +508,321 @@ derinleştiren tasarım iddiası tablolarıdır; hiçbir satır "verified" stat�
 
 ---
 
+## §20 Ulaşım Katmanı Karşılaştırması: TCP · UDP · QUIC (2026-10-17 derinleştirme)
+
+> **Kaynak:** RFC 9000 (QUIC, datatracker 200 · 2026-10-17) · RFC 9110 (HTTP Semantics, rfc-editor 200) ·
+> RFC 9114 (HTTP/3, datatracker 200). Aşağıdaki tablolar yalnız bu belgelerin dayandığı
+> özelliklerdir; şirket blogu/ikincil kaynak dayanağı YOKTUR.
+
+### §20.1 Semantik Matris
+
+| Özellik | TCP (RFC 9293) | UDP (RFC 768) | QUIC (RFC 9000) |
+|---|---|---|---|
+| Bağlantı durumu | sunucu-istemci, 3-way handshake | bağlantısız | bağlantılı ama uygulama katmanında (connection ID) |
+| Güvenilirlik | sıralı, tekrarlı teslimat | YOK | isteğe bağlı stream başına güvenilirlik |
+| Sıralama | tek byte akışı | yok | stream başına bağımsız sıralama |
+| Bileşikleme (multiplexing) | yok (head-of-line) | yok | stream başına — HOL bloking YOK |
+| Şifreleme | üst katmana devredilir (TLS ayrı) | yok (üst katmana devredilir) | entegre (TLS 1.3, RFC 8446) |
+| Zaman uyumu (0-RTT) | yok | yok | RFC 9000 §4.1 — 0-RTT veri (tekrar saldırısı dikkati §21.6) |
+| Kullanım alanı (K010) | TCP: HTTP/1.1, cihaz komutu | UDP: RTP, mDNS | HTTP/3, gelecekteki media aktarımı |
+
+### §20.2 K010 Eşleme Kararı (TASARIM İDDİASI)
+
+| Akış | Seçilen taşıma | Gerekçe (bağlı olduğu bölüm) |
+|---|---|---|
+| HTTP API (sunucu↔istemci) | TCP + TLS 1.3 (HTTP/2) | yerleşik ekosistem, araç olgunluğu (§22) |
+| Web real-time (tarayıcı) | WebSocket over TCP | tarayıcı kısıtı (§28) |
+| Yerel ağ cihaz keşfi | UDP 5353 (mDNS) | yay (multicast) zorunlu (§26) |
+| Ses aktarımı (gelecek) | UDP + RTP (RFC 3550) | düşük gecikme önceliği (§25) |
+| HTTP/3 | **PLANNED — değerlendirilecek** | QUIC faydası büyük ağda ölçülmeli (§27) |
+
+> §20.2 **TASARIM İDDİASI**'dır; QUIC/HTTP3'ün K010'a alınması ölçüme (K017) bağlıdır.
+
+---
+
+## §21 TLS 1.3 El Sıkışması (RFC 8446 — derinlemesine)
+
+> **Kaynak:** RFC 8446 (datatracker 200 · 2026-10-17). Bu bölüm el sıkışma akışını
+> adım adım özetler; K009 (güvenlik) sahibidir — burada şifreleme KODU üretilmez (§19).
+
+### §21.1 1-RTT El Sıkışma (normal akış)
+
+```
+İstemci                                Sunucu
+  |  ClientHello (desteklenen sürümler,   |
+  |  key_share, rastgele)                 |
+  |--------------------------------------->|
+  |                                  [sunucu key üretir]
+  |  ServerHello (seçilen sürüm, key_share)|
+  |  {encrypted extensions, sertifika,    |
+  |   sertifika doğrulama, finished}      |
+  |<---------------------------------------|
+  |  {finished}                           |
+  |--------------------------------------->|
+  |  [uygulama verisi — şifreli]          |
+```
+
+### §21.2 0-RTT (yeniden bağlanma)
+
+| Adım | Taşınan | Risk notu |
+|---|---|---|
+| 1 | İstemci `pre_shared_key` + `early_data` gönderir | tekrar saldırısı — RFC 8446 §4.1: 0-RTT verisi **idempotent** olmalı |
+| 2 | Sunucu `hello_retry_request` ile eşleşmeyi reddedebilir | reddedilirse 1-RTT'ye düşer |
+
+> **K010 kararı (TASARIM İDDİASI):** 0-RTT yalnız GET/幂等 (idempotent) istekte;
+> POST/ödeme gibi isteklerde KAPALI (tekrar riski).
+
+### §21.3 Şifre takımı seçimi
+
+| RFC 8446 §4.2 kuralı | Uygulama |
+|---|---|
+| yalnız AEAD | AES-GCM · ChaCha20-Poly1305 |
+| RC4, CBC-dizi, RSA anahtar değişimi | **kaldırıldı** (1.3'te yok) |
+| imzalama | Ed25519 · ECDSA-P256 · RSA-PSS (≥3072) |
+
+### §21.4 Sertifika doğrulama adımları (istemci tarafı)
+
+1. Zincir çözümleme (root → intermediate → leaf)
+2. Süre kontrolü (`notBefore` / `notAfter`)
+3. İptal kontrolü — RFC 5280 CRL/OCSP; **RFC 9110 §4.3**: tarayıcılar OCSP'i sıkıştırılmış
+   (stapling) ister
+4. Host doğrulama (SNI + SubjectAltName)
+
+### §21.5 K010'da TLS'nin rolü (özet — §19 ile aynı)
+
+| K010 yüzeyi | TLS | Not |
+|---|---|---|
+| PHP sunucu | TLS sonlandırma (web sunucusu) | uygulama kodunda `openssl_*` ÇAĞRILMAZ |
+| JS istemci | tarayıcı yerleşik | `wss://` zorunlu |
+| C++ (Neva Engine) | platform kütüphanesi (Schannel/OpenSSL) | seçimi faz C |
+| Cihaz (device-communication) | **TLS YOK** (yerel ağ) — DTLS planlanır | §19/§20.2 |
+
+### §21.6 Yeniden kullanım tuzağı (replay)
+
+| Koruma | Mekanizma | Kaynak |
+|---|---|---|
+| anti-replay penceresi | `record_number` + `early_data` sınırı | RFC 8446 §4.1.3 |
+| sunucu politikası | `max_early_data_size` (0 önerilir — K010) | RFC 8446 §4.2.10 |
+
+> Bu bölüm kanıt oranını DEĞİŞTİRmez; TLS kararları K009'dadır.
+
+---
+
+## §22 HTTP/2 vs HTTP/3 (RFC 9113 · RFC 9114)
+
+> **Kaynak:** RFC 9113 (rfc-editor 200) · RFC 9114 (datatracker 200) · RFC 9204 (QPACK, rfc-editor 200) —
+> tümü 2026-10-17 doğrulandı.
+
+### §22.1 Çerçeve karşılaştırması
+
+| Konu | HTTP/2 (RFC 9113) | HTTP/3 (RFC 9114) |
+|---|---|---|
+| taşıma | TCP + TLS 1.3 | QUIC (TLS 1.3 entegre) |
+| akış | stream (HTTP mesajı) | stream (HTTP mesajı) |
+| çoklama | TCP üstünde | QUIC stream başına — TCP HOL etkisi yok |
+| başlık sıkıştırma | HPACK (RFC 7541) | QPACK (RFC 9204) |
+| açılış | TCP handshake + TLS 1.3 (1-RTT + 1-RTT) | QUIC: 1-RTT (yeniden: 0-RTT) |
+| bağlantı kaybı | tüm akışlar etkilenir | yalnız ilgili stream |
+
+### §22.2 QPACK (RFC 9204) — kısa not
+
+| QPACK kuralı | Açıklama |
+|---|---|
+| iki yönlü tablo | encoder/decoder ayrı — TCP sıralaması gerektirmez |
+| stream sıralaması | HTTP/3'te stream'ler sıralı OLMAYABİLİR; QPACK bunu telafi eder (§4) |
+
+### §22.3 K010 karar matrisi
+
+| Durum | Karar | Gerekçe |
+|---|---|---|
+| Mevcut PHP API | HTTP/1.1 + keep-alive (TLS sonlandırma web sunucusunda) | en düşük karmaşıklık |
+| Web UI ↔ API | HTTP/2 DEĞERLENDİRİLEBİLİR | araç olgunluğu yüksek |
+| Gelecek (ölçüm sonrası) | HTTP/3 | RFC 9114 — QUIC faydası ancak ölçümle kanıtlanır (§18, §27) |
+
+---
+
+## §23 Socket Seçenekleri Kataloğu (platformlar arası)
+
+> **Kaynak yok (belge değil):** Bu tablo bilinen POSIX/Windows socket seçeneklerinin
+> K010 açısından özeti; her satır işletim sistemi belgeleriyle **çapraz doğrulanmalıdır**
+> (⚠️ VERIFICATION REQUIRED — ölçümler K017'de).
+
+### §23.1 POSIX (Linux/macOS) — `setsockopt` seviyesi
+
+| Seçenek | Seviye | Amaç | K010 kullanımı |
+|---|---|---|---|
+| `SO_REUSEADDR` | SOL_SOCKET | adres yeniden kullanım | sunucu |
+| `SO_REUSEPORT` | SOL_SOCKET | çoklu process bind | PLANNED (ölçüm) |
+| `TCP_NODELAY` | IPPROTO_TCP | Nagle kapat | gerçek zamanlı komut |
+| `SO_KEEPALIVE` | SOL_SOCKET | OS seviyesi keepalive | uzun bağlantı |
+| `TCP_KEEPIDLE/INTVL/CNT` | IPPROTO_TCP | keepalive zamanlamarı | uzun bağlantı |
+| `SO_RCVTIMEO/SNDTIMEO` | SOL_SOCKET | zaman aşımı | hata yönetimi |
+
+### §23.2 Windows — karşılıkları
+
+| POSIX | Windows karşılığı | Not |
+|---|---|---|
+| `SO_REUSEADDR` | `SO_REUSEADDR` | ⚠️ fark: Windows'ta `SO_EXCLUSIVEADDRUSE` daha güvenli |
+| `TCP_KEEPIDLE/INTVL/CNT` | `SIO_KEEPALIVE_VALS` (ioctl) | ayrı API |
+| `TCP_NODELAY` | `TCP_NODELAY` | aynı |
+
+### §23.3 Cihaz tarafı (embedded) kısıtları
+
+| Kısıt | Etki | Karar |
+|---|---|---|
+| bellek | tampondaki her bayt maliyet | `SO_RCVBUF` küçük tutulur (⚠️ ölçüm) |
+| RTOS | `select/poll` desteği sınırlı | non-blocking I/O + tek döngü |
+
+> §23 tamamı **TASARIM İDDİASI**'dır — somut sayılar ölçüm sonrası yazılır.
+
+---
+
+## §24 Bağlantı Havuzu Tasarımı (Connection Pooling)
+
+### §24.1 Havuz parametreleri (TASARIM İDDİASI)
+
+| Parametre | Açıklama | K010 değeri |
+|---|---|---|
+| max connections | hedef başına eşzamanlı bağlantı | ⚠️ UNKNOWN (ölçüm) |
+| max idle | boşta bekleyen üst sınır | ⚠️ UNKNOWN |
+| idle timeout | boşta bağlantı sonlandırma | ⚠️ UNKNOWN |
+| acquire timeout | havuzdan bağlantı bekleme | ⚠️ UNKNOWN |
+
+### §24.2 Dil başına yerleşik havuz
+
+| Dil | Yerleşik havuz | Not |
+|---|---|---|
+| C# | `SocketsHttpHandler` (ConnectionPool) | `MaxIdleConnections` ayarlanır |
+| Go | `http.Transport` + `MaxIdleConns` | yerleşik |
+| Python | `aiohttp.TCPConnector` | `limit`, `ttl_dns_cache` |
+| JS (Node) | `http.Agent` (`keepAlive: true`) | `maxSockets` |
+| Rust | reqwest `Pool` (hyper) | `pool_max_idle_per_host` |
+| PHP | PDO bağlantısı (istek başına değil) | PHP-FPM modeli havuz = worker sayısı |
+
+### §24.3 Havuz tuzakları
+
+| Tuzağ | Sonuç | Önlem |
+|---|---|---|
+| havuz kirliliği | socket/fd tükenmesi | idle timeout zorunlu |
+| havuz + DNS değişimi | ölü IP'ye bağlanma | TTL sonunda yeniden çöz |
+| havuz + retry | yığılma (thundering herd) | §25 backoff |
+
+---
+
+## §25 Keep-Alive · Retry · Backoff Politikaları
+
+### §25.1 Üç katmanlı keepalive
+
+| Katman | Mekanizma | Sahip |
+|---|---|---|
+| TCP | `SO_KEEPALIVE` (OS) | işletim sistemi |
+| uygulama | ping/pong (WebSocket: RFC 6455 §5.5.2 — **⚠️ VERIFICATION REQUIRED: RFC 6455 doğrulanmadı**) | uygulama |
+| HTTP | `Connection: keep-alive` + süre (RFC 9110 §9.3) | HTTP katmanı |
+
+### §25.2 Backoff formülü (TASARIM — ölçümle doğrulanacak)
+
+```
+d_n = min(cap, base × multiplier^n) ± jitter
+```
+
+| Parametre | Öneri (geleneksel başlangıç — ⚠️ ölçüm) |
+|---|---|
+| base | 500 ms |
+| multiplier | 2.0 |
+| cap | 30 s |
+| jitter | tam (full jitter — AWS rehberi, **kaynak doğrulanmadı** ⚠️) |
+| max deneme | uygulamaya göre (5–10) |
+
+> Backoff sayıları **TASARIM İDDİASI**'dır; RFC dayanağı YOKTUR — uygulamada ölçülür.
+
+### §25.3 Hangi hata retry edilir?
+
+| Hata | Retry? | Not |
+|---|---|---|
+| bağlantı kurulamadı (ECONNREFUSED) | evet (backoff) | sunucu iniyor olabilir |
+| okuma zaman aşımı | dikkatli | yanıt kısmi olabilir |
+| HTTP 503 | evet (Retry-After varsa) | RFC 9110 §15.6.9 |
+| HTTP 4xx | hayır | istemci hatası |
+| idempotent olmayan POST | **hayır** | tekrar yan etki riski |
+
+---
+
+## §26 mDNS Yerel Keşif (RFC 6762 — derinleştirme)
+
+> **Kaynak:** RFC 6762 (rfc-editor 200 · 2026-10-17).
+
+### §26.1 Multicast adresleri
+
+| Protokol | Adres | Port |
+|---|---|---|
+| mDNS | 224.0.0.251 (IPv4) · ff02::fb (IPv6) | 5353 |
+| DNS-SD | (aynı paket içinde) | 5353 |
+
+### §26.2 Sorgu/zamanlama kuralları (RFC 6762 §5–§6)
+
+| Kural | Değer (RFC 6762) |
+|---|---|
+| rastgele gecikme (query jitter) | 20–120 ms (§5.2) |
+| unicast yanıt tercihi | `QU` biti (§5.4) |
+| TTL (kayıt) | uygulama belirler; önerilen üst sınır 75 dk (§10.2) |
+| probing (çakışma) | kayıttan önce 3 probe (§8.1) |
+
+### §26.3 K010 uygulama notları (TASARIM İDDİASI)
+
+| Not | Açıklama |
+|---|---|
+| tek keşif yöneticisi | §17'deki "keşif kirliliği" — mDNS de tek süreçte toplanır |
+| yay kuralı | router çoğu yay trafiğini keser — LAN dışı keşim YOKTUR |
+| fallback | mDNS başarısız → statik IP/manuel eşleşme (§27) |
+
+---
+
+## §27 Ağ Hata Modu Analizi (derinleştirme)
+
+### §27.1 Hız kaybı → geri çekilme (TASARIM)
+
+| Aşama | Eşik (⚠️ ölçüm) | Davranış |
+|---|---|---|
+| yavaş | ping RTT > taban × 2 | sıkıştırma denemesi (medya) |
+| çok yavaş | ping timeout × 2 | akış durdur, yeniden bağlan |
+| kesildi | ping timeout × 3 | §25 backoff ile reconnect |
+
+### §27.2 Ağ tipi davranışı (TASARIM İDDİASI)
+
+| Ağ | Tipik sorun | K010 davranışı |
+|---|---|---|
+| Wi-Fi (ev) | erişim noktası değişimi | reconnect + yeniden keşif (§26) |
+| kablolu | kararlı, düşük kayıp | keepalive süresi uzatılabilir |
+| taşınabilir (telefon hotspot) | IP değişimi, NAT | bağlantı kimliği yenilenir (QUIC connection ID faydası §20) |
+| izole (LAN) | yay kısıtlı | §26 fallback |
+
+> §27.1–27.2 **TASARIM İDDİASI**'dır; RFC dayanağı yoktur, ölçüm K017'dedir.
+
+---
+
+## §28 WebSocket vs SSE (karar matrisi — §28 derinleştirme)
+
+> **Kaynak:** MDN WebSocket API (200) · MDN Server-sent events (200) — 2026-10-17 doğrulandı.
+
+### §28.1 Karşılaştırma
+
+| Konu | WebSocket | SSE |
+|---|---|---|
+| yön | çift yönlü | sunucu→istemci tek yönlü |
+| taşıma | kendi protokolü (RFC 6455) | HTTP (text/event-stream) |
+| veri tipi | metin + binary | yalnız metin (UTF-8) |
+| proxy uyumu | bazı proxy'ler engeller | HTTP olduğu için uyumlu |
+| reconnect | uygulama sorumlu | tarayıcı yerleşik (`EventSource`) |
+| K010 kullanımı | cihaz komutu/ durum | olay akışı (öneri) |
+
+### §28.2 K010 karar kuralı
+
+| İhtiyaç | Seçim |
+|---|---|
+| istemciden sunucuya komut (mobile → server) | WebSocket (§28.1) |
+| yalnız sunucu→istemci olay (güncelleme akışı) | SSE (daha basit, §28.1) |
+| binary (ses verisi) | WebSocket (SSE text-only) |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

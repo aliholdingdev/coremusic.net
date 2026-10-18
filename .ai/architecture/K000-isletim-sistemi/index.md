@@ -6,12 +6,36 @@ parent_id: K000-isletim-sistemi
 children: [electroncis, isletim-sistemi-api, isletim-sistemi-audio, isletim-sistemi-core, isletim-sistemi-cross, isletim-sistemi-kernel, isletim-sistemi-observability, isletim-sistemi-plan, isletim-sistemi-runtime, isletim-sistemi-security, isletim-sistemi-testing, isletim-sistemi-turu, os-donanim-tespiti]
 depends_on: [K002-altyapi]
 evidence: [https://docs.kernel.org/core-api/index.html, https://man7.org/linux/man-pages/man2/syscalls.2.html, https://learn.microsoft.com/en-us/windows/win32/coreaudio/about-the-windows-core-audio-apis, https://pubs.opengroup.org/onlinepubs/9799919799/]
-validation: "2026-10-13 · 12 düğüm disk enumerasyonu ile sayıldı (124 md / 39.099 satır) · kök 4 dosya derinleştirildi · URL'ler HTTP HEAD ile doğrulandı · 2026-10-14: `isletim-sistemi-turu/kod-seti` eklendi → turu satırı tazelendi (66 dosya / 31.258 satır) · 2026-10-15: 13-dil kapsama turu (P1–P7) sonrası 13 düğüm tam sayım → 345 md / 150.210 satır / 18 kod-seti (fence toplamı 355) — §4 ve §GRUPLAR katalog satırları diskten tazelendi; toplamlar satır toplamıdır, kök 4 dosya hariç. · 2026-10-15 (2): OS-guvenlik turu — `isletim-sistemi-turu/*/` altına 8× `*-guvenlik.md` (254–272 satır, K000↔K009 sınır köprüsü) + 8 index eki → **353 md / 152.346 satır** (§4 + §GRUPLAR tazelendi; `android/index.md` YOK bilinçli karar — parent L62/88/97)"
-open_questions: ["Q1 electroncis kapsamı", "Q2 core↔kernel sınırı", "Q3 plan kapsamı", "Q4 hedef platform seti", "Q5 turu↔altyapı gap"]
-group: mimari
----
+## §GRUPLAR
 
-# K000 — İşletim Sistemi (Operating System) Domain
+> İki-ekseni gruplama (registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**. `Kademe` ataması şeffaf rol kuralıdır (index/master/kapsam → Kademe-1; destek → Kademe-2) — diskte `kademe` alanı yok, uydurma yok.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | K000 — İşletim Sistemi Domain künyesi | Kademe-1 |
+| mimari | `os-master.md` | Master anayasa | Kademe-1 |
+| mimari | `os-kapsam.md` | Kapsam sınırı | Kademe-1 |
+| mimari | `os-bilesenler.md` | Bileşen ağacı | Kademe-2 |
+| mimari | `os-bagimliliklar.md` | 12 düğüm OS hizmetleri haritası | Kademe-2 |
+| mimari | `os-kararlar.md` | Karar defteri | Kademe-2 |
+| mimari | `os-kod-ornekleri.md` | Kod örnekleri (13 dil) | Kademe-2 |
+| mimari | `os-riskler.md` | Risk matrisi | Kademe-2 |
+| mimari | `os-test-stratejisi.md` | Test stratejisi | Kademe-2 |
+| mimari | `os-web-arastirma.md` | Doğrulanmış kaynaklar | Kademe-2 |
+| mimari | `os-evrensel-dil.md` | EN↔TR sözlük | Kademe-2 |
+| kanit | `os-dogrulama.md` | Doğrulama kayıtları | Kademe-2 |
+
+
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K000-isletim-sistemi |
+| **K Adı** | İşletim Sistemi (Operating System) |
+| **Kapsam** | CoreMusic'in PHP uygulamasının, disk dosyalarının, süreçlerinin ve ses donanımının üzerine kurulduğu işletim sistemi yüzeyinin mimari tarifi. Domain kod üretmez; kodun hangi OS hizmetlerine (syscall · kernel · sürücü · zaman paylaşımı · dosya sistemi · izin · ses yığını WASAPI/ALSA/CoreAudio) güvendiğini sabitler. 13 kademe-2 düğüm (353 md / 152.346 satır, 2026-10-15 sayımı). |
+| **Kritik Bağımlılıklar** | K001-donanım · K002-electroncis · K003-audio · K004-dsp · K005-firmware (kanıt: os-master.md §E katman haritası · L198/L221-222 electroncis alt dalı · os-bagimliliklar.md E2 — FM `depends_on: [K002-altyapi]` phantom kaydı, os-master.md L289'da tescilli) |
+| **Durum** | draft (13 kademe-2 düğüm) |
+| **Son Güncelleme** | 2026-10-15 (FM validation: OS-guvenlik turu — 8× *-guvenlik.md) |
 
 > **Tek cümle:** CoreMusic'in PHP uygulaması, disk dosyaları, süreçleri ve ses donanımını **bir işletim sistemi üzerine kurar** — bu domain o yüzeyin (syscall · kernel · sürücü · zaman paylaşımı · dosya sistemi · izin · ses yığını) mimari tarifidir.
 
@@ -125,21 +149,31 @@ Kaynak kanıtları: [`os-dogrulama.md`](os-dogrulama.md) · Bağımlılık: [`os
 
 ## §BAĞLANTILAR
 
-> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
 
-| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
-|---|---|---|---|
-| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | elektronik donanim siniri |
-| K003-audio | [[K003-audio]] | ../K003-audio/index.md | platform ses API leri (WASAPI/ALSA/CoreAudio) |
-| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | gercek-zamanli zamanlama kisitlari |
-| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | boot ve firmware yasam dongusu |
-| K007-data | [[K007-data]] | ../K007-data/index.md | sistem ayarlari ve telemetri kalicliligi |
-| K009-security | [[K009-security]] | ../K009-security/index.md | cekirdek guvenlik modeli |
-| K010-network | [[K010-network]] | ../K010-network/index.md | ag yiginı socket arayuzleri |
-| K011-application | [[K011-application]] | ../K011-application/index.md | uygulama surec modeli |
-| K012-services | [[K012-services]] | ../K012-services/index.md | servis surec bagimliliklari |
-| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | entegrasyon protokolleri |
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ./K000-isletim-sistemi/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ↔ | iki yönlü güçlü referans | M→11 · M←19 (kök .md, 2026-10-18) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ↔ | iki yönlü güçlü referans | M→14 · M←28 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ↔ | iki yönlü güçlü referans | M→10 · M←11 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | ↔ | iki yönlü güçlü referans | M→6 · M←14 (kök .md, 2026-10-18) |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | ↔ | iki yönlü güçlü referans | M→9 · M←22 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | ↔ | iki yönlü atıf | M→1 · M←8 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | ↔ | iki yönlü güçlü referans | M→6 · M←21 (kök .md, 2026-10-18) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | → | bu K referanslıyor | M→4 · M←0 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ↔ | iki yönlü atıf | M→2 · M←1 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ↔ | iki yönlü atıf | M→2 · M←3 (kök .md, 2026-10-18) |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | ↔ | iki yönlü atıf | M→2 · M←1 (kök .md, 2026-10-18) |
 
----
-
-**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

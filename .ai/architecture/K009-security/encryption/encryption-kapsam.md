@@ -136,3 +136,48 @@ başka düğümdür. İkisi aynı dosyada yazırsa sahiplik belirsizleşir.
 | E-06 | MD5/SHA-1/DES/ECB yasak | K009 kuralı | kural |
 | E-07 | Sunucu TLS ayarı depo dışı | UNKNOWN | devir |
 | E-08 | encryptionKey kaynağı bilinmiyor | UNKNOWN | secrets/ devri |
+
+## §12 AES-GCM PARAMETRE DERİNLİĞİ VE NONCE KURALLARI (2026-10-18 — APPEND-ONLY)
+
+> §1-§11 silinmez; E-01..E-08 tablosunun teknik zeminidir. Kaynak: NIST SP 800-38D
+> (security-web-arastirma.md §22 satır 6 — HTTP 200, Legacy PDF, 2026-10-18).
+
+### 12.1 GCM Bileşenleri ve CoreMusic Karşılığı
+
+| Bileşen | Boyut | Üretim | CoreMusic kanıtı | Kural |
+|---|---|---|---|---|
+| Anahtar | 256 bit | CSPRNG / secrets manager | E-08 (kaynak UNKNOWN ⚠️) | anahtar asla log/commit |
+| IV/Nonce | 96 bit (12B) | `random_bytes(12)` her şifrelemede YENİ | E-02 (OAuthManager·190) | tekrar YASAK — aynı (anahtar,nonce) iki kez kullanılmaz |
+| Tag | 128 bit (16B) | GCM üretir | E-03 (·201, ·218) | çözümde ÖNCE tag doğrulama; başarısızsa RED |
+| AAD | değişken | bağlam verisi (ör. kullanıcı ID) | ⚠️ K009 kodunda kullanımı doğrulanmadı | AAD, veriyi bağlar — kimlik değişikliğini reddeder |
+
+### 12.2 Nonce Yeniden Kullanımının Sonucu (neden kritik)
+
+| Hata | Sonuç |
+|---|---|
+| Aynı anahtar + aynı nonce ile iki farklı plaintext | Poly1305 MAC anahtarı sızar; gizlilik+güvenlik BİRLİKTE çöker (GCMNonce tekrarı → authenticated encryption ihlali) |
+| Sayaç nonce + sıfırlama | restart'ta sayaç başa döner → tekrar → ihlal |
+| Rastgele 12B nonce (2⁹⁶ uzay) | pratikte tekrar olasılığı ihmal edilebilir — K009 seçimi (E-02) |
+| 16B nonce (96+32) | GCM'de desteklenir ama performans/uyum maliyeti; 12B önerilir |
+
+### 12.3 GCM vs Alternatifler (bu projede neden GCM)
+
+| Mod | AEAD | Öneri | K009 |
+|---|---|---|---|
+| GCM | evet | yüksek performans, geniş donanım desteği | SEÇİLİ (E-01) |
+| CBC + HMAC | iki geçiş | iyi ama iki ayrı primitive senkronizasyonu (encrypt-then-MAC zorunlu) | yok |
+| ChaCha20-Poly1305 | evet | donanım-AES olmayan platformlar (libsodium PHP'de mevcut) | sodium §20.1 şablonu |
+| ECB | HAYIR | desen sızıntısı | YASAK (E-06) |
+| CTR | HAYIR (bütünlük yok) | yalnız GCM içinde | — |
+
+### 12.4 Doğrulama Adımları (çözüm tarafı — E-03/E-04 derinliği)
+
+| Adım | Kural | Başarısızsa |
+|---|---|---|
+| 1 | ciphertext uzunluğu ≥ tag boyutu (en az 16B) | RED (E-04 · ·213) |
+| 2 | tag'ı ayıkla | — |
+| 3 | `openssl_decrypt`/eşdeğeri GCM'de tag ÖNCE doğrulanır; PHP `openssl_decrypt` tag parametresi `OPENSSL_RAW_DATA` + ayrı `$tag` argümanı ile geçilir (php.net manual §22 satır 12) | false → RED + log + olay |
+| 4 | plaintext kullanılır | — |
+| 5 | bellekte tutulan çözülmüş veri S1 sınıfı ise temizlenir | — |
+
+> **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

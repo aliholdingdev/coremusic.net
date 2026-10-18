@@ -372,3 +372,134 @@ bekleyecek şekilde yazabilir. (Kaynak: §Kaynak Tablosu [E1], [E3])
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 **Kaynak:** v2 §2.13 · ADR-097 §5.5 · registry §8.1 · CloudEvents v1.0.2 · **Tarih: 2026-10-16**
+
+---
+
+## EK-F-2026-10-18 — Olay derinleştirmesi (§F1–§F8)
+
+> Append-only ek; §0–§374 korunmuştur. Bu ek yalnız **bu dosyanın** kendi
+> kaynak tablosundaki (E1–E10) doğrulanmış iddiaları derinleştirir; dış
+> kaynağa **yeni URL eklenmez** (ana kaynak tablosu:
+> `../integration-master.md` §19).
+
+## §F1 Olay sürümleme — üç strateji ve bu vault'un seçimi (E1 + iddia)
+
+| # | Strateji | Biçim | Artısı | Eksişi | İddia |
+|---|---|---|---|---|---|
+| 1 | Olay-adı sürümleme | `evt.siparis.olusturuldu.v2` | alıcı hangi sürümü işleyeceğini bilir | her sürüm için yeni abonelik | TASARIM İDDİASI |
+| 2 | Şema alanı | `event_version: 2` (zarf içinde) | zarf sabit kalır (E1 `specversion` ile karışmaz) | alıcı zinciri okumak zorunda | TASARIM İDDİASI — **bu vault'un seçimi** |
+| 3 | Tip-alanı-ekleme (additive-only) | yalnız alan ekleme | sürüm gerekmez | alan çıkarımı mümkün değil (S12 zıddı) | ✅ E1 + S12 |
+
+**Çakışma uyarısı (kritik):** E1'deki `specversion` (CloudEvents zarf sürümü)
+**olay şeması sürümü DEĞİLDİR** — `specversion: 1.0` her zaman sabittir; şema
+sürümü ayrı `event_version` alanıdır. İkisini karıştıran uygulama tüm olay
+tipini yanıltır.
+
+## §F2 Upcaster zinciri — alıcı tarafın sorumluluğu (KAPI-2 kod karşılığı)
+
+```text
+gelen:  event_type=evt.siparis.olusturuldu, event_version=1, gövde=v1
+          ↓ upcaster zinciri (v1→v2→v3)
+işlenen: v3 gövdesi — iş mantığı yalnız v3 görür
+```
+
+| # | Kural | İddia |
+|---|---|---|
+| 1 | Upcaster **saf** fonksiyondur: (gövde, sürüm) → güncel gövde | TASARIM İDDİASI |
+| 2 | Zincir **kademeli**dir: v1→v2 sonra v2→v3 (v1→v3 atlaması YOK) | TASARIM İDDİASI |
+| 3 | Upcaster başarısızsa olay DLQ'ya gider — sessizce atlanmaz | §9/4 · KAPI-6 |
+| 4 | Üretici eski sürümü **bilmez**; alıcı upcaster'ı **bilir** | §D3/6 |
+| 5 | Upcaster birim-testi: her eski sürüm için örnek gövde | TASARIM İDDİASI (CI kapısı §35) |
+
+## §F3 Webhook retry karşılaştırması — üç sağlayıcı, üç davranış (E4 + E5 + E6)
+
+| Özellik | GitHub (E4) | Stripe (E5) | Slack (E6) |
+|---|---|---|---|
+| İmza başlığı | `X-Hub-Signature-256: sha256=<hex>` | `Stripe-Signature: t=…,v1=…` | `X-Slack-Signature: v0=<hex>` |
+| Zaman alanı | ❌ başlıkta yok | ✅ `t=` — 5 dk tolerans | ✅ `v0=` timestamp — 5 dk |
+| İmalatçı | ham gövde | `t` + `.` + ham gövde | `v0:` + `:` + timestamp + `:` + ham gövde |
+| Harf duyarlılığı | hex küçük | hex küçük | ✅ başlık **büyük/küçük harf duyarsız** (E6) |
+| Retry süresi | ⚠️ VERIFICATION REQUIRED | ✅ 3 güne kadar | ⚠️ VERIFICATION REQUIRED |
+| Sıra | ⚠️ | ✅ **garanti edilmez** (E5) | ⚠️ |
+
+**Ortak çekirdek (üçü de aynı):** ham gövde şartı · sabit-zamanlı karşılaştırma
+· zaman penceresi (GitHub hariç — o zaman alanını ayrı kontrol eder, alıcı
+kendi penceresini kurar).
+
+## §F4 Sıra-dışı olay — Stripe'ın garantisiz sırasının vault karşılığı (E5)
+
+E5: Stripe olayların **sırasını garanti etmez**. Vault kuralı (TASARIM İDDİASI):
+
+1. Her olay **kendinden bağımsız** işlenir (sipariş-idempotent).
+2. Sıra-bağımlı iş için **olay içindeki zaman damgası** kullanılır (`event_timestamp`),
+   kuyruk sırası **asla** kullanılmaz.
+3. Son-durum-sentezi gerekirse: CQRS okuma-modeli (okuma modeli son olay
+   zaman damgasıyla yeniden sentezlenir) — `../integration-master.md` §11.
+
+## §F5 Sync çakışma çözümü — üç yöntemin eşlemesi (TASARIM İDDİASI)
+
+| # | Yöntem | Kural | Çakışma davranışı | İddia |
+|---|---|---|---|---|
+| 1 | Last-writer-wins (LWW) | en yeni `updated_at` kazanır | sessiz veri kaybı riski | TASARIM İDDİASI — **en riskli** |
+| 2 | Versiyon sayacı (optimistic) | `UPDATE … WHERE versiyon=N` | çakışma → retry/manuel | TASARIM İDDİASI — **bu vault'un seçimi** |
+| 3 | CRDT | alan-bazlı birleşim | çakışma matematiksel çözülür | TASARIM İDDİASI — CoreMusic kapsamı dışı |
+
+**Seçim gerekçesi (iddia):** LWW sessiz kayıp üretir; CRDT CoreMusic veri
+modeli için fazla karmaşıktır (YAGNI); optimistic versiyon sayacı K007 şemasına
+versiyon sütunu ekleyerek en düşük maliyetle **görünür** çakışma üretir.
+
+## §F6 CloudEvents zarfı — bu vault'ta zorunlu alanlar (E1 + iddia)
+
+| Alan | Zorunlu mu (E1) | Vault değeri | İddia |
+|---|---|---|---|
+| `id` | ✅ zorunlu | `evt-` öneki + UUID | ✅ E1 (alan zorunlu) + vault öneki |
+| `specversion` | ✅ zorunlu | `1.0` (sabit — §F1 uyarısı) | ✅ E1 |
+| `type` | ✅ zorunlu | `evt.{domain}.{olay}` | ✅ E1 + KAPI-4 |
+| `source` | ✅ zorunlu | domain URI'si | ✅ E1 |
+| `time` | opsiyonel | RFC 3339 (E2) — **zorunlu yap** | TASARIM İDDİASI (E2 biçimi) |
+| `data` | opsiyonel | iş gövdesi | ✅ E1 |
+| `event_version` | E1'de YOK | vault uzantısı (§F1/2) | TASARIM İDDİASI — zarfa ek alan |
+
+## §F7 WebSub (E7) — bu vault'a taşınan tek kural
+
+E7 (WebSub): abonelik **niyeti doğrulanır** (challenge), abonelik **410 ile
+sonlandırılabilir**, bildirim **hızlı 2xx** ile onaylanır — iş asenkron olur.
+Vault karşılığı: §8/6 (hızlı yanıt + asenkron outbox) bu kuralın bağımsız
+doğrulamasıdır; WebSub kendisi CoreMusic kapsamı dışındadır (iddia).
+
+## §F8 Ek kapanışı
+
+1. Bu ek yalnız **sürümleme/upcast/çakışma/retry** derinleştirmesidir; §
+   Kaynak Tablosu (E1–E10) **değişmedi** — yeni URL eklenmedi.
+2. Seçimler: şema-alanı sürümleme (§F1/2) · kademeli upcast (§F2) · optimistic
+   versiyon (§F5/2) — üçü de TASARIM İDDİASI, ADR bekliyor.
+3. `⚠️ VERIFICATION REQUIRED` satırları: GitHub/Slack retry süresi — uydurulmadı.
+
+---
+
+*EK-F-2026-10-18 · event-sozlesme.md · Authority: Bayram Ali / Vault Steward · Mode: Red Team · Human Mode · Truth Mode*
+
+---
+
+## §F9 EK-F eklemesi — E1–E10 dayanak sayımı denetimi (2026-10-18)
+
+| Dayanak | EK-F'te kullanıldığı yer | Derinleşme | Dayanak-sınırı ihlali |
+|---|---|---|---|
+| E1 (CloudEvents) | §F1 · §F6 | zarf-şema ayrımı | ❌ yok |
+| E2 (RFC 3339) | §F4 · §H5 karşılığı | `time` biçimi | ❌ yok |
+| E4 (GitHub imza) | §F3 | üç-sağlayıcı tablosu | ❌ yok |
+| E5 (Stripe) | §F3 · §F4 | retry + sıra | ❌ yok |
+| E6 (Slack imza) | §F3 | harf duyarlılığı | ❌ yok |
+| E7 (WebSub) | §F7 | yalnız kural-taşıma | ❌ yok |
+| E8 (AsyncAPI) | (EK-F'te kullanılmadı) | — | ❌ yok |
+| E9 (RFC 9110) | (EK-F'te kullanılmadı) | — | ❌ yok |
+| E10 (RFC 2104) | (EK-F'te kullanılmadı) | — | ❌ yok |
+| E3 (I-D delivery) | (EK-F'te kullanılmadı) | — | ❌ yok |
+
+**Sayım:** EK-F, 10 dayanağın **6'sını** derinleştirdi, **4'ünü** kullanmadı —
+kullanılmayan dayanaklar "çekildi ama dayanak alınmadı" olarak işaretli kalır
+(§ Kaynak Tablosu değişmez, "✅ çekildi" satırları korunur). Yeni URL: **0**.
+
+---
+
+*EK-F-2 · event-sozlesme.md · 2026-10-18 · Vault Steward*

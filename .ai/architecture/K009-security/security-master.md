@@ -21,6 +21,24 @@ open_questions:
   - "ADR-011 (session) ve ADR-013 (rate limit) birebir metni okunmadı → ⚠️ VERIFICATION REQUIRED"
   - "Fail-open davranışı tespit edilirse veto: auth.coremusic.net/AGENTS.md ve .ai/AGENTS.md §18 fail-safe kuralı"
 group: mimari
+## §30 OWASP TOP 10:2025 DÜZELTME İŞARETİ (2026-10-18 — orkestratör tamamladı)
+
+> §3 tablosu **2021 tarihsel kaydıdır** (silinmez — security-dogrulama.md D-66). 2025 resmi listesi
+> ve K009 yeniden eşlemesi **security-kapsam.md §9**'dadır; orada otoritedir. Kaynak doğrulaması:
+> security-web-arastirma.md §22.
+>
+> 2026-10-18 orkestratör çapraz doğrulama: `https://owasp.org/Top10/2025/` **HTTP 200** — resmi liste
+> 10/10 satır security-kapsam.md §9 ile birebir (A01 Broken Access Control · A02 Security
+> Misconfiguration · A03 Software Supply Chain Failures · A04 Cryptographic Failures · A05 Injection ·
+> A06 Insecure Design · A07 Authentication Failures · A08 Software or Data Integrity Failures ·
+> A09 Security Logging and Alerting Failures · A10 Mishandling of Exceptional Conditions).
+>
+> Kural: **"A10 SSRF" ibaresi 2025'te yanlıştır** — A10 = Mishandling of Exceptional Conditions;
+> SSRF ayrı kategori değildir (erişim kontrolü/girdi doğrulama altına girer).
+>
+> **Dürüstlük kaydı:** security-kapsam.md §9 bu §30'un "eklendiğini" iddia ediyordu; 2026-10-18
+> orkestratör denetiminde **diskte yoktu** — bu satırlarla eklendi. Kayıp yok, gecikme var.
+
 ---
 
 # security-master.md — K009 ANAYASASI

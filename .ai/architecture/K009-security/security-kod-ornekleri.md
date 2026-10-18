@@ -511,4 +511,358 @@ private const ALLOWED_HOSTS = [
 
 > **Bu bölüm kanıt oranını DEĞİŞTİRmez.**
 
+## §20 17 DİL GÜVENLİK MATRİSİ (2026-10-18 — ÖRNEK KOD KİTAPLIĞASI)
+
+> **Amaç:** Aynı güvenlik teması (AES-256-GCM nonce/IV · Argon2id · sabit-zamanlı karşılaştırma ·
+> kriptografik rastgelelik · CSP · secret saklama) 17 dilde doğru API ile gösterilir.
+> **Kural:** Bu örnekler VAULT ŞABLONUDUR — diskteki CoreMusic kodu değildir (alıntı değildir);
+> her biri resmi API bilgisine dayanır. Emin olunmayan API/sürüm `⚠️ VERIFICATION REQUIRED` ile işaretlidir.
+> Dil kapsamı: 17/17 (hedef ≥14).
+
+| # | Dil | Tema | § |
+|---|---|---|---|
+| 1 | PHP 8.4 | Argon2id + sodium AEAD | §20.1 |
+| 2 | JavaScript (Node 20+) | WebCrypto AES-GCM | §20.2 |
+| 3 | TypeScript | tipli AEAD sarmalayıcı | §20.3 |
+| 4 | C (C11 + libsodium) | crypto_pwhash + AEAD | §20.4 |
+| 5 | C++ (C++20 + OpenSSL 3) | EVP AES-256-GCM | §20.5 |
+| 6 | C# (.NET 8) | AesGcm + RandomNumberGenerator | §20.6 |
+| 7 | Python 3.12 | cryptography AESGCM | §20.7 |
+| 8 | Go 1.22 | crypto/aes GCM | §20.8 |
+| 9 | Rust (2021) | aes-gcm crate | §20.9 |
+| 10 | Java 21 | JCE GCMParameterSpec | §20.10 |
+| 11 | Swift 5.9 | CryptoKit AES.GCM | §20.11 |
+| 12 | Kotlin | JCE sarmalayıcı | §20.12 |
+| 13 | SQL (MySQL 8) | en az yetki GRANT + hash sütunu | §20.13 |
+| 14 | Bash | openssl PBKDF2 + güvenli temp | §20.14 |
+| 15 | PowerShell 7 | AesGcm + gizli metin | §20.15 |
+| 16 | YAML (GitHub Actions) | secret taraması + min permission | §20.16 |
+| 17 | HCL (Terraform) | sensitive değişken + secrets manager | §20.17 |
+
+### §20.0 ORTAK KURALLAR (TÜM DİLLER)
+
+| Kural | Gerekçe | K009 eşlemesi |
+|---|---|---|
+| Nonce/IV ASLA tekrar etmez; AEAD'de nonce yeniden kullanımı anahtarı ifşa eder | NIST SP 800-38D (security-web-arastirma.md §22 satır 6) | encryption |
+| Nonce rastgele ÜRETİLİR; salt baştan ayrıdır (parolada salt, AEAD'de nonce) | CWE-330 | §12 kontrol 3 |
+| Parola yalnız hash'lenir; hash + pepper (pepper env'de) | Password·43-49 | authentication |
+| Karşılaştırma sabit-zamanlı (hash_equals / crypto.timingSafeEqual / FixedTimeEquals) | zamanlama saldırısı | §12 kontrol 2 |
+| Rastgelelik kriptografik PRNG (asla rand/random/Mersenne Twister) | CWE-330 · CWE-327 | §12 kontrol 3/14 |
+| Secret kaynak koda/log'a/commit'e GİRMEZ | S3 sınıfı (security-kapsam.md §14) | secrets |
+
+### §20.1 PHP 8.4 — Argon2id + Secretbox (XSalsa20-Poly1305, sodium)
+
+~~~php
+<?php
+declare(strict_types=1);
+
+// Parola: Argon2id (CoreMusic Password·43-49 ile aynı parametre ailesi)
+$hash = password_hash($password, PASSWORD_ARGON2ID, [
+    'memory_cost' => 65536, // 64 MB
+    'time_cost'   => 4,
+    'threads'     => 2,
+]);
+if (!password_verify($password, $hash)) { throw new RuntimeException('verify failed'); }
+
+// AEAD: XChaCha20-Poly1305 — 24 byte nonce sodium tarafindan ÜRETILIR (elle üretme)
+$key   = sodium_crypto_secretbox_keygen();
+$nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+$cipher = sodium_crypto_secretbox($plaintext, $nonce, $key);
+$plain  = sodium_crypto_secretbox_open($cipher, $nonce, $key); // false = MAC başarısız → reddet
+
+// Sabit-zamanlı karşılaştırma
+if (!hash_equals($expected, $given)) { /* reddet */ }
+sodium_memzero($key); // bellek temizliği (S1 sınıfı kuralı)
+~~~
+
+### §20.2 JavaScript (Node 20+ / tarayıcı) — WebCrypto AES-256-GCM
+
+~~~js
+// Anahtar: yalnız WebCrypto random ile üretilir (Math.random YASAK)
+const keyBytes = crypto.getRandomValues(new Uint8Array(32));
+const key = await crypto.subtle.importKey('raw', keyBytes, 'AES-GCM', false, ['encrypt', 'decrypt']);
+
+// 12 byte IV rastgele üretilir; her mesajda YENİ
+const iv = crypto.getRandomValues(new Uint8Array(12));
+const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, encoded));
+const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct); // MAC hatası = throw
+
+// Sabit-zamanlı karşılaştırma (WebCrypto ile tek doğru yol)
+function timingSafeEqual(a, b) {
+  if (a.length !== b.length) return false;
+  return crypto.subtle.timingSafeEqual(a, b);
+}
+~~~
+
+### §20.3 TypeScript — tipli AEAD sarmalayıcı
+
+~~~ts
+interface SealedBox { readonly iv: Uint8Array; readonly ciphertext: Uint8Array; }
+
+export async function seal(key: CryptoKey, plaintext: Uint8Array): Promise<SealedBox> {
+  const iv = crypto.getRandomValues(new Uint8Array(12)); // IV tipte zorunlu alan
+  const ct = new Uint8Array(
+    await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, plaintext),
+  );
+  return { iv, ciphertext: ct }; // iv CIPHERTEXT ile TAŞINIR (ayırmak = decrypt imkânsız)
+}
+// Hata sözleşmesi: decrypt başarısızsa asla null değil — Result<T, AeadError>
+~~~
+
+### §20.4 C (C11 + libsodium) — crypto_pwhash (Argon2id) + AEAD
+
+~~~c
+#include <sodium.h>
+
+// Parola türetme (Argon2id — sodium varsayılan algoritması Argon2id13)
+unsigned char salt[crypto_pwhash_SALTBYTES];
+randombytes_buf(salt, sizeof salt);                    // kriptografik rastgelelik
+unsigned char key[crypto_aead_xchacha20poly1305_ietf_KEYBYTES];
+if (crypto_pwhash(key, sizeof key, pw, pwlen, salt,
+                  crypto_pwhash_OPSLIMIT_MODERATE,
+                  crypto_pwhash_MEMLIMIT_MODERATE,
+                  crypto_pwhash_ALG_ARGON2ID13) != 0) {
+    return -1; // bellek yetersiz → fail-closed
+}
+
+// AEAD
+unsigned char nonce[crypto_aead_xchacha20poly1305_ietf_NPUBBYTES];
+randombytes_buf(nonce, sizeof nonce);
+crypto_aead_xchacha20poly1305_ietf_encrypt(ciphertext, NULL, message, msglen,
+    NULL, 0, NULL, nonce, key); // MAC doğrulaması open() tarafında zorunlu
+sodium_memzero(key, sizeof key);
+~~~
+
+### §20.5 C++ (C++20 + OpenSSL 3) — EVP AES-256-GCM
+
+~~~cpp
+#include <openssl/evp.h>
+#include <openssl/rand.h>
+
+std::vector<unsigned char> iv(12);
+if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) throw std::runtime_error("RAND");
+
+EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr);
+EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, static_cast<int>(iv.size()), nullptr);
+EVP_EncryptInit_ex(ctx, nullptr, nullptr, key32.data(), iv.data());
+EVP_EncryptUpdate(ctx, out.data(), &len, in.data(), static_cast<int>(in.size()));
+EVP_EncryptFinal_ex(ctx, out.data() + len, &len);
+EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data()); // 16-byte tag ayrılır
+EVP_CIPHER_CTX_free(ctx);
+// Decrypt'te önce EVP_CTRL_GCM_SET_TAG + Final == 1 kontrolü — başarısızsa RED
+~~~
+
+### §20.6 C# (.NET 8) — AesGcm + RandomNumberGenerator
+
+~~~csharp
+using System.Security.Cryptography;
+
+byte[] key = RandomNumberGenerator.GetBytes(32); // kriptografik PRNG
+byte[] iv  = RandomNumberGenerator.GetBytes(12); // her mesajda yeni
+byte[] tag = new byte[16];
+byte[] ct  = new byte[plaintext.Length];
+
+using var aes = new AesGcm(key, tagSizeInBytes: 16); // ⚠️ VERIFICATION REQUIRED: tag boyutu ctor'ı .NET 8'de eklendi; eski sürümde yalnız new AesGcm(key)
+aes.Encrypt(iv, plaintext, ct, tag);
+
+// Sabit-zamanlı karşılaştırma
+CryptographicOperations.FixedTimeEquals(expected, given);
+
+// PBKDF2 (parola; Argon2id için üçüncü parti paket gerekir ⚠️ VERIFICATION REQUIRED: BCrypt.Net-Next sürümü)
+byte[] dk = Rfc2898DeriveBytes.Pbkdf2(pw, salt, 600_000, HashAlgorithmName.SHA256, 32);
+~~~
+
+### §20.7 Python 3.12 — cryptography (AESGCM)
+
+~~~python
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+import secrets
+
+key = AESGCM.generate_key(bit_length=256)          # kripto PRNG
+aes = AESGCM(key)
+nonce = secrets.token_bytes(12)                     # HER mesajda yeni nonce
+ct = aes.encrypt(nonce, plaintext, associated_data) # AAD bağlanır
+pt = aes.decrypt(nonce, ct, associated_data)        # MAC hatası = InvalidTag → reddet
+
+# Parola: Argon2id için 'argon2-cffi' paketi ⚠️ VERIFICATION REQUIRED (paket sürümü doğrulanacak)
+~~~
+
+### §20.8 Go 1.22 — crypto/aes GCM
+
+~~~go
+import ("crypto/aes"; "crypto/cipher"; "crypto/rand"; "io")
+
+key := make([]byte, 32)
+if _, err := io.ReadFull(rand.Reader, key); err != nil { return err } // crypto rand
+block, err := aes.NewCipher(key)
+gcm, err := cipher.NewGCM(block)
+nonce := make([]byte, gcm.NonceSize())
+io.ReadFull(rand.Reader, nonce)                     // rastgele nonce
+ct := gcm.Seal(nil, nonce, plaintext, nil)          // Seal: ct = nonce|ciphertext birlikte taşınır
+
+// Parola: golang.org/x/crypto/bcrypt ⚠️ VERIFICATION REQUIRED (Argon2id için x/crypto/argon2 sürümü)
+~~~
+
+### §20.9 Rust (2021 edition) — aes-gcm crate
+
+~~~rust
+use aes_gcm::{Aes256Gcm, KeyInit, aead::{Aead, OsRng}};
+use aes_gcm::aead::rand_core::RngCore;
+
+let key = Aes256Gcm::generate_key(&mut OsRng);           // kripto PRNG (getrandom)
+let cipher = Aes256Gcm::new(&key);
+let mut nonce_bytes = [0u8; 12];
+OsRng.fill_bytes(&mut nonce_bytes);                       // rastgele nonce
+let ct = cipher.encrypt(nonce_bytes.as_slice().into(), plaintext)?; // MAC hatası = Err → reddet
+// Parola: argon2 crate (password-hash modülü) ⚠️ VERIFICATION REQUIRED (sürüm)
+~~~
+
+### §20.10 Java 21 — JCE AES/GCM/NoPadding
+
+~~~java
+import javax.crypto.Cipher;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.SecureRandom;
+
+byte[] key = new byte[32]; new SecureRandom().nextBytes(key);  // SecureRandom zorunlu
+byte[] iv  = new byte[12]; new SecureRandom().nextBytes(iv);   // her işlemde yeni
+Cipher c = Cipher.getInstance("AES/GCM/NoPadding");
+c.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new GCMParameterSpec(128, iv));
+byte[] ct = c.doFinal(plaintext); // GCM: tag varsayılan 16 byte sona eklenir
+
+// Parola: JDK'da Argon2 YOK; 'argon2-jvm' üçüncü parti ⚠️ VERIFICATION REQUIRED (sürüm); yedek JDK PBKDF2WithHmacSHA512
+~~~
+
+### §20.11 Swift 5.9 (iOS/macOS) — CryptoKit
+
+~~~swift
+import CryptoKit
+
+let key = SymmetricKey(size: .bits256)                  // CryptoKit kendi RNG'si
+let sealed = try AES.GCM.seal(data, using: key)         // nonce CryptoKit tarafından ÜRETİLİR
+let combined = sealed.combined!                         // nonce|ct|tag tek parçada
+let opened = try AES.GCM.open(sealed, using: key)       // MAC hatası = throw → reddet
+// elle nonce geçmek istersen AES.GCM.Nonce() — asla sabit/tekrar eden nonce
+~~~
+
+### §20.12 Kotlin (JVM) — JCE sarmalayıcı (§20.10 ile aynı çekirdek)
+
+~~~kotlin
+import javax.crypto.Cipher
+import javax.crypto.spec.GCMParameterSpec
+import javax.crypto.spec.SecretKeySpec
+import java.security.SecureRandom
+
+fun seal(keyBytes: ByteArray, plain: ByteArray): ByteArray {
+    val iv = ByteArray(12).also { SecureRandom().nextBytes(it) }
+    val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+    cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(keyBytes, "AES"), GCMParameterSpec(128, iv))
+    return iv + cipher.doFinal(plain)                    // iv ct ile taşınır
+}
+// Android: platform JCE; parola için androidx.security crypto ⚠️ VERIFICATION REQUIRED (sürüm)
+~~~
+
+### §20.13 SQL (MySQL 8) — en az yetki + hash sütunu
+
+~~~sql
+-- Parola ASLA plaintext saklanmaz; sütun Argon2id çıktısına genişlik verir
+CREATE TABLE users (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password_hash CHAR(98) NOT NULL,        -- $argon2id$v=19$m=65536,t=4,p=2$... uzunluğu için güvenli pay
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Uygulama kullanıcısı: yalnız gerekli yetki (en az yetki)
+CREATE USER 'app_rw'@'10.0.0.%' IDENTIFIED BY '...';  -- parola script gövdesinde değil, env'de
+GRANT SELECT, INSERT, UPDATE ON coremusic.users TO 'app_rw'@'10.0.0.%';
+-- DROP / GRANT OPTION / FILE yetkisi app_rw'ye VERİLMEZ
+~~~
+
+### §20.14 Bash — openssl PBKDF2 + güvenli geçici dosya
+
+~~~bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+# openssl enc AEAD/GCM DESTEKLEMEZ (tag işlenemez) — tarafsız doğrulama isteyen iş
+# AES-GCM yerine age/libsodium aracına devredilir ⚠️ VERIFICATION REQUIRED: age sürümü
+umask 077
+tmp=$(mktemp)                     # geçici dosya 0600
+trap 'rm -f "$tmp"' EXIT
+openssl enc -aes-256-cbc -pbkdf2 -iter 600000 -salt -md sha256 \
+  -in plain.bin -out "$tmp" -pass env:CM_ENC_PASS   # parola env'de; komut satırı argümanı YASAK (ps görünür)
+~~~
+
+### §20.15 PowerShell 7 — AesGcm + gizli değişken
+
+~~~powershell
+# PS 7 (.NET) ile çalışır; Windows PowerShell 5.1 (.NET Framework) AesGcm İÇERMEZ ⚠️ VERIFICATION REQUIRED
+$bytes = [byte[]]::new(32)
+[System.Security.Cryptography.RandomNumberGenerator]::Fill($bytes)   # kripto PRNG
+$iv = [byte[]]::new(12)
+[System.Security.Cryptography.RandomNumberGenerator]::Fill($iv)
+
+$aes = [System.Security.Cryptography.AesGcm]::new($bytes)
+# Encrypt/Decrypt imzaları .NET 8'de tag boyutu eklenerek değişti ⚠️ VERIFICATION REQUIRED (sürüme göre)
+
+# SecureString yalnız DPAPI taşır; düz metin asla log'a yazılmaz
+$sec = ConvertTo-SecureString $env:CM_DB_PASS -AsPlainText -Force
+~~~
+
+### §20.16 YAML (GitHub Actions) — secret taraması + min permission
+
+~~~yaml
+name: security-gates
+permissions:
+  contents: read            # en az yetki; write YASAK (CI'da push yetkisi sızıntısı = tam ihlal)
+jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4           # ⚠️ VERIFICATION REQUIRED: sürüm pin'i (SHA pin önerilir)
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2   # CoreMusic secret-scan.yml karşılığı
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # secret yalnız actions/secrets üzerinden akar; YAML'a gömülmez
+~~~
+
+### §20.17 HCL (Terraform) — sensitive değişken + secrets manager
+
+~~~hcl
+variable "db_password" {
+  type      = string
+  sensitive = true          # plan/apply çıktısında maskele; log sızıntısını kapatır
+  nullable  = false
+}
+
+# Kaynak kodda/sürümcüde secret TUTMAZ; üretimi secrets manager'a devreder
+resource "aws_secretsmanager_secret" "db" {
+  name                    = "coremusic/db"
+  description             = "rotasyon politikası: secrets-kapsam.md §rotasyon"
+  recovery_window_in_days = 7   # silme geri alma penceresi = olay müdahalesi
+}
+# state dosyası da hassastır: remote backend + encrypt zorunlu (state sızıntısı = secret sızıntısı)
+~~~
+
+### §20.18 MATRİS KAPANIŞI
+
+| Dil kümesi | Doğrulama düzeyi | Uyarı |
+|---|---|---|
+| PHP · JS · TS · C(libsodium) · C++(OpenSSL EVP) · Python(cryptography) · Go · Java(JCE) · Swift(CryptoKit) · SQL(MySQL) · Bash(openssl) | API'ler yaygın bilinen; örnekler vault şablonu | — |
+| C# AesGcm ctor(tag) | .NET 8'e özgü | ⚠️ VERIFICATION REQUIRED (sürüme göre) |
+| PowerShell AesGcm | yalnız PS7/.NET Core | 5.1'de yok ⚠️ |
+| Rust argon2 · Kotlin Android crypto · Python argon2-cffi · Go x/crypto/argon2 · Java argon2-jvm · age (Bash) | paket sürümü | ⚠️ VERIFICATION REQUIRED |
+| openssl enc AEAD | GCM desteklenmez (dürüst sınır) | CBC + PBKDF2 gösterildi |
+
+| §20 Kapanış Kontrolü | Durum |
+|---|---|
+| Dil sayısı | 17/17 (hedef ≥14) |
+| Yer tutucu/filler | 0 (her § gerçek API ve gerçek kural içerir) |
+| Emin olunmayan API | ⚠️ ile işaretli (tablo §20.18) |
+| Uydurma disk alıntısı | 0 — bu § şablondur, alıntı ID'si taşımaz |
+| git commit | ATILMADI (yasak) |
+
 > **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

@@ -487,4 +487,179 @@ Bu bölüm kanıt oranını DEĞİŞTİRmez — yeni içerik yeni kanıt değild
 
 ---
 
+---
+## §23 STRATEJİK BOUNDED CONTEXT EŞLEMESİ (öneri + gerekçe)
+
+§3.1 iskeleti bağlar; bu bölüm **stratejik konumlandırmayı** ekler. Alt-domain
+sınıflandırması (çekirdek / destekleyici / genel) dış bir kaynağa dayanır
+(kaynak kaydı: `domain-web-arastirma.md` §18.3 A) — ancak **hangi BC'nin hangi
+sınıfa girdiği bu master'ın önerisidir**, mutlak karar değildir. Gerekçe
+sütunu olmayan atama yazılmaz.
+
+| # | Bounded Context | Çocuk | Sınıf (öneri) | Gerekçe | Komşu (ilk) | İlişki türü (öneri) |
+|---|---|---|---|---|---|---|
+| 1 | Müzik Kataloğu | `music` | Çekirdek | ürünün ana değeri katalog ve eser modeli | media | müşteri (downstream) |
+| 2 | Medya Varlıkları | `media` | Destekleyici | katalog olmadan tek başına değer üretmez | music | türetme (upstream: music) |
+| 3 | Kimlik & Profil | `user` | Genel | kimlik yönetimi her üründe aynıdır | playlist | conformist |
+| 4 | Kütüphane | `library` | Destekleyici | kullanıcı davranışı türetilir veridir | user | türetme (upstream: user) |
+| 5 | Çalma Listesi | `playlist` | Çekirdek | ürünün ikinci ana değeri koleksiyon davranışı | music | müşteri (downstream) |
+| 6 | Oynatma | `playback` | Çekirdek | katalog + koleksiyonun birleştiği an | playlist | müşteri (downstream) |
+| 7 | Keşif | `discovery` | Destekleyici | yalnız katalog üstünde anlam taşır | music | conformist |
+| 8 | Öneri | `recommendation` | Destekleyici | girdisi başka BC'lerin olaylarıdır | discovery | türetme |
+| 9 | Cihaz Yönetimi | `device-management` | Genel | oynatma hedefi yönetimi ürüne özgü değil | playback | müşteri (downstream) |
+| 10 | Bağlam Eşleme | `context-mapping` | Destekleyici | yalnız ilişki kaydı tutar | hepsi | belgeleyici |
+
+**Bağlayıcı kurallar:**
+
+| # | Kural |
+|---|---|
+| S-1 | **Shared kernel yoktur** — iki BC ortak model paylaşmaz; paylaşılan yalnız VO ise ayrı bir dil kurulur ve adı açıkça yazılır |
+| S-2 | İlişki türü her BC için **tek ve yazılıdır**; "her ikisi de" kabul edilmez |
+| S-3 | Türetme ilişkisinde veri akışı **tek yönlüdür**; geri besleme domain event ile olur, ortak tablo ile değil |
+| S-4 | Conformist ilişkide upstream şeması **kopyalanmaz**, çeviri katmanı (ant-corruption) aracılığıyla karşılanır |
+| S-5 | Sınıf değişikliği bir **karar**dır; §17 protokolünden geçer ve §6 conflict kaydına yazılır |
+
+## §24 AGGREGATE INVARIANT KORUMA KURALLARI
+
+### §24.1 Invariant nedir — validation değildir
+
+| Terim | Tanım | Örnek (kavram düzeyi) | Sahibi |
+|---|---|---|---|
+| Invariant | Aggregate yaşam döngüsü boyunca **her zaman** doğru olması gereken durum | bir çalma listesinde aynı parça iki kez sıralanamaz | çocuk `-kapsam.md` |
+| Validation | Tek bir kullanım anında girdinin uygunluğu | girilen tarih geçmişte olamaz | uygulama katmanı |
+| İş kuralı | Karar veren kural (kim neyi yapabilir) | yalnız sahibi listeyi düzenler | çocuk `-kapsam.md` |
+
+**Ayrım testi:** kural aggregate'in **her** okumasında doğru olmak zorundaysa
+invariant'tır; yalnız yazma anında kontrol ediliyorsa validation'dır.
+
+### §24.2 Üç koruma katmanı (aynı invariant'ın tekrarı, çelişki değil)
+
+| Katman | Ne yapar | Sahibi | Ne yapmaz |
+|---|---|---|---|
+| K1 — Domain | Invariant'ı doğrular, ihlalde domain exception fırlatır | çocuk `-kapsam.md` + `domain-kod-ornekleri.md` | framework/HTTP bilmez (C3) |
+| K2 — Persistence | Aynı kuralı constraint ile zorlar (UNIQUE, CHECK, NOT NULL, ENUM) | `playlist-kapsam.md` §6, `domain-dogrulama.md` §3 | iş kararı vermez |
+| K3 — Doğrulama | K1 ve K2'nin gerçekten uygulandığını ölçer | `domain-dogrulama.md` | kural icat etmez |
+
+**Kural:** K2'nin varlığı K1'i gereksiz **yapmaz** — K1 kullanıcıya doğru hata
+verisini üretir, K2 son savunma hattıdır. İkisinin çelişmesi bir **bug**tur ve §6'ya
+kaydedilir.
+
+### §24.3 Invariant ihlali dili ve yasaklar
+
+| # | Kural |
+|---|---|
+| I-1 | Invariant ihlali **sessizce düzeltilmez**; ya exception fırlatır ya da aggregate geçersiz duruma geçemez |
+| I-2 | Invariant'ın yerine **domain service** konmaz — service iş akışını yürütür, tutarlılık sınırını değil |
+| I-3 | Invariant **veritabanı migrasyonuna** taşınamaz; migrasyon veri düzeltir, kural icat etmez |
+| I-4 | Aynı invariant'ın iki ayrı ifadesi (K1 ve K2) farklı değer üretiyorsa tutarlılık sınırı **kırılmıştır** → duraklat |
+| I-5 | Invariant listesi çocuk dosyada **kapanık**tır; master yeni invariant eklemez, yalnız kuralını yazar |
+
+## §25 VALUE OBJECT KURALLARI
+
+| # | Kural | Gerekçe |
+|---|---|---|
+| V-1 | Value Object **immutable**'dır; değişiklik yeni VO üretir | eşitlik ve paylaşılabillik için |
+| V-2 | Eşitlik **değerdedir** (tip + alan); kimlik alanı taşımaz | Entity ile karıştırılmaması için |
+| V-3 | VO **kendi kendini doğrular**; geçersiz değerli VO var olamaz | invariant K1 katmanının parçası olmak için |
+| V-4 | Primitive obsession yasaktır: iki farklı anlam aynı ilkel tipi **kullanamaz** | derleyici/analiz düzeyinde ayrım için |
+| V-5 | VO **koleksiyon** olabilir (tekil değil); örn. etiket kümesi | alan-grubu da değerdir |
+| V-6 | VO persistence'ta **kaybolmaz**: ya kolon olarak açılır ya da ayrıştırılır | sızıntısız eşleme için |
+| V-7 | Entity ile VO arasındaki sınır **yazılıdır** ve çocuk dosyadadır | §24.1 ayrımı gibi, model ayrımı da kapanık olmalı |
+
+**VO adlandırma:** ad, **neyin değeri olduğunu** söyler (`Görünürlük`, `Sıra`,
+`Süre`); `-VO`, `-Value`, `-Nesnesi` ekleri kullanılmaz.
+
+## §26 DOMAIN EVENT KURALLARI — OLAN BİTTİ SÖZLEŞMESİ VE K013 EŞLEMESİ
+
+### §26.1 Bağlayıcı kurallar (repo sözleşmesiyle birlikte okunur)
+
+| # | Kural | Kanıt yönü |
+|---|---|---|
+| D-1 | Event adı **geçmiş zaman** ve tekil: `Oluşturuldu`, `Eklendi` — neolma/süreklilik yasak | repo sözleşmesi (`domain-dogrulama.md` §4) |
+| D-2 | Event **geçmez**, taşır: yalnızca oluştuğu anın verisini taşır, komut içermez | bu master (kural) |
+| D-3 | Event payload **hafiftir**: aggregate kimliği + iş değeri; tam nesne değil | bu master (kural) |
+| D-4 | Event yayımı **aggregate commit'inden sonra**dır; yayım başarısızlığı aggregate'i bozmaz | bu master (kural) |
+| D-5 | Consumer **idempotent**'tir; aynı olay iki kez işlenmez (kimlik tekrarı) | repo sözleşmesi |
+| D-6 | Domain event **tek BC içinde** yaşar; BC dışı taşım integration event'tir | §3.3 |
+
+### §26.2 `OccurredOn` ↔ `occurredAt` ↔ K013 `time` eşlemesi
+
+| Kavram | Bu vault'un dili | Repo dili (sözleşme) | K013 dili (zarf) | Durum |
+|---|---|---|---|---|
+| Olayın gerçekleştiği an | `OccurredOn` | `occurredAt` (RFC 3339) | `time` (RFC 3339) | **eşleşme var** — ad farkı, biçim aynı |
+| Olayın kimliği | `EventId` | `eventId` (UUID) | `id` | **eşleşme var** |
+| Olayın türü | `EventType` | sınıf adı | `type` | **eşleşme var** (adlandırma kuralı D-1) |
+| Olayın kaynağı | `Source` | BC adı | `source` | **eşleşme var** |
+| Olayı taşıyan kayıt | `AggregateId` | event alanı | — | **K013'te karşılığı yok** → `⚠️ VERIFICATION REQUIRED` |
+| Olayı işleme güvencesi | `Outbox` | — | — | **Depoda kanıt YOK** → aşağıda §26.3 |
+
+### §26.3 Outbox gereksinimi (K013 eşlemesi — kesinleşmemiş)
+
+D-4 kuralı, olay kaydının **aynı transaction içinde** saklanıp ayrı bir yayımcı
+tarafından gönderilmesini gerektirir; buna transactional outbox denir (kaynak kaydı:
+`domain-web-arastirma.md` §18.3 D). Bu vault'un mevcut durumu:
+
+| Soru | Durum |
+|---|---|
+| Outbox deseni mimari gereksinim olarak geçerli midir? | **Evet** — D-4'ün tek tutarlı uygulama yolu |
+| Bu depoda outbox tablosu / yayımcı / kuyruk kanıtı var mı? | **Bulunamadı** (`⚠️ VERIFICATION REQUIRED`) |
+| K013 bu yükümlülüğü üstlenmiş midir? | K013 event sözleşmesi evet der; **altyapı kanıtı yok** |
+| Kapanış kime ait? | `domain-dogrulama.md` §9 — orada aranır, burada **karar verilmez** |
+
+**Yasak:** outbox yokluğunda D-4'ün "senkron yayım" ile karşılandığını **varsaymak**;
+bu, tek başarısız yayımın aggregate tutarlılığını bozması demektir.
+
+## §27 SPECIFICATION PATTERN KURALLARI
+
+| # | Kural | Gerekçe |
+|---|---|---|
+| P-1 | Specification **tek bir iş sorusunu** cevaplar; "ve"/"veya" ile birleşir | bileşebilirlik |
+| P-2 | Specification **stateless**'tır; sorgu nesnesi değildir, kural nesnesidir | tekrar kullanılabilirlik |
+| P-3 | Specification **domain katmanında** yaşar; sorgu motoruna bağımlı değildir (C3) | katman saflığı |
+| P-4 | Specification **çevrilebilir** olmalıdır: aynı kural hem bellekte hem depoda uygulanabilir | K1/K2 tekrarı (§24.2) |
+| P-5 | Birleştirme **kapalıdır**: `VE`, `VEYA`, `DEĞİL` dışında yeni operatör eklenmez | model basitliği |
+| P-6 | Specification adı **soru cümlesidir** (`Yayında olanlar`, `Sahibininkiler`), `Filter` değil | ortak dil (§10) |
+
+**Yasak:** Specification içinde **yan etki** (HTTP çağrısı, dosya yazımı, event
+yayımı) bulunmaz — yan etki D-4'ün sahibindedir.
+
+## §28 REPOSITORY SÖZLEŞMESİ KURALLARI
+
+| # | Kural | Gerekçe |
+|---|---|---|
+| R-1 | Repository **arayüzü** domain katmanında; **uygulaması** infrastructure'da (A5 ile aynı) | bağımlılık yönü |
+| R-2 | Repository **aggregate root by ID** sunar; alt nesnelere erişim root üzerinden olur | tutarlılık sınırı (§24) |
+| R-3 | Repository **koleksiyon döndürebilir**, tekil arama da sunar; iki ayrı isim kullanır | okunabilirlik |
+| R-4 | Repository **yazma** işlemini bilir: ekleme, güncelleme, silme (yumuşak/kaba) — sorgu dili bilmez | K3 ayrımı |
+| R-5 | Repository sözleşmesinde **framework tipi** geçmez (istemci, istek, yanıt, session) | C3 |
+| R-6 | Repository **transaction bilmez**; transaction sınırı aggregate'tir (A1) | A1 ile tutarlılık |
+| R-7 | Sorgu karmaşıklığı repository'ye sızarsa **sorgu servisi** (ayrı arayüz) açılır; repository şişirilmez | SRP |
+
+**Sınır notu:** mevcut depo kanıtında repository arayüzü **yalnız kimlik alanında**
+görülmüştür; diğer alanların sözleşmesi kanıt değildir, **öneridir** (kayıt:
+`domain-dogrulama.md` §4.3).
+
+## §29 §23–§28'NİN ÇOCUKLARA UYGULANIŞI (yönlendirme — §9 tablosu değişmedi)
+
+Bu bölüm yeni bir conformance maddesi **açmaz**; açsaydı §17 gereği geçmişe dönük
+kontrol gerekirdi. Bunun yerine mevcut maddelere **bağlar**:
+
+| Yeni kural grubu | Bağlandığı conformance | Kontrolü yapan |
+|---|---|---|
+| §23 stratejik eşleme | C8 (çocuk index ile çelişmezlik) | çocuk index kontrolü |
+| §24 invariant kuralları | C3 (domain katmanı saflığı) + C5 (yer tutucu yok) | `domain-kararlar.md` §3 + doğrulama |
+| §25 VO kuralları | C3 + C7 (kanıt biçimi) | `domain-kod-ornekleri.md` §7 |
+| §26 event kuralları | C6 (doğrulanamayan iddia işareti) | `domain-dogrulama.md` §7 |
+| §27 specification | C3 + C6 | `domain-kararlar.md` + doğrulama |
+| §28 repository | C3 (framework/HTTP/PDO bilmeme) | `domain-kararlar.md` §3 |
+
+**Uygulama sırası (bağlayıcı):** §24 → §25 → §26 → §28 → §27. Sebep: invariant
+önce tanımlanmadan VO doğrulanamaz; VO olmadan event payload'ı şişer; repository
+sözleşmesi specification'ın çevrilebilirliğini (P-4) besler.
+
+**Uygulama dili:** bu bölümdeki her kural **bağlayıcıdır**; ancak bir kural ile
+repo kanıtı çelişirse kanıt kazanır, kural §17 protokolüyle güncellenir.
+
+---
 *Authority: Bayram Ali / Vault Steward · K008-domain master · 2026-10-12 · ADR-097 K-space v3*
+*Authority: Bayram Ali / Vault Steward · K008-domain master · 2026-10-17 · ADR-097 K-space v3 · §23–§29 kural bloğu (öneri dili · outbox «⚠️ VERIFICATION REQUIRED») · §9 tablosu değişmedi*

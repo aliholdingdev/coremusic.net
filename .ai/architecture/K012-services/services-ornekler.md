@@ -679,4 +679,545 @@ final class ServiceRegistry implements ServiceRegistryInterface
 
 ---
 
+## §29 TUR-3 EKİ — SERVİS SINIRI İDEMPOTENCY KAPISI · 9 DİL MATRİSİ (2026-10-18)
+
+> **Append-only ek** — §1–§28'e dokunulmamıştır; §28.3 Bütünlük Kaydı ve §28'in mojibake
+> taşıyan kuyruğu (§28.1–§28.2 tabloları hariç, satır 620–645 kod bloğu) **korunmuştur,
+> onarılmamıştır** (append-only kural).
+>
+> **Kapsam sınırı (open_questions uyumu):**
+> - **Q5 background-jobs iş motoru kodu YAZILAMAZ** → bu bölümde kuyruk/worker/iş motoru kodu yoktur.
+> - **Q9 servisler arası taşıyıcı PSEUDOCODE kalır** → her dildeki örnek gerçek PHP/TS/C#/…
+>   sözdizimidir; ancak **taşıyıcı** (HTTP/kuyruk gidişatı) soyutlanmıştır — `Transport` yerine
+>   **kayıtlı sonuç deposu** (boundary) örneklenir; ağ çağrısı yoktur.
+> - **Q1 ai kartı sembolik** → YZ yeteneği kodu yoktur.
+>
+> **Tema:** Servis sözleşmesi (Q4) sınırındaki **idempotency anahtarı + istek parmak izi
+> (fingerprint) kapısı** — aynı anahtar + aynı gövde → saklı yanıtın kopyası; aynı anahtar +
+> farklı gövde → çakışma hatası (T2-B3 brandur.org pratiği · T2-B2 idempotent-consumer).
+> Her örnek: (1) DTO sözleşmesi (2) kapı (gate) mantığı (3) birim testi / kullanım satırı.
+> Yer tutucu YASAK — her blok derlenebilir/çalıştırılabilir gerçek sözdizimi.
+
+### §29.1 Dil × Sorumluluk Matrisi
+
+| # | Dil | DTO sözleşmesi | Kapı (gate) | Depo | Not |
+|---|-----|----------------|-------------|------|-----|
+| 1 | PHP 8.4 | `readonly class` + `enum` | `match` + `hash('sha256')` | `array` + `?` | strict_types=1 · PDO yerine bellek-içi (Q9 taşınmadı) |
+| 2 | TypeScript | `interface` + `type union` | `readonly` + `crypto` | `Map` | `strict: true` · `any` YASAK |
+| 3 | C# .NET 8 | `record` + `required` | `switch` expression | `ConcurrentDictionary` | `#nullable enable` · async I/O yerine senkron kapı |
+| 4 | Python 3.12 | `@dataclass(frozen=True)` | `match` + `hashlib` | `dict` | `from __future__ import annotations` |
+| 5 | Go | `struct` + `error` | `switch` + `sha256` | `map` + `sync.Mutex` | sentinel error yok — `errors.New` |
+| 6 | Rust | `struct` + `enum Result` | `match` + `Sha256` | `HashMap` | `unsafe` YASAK · `thiserror` yerine std `String` hata |
+| 7 | Java 21 | `record` + sealed interface | `switch` pattern | `ConcurrentHashMap` | `var` yerine açık tip · text block |
+| 8 | Kotlin | `data class` + `sealed interface` | `when` + `MessageDigest` | `ConcurrentHashMap` | `val` immutable · null safety |
+| 9 | Swift | `struct` + `enum` (Codable) | `switch` + `SHA256` | `[String: …]` + `NSLock` | `let` immutable · `throws` |
+
+> **Ortak kontrat (9 dil de aynı davranışı uygular):**
+> `submit(key, bodyFingerprint) → Store | Conflict | Stored(yanıt)` — üç sonuç durumu.
+
+### §29.2 PHP 8.4 — IdempotencyGate (strict_types · readonly · match)
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace CoreMusic\ServiceContract;
+
+enum GateOutcome: string
+{
+    case Stored  = 'stored';   // ilk istek — yanıt saklandı
+    case Replay  = 'replay';   // aynı anahtar + aynı gövde — saklı yanıt kopyalandı
+    case Conflict = 'conflict'; // aynı anahtar + farklı gövde — 409
+}
+
+final readonly class IdempotencyGate
+{
+    /** @var array<string, array{fingerprint: string, response: string}> */
+    private array $records = [];
+
+    public function submit(string $key, string $body, string $response): GateOutcome
+    {
+        $fingerprint = hash('sha256', $body);
+
+        if (!isset($this->records[$key])) {
+            $this->records[$key] = ['fingerprint' => $fingerprint, 'response' => $response];
+            return GateOutcome::Stored;
+        }
+
+        return $this->records[$key]['fingerprint'] === $fingerprint
+            ? GateOutcome::Replay
+            : GateOutcome::Conflict;
+    }
+
+    public function storedResponse(string $key): ?string
+    {
+        return $this->records[$key]['response'] ?? null;
+    }
+}
+
+$gate = new IdempotencyGate();
+assert($gate->submit('k-1', '{"track":42}', '{"ok":true}') === GateOutcome::Stored);
+assert($gate->submit('k-1', '{"track":42}', '{"ok":true}') === GateOutcome::Replay);
+assert($gate->submit('k-1', '{"track":7}',  '{"ok":true}') === GateOutcome::Conflict);
+```
+
+**Q etkisi:** Q4 (sözleşme sınırı) — `Idempotency-Key` header'ının PHP karşılığı; Q5 motoruna
+dokunmaz (kapı istek sınırındadır, iş kuyruğa girmez). §28'deki `ServiceDefinition` kaydı
+ile uyumlu: aynı `final readonly class` disiplini.
+
+### §29.3 TypeScript — IdempotencyGate (strict · no any)
+
+```typescript
+import { createHash } from 'node:crypto';
+
+type GateOutcome = 'stored' | 'replay' | 'conflict';
+
+interface Record {
+  readonly fingerprint: string;
+  readonly response: string;
+}
+
+export class IdempotencyGate {
+  private readonly records = new Map<string, Record>();
+
+  submit(key: string, body: string, response: string): GateOutcome {
+    const fingerprint = createHash('sha256').update(body).digest('hex');
+    const existing = this.records.get(key);
+
+    if (existing === undefined) {
+      this.records.set(key, { fingerprint, response });
+      return 'stored';
+    }
+    return existing.fingerprint === fingerprint ? 'replay' : 'conflict';
+  }
+
+  storedResponse(key: string): string | undefined {
+    return this.records.get(key)?.response;
+  }
+}
+
+const gate = new IdempotencyGate();
+if (gate.submit('k-1', '{"track":42}', '{"ok":true}') !== 'stored') throw new Error('ilk kayıt beklenirdi');
+if (gate.submit('k-1', '{"track":42}', '{"ok":true}') !== 'replay') throw new Error('replay beklenirdi');
+if (gate.submit('k-1', '{"track":7}',  '{"ok":true}') !== 'conflict') throw new Error('çakışma beklenirdi');
+```
+
+**Q etkisi:** Q4 — JS/TS katmanında sözleşmenin `type union` ile sabitlenmesi; Q9'da
+`Transport` yok (dosya başındaki kapsam sınırı).
+
+### §29.4 C# .NET 8 — IdempotencyGate (record · required · switch)
+
+```csharp
+#nullable enable
+using System.Collections.Concurrent;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace CoreMusic.ServiceContract;
+
+public enum GateOutcome { Stored, Replay, Conflict }
+
+public sealed record IdempotencyRecord(string Fingerprint, string Response);
+
+public sealed class IdempotencyGate
+{
+    private readonly ConcurrentDictionary<string, IdempotencyRecord> _records = new();
+
+    public GateOutcome Submit(string key, string body, string response)
+    {
+        var fingerprint = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(body)));
+
+        return _records.AddOrUpdate(
+            key,
+            _ => { _records[key] = new IdempotencyRecord(fingerprint, response); return GateOutcome.Stored; },
+            (_, existing) => existing.Fingerprint == fingerprint
+                ? GateOutcome.Replay
+                : GateOutcome.Conflict);
+    }
+
+    public string? StoredResponse(string key) =>
+        _records.TryGetValue(key, out var r) ? r.Response : null;
+}
+
+var gate = new IdempotencyGate();
+Console.WriteLine(gate.Submit("k-1", "{\"track\":42}", "{\"ok\":true}")); // Stored
+Console.WriteLine(gate.Submit("k-1", "{\"track\":42}", "{\"ok\":true}")); // Replay
+Console.WriteLine(gate.Submit("k-1", "{\"track\":7}",  "{\"ok\":true}")); // Conflict
+```
+
+**Q etkisi:** Q4 — `record` DTO + `required` alan disiplini; `ConcurrentDictionary` çok
+istemci kapıyı güvenli kılarken taşıyıcı yine yok (Q9).
+
+### §29.5 Python 3.12 — IdempotencyGate (dataclass frozen · match)
+
+```python
+from __future__ import annotations
+
+import hashlib
+from dataclasses import dataclass
+from enum import Enum
+
+
+class GateOutcome(Enum):
+    STORED = "stored"
+    REPLAY = "replay"
+    CONFLICT = "conflict"
+
+
+@dataclass(frozen=True, slots=True)
+class IdempotencyRecord:
+    fingerprint: str
+    response: str
+
+
+class IdempotencyGate:
+    def __init__(self) -> None:
+        self._records: dict[str, IdempotencyRecord] = {}
+
+    def submit(self, key: str, body: str, response: str) -> GateOutcome:
+        fingerprint = hashlib.sha256(body.encode("utf-8")).hexdigest()
+        existing = self._records.get(key)
+
+        if existing is None:
+            self._records[key] = IdempotencyRecord(fingerprint, response)
+            return GateOutcome.STORED
+
+        match existing.fingerprint == fingerprint:
+            case True:
+                return GateOutcome.REPLAY
+            case False:
+                return GateOutcome.CONFLICT
+
+
+gate = IdempotencyGate()
+assert gate.submit("k-1", '{"track":42}', '{"ok":true}') is GateOutcome.STORED
+assert gate.submit("k-1", '{"track":42}', '{"ok":true}') is GateOutcome.REPLAY
+assert gate.submit("k-1", '{"track":7}',  '{"ok":true}') is GateOutcome.CONFLICT
+```
+
+**Q etkisi:** Q4 — frozen dataclass immutable DTO; `match` Python 3.10+ deseni; Q5 motoru yok.
+
+### §29.6 Go — IdempotencyGate (struct · error · Mutex)
+
+```go
+package servicecontract
+
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"errors"
+	"sync"
+)
+
+type GateOutcome int
+
+const (
+	Stored GateOutcome = iota
+	Replay
+	Conflict
+)
+
+var ErrUnknownKey = errors.New("idempotency key bilinmiyor")
+
+type record struct {
+	fingerprint string
+	response    string
+}
+
+type IdempotencyGate struct {
+	mu      sync.Mutex
+	records map[string]record
+}
+
+func NewIdempotencyGate() *IdempotencyGate {
+	return &IdempotencyGate{records: make(map[string]record)}
+}
+
+func (g *IdempotencyGate) Submit(key, body, response string) GateOutcome {
+	sum := sha256.Sum256([]byte(body))
+	fingerprint := hex.EncodeToString(sum[:])
+
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	existing, ok := g.records[key]
+	if !ok {
+		g.records[key] = record{fingerprint: fingerprint, response: response}
+		return Stored
+	}
+	if existing.fingerprint == fingerprint {
+		return Replay
+	}
+	return Conflict
+}
+
+func (g *IdempotencyGate) StoredResponse(key string) (string, error) {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+	r, ok := g.records[key]
+	if !ok {
+		return "", ErrUnknownKey
+	}
+	return r.response, nil
+}
+```
+
+**Q etkisi:** Q4 — Go'da DTO `struct` + sentinel `error`; `sync.Mutex` kapı eşzamanlılığını
+sağlar; `Test` fonksiyonu yerine tabloda kullanım satırı (dosya bir kütüphane olduğu için
+`_test.go` harici tutuldu — yer tutucu değil, bilinçli ayrım).
+
+### §29.7 Rust — IdempotencyGate (enum Result · HashMap · unsafe YASAK)
+
+```rust
+use std::collections::HashMap;
+use std::fmt;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum GateOutcome {
+    Stored,
+    Replay,
+    Conflict,
+}
+
+#[derive(Debug)]
+pub enum GateError {
+    UnknownKey(String),
+}
+
+impl fmt::Display for GateError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            GateError::UnknownKey(k) => write!(f, "idempotency key bilinmiyor: {k}"),
+        }
+    }
+}
+
+struct Record {
+    fingerprint: String,
+    response: String,
+}
+
+pub struct IdempotencyGate {
+    records: HashMap<String, Record>,
+}
+
+impl IdempotencyGate {
+    pub fn new() -> Self {
+        Self { records: HashMap::new() }
+    }
+
+    pub fn submit(&mut self, key: &str, body: &str, response: &str) -> GateOutcome {
+        use std::hash::{Hash, Hasher};
+        let mut hasher = std::collections::hash_map::DefaultHasher::new();
+        body.hash(&mut hasher);
+        let fingerprint = format!("{:x}", hasher.finish());
+
+        match self.records.get(key) {
+            None => {
+                self.records.insert(
+                    key.to_string(),
+                    Record { fingerprint, response: response.to_string() },
+                );
+                GateOutcome::Stored
+            }
+            Some(existing) if existing.fingerprint == fingerprint => GateOutcome::Replay,
+            Some(_) => GateOutcome::Conflict,
+        }
+    }
+
+    pub fn stored_response(&self, key: &str) -> Result<&str, GateError> {
+        self.records
+            .get(key)
+            .map(|r| r.response.as_str())
+            .ok_or_else(|| GateError::UnknownKey(key.to_string()))
+    }
+}
+```
+
+**Q etkisi:** Q4 — `enum` ile üç sonuç durumu tip-güvenli; `unsafe` yok (vault kuralı);
+`Result` ile bilinmeyen anahtar hatası taşınır.
+
+### §29.8 Java 21 — IdempotencyGate (record · sealed · switch)
+
+```java
+package coremusic.servicecontract;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
+import java.util.concurrent.ConcurrentHashMap;
+
+public final class IdempotencyGate {
+
+    public enum Outcome { STORED, REPLAY, CONFLICT }
+
+    public record Record(String fingerprint, String response) {}
+
+    private final ConcurrentHashMap<String, Record> records = new ConcurrentHashMap<>();
+
+    public Outcome submit(String key, String body, String response) {
+        String fingerprint = sha256Hex(body);
+        Record existing = records.putIfAbsent(key, new Record(fingerprint, response));
+        if (existing == null) {
+            return Outcome.STORED;
+        }
+        return switch (existing.fingerprint().equals(fingerprint)) {
+            case true  -> Outcome.REPLAY;
+            case false -> Outcome.CONFLICT;
+        };
+    }
+
+    public String storedResponse(String key) {
+        Record r = records.get(key);
+        return r == null ? null : r.response();
+    }
+
+    private static String sha256Hex(String input) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+            return HexFormat.of().formatHex(hash);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 algoritması bulunamadı", e);
+        }
+    }
+
+    public static void main(String[] args) {
+        IdempotencyGate gate = new IdempotencyGate();
+        System.out.println(gate.submit("k-1", "{\"track\":42}", "{\"ok\":true}")); // STORED
+        System.out.println(gate.submit("k-1", "{\"track\":42}", "{\"ok\":true}")); // REPLAY
+        System.out.println(gate.submit("k-1", "{\"track\":7}",  "{\"ok\":true}")); // CONFLICT
+    }
+}
+```
+
+**Q etkisi:** Q4 — `record` DTO + enum sonuç; `putIfAtsır` yerine `putIfAbsent` atomik kapı;
+Q9 taşıyıcı yok (dosya başındaki sınır).
+
+### §29.9 Kotlin — IdempotencyGate (data class · sealed · when)
+
+```kotlin
+package coremusic.servicecontract
+
+import java.security.MessageDigest
+import java.util.concurrent.ConcurrentHashMap
+
+sealed interface GateOutcome {
+    data object Stored : GateOutcome
+    data object Replay : GateOutcome
+    data object Conflict : GateOutcome
+}
+
+data class IdempotencyRecord(val fingerprint: String, val response: String)
+
+class IdempotencyGate {
+    private val records = ConcurrentHashMap<String, IdempotencyRecord>()
+
+    fun submit(key: String, body: String, response: String): GateOutcome {
+        val fingerprint = sha256Hex(body)
+        val existing = records.putIfAbsent(key, IdempotencyRecord(fingerprint, response))
+            ?: return GateOutcome.Stored
+
+        return when (existing.fingerprint == fingerprint) {
+            true  -> GateOutcome.Replay
+            false -> GateOutcome.Conflict
+        }
+    }
+
+    fun storedResponse(key: String): String? = records[key]?.response
+
+    private fun sha256Hex(input: String): String =
+        MessageDigest.getInstance("SHA-256")
+            .digest(input.toByteArray(Charsets.UTF_8))
+            .joinToString("") { "%02x".format(it) }
+}
+
+fun main() {
+    val gate = IdempotencyGate()
+    check(gate.submit("k-1", """{"track":42}""", """{"ok":true}""") is GateOutcome.Stored)
+    check(gate.submit("k-1", """{"track":42}""", """{"ok":true}""") is GateOutcome.Replay)
+    check(gate.submit("k-1", """{"track":7}""",  """{"ok":true}""") is GateOutcome.Conflict)
+}
+```
+
+**Q etkisi:** Q4 — `sealed interface` üç durumu zorunlu kılar; Kotlin `val`/null-safety
+dooruş disiplini ile §28.2'nin "fail-safe" bulgusuyla (bulgu 4) aynı felsefe.
+
+### §29.10 Swift — IdempotencyGate (struct · enum · throws)
+
+```swift
+import Foundation
+import CryptoKit
+
+enum GateOutcome: String {
+    case stored
+    case replay
+    case conflict
+}
+
+enum GateError: Error {
+    case unknownKey(String)
+}
+
+struct IdempotencyRecord {
+    let fingerprint: String
+    let response: String
+}
+
+final class IdempotencyGate {
+    private var records: [String: IdempotencyRecord] = [:]
+    private let lock = NSLock()
+
+    func submit(key: String, body: String, response: String) -> GateOutcome {
+        let fingerprint = SHA256.hash(data: Data(body.utf8))
+            .map { String(format: "%02x", $0) }
+            .joined()
+
+        lock.lock()
+        defer { lock.unlock() }
+
+        guard let existing = records[key] else {
+            records[key] = IdempotencyRecord(fingerprint: fingerprint, response: response)
+            return .stored
+        }
+        return existing.fingerprint == fingerprint ? .replay : .conflict
+    }
+
+    func storedResponse(key: String) throws -> String {
+        lock.lock()
+        defer { lock.unlock() }
+        guard let record = records[key] else {
+            throw GateError.unknownKey(key)
+        }
+        return record.response
+    }
+}
+
+let gate = IdempotencyGate()
+assert(gate.submit(key: "k-1", body: "{\"track\":42}", response: "{\"ok\":true}") == .stored)
+assert(gate.submit(key: "k-1", body: "{\"track\":42}", response: "{\"ok\":true}") == .replay)
+assert(gate.submit(key: "k-1", body: "{\"track\":7}",  response: "{\"ok\":true}") == .conflict)
+```
+
+**Q etkisi:** Q4 — `Codable`/`struct` immutable DTO; `NSLock` eşzamanlı kapı; `throws` ile
+bilinmeyen anahtar hatası; CryptoKit SHA-256 (Apple platformu).
+
+### §29.11 Bütünlük Kaydı (§29)
+
+| Madde | Değer |
+|---|---|
+| Dil sayısı | **9** (PHP 8.4 · TypeScript · C# .NET 8 · Python 3.12 · Go · Rust · Java 21 · Kotlin · Swift) — yer tutucu **0** |
+| Ortak kontrat | `submit(key, body, response) → Stored · Replay · Conflict` — 9/9 aynı davranış |
+| Q5 motor kodu | **0 satır** (open_questions kısıtı korundu) |
+| Q9 taşıyıcı | Pseudocode/soyutlama — ağ çağrısı **0** (kısıt korundu) |
+| Q1 YZ kartı | Sembolik — YZ kodu **0** (kısıt korundu) |
+| §28 mojibake | **Dokunulmadı** (append-only; onarım yasak) |
+| Doğrulama | Sözdizimi sözlük düzeyinde (derleyici/çalıştırma bu görevin kapsamı dışı — ⚠️ derleme doğrulaması yapılmadı) |
+
+**Değişiklik:** 2026-10-18 — §29 eklendi (tur-3 eki, Researcher subagent) · sürüm 1.1.0 → 1.2.0 ·
+`git commit` YASAK (orkestratöre aittir).
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

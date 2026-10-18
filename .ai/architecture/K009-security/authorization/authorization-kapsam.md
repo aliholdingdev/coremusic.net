@@ -136,3 +136,55 @@ audit'e hazır üretilir.
 | A-06 | Suffix eşleşmesi kapalı | OriginCheck satır 72-76 | aktif |
 | A-07 | Prod'da dev fallback yok (fail-closed) | OriginCheck satır 108-111 | aktif |
 | A-08 | Reddi loglamak zorunlu (P5-32) | Permission satır 49-54 | aktif |
+
+## §11 YETKİLENDİRME HATA SINIFLARI VE FAIL-CLOSED MATRİSİ (2026-10-18 — APPEND-ONLY)
+
+> §1-§10 silinmez; A-01..A-08 tablosunun derinlik zeminidir. Yeni kod kanıtı yok — sentez.
+
+### 11.1 401 vs 403 vs 404 (yanlış seçim sızıntı yaratır)
+
+| Kod | Ne zaman | Ne sızdırmaz | K009 kanıtı |
+|---|---|---|---|
+| 401 | kimlik kanıtı YOK/geçersiz (token süresi, cookie yok) | "bu kaynak var" bilgisi | authentication devri |
+| 403 | kimlik VAR ama yetki YOK | hangi rolün geçtiği bilgisi (yanıt gövdesi genel) | Permission satır 49-54 (log + reddet) |
+| 404 | var olmayan KAYNAK | varlığı bilinen kaynağın yok sayılması (IDOR gizleme) | A-04: 404/405'te RBAC uygulanmaz |
+| 405 | yanlış HTTP metodu | — (Allow header) | route katmanı |
+
+| Kural | Açıklama |
+|---|---|
+| Sızıntı önleme | yetkisiz kullanıcıya 403 + 404 AYRI davranış gösterirse IDOR keşfi kolaylaşır; A-04 kararı bu yüzden önemli |
+| Gövde sızıntısı | 403 gövdesinde "role: admin gerekli" yazmak yetki haritası sızdırır — genel mesaj |
+| Log zorunluluğu | her reddetme olayı üretilir (P5-32); sessiz reddetme A09 ihlali |
+
+### 11.2 IDOR / Nesne-Erişim Matrisi (A01 derinliği)
+
+| Yüzey | Saldırı | Savunma | Durum |
+|---|---|---|---|
+| `/user?id=123` → `?id=124` | IDOR (düz nesne referansı) | rol/permission + sahiplik denetimi | Permission üyeliği A-01; sahiplik (owner) denetimi kanıtı YOK ⚠️ |
+| UUID ile tahmin | zayıf random | UUIDv7 özel implementasyonu | §7 istisna 4 ⚠️ |
+| Bulk endpoint (çoklu ID) | parça başına yetki atlanır | parça bazında denetim | kanıt yok ⚠️ |
+| API key → nesne | anahtarın kapsamı dışına erişim | key scope tanımı | ApiKeyRepository·171; scope kanıtı ⚠️ |
+
+### 11.3 Origin/CORS Fail-Closed Matrisi (A-05..A-07 derinliği)
+
+| Durum | Davranış | Neden fail-safe |
+|---|---|---|
+| Origin allowlist'te | geç | — |
+| Origin yoksa (same-origin GET) | geç (gerekli davranış) | same-origin'de Origin bazen yok |
+| Origin allowlist'te DEĞİL | reddet + origin_blocked log (OriginCheck·48-52) | A-05 |
+| suffix eşleşmesi (ör. evil-origin.com ile trusted.com) | KAPALI (·72-76) | suffix = bypass |
+| prod'da dev fallback | YOK (·108-111) | A-07; fallback = serbest CORS |
+| Origin doğrulanamıyor (parse hatası) | reddet | fail-open yasak (kapsam §21) |
+
+### 11.4 Yetki Karar Adımları (RBAC sorgu zinciri)
+
+| Adım | Kontrol | Aşama |
+|---|---|---|
+| 1 | Route public mi? (satır 94-110) | evet → authsuz geç (A-03) |
+| 2 | Kimlik var mı? | yok → 401 (authentication devri) |
+| 3 | Rol eşitliği (satır 31) | uyuşmazlık → 403 + log |
+| 4 | Permission üyeliği (satır 39) | üye değil → 403 + log |
+| 5 | Nesne sahipliği (owner) | ⚠️ kanıt yok — dalga-3 |
+| 6 | Karar + olay | reddetme her durumda olay üretir (A-08) |
+
+> **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

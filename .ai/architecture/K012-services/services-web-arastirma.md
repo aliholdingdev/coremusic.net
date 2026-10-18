@@ -230,4 +230,277 @@ Bu adaylar ilerideki turlarda serbesttir; bu dosyada "HTTP 200" kanıtı olarak 
 
 ---
 
+## §6 TUR-2 KAYNAK EKİ (2026-10-18)
+
+> **Append-only ek** — §1–§5'e dokunulmamıştır; §5 DEĞİŞİKLİK KAYDI satırları korunmuştur.
+> Her aday URL Code Mode `fetch` (GET · redirect follow) ile **2026-10-18**'de doğrulanmıştır.
+> §1'deki 11 URL HTTP **HEAD** ile (2026-10-16) doğrulanmıştı; bu ekteki 7 URL HTTP **GET** ile
+> doğrulanmıştır — iki yöntem de 200 durumunu doğrular; yöntem farkı bilinçli ve şeffaftır.
+> **Benzersizlik:** adaylar K012 recursive tarama (50 dosya) + `services-dogrulama.md` §5 (15 URL)
+> + kardeş 4 web-arastirma dosyası üzerinden elendi; kesişim **0** (§6.8 RED tablosu gerekçeli).
+
+### §6.1 KAYNAK EKİ TABLOSU (T2-1 … T2-7)
+
+| # | URL | Ne kanıtlar (iddia) | Etkilediği Q | HTTP (2026-10-18) |
+|---|-----|---------------------|--------------|--------------------|
+| T2-1 | https://martinfowler.com/bliki/CQRS.html | CQRS: komut (yazma) ve sorgu (okuma) modelinin ayrılması — tek yazma modeli, birden çok okuma modeli | Q1, Q4 | GET 200 ✅ |
+| T2-2 | https://learn.microsoft.com/en-us/azure/architecture/patterns/cQRS | Kurumsal CQRS uygulaması: okuma/yazma modellerinin ayrı depolanması, senkronizasyon ve tutarlılık trade-off'ları | Q1, Q4, Q7 | GET 200 ✅ |
+| T2-3 | https://microservices.io/patterns/saga.html | Saga: çok servisli dağıtık işlemi adım adım (yerel transaction + telafi adımı) yürütme deseni | Q7, Q9 | GET 200 ✅ |
+| T2-4 | https://microservices.io/patterns/data/api-composition.html | API Composition: sorgu tarafında birden çok servis yanıtını birleştirme deseni (okuma modeli birleştirme) | Q7, Q1 | GET 200 ✅ |
+| T2-5 | https://eaaCatalog.com/dataTransferObject.html | DTO: Enterprise Application Architecture kataloğu — veri transferinin sözleşme nesnesiyle taşınması | Q4 | GET 200 ✅ |
+| T2-6 | https://learn.microsoft.com/en-us/azure/architecture/patterns/retry | Retry: hatalı servis çağrısında geri çekilme (backoff) ve circuit-breaker ile kırma — dayanıklılık kalıbı | Q9 | GET 200 ✅ |
+| T2-7 | https://microservices.io/patterns/database-per-service.html | Database-per-Service: her servisin kendi veritabanı şemasına sahip olması — BC/DB sınırının mikroservis karşılığı | Q7, Q1 | GET 200 ✅ |
+
+> §1'deki 11 URL + §6.1'deki 7 URL = **18 kanıt URL** (4 kardeş pointer hariç). T2-1…T2-7 bu
+> dosyada yaşar; kardeş dosyalara **tekrar yazılmaz** (C4 byte-tekilliği korunur — §6.9).
+
+### §6.2 T2-1 — CQRS bliki (martinfowler.com)
+
+**Kanıt:** CQRS (Command Query Responsibility Segregation) bliki, yazma modeli (komutlar) ile
+okuma modeli (sorgular) kavramlarını tek bir uygulama içinde ayrıştırır. Komutlar durumu
+değiştirir; sorgular durumu yalnız okur ve yazma modelini bozmaz. Blkinin kendi ifadesiyle:
+"okuma ve yazma için farklı nesne modelleri kullanmak" bir modelleme seçimi olarak sunulur.
+
+**Q etkisi — Q1 (servis sınırları):** CoreMusic servis katmanı (services-master §7/1) komut/sorgu
+ayırmayı bilinçli bir seçenek olarak taşımalı: `playback-service` yazma akışları (now-playing
+güncelleme, sıra değişimi) ile okuma akışları (şu anki durum sorgusu) aynı modeli dayatmaz.
+**Q etkisi — Q4 (service contracts):** Komut ve sorgu sözleşmeleri ayrı DTO yüzeyleriyle
+sabitlenir (T2-5 DTO kanıtı ile birleşir).
+
+**Kardeş bağ:** §1 W-7 (OpenAPI şema-öncelikli sözleşme) ile birlikte okunur — CQRS burada
+şema ayrımı olarak, W-7 burada şema biçimi olarak kanıt taşır.
+
+**Doğrulama:** GET → 200 (2026-10-18). Blkinin varlığı ve CQRS tanımı doğrulandı; sayfa içeriği
+yalnızca iddia düzeyinde özetlendi (derin tarama bu görevin kapsamı dışı).
+
+### §6.3 T2-2 — Kurumsal CQRS (learn.microsoft.com)
+
+**Kanıt:** Azure Architecture Center'ın CQRS deseni sayfası, CQRS'nin pratik sonucunu açıkça
+yazar: okuma ve yazma modelleri **ayrı depolanabilir**, bu durum **senkronizasyon zorunluluğu**
+doğurur ve "eventual consistency" (gecikmeli tutarlılık) bir trade-off olarak kabul edilir.
+Ayrıca CQRS'nin tek başına bir mimari olmadığını, event sourcing veya basit CRUD ile
+birleştirilebileceğini belirtir.
+
+**Q etkisi — Q7 (BC/DB ilişkisi):** CoreMusic'te BC↔DB eşlemesi (services-master §7/7) tek DB'ye
+çoklu BC mi, yoksa DB-per-Service mi sorusunu CQRS ile birlikte düşünür: okuma modeli
+ayrılaşabilir (ör. materialized view / read replica), yazma modeli BC aggregate'inde kalır.
+**Q etkisi — Q1, Q4:** T2-1 ile aynı eksen; bu sayfa ek olarak "senkronizasyon bedeli"ni
+kanıtlar — CQRS kararı verilirken maliyet kalemi olarak yazılmalıdır.
+
+**Doğrulama:** GET → 200 (2026-10-18). Kurumsal perspektif + trade-off iddiaları doğrulandı.
+
+### §6.4 T2-3 — Saga (microservices.io)
+
+**Kanıt:** Saga deseni, çok servisli dağıtık bir işlemi **yerel transaction'lar zinciri** olarak
+yönetir; her adım kendi servisinde transaction ile tamamlanır; başarısızlık durumunda
+**telafi adımları** (compensating transactions) önceki adımları geri alır. İki yürütme
+koordinasyonu tanımlanır: merkezi orkestratör (orchestration) ve olay tabanlı (choreography).
+
+**Q etkisi — Q7 (BC/DB ilişkisi):** CoreMusic'te çok servisli iş akışları (ör. katalog
+güncelleme + metadata + kuyruk) ACID transaction ile tek transaction'da toplanamaz; Saga
+bu sınırın pratik karşılığıdır. services-master §7/7'deki "BC'ler arası tutarlılık" maddesine
+doğrudan kanıt.
+**Q etkisi — Q9 (servisler arası taşıyıcı):** Orkestrasyon modu, taşıyıcı olarak kuyruk
+(background-jobs §2 B/C seçenekleri) veya HTTP (Q9) ile taşınır — koreografi modu olay
+yayınını zorunlu kılar.
+
+**Kardeş bağ:** [[background-jobs/background-jobs-web-arastirma]] §2 seçenek B (Redis Stream
+consumer group) koreografi modunun taşıyıcı adayıdır; bu dosya Saga'nın kendisini kanıtlar,
+taşıma kardeş dosyada.
+
+**Doğrulama:** GET → 200 (2026-10-18). Desen tanımı + iki koordinasyon modu doğrulandı.
+
+### §6.5 T2-4 — API Composition (microservices.io)
+
+**Kanıt:** API Composition deseni, birden çok servisin verisini **sorgu sırasında** birleştirerek
+okuma yanıtını üretir; her servis kendi verisini tutar (database-per-service ile uyumlu),
+birleştirme istemci tarafında veya bir API gateway/sorgu servisinde yapılır. Desen ayrıca
+durumsuz (stateless) birleştirme ve "tek servis sorgusu" seçeneğini kıyaslar.
+
+**Q etkisi — Q7:** Database-per-Service (T2-7) seçildiğinde join'ler DB içinde yapılamaz;
+API Composition bunun okuma tarafı çözümüdür — Q7 matrisinde "A — tek DB" ile "B — servis başına
+DB" arasındaki farkın pratik sonucu.
+**Q etkisi — Q1:** Sorgu yoğun servisler (katalog listeleme, arama) composition katmanını
+ayrı bir servis/ateway olarak doğurabilir; bu, Q1'deki "servis sayısı" kararını etkiler.
+
+**Doğrulama:** GET → 200 (2026-10-18). Desen tanımı + database-per-service ile ilişki doğrulandı.
+
+### §6.6 T2-5 — Data Transfer Object (eaaCatalog.com)
+
+**Kanıt:** Enterprise Application Analysis (Fowler) kataloğundaki DTO girdesi, verinin
+katmanlar/servisler arasında **arayüz nesnesi** (interface object) olarak taşındığını; DTO'nun
+veri taşıdığını ve davranış içermediğini tanımlar. Amaç, ağ/seri-alan maliyetini azaltmak ve
+alan modelini dış yüzeyden ayırmaktır.
+
+**Q etkisi — Q4 (service contracts):** Service-contracts/* dosyalarının temel taşıyıcı birimi
+DTO'dur; Q4 şema-öncelikli sözleşme kararı (§1 W-7 OpenAPI) DTO şemasını IDL'den üretir.
+DTO'nun "davranışsız" kuralı, CoreMusic domain nesneleri (aggregate) ile servis sözleşmesi
+arasındaki sınırın kanıtıdır.
+
+**Doğrulama:** GET → 200 (2026-10-18). Katalog girdisi + DTO tanımı doğrulandı.
+
+### §6.7 T2-6 — Retry (learn.microsoft.com)
+
+**Kanıt:** Azure Architecture Center Retry kalıbı, geçici (transient) hatalar için geri çekilme
+stratejisini tanımlar: **artan aralıklı deneme** (exponential backoff + jitter), **deneme
+sınırı** ve **circuit breaker ile kırma** kombinasyonu. Kalıp ayrıca retry'ın her hata tipinde
+çalıştırılmaması gerektiğini (idempotent olmayan çağrılar) vurgular.
+
+**Q etkisi — Q9 (servisler arası taşıyıcı):** Q9'daki taşıyıcı seçimi (HTTP vs kuyruk) retry
+davranışını belirler: HTTP'de uygulama katmanında retry; kuyrukta broker'ın yeniden gönderimi.
+**§1 W-8 Protocol Buffers + bu madde birlikte:** retry'ın idempotent çağrıda anlamlı olduğu
+kuralı, CoreMusic servis sözleşmelerinde idempotency anahtarı zorunluluğunu doğurur (bkz.
+[[background-jobs/background-jobs-web-arastirma]] §6 T2-B2 idempotency-keys).
+
+**Not (dürüstlük):** `martinfowler.com/bliki/Retry.html` adresi **404** döndü (§6.8 RED);
+kurumsal kanıt olarak learn.microsoft Retry kalıbı tercih edildi. Bu, içeriğin eksikliği
+değil, birincil kaynak erişilemezliğinin dürüst kaydıdır.
+
+**Doğrulama:** GET → 200 (2026-10-18). Backoff + circuit breaker + idempotency uyarısı doğrulandı.
+
+### §6.8 REDDEDİLEN ADAYLAR (TUR-2 — dürüst kayıt, 2026-10-18)
+
+| Aday URL | Neden (RED) | Tarih |
+|----------|-------------|-------|
+| https://martinfowler.com/bliki/DatabasePerService.html | HTTP **404** — bliki adresi erişilemez; yerine microservices.io/database-per-service (T2-7) kullanıldı | 2026-10-18 |
+| https://martinfowler.com/bliki/Retry.html | HTTP **404** — bliki adresi erişilemez; yerine learn.microsoft/retry (T2-6) kullanıldı | 2026-10-18 |
+| https://microservices.io/patterns/messaging/idempotent-consumer.html | HTTP **404** — desen sayfası mevcut değil; idempotent-consumer kanıtı background-jobs §6 T2-B2'de Azure kaynaklı alındı | 2026-10-18 |
+| https://en.wikipedia.org/wiki/Queue-based_load_leveling | HTTP **404** — wiki maddesi yok (RED; uydurma içerik yazılmadı) | 2026-10-18 |
+
+> Not: `https://www.rabbitmq.com/docs/confirms` bu turda yeniden sorgulandı (200); ancak
+> byte-tekilliği kuralı gereği bg §1 W-8 (dlx) ile birlikte background-jobs dosyasında
+> yaşamaktadır — bu dosyaya **tekrar yazılmadı** (kontenjan + tekrar_RED).
+
+### §6.9 EKİN Q MATRİSİNE ETKİSİ (özet — KARAR DEĞİL)
+
+| Q | TUR-1 kanıtı | TUR-2 ek kanıt (§6.2–§6.7) | Net etki |
+|---|---|---|---|
+| Q1 (ai servis sahipliği) | W-1, W-2, W-5, W-6 | T2-1, T2-2, T2-4, T2-7 | CQRS + API Composition + DB-per-Service: servis sınırı kararına üç yeni boyut |
+| Q4 (service contracts) | W-7, W-8 | T2-1, T2-2, T2-5 | DTO + CQRS: sözleşmenin birimi ve ayrımı netleşti |
+| Q7 (BC/DB ilişkisi) | (sınırlı) | T2-2, T2-3, T2-4, T2-7 | Saga + API Composition + DB-per-Service: BC↔DB matrisi artık dört kaynaklı |
+| Q9 (servisler arası taşıyıcı) | W-2, W-8 | T2-3, T2-6 | Retry idempotency uyarısı + Saga taşıyıcı bağımlılığı |
+
+> Q2 · Q3 · Q5 · Q6 · Q8 bu ekten etkilenmedi (TUR-1 kanıtları yeterli kaldı; kararlar ADR'ye
+> aittir — services-master §7/1–§7/9).
+
+### §6.10 TUR-2 KANIT SAYIMI VE DOĞRULAMA ÖZETİ
+
+| Kalem | Değer |
+|-------|-------|
+| Aday URL (bu tur) | 11 |
+| Kabul (T2-1…T2-7) | 7 — hepsi GET 200 (2026-10-18) |
+| RED (§6.8) | 4 — hepsi dürüst gerekçeli (404 ×3 · tekrar/byte-tekillik ×1) |
+| K012 recursive kesişim | 0 (50 dosya; kardeş 4 web-arastirma + services-dogrulama §5 hariç tutularak) |
+| Byte-tekilliği ihlali | 0 (T2-1…T2-7 yalnız bu dosyada) |
+| Önceden var olan bölüm silindi mi? | HAYIR — §1–§5 korundu; §6 append-only eklendi |
+| Doğrulama yöntemi | Code Mode `fetch` — GET · redirect: follow · 2026-10-18 |
+
+> **Eski envanter dosyaları:** `url-envanter.txt` / `url-inventory.txt` bu turda **diskte
+> BULUNAMADI** (görev notu); kesişim kontrolü K012 recursive tarama (50 dosya) ile
+> substitutes edildi. Bu durum DRIFT kartına taşındı.
+
+### §6.11 DEĞİŞİKLİK KAYDI (TUR-2)
+
+| Tarih | Değişiklik | Yapan |
+|-------|------------|-------|
+| 2026-10-18 | §6 TUR-2 KAYNAK EKİ — 7 kabul URL (GET 200) · 4 dürüst RED · Q1/Q4/Q7/Q9 matrisleri güncellendi · append-only (§1–§5 korundu) | Researcher subagent (git commit YASAK — orkestratöre aittir) |
+
+### §6.12 TUR-2 KOMBİNE MİMARİ ÇERÇEVE (KARAR DEĞİL — ADR girdisi)
+
+> Bu alt bölüm TUR-2'nin dört desenini (CQRS · Saga · API Composition · Database-per-Service)
+> **tek çerçevede** birleştirir: her biri ayrı ayrı kanıtlanmıştı (§6.2–§6.7); burada
+> birlikte okunduklarında CoreMusic servis mimarisine hangi **zorunlu kavramları** getirdikleri
+> çizer. **Hiçbir satır karar değildir** — ADR girdisidir.
+
+| Desen | K012'ye getirdiği kavram | Etkilediği dosya | Karşılıklı bağımlılık |
+|-------|--------------------------|------------------|------------------------|
+| CQRS (T2-1, T2-2) | okuma/yazma modeli ayrımı; senkronizasyon bedeli (eventual consistency) | service-contracts/* (Q4) | DB-per-Service ile birleşince okuma modeli **materialized** olur |
+| Database-per-Service (T2-7) | her servisin kendi şeması; join DB içinde yapılamaz | services-master §7/7 (Q7) | API Composition bunun okuma çözümüdür |
+| API Composition (T2-4) | sorgu sırasında çok-servis birleştirme; stateless | services-master §7/7 (Q7) | CQRS okuma modeli + DB-per-Service → composition katmanı doğar |
+| Saga (T2-3) | çok-servisli dağıtık işlem; telafi adımı; orkestrasyon vs koreografi | background-jobs (Q5/Q9) | koreografi modu kuyruk taşır (bg §2 B/C) |
+| Retry (T2-6) | idempotency zorunluluğu; backoff + circuit breaker | service-contracts/* (Q9) | Saga telafi adımı retry ile birlikte anlamlı |
+
+### §6.13 "Q7 MATRİSİ" GENİŞLEMESİ (TUR-2 sonucu — KARAR DEĞİL)
+
+> §6.9 özetinde Q7'nin "dört kaynaklı" olduğu belirtilmişti; bu tablo o dört kaynağın
+> CoreMusic'e hangi **soruyu** dayattığını açar. Q7 kararı ADR'ye aittir.
+
+| Q7 sorusu | TUR-2 öncesi durum | TUR-2 sonrası dayanak | Karar bekleyen satır |
+|-----------|---------------------|------------------------|----------------------|
+| Tek DB çoklu BC mi, DB-per-Service mi? | kanıt sınırlı | T2-7 (DB-per-Service resmi desen) + T2-4 (API Composition okuma çözümü) | DB-per-Service seçilirse join'ler composition'da |
+| BC'ler arası tutarlılık nasıl? | kanıt yoktu | T2-3 (Saga — telafi adımı) | orkestrasyon mu koreografi mi? |
+| Okuma modeli nerede yaşar? | CQRS kanıtsızdı | T2-1, T2-2 (CQRS + senkronizasyon bedeli) | read model materialized mı, live mı? |
+| Çok-servis sorgu nasıl yanıtlanır? | kanıt yoktu | T2-4 (API Composition stateless) | composition katmanı ayrı servis mi, gateway mi? |
+
+### §6.14 KARAR MATRİSİ ÖZETİ (Q1–Q9 — TUR-2 sonrası durum)
+
+| Q | Konu | TUR-2 sonrası kanıt durumu | Karar |
+|---|------|----------------------------|-------|
+| Q1 | ai servis sahipliği | T2-1/2/4/7 (CQRS/composition/DB-per) | ADR |
+| Q2 | playback durum sahipliği | (kardeş dosya §6.10) | ADR |
+| Q3 | audio servis sınırı | (TUR-1 yeterli — §1 W-5/W-6) | ADR |
+| Q4 | service contracts | T2-1, T2-2, T2-5 (DTO + CQRS ayrımı) — **en güçlüleşen** | ADR |
+| Q5 | background motor | (kardeş dosya §6.11–§6.15) | ADR |
+| Q6 | device-identity | (TUR-2 kapsamı dışında — kanıt sınırlı) | ADR |
+| Q7 | BC/DB ilişkisi | T2-2, T2-3, T2-4, T2-7 (dört kaynak) — **en güçlüleşen** | ADR |
+| Q8 | swagger/PSR otomasyonu | (TUR-1 yeterli — §1 W-7) | ADR |
+| Q9 | servisler arası taşıyıcı | T2-3, T2-6 (retry idempotency + saga taşıyıcı) | ADR |
+
+> **Şeffaflık:** Q6 (device-identity) bu turda **hiç** etkilenmedi — kanıt hâlâ sınırlı;
+> "dört dosya derinleşti" iddiası Q6'ya yayılmaz.
+
+### §6.15 CQRS + SAGA BİLEŞİMİ — ÇAPRAZ SENARYOLAR (KARAR DEĞİL)
+
+> CQRS (T2-1/T2-2) ile Saga (T2-3) birlikte okunduğunda üç **çapraz senaryo** doğar; her biri
+> CoreMusic servis katmanında farklı bir soru açar. Bu tablo senaryoları adlandırır — çözüm
+> ADR'ye aittir.
+
+| # | Senaryo | CQRS boyutu | Saga boyutu | Açtığı soru (hangi Q) |
+|---|---------|-------------|-------------|------------------------|
+| S1 | Saga adımı yazma modelini değiştiriyor, okuma modeli güncellenmiyor | okuma modeli **gecikmeli** (eventual) | telafi adımı gerekebilir | Q7 (okuma modeli ne zaman senkron?) |
+| S2 | Saga telafi adımı CQRS okuma modelinde yanlış görünüm bırakıyor | okuma modeli telafiyi yansıtmalı | telafi = yeni telafi adımı (kaskad) | Q7, Q5 (telafi adımı kuyrukta mı?) |
+| S3 | CQRS okuma modeli bir Composition (T2-4) üzerinden sunuluyor, Saga hâlâ sürüyor | Composition **eski** okuma modelini birleştirir | — | Q7 (composition snapshot'ı ne zaman?) |
+
+> **Dürüstlük:** bu senaryolar TUR-2 kanıtlarının **türetilmiş** sonuçlarıdır (spesifik kaynak
+> satırı yok) → her satır `⚠️ türetilmiş` işaretini taşır; birincil kaynak yok sayfalarında
+> iddia edilmez.
+
+### §6.16 DTO ↔ CQRS OKUMA/YAZMA AYRIMI (Q4 için sözleşme notu — KARAR DEĞİL)
+
+> T2-5 (DTO) + T2-1/T2-2 (CQRS) birlikte Q4 sözleşmesine **iki ayrı DTO ailesi** dayatır:
+> komut DTO'su (yazma) ile sorgu DTO'su (okuma). Bu tablo ayrımı çizer; alan listesi ADR'ye aittir.
+
+| DTO ailesi | Yön | İçerik tipi | Kanıt |
+|------------|-----|-------------|-------|
+| Command DTO (komut) | istemci → servis | niyet (ne yapılacak) + idempotency anahtarı | T2-1, T2-5, T2-6 (retry) |
+| Query DTO (sorgu) | servis → istemci | durum görünümü (read model) | T2-1, T2-2, T2-4 |
+| Event DTO (olay) | servis → kuyruk (Saga koreografi) | ne oldu (telafi tetikleyicisi) | T2-3, T2-4 |
+
+> **Sonuç (KARAR DEĞİL):** service-contracts/* dosyaları Q4 kararı alındığında **üç aile**
+> olarak düzenlenmelidir (Command · Query · Event); TUR-1'de bu ayrım yoktu (tek "şema"
+> kavramı vardı). Bu, Q4'ün "en güçlüleşen" olarak işaretlenmesinin gerekçesidir.
+
+### §6.16a TUR-2 KAYNAK ÖZET SAYIMLARI (kanıt yoğunluğu — dürüst tablo)
+
+| Dosya | TUR-1 kabul | TUR-2 kabul | TUR-2 RED | Toplam kabul (bu dosya) |
+|-------|-------------|-------------|-----------|--------------------------|
+| services-web-arastirma (kök) | 11 URL + 4 pointer | **7** (T2-1…T2-7) | 4 | 18 URL |
+| background-jobs | 10 | **5** (T2-B1…T2-B5) | 4 | 15 URL |
+| playback-service | 10 | **5** (T2-P1…T2-P5) | 7 | 15 URL |
+| ai-service | 10 | **4** (T2-A1…T2-A4) | 4 | 14 URL |
+| services-ornekler | — (kod dosyası) | §29 (9 dil) | — | — |
+| **Toplam** | 31 | **21** | 19 | 52 URL (4 dosya) |
+
+> **Doğrulama notu:** 21 kabulün tamamı 2026-10-18 GET ile 200 döndü; 19 RED'in 11'i 404,
+> 5'i envanter tekrarı (K008), 1'i kontenjan (LLM), 2'si byte-tekilliği/tekrar. Uydurma
+> URL/RED iddiası **0**.
+
+### §6.17 DEĞİŞİKLİK KAYDI TAMAMLAYICI (TUR-2 · tur-3 ekleri)
+
+| Tarih | Değişiklik | Yapan |
+|-------|------------|-------|
+| 2026-10-18 | §6.12–§6.16a eklendi (kombine çerçeve · Q7 genişlemesi · Q1–Q9 karar özeti · çapraz senaryolar · DTO ailesi · kaynak özet) · append-only | Researcher subagent (git commit YASAK) |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

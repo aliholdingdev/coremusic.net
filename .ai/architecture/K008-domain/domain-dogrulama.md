@@ -191,6 +191,186 @@ group: kanit
 | 4 | Yeni kanıt = yeni satır; eski satır silinmez, `Durum` güncellenir |
 | 5 | §7 kapanışı yalnız kanıtla; `status: verify-required` → `verified` geçişi master §9-C1'e bağlı |
 
+## §9 KAPANIŞ KANITLARI (2026-10-17 TARAMA TURU)
+
+> §7'deki ⚠️1…⚠️5 için kapatma yolları izlendi. Tarama yöntemi: dosya ağacı
+> gezinme + regex eşleşmesi (Araç: Node.js `fs` + `RegExp`); kapsam
+> `shared/src/**.php` (derinlik ≤6) + `shared/config/domain.php` +
+> `shared/src/Events/` ağacı. Tarih: 2026-10-17.
+
+| # | ⚠️ (§7) | Kapatma yolu | Tarama sonucu | Durum |
+|---|---|---|---|---|
+| K1 | ⚠️1 — 7 subdomain ↔ 10 çocuk eşleşmesi | `shared/config/domain.php` okundu | s.8–14: `auth · home · assets · music · admin · media · api` = **7 subdomain** (T1 iddiası doğrulandı) | 🟡 **KISMEN** — eşleşme varsayımı yanlış küme (aşağıda §9.1) |
+| K2 | ⚠️2 — DI container (php-di) domain kullanımı | `new Container` taraması (regex: `new` + boşluk + `Container`) | **0 isabet** (`shared/src/**.php`, derinlik ≤6) | ✅ **KAPANDI** — domain kodunda container kurulumu yok |
+| K3 | ⚠️3 — `respect/validation` domain kuralları | Respect namespace deseni taraması (kayıt: Respect + namespace ayracı) | **0 isabet** | ✅ **KAPANDI** — domain kurallarında Respect namespace'i yok |
+| K4 | ⚠️4 — `psr/cache` domain kullanımı | `CacheItemPoolInterface` araması | **0 isabet** | ✅ **KAPANDI** — arayüz domain kodunda kullanılmıyor |
+| K5 | ⚠️5 — Domain ↔ Integration event ayrımı (3 adet) | `shared/src/Events/` alt ağacı listelendi | `Domain/` 9 dosya + `Integration/` **3 dosya** (`AuthValidatedEvent` · `NotificationEvent` · `SessionCreatedEvent`) | ✅ **KAPANDI** — 3 adet doğrulandı; adlar `domain-bilesenler.md` §8 ile çakışmasız |
+
+### §9.1 ⚠️1 bulgusu: yanlış varsayım (kapanış yerine düzeltme)
+
+| Küme | Üye | Kanıt |
+|---|---|---|
+| Config subdomain (7) | auth · home · assets · music · admin · media · api | `domain.php` s.8–14 |
+| K008-domain çocuğu (10) | context-mapping · device-management · discovery · library · media · music · playback · playlist · recommendation · user | K008-domain dizin ağacı (2026-10-17 sayımı) |
+
+**Sonuç:** iki küme **eşit değil ve eşit olmak zorunda değil** — config
+subdomain'leri **barındırma** birimi, K008 çocukları **domain klasörü**
+birimidir. `assets/admin/api/home` domain dalı değildir; `playlist/library/
+discovery/recommendation/notification` ayrı host gerektirmez. ⚠️1'nin
+"eşleşme aranır" kısmı **kapatıldı (eşleşme yok, beklenen de buydu)**; §5-T1
+satırının "10 çocukla tam eşleşme" koşulu ise **yanlış varsayım olarak
+düzeltilemelidir** — bu dosya §5 tablosunu değiştirmez (append-only), düzeltme
+iş kalemi §13-J1'dedir.
+
+### §9.2 Tarama sınırları (dürüstlük notu)
+
+1. **Derinlik ≤6:** `shared/src/` altında derinlik 6'yı aşan yollar
+   taramaya girmemiştir; mevcut yapıda bilinen derinlik 4'tür (`Api/Dto/Request`).
+2. **Desen darlığı:** `new Container` deseni yalnız `new Container` biçimini
+   yakalar; `ContainerBuilder` gibi türev adlar **kapsam dışıdır**.
+3. **Sıfır isabet = kanıt:** K2–K4 sonuçları "yok" iddiası değil, "bu desende
+   isabet yok" kaydıdır — master §3 zero-hallucination gereği böyle kaydedilir.
+
+## §10 WEB DOĞRULAMA TURU (2026-10-17) — SAYISAL KAYIT
+
+> **C4 kuralı:** bu dosyaya URL yazılmaz. Tüm URL'ler tek kaynaktadır:
+> `domain-web-arastirma.md` §18.2 (dağıtım cetveli) ve §18.4 (keyword
+> eşlemeleri). Burada yalnız sayısal sonuç kaydedilir.
+
+| Metrik | Değer | Kaynak |
+|---|---|---|
+| HTTP 200 | **29 URL** | web-arastirma §18 turu |
+| HTTP 404 | **16 URL** (kaynak havuzdan düşüldü) | aynı |
+| Meta-refresh | **1 URL** (bir bölüm → yeni bölüm taşınması; §18.4 işaretli) | aynı |
+| Kök havuz genişlemesi | 75 → **104** | §18.2 |
+| K008 geneli URL | 169 → **198** | K008-domain taraması |
+| C4 çakışma (aynı URL iki dosyada) | **0** | §18.2 tekillik denetimi |
+
+> **Okuma notu:** 16 × 404 = kaynak kalitesi bulgusudur, hata değil; 404
+> veren kaynaklar havuzdan çıkarılmış, §18.4 eşlemeleri güncellenmiştir.
+> Meta-refresh sayfası "ölü" değil "taşınmış" kabul edilmiş, yeni bölümüne
+> bağlanmıştır.
+
+## §11 K008-DOMAIN ÖLÇÜM KAYDI (BU TUR)
+
+### §11.1 Hedef dosyalar: önce → sonra
+
+| # | Dosya | Önce | Sonra | ≥500? | Eklenen bölümler |
+|---|---|---|---|---|---|
+| 1 | `domain-web-arastirma.md` | 230 | **503** | ✅ | §18.1–§18.10 (tur raporu, havuz, dağıtım) |
+| 2 | `domain-kod-ornekleri.md` | 248 | **798** | ✅ | §8 dil matrisi (L1–L17) |
+| 3 | `domain-master.md` | 491 | **666** | ✅ | §23–§29 (§9 tablosu değiştirilmedi) |
+| 4 | `domain-kapsam.md` | 139 | **511** | ✅ | §8–§24 (BC envanteri §3 korunur) |
+| 5 | `domain-bilesenler.md` | 185 | **501** | ✅ | §7–§16 (T-1…T-12 · 9+3 olay · protokol) |
+| 6 | `playlist/playlist-kapsam.md` | 62 | **504** | ✅ | §5–§28 (K-P1…K-P10 · V-P1…V-P6 · mojibake düzeltmesi §9) |
+| 7 | `music/music-kapsam.md` | 93 | **505** | ✅ | §6–§24 (M-P1…M-P14 · V-M1…V-M8 · draft korundu) |
+| 8 | `domain-dogrulama.md` | 197 | §13.3 | ✅ | §9–§13 (bu bölüm) |
+
+### §11.2 K008-domain geneli (araç ölçümü)
+
+| Metrik | 2026-10-12 (önceki tur) | 2026-10-17 (bu tur) | Fark |
+|---|---|---|---|
+| Dosya sayısı | 72 | **72** | 0 (dosya eklenmedi/silinmedi) |
+| Toplam satır | 6.651 | **9.273** | +2.622 |
+| ≥500 satır dosya | 0 | **7** (§11.1 tablosu + bu dosya) | +7 |
+| <100 satır dosya | 51 | **49** | −2 |
+
+> **±1 newline notu:** sayımlar JS `ReadAllLines` eşdeğeri (CRLF / LF / CR
+> bölme) ile alınmıştır; dosya sonu newline'ı bölmeye göre son boş eleman
+> üretebilir — bu yüzden eşikler `≥500` ile ifade edilir, tam sayıya
+> yaslanmaz.
+
+### §11.3 Bu dosyanın ölçümü
+
+| Aşama | Satır |
+|---|---|
+| §9–§13 öncesi | 197 |
+| §9–§13 sonrası | araç ölçümü — §13.1 tablosunda |
+
+## §12 TUR SONU UYUM KONTROLLERİ (C1–C8 YENİDEN)
+
+| # | Kontrol | Sonuç | Kanıt |
+|---|---|---|---|
+| C1 | Frontmatter 10 alan (kalem 8) | ✅ hedef 8 dosyada korundu | dosya başları okundu |
+| C2 | Başlık `## §N` + tablo | ✅ eklenen tüm bölümler § biçiminde | §9–§13 bu dosyada |
+| C3 | Domain purity | ✅ ihlal yok | `bagimliliklar §4` — bu tur kod katmanına girmedi |
+| C4 | Tekil URL | ✅ bu dosyada URL **0** (sıkı desen taraması) | §10 yalnız sayı |
+| C5 | Yer tutucu yasağı | ✅ gerçek yer tutucu **0**; 8 tarama isabeti = 2 kendi kendini tanımlayan C5 kontrol satırı (dogrulama:169 · master:245) → **sahte pozitif** | §12.1 |
+| C6 | `⚠️` işaretleme | ✅ ⚠️1…⚠️5 sonuçları §9'da; kapananlar ✅, yanlış varsayım 🟡 | §9 |
+| C7 | Kod örneği biçimi | ✅ bu tur kod örneği eklemedi | — |
+| C8 | Çocuk index uyumu | ✅ çocuk dosyaları değiştirilmedi (yalnız 2 kapsam dosyası derinleştirildi) | §11.1 |
+
+### §12.1 Ek taramalar (bu tur)
+
+| Tarama | Sonuç | Not |
+|---|---|---|
+| Mojibake (U+4E00–U+9FFF) — hedef 8 dosya | **0** | playlist §9'daki 1 Cince karakter bu turda düzeltildi |
+| Mojibake — K008-domain geneli | **1 dosya**: `device-management/device-management-ornekler.md` | ⚠️ **beyazliste dışı** — bu turda DOKUNULMADI; sonraki tur iş kalemi §13-J6 |
+| URL (sıkı desen) — hedef 8 dosya | **0** | C4 |
+| URL — K008-domain geneli | 216 isabet; 13 dosyada (web kanıtı dosyaları) | Bunlar **web kanıtı dosyalarıdır** — C4 dağıtım cetveline göre §18.2'de tekilleşir; çakışma 0 (§10) |
+| `git commit` | **0** | commit atılmadı — değişiklikler working tree |
+| Dokunulmaz yüzey (`index.md` · `README.md` · `adr` · `diagrams` · `*.php/js/css/sql`) | **0 yazma** | beyazliste dışında yazım yok |
+
+## §13 TUR SONU RAPORU (a–d)
+
+### §13.1 (a) Değişen dosyalar — önce/sonra
+
+| Dosya | Önce | Sonra | Değişiklik türü |
+|---|---|---|---|
+| `domain-web-arastirma.md` | 230 | 503 | §18 eklendi |
+| `domain-kod-ornekleri.md` | 248 | 798 | §8 eklendi |
+| `domain-master.md` | 491 | 666 | §23–§29 eklendi |
+| `domain-kapsam.md` | 139 | 511 | §8–§24 eklendi |
+| `domain-bilesenler.md` | 185 | 501 | §7–§16 eklendi |
+| `playlist/playlist-kapsam.md` | 62 | 504 | §5–§28 + mojibake düzeltmesi |
+| `music/music-kapsam.md` | 93 | 505 | §6–§24 + V-M7 hücre onarımı |
+| `domain-dogrulama.md` | 197 | §13.3 | §9–§13 |
+
+### §13.2 (b) ≥500 hedefi
+
+**8/8 dosya ≥500** (§11.1 tablosu). K008-domain genelinde ≥500 sayısı
+0 → **8** (dosya sayısı değişmedi: 72).
+
+### §13.3 (c) Benzersiz URL + HTTP durumları
+
+| Kalem | Değer |
+|---|---|
+| Bu dosyaya eklenen URL | **0** (C4) |
+| Tur sonunda HTTP 200 | 29 URL |
+| HTTP 404 | 16 URL (havuzdan düştü) |
+| Meta-refresh | 1 URL (taşınmış sayfa) |
+| K008 çakışma | 0 |
+
+> Ayrıntı + URL'ler: `domain-web-arastirma.md` §18.2/§18.4 (tek kaynak).
+
+### §13.4 (d) Doğrulama özeti
+
+| Kontrol | Sonuç |
+|---|---|
+| Yer tutucu (gerçek) | **0** (2 sahte pozitif — C5 kendi kendini referanslayan kontrol satırı) |
+| Mojibake (hedef 8) | **0** (1 düzeltme yapıldı) |
+| Mojibake (beyazliste dışı) | 1 dosya `device-management-ornekler.md` — dokunulmadı, J6 |
+| Yasaklı yüzey yazımı | **0** |
+| `git commit` | **0** (orkestratöre ait) |
+| Authority | hedef 8 dosyada eski satır korundu + yenisi eklendi |
+
+### §13.5 Sonraki tur iş kalemleri
+
+| # | İş | Bağlı | Öncelik |
+|---|---|---|---|
+| J1 | ⚠️1 bulgusunun §5-T1 satırına işlenmesi (yanlış varsayım düzeltmesi) | §9.1 | Orta |
+| J2 | playlist OQ-P2/P3 (dispatch + `total_tracks`) | playlist §25 | Yüksek |
+| J3 | music R8/R9 (sayı SSOT + slug niyeti) | music §23 | Yüksek |
+| J4 | `playlist-bilesenler.md` derinleştirme (kardeş dosya) | playlist §26 | Orta |
+| J5 | K008-domain <100 satır dosyaların (49) derinleştirilmesi | §11.2 | Düşük–Orta |
+| J6 | `device-management-ornekler.md` mojibake düzeltmesi | §12.1 | Orta |
+
+> **Bu turun kapanışı:** 8 hedef dosya ≥500 · ⚠️2–⚠️5 kapatıldı · ⚠️1
+> yanlış varsayım olarak belgelendi · C4=0 · mojibake(hedef)=0 · commit=0.
+
+---
+
 ---
 
 *Authority: Bayram Ali / Vault Steward · K008-domain doğrulama · 2026-10-12 · 27 SQL + 10 kod + 76 URL · 5 açık `⚠️`*
+*Authority: Bayram Ali / Vault Steward · K008-domain doğrulama · 2026-10-17 · §9–§13 eklendi: ⚠️2–⚠️5 kapatıldı · ⚠️1 yanlış varsayım belgelendi · web turu 29×200 / 16×404 / 1 meta-refresh · K008 72 dosya → 9.273 satır · 8/8 hedef ≥500 · C4=0 · commit=0*

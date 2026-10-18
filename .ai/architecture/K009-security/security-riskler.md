@@ -71,7 +71,7 @@ group: kanit
 | A07 Auth Failures | R-12, R-09 | P0 |
 | A08 Integrity Failures | R-03, R-04 | P0 |
 | A09 Logging Failures | R-07 | P2 |
-| A10 SSRF | R-18 | P1 |
+| SSRF (CWE-918 — A01/A05 kapsamında; 2021'de A10 idi) | R-18 | P1 |
 
 ## §5 AZALTMA — DOSYA DAĞILIMI
 

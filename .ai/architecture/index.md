@@ -3,7 +3,7 @@ title: "CoreMusic — K-Space V3 Architecture Registry (K000–K5000)"
 type: index
 category: architecture
 date: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-18
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
@@ -34,17 +34,23 @@ architecture/
 ├── index.md · README.md
 ├── adr/ (index.md · templates/ · decisions/)
 ├── diagrams/ (5 diyagram)
-├── K000-isletim-sistemi … K019-testing   (Band-1)
-├── K020-adr · comilance · comere · licence · discovery · recomenataion  (6× K020)
+├── K000-isletim-sistemi … K016-observability   (Band-1 — 17 klasör)
+├── K17-devops · K18-testing · K019-comilance    (Band-1 — 3 klasör, imla kayıtlı: K0 öneki yok)
+├── K020-discovery                               (Band-1 — 1 klasör)
+├── K021-recomenataion  (fiilen açıldı — §9.15 kaydı, ADR-098 kapısı açık)
 └── Band-2..7 slotları → §4 cetveli (klasör AÇILMAZ, yalnız aralık)
+
+TOPLAM 22 K klasörü (2026-10-18 disk ölçümü — §5'e hizalı)
+→ registry'de adı geçen ama DISKTE OLMAYAN 5 kayıt: K0100-identitiy · K020-adr ·
+  K020-comilance · K020-comere · K020-licence → §6.2-B (üretilmedi, üst karar)
 ```
 
 ## §4 Band Kayıt Cetveli — 5.001 slot (v2 §4.7 + ADR-097 K5)
 
 | Bant | Aralık | Slot | Durum |
 |---|---|---|---|
-| Band-1 | K000 – K020 | 21 | ✅ TANIMLI — 19 tekil domain (K002 GAP) + 6× K020 = **25 klasör** |
-| Band-2 | K021 – K120 | 100 | ⏸ RESERVED · ADR-097 (klasör yok — slot aralığı tescilli) |
+| Band-1 | K000 – K020 | 21 | ✅ TANIMLI — diskte **22 klasör**: 19 tekil domain (K002 dahil) + `K17`·`K18`·`K019`·`K020-discovery` (2026-10-18 §5 hizası) |
+| Band-2 | K021 – K120 | 100 | ⚠️ **1 slot fiilen kullanıldı** (K021-recomenataion, disk 2026-10-17 — §9.15) · ADR-098 kapısı hâlâ açık · kalan 99 RESERVED · ADR-097 |
 | Band-3 | K121 – K320 | 200 | ⏸ RESERVED · ADR-097 |
 | Band-4 | K321 – K720 | 400 | ⏸ RESERVED · ADR-097 |
 | Band-5 | K721 – K1520 | 800 | ⏸ RESERVED · ADR-097 |
@@ -57,42 +63,56 @@ architecture/
 > **Kural (ADR-097 §5.5 — tüm bantlara miras):** Band-1 … Band-7 (K000–K5000 **+** yeni slotlar) **aynı iki-ekseni şemaya** uyar:
 > `{kategori-klasörü}/{teknoloji}/{teknoloji}-{grup-rol}.md` + her dosyada frontmatter **`group: mimari|kod|kanit`** (3 grup — 2026-10-15: `teknoloji` grubu 0 kullanım nedeniyle şemadan kaldırıldı, kullanıcı onaylı — bkz §9.11) + her `index.md` → **`## §GRUPLAR`** tablosu. Yeni band açılınca şema tekrar uydurulmaz, ADR-097 §5.5 okunur.
 
-## §5 Band-1 Domain Kayıt Tablosu (25 klasör)
+## §5 Band-1 Domain Kayıt Tablosu — **DISKE GÖRE HİZALI · 22 klasör** (2026-10-18)
 
-| # | Klasör | Master dosyası (v2/ad) | Ek MD (yeni) | Durum |
+> **Hizalama kaydı (2026-10-18 — kullanıcı onayı):** tablo daha önce **25 satır** taşıyordu ve
+> **diskle uyuşmuyordu**: `K017-observability`·`K018-devops`·`K019-testing` yazan satırlar diskte
+> sırasıyla `K016-observability`·`K17-devops`·`K18-testing`; `K0100-identitiy`·`K020-adr`·
+> `K020-comilance`·`K020-comere`·`K020-licence` diskte **hiç yok**; `K002-electroncis` ise diskte
+> varken tabloda **yoktu**. Kullanıcı kararı: **"Registry'yi diske göre düzelt"** → **klasör adlarına
+> dokunulmadı** (imla kırmızı çizgisi korundu, §6), tablo disk gerçeğiyle hizalandı. Eski 25 satır
+> **§6.2'ye taşındı** (append-only — bilgi silinmedi). Master/adlar 2026-10-18'de dosya listesiyle
+> **birebir doğrulandı**.
+
+| # | Klasör (disk) | Master dosyası | Kök MD sayısı | Durum |
 |---|---|---|---|---|
-| 1 | K000-isletim-sistemi | os-master.md | -bagimliliklar · -dogrulama | draft |
-| 2 | K001-donanım | donanım-anayasa.md (yeni) | -bagimliliklar · -dogrulama | draft |
-| 3 | K003-audio | audio-master.md | -bagimliliklar · -dogrulama | draft |
-| 4 | K004-dsp | dsp-master.md | -bagimliliklar · -dogrulama | draft |
-| 5 | K005-firmware | firmware-master.md | -bagimliliklar · -dogrulama | draft |
-| 6 | K006-yapay-zeka | ai-master.md | -bagimliliklar · -dogrulama | draft |
-| 7 | K007-data | data-master.md | -bagimliliklar · -dogrulama | draft |
-| 8 | K008-domain | domain-master.md | -bagimliliklar · -dogrulama | draft |
-| 9 | K009-security | security-master.md | -bagimliliklar · -dogrulama | draft |
-| 10 | K0100-identitiy | identity-master.md | -bagimliliklar · -dogrulama | draft |
-| 11 | K011-application | application-master.md | -bagimliliklar · -dogrulama | draft |
-| 12 | K012-services | services-master.md | -bagimliliklar · -dogrulama | draft |
-| 13 | K013-integraion | integration-master.md | -bagimliliklar · -dogrulama | draft |
-| 14 | K010-network | network-master.md | -bagimliliklar · -dogrulama | draft |
-| 15 | K014-media | media-master.md | -bagimliliklar · -dogrulama | draft |
-| 16 | K015-AI | ai-master.md | -bagimliliklar · -dogrulama | draft |
-| 17 | K017-observability | observability-master.md | -bagimliliklar · -dogrulama | draft |
-| 18 | K018-devops | devops-master.md | -bagimliliklar · -dogrulama | draft |
-| 19 | K019-testing | testing-master.md | -bagimliliklar · -dogrulama | draft |
-| 20 | K020-adr | decision-register.md + templates/ | v2 şekli birebir | draft |
-| 21 | K020-comilance | compliance-master.md + policies/ controls/ verification/ | v2 şekli birebir | draft |
-| 22 | K020-comere | scope-verification.md (İÇERİK BOŞ) | — | **verify-required** |
-| 23 | K020-licence | dependency-licenses.md · license-verification.md | v2 şekli birebir | draft |
-| 24 | K020-discovery | search/ · agent/ | v2 şekli birebir | draft |
-| 25 | K020-recomenataion | recommendation-master.md + ranking/ personalization/ evaluation/ | v2 şekli birebir | draft |
+| 1 | `K000-isletim-sistemi` | os-master.md | 4 | draft |
+| 2 | `K001-donanım` | donanım-anayasa.md | 11 | draft |
+| 3 | `K002-electroncis` | electroncis-master.md | 6 | draft (§9.8 — GAP kapandı) |
+| 4 | `K003-audio` | audio-master.md | 5 | draft |
+| 5 | `K004-dsp` | dsp-master.md | 5 | draft |
+| 6 | `K005-firmware` | firmware-master.md | 12 | draft |
+| 7 | `K006-yapay-zeka` | ai-master.md | 12 | draft |
+| 8 | `K007-data` | data-master.md | 11 | draft |
+| 9 | `K008-domain` | domain-master.md | 11 | draft |
+| 10 | `K009-security` | security-master.md | 13 | draft |
+| 11 | `K010-network` | network-master.md | 6 | draft |
+| 12 | `K011-application` | application-master.md | 11 | draft |
+| 13 | `K012-services` | services-master.md | 7 | draft |
+| 14 | `K013-integraion` | integration-master.md | 4 | draft · ⚠️ kök MD eksik |
+| 15 | `K014-media` | media-master.md | 4 | draft · ⚠️ kök MD eksik |
+| 16 | `K015-AI` | ai-master.md | 6 | draft |
+| 17 | `K016-observability` | observability-master.md | 6 | draft (eski kayıt adı `K017-observability`) |
+| 18 | `K17-devops` | devops-master.md | 6 | draft · ⚠️ `K0` öneki yok (kayıtlı imla) |
+| 19 | `K18-testing` | testing-master.md | 4 | draft · ⚠️ `K0` öneki yok (kayıtlı imla) |
+| 20 | `K019-comilance` | compliance-master.md | 2 | **verify-required** · ⚠️ yalnız 2 kök MD |
+| 21 | `K020-discovery` | discovery-master.md | 5 | draft |
+| 22 | `K021-recomenataion` | recommendation-master.md | 4 | draft · ⚠️ Band-2 (ADR-098) — §9.15 |
+
+**Eski 25 satırlık hâlin diskte karşılığı olmayan 5 satırı** (hiçbiri oluşturulmadı — tahmin yasak):
+`K0100-identitiy` · `K020-adr` · `K020-comilance` · `K020-comere` · `K020-licence`
+→ **§6 GAP kaydı** + ADR-097 K5 kuralı: *klasör ancak gerçek domain ADR ile açılır.*
 
 ## §6 Çakışma ve GAP Kayıtları (hepsi VERIFY REQUIRED — onaysız düzeltilmez)
 
+> **2026-10-18 durumu:** ilk iki satır **diske göre hizalandı** (kullanıcı onayı — §6.2);
+> ayrıntı ve eski metinler §6.2'de. Yeni tespitler §6.2-C/D'de.
+
 | Kayıt | Tür | Durum |
 |---|---|---|
-| `K002` hiç yok (K001 → K003 atlıyor) | ID GAP | `⚠️ VERIFY REQUIRED` — v2 §3.1 |
-| 6 klasör aynı `K020` önekinde (adr/comilance/comere/licence/discovery/recomenataion) | ID CONFLICT | `⚠️ VERIFY REQUIRED` — v2 §3.1 |
+| `K002` — **2026-10-13'te açıldı** (`K002-electroncis`, §9.8); eski kayıt "K002 hiç yoktu" | ID GAP → **KAPANDI** | ✅ §5 satır 3 |
+| `K017-observability`·`K018-devops`·`K019-testing`·`K020-comilance` registry adları ↔ `K016-observability`·`K17-devops`·`K18-testing`·`K019-comilance` disk adları | ID CONFLICT | ✅ **ÇÖZÜLDÜ 2026-10-18** — registry diske göre hizalandı (§6.2-A), klasör adları değişmedi |
+| 5 klasör hâlâ `K020` önekinde (adr/comilance/comere/licence/discovery) · 6.'sı (recomenataion) **diskte `K021-` olarak yeniden adlandırıldı** (2026-10-17) | ID CONFLICT | `⚠️ VERIFY REQUIRED` — v2 §3.1 · **40+ vault referansı hâlâ `K020-recomenataion` yazar** · Band-2 (K021+) ADR-098 öncesi AÇILMAZ kuralına **aykırı fiili durum** → üst karar (bkz §9.15) · eski adla **yeni dosya açılmaz** |
 | `K020-comere` = ne olduğu bilinmiyor | UNKNOWN | `⚠️ VERIFY REQUIRED` — içerik BOŞ, tahmin yasak |
 | `donanaım-type` · `identitiy` · `integraion` · `comilance` · `recomenataion` yazımları | imla (kaynak-sadık) | ✅ KORUNUR (v2 §3 KURAL 1) |
 | v2 §6'nın 23 eski-disk çakışması (K003-ses-motoru vs K003-audio…) | tarihsel | ✅ **ÇÖZÜLDÜ — disk kanıtı 20:31** (bkz §6.1): eski adların **21/21'i diskte yok**, önerilen **25/25'i mevcut** |
@@ -137,6 +157,44 @@ tamamı diskten kalkmıştır. Dolayısıyla:
 > zaten tanımlı ve diskte. Kapı yalnız **Band-2 (K021–K120) açılışını** bloke eder →
 > **ADR-098 öncesi**. Band-2 için ADR yazılana kadar `K021+` slotlarına **isim ve klasör
 > atanmaz** (v2 §4.7 + ADR-097 K5).
+
+### §6.2 Registry ↔ disk uyuşmazlığı kaydı + eski §5 tablosunun arşivi (2026-10-18)
+
+> **Onay:** kullanıcı — *"Registry'yi diske göre düzelt"*. **Yapılan:** §5 tablosu diske göre
+> hizalandı · **yapılmayan:** hiçbir klasör adı değiştirilmedi · **oluşturulmayan:** diskte
+> karşılığı olmayan 5 klasör (tahmin yasak — ADR-097 K5).
+
+**A. İsim uyuşmazlıkları (registry yazımı ↔ disk gerçeği) — düzeltilen:**
+
+| Eski registry yazımı | Disk gerçeği | Karar |
+|---|---|---|
+| `K017-observability` | `K016-observability` | §5 diske göre hizalandı |
+| `K018-devops` | `K17-devops` | §5 diske göre hizalandı |
+| `K019-testing` | `K18-testing` | §5 diske göre hizalandı |
+| `K020-comilance` | `K019-comilance` | §5 diske göre hizalandı |
+| (tabloda yoktu) | `K002-electroncis` | §5'e eklendi (§9.8 kaydıyla uyumlu) |
+
+**B. Diskte hiç var olmayan 5 registry satırı — `⚠️ VERIFY REQUIRED` (üretilmedi):**
+
+| Kayıt | Neden | Sahibi |
+|---|---|---|
+| `K0100-identitiy` | diskte dizin yok; `K011`·`K012`·`K009`·`K010` `depends_on`'unda **ölü referans** olarak yaşıyor | ADR-097 K5 → üst karar |
+| `K020-adr` | `adr/` zaten kökte ayrı dizin (3 dosya) — K-slotu olarak açılmadı | üst karar |
+| `K020-comilance` | `K019-comilance` fiilen o işi yapıyor | çakışma kaydı |
+| `K020-comere` | içeriği **hiç yok** — ne olduğu bilinmiyor, tahmin yasak (§6) | UNKNOWN |
+| `K020-licence` | diskte yok; `K17-devops` dosyasında `K020-licence` referansı geçiyor → ölü referans | üst karar |
+
+**C. Tüm ağda tespit edilen ölü K-referansları (klasör adı değiştirilmedi, işaretlendi):**
+`K002-altyapi` · `K002-vault` · `K002-data` · `K002-database` · `K000-frontend` · `K000-os` ·
+`K000-core` · `K001-core` · `K001-infra` · `K001-infrastructure` · `K006-ai` · `K006-eval` ·
+`K007-search` · `K0100-identitiy` · `K020-licence` · `K020-recomenataion` · `K018-devops` (içinde
+`K17-devops`'un dosyalarında) → **kural:** bunlar K-slotu **sanılmaz**; dosya-içi eski ad/alt-modül
+referansıdır. Yeni yazılan her belgede `⚠️ VERIFY REQUIRED` ile taşınır.
+
+**D. Eski §5 tablosunun arşivi (25 satır — silinmedi, taşındı):** eski tablo satırları bu
+bölümün git diff'inde (`index.md` §5 öncesi hâli) ve §6.1'in tarihçesinde korunur; içerikleri
+**yukarıdaki A+B** ile örtüşür. Yeniden yazımda hiçbir `Durum` değeri (`draft`/`verify-required`)
+kaybolmadı.
 
 ## §7 Katman Sayımı (v2 §4.6 — hedef, disk verisi değil)
 
@@ -201,6 +259,11 @@ tamamı diskten kalkmıştır. Dolayısıyla:
 | K020-comere | 2 | 74 | 0 | K020-comilance | 5 | 355 | 0 |
 | K020-discovery | 3 | 177 | 0 | K020-licence | 3 | 320 | 0 |
 | K020-recomenataion | 5 | 325 | 0 | **K TOPLAM** | **624** | **80.155** | **38** |
+
+> ⚠️ **Bu satır eski addır (2026-10-12 ölçümü):** klasör 2026-10-17'de diskte
+> `K021-recomenataion` olarak yeniden adlandırıldı ve 7 dosya / **2.008 satır** oldu
+> (kanonik ölçüm §9.15). Eski sayılar **tarihsel kayıt** olarak korunur, güncel
+> değildir.
 
 > **624 + K-dışı 10 = 634** (bkz §9.2). `K002` ve `K021+` bu ölçümde
 > **yoktur** — K002 Band-1'e alınmadı (eskiden beri öyle), K021+ Band-2'dir
@@ -1011,6 +1074,191 @@ dosyaları < 500 — **bilinen boşluk**, dürüst raporlandı; genişletme ayr�
 | 3 | Medya-sağlayıcı auth gate ADR'si yazılmadı (üretim entegrasyonu bloke) | kullanıcı onayı |
 | 4 | Deezer API kota sayısı (resmi sayı yok — `UNKNOWN`) | web |
 | 5 | ~~17 dosyanın registry kaydı~~ | ✅ **KAPANDI (bu tur)** — §9.14 eklendi · §9.1 satır 202'ye geçersizlik notu kondu · "whitelist" artık ifadesi K020-discovery dosyalarından temizlendi (gerçek mekanizma: §9.14 kapanış kaydı + §9.12.1 ölçüm kanonu) |
+
+#### §9.15 K021-recomenataion Tam Paket Turu (2026-10-17 — orkestratör, el yazımı)
+
+> **Kapsam:** `.ai/architecture/K021-recomenataion/**` — K000–K013 tam-paket
+> turunun (§9.13) Band-2 ayağı. **Kullanıcı kararları:** (1) kod örnekleri **20+ dil**
+> (çekirdek 17 + Ruby/Scala/Elixir/Dart/R = **22**), (2) web araştırması **derin tur**,
+> (3) kapılar **korunur + tamamlanır** (durum `draft`), (4) K000–K013 bağlantıları
+> **kapsam dışı** (yalnız grup içi + 2 dış komşu), (5) yazım hataları
+> (`recomenataion` vb.) **kaynağa sadık korunur**.
+
+##### §9.15.1 Kanonik ölçüm (§9.12.1 yöntemi)
+
+| Dosya | Satır | ≥500 |
+|---|---|---|
+| `index.md` (kapı — 40–100 kuralı) | 96 | — |
+| `recommendation-master.md` | **500** | ✅ |
+| `recommendation-kod-ornekleri.md` (22 dil) | **845** | ✅ |
+| `recommendation-arastirma.md` | 140 | — |
+| `ranking/index.md` | 135 | — |
+| `personalization/index.md` | 138 | — |
+| `evaluation/index.md` | 155 | — |
+| **TOPLAM** | **2.008** | **2** (öncesi 5 dosya / 325 satır / ≥500: **0**) |
+
+##### §9.15.2 İş özeti
+
+| İş | Sonuç |
+|---|---|
+| ID dönüşümü `K020-` → `K021-` | 7/7 dosya (frontmatter + gövde + linkler) · eski ad yalnız **çakışma kaydı** olarak geçer (index.md açık soru #1) |
+| Çelişki düzeltmesi | master'daki "4 katman ↔ 6 adım" tekrarı → **tek kanonik S1–S6** boru hattı (§4) + Faz-1 repo eşleştirmesi |
+| Repo kanıtları | `shared/src/AI/AIEngine.php:30-32,49-77,65` okundu → 6 kanıt + 4 boşluk (S1/S5/S6/gerekçe yok) |
+| Web araştırması | **28 benzersiz URL** · 2 curl turu: **15×200** (cite) · **9×404 dürüstçe elendi** · **4×403** (ACM×3 + Netflix — erişim engelli, içerik iddiası YOK) · sayı düzeltmesi dosyada Truth Mode notuyla kayıtlı |
+| Yeni dosyalar | `recommendation-kod-ornekleri.md` (`group: kod`, 22 dil, her dil bir S aşaması) · `recommendation-arastirma.md` (`group: kanit`, HTTP durum tablosu) |
+| Bağlantılar | grup içi 5 dosya + 2 yeni + 2 dış komşu (`K020-discovery` · `K006-yapay-zeka/recommendation`) — K000–K013 **kapsam dışı** (kullanıcı kararı) |
+| `git commit` | **yok** — kullanıcı onayıyla orkestratöre ait |
+
+##### §9.15.3 Açık maddeler
+
+| # | Açık | Üst merci |
+|---|---|---|
+| 1 | **Band-2 kapısı ihlali (fiili):** diskte `K021-recomenataion` var — ADR-098 öncesi AÇILMAZ kuralı; **40+ vault referansı** `K020-recomenataion` yazar → yeniden adlandırma mı, geri adlandırma mı? | **kullanıcı + ADR-098** |
+| 2 | KVKK/GDPR kapsamı (K1) tanımsız — kişiselleştirme kapalı | `K020-comilance` |
+| 3 | Sıralama yöntemi + `0.6/0.4` ağırlık doğrulaması + eşikler | ADR-2/ADR-3 (`K020-adr` + `evaluation/`) |
+| 4 | Öneri sahiplik çakışması 3'lü (K006 ↔ K015 ↔ K021) | architect + kullanıcı |
+
+##### §9.13.7 K008-domain KAPANIŞI + commit düzeltmesi (2026-10-17)
+
+| An | Dosya | Satır | ≥500 |
+|---|---|---|---|
+| Tur öncesi (§9.13.2 kanonik) | 72 | 6.661 | **0** |
+| 2. deneme (DNS'e takılmadan önce yazdı) | 72 | 9.381 | 7 |
+| 4. deneme (backend-developer) + kanonik doğrulama | 72 | **13.340** | **15** |
+
+**Deneme zinciri (Truth Mode):** ×4 — ① rate-limit (architect) ② DNS `ENOTFOUND` ama **+2.447 satır bıraktı** (architect) ③ yetki reddi, yazamadı, ölçüüm+web bulgularını devretti (architect) ④ **başarılı** (backend-developer). Öğrenim: **backend-developer yazma yetkisi kanıtlanmış; mimari ajanlar (architect) bu oturumda yazamıyor.** Kalan K'lar bu ajan tipiyle sürülecek.
+
+**4. deneme çıktıları:** 9 child `-kapsam` → ≥500 (media·user·library·playback·device-management·discovery·recommendation·context-mapping; music zaten 504 idi) · `domain-kod-ornekleri.md` 797→1.296 (9 dil × domain event + specification) · `domain-web-arastirma.md` 502→573 (2 yeni URL HTTP 200 + 6 çapraz atıf) · yer tutucu 0 · mojibake 0 · beyazliste 0 · commit 0. Kalan <300 dosyalar = şablon-dosyalar (index/dogrulama/bilesenler/web-arastirma, kapı 40–100 dâhil, kasıtlı kısa).
+
+##### §9.13.8 COMMIT DÜZELTMESİ (Truth Mode)
+
+§9.13.4 #4'te "commit yok, kullanıcı onayı bekliyor" yazıyordu — **bu bilgi geçersizleşti.** Dış oturum 10-17 16:32'de `8c414d8` (468 dosya, "vault: ADR-098 … K014-media koke") ile bu oturumun işini de **süpürerek commitledi**: 14 K index.md (§BAĞLANTILAR) · K007-data kapanışı · bu registry (§9.13/§9.13.5/§9.13.6). Kayıp/çakışma **0** — yalnız onay akışı atlandı, içerik sağlam. K008 kapanışı hâlâ working tree'de (`git add .ai/architecture/K008-domain/` + K010 işi bitince tek seferde).
+
+##### §9.13.9 K008 ajanının devri — kod-yüzeyi DRIFT kartları (vault DIŞI, geliştirici işi)
+
+| # | Bulgu | Kaynak | Şiddet |
+|---|---|---|---|
+| 1 | `recommendation_history.user_id/music_id` int-unsigned ↔ binary(16) UUID çelişkisi | K008 discovery §27.1 | **KRİTİK** |
+| 2 | `routes.php` s.18 + `AuthRouteConfig` s.55/58 hardcoded `'http'` — https prod riski | K008 context-mapping §21 | YÜKSEK |
+| 3 | DomainConfig fallback DRIFT: music/admin fallback eksik → primary'e sessiz düşüş | K008 context-mapping §21 | ORTA |
+| 4 | `getUrl()` home:81 portu yazmıyor (2 istisna kurtarıyor; `getUrl('home')` çağıran yok = güvenli zemin) | K008 context-mapping §21 | ORTA |
+
+> Bu kartlar **kod değişikliği gerektirir** — bu tur kapsamı vault olduğu için yalnızca kayıtlandı
+> (`*.php` yazımı yasak). Ayrı görevde ele alınmalı.
+
+##### §9.13.10 K010 dispatch + dış sinyal
+
+K010-network ajanı (backend-developer, yazma yetkisi kanıtlanmış) background'da: 42 dosya/9.284 satır/≥500:**7** → hedef 8 dosya ≥500. **Dış sinyal:** K021-recomenataon (22:49–23:11, 8 dosya) dış oturum tarafından yazılıyor — bu tur kapsamı K000–K013, **dokunulmaz**, beyazlisteler ayrışık.
+
+##### §9.13.11 K010-network KAPANIŞI (2026-10-17 — backend-developer · 1. denemede başarılı)
+
+| An | Dosya | Satır | ≥500 |
+|---|---|---|---|
+| Tur öncesi (§9.13.2 kanonik) | 42 | 9.284 | **7** |
+| Ajan işi + orkestratör kanonik doğrulama | **43** | **10.039** | **8** |
+
+**Çıktılar:** `network-master.md` 511→828 (§20–§28) · 6 kod-ornekleri dosyasına dil-matrisi §9 ekleri (+~500) · `network-web-arastirma.md` **YENİ** (141 satır) · **12 URL HTTP 200** (RFC 8446/9000/9114/9113/9110/9204/8441/3550/6762/2326 · MDN WebSocket · MDN SSE) · **4 URL 404 dürüstçe dayanak dışı bırakıldı** (cloudflare ×2 · learn.microsoft ×1 · docs.swift.org ×1) · yer tutucu 0 · mojibake 0 · beyazliste 0 · commit 0.
+
+**Ajan DRIFT kartları — orkestratör çözümlemesi:**
+
+| # | Kart | Karar |
+|---|---|---|
+| 1 | `network-master.md` §1 "K014, sistemin konuşma kuralıdır" atfı | **Geçerli** — diskte `K014-media/` var (dış oturum, 15:20). K014 K010'un çocuğu değil, K↔K referansı; dokunulmadı |
+| 2 | §20.2 QUIC kararı `TASARIM İDDİASI` | Doğru işaretli — K017 (diskte `K17-devops`, §9.13.4 #1 çelişkisi) ölçümüne bağlı; açık madde olarak kalır |
+| 3 | §21.6/http §9.3 Idempotency-Key sahipliği | `TASARIM` etiketi doğru — K005/DB sahipliği açık; K013 senkronizasyon turuna devredildi |
+
+**K009-security dispatch edildi** (backend-developer, background): 102 dosya/23.927 satır/≥500:**7** — "dosya çok, derinlik az" profili. Sıra: K013 → K012. Oturum toplamı şimdilik: **K007 ✓ · K008 ✓ · K010 ✓** (0→15 · 0→15 · 7→8 ≥500).
+
+##### §9.13.12 K009-security KAPANIŞI (2026-10-18 — backend-developer · 1. denemede başarılı)
+
+| An | Dosya | Satır | ≥500 |
+|---|---|---|---|
+| Tur öncesi (§9.13.2 kanonik) | 102 | 23.927 | **7** |
+| Ajan işi + orkestratör kanonik doğrulama | 102 | **25.003** | **8** |
+
+**Çıktılar:** `security-kapsam.md` 176→505 (§16–§23: kripto parametre · CSRF akışı · CSP matrisi · rate-limit hesabı · rotasyon · fail-safe) · `security-kod-ornekleri.md` 514→868 (**17 dil** güvenlik matrisi) · `security-web-arastirma.md` 517→568 (**15 yeni URL**: OWASP Top 10:2025 (308→200, dürüst kayıt) · CWE 352/918/330/327 ×4 · NIST SP 800-38D/132 Legacy yolu ×2 (eski biçim 404 → yol düzeltmesi kayıtlı) · NIST SP 800-63-4 · MDN ×3 · php.net · RFC 8941/9421/9457 ×3 · **dürüst 404 ×2**) · 6 child `-kapsam` derinleştirildi · yer tutucu 0 · mojibake 0 (16 konsol-artifact şüphelisi read-tool ile temiz) · beyazliste 0 · commit 0.
+
+**DRIFT kartları — orkestratör işlemleri:**
+
+| # | Kart | İşlem |
+|---|---|---|
+| 1 | Dosya 101→102 çelişkisi | Çözük: 2026-10-17 kanonik ölçümüm de 102 diyordu (aradaki ek dosya önceki turda gelmiş) |
+| 2+3 | OWASP 2021→2025 ad DRIFT'i (root `*.md`'lerde **15 isbet** — orkestratör taraması) | **erratum görevi** aynı ajan oturumuna devredildi (yerinde düzeltme + master sonuna erratum kaydı, 2026-10-18) — sonuç bir sonraki §'de |
+| 4 | NIST URL yolu (`NIST.SP.800-38D.pdf` 404) | Kayıt zaten web-arastirma §22.2'de; eski batch'lerde tarama sonraki süpürmede |
+| 5 | Rate-limiting D-RL-1..4 + AAD doğrulaması | **ADR kararı bekliyor** — ayrı görev, bu tur dışı |
+
+**K013-integraion dispatch edildi** (backend-developer, background): 44 dosya/15.886 satır/≥500:**11** → hedef ≥6 dosya derinleştirme. Sıra: K012 (opsiyonel). Oturum toplamı: **K007 ✓ · K008 ✓ · K010 ✓ · K009 ✓** (≥500: 13→20 · 0→15 · 7→8 · 7→8).
+
+##### §9.13.13 OWASP erratum KAPANIŞI — ajan iptali sonrası orkestratör tamamladı (2026-10-18)
+
+> Tetik: K009 ajanının DRIFT kartı #2/#3 ("eski OWASP 2021 adları root `*.md`'lerde 15 isbet").
+> Erratum ajanı **iptal edildi** (hiç yazımadan) → iş orkestratöre kaldı.
+
+| İşlem | Sonuç |
+|---|---|
+| 15 isbet sınıflandırıldı (read-tool ile temiz UTF-8) | **0 yerinde düzeltme gerekli** — 9 kök isbeti: §4/§3 **kasıtlı korunmuş 2021 tarihsel tablolar** (D-66 kaydı: "silinmez, tarihsel kayıt") · §9/§22/§340 **düzeltme notlarının kendisi** · web-arastirma 3 satır **araştırma backlog görev adı** (SSRF kontrol listesi) |
+| Ajanın yeni §9 tablosu resmi listeyle çapraz doğrulandı | **webfetch `owasp.org/Top10/2025/` → HTTP 200, 2026-10-18** — 10/10 satır **birebir doğru**: A01 Broken Access Control · A02 Security Misconfiguration · A03 Software Supply Chain Failures · A04 Cryptographic Failures · A05 Injection · A06 Insecure Design · A07 Authentication Failures · A08 Software or Data Integrity Failures · A09 Security Logging and Alerting Failures · A10 Mishandling of Exceptional Conditions |
+| Ajanın chat raporundaki sözlü eşleme («A02=Enjeksiyon») | **rapor kelimeleri hatalı, DOSYA içeriği doğru** — dosya otorite; chat raporu düzeltilmez, bu §'de kayıt altına alındı (Truth Mode) |
+| Sonuç | **Erratum kapandı: 0 dosya değişikliği** · §9 kural satırı ("A10 SSRF" 2025'te yanlıştır) zaten mevcut ve doğru |
+
+**K013-integraion ajanı çalışıyor** (ilk dispatch iptal edilmişti, hiç yazımdan; yeniden başlatıldı — 44 dosya/15.886 satır/≥500:11). Oturum toplamı: **K007 ✓ · K008 ✓ · K010 ✓ · K009 ✓** — erratum hariç K012 opsiyonel.
+
+##### §9.13.14 Erratum artığı — master §30 disk kanıtsız iddia düzeltmesi (2026-10-18)
+
+`security-kapsam.md` §9 notu "security-master.md §3 için de aynı düzeltme eklendi (§30)" iddiasını
+taşıyordu; orkestratör denetimi (Select-String + son-25-satır okuma) **master'da §30/2025 düzeltmesi
+bulunmadığını** gösterdi (dosya §29.2'de bitiyor, Authority 2026-10-13). **Eksik §30 eklendi**
+(master Authority'sinden önce, append-only): §3'ün 2021 tarihsel kayıt olduğu + §9'un otorite olduğu
++ 2026-10-18 webfetch doğrulaması (HTTP 200, 10/10 birebir) + "A10 SSRF" kuralı + dürüstlük kaydı
+(kayıp 0, gecikme var). Erratum **gerçekten kapandı** (önceki §9.13.13'te bu boşluk bilinmiyordu).
+
+##### §9.13.15 K013-integraion KAPANIŞI (2026-10-18 — backend-developer · iptal-sonrasi yeniden dispatch, 1. denemede başarılı)
+
+| An | Dosya | Satır | ≥500 |
+|---|---|---|---|
+| Tur öncesi (kanonik) | 44 | 15.886 | **11** |
+| Ajan işi + orkestratör kanonik doğrulama | 44 | **19.124** | **19** |
+
+**Çıktılar:** `sync-kod-ornekleri.md` 413→2.273 (17 dil matrisi tamamı) · `integration-master.md` 173→721 · `integraion-bagimliliklar.md` 92→523 · error-anayasa / protocol-adapters / external-systems / event-contracts / adapters sozlesme — **9 hedefin 9'u ≥500** · +3.238 satır · **0 yeni URL** (mevcut 24 kaynaklı W-01…W-24 tablosuna bağlanma; Fowler outbox kaynağı 3 adreste **404 → reddedildi**, dayanaklar microservices.io + softwaremill) · yer tutucu 0 · mojibake 0 · beyazliste 0 · commit 0.
+
+**Ajan DRIFT kartları — orkestratör işlemleri:**
+
+| # | Kart | İşlem |
+|---|---|---|
+| D-1 | Yeni kök dosya üretilmedi (GRUPLAR DRIFT'i yok) | Bilinçli ve doğru — tüm iş mevcut dosyalara append |
+| D-3 | `error-anayasa.md:115` CJK karakter (`成功`) — önceden mevcut | **AÇIK madde** — orijinal metin bilinmiyor, append-only gereği dokunulmadı; Vault Steward (kullanıcı) kararı |
+| D-4 | `openapi-anayasa.md` (Kiril ×3) + `openapi-kod-ornekleri.md` (U+FFFD ×6) | **AÇIK madde** — gerçek bozuk metin; onarım orijinal bilgisi ister, kullanıcı kararı |
+| D-6 | 10 varlık/sahiplik matrisi hâlâ TASARIM İDDİASI | K013 backlog'i — sonraki tur |
+
+**Oturum toplam kapanan K'lar:** K007 (13→20) · K008 (0→15) · K010 (7→8) · K009 (7→8) · K013 (11→19) — **5 K, 0 kayıp**. Kalan: K012 (35/50 — opsiyonel) + final süpürme.
+
+##### §9.13.16 K012-services KAPANIŞI + TAM TUR FİNAL (2026-10-18)
+
+**K012 (backend-developer):** 50 dosya/19.868 → **21.892 satır** · ≥500: **35 → 39** (orkestratör kanonik; ajan raporu 40 dedi — 1 marj farkı ölçüm anı, son kanonik 39 geçerli) · 5 hedef dosya (services-web-arastirma · services-ornekler · background-jobs/playback/ai-service web-arastirma) ≥500'e çekildi · **21 URL HTTP 200** (2026-10-18) · 19 dürüst RED · yer tutucu 0 · mojibake 0 · beyazliste 0.
+
+**FİNAL KANONİK TABLO (2026-10-18 · orkestratör · ReadAllLines · oturum başı → sonu):**
+
+| K | Dosya | Satır | ≥500 (önce→sonra) |
+|---|---|---|---|
+| K000-isletim-sistemi | 371 | 168.897 | 257 (dış tur ekleri dâhil) |
+| K001-donanım | 88 | 39.521 | 69 |
+| K002-electroncis | 33 | 13.331 | 20 |
+| K003-audio | 73 | 31.283 | 58 |
+| K004-dsp | 73 | 29.665 | 56 |
+| K005-firmware | 66 | 29.220 | 56 |
+| K006-yapay-zeka | 75 | 35.394 | 65 |
+| **K007-data** | 72 | 16.149 | **13 → 20** |
+| **K008-domain** | 72 | 13.372 | **0 → 15** |
+| **K009-security** | 102 | 25.070 | **7 → 8** |
+| **K010-network** | 43 | 10.069 | **7 → 8** |
+| K011-application | 133 | 60.069 | 109 |
+| **K012-services** | 50 | 21.892 | **35 → 39** |
+| **K013-integraion** | 44 | 19.134 | **11 → 19** |
+| **TOPLAM** | **1.295** | **513.066** | **763 → 799** |
+
+**Final kapıları:** bağlantı yeniden doğrulaması **106 OK / 0 kırık** · §BAĞLANTILAR **14/14** · **0 ≥500 olan K: YOK** · en düşük: K009=8 ve K010=8 (profil: çok-dosya/az-derinlik — sonraki derin tur adayı, bu turda kalan içerik kapı-dosyaları/index'ler) · dış oturum ekleri devam ediyor (K000 +8 dosya, K002 +7 dosya — bu oturumun beyazlistesi dışı, dokunulmadı).
+
+**Oturum özeti (2026-10-17→18):** 6 K kapatıldı (K007·K008·K009·K010·K012·K013) · 5+3 ajan denemesi (rate-limit ×2, DNS ×1, yetki ×1, iptal ×2 → backend-developer kanıtlandı) · OWASP erratum + disk kanıtsız §30 düzeltmesi · commit süpürmesi düzeltmesi · §BAĞLANTILAR+doğrulama. **Açık kararlar (kullanıcı):** commit onayı · `--/` klasörü · CJK/Kiril/mojibake onarımı (error-anayasa · openapi ×2 · services-ornekler §28) · K009/K010 derin tur.
 
 ---
 

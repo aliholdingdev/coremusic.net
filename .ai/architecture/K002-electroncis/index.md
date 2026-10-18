@@ -27,6 +27,17 @@ group: mimari
 
 # K002-electroncis — Kademe-1 Domain İndeksi
 
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K002-electroncis |
+| **K Adı** | Electronics (Elektronik Mühendisliği) |
+| **Kapsam** | Elektronik mühendisliğinin CoreMusic vault'undaki asli evi: devreden üretime tüm elektronik tasarım katmanları. Beş katman sırayla anlatılır — devre (bileşenler/topoloji) → dijital (mikroislemci/saat) → güç (besleme/koruma) → sensör/aktüatör → imalat (PCB üretimi, DFT, EMC). Analog devre tasarımı K002'de; ham içerik `.ai/electronic/**` (60 dosya). Yazım `electroncis` dokunulmaz (v2 §3 KURAL 1). |
+| **Kritik Bağımlılıklar** | K001-donanım · K004-dsp · K005-firmware (kanıt: FM depends_on · electroncis-bagimliliklar.md) |
+| **Durum** | draft (5 kademe-2 alt-konu · 26 dosya, A1 tur-1) |
+| **Son Güncelleme** | 2026-10-15 (Q-K2-1 kart/PCB sınırı kapandı — donanım-anayasa.md L65·L305) |
+
 > **Yazım dokunulmaz:** `electroncis` (v2 §3 KURAL 1 — `electronics` DEĞİL, düzeltilmez).
 > Band-1 tekil domaini (K000–K020). ADR-098 kapısı AÇILMAZ (Band-2 = K021+).
 
@@ -95,17 +106,31 @@ Elektronik, fiziksel dünyadaki sinyalin (akım/gerilim) hesaplanabilir, tasarla
 
 ## §BAĞLANTILAR
 
-> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
 
-| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
-|---|---|---|---|
-| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | isletim sistemi donanim destegi |
-| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | sinyal zinciri DSP |
-| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | mikroislemci firmware |
-| K010-network | [[K010-network]] | ../K010-network/index.md | ag arayuzu devresi |
-| K011-application | [[K011-application]] | ../K011-application/index.md | cihaz uygulama katmani |
-| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | harici baglanti protokolleri |
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K002-electroncis | [[K002-electroncis]] | ./K002-electroncis/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ↔ | iki yönlü güçlü referans | M→28 · M←14 (kök .md, 2026-10-18) |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ↔ | bağımlı (depends_on) | M→25 · M←8 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ← | karşı taraf referanslıyor | M→0 · M←1 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | ↔ | bağımlı (depends_on) | M→34 · M←2 (kök .md, 2026-10-18) |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | → | bağımlı (depends_on) | M→44 · M←0 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | ← | karşı taraf referanslıyor | M→0 · M←1 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | → | bu K referanslıyor | M→1 · M←0 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | → | bu K referanslıyor | M→1 · M←0 (kök .md, 2026-10-18) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ← | karşı taraf referanslıyor | M→0 · M←2 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ← | karşı taraf referanslıyor | M→0 · M←2 (kök .md, 2026-10-18) |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | → | bu K referanslıyor | M→1 · M←0 (kök .md, 2026-10-18) |
 
----
-
-**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

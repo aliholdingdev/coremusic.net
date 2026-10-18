@@ -16,7 +16,6 @@ depends_on:
   - K007-data
   - K008-domain
   - K009-security
-  - K0100-identitiy
   - K010-network
 evidence:
   - "v2 §2.13 K013-integraion/ — çocuk listesi kaynağı (8 çocuk, birebir)"
@@ -31,10 +30,22 @@ open_questions:
   - "Dış API'nin sahibi K013 mü, çağıran K012/integration-service mi → ⚠️ VERIFICATION REQUIRED"
   - "event-contracts olay taşıma biçimi (webhook/olay akışı) → ⚠️ UNKNOWN"
 group: mimari
+updated: 2026-10-18
 ---
 
 
 # K013-integraion — Dış Sistem Köprüsü
+
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K013-integraion |
+| **K Adı** | Entegrasyon (Integration — dış sistem köprüsü) |
+| **Kapsam** | Dış dünya ile köprü — API konuşmaları, adaptörler, üçüncü taraf sistemler. CoreMusic dışındaki sistemlerle (akış/servis sağlayıcılar) konuşan tek taraftır: kontratı yazar, adaptörü çevirir, hatayı sınırlar, senkronu yürütür. İç servisler dış dünyaya çıkmaz, bu kapıdan çıkar (Dependency Rule). Yazım `integraion` kaynaka sadık, dokunulmaz. 8 kademe-2 çocuk. |
+| **Kritik Bağımlılıklar** | K007-data · K008-domain · K009-security · K010-network (kanıt: FM depends_on — K0100-identitiy ölü referansı 2026-10-18'de silindi ⚠️) |
+| **Durum** | draft (8 kademe-2 çocuk) |
+| **Son Güncelleme** | 2026-10-12 (çocuk adları v2 §2.13 ile birebir 8/8) |
 
 ## 1. ELI15 — bu oda ne işe yarar?
 
@@ -66,7 +77,6 @@ Yazım notu: klasör adı "integraion" **kaynağa sadık, dokunulmaz** (v2 §3 K
 | depends_on → | K007-data | Senkron sonucunun saklanması (synchronization) |
 | depends_on → | K008-domain | Kontrat tipleri / domain modeli |
 | depends_on → | K009-security | Anahtar, imza, gizli bilgi güvenliği |
-| depends_on → | K0100-identitiy | OAuth/PKCE akışlarında kimlik doğrulama |
 | depends_on → | K010-network | Taşıma (HTTP vb.) |
 | ← used_by | K011-application | Uygulama akışının dış çağrısı |
 | ← used_by | K012-services | integration-service kontrat tüketimi |
@@ -98,13 +108,31 @@ Yazım notu: klasör adı "integraion" **kaynağa sadık, dokunulmaz** (v2 §3 K
 
 ## §BAĞLANTILAR
 
-> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
 
-| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
-|---|---|---|---|
-| K007-data | [[K007-data]] | ../K007-data/index.md | veri senkronizasyonu |
-| K008-domain | [[K008-domain]] | ../K008-domain/index.md | DTO ve domain paylasimi |
-| K009-security | [[K009-security]] | ../K009-security/index.md | API guvenlik zinciri |
-| K010-network | [[K010-network]] | ../K010-network/index.md | gateway ve protokoller |
-| K011-application | [[K011-application]] | ../K011-application/index.md | adaptor cagrilari |
-| K012-services | [[K012-services]] | ../K012-services/index.md | servis sozlesmeleri |
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K013-integraion | [[K013-integraion]] | ./K013-integraion/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ← | karşı taraf referanslıyor | M→0 · M←1 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | ↔ | bağımlı (depends_on) | M→16 · M←31 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | → | bağımlı (depends_on) | M→10 · M←0 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | ↔ | bağımlı (depends_on) | M→9 · M←8 (kök .md, 2026-10-18) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ↔ | bağımlı (depends_on) | M→10 · M←14 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | ↔ | iki yönlü atıf | M→4 · M←9 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ↔ | iki yönlü güçlü referans | M→7 · M←15 (kök .md, 2026-10-18) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ↔ | iki yönlü güçlü referans | M→6 · M←18 (kök .md, 2026-10-18) |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+

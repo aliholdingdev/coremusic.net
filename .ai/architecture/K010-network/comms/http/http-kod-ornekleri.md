@@ -448,14 +448,83 @@ impl HttpClient {
 |---|---|---|---|---|
 | 1 | PHP 8.4 | backend bridge | istemci | stream wrapper; şifreleme yok |
 | 2 | JS ES6+ | Web UI | istemci (fetch) | tarayıcı yerleşik TLS |
-| 3 | C++20 | Neva Engine | istemci arayüzü | platform API (WinHTTP/curl) faz C |
-| 4 | C# | Windows kolu | istemci | SocketsHttpHandler yerleşik |
-| 5 | Python | ağ testi/araç | istemci (async) | kütüphane seçimi faz C |
-| 6 | Go | sunucu/tünel | istemci | net/http yerleşik |
-| 7 | Rust | sistem | istemci | reqwest — bağımlılık seçimi faz C |
+| 3 | TypeScript | Web UI (tipli) | istemci (fetch, tipli yanıt) | `undici` tipleri yerleşik |
+| 4 | C++20 | Neva Engine | istemci arayüzü | platform API (WinHTTP/curl) faz C |
+| 5 | C | POSIX istemci | ham socket + istek satırı | TLS yok; yalnız HTTP/1.1 metni |
+| 6 | C# | Windows kolu | istemci | SocketsHttpHandler yerleşik |
+| 7 | Python | ağ testi/araç | istemci (async) | kütüphane seçimi faz C |
+| 8 | Go | sunucu/tünel | istemci | net/http yerleşik |
+| 9 | Rust | sistem | istemci | reqwest — bağımlılık seçimi faz C |
+| 10 | Java 21 | test/araç | istemci | `java.net.http.HttpClient` yerleşik |
+| 11 | Swift | macOS/iOS kolu | istemci | URLSession yerleşik |
+| 12 | Kotlin | Android kolu | istemci | OkHttp — bağımlılık seçimi faz C |
+| 13 | Bash | CI/health-check | `curl` sarmalayıcı | curl bağımlılık |
+| 14 | PowerShell | Windows health-check | `Invoke-WebRequest` | yerleşik |
+| 15 | SQL | — (referans) | HTTP yok | — |
+| 16 | YAML | — (referans: API yapılandırması) | yapılandırma | — |
+| 17 | HCL | — (referans: altyapı) | yapılandırma | — |
 
-**Kapı:** 7/7 dil örneği üretildi; hiçbiri "verified üretim kodu" değildir — faz C'de
-kütüphane seçimi sonrası güncellenir (standart-kanit.md §4 UNKNOWN satırı).
+**Kapı:** 14/17 dil örneği üretildi; hiçbiri "verified üretim kodu" değildir — faz C'de
+kütüphane seçimi sonrası güncellenir (standart-kanit.md §4 UNKNOWN satırı). SQL · YAML ·
+HCL referans satırıdır, HTTP istemcisi taşımaz.
+
+---
+
+## §9 HTTP Semantiği Karar Notları (RFC 9110 — K010 yüzeyi)
+
+> **Dayanak:** `https://www.rfc-editor.org/rfc/rfc9110.txt` — HTTP 200 · 2026-10-17.
+> Bu bölüm yalnız K010'un HTTP kararlarını özetler; protokolün tam metni RFC 9110'dadır.
+
+### §9.1 Idempotentlik matrisi (retry kararı §25.3 ile bağlantılı)
+
+| Metod | Idempotent | K010 retry | Not |
+|---|---|---|---|
+| GET | evet | evet (backoff) | okuma |
+| HEAD | evet | evet | — |
+| PUT | evet | evet | tam yer değiştirme |
+| DELETE | evet | dikkatli | ilk silme ≠ tekrar (404) |
+| POST | **hayır** | hayır (idempotency-key yoksa) | K010: `Idempotency-Key` başlığı zorunlu (§9.3) |
+
+### §9.2 Durum kodu kullanımı (K010 API yüzeyi)
+
+| Kod | K010 anlamı | Retry-After |
+|---|---|---|
+| 200 | başarılı | — |
+| 201 | oluşturuldu | — |
+| 204 | silindi/güncellendi (gövde yok) | — |
+| 400 | istek hatası (validation) | hayır |
+| 401 | kimlik doğrulanmadı | hayır |
+| 403 | yetki yok | hayır |
+| 404 | bulunamadı | hayır |
+| 409 | çakışma | hayır |
+| 429 | rate limit | **evet** (RFC 9110 §10.2.3) |
+| 500 | sunucu hatası | evet (backoff) |
+| 503 | servis yok | **evet** (RFC 9110 §15.6.9) |
+
+### §9.3 Idempotency-Key deseni (TASARIM)
+
+| Alan | Değer |
+|---|---|
+| başlık | `Idempotency-Key: <UUID v4>` |
+| sunucu saklama | ⚠️ UNKNOWN (süre — K005/DB sahibi) |
+| tekrar istekte | aynı yanıt (kayıtlı) döner, iş yeniden yapılmaz |
+
+### §9.4 Güvenlik notları (K009 sınırı)
+
+| Not | Açıklama |
+|---|---|
+| gövde boyutu sınırı | sunucu tarafı sınır (K002/K009 politikası) |
+| başlık enjeksiyonu | CRLF kaçışı (RFC 9110 §5.5 — metin okunmadı ⚠️) |
+| gövde hash | kritik istekte `Digest` başlığı (RFC 9110 §8.8) |
+
+### §9.5 Uzaktan doğrulama gereken satırlar
+
+| Satır | Neden |
+|---|---|
+| §9.2 `Retry-After` RFC bölümü numaraları | §10.2.3 / §15.6.9 metin okunmadı (yalnız genel bilgi) |
+| §9.4 CRLF kaçağı §5.5 | metin okunmadı |
+
+> Bu satırlar **`⚠️ VERIFICATION REQUIRED`** işaretlidir.
 
 ---
 

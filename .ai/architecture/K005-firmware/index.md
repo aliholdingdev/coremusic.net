@@ -27,28 +27,67 @@ evidence:
   - "disk ölçümü — 12 kök MD · 2026-10-13"
   - "disk ölçümü — 64 MD (kök 12 + kademe-2 52) · 2026-10-14 — 29 eksik modül tamamlandı"
 validation:
-  - "2026-10-13 — §GRUPLAR tablosu 12/12 satır ile klasör içeriği birebir karşılaştırıldı"
-  - "2026-10-13 — çocuk kataloğu 9/9 ad — dosya adlarıyla eşleşti"
-  - "2026-10-14 — 9 çocuk §GRUPLAR tablosu disk ile birebir; 29 yeni MD frontmatter+Authority denetimi geçti"
-open_questions:
-  - "dalga-3 (diagnostics · security · testing) — 2026-10-14'te 6'şar MD yazıldı; içerik doğrulaması hâlâ ⚠️ VERIFICATION REQUIRED"
-  - "v2 §6 ID CONFLICT: `K005-veri-yonetimi` ↔ `K005-firmware` — onaysız yeniden adlandırma yasak"
-  - "çocuk rol satırları v2'de yok, adlarından türetildi — ⚠️ VERIFICATION REQUIRED"
-group: mimari
+## §GRUPLAR
+
+> İki-ekseni gruplama (registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**. `Kademe` ataması şeffaf rol kuralıdır (index/master/kapsam → Kademe-1; destek → Kademe-2) — diskte `kademe` alanı yok, uydurma yok.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi | Kademe-1 |
+| mimari | `firmware-master.md` | Firmware anayasa | Kademe-1 |
+| mimari | `firmware-kapsam.md` | Kapsam sınırı | Kademe-1 |
+| mimari | `firmware-bilesenler.md` | Bileşen kataloğu | Kademe-2 |
+| mimari | `firmware-bagimliliklar.md` | Bağımlılık haritası | Kademe-2 |
+| mimari | `firmware-kararlar.md` | Mimari karar kaydı | Kademe-2 |
+| kod | `firmware-kod-ornekleri.md` | Gerçek repo kod örnekleri | Kademe-2 |
+| kanit | `firmware-riskler.md` | Risk matrisi | Kademe-2 |
+| kod | `firmware-test-stratejisi.md` | Test stratejisi | Kademe-2 |
+| kanit | `firmware-web-arastirma.md` | İddia/URL kayıtları | Kademe-2 |
+| mimari | `firmware-evrensel-dil.md` | TR domain / EN teknik sözlük | Kademe-2 |
+| kanit | `firmware-dogrulama.md` | Doğrulama protokolü | Kademe-2 |
+
+
 ## §BAĞLANTILAR
 
-> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
 
-| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
-|---|---|---|---|
-| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | boot ve surucu modeli |
-| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ses firmware kontrol yuzeyi |
-| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP algoritma yerlesimi |
-| K009-security | [[K009-security]] | ../K009-security/index.md | guvenli boot ve imzalama |
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K005-firmware | [[K005-firmware]] | ./K005-firmware/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ↔ | bağımlı (depends_on) | M→22 · M←9 (kök .md, 2026-10-18) |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ↔ | bağımlı (depends_on) | M→27 · M←15 (kök .md, 2026-10-18) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ← | karşı taraf güçlü referanslıyor | M→0 · M←44 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ↔ | bağımlı (depends_on) | M→21 · M←8 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | ↔ | bağımlı (depends_on) | M→30 · M←15 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | ↔ | iki yönlü atıf | M→3 · M←1 (kök .md, 2026-10-18) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ← | karşı taraf referanslıyor | M→0 · M←2 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | ← | karşı taraf referanslıyor | M→0 · M←1 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ← | karşı taraf referanslıyor | M→0 · M←2 (kök .md, 2026-10-18) |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
 
----
 
-# K005-firmware — Firmware Alanı (kademe-1 künyesi)
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K005-firmware |
+| **K Adı** | Firmware |
+| **Kapsam** | Donanımın kendi küçük yazılımı — cihaz açılırken çalışan "iç işletim sistemi". boot açılır · runtime döner · device-control/audio-control parçaya komut yollar · power-control gücü yönetir · diagnostics sınar · update günceller · security kilitler · testing test eder. Donanımın fiziksel yüzeyi (K001), ses algoritması (K004), sesin taşınması (K003) ve host işletim sistemi (K000) kapsam dışıdır. 9 kademe-2 çocuk. |
+| **Kritik Bağımlılıklar** | K000-isletim-sistemi · K001-donanım · K003-audio · K004-dsp (kanıt: FM depends_on · firmware-bagimliliklar.md E1–E4) |
+| **Durum** | draft (9 kademe-2 çocuk · 64 MD) |
+| **Son Güncelleme** | 2026-10-14 (9 çocuk §GRUPLAR disk ile birebir · 29 eksik modül tamamlandı) |
 
 > **ELI15:** Donanımın kendi küçük yazılımı — cihaz açılırken çalışan "iç işletim sistemi".
 > `boot` açılır · `runtime` döner · `device-control`/`audio-control` parçaya komut yollar ·

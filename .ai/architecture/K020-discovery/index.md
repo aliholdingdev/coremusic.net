@@ -29,6 +29,17 @@ group: mimari
 
 # K020-discovery — Keşif / Dış Kaynak Entegrasyon Rafı
 
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K020-discovery |
+| **K Adı** | Keşif (Discovery — dış kaynak entegrasyon rafı) |
+| **Kapsam** | Müziğin ve sanatçının kaynaktan nasıl bulunacağının tarandığı raf: arama/katalog tarafı (search/) ve harici servislerle konuşan ajan tarafı (agent/). Burada keşif notları durur — entegrasyon kararı onaysız verilmez. YouTube Music resmi public API yok (TOS riski, kapı kapalı) · Spotify OAuth2+PKCE · Apple Music JWT (ES256). |
+| **Kritik Bağımlılıklar** | yok (registry — K bağımlılığı yok, kanıt: FM depends_on) |
+| **Durum** | draft (2 kademe-2 çocuk + 4 kök dosya · tur-2 12 servis / 18 URL / 0 hata) |
+| **Son Güncelleme** | 2026-10-17 (web tur-2: 12 servis geniş tarama — discovery-web-arastirma.md §2–§6) |
+
 ## ELI15 — Bu klasör ne işe yarar?
 
 Müziğin ve sanatçının **kaynaktan nasıl bulunacağının** tarandığı raftır: arama/
@@ -76,6 +87,36 @@ Burada **keşif notları** durur — entegrasyon kararı onaysız verilmez.
 3. ⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §2 K6 (satır 77–78)
 4. S-1 sahiplik: "arama" keşif kuralları K007-data/search'te mi, K020-discovery/search'te mi? (geçici karar: K-SCOPE-4) → `⚠️ VERIFY REQUIRED`
 5. K008 C2 (D-3): K008-domain/discovery ↔ K020-discovery sahiplik sınırı (domain **önce** → keşif **sonra**) → `⚠️ VERIFY REQUIRED`
+
+## §BAĞLANTILAR
+
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K020-discovery | [[K020-discovery]] | ./K020-discovery/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | → | bu K referanslıyor | M→1 · M←0 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | → | bu K referanslıyor | M→1 · M←0 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | ↔ | iki yönlü güçlü referans | M→24 · M←35 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ↔ | iki yönlü güçlü referans | M→18 · M←1 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | ← | karşı taraf referanslıyor | M→0 · M←7 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ← | karşı taraf referanslıyor | M→0 · M←9 (kök .md, 2026-10-18) |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
 
 ## §GRUPLAR
 

@@ -2,7 +2,7 @@
 node_id: K015-AI
 node_type: domain
 status: draft
-parent_id: null
+parent_id: "K000–K5000 Architecture Registry"
 children:
   - agents
   - knowledge
@@ -35,10 +35,22 @@ open_questions:
   - "rag/ · memory/ · tools/ · orchestration/ · context/ · knowledge/ · boot-protocol/ · kg/ · evaluation/ · mcps/ · permissions/ · agent-testing/ kapatıldı (2026-10-17) — TÜM 13 DAL 3/3 TAMAM (33/33 içerik dosyası)"
   - "K015 runtime bağlamı: ajan altyapısı harici harness'ta mı, in-repo katman mı? IMPLEMENTED/PLANNED etiketi yok (⚠️ VERIFICATION REQUIRED)"
 group: mimari
+updated: 2026-10-18
 ---
 
 
 # K015-AI — Yapay Zekanın Kendi Çalışma Biçimi (Domain)
+
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K015-AI |
+| **K Adı** | AI Altyapısı (Ajanların kendi çalışma biçimi) |
+| **Kapsam** | Yapay zekanın kendini nasıl çalıştırdığı: ajanların kimliği, hafızası, bildiği kaynaklar (RAG/KG), kullandığı araçlar, açılış (boot) protokolü, orkestrasyonu, izinleri ve sınanması. Şarkı öneren model veya ses analizi burada değildir → K006-yapay-zeka'nın ürün özellikleridir. 13 kademe-2 çocuk, tüm dallar 3/3 TAMAM (33/33 içerik dosyası, 2026-10-17). |
+| **Kritik Bağımlılıklar** | K007-data · K009-security · K011-application · K012-services (kanıt: FM depends_on — hepsi "planlanan" etiketli) |
+| **Durum** | draft (13 kademe-2 çocuk · 13 dal 3/3 TAMAM) |
+| **Son Güncelleme** | 2026-10-17 (13 dal kapatıldı · .claude/agent/ 118 md + skills/ 161 dosya sayımı) |
 
 > **ELI15:** Bu domain, yapay zekanın *kendini* nasıl çalıştırdığıdır: ajanların kimliği, hafızası,
 > bildiği kaynaklar (RAG/KG), kullandığı araçlar, açılış (boot) protokolü, izinleri ve sınanması.
@@ -82,6 +94,36 @@ group: mimari
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Bağlı dosyalar | ai-master.md · ai-bagimliliklar.md · ai-dogrulama.md |
 
+## §BAĞLANTILAR
+
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K015-AI | [[K015-AI]] | ./K015-AI/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ↔ | iki yönlü güçlü referans | M→8 · M←35 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | → | bağımlı (depends_on) | M→10 · M←0 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | → | bağımlı (depends_on) | M→10 · M←0 (kök .md, 2026-10-18) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | ↔ | bağımlı (depends_on) | M→4 · M←2 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ↔ | bağımlı (depends_on) | M→8 · M←13 (kök .md, 2026-10-18) |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ← | karşı taraf güçlü referanslıyor | M→0 · M←15 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | → | bu K referanslıyor | M→7 · M←0 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ← | karşı taraf referanslıyor | M→0 · M←1 (kök .md, 2026-10-18) |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ← | karşı taraf referanslıyor | M→0 · M←3 (kök .md, 2026-10-18) |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | ← | karşı taraf referanslıyor | M→0 · M←3 (kök .md, 2026-10-18) |
+
 ## §GRUPLAR
 
 > İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
@@ -92,6 +134,8 @@ group: mimari
 | mimari | `ai-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
 | kanit | `ai-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
 | mimari | `ai-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
+| mimari | `ai-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-1 |
+| kod | `ai-ornekler.md` | Gerçek repo kodu ve örnekler | Kademe-1 |
 
 ---
 

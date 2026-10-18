@@ -32,10 +32,22 @@ open_questions:
   - "ci.yml yorumlarındaki plan referansı .ai/architecture/k13-cicd/ diskte YOK — eski plan klasörü V3 rebuild'de kaldırıldı mı? (⚠️ VERIFICATION REQUIRED)"
   - "cd · environments · deployment · rollback · release-management · artifact-management · infrastructure-testing için disk kanıtı YOK (deploy job'ı workflows'da yok) — kanıt bekliyor"
 group: mimari
+updated: 2026-10-18
 ---
 
 
 # K17-devops — Kodun Üretilip Yayılma Yolu (Domain)
+
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K17-devops |
+| **K Adı** | DevOps (kodun üretilip yayılma yolu) |
+| **Kapsam** | Kodun depoya girdiği andan kullanıcının ekranına çıktığı ana kadarki yol: depo, derleme, CI kapısı, test koşumu, ortamlar, yayın, geri alma (rollback) ve sürüm yönetimi. Testlerin kendisi K18-testing'dedir; K17-devops onları koşar. Kanıt yüzeyi: `.github/workflows/` = 2 dosya (ci.yml 6 job · secret-scan.yml gitleaks). 10 kademe-2 çocuk. |
+| **Kritik Bağımlılıklar** | K009-security · K18-testing (kanıt: FM depends_on — secret-scan.yml GitLeaks job · ci.yml php-test/js-test job'ları) |
+| **Durum** | draft (10 kademe-2 çocuk · CI'nin gerçekten geçtiği doğrulanmadı ⚠️) |
+| **Son Güncelleme** | 2026-10-12 (ci.yml + secret-scan.yml dosya okuma + glob ölçümü) |
 
 > **ELI15:** Bu domain, kodun depoya girdiği andan kullanıcının ekranına çıktığı ana kadarki yoldur:
 > depo, derleme, CI kapısı, test koşumu, ortamlar, yayın, geri alma (rollback) ve sürüm yönetimi.
@@ -68,6 +80,36 @@ group: mimari
 | Kanıt dengesi | 2/10 çocuk doğrudan kanıtlı (build · ci) + 2 kısmi/negatif (environments · artifact) + 1 uyaran (source-control: depo yok) |
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Bağlı dosyalar | devops-master.md · devops-bagimliliklar.md · devops-dogrulama.md |
+
+## §BAĞLANTILAR
+
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K17-devops | [[K17-devops]] | ./K17-devops/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ↔ | iki yönlü atıf | M→3 · M←2 (kök .md, 2026-10-18) |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | → | bu K referanslıyor | M→1 · M←0 (kök .md, 2026-10-18) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | → | bu K referanslıyor | M→2 · M←0 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | → | bu K referanslıyor | M→2 · M←0 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | → | bu K referanslıyor | M→1 · M←0 (kök .md, 2026-10-18) |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | → | bu K referanslıyor | M→2 · M←0 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | → | bağımlı (depends_on) | M→11 · M←0 (kök .md, 2026-10-18) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | → | bu K referanslıyor | M→2 · M←0 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | → | bu K referanslıyor | M→1 · M←0 (kök .md, 2026-10-18) |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | → | bu K referanslıyor | M→3 · M←0 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | → | bağımlı (depends_on) | M→14 · M←0 (kök .md, 2026-10-18) |
 
 ## §GRUPLAR
 

@@ -20,34 +20,36 @@ evidence:
   - "v2 §6 satır 1001 — K008 ID CONFLICT (öneri: K008-domain · eski disk: K008-servisler)"
   - "shared/config/domain.php satır 7–15 — 7 subdomain (auth, home, assets, music, admin, media, api)"
   - "shared/src/Events/Domain/ — 9 domain event (MusicPlayedEvent … GenderSetEvent)"
-  - "ADR-097 §5.5 — İki-Ekseni Gruplama Şeması (group alanı + §GRUPLAR)"
-validation:
-  - "2026-10-12 — children listesi v2 §2.8 mini-ağaçı ile birebir karşılaştırıldı (10/10)"
-  - "2026-10-12 — 12 kök MD + 6 çocuk × 6 MD üretilmiştir (v1+v2 + ADR-097 K2/K3 şeması)"
-  - "2026-10-12 — web kanıtları HTTP HEAD/GET ile doğrulandı (tekil URL, bkz. -web-arastirma.md)"
-  - "2026-10-15 — 10 çocuk × 6 MD = 60 çocuk dosyası + 12 kök MD = 72/72 tamamlandı; §GRUPLAR her çocukta 6 satır (mimari:3 · kod:1 · kanit:2); 89 tekil URL havuzu çakışmasız (bkz. -web-arastirma.md §16)"
-open_questions:
-  - "v2 §6: K008-domain ↔ eski disk K008-servisler → ID CONFLICT — VERIFY REQUIRED (onaysız yeniden adlandırma yok)"
-  - "recommendation/discovery sahipliği: K006-yapay-zeka · K020-recomenataion · K020-discovery ile örtüşme → ⚠️ VERIFICATION REQUIRED"
-  - "shared/AGENTS.md (2026-10-12) 'K-space kaldırıldı' notu ile ADR-097 sıfırdan kurulum kararı arasındaki ilişki → ⚠️ VERIFICATION REQUIRED"
-  - "Kademe-3 (bounded-context) yapısı v2'de tanımlı değil → her çocuk için -bilesenler.md taslağı ADR onayı bekliyor"
-group: mimari
-## §BAĞLANTILAR
+## §GRUPLAR
 
-> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+> İki-ekseni gruplama (registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**. `Kademe` ataması şeffaf rol kuralıdır (index/master/kapsam → Kademe-1; destek → Kademe-2) — diskte `kademe` alanı yok, uydurma yok.
 
-| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
+| Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
-| K003-audio | [[K003-audio]] | ../K003-audio/index.md | audio domain modelleri |
-| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP domain sinirlari |
-| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | AI domain baglami |
-| K007-data | [[K007-data]] | ../K007-data/index.md | entity persistence |
-| K012-services | [[K012-services]] | ../K012-services/index.md | servis sozlesmeleri |
-| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | event ve DTO paylasimi |
+| mimari | `index.md` | Domain künyesi | Kademe-1 |
+| mimari | `domain-master.md` | Domain anayasa | Kademe-1 |
+| mimari | `domain-kapsam.md` | Kapsam sınırı | Kademe-1 |
+| mimari | `domain-bilesenler.md` | Bileşen kataloğu | Kademe-2 |
+| mimari | `domain-bagimliliklar.md` | Bağımlılık ekseni | Kademe-2 |
+| mimari | `domain-kararlar.md` | Domain ADR'leri | Kademe-2 |
+| kod | `domain-kod-ornekleri.md` | Domain kod kanıtı | Kademe-2 |
+| kanit | `domain-riskler.md` | Risk defteri | Kademe-2 |
+| kod | `domain-test-stratejisi.md` | Test stratejisi | Kademe-2 |
+| kanit | `domain-web-arastirma.md` | Web araştırması | Kademe-2 |
+| mimari | `domain-evrensel-dil.md` | Ubiquitous dil | Kademe-2 |
+| kanit | `domain-dogrulama.md` | Doğrulama defteri | Kademe-2 |
 
----
 
-# K008-domain — Domain Künyesi
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K008-domain |
+| **K Adı** | Domain (İş Kuralları) |
+| **Kapsam** | İşin kuralları — "çal", "listeye ekle", "beğen" gibi kelimelerin anlamı. Müzik, medya, kullanıcı, kitaplık, playlist, playback, discovery, recommendation, device-management ve context-mapping olmak üzere 10 kademe-2 çocuk. 7 subdomain runtime kaydı `shared/config/domain.php:7-15`, 9 domain event `shared/src/Events/Domain/`. |
+| **Kritik Bağımlılıklar** | yok (FM `depends_on: []` — en alt domain katmanı; gelen bağımlılıklar K006/K007/K011/K012 tarafında tescilli) |
+| **Durum** | verify-required (10 kademe-2 çocuk · K008-domain ↔ eski disk K008-servisler ID CONFLICT açık) |
+| **Son Güncelleme** | 2026-10-15 (10 çocuk × 6 MD = 72/72 tamamlandı · 89 tekil URL havuzu) |
 
 > **ELI15 (v2 §2.8, birebir):** İşin kuralları — "çal", "listeye ekle", "beğen" gibi kelimelerin anlamı.
 
@@ -103,4 +105,37 @@ v2 bu çocuklara **yalnızca ad verir**; rol tanımları v2'de yoktur → her ç
 | Web kanıtı | ✅ var — `-web-arastirma.md` + çocuk arastırma dosyaları (tekil URL) |
 | Repo kanıtı | ✅ var — `shared/src/`, `.ai/.sql/mysql/` (bkz. `-kod-ornekleri.md`) |
 
-> **Authority:** Bayram Ali / Vault Steward · **Last Updated:** 2026-10-12 · **Mode:** Red Team · Human Mode · Truth Mode
+## §BAĞLANTILAR
+
+> **Okuma kuralı:** `←` işareti **hedef K'nın kendi dizinini kasteder** (`K00X-*/index.md` veya o dizindeki bir belge) — yani "K00X burada K008'den bahsediyor" anlamına gelir; K008'in kendi alt klasör belgeleri değil.
+> **Yön semantiği:** `↔` = iki yönlü referans kanıtı var · `→` = yalnız bu K'nın belgeleri hedefi anıyor · `←` = yalnız hedef K'nın dizini bu K'yı anıyor · `⚠️` = arama yapıldı, iki yönde de kanıt yok.
+> **Kanıt standardı:** Gerçek dosya adı + satır numarası; uydurma referans yok.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K000-isletim-sistemi | `[[K000-isletim-sistemi/index]]` | `../K000-isletim-sistemi/index.md` | ⚠️ | — | iki yönde kanıt yok |
+| K001-donanım | `[[K001-donanım/index]]` | `../K001-donanım/index.md` | ← | Yalnız K001 K008'i anıyor | `K001 index.md` 111 |
+| K002-electroncis | `[[K002-electroncis/index]]` | `../K002-electroncis/index.md` | ⚠️ | — | iki yönde kanıt yok |
+| K003-audio | `[[K003-audio/index]]` | `../K003-audio/index.md` | ↔ | Audio domain modelleri — K008 K003'e referans verir + K003 K008'i anıyor | `media-kapsam.md` 34 · `K003 index.md` 116 |
+| K004-dsp | `[[K004-dsp/index]]` | `../K004-dsp/index.md` | → | DSP domain sınırları — K008 K004'ü anıyor | `media-kapsam.md` 32 |
+| K005-firmware | `[[K005-firmware/index]]` | `../K005-firmware/index.md` | ⚠️ | — | iki yönde kanıt yok |
+| K006-yapay-zeka | `[[K006-yapay-zeka/index]]` | `../K006-yapay-zeka/index.md` | ↔ | AI domain bağlamı — K008 K006'yı anıyor + K006 K008'i anıyor | `index.md` 31,92 · `domain-master.md` 188 · `ai-master.md` 103,214 |
+| K007-data | `[[K007-data/index]]` | `../K007-data/index.md` | ↔ | Entity persistence / şema sahibi — K008 K007'yi anıyor + K007 K008'i anıyor | `music-kapsam.md` 33,241 · `media-kapsam.md` 36,257 · `library-kapsam.md` 253 · `K007 data-bagimliliklar.md` 23,61 |
+| K008-domain (kendi) | `[[K008-domain/index]]` | `index.md` | ○ | Kendi kendine bağımlılık yok. `depends_on: []` — en alt domain katmanı. | Bu belge (bu satır) |
+| K009-security | `[[K009-security/index]]` | `../K009-security/index.md` | ← | Yalnız K009 K008'i anıyor (input-validation domain referansı) | `K009 input-validation/input-validation-surucu.md` 60,129 |
+| K010-network | `[[K010-network/index]]` | `../K010-network/index.md` | ⚠️ | — | iki yönde kanıt yok |
+| K011-application | `[[K011-application/index]]` | `../K011-application/index.md` | ← | Yalnız K011 K008'i anıyor | `K011 application-bagimliliklar.md` 8,41 |
+| K012-services | `[[K012-services/index]]` | `../K012-services/index.md` | ↔ | Servis sözleşmeleri — K008 K012'yi anıyor + K012 K008'i anıyor | `music-kapsam.md` 35 · `media-kapsam.md` 397 · `user-kapsam.md` 37 · `K012 ai-service-kapsam.md` 54 |
+| K013-integraion | `[[K013-integraion/index]]` | `../K013-integraion/index.md` | ↔ | Event/DTO paylaşımı · dış katalog eşlemesi — K008 K013'ü anıyor + K013 K008'i anıyor | `music-kapsam.md` 39,247,336 · `music-dogrulama.md` 37 · `K013 index.md` 17,67 |
+| K014-media | `[[K014-media/index]]` | `../K014-media/index.md` | → | Medya domain sınırı — K008 K014'ü anıyor | `media-kapsam.md` 32 · `music-kapsam.md` 34 |
+| K015-AI | `[[K015-AI/index]]` | `../K015-AI/index.md` | ⚠️ | — | iki yönde kanıt yok |
+| K016-observability | `[[K016-observability/index]]` | `../K016-observability/index.md` | ⚠️ | — | iki yönde kanıt yok |
+| K17-devops | `[[K17-devops/index]]` | `../K17-devops/index.md` | ⚠️ | — | iki yönde kanıt yok |
+| K18-testing | `[[K18-testing/index]]` | `../K18-testing/index.md` | ⚠️ | — | iki yönde kanıt yok |
+| K019-comilance | `[[K019-comilance/index]]` | `../K019-comilance/index.md` | ← | Yalnız K019 K008'i anıyor | `K019 controls/index.md` 95 |
+| K020-discovery | `[[K020-discovery/index]]` | `../K020-discovery/index.md` | ↔ | Discovery/recommendation sahiplik sınırı (⚠️ CONFLICT) — K008 K020'yi anıyor + K020 K008'i anıyor | `index.md` 31,92 · `domain-master.md` 188 · `K020 discovery-bagimliliklar.md` 11,52 |
+| K021-recomenataion | `[[K021-recomenataion/index]]` | `../K021-recomenataion/index.md` | ← | Yalnız K021 K008'i anıyor | `K021 recommendation-master.md` 111 |
+
+**Authority:** `domain-master.md` (Master authority belgesi — bu index authority'si tamamlar).
+
+> **Authority:** Bayram Ali / Vault Steward · **Last Updated:** 2026-10-18 · **Mode:** Red Team · Human Mode · Truth Mode

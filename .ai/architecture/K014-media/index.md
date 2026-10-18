@@ -33,10 +33,22 @@ open_questions:
   - "Referans ürünler (Plexamp · Finamp · Navidrome) kapsam kararı etkiler mi → onay bekliyor"
   - "media-testing ile K019-testing kapsam sınırı → ⚠️ VERIFICATION REQUIRED"
 group: mimari
+updated: 2026-10-18
 ---
 
 
 # K014-media — Şarkı Dosyaları Dünyası
+
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K014-media |
+| **K Adı** | Medya (Media — şarkı dosyaları) |
+| **Kapsam** | Şarkı dosyaları dünyası — kapak resimleri, akış, indirme, çevrimdışı. Müziğin kendisini ve ona dair her şeyi taşır: kitaplık, bilgi (metadata), kapak (artwork), dizin, çalma, indirme/çevrimdışı, önbellek ve eşitleme. Ses sinyalinin işlenmesi K003-audio/K004-dsp'dir; burası dosya ve akıştır. 11 kademe-2 çocuk. |
+| **Kritik Bağımlılıklar** | K003-audio · K007-data · K010-network · K013-integraion (kanıt: FM depends_on) |
+| **Durum** | draft (11 kademe-2 çocuk) |
+| **Son Güncelleme** | 2026-10-12 (çocuk adları v2 §2.15 ile birebir 11/11 · Jellyfin referans kanıtı) |
 
 ## 1. ELI15 — bu oda ne işe yarar?
 
@@ -89,6 +101,36 @@ Ses sinyalinin **işlenmesi** K003-audio/K004-dsp'dir; burası dosya ve akışt�
 
 **Kaynak:** v2 §2.15 · .ai/architecture/index.md §5/15 · ADR-097 §5
 
+
+## §BAĞLANTILAR
+
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kök içerik dosyaları hedefe referans veriyor · `←` hedef K'nın kök dosyaları bu K'ya referans veriyor · `↔` ikisi de · `⚠️` kök taramada kanıt yok.
+> **Yöntem (2026-10-18):** her K'nın kök .md'leri (index.md hariç) taranıp hedef K adının toplam geçişi sayıldı (zero-hallucination; uydurma bağımlılık yok). Zenginleşik 4 tablo (K003/K008/K011/K012) korunmuştur.
+
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K014-media | [[K014-media]] | ./K014-media/index.md | ○ | bu K (kendi kökü) | registry §5 + disk |
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K003-audio | [[K003-audio]] | ../K003-audio/index.md | ↔ | bağımlı (depends_on) | M→15 · M←4 (kök .md, 2026-10-18) |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | → | bu K referanslıyor | M→2 · M←0 (kök .md, 2026-10-18) |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | → | bu K referanslıyor | M→1 · M←0 (kök .md, 2026-10-18) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | → | bağımlı (depends_on) | M→18 · M←0 (kök .md, 2026-10-18) |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ↔ | bağımlı (depends_on) | M→24 · M←17 (kök .md, 2026-10-18) |
+| K011-application | [[K011-application]] | ../K011-application/index.md | → | güçlü çapraz referans | M→15 · M←0 (kök .md, 2026-10-18) |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ↔ | iki yönlü güçlü referans | M→11 · M←15 (kök .md, 2026-10-18) |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | ↔ | bağımlı (depends_on) | M→18 · M←6 (kök .md, 2026-10-18) |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ← | karşı taraf referanslıyor | M→0 · M←7 (kök .md, 2026-10-18) |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | ⚠️ | kanıt yok | M→0 · M←0 (kök .md, 2026-10-18) |
 
 ## §GRUPLAR
 

@@ -500,3 +500,74 @@ kopuksa iddia kanıtsızdır ve «⚠️ VERIFICATION REQUIRED» kalır.
 ---
 *Authority: Bayram Ali / Vault Steward · K008-domain web araştırması · 2026-10-12 · 75 benzersiz URL · HTTP 200 (C4 düzeltmesi 2026-10-15: #72 tekrarı kaldırıldı)*
 *Authority: Bayram Ali / Vault Steward · K008-domain web araştırması · 2026-10-17 · 104 kök / 198 K008-geneli benzersiz URL · §18 turu: 29 × HTTP 200 + 16 × 404 (§18.5) · C4 çakışma 0*
+
+---
+
+## §19 ÇAPRAZ REFERANS TURU — 8 KAYIT (2026-10-17)
+
+> §18 turunun **tamamlayıcısıdır** (yeni tarama değil): 6 kayıt mevcut doğrulanmış
+> kaynağın **child dosyalara çapraz kullanımını** kiler, 2 kayıt **yeni URL**'dir ve
+> aynı doğrulama protokolünden geçmiştir (HTTP 200 + başlık + gövde metin araması).
+> C4: URL'ler bu dosyanın tekelindedir — child dosyalar yalnız `#no` verir.
+
+### §19.1 YENİ DOĞRULANMIŞ KAYNAKLAR (#30–#31 · HTTP 200 · 2026-10-17)
+
+| # | Alan | URL | HTTP | Başlık (yanıtta görünen) | Tarih (sayfada) | Yönlendirme |
+|---|---|---|---|---|---|---|
+| 30 | DDD genel bakış | https://martinfowler.com/bliki/DomainDrivenDesign.html | 200 | Domain Driven Design | 22 April 2020 | — |
+| 31 | Bounded Context | https://martinfowler.com/bliki/BoundedContext.html | 200 | Bounded Context | 15 January 2014 | — |
+
+### §19.2 İÇERİK DOĞRULAMASI (gövde metni — aranan ifadeler)
+
+| # | Kaynak | Aranan ifade | Sonuç |
+|---|---|---|---|
+| 1 | #30 | Ubiquitous Language | **VARDI** |
+| 2 | #30 | Entities / Value Objects / Aggregates | hepsi **VARDI** |
+| 3 | #30 | Strategic Design / Bounded Contexts | hepsi **VARDI** |
+| 4 | #31 | "total unification of the domain model for a large system will not be feasible" | **VARDI** (Evans alıntısı, dipnot 1) |
+| 5 | #31 | context map | **VARDI** ("depict these using a context map") |
+| 6 | #31 | Ubiquitous Language | **VARDI** |
+| 7 | #31 | polyseme / "Customer" / "Product" | hepsi **VARDI** (meter örneği + Customer/Product) |
+
+### §19.3 ÇAPRAZ REFERANS KAYITLARI (6 satır — hangi child hangi `#no`'yu kullanır)
+
+| # | Child dosya | Kullanacağı kaynak | Ne için | Kural |
+|---|---|---|---|---|
+| X1 | `context-mapping/context-mapping-kapsam.md` §12 | **#31** | `context map` ifadesi sayfada doğrulandı — ContextMap stratejik tasarım kartının literatür dayanağı | `#31` ile referans verilir, URL tekrar yazılmaz (C4) |
+| X2 | `bounded-context-kapsam.md` | **#30 + #31** | "total unification … not feasible" alıntısı BC ayırmaya gerekçe; #30 Evans sınıflandırması (Entity/VO/Service/Aggregate) | iki `#no` |
+| X3 | `anti-corruption-kapsam.md` | **#31** | polyseme (aynı terim farklı bağlamlarda farklı anlam) ACL'nin gereksinim gerekçesi; "mechanisms to map between these polysemic concepts" | `#31` |
+| X4 | `events-kapsam.md` | **#3** (§18.2) | "event notification" — hafif bildirim tezi zaten §18.3-E'de kayıtlı; bu tur child'a atıf ekler | `#3` |
+| X5 | `specifications-kapsam.md` | **#9 + #10** (§18.2) | And/Or composite — §18.3-C kaydı child'a taşınır | `#9 #10` |
+| X6 | `domain-kod-ornekleri.md` §8–§9 | **#12–#20, #22–#25, #27–#28** (§18.2) | dil başına resmi referans zaten eşleşmiş; §9 (event+specification) bu tur yeni kaynak **istemedi** — blokların dayanağı §18.2 havuzudur | `#no` kümeleri |
+
+### §19.4 KAYNAK ↔ İDDİA EŞLEMESİ (bu turun iddiaları)
+
+| # | İddia (K008'de geçtiği yer) | Kaynak | Kanıtladığı | Kanıtlamadığı / sınır |
+|---|---|---|---|---|
+| L | DDD, karmaşık alanlarda yazılım modelini alanın kendisine göre kurar (domain-master §1–§2 genel tez) | #30 | "approach … centers the development on programming a domain model" + "particularly suited to complex domains" metinleri **VARDI** | CoreMusic'in karmaşıklık derecesi bu sayfadan gelmez — proje kararı |
+| M | Büyük sistemde domain modelinin tam birleşimi uygulanamaz → BC zorunludur (`bounded-context-kapsam.md` tez satırı) | #31 | Evans alıntısı birebir sayfada **VARDI** (§19.2 #4) | Hangi sınırın CoreMusic'te nereye çekileceği **proje kararı** |
+| N | Context map, BC ilişkilerini göstermek için kullanılan araçtır (`context-mapping-kapsam.md` §12) | #31 | "worthwhile to depict these using a context map" metni **VARDI** | Depoda context map sınıfı/şeması **YOK** (child §3) — yalnız literatür dayanağı |
+| O | Aynı terim farklı bağlamlarda farklı anlam taşır (anti-corruption tezi) | #31 | polyseme önekleri: "meter" (3 anlam) + Customer/Product **VARDI** | ACL deseninin kendisi bu sayfada **YOK** — ACL kanıtı ayrı kaynaktır (§18 öncesi havuz) |
+
+### §19.5 HAVUZ TOPLAMI VE ÖLÇÜM (bu turun kaydı)
+
+| Ölçüm | Değer |
+|---|---|
+| Tarama tarihi | 2026-10-17 |
+| Bu turda denen URL | 2 (yeni) |
+| Kabul edilen URL | 2 (#30 · #31 — HTTP 200 + başlık + gövde 7/7 arama) |
+| Reddedilen URL | 0 |
+| Çapraz referans kaydı | 6 (X1–X6) |
+| İddia eşlemesi | 4 (L–O) |
+| C4 çakışması | 0 (#30/#31 K008 havuzunda daha önce yoktu — §18.2'nin 29'una ek) |
+| §18.x'e dokunma | 0 (append-only) |
+| Commit | 0 (orkestratöre ait) |
+
+**Kapanış:** §19 tek turda hem çapraz atıf (X1–X6) hem 2 yeni kaynak (#30–#31)
+ekledi; §18.1–§18.10 olduğu gibi kaldı. Bir sonraki tarama turu (§20) yalnız
+**§18.8 tetikleyicileri** veya **`⚠️ VERIFICATION REQUIRED` açık işaretleri**
+kapanacaksa açılır.
+---
+*Authority: Bayram Ali / Vault Steward · K008-domain web araştırması · 2026-10-12 · 75 benzersiz URL · HTTP 200 (C4 düzeltmesi 2026-10-15: #72 tekrarı kaldırıldı)*
+*Authority: Bayram Ali / Vault Steward · K008-domain web araştırması · 2026-10-17 · 104 kök / 198 K008-geneli benzersiz URL · §18 turu: 29 × HTTP 200 + 16 × 404 (§18.5) · C4 çakışma 0*
+*Authority: Bayram Ali / Vault Steward · K008-domain web araştırması · 2026-10-17 · §19 çapraz referans turu: 6 atıf (X1–X6) + 2 yeni kaynak (#30 DomainDrivenDesign · #31 BoundedContext — HTTP 200 + gövde 7/7) · C4 çakışma 0*

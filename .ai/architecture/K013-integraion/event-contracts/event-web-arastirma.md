@@ -383,3 +383,124 @@ kullanılmalı. `event-anayasa.md` §Kaynak'ta bu adres kayıtlı.
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+# TUR-3 — Derin Araştırma (2026-10-18, append-only)
+
+> Bu bölüm §1–§10'un üzerine **eklenmiştir**; tur-1 (2026-10-16) kayıtlarına
+> dokunulmamıştır. **İddia numaraları `T3-1 … T3-35`** ile başlar; `E1–E15`
+> (tur-1) ile karıştırılmaz. Ölçüm yöntemi §10.1'dedir.
+
+## §10.1 Yöntem (tur-3 ölçüm protokolü)
+
+| Adım | Araç | Not |
+|---|---|---|
+| 1. Aday listesi | konu-bazlı 60 aday | outbox · inbox · saga · HMAC · retry · gateway · idempotency · CDC |
+| 2. Durum ölçümü | PowerShell **.NET `HttpClient`** · `HttpMethod::Get` · `AllowAutoRedirect=true` · timeout 30 sn · UA `Mozilla/5.0 …` | `Invoke-WebRequest` bu ortamda **NonInteractive prompt** verdi → `HttpClient`'a geçildi (bkz §10.4 teknik not) |
+| 3. İçerik çekimi | sayfa metni okundu | **yalnız okunan** sayfalar iddia taşır |
+| 4. Kayıt | iddia · URL · HTTP · tarih · ne kanıtladığı | 404/erediler §10.3'te |
+
+**Kural:** yalnız `200` dönen **ve** metni okunan sayfalar iddia taşır.
+`200` dönüp okunmayanlar **yalnız erişilebilirlik kaydıdır** (`⚠️`).
+
+## §10.2 Tur-3 iddia tablosu (okunan kaynaklar — iddia taşıyanlar)
+
+| # | İddia (bu dosyanın) | Kaynak URL | HTTP | Tarih | Ne kanıtladığı (birebir) |
+|---|---|---|---|---|---|
+| T3-1 | Outbox, DB + broker'ı atomik yapar; 2PC gerekmez | https://microservices.io/patterns/data/transactional-outbox.html | 200 | 2026-10-18 | *"first store the message in the database as part of the transaction that updates the business entities"* · dört katılımcı: Sender / Database / Message outbox / Message relay |
+| T3-2 | Relay kopya yayınlayabilir → tüketici idempotent olmalı | aynı (T3-1) | 200 | 2026-10-18 | *"a message consumer must be idempotent, perhaps by tracking the IDs of the messages that it has already processed"* |
+| T3-3 | Outbox **kopyayı önlemez**; alıcı taraf çözer | https://softwaremill.com/microservices-101/ | 200 | 2026-10-18 | *"the outbox pattern doesn't prevent duplicate requests — these still have to be handled on the recipient side"* → sonuç **at-least-once** |
+| T3-4 | Polling outbox DB'ye yük bindirir; `SKIP LOCKED` çözüm | aynı (T3-3) | 200 | 2026-10-18 | *"usually below 1s, very often way below"* · *"`SELECT ... FOR UPDATE SKIP LOCKED`"* · kaynak adıyla **Postgres ve MySQL** |
+| T3-5 | CDC / WAL tailing polling'e alternatiftir | aynı (T3-3) | 200 | 2026-10-18 | *"every operation is recorded in WAL (write-ahead-log)… This kind of processing called CDC"* · Debezium adı geçer |
+| T3-6 | İstek tekrarı için **idempotency key + yanıt saklama** | https://docs.stripe.com/idempotency | 200 | 2026-10-18 | aynı anahtarla **farklı** gövde → hata; aynı gövde → **ilk yanıtın kendisi** döner |
+| T3-7 | Saga = yerel transaksiyonların güvenilir zinciri + compensating | https://microservices.io/patterns/data/saga.html | 200 | 2026-10-18 | *"either all steps complete successfully or… undone by compensating transactions"* · iki biçim: **Choreography** / **Orchestration** |
+| T3-8 | Saga'da **rollback otomatik değildir** ve **izolasyon yoktur** | aynı (T3-7) | 200 | 2026-10-18 | *"Lack of automatic rollback"* · *"Lack of isolation (the 'I' in ACID)"* |
+| T3-9 | Saga çıktısının istemciye dönüşü 3 yolu var | aynı (T3-7) | 200 | 2026-10-18 | olay bekleme · `GET /orders/{id}` polling · websocket/webhook |
+| T3-10 | Webhook imzası **HMAC-SHA256** + ham gövde şartı | https://stripe.com/docs/webhooks/signatures | 200 | 2026-10-18 | `t=<ts>,v1=<hex>` · *"Stripe requires the raw body of the request to perform signature verification"* |
+| T3-11 | Zaman toleransı varsayılanı **5 dakika**; `0` yasak | aynı (T3-10) | 200 | 2026-10-18 | *"Our libraries have a default tolerance of 5 minutes"* · *"Don't use a tolerance value of `0`"* |
+| T3-12 | Tekrar-dene: canlıda **3 güne kadar** exponential backoff | aynı (T3-10) | 200 | 2026-10-18 | *"up to three days with an exponential back off in live mode"* · sandbox: birkaç saatte 3 deneme |
+| T3-13 | Manuel yeniden gönderim penceresi: Dashboard **15 gün**, CLI **30 gün** | aynı (T3-10) | 200 | 2026-10-18 | *"up to 15 days"* / *"up to 30 days"* |
+| T3-14 | Dış sistem olayları **sıralı değildir**; `created` ile sıra kurulmaz | aynı (T3-10) | 200 | 2026-10-18 | *"Stripe doesn't guarantee the delivery of events in the order that they're generated"* · *"Don't use `created` to determine event order"* → kopya tespiti **event id** ile |
+| T3-15 | Webhook imzası GitHub'da `X-Hub-Signature-256` = `sha256=<hex>` | https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries | 200 | 2026-10-18 | *"GitHub uses an HMAC hex digest"* · *"always starts with `sha256=`"* |
+| T3-16 | Düz `==` karşılaştırması **yasak** → sabit-zamanlı | aynı (T3-15) | 200 | 2026-10-18 | *"Never use a plain `==` operator"* → `crypto.timingSafeEqual` / `secure_compare` |
+| T3-17 | **Resmi test vektörü** mevcut (imza doğrulama testi) | aynı (T3-15) | 200 | 2026-10-18 | secret `It's a Secret to Everybody` · payload `Hello, World!` → `sha256=757107ea0eb2509fc211221cce984b8a37570b6d7586c22c46f4379c8b043e17` |
+| T3-18 | Retry'da **idempotency kontrolü** şart koşuluğu | https://learn.microsoft.com/en-us/azure/architecture/patterns/retry | 200 | 2026-10-18 | *"Consider whether the operation is idempotent. If so, it's inherently safe to retry."* · gecikme *"incrementally or exponential"* — **sayısal `base` değeri sayfada YOK** |
+
+### §10.2.1 `⚠️` erişildi ama okunmadı — iddia TAŞIMAZ
+
+| # | URL | HTTP | Tarih |
+|---|---|---|---|
+| T3-19 | https://kafka.apache.org/documentation/#semantics | 200 | 2026-10-18 |
+| T3-20 | https://cloud.google.com/pubsub/docs/push | 200 | 2026-10-18 |
+| T3-21 | https://cloud.google.com/pubsub/docs/exactly-once-delivery | 200 | 2026-10-18 |
+| T3-22 | https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html | 200 | 2026-10-18 |
+| T3-23 | https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html | 200 | 2026-10-18 |
+| T3-24 | https://www.rfc-editor.org/rfc/rfc9457.html (Problem Details) | 200 | 2026-10-18 |
+| T3-25 | https://www.rfc-editor.org/rfc/rfc6585.html (429) | 200 | 2026-10-18 |
+| T3-26 | https://www.rfc-editor.org/rfc/rfc9110.html | 200 | 2026-10-18 |
+| T3-27 | https://www.rfc-editor.org/rfc/rfc9111.html | 200 | 2026-10-18 |
+| T3-28 | https://www.w3.org/TR/websub/ (WebSub Rec) | 200 | 2026-10-18 |
+| T3-29 | https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml | 200 | 2026-10-18 |
+| T3-30 | https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing | 200 | 2026-10-18 |
+| T3-31 | https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker | 200 | 2026-10-18 |
+| T3-32 | https://learn.microsoft.com/en-us/azure/architecture/patterns/gateway-routing | 200 | 2026-10-18 |
+| T3-33 | https://spec.openapis.org/oas/latest.html | 200 | 2026-10-18 |
+| T3-34 | https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html | 200 | 2026-10-18 |
+| T3-35 | https://docs.stripe.com/rate-limits | 200 | 2026-10-18 |
+
+**Toplam benzersiz URL (tur-3): 35** · **iddia taşıyan (okunan): 18** ·
+**yalnız erişilebilirlik: 17** · **404/eredi: 10** (§10.3).
+
+## §10.3 Tur-3 eleme defteri (404 — dayanak yapılmadı)
+
+| # | Aday URL | HTTP | Neden bu aday? | Sonuç |
+|---|---|---|---|---|
+| X-11 | `https://martinfowler.com/2023/transactional-outbox.html` | **404** | görevde Fowler-outbox bekleniyordu | reddedildi — **Fowler'a atıf YAPILMADI** |
+| X-12 | `https://martinfowler.com/bliki/TransactionalOutbox.html` | **404** | bliki karşılığı | reddedildi |
+| X-13 | `https://martinfowler.com/articles/transactional-outbox.html` | **404** | üçüncü varyant | reddedildi |
+| X-14 | `https://learn.microsoft.com/en-us/aspnet/core/security/webhooks` | **404** | ASP.NET Core webhook rehberi | bu yolda yok |
+| X-15 | `https://www.rabbitmq.com/tutorials/confirms.html` | **404** | eski tutorial yolu | yeni yol `/docs/confirms` **200** |
+| X-16 | `https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html` | **404** | EIP sayfası | bu adreste yok |
+| X-17 | `https://www.enterpriseintegrationpatterns.com/patterns/messaging/TransactionallySharedDatabase.html` | **404** | EIP sayfası | bu adreste yok |
+| X-18 | `https://temporal.io/blog/how-temporal-works` | **404** | saga/akış motoru | blog yolu yok |
+| X-19 | `https://debezium.io/documentation/reference/stable/connectors/mysql/#mysql-outbox-event-router` | **404** | CDC outbox router | bu yolda yok |
+| X-20 | `https://microservices.io/patterns/data/cQRS.html` | **404** | büyük-harf varyant | doğru yol `/cqrs.html` **200** |
+
+> **Dürüstlük kararı:** görevde adı geçen *"martinfowler.com
+> transactional-outbox"* kaynağı **üç ayrı adreste 404** almıştır. Bu nedenle
+> bu dosyada (ve K013 genelinde) Fowler'ın outbox'a ilişkin bir yazısına
+> **dayanak atfedilmemiştir**. Doğru kaynaklar **T3-1** (microservices.io) ve
+> **T3-3** (softwaremill) olmuştur. `⚠️ VERIFICATION REQUIRED`: böyle bir yazı
+> varsa **farklı bir adreste** olmalıdır — sonraki tur işidir.
+
+## §10.4 Çapraz denetim (tur-3 ↔ mevcut dosyalar)
+
+| # | Tur-3 bulgusu | Mevcut kayıtla ilişkisi | Aksiyon |
+|---|---|---|---|
+| 1 | T3-15 / T3-16 / T3-17 (GitHub HMAC) | tur-1 **[E3]** aynı test vektörünü taşıyor → **çakışma YOK, teyit VAR** | çapraz referans |
+| 2 | T3-10 / T3-11 (Stripe toleransı 5 dk) | tur-1 **[E4]** "tolerance" diyor ama **sayı vermiyor** → tur-3 **sayıyı ekler** | yeni bilgi, çelişki yok |
+| 3 | T3-12 (3 güne kadar backoff) | tur-1'de **YOK** | yeni iddia |
+| 4 | T3-14 (sıra garantisi yok) | `event-anayasa.md` §6 "Sralama ve Zaman" ile doğrudan ilgili | oraya da işlendi |
+| 5 | T3-6 (idempotency key + yanıt saklama) | `event-dogrulama.md` §5 idempotency kapısı ile ilgili | oraya da işlendi |
+| 6 | X-11…X-13 (Fowler 404) | tur-1'de Fowler adı **geçmiyordu** → ilk kayıt burada | dürüstlük satırı |
+
+**Teknik not (ölçüm):** `Invoke-WebRequest` bu ortamda
+`NonInteractive mode. Read and Prompt` hatası verdi; ölçüm **.NET `HttpClient`**
+ile yeniden alındı. `HEAD` ile alınan ilk sonuçlar `GET` ile çoğaltılmıştır;
+**yalnız `GET` sonuçları geçerlidir**.
+
+## §10.5 Tur-4 için hazır kalemler (bilgi amaçlı — iddia sayılmaz)
+
+| # | Kaleme | Neden | Sahip |
+|---|---|---|---|
+| 1 | T3-19 / T3-20 / T3-21 tam metin okuma | semantik iddiaları **`⚠️` kaldı** | research |
+| 2 | EIP IdempotentReceiver / DeadLetterChannel tam metin | adı kullanılıyor, içerik okunmadı | research |
+| 3 | Fowler-outbox'un gerçek adresi (varsa) | üç aday 404 | research |
+| 4 | RFC 9421 (mesaj imzalama) güncelliği | tur-1 [E12] taşındı, tur-3'te yeniden çekilmedi | research |
+| 5 | CloudEvents 1.0.2 → sonraki sürüm | sürüm takibi | Vault Steward |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+**Tur-3 Tarih:** 2026-10-18 · **Benzersiz URL:** 35 · **404:** 10 · **IdDia Taşıyan:** 18

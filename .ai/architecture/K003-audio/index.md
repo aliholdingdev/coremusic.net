@@ -13,6 +13,17 @@ group: mimari
 
 # K003-audio — Ses Motoru
 
+## §GENEL BAKIŞ
+
+| Alan | Değer |
+|---|---|
+| **K Kodu** | K003-audio |
+| **K Adı** | Ses Motoru (Audio Engine) |
+| **Kapsam** | Bir şarkıya basıldığında dosyanın okunup hoparlöre/kulaklığına gittiği motorun tarifi: sıralama, zamanlama, cihaz seçimi ve hata durumunda geri düşme. Boru hattının akışıdır — sesi şekillendirmez (→ K004-dsp), kartı tasarlamaz (→ K001-donanım), donanım içi yazılımı yazmaz (→ K005-firmware). 12 kademe-2 çocuk (engine · device · driver · backend · input · output · routing · mixing · realtime · synchronization · diagnostics · testing). |
+| **Kritik Bağımlılıklar** | K000-isletim-sistemi · K001-donanım · K005-firmware (kanıt: FM depends_on · §3 bağımlılık özeti [TASARIM]) |
+| **Durum** | draft (12 kademe-2 çocuk · D1–D3 ✅, D4–D7 ❌) |
+| **Son Güncelleme** | 2026-10-14 (§1.5 Neva Engine kaydı · Q1 ASIO lisans kararı kapandı — audio-dogrulama.md §28 E-3) |
+
 ## §1 ELI15
 
 **Sesin üretilip hoparlöre/kulaklığı gittiği motor.** Bir şarkıya bastığınızda
@@ -97,15 +108,36 @@ riskler) · `audio-dogrulama.md` (iddia·URL·tarih·durum + D-kriterleri) ·
 
 ## §BAĞLANTILAR
 
-> 2026-10-17 · orkestratör · kaynak: K000–K013 arasi gercek dosya taramasi (ad gecen K eslesmesi) + v2 S4.2 depends_on · iliskiler dogrulanmadir, kesin sozlesme degildir.
+> **Kaynak & yöntem (2026-10-18 genişletme):** 22 K'nın tamamının `index.md` frontmatter
+> `depends_on` alanları + tüm `.md` dosyalarında ad-geçen K taraması (UTF-8 ölçümü).
+> **Yön işareti = kanıt yönü, sözleşme değil:** `→` bu K'nın kendi belgeleri hedefe referans
+> veriyor · `←` karşı tarafın belgeleri bu K'ya referans veriyor · `↔` ikisi de.
+> Kanıtsız eşleşmede `⚠️` yazılır; **uydurma bağımlılık satırı yazılmaz** (zero-hallucination).
 
-| Hedef K | Wiki-link | Göreli dosya yolu | İlişki |
-|---|---|---|---|
-| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | platform ses API leri |
-| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ses donanimi (DAC/ADC/cihaz) |
-| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ses devresi ve analog zincir |
-| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | DSP efekt zinciri |
-| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | ses firmware kontrol kanallari |
+| Hedef K | Wiki-link | Göreli dosya yolu | Yön | İlişki | Kanıt |
+|---|---|---|---|---|---|
+| K000-isletim-sistemi | [[K000-isletim-sistemi]] | ../K000-isletim-sistemi/index.md | ↔ | platform ses API leri, sürücü yükleme, thread zemini | `K003 depends_on [K000]` · `K000 os-bagimliliklar.md` K003 referansı |
+| K001-donanım | [[K001-donanım]] | ../K001-donanım/index.md | ↔ | DAC/ADC, ses kartı, I2S/TDM hattı fiziksel muhattır | `K003 depends_on [K001]` · `K001 donanım-bagimliliklar.md` K003 referansı |
+| K002-electroncis | [[K002-electroncis]] | ../K002-electroncis/index.md | ← | ses devresi ve analog zincir (preamp/DAC devresi) | `K002 electroncis-bagimliliklar.md` → K003 |
+| K003-audio | — (kendi) | index.md | ○ | bu düğümün kendisi | — |
+| K004-dsp | [[K004-dsp]] | ../K004-dsp/index.md | ↔ | DSP zinciri, motorun akışına graph düğümü olarak eklenir | `K003 → K004` sınır kuralı (master §2.2) · `K004 depends_on [K003-audio, K000]` |
+| K005-firmware | [[K005-firmware]] | ../K005-firmware/index.md | ↔ | donanım boot sonrası ses yolu kullanılabilir hale gelir | `K003 depends_on [K005]` · `K005 firmware-bagimliliklar.md` §9.3 K003 bağımlılığı |
+| K006-yapay-zeka | [[K006-yapay-zeka]] | ../K006-yapay-zeka/index.md | ← | ses/müzik analizi için motorun ölçüm çıktısı | `K006` dosyalarında K003 referansı (music-analysis) |
+| K007-data | [[K007-data]] | ../K007-data/index.md | ← | metadata/akış kaydı deposu | `K007` dosyalarında K003 referansı |
+| K008-domain | [[K008-domain]] | ../K008-domain/index.md | ← | playback/music bounded-context sınırları | `K008` dosyalarında K003 referansı (playback) |
+| K009-security | [[K009-security]] | ../K009-security/index.md | ⚠️ | doğrudan kanıt yok — DRM/erişim etkisi olası | `K009` belgelerinde K003 geçmiyor (`⚠️ VERIFY REQUIRED`) |
+| K010-network | [[K010-network]] | ../K010-network/index.md | ← | ağ üzerinden ses akışı/handoff | `K010 network-bagimliliklar.md` K003 referansı |
+| K011-application | [[K011-application]] | ../K011-application/index.md | ← | oynatma senaryosu / usecase akışları | `K011 application-bagimliliklar.md` K003 referansı |
+| K012-services | [[K012-services]] | ../K012-services/index.md | ← | playback-service / audio-service sarmalayıcısı | `K012 services-bagimliliklar.md` K003 referansı |
+| K013-integraion | [[K013-integraion]] | ../K013-integraion/index.md | ⚠️ | doğrudan kanıt yok — dış sistem senkronu etkisi olası | `K013` belgelerinde K003 geçmiyor (`⚠️ VERIFY REQUIRED`) |
+| K014-media | [[K014-media]] | ../K014-media/index.md | ← | streaming/kütüphane katmanının oynatıcı yüzeyi | `K014 media-bagimliliklar.md` §12.1 K003 etki analizi |
+| K015-AI | [[K015-AI]] | ../K015-AI/index.md | ← | ajan/agent yüzeyinden ses yetenekleri | `K015 ai-bagimliliklar.md` K003 referansı |
+| K016-observability | [[K016-observability]] | ../K016-observability/index.md | ← | RT ölçüm, jitter, sürücü hata teşhisi | `K016 observability-bagimliliklar.md` K003 referansı |
+| K17-devops | [[K17-devops]] | ../K17-devops/index.md | ← | build/deploy ve paketleme zinciri | `K17 devops-bagimliliklar.md` K003 referansı |
+| K18-testing | [[K18-testing]] | ../K18-testing/index.md | ← | unit/integration/e2e + audio-quality testi | `K18 testing-bagimliliklar.md` K003 referansı |
+| K019-comilance | [[K019-comilance]] | ../K019-comilance/index.md | ⚠️ | lisans/ölçüm uyum etkisi olası, kanıt yok | `K019` belgelerinde K003 geçmiyor (`⚠️ VERIFY REQUIRED`) |
+| K020-discovery | [[K020-discovery]] | ../K020-discovery/index.md | ⚠️ | arama/discovery için katalog etkisi olası, kanıt yok | `K020-discovery` belgelerinde K003 geçmiyor (`⚠️ VERIFY REQUIRED`) |
+| K021-recomenataion | [[K021-recomenataion]] | ../K021-recomenataion/index.md | ← | öneri sıralamasında çalma/parça sinyali | `K021` dosyalarında K003 referansı |
 
 ---
 

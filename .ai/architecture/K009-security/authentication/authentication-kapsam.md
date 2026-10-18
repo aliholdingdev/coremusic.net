@@ -139,3 +139,44 @@ group: mimari
 
 | Son Durum (kapsam · geniş) | authentication-kapsam.md · 6 bölüm daha · group: mimari |
 |---|---|
+
+## §12 PAROLA TÜRETME VE KİMLİK AKIŞI DERİNLİĞİ (2026-10-18 — APPEND-ONLY)
+
+> §1-§11 silinmez. Yeni kod kanıtı yok; Password·43-49 · AuthMiddleware·7 · JwtService·22 kanıtları sentezlenir.
+
+### 12.1 Parola Doğrulama Zinciri (adım adım, hangi hata nerede reddeder)
+
+| Adım | İşlem | Başarısızsa | Kanıt |
+|---|---|---|---|
+| 1 | Ham parola gelir (TLS üzerinden) | TLS yoksa taşıma güvenliği K010-network devri | — |
+| 2 | APP_PEPPER uygulanır (HMAC) | pepper okunamazsa → 500/genel mesaj + log (fail-closed) | Password·59 |
+| 3 | `password_verify` Argon2id doğrulaması | false → 401 genel mesaj + auth fail olayı + rate-limit sayacı | Password·43-49 |
+| 4 | Başarılı → session_id regen + _auth doldur | regen başarısızsa oturum başlatma (fail-closed) | SessionLifecycle·60 |
+| 5 | (API) JWT üretimi RS256 + jti | imza anahtarı okunamazsa token ÜRETİLMEZ | JwtService·22 |
+
+| §12.1 Kural | Açıklama |
+|---|---|
+| Yanlış kullanıcı vs yanlış parola | yanıt AYNI (400/401 genel mesaj) — kullanıcı varlığı sızdırılmaz |
+| Zamanlama | hash doğrulama sabit zamanlı; kullanıcı bulunamazsa SAHTE verify (dummy hash) ⚠️ K009'da kanıt YOK |
+| Parola sıfırlama | reset token tek kullanımlık + süreli ⚠️ kanıt K010'da bekliyor (web-arastirma A-18) |
+
+### 12.2 Parola Politikası Matrisi (OWASP A07 yüzeyi)
+
+| Kural | Durum | Not |
+|---|---|---|
+| Min uzunluk (8+) | ⚠️ politika kodda doğrulanmadı | validation dosyası |
+| MFA | DIŞARIDA (§2/AD-07, kanıt yok) | OWASP 2025 A07 için güçlü azaltıcı |
+| Brute-force kilit | rate-limiting fail-closed + authentication fail-lockout (rate-limiting §1.3) | DoS yüzeyi: rate-limiting §6.3 senaryo 2 |
+| Credential stuffing | IP limiti etkisiz (botnet) | D-RL-1 kararı |
+| Parola sıfırlama akışı | K010 (web-arastirma A-18) | ⚠️ |
+
+### 12.3 Kimlik Tokenları Karşılaştırma (session vs JWT vs API key)
+
+| Yüzey | Taşıyıcı | Ömür | İptal | K009 kanıtı |
+|---|---|---|---|---|
+| Tarayıcı | session cookie | idle+lifetime | session silinir → anında | SessionLifecycle·21-69 |
+| API | Bearer JWT (RS256) | kısa süreli (exp) | jti reddi ⚠️ rotation D-28 | JwtService·22/51 |
+| Servis | API key (hash'li) | uzun | DB'den kaldırma | ApiKeyRepository·171/304 |
+| Bypass | config'ten sabit | ortam ömrü | env değişikliği | AuthMiddleware·19-37 (ADR-008) |
+
+> **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

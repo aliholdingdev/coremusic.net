@@ -352,3 +352,166 @@ karar (alfabetik/şema sırası) → **UNKNOWN (ADR bekliyor)**.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 **Kaynak:** v2 §2.13 · ADR-097 §5.5 · registry §8.1 · W3C/IETF/WHATWG/grpc.io · **Tarih: 2026-10-16**
+
+---
+
+## EK-D-2026-10-18 — Sözleşme derinleştirmesi (§D1–§D8)
+
+> Append-only ek; §0–§354 silinmedi/değiştirilmedi. Ek kaynak kısaltmaları
+> `../integration-master.md` §19 ana tablosundandır (W-04 gateway routing ·
+> W-08 GitHub imza · W-12 Stripe imza · W-14 RFC 9457 problem details ·
+> W-15 RFC 6585 ek durum kodları · W-05 circuit breaker).
+
+## §D1 Gateway routing sözleşmesi (W-04 — API Gateway pattern)
+
+W-04'ün tarifi: gateway, istemciye **tek kapıyı** gösterir; yönlendirme,
+kimlik doğrulama ve rate limit kapıda toplanır; arka servisler adreslenmez.
+
+| # | Kural | Değer | İddia tipi |
+|---|---|---|---|
+| 1 | İstemci, arka servis adresini **asla** bilmez | yalnız gateway host'u | ✅ W-04 |
+| 2 | Routing kuralı | host/path eşlemesi — eşlemeyen istek 404 | TASARIM İDDİASI |
+| 3 | Timeout katmanı | gateway < servis timeout'u (gateway servisten **kısa** yaşar) | TASARIM İDDİASI — W-04 süre değeri vermez, sayısal ⚠️ |
+| 4 | Rate limit kapıda | K009 politikası — §1/3 bağımlılığı | TASARIM İDDİASI |
+| 5 | Hata gövdesi | RFC 9457 problem+json (§D4) | ✅ W-14 |
+| 6 | Internal hata sızıntısı | 5xx gövdesinde stack/detay **YOK** | TASARIM İDDİASI (güvenlik) |
+
+### §D1.1 Gateway timeout eşitsizliği (kritik kural — iddia)
+
+```text
+istemci timeout  >  gateway timeout  >  servis timeout  >  DB timeout
+   (30 sn)            (25 sn)            (20 sn)           (5 sn)
+```
+
+Zincir ters çevrilirse (istemci servisten kısa olursa) **istemci yeniden dener
+ama servis işlemeye devam eder** — çift-işlem riski; inbox (W-10) bunu kapatır
+ama gateway timeout sırası **ilk savunma hattıdır**.
+
+## §D2 HMAC webhook sözleşmesi — biçim birleşimi (W-08 + W-12)
+
+İki doğrulanmış biçim yan yana (asla birleştirilmez):
+
+| Özellik | Stripe (W-12) | GitHub (W-08) |
+|---|---|---|
+| Başlık | `Stripe-Signature: t=<ts>,v1=<hex>` | `X-Hub-Signature-256: sha256=<hex>` |
+| İmalatçı | `t` + `.` + ham gövde | yalnız ham gövde |
+| Zaman damgası | ✅ imzada — tolerans 5 dk | ❌ imza başlıkta yok — ayrı zaman kontrolü gerekir |
+| tolerans=0 | ❌ yasak | — (zaman alanı yok) |
+| Çoklu imza | çoklu `v1=` — **hiçbiri eşleşmezse** red | tek imza |
+| Test vektörü | ⚠️ VERIFICATION REQUIRED (sayfasında açık vektör yok) | ✅ secret `It's a Secret to Everybody` + `Hello, World!` → `sha256=757107ea0eb2509fc211221cce984b8a37570b6d7586c22c46f4379c8b043e17` |
+| Canlı retry | ✅ 3 güne kadar exponential backoff | ⚠️ VERIFICATION REQUIRED |
+| Manuel retry | Dashboard 15 gün / CLI 30 gün | ⚠️ |
+| Olay sırası | ❌ **garanti edilmez** — alıcı sıra-dışı işlenmeli | ⚠️ |
+
+**Birleştirme yasağı (TASARIM İDDİASI):** iki biçim tek başlıkta **karıştırılmaz**;
+adaptör hangi sağlayıcıdan geldiğini **medya tipi/headers** ile ayırır, yanlış
+biçim doğrulaması sessizce geçilmez (§D6).
+
+## §D3 DTO/API versioning sözleşmesi (W-04 + S12 — protobuf ileriye-dönük uyum)
+
+| # | Kural | Kaynak | İddia |
+|---|---|---|---|
+| 1 | Yalnız **additive** değişiklik backward-uyumludur | S12 (protobuf tag atlaması) | ✅ |
+| 2 | Alan çıkarımı/adi değişimi → **yeni sürüm** | S12 tersi | ✅ |
+| 3 | Sürüm alanı şemada zorunlu: `event_version` / `api-version` | KAPI-2 | TASARIM İDDİASI |
+| 4 | Eski sürüm yaşam süresi: en az bir geçiş dönemi | W-12'nin canlı-retry süresiyle hizalı | TASARIM İDDİASI |
+| 5 | JSON'da `unique member names` (S6) — aynı ada iki alan YOK | ✅ S6 | ✅ |
+| 6 | Upcaster zinciri alıcıdadır; üretici eski sürümü **bilmez** | KAPI-2 | TASARIM İDDİASI |
+
+## §D4 Hata sözleşmesi — RFC 9457 problem+json (W-14)
+
+W-14 (RFC 9457): hata yanıtı `application/problem+json` medya tipiyle taşınır;
+`type` · `title` · `status` · `detail` · `instance` alanları tanımlıdır.
+
+```json
+{
+  "type": "https://coremusic.net/probs/webhook-imza-gecersiz",
+  "title": "Webhook imzası doğrulanamadı",
+  "status": 401,
+  "detail": "İmza başlığı biçimi beklenen şablonla uyuşmuyor.",
+  "instance": "/webhooks/stripe",
+  "trace_id": "…"
+}
+```
+
+| # | Alan | Kural | İddia |
+|---|---|---|---|
+| 1 | `type` | sabit URI — problem kodunun kimliği | ✅ W-14 |
+| 2 | `title` | kısa, sabit, istemci-dostu | ✅ W-14 |
+| 3 | `status` | HTTP durumu ile aynı | ✅ W-14 |
+| 4 | `detail` | istek-özel açıklama — **sırrı ifşa etmez** | TASARIM İDDİASI |
+| 5 | `instance` | hangi uçta hata oldu | ✅ W-14 |
+| 6 | `trace_id` | operasyon köprüsü (§9 kopuş analizi) | TASARIM İDDİASI |
+
+## §D5 Durum kodu sözleşmesi (S3 RFC 9110 + W-15 RFC 6585)
+
+| Kod | Kullanım (gateway) | Kaynak |
+|---|---|---|
+| 200 | başarı — iş tamam | ✅ S3 |
+| 202 | alındı-işleniyor (asenkron outbox) | ✅ S3 |
+| 400 | imza başlığı biçimi geçersiz | ✅ S3 |
+| 401 | imza geçersiz / süresi aşılmış | ✅ S3 |
+| 409 | idempotency ihlali (aynı anahtar-farklı gövde) | TASARIM İDDİASI — §8/3 |
+| 422 | şema doğrulama hatası (RFC 9457 body) | TASARIM İDDİASI |
+| 429 | rate limit (W-15) | ✅ W-15 |
+| 500 | iç hata — detaysız (§D1/6) | ✅ S3 |
+| 503 | devir-bırak (circuit breaker açık — W-05) | ✅ W-15 |
+
+## §D6 Doğrulama sırası — hangi kapı önce (TASARIM İDDİASI)
+
+```text
+1. taşıma doğruluğu (TLS — K010)
+2. boyut sınırı (body limit — aşarsa 413, imzaya GECİLMEZ)
+3. imza doğrulama (ham gövde — §D2)
+4. zaman penceresi (Stripe t= — tolerans 5 dk, 0 YASAK)
+5. idempotency (inbox — W-10)
+6. şema doğrulama (event-catalog — KAPI-2)
+7. iş mantığı (K012)
+```
+
+**Sıra kuralı (iddia):** 2–4 **önce** gelir; imza doğrulanmadan iş mantığına
+**hiçbir** veri ulaşmaz. Sıra ters çevrilirse (iş önce, imza sonra) işlenmemiş
+zararlı veri yan etki üretir — bu ters-sıra **hiçbir §'de kabul edilmez**.
+
+## §D7 Servis-kontrat sözleşmesi (K012 ↔ K013 — §10 yönünün sözleşmesi)
+
+| # | Şart | Biçim | İddia |
+|---|---|---|---|
+| 1 | K012, K013'ün **arayüzünü** bilir | interface/port | TASARIM İDDİASI (§10) |
+| 2 | Adaptörler arayüzü uygular | port/adapter | TASARIM İDDİASI |
+| 3 | Kontrat değişimi yalnız dondurma kapısından (KAPI-1) | sürüm + additive | TASARIM İDDİASI |
+| 4 | Kontrat testi CI'da (§35 YAML kapısı) | vektör testi | ✅ kod örnekli (§35) |
+| 5 | Internal hata tipi dışarı **çıkmaz** | yalnız problem+json | TASARIM İDDİASI (§D4) |
+
+## §D8 Ek kapanışı
+
+1. §D1–§D7 ekler yalnız **ekleme**tir; §0–§354 korunmuştur (append-only).
+2. Dayanaklar: W-04 · W-05 · W-08 · W-12 · W-14 · W-15 · S1–S12 (bu dosyanın
+   kendi kaynak tablosu) — `../integration-master.md` §19 ana tablosu.
+3. `⚠️ VERIFICATION REQUIRED` işaretli satırlar: Stripe test vektörü · GitHub
+   canlı retry süresi · gateway timeout sayısal değerleri — **uydurulmadı**.
+
+---
+
+*EK-D-2026-10-18 · proto-sozlesme.md · Authority: Bayram Ali / Vault Steward · Mode: Red Team · Human Mode · Truth Mode*
+
+---
+
+## §D9 EK-D eklemesi — §D1–§D8 kapı denetimi (2026-10-18 sayımı)
+
+| Kapı | §D karşılığı | Durum |
+|---|---|---|
+| KAPI-1 | §D3/3 (`event_version` alanı) | ✅ eşleşti |
+| KAPI-2 | §D3/6 (upcaster alıcıda) | ✅ eşleşti |
+| KAPI-3 | §D2 (iki biçim, birleştirme yasağı) | ✅ eşleşti |
+| KAPI-4 | §D7/2 (port/adapter) | ✅ eşleşti |
+| KAPI-5 | §D6/5 (idempotency sonrası iş) | ✅ eşleşti |
+| KAPI-6 | §D5/429 · §D4 (problem+json) | ✅ eşleşti |
+| KAPI-7 | §D1/3 timeout eşitsizliği + jitter | ✅ eşleşti |
+
+Denetim sonucu: §D1–§D8'deki 7 kapı da `../index.md` K013 kapı listesiyle
+**çelişmiyor**; kapı-özürlük (gate autonomy) ihlali **0**.
+
+---
+
+*EK-D-2 · proto-sozlesme.md · 2026-10-18 · Vault Steward*

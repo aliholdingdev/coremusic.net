@@ -133,3 +133,41 @@ gözetim gerecidir → doğrulama.md kontrol 30.
 
 Devir kuralı: bu düğüm oturumun ÖMRÜNÜ yönetir; içeriğinin doğruluğu
 (authentication) ve kullanıcının ne yapabildiği (authorization) buraya girmez.
+
+## §11 OTURUM SALDIRI SENARYOLARI × MEVCUT SAVUNMA (2026-10-18 — APPEND-ONLY)
+
+> §1-§10 silinmez. Yeni kod kanıtı yok; §9 bileşen haritasındaki satır referansları kullanılır.
+
+### 11.1 Senaryo Matrisi (STRIDE ile)
+
+| # | Saldırı | OWASP 2025 | Mevcut savunma (§ referansı) | Boşluk |
+|---|---|---|---|---|
+| 1 | Session fixation (çalınan ID'yi kullanma) | A07 | login öncesi ID regen (SessionLifecycle·60, §3) | — |
+| 2 | Session hijacking (XSS ile cookie hırsızlığı) | A05·A08 | HttpOnly + CSP nonce (§1, SecurityHeaders·18-31) | XSS açık olursa HttpOnly yeterli değil — CSP son savunma |
+| 3 | Cookie replay (HTTPS olmayan taşıma) | A02·A04 | Secure bayrağı (§1; HTTPS koşullu ⚠️) | HTTPS koşulu sağlanmazsa bayrak düşer |
+| 4 | Idle timeout atlatma (sürekli istek) | A07 | idle + lifetime ikili (§2) | lifetime değeri UNKNOWN |
+| 5 | CSRF (oturumla state-changing) | A01 | synchronizer token (Csrf·42) + SameSite | SameSite tek başına yeterli değil; token asıl savunma |
+| 6 | Logout'tan sonra session geri yüklenme | A08 | tek noktada sıfırlama (§4) | — |
+| 7 | PostMessage ile token sızıntısı (pencere) | A01 | origin doğrulama (web-arastirma §10) | kanıt kısmi |
+| 8 | Çift başlatıcı çatışması (SessionInitializer ×2) | A02 | — (§9 gözetim gereci) | kontrol 30 açık |
+
+### 11.2 Cookie Bayrak Denetim Tablosu (§1 kabul kriterinin derinliği)
+
+| Bayrak | Amaç | Eksikse | OWASP 2025 |
+|---|---|---|---|
+| HttpOnly | JS'ten cookie okunamaz | XSS → session hırsızlığı | A05 |
+| Secure | yalnız HTTPS'te gönderilir | ağ üzerinden sızıntı | A04 |
+| SameSite | cross-site istekte cookie gitmez | CSRF yüzeyi genişler (CSRF token yine zorunlu) | A01 |
+| Path/Domain | daraltma | alt domain sızıntısı | A02 |
+| __Host- öneki | domain genişlemesi + Secure + Path=/ zorunlu | — | A02 (⚠️ K009'da kullanılmıyor, kural dışı öneri) |
+
+### 11.3 Oturum Zamanlayıcıları Matrisi (§2 derinliği)
+
+| Zamanlayıcı | Semantik | Aksiyon | Kanıt durumu |
+|---|---|---|---|
+| Idle timeout | etkinlik yoksa oturum biter | yeni istekte reddet + sıfırla | §2 IMPLEMENTED · değer ⚠️ |
+| Absolute (lifetime) timeout | oturum en fazla X yaşar | regen zorunlu | §2 IMPLEMENTED · değer ⚠️ |
+| Cookie expiry | tarayıcı tarafı son kullanma | cookie silinir | SessionConfig·16 (COOKIE_EXPIRY) |
+| Rotation periyodu | belirli istek/süre aralığında ID yenile | fixation kırma | §3 IMPLEMENTED |
+
+> **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

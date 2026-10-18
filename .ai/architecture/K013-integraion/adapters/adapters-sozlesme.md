@@ -373,3 +373,129 @@ olmadan **değiştirilmez**; test, tabloyu **yansıtmıyorsa** test eksiktir.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 **Kaynak:** v2 §2.13 · ADR-097 §5.5 · registry §8.1 · IETF RFC · Microsoft Learn · Fowler/Robinson · **Tarih: 2026-10-16**
+
+---
+
+## EK-E-2026-10-18 — Adaptör direnç katmanı (§E1–§E7)
+
+> Append-only ek; §0–§375 korunmuştur. Dayanak kısaltmaları
+> `../integration-master.md` §19'dandır (W-04 retry · W-05 circuit breaker ·
+> W-10 IdempotentReceiver · W-12 Stripe imza · W-17 Stripe rate limit ·
+> W-18 GitHub rate limit).
+
+## §E1 Adaptör direnç katmanı — hangi koruma hangi sırada (TASARIM İDDİASI)
+
+Her üçüncü-parça adaptörü **aynı** katman sırasını uygular (dışarıdan içeri):
+
+```text
+1. rate-limit bekleyici (W-17/W-18 kotaları)
+2. circuit breaker (W-05) — açıkken istek ATILMAZ
+3. retry + backoff + jitter (W-04, §17 kuralı)
+4. timeout (gateway > servis > adaptör eşitsizliği — §D1.1)
+5. idempotency anahtarı (W-10 — dış çağrı tekrarı)
+6. imza doğrulama (W-12/W-08 — yanıt geldiğinde)
+7. olay yazımı (outbox — W-01)
+```
+
+**Katman kuralı (iddia):** 2 açıkken 3 **çalışmaz** — circuit breaker'ın
+temel tarifi (W-05): hata eşiğini aşan çağrılar doğrudan reddedilir, retry
+**hastalığı yaymaz**. Bu sırasız uygulama, retry'ı circuit breaker'dan önce
+koyan uygulamalarda dış servisi **daha hızlı** öldürür (W-05'in tarif ettiği
+"reset" kavramı).
+
+## §E2 Rate limit sözleşmesi — iki doğrulanmış dış kota (W-17 + W-18)
+
+| Sistem | Kota biçimi | Davranış | Kaynak |
+|---|---|---|---|
+| Stripe | ⚠️ hesap-bazlı okuma/yazma kotaları — sayısal değer dokümanda hesap bazlı verilir | 429 + `Retry-After` beklenir | ✅ W-17 |
+| GitHub REST | saatlik kota (`X-RateLimit-Remaining` · `X-RateLimit-Reset`) | 403/429 + reset zamanı beklenir | ✅ W-18 |
+
+**Ortak kural (iddia):** `Retry-After` varsa **onu** kullan; yoksa jitter'lı
+backoff (§E1/3). Kota-başı-istek-sayısı sayıları **adaptör-özel** olup bu
+dosyada uydurulmaz — her adaptör kendi dokümanından okur (§E5).
+
+## §E3 İdempotency — dış çağrının geri dönmesi (W-10 + Stripe idempotency-key)
+
+| # | Şart | Biçim | İddia |
+|---|---|---|---|
+| 1 | Yazma dış çağrılarında idempotency anahtarı zorunlu | Stripe: `Idempotency-Key` başlığı (W-12 ailesi) | ✅ W-17 dokümanı |
+| 2 | Anahtar üretimi | `evt-` öneki + event_id (sabit, yeniden denemede **değişmez**) | TASARIM İDDİASI |
+| 3 | Aynı anahtar-farklı gövde | dış servis reddeder → adaptör 409'a benzer hata üretir | ⚠️ dış servise bağlı |
+| 4 | İç taraf (alıcı) | inbox (§22–§32) — dış çağrı-yazma + inbox-okuma birlikte | W-10 |
+
+## §E4 Circuit breaker durum matrisi (W-05 — taslak)
+
+| Durum | Davranış | Geçiş | İddia |
+|---|---|---|---|
+| CLOSED | istekler akar | hata eşiği → OPEN | ✅ W-05 kavramı |
+| OPEN | istekler **atılır**, adaptör hata döner | süre doldu → HALF-OPEN | ✅ W-05 |
+| HALF-OPEN | sınırlı deneme | başarı → CLOSED · hata → OPEN | ✅ W-05 |
+| (süre/eshik) | ⚠️ VERIFICATION REQUIRED | ADR | sayısal değer uydurulmadı |
+
+## §E5 Adaptör envanteri — sürüm stratejisi sorusunun zemini (§A/2 için)
+
+| # | Adaptör | Biçim | Sürüm stratejisi | İddia |
+|---|---|---|---|---|
+| 1 | YouTube Music | ⚠️ UNKNOWN (§A/6) | ⚠️ UNKNOWN | backlog — bagimliliklar §16 zinciri |
+| 2 | Stripe webhook | ✅ imza biçimi biliniyor (§D2) | Stripe API sürüm başlığı | ✅ W-17 |
+| 3 | GitHub webhook | ✅ imza biçimi biliniyor (§D2) | API-Version başlığı | ✅ W-18 |
+| 4 | (diğerleri) | ⚠️ VERIFICATION REQUIRED | — | envanter tamamlanmadı |
+
+## §E6 Adaptör sözleşmesi — her adaptörün uymak zorunda olduğu 7 şart
+
+1. Ham gövdeyi **değiştirmeden** imzalar/doğrular (W-08 · W-12).
+2. `tolerance=0` **yazmaz** (W-12).
+3. Kalıcı hata ile geçici hata **ayırt eder**; kalıcı hata DLQ'ya gider, retry
+   almaz (§33 filtresi).
+4. Retry yollarının **tamamında** jitter vardır; jitter'siz yol **yoktur**
+   (§17).
+5. Dış çağrının idempotency anahtarı **yeniden denemede değişmez** (§E3/2).
+6. Yanıtı RFC 9457 problem+json'a çevirir; dış detay **sızdırılmaz** (§D4/4).
+7. `Retry-After` varsa onu kullanır; yoksa backoff (§E2).
+
+## §E7 Ek kapanışı
+
+1. Bu ek yalnız **adaptör-direnç** katmanını ekledi; §A açık sorular tablosu
+   **değişmedi** (kapılar kapanmadı — açık soru kapanışı yalnız ADR ile olur).
+2. Dayanaklar: W-04 · W-05 · W-10 · W-12 · W-17 · W-18 (erişildi-okunmadı
+   işaretleri `event-web-arastirma.md` T3 listesindedir — bu ek onları
+   dayanak olarak **saymaz**, yalnız kavramsal tarifi kullanır).
+3. Sayısal değerler (hata eşiği, süre, kota) uydurulmadı — `⚠️ VERIFICATION
+   REQUIRED` olarak ADR'ye bırakıldı.
+
+---
+
+*EK-E-2026-10-18 · adapters-sozlesme.md · Authority: Bayram Ali / Vault Steward · Mode: Red Team · Human Mode · Truth Mode*
+
+---
+
+## §E8 EK-E eklemesi — adaptör direnç-katmanı denetim tablosu (2026-10-18)
+
+§E1'deki 7 katmanın, bu vault'taki kod örnekleriyle kesişimi:
+
+| Katman | §E1 | Kod karşılığı | Dosya |
+|---|---|---|---|
+| 1. rate-limit bekleyici | §E2 | (adaptör-özel — sayısal yok) | — |
+| 2. circuit breaker | §E4 | (durum matrisi — W-05 taslağı) | — |
+| 3. retry+jitter | §E1/3 · §17 | `backoff()` · `Invoke-WithBackoff` · `yeniden_gonder()` | §28 Go · §34 PS · §33 Bash |
+| 4. timeout | §E1/4 | (gateway eşitsizliği) | §D1.1 proto-sozlesme |
+| 5. idempotency | §E3 | `isle()` · `isleyici` · `tek()` | §27 Python · §29 Rust · §32 Kotlin |
+| 6. imza doğrulama | §E6/1 | `dogrula()` · `Test-CoreMusicWebhookSignature` | §31 Swift · §34 PS |
+| 7. olay yazımı | §E6 | outbox `run_once()` | §25 C++ · §28 Go |
+
+**Boşluk denetimi:** 7 katmanın **2'sinin** (1 rate-limit · 2 circuit breaker)
+bu vault'ta **kod karşılığı YOK** — sayısal parametreler ADR kapısında bekliyor
+(§E4). Bu boşluk "eksik" değil, **işaretli eksikliktir** (Truth Mode) —
+uydurma sayısal değer yazılmadı.
+
+## §E9 EK-E kapanış denetimi
+
+1. EK-E + §E8, §A açık-sorular tablosuna **yeni satır eklemedi** (§A/2 hâlâ ADR
+   bekliyor); envanter (§E5) 4 satırda kaldı — 4. satır `⚠️` işaretli.
+2. Dayanak kullanımı: W-04 · W-05 · W-10 · W-12 · W-17 · W-18 — hepsi
+   `../integration-master.md` §19'da; yeni URL: **0**.
+3. §E6/7 şartının §D6 doğrulama sırasıyla uyumu: **7/7 eşleşti** (bir çelişki yok).
+
+---
+
+*EK-E-2 · adapters-sozlesme.md · 2026-10-18 · Vault Steward*

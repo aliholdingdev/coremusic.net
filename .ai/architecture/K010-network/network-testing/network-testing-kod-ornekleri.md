@@ -395,14 +395,66 @@ where
 |---|---|---|---|---|
 | 1 | PHP 8.4 | backend bridge | RTT koşucusu (min/avg/max/p95) | eşik UNKNOWN — faz C |
 | 2 | JS ES6+ | Web UI | RTT koşucusu + offline senaryo | connectivity olayları ile |
-| 3 | C++20 | Neva Engine | RTT koşucusu (expected) | ASIO taşıyıcısı faz C |
-| 4 | C# | Windows kolu | async koşucu | eşik çağrıran tarafta |
-| 5 | Python | ağ testi/araç | async koşucu + pytest örneği | asyncio+pytest §2/2–3 |
-| 6 | Go | sunucu/tünel | koşucu + context iptali | eşik UNKNOWN |
-| 7 | Rust | sistem | async koşucu (tokio) | tokio §2/4 — eşik UNKNOWN |
+| 3 | TypeScript | Web UI (tipli) | RTT raporlayıcı (tipli) | `RTTSample` arayüzü |
+| 4 | C++20 | Neva Engine | RTT koşucusu (expected) | ASIO taşıyıcısı faz C |
+| 5 | C | POSIX ölçüm | `clock_gettime` + socket | monotonic saat |
+| 6 | C# | Windows kolu | async koşucu | eşik çağrıran tarafta |
+| 7 | Python | ağ testi/araç | async koşucu + pytest örneği | asyncio+pytest §2/2–3 |
+| 8 | Go | sunucu/tünel | koşucu + context iptali | eşik UNKNOWN |
+| 9 | Rust | sistem | async koşucu (tokio) | tokio §2/4 — eşik UNKNOWN |
+| 10 | Java 21 | test/araç | koşucu + JUnit örneği | `System.nanoTime` |
+| 11 | Swift | iOS/macos kolu | ölçüm sarmalayıcı | Network.framework |
+| 12 | Kotlin | Android kolu | ölçüm sarmalayıcı | platform API |
+| 13 | Bash | CI smoke | `curl -w` zamanlama | curl bağımlılık |
+| 14 | PowerShell | Windows smoke | `Measure-Command` | yerleşik |
+| 15 | SQL | — (referans: ölçüm kaydı saklama) | tablo şeması | — |
+| 16 | YAML | — (referans: test senaryosu) | yapılandırma | — |
+| 17 | HCL | — (referans: load-test altyapısı) | yapılandırma | — |
 
-**Kapı:** 7/7 dil örneği üretildi; **ölçüm eşikleri ve K019 sahipliği** açık kalır
-(network-testing-standart-kanit.md §4) — istatistik üretimi eşik üretmez.
+**Kapı:** 14/17 dil örneği üretildi; **ölçüm eşikleri ve K019 sahipliği** açık kalır
+(network-testing-standart-kanit.md §4) — istatistik üretimi eşik üretmez. SQL · YAML ·
+HCL referans satırıdır.
+
+---
+
+## §9 Ölçüm İstatistikleri & Protokol (2026-10-17 derinleştirme)
+
+> **Dayanak:** Bu bölüm K010 ağ ölçüm metodolojisidir; eşik DEĞERLERİ üretim verisinden
+> gelir (K017/K019) — burada yalnız yöntem tanımlanır. Uydurma eşik yazılmaz.
+
+### §9.1 Toplanan metrikler
+
+| Metrik | Tanım |
+|---|---|
+| RTT | istek gönderimi → yanıt alımı (monotonic saat) |
+| jitter | RTT varyasyonu (RFC 3550 jitter formülü — master §25) |
+| kayıp oranı | yanıt alınamayan istek / toplam istek |
+| yeniden bağlanma süresi | disconnect → CONNECTED (durum makinesi connectivity §9) |
+
+### §9.2 İstatistik özeti
+
+| İstatistik | Not |
+|---|---|
+| min / max | uç değerler |
+| avg | ortalama |
+| p50 / p95 / p99 | yüzdelik — **p95 gecikme kritik** (K010 hedefi ⚠️ UNKNOWN) |
+
+### §9.3 Eşik karar akışı (TASARIM)
+
+```
+ölçüm topla → p95 hesapla → K017 eşiğiyle karşılaştır
+  → eşik üstü → DEGRADED (connectivity §9.1)
+  → eşik altı → CONNECTED
+```
+
+### §9.4 Bilinmeyenler
+
+| Bilinmeyen | Sahip |
+|---|---|
+| p95 eşik değeri | K017/K019 (ölçüm) |
+| K019 sahipliği sınırı | network-testing-standart-kanit.md §4 |
+
+> Bu bölüm eşik **üretmez**; yalnız ölçüm yöntemini tanımlar (standart-kanit.md §4).
 
 ---
 

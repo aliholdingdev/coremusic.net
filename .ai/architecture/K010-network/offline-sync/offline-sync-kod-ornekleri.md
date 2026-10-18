@@ -416,14 +416,67 @@ impl OfflineQueue {
 |---|---|---|---|---|
 | 1 | PHP 8.4 | backend bridge | bellek içi FIFO kuyruk | kalıcılaştırma faz C |
 | 2 | JS ES6+ | Web UI | IndexedDB outbox + online flush | Background Sync entegrasyonu faz C |
-| 3 | C++20 | Neva Engine | deque + idempotency kümesi | SQLite yolu §2/6 — seçimi faz C |
-| 4 | C# | Windows kolu | Channel tabanlı kuyruk | kalıcılaştırma faz C |
-| 5 | Python | ağ testi/araç | deque FIFO + async flush | kalıcılaştırma faz C |
-| 6 | Go | sunucu/tünel | slice FIFO + context | kalıcılaştırma faz C |
-| 7 | Rust | sistem | VecDeque + HashSet | kalıcılaştırma faz C |
+| 3 | TypeScript | Web UI (tipli) | outbox (tipli kayıt) | `OutboxEntry` arayüzü |
+| 4 | C++20 | Neva Engine | deque + idempotency kümesi | SQLite yolu §2/6 — seçimi faz C |
+| 5 | C | POSIX kuyruk | basit dizi + mutex | kalıcılaştırma yok |
+| 6 | C# | Windows kolu | Channel tabanlı kuyruk | kalıcılaştırma faz C |
+| 7 | Python | ağ testi/araç | deque FIFO + async flush | kalıcılaştırma faz C |
+| 8 | Go | sunucu/tünel | slice FIFO + context | kalıcılaştırma faz C |
+| 9 | Rust | sistem | VecDeque + HashSet | kalıcılaştırma faz C |
+| 10 | Java 21 | test/araç | `ArrayDeque` FIFO | kalıcılaştırma yok |
+| 11 | Swift | iOS/macOS kolu | `Deque` + kalıcı (CoreData/SQLite) | kalıcılaştırma faz C |
+| 12 | Kotlin | Android kolu | Room outbox | Room bağımlılık |
+| 13 | Bash | kuyruk denetimi | `wc -l` kuyruk sayacı | dosya tabanlı |
+| 14 | PowerShell | Windows denetimi | kuyruk sayacı | yerleşik |
+| 15 | SQL | — (referans: outbox şeması) | `CREATE TABLE outbox` | — |
+| 16 | YAML | — (referans: sync yapılandırması) | yapılandırma | — |
+| 17 | HCL | — (referans: altyapı) | yapılandırma | — |
 
-**Kapı:** 7/7 dil örneği üretildi; **çakışma çözümü YOKTUR** ve sahiplik §7/2
-açık kalır — offline-sync-standart-kanit.md §4 (2 UNKNOWN).
+**Kapı:** 14/17 dil örneği üretildi; **çakışma çözümü YOKTUR** ve sahiplik §7/2
+açık kalır — offline-sync-standart-kanit.md §4 (2 UNKNOWN). SQL · YAML · HCL
+referans satırıdır.
+
+---
+
+## §9 Idempotency & Çakışma Tasarımı (2026-10-17 derinleştirme)
+
+> **Dayanak:** `https://www.rfc-editor.org/rfc/rfc9110.txt` — HTTP 200 · 2026-10-17
+> (Idempotentlik). Çakışma çözümü (conflict resolution) stratejisi bu görevde
+> **seçilmedi** → `⚠️ VERIFICATION REQUIRED`.
+
+### §9.1 Outbox deseni (kuyruk → sunucu)
+
+| Adım | Aksiyon |
+|---|---|
+| 1 | kayıt önce yerel outbox'a yaz (kalıcı) |
+| 2 | bağlantı geldiğinde flush |
+| 3 | sunucu yanıt alınınca outbox'tan sil |
+
+### §9.2 Idempotency-Key (RFC 9110 §9.1 — http-kod-ornekleri §9.3 ile aynı)
+
+| Kural | Değer |
+|---|---|
+| anahtar | istemci üreten UUID v4 |
+| sunucu | aynı anahtar için tek iş |
+| tekrar | aynı yanıt döner |
+
+### §9.3 Çakışma çözümü — SEÇİLMEDİ (2 UNKNOWN)
+
+| Strateji | Durum |
+|---|---|
+| son yazan kazanır (LWW) | ⚠️ SEÇİLMEDİ |
+| sürüm tabanlı (version check) | ⚠️ SEÇİLMEDİ |
+| alan bazlı birleştirme | ⚠️ SEÇİLMEDİ |
+
+> Sahiplik §7/2 (offline-sync-standart-kanit.md §4) — bu görevde karar verilmez;
+> uydurma strateji yazılmaz.
+
+### §9.4 Sıra & tekrar riski
+
+| Risk | Önlem |
+|---|---|
+| flush sırasında kopma | idempotency-key (§9.2) |
+| sıra bozukluğu | sıra numarası + tek writer (master §17) |
 
 ---
 

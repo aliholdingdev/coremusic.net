@@ -9,7 +9,7 @@ depends_on:
   - K009-security/security-kapsam
 evidence: "12+ benzersiz URL (HTTP 200, 2026-10-12) + Dosya·Satır kod kanıtları"
 validation: "Doğrulanmış kaynak listesi + iddia-kanıt xref + doğrulanamayanlar kaydı"
-open_questions: "A10 SSRF kanıtı yok; HSTS preload kaydı doğrulanmadı; Permissions-Policy başlığı kodda okunmadı"
+open_questions: "SSRF (A01/A05) kanıtı yok; HSTS preload kaydı doğrulanmadı; Permissions-Policy başlığı kodda okunmadı"
 group: kanit
 ---
 
@@ -512,6 +512,57 @@ group: kanit
 | Yeni bölümler en sonda | §17..§21 |
 | Authority/ifade satırı korundu | dosya sonu "Son Durum" tablosu korundu |
 | Benzersiz URL (başlık doğrulanmış) | 17 yeni · 0 tekrar |
+| git commit | ATILMADI (yasak) |
+
+> **Bu bölüm kanıt oranını DEĞİŞTİRmez.**
+
+## §22 2026-10-18 DOĞRULANMIŞ KAYNAK BATCH'I (15 URL + 2 DÜRÜST 404)
+
+> **Doğrulama yöntemi:** PowerShell `Invoke-WebRequest` GET (Chrome UA, redirect takibi) + `<title>` karşılaştırması;
+> OWASP için `curl.exe -L` (Invoke-WebRequest 308 redirect'i PowerShell 5.1'de takip etmedi — dürüst kayıt).
+> Tarih: **2026-10-18**. Kesişim denetimi: K009-security/** tamamı üzerinde `Select-String -SimpleMatch` —
+> aşağıdaki 15 URL'nin tamamı envanterde (217+ URL) **YOK** → 0 tekrar.
+
+| # | URL | HTTP | Doğrulanan başlık/kanıt | K009 kullanımı |
+|---|---|---|---|---|
+| 1 | https://owasp.org/Top10/2025/ | **308 → https://top10.owasp.org/2025/ (200)** | `<title>OWASP Top 10:2025</title>` | security-kapsam.md §9 — resmi 2025 liste |
+| 2 | https://cwe.mitre.org/data/definitions/352.html | 200 | CWE-352: Cross-Site Request Forgery (CSRF) (4.20) | CSRF eşlemesi (§12 kontrol 4) |
+| 3 | https://cwe.mitre.org/data/definitions/918.html | 200 | CWE-918: Server-Side Request Forgery (SSRF) (4.20) | SSRF eşlemesi (§12 kontrol 13) |
+| 4 | https://cwe.mitre.org/data/definitions/330.html | 200 | CWE-330: Use of Insufficiently Random Values (4.20) | rastgelelik eşlemesi (§12 kontrol 3) |
+| 5 | https://cwe.mitre.org/data/definitions/327.html | 200 | CWE-327: Use of a Broken or Risky Cryptographic Algorithm (4.20) | MD5/SHA-1/DES yasağı (§12 kontrol 14) |
+| 6 | https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38d.pdf | 200 | NIST SP 800-38D (GCM — PDF, HTML title yok) | AES-GCM nonce/IV kuralları |
+| 7 | https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-132.pdf | 200 | NIST SP 800-132 (PBKDF — PDF, HTML title yok) | parola türetme rehberi |
+| 8 | https://pages.nist.gov/800-63-4/ | 200 | "NIST SP 800-63 Digital Identity Guidelines" | authentication referansı |
+| 9 | https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy | 200 | "Same-origin policy - Security \| MDN" | CORS/Origin temeli |
+| 10 | https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Origin | 200 | "Origin header - HTTP \| MDN" | OriginCheck kanıtı |
+| 11 | https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy | 200 | "Cross-Origin-Opener-Policy (COOP) header - HTTP \| MDN" | COOP başlığı (SecurityHeaders·18-31) |
+| 12 | https://www.php.net/manual/en/function.openssl-decrypt.php | 200 | "PHP: openssl_decrypt - Manual" | GCM decrypt parametreleri |
+| 13 | https://rfc-editor.org/rfc/rfc8941.html | 200 | "RFC 8941: Structured Field Values for HTTP" | Structured Fields (bkz. §20 batch) |
+| 14 | https://rfc-editor.org/rfc/rfc9421.html | 200 | "RFC 9421: HTTP Message Signatures" | imzalı istek yüzeyi |
+| 15 | https://rfc-editor.org/rfc/rfc9457.html | 200 | "RFC 9457: Problem Details for HTTP APIs" | hata sözleşmesi (A10) |
+
+### §22.1 — Dürüst 404 kayıtları (uydurma URL YASAK — bunlar ERİŞİLEMEDİ)
+
+| URL | Sonuç | Yorum |
+|---|---|---|
+| https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Script_Cheat_Sheet.html | **404** | (2026-10-17 ve 2026-10-18 iki turda da 404) — OWASP Cheat Sheet serisinde bu adla sayfa bulunmuyor; JWT kullanımı için OWASP JWT Cheat Sheet adı altında doğrulanmış başka sayfa ARAŞTIRILMADI |
+| https://cheatsheetseries.owasp.org/cheatsheets/Account_Lockout_Cheat_Sheet.html | **404** | (2026-10-17 ve 2026-10-18 iki turda da 404) — Account Lockout için bu adla sayfa yok |
+
+### §22.2 — Yöntem notu (tekrar üretilebilirlik)
+
+| Not | Ayrıntı |
+|---|---|
+| Redirect kapanması | `owasp.org/Top10/2025/` kalıcı 308 döner; kalıcı adres `top10.owasp.org/2025/` (200). Yeni atıflarda kalıcı URL kullanılır; §9'daki `owasp.org/Top10/2025/` 308 üzerinden AYNI içeriğe gider — ikisi de doğru |
+| PowerShell 5.1 sınırı | `Invoke-WebRequest` 308'i takip etmez; OWASP batch'i `curl.exe -L` ile doğrulandı |
+| NIST PDF yolu düzeltmesi | `nvlpubs.../NIST.SP.800-38D.pdf` biçimi **404** verdi (2026-10-18); doğru kalıcı yol `Legacy/SP/nistspecialpublication800-38d.pdf` (200). Aynı düzeltme SP 800-132 için de geçerli |
+| PDF başlık kanıtı | PDF yanıtında `<title>` yoktur → başlık sütunu "PDF" olarak dürüst işaretlendi; içerik doğrulaması indirme ister |
+
+| §22 Kapanış Kontrolü | Durum |
+|---|---|
+| Append-only (§1-§21 silinmedi) | EVET |
+| Benzersiz URL | 15 yeni · 0 tekrar (K009 geneli SimpleMatch taraması) |
+| Dürüst 404 | 2 (§22.1) |
+| Yöntem + tarih | PowerShell/curl · 2026-10-18 |
 | git commit | ATILMADI (yasak) |
 
 > **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

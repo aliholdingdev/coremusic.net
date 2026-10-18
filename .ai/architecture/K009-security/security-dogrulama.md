@@ -83,7 +83,7 @@ group: kanit
 | D-28 | JWKS key rollover | key rotation kodu | kanıt yok | ⚠️ VERIFICATION REQUIRED |
 | D-29 | Account lockout / brute-force kilidi | lockout kodu | rate limit var, lockout kanıtı yok | ⚠️ VERIFICATION REQUIRED |
 | D-30 | Sızıntı testi (credential stuffing) | test senaryosu | yok | ⚠️ VERIFICATION REQUIRED |
-| D-31 | A10 SSRF kontrolü | outbound URL denetimi | kanıt yok | UNKNOWN |
+| D-31 | SSRF kontrolü (A01/A05 · CWE-918) | outbound URL denetimi | kanıt yok | UNKNOWN |
 | D-32 | SIEM/uyarı (audit) | log akışı entegrasyonu | kanıt yok | UNKNOWN |
 | D-33 | Dependency CVE taraması | composer audit raporu | rapor yok | UNKNOWN |
 | D-34 | TLS 1.2+ sunucu yapılandırması | php.ini/nginx kanıtı | okunmadı | ⚠️ VERIFICATION REQUIRED |
@@ -204,3 +204,60 @@ group: kanit
 | 6 | 6 çocuk × 6 MD yazıldı | 36/36 (bu oturum) |
 | 7 | Frontmatter/grup/satır kontrolü | §8 §9 §10 |
 | 8 | Commit | ATILMADI (yasak) |
+
+## §12 OWASP TOP 10:2025 EŞLEMESİ DOĞRULAMASI (2026-10-18)
+
+> Kaynak: security-kapsam.md §9 (owasp.org/Top10/2025/ → top10.owasp.org/2025/, HTTP 200, 2026-10-18).
+
+| # | Kontrol | Beklenen | Durum |
+|---|---|---|---|
+| D-63 | 2025 liste 10/10 satır | resmi sayfadan okunmuş | ✅ (kapsam §9.1) |
+| D-64 | A10 = Mishandling of Exceptional Conditions | 2021'deki "SSRF" DEĞİL | ✅ (düzeltme kaydı) |
+| D-65 | K009 ↔ 2025 eşlemesi 11 satır | her çocuk en az bir A ile | ✅ (kapsam §9.2) |
+| D-66 | §4 (2021 tablosu) silinmedi | append-only | ✅ (tarihsel kayıt) |
+| D-67 | "A10 SSRF" ibaresi yeni bölümlerde | 0 (yalnız düzeltme notu olarak) | ✅ |
+| D-68 | 2025 adları kullanılıyor (A04=Crypto, A05=Injection) | yeni eklenen her § | ✅ (§16-§23, §20 dil matrisi) |
+
+## §13 CWE EŞLEŞME DOĞRULAMASI (HTTP 200 + BAŞLIK)
+
+> Kaynak: security-web-arastirma.md §22 (cwe.mitre.org, 200 + resmi `<title>`, 2026-10-18).
+
+| # | CWE | Doğrulanmış başlık | Eşlenen kontrol | Durum |
+|---|---|---|---|---|
+| D-69 | CWE-352 | Cross-Site Request Forgery (CSRF) (4.20) | CSRF synchronizer token | ✅ |
+| D-70 | CWE-918 | Server-Side Request Forgery (SSRF) (4.20) | SSRF outbound denetimi (kontrol 13, hâlâ YOK) | ✅ eşleşme · kontrol YOK |
+| D-71 | CWE-330 | Use of Insufficiently Random Values (4.20) | random_bytes kullanımı | ✅ |
+| D-72 | CWE-327 | Use of a Broken or Risky Cryptographic Algorithm (4.20) | MD5/SHA-1/DES yasağı | ✅ |
+| D-73 | Eklenen her CWE | HEAD/GET 200 + başlık | yeni CWE eklenmez | ✅ (kural) |
+
+## §14 KRİPTO PARAMETRE KONTROL TABLOSU (DEĞER → KAYNAK → KANIT)
+
+| Parametre | Beklenen değer | Kaynak | K009 kanıtı | Durum |
+|---|---|---|---|---|
+| Argon2id memory_cost | 65536 (64 MB) | OWASP parola rehberi ailesi | Password·43-49 | ✅ |
+| Argon2id time_cost | 4 | aynı | Password·43-49 | ✅ |
+| Argon2id threads | 2 | aynı | Password·43-49 | ✅ |
+| Pepper | HMAC-SHA256, env'de | pepper+hash | Password·59 | ✅ |
+| AES-GCM anahtar | 256 bit | SP 800-38D | OAuthManager·195 | ✅ |
+| AES-GCM IV | 12 byte, tek kullanım | SP 800-38D §8.1 yüzeyi | OAuthManager·190 | ✅ |
+| AES-GCM tag | 16 byte, ÖNCE doğrulama | SP 800-38D | OAuthManager·201, 213, 218 | ✅ |
+| JWT algoritması | RS256 sabiti | — | JwtService·22 | ✅ |
+| API key entropy | 256 bit random | CWE-330 | ApiKeyRepository·171 | ✅ |
+| Rastgelelik | random_bytes (13 kullanım) | CWE-330 | kod taraması | ✅ |
+| PBKDF2 iterasyon (referans) | 600.000 (SHA-256) | SP 800-132 yüzeyi | K009'da kullanılmıyor (Argon2id tercih) | bilgi |
+| openssl enc GCM | DESTEKLENMEZ (dürüst sınır) | PHP/openssl yüzeyi | kod-ornekleri §20.14 | ✅ sınır |
+
+## §15 SON TUR DOĞRULAMA KAYDI (2026-10-18)
+
+| Adım | İşlem | Sonuç |
+|---|---|---|
+| 1 | OWASP 2025 resmi liste okundu | 10/10 · §12 (D-63..D-68) |
+| 2 | 4 CWE HEAD/GET 200 + başlık | §13 (D-69..D-73) |
+| 3 | NIST SP 800-38D/132 Legacy PDF yolu düzeltmesi | 404 → 200 (web-arastirma §22.2) |
+| 4 | 15 benzersiz URL doğrulandı | 0 tekrar (SimpleMatch taraması) |
+| 5 | Dil matrisi 17/17 | kod-ornekleri §20 |
+| 6 | Kapsam §16-§23 derinleştirme | 500+ satır |
+| 7 | Frontmatter/grup/satır | §8-§10 geçerli |
+| 8 | Commit | ATILMADI (yasak) |
+
+> **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

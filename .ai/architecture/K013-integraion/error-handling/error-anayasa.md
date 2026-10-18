@@ -426,3 +426,101 @@ retry politikası olarak sunulmaz.
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## EK-H-2026-10-18 — Hata derinleştirmesi (§H1–§H7)
+
+> Append-only ek; §0–§428 (§A kapıları dahil) korunmuştur. Kapılar **kapanmaz** —
+> bu ek yalnız kapıların zeminini hazırlar. Kaynak kısaltmaları
+> `../integration-master.md` §19 ana tablosundandır (W-04 retry · W-05 circuit
+> breaker · W-03 saga · W-16 Pub/Sub).
+
+## §H1 Backoff+jitter matematiği — üç jitter biçimi ve hesabı
+
+| # | Biçim | Formül | Artısı | İddia |
+|---|---|---|---|---|
+| 1 | Sabit gecikme | `sleep = base` | basit | yayılım önlemez — **REDDEDİLDİ** |
+| 2 | Lineer backoff | `sleep = base × n` | basit | fırtınada yetersiz — REDDEDİLDİ |
+| 3 | Exponential backoff | `sleep = base × 2^(n-1)` | ölçeklenir | tek başına **yayılımı büyütür** |
+| 4 | Full jitter | `sleep = rand(0, E)` | ✅ en iyi dağılım | bu vault'un seçimi (§25 · §28 · §33 · §34) |
+| 5 | Equal jitter | `sleep = E/2 + rand(0, E/2)` | minimum gecikme garantili | ikinci seçenek |
+| 6 | Decorrelated jitter | `sleep = rand(base, önceki × 3)` | bağımsız istemciler | alternatif |
+
+`E = min(base × 2^(n-1), cap)` — üç sabit (`base` · `cap` · `max_attempts`)
+**ADR maddesidir**, bu dosyada uydurulmaz (`⚠️ VERIFICATION REQUIRED` — kapı 1).
+
+**Neden jitter şart (iddia):** exponential backoff tek başına **aynı** tabanı
+kullanan tüm istemcileri **aynı anda** uyandırır; jitter bu senkronizasyonu
+kırar — bu, §17'deki uyarının matematiksel gerekçesidir.
+
+## §H2 Retry hangi hatada çalışır (sınıflandırma — TASARIM İDDİASI)
+
+| Sınıf | Örnek | Retry? | Neden |
+|---|---|---|---|
+| Geçici-ağ | timeout · connection reset · 502/503 | ✅ evet | hata veri-işlemeden önce |
+| Geçici-yük | 429 + `Retry-After` | ✅ evet — `Retry-After` öncelikli | W-04 tarifi |
+| Kalıcı-istemci | 400 · 401 · 403 · 409 · 422 | ❌ hayır | istek tekrarlanırsa **aynı** sonuç |
+| Kalıcı-sunucu | 404 (kayıp) · 410 (gone) | ❌ hayır | kaynak yok oldu |
+| Bilinmeyen | 5xx (ayrıştırılamayan) | ⚠️ sınırlı — max_attempts sonra DLQ | sonsuz retry veri kaybını gizler |
+
+**Sınıflandırma kuralı (iddia):** adaptör **her** HTTP durumunu bu beş sınıftan
+birine atar; sınıf-atası-olmayan durum **bilinmeyen** sayılır ve sınırlı
+retry alır — sessiz geçiş yok.
+
+## §H3 Saga retry — hangi adım yeniden denenir (W-03 + §26/§30)
+
+| # | Adım | Retry? | Geri çekme | İddia |
+|---|---|---|---|---|
+| 1 | stok-rezervasyon | ✅ — idempotency anahtarı ile | serbest bırakma | §26 C# · §30 Java |
+| 2 | ödeme | ⚠️ **asla otomatik retry YOK** — çift-tahsil riski | iade | TASARIM İDDİASI (ödeme sağlayıcı idempotency'si varsa bile şüpheli taraf) |
+| 3 | kargo-etiketi | ✅ — idempotency anahtarı ile | (etiket zaten iptal edilebilir) | TASARIM İDDİASI |
+| 4 | geri çekme kendisi | ✅ sınırlı retry + sonra **manuel kapı** (KAPI-6) | — | §26 notu |
+
+**W-03 hatırlatması:** saga'da "Lack of automatic rollback" vardır — her adımın
+geri çekmesi **kodda** yazılır; retry ile geri çekme **farklı** mekanizmalardır:
+retry aynı adımı tekrarlar, geri çekme ters yönlü **yeni** bir adımdır.
+
+## §H4 Circuit breaker eşikleri — kapı 2'nin zemini (W-05)
+
+| # | Parametre | W-05 tarifi | Sayısal değer |
+|---|---|---|---|
+| 1 | hata eşiği | "failure threshold" — oransal/sayısal | ⚠️ ADR (kapı 2) |
+| 2 | açık-süresi | "reset timeout" — kısa açık | ⚠️ ADR |
+| 3 | yarı-açık denemesi | sınırlı sayıda probe | ⚠️ ADR |
+| 4 | hata-tanımı | adaptör §H2 sınıf-tablosu ile | TASARIM İDDİASI (§H2 uyumlu) |
+
+**İlişki kuralı (iddia):** circuit breaker eşiği, retry `max_attempts`'inden
+**küçük** olmalıdır — yoksa istemci retry döngüsü circuit breaker'ı **tetiklemeden**
+dış servisi yorar (§E1 katman sırasının mantıksal zorunluluğu).
+
+## §H5 DLQ — kapı 6'nın içeriği (her DLQ kaydı ne taşır)
+
+| Alan | İçerik | Neden |
+|---|---|---|
+| `idempotency_key` | olay anahtarı | yeniden gönderim (§33) |
+| `hata_kodu` | §H2 sınıfı + detay | kalıcı/geçici ayrımı |
+| `deneme_sayisi` | kaç retry yapıldı | DLQ'nun "son çare" anlamı |
+| `ilk_hata_zamani` | RFC 3339 (E2) | kök-neden analizi |
+| `son_govde` | ham gövde (güvenli/log-sonrası) | elle müdahale |
+| `saglayici` | hangi adaptör | §E5 envanteri ile eşleşme |
+
+## §H6 Gözleme aksiyonu sahipliği — kapı 3'nin zemini (K017 ⚠️)
+
+Bu dosya gözlemeyi **tanımlar** (hangi sinyal); **aksiyon** sahibi (alarm →
+kim müdahale eder) K017'ye aittir ve ⚠️ VERIFICATION REQUIRED'dur. Geçici eşleme
+(TASARIM İDDİASI): DLQ alarmı → operatör (§33 betiği) · circuit-breaker alarmı →
+servis sahibi · imza-red alarmı → güvenlik (K009).
+
+## §H7 Ek kapanışı
+
+1. Bu ek kapıları **kapatmadı** — kapı 1–6 hâlâ `⚠️`/UNKNOWN'dur; ek yalnız
+   matematik ve sınıflandırma zemini ekledi.
+2. Seçim: full jitter (§H1/4) — §25 · §28 · §33 · §34'teki dört kod örneğinin
+   ortak dili; jitter'siz yol **hiçbir §'de kabul edilmez**.
+3. Ödeme adımı retry'sı (§H3/2) en tartışmalı madde — ADR gerektirir; bu dosyada
+   **kesin karar yazılmadı** (Truth Mode).
+
+---
+
+*EK-H-2026-10-18 · error-anayasa.md · Authority: Bayram Ali / Vault Steward · Mode: Red Team · Human Mode · Truth Mode*

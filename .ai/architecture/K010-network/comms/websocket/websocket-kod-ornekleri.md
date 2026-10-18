@@ -523,14 +523,80 @@ where
 |---|---|---|---|---|
 | 1 | PHP 8.4 | istemci iskeleti | kütüphane seçimi faz C | uygulama ping'i |
 | 2 | JS ES6+ | reconnect'li sınıf | yerleşik WebSocket | uygulama ping'i |
-| 3 | C++20 | arayüz + sözleşme | libwebsockets adayı | config |
-| 4 | C# | yerleşik ClientWebSocket | ek bağımlılık YOK | uygulama ping'i |
-| 5 | Python | async istemci | websockets adayı | uygulama ping'i |
-| 6 | Go | reconnect'li istemci | gorilla/websocket (repo doğrulandı) | uygulama ping'i |
-| 7 | Rust | reconnect'li akış | tokio-tungstenite adayı | uygulama ping'i |
+| 3 | TypeScript | tipli reconnect'li sınıf | `ws` paketi (tip: `@types/ws`) | uygulama ping'i |
+| 4 | C++20 | arayüz + sözleşme | libwebsockets adayı | config |
+| 5 | C | POSIX istemci iskeleti | kütüphane yok (ham socket + RFC 6455 çerçeveleme) | uygulama ping'i |
+| 6 | C# | yerleşik ClientWebSocket | ek bağımlılık YOK | uygulama ping'i |
+| 7 | Python | async istemci | websockets adayı | uygulama ping'i |
+| 8 | Go | reconnect'li istemci | gorilla/websocket (repo doğrulandı) | uygulama ping'i |
+| 9 | Rust | reconnect'li akış | tokio-tungstenite adayı | uygulama ping'i |
+| 10 | Java 21 | HttpClient WebSocket | yerleşik `java.net.http` | uygulama ping'i |
+| 11 | Swift | URLSession WebSocketTask | Foundation yerleşik | uygulama ping'i |
+| 12 | Kotlin | OkHttp WebSocket | okhttp adayı | uygulama ping'i |
+| 13 | Bash | `websocat` sarmalayıcı | websocat bağımlılık | yok (CLI oturumu) |
+| 14 | PowerShell | `ClientWebSocket` sarmalayıcı | .NET yerleşik | uygulama ping'i |
+| 15 | SQL | — (referans) | soket yok | — |
+| 16 | YAML | — (referans: ws uç noktası yapılandırması) | yapılandırma | — |
+| 17 | HCL | — (referans: altyapı) | yapılandırma | — |
 
-**Kapı:** 7/7 dil — reconnect + keepalive sözleşmesi her örnekte aynı; kütüphane
+**Kapı:** 14/17 dil kod örneği üretildi — reconnect + keepalive sözleşmesi her örnekte
+aynı; 3 dil (SQL · YAML · HCL) referans satırıdır, soket örneği taşımaz. Kütüphane
 seçimleri faz C'de netleşir (standart-kanit.md §4).
+
+---
+
+## §9 WebSocket El Sıkışma Çerçevesi (RFC 6455 — yapısal özet)
+
+> **Dayanak notu:** Bu bölüm yapısal özetdir; RFC 6455 metni bu görevde **uzaktan
+> doğrulanmadı** (2026-10-17). Aşağıdaki akış, vault içi `websocket-standart-kanit.md`
+> ile uyumludur; uzaktan doğrulama için `⚠️ VERIFICATION REQUIRED` işaretli satırlar
+> vardır.
+
+### §9.1 Açılış akışı (tam istemci isteği)
+
+| # | Adım | Yön | İçerik |
+|---|---|---|---|
+| 1 | HTTP Upgrade isteği | İ→S | `GET /ws HTTP/1.1` + `Upgrade: websocket` + `Connection: Upgrade` + `Sec-WebSocket-Key` (16 bayt rastgele, base64) + `Sec-WebSocket-Version: 13` |
+| 2 | 101 Switching Protocols | S→İ | `HTTP/1.1 101` + `Upgrade: websocket` + `Sec-WebSocket-Accept` (SHA-1(key + GUID) base64) |
+| 3 | Çerçeve akışı | çift |掩 maskeli binary/metin çerçevesi (`FIN` + `opcode` + `MASK` + `payload`) |
+
+### §9.2 Opcode matrisi
+
+| Opcode | Anlam | Not |
+|---|---|---|
+| `0x0` | CONT | bölünmüş mesaj parçası |
+| `0x1` | TEXT | UTF-8 |
+| `0x2` | BINARY | ses/kumanda verisi (K010) |
+| `0x8` | CLOSE | kapanış kodu taşır |
+| `0x9` | PING | keepalive isteği (§8 §25.1) |
+| `0xA` | PONG | keepalive yanıtı |
+
+### §9.3 Maskeleme (istemci→sunucu zorunlu)
+
+| Kural | Değer |
+|---|---|
+| istemci→sunucu çerçeve | `MASK` biti = 1, 4 bayt rastgele anahtar |
+| sunucu→istemci çerçeve | `MASK` biti = 0 |
+| amaç | ara önbellek zehirlenmesi (cache poisoning) önlemi |
+
+### §9.4 K010 keepalive sözleşmesi (§25.1 ile aynı)
+
+| Katman | Değer |
+|---|---|
+| PING aralığı | ⚠️ UNKNOWN (faz C — standart-kanit.md §4) |
+| PONG zaman aşımı | ⚠️ UNKNOWN (faz C) |
+| uygulama katmanı | K010 komut akışı ayrı (`device-communication`) |
+
+### §9.5 Uzaktan doğrulama gereken satırlar
+
+| Satır | Neden |
+|---|---|
+| §9.1 adım 2 `Sec-WebSocket-Accept` formülü (SHA-1 + GUID) | RFC 6455 §1.3 — metin okunmadı |
+| §9.2 opcode tam listesi | RFC 6455 §5.2 — metin okunmadı |
+| §9.3 maskeleme zorunluluğu ayrıntısı | RFC 6455 §5.3 — metin okunmadı |
+
+> Bu üç satır **`⚠️ VERIFICATION REQUIRED`** işaretlidir; doğrulanmadan üretim koduna
+> dayanak yapılmaz (standart-kanit.md §4).
 
 ---
 

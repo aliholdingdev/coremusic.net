@@ -128,3 +128,45 @@ Son iki satır REDAKSİYON BOŞLUĞUDUR → doğrulama.md §5'te kontrol edilir.
 | S-06 | kodda yedek sır YASAK | OWASP Secrets | ihlal var (Z-1) |
 | S-07 | Rotasyon/revokasyon yok | ADR yok | UNKNOWN |
 | S-08 | Sır depoda asla tam yazılmaz | bu dosya kuralı | kural |
+
+## §12 SECRET YAŞAM DÖNGÜSÜ VE SIZINTI YÜZEYLERİ (2026-10-18 — APPEND-ONLY)
+
+> §1-§11'i silmez; S-01..S-08 karar tablosunu (§11) tamamlar. Yeni kod kanıtı yok — sentez.
+
+### 12.1 Secret Yaşam Döngüsü Matrisi
+
+| Aşama | Kural | Sınıf (kapsam §14) | S-01..S-08 karşılığı |
+|---|---|---|---|
+| Üretim | `random_bytes` / CSPRNG; elle yazılmış sabit ("secret123") YASAK | S3 | S-06 |
+| Dağıtım | yalnız env / secrets manager; YAML'a gömme yasak | S3 | S-01 |
+| Kullanım | yalnızca ilgili bileşen okur; başka katmana kopyalanmaz (en az yetki) | S3 | S-01 |
+| Log/redaksiyon | tek maskeleme noktası; secret değeri log'a GİRMEZ | S3 | S-02, S-03 |
+| Rotasyon | periyodik + olay tetikli; yeni üret → dağıt → eskisini iptal | S3 | S-07 (yok → UNKNOWN) |
+| İptal (revocation) | eski secret anında reddedilir; ikili yayında grace period | S3 | S-07 (yok) |
+| Saklama süresi | git history'ye girdiyse rotasyon ZORUNLU | S3 | S-06 (ihlal Z-1) |
+| Sızıntı müdahalesi | tespit → REDDET → rotasyon → etki analizi (kapsam §20 protokolü) | S3 | S-08 |
+
+### 12.2 Sızıntı Yüzeyleri (hangi kanaldan secret çıkar)
+
+| # | Yüzey | Savunma | Durum |
+|---|---|---|---|
+| 1 | Git geçmişi (commit edilmiş .env/sür) | .gitignore + CI taraması (gitleaks) | S-06 ihlali Z-1 açık |
+| 2 | Log dosyaları (debug dump, exception) | Redactor + [REDACTED] | S-02/S-03 aktif |
+| 3 | Hata yanıt gövdesi (stack trace) | genel mesaj + RFC 9457 | master §23 |
+| 4 | CI değişken sızıntısı (echo $SECRET) | min permission + maskeleme | security-kod-ornekleri §20.16 |
+| 5 | Bellek dump / swap | S1 bellek temizliği kuralı | kısmi |
+| 6 | Yedek / eski kopya | yedek şifreleme | K018-devops |
+| 7 | İnsan hatası (screenshot, e-posta) | politika | K020-policies |
+
+### 12.3 Rotasyon Protokolü (S-07 kapandığında uygulanacak)
+
+| Adım | Aksiyon | Onay |
+|---|---|---|
+| 1 | Tetikleyici: periyot veya olay (sızıntı, personel değişimi) | Vault Steward |
+| 2 | Yeni secret üret (CSPRNG) + secrets manager'a yaz | DevOps |
+| 3 | Uygulamaya dağıt; ikili yayında eski+yeni geçerli | DevOps |
+| 4 | Eskisini İPTAL et | DevOps |
+| 5 | Etki analizi: eski secret'ın eriştiği kayıtlar | Security |
+| 6 | Kapatma kanıtı: tarih + sahip + yöntem; kanıtsız kapatma YASAK | Vault Steward |
+
+> **Bu bölüm kanıt oranını DEĞİŞTİRmez.**
