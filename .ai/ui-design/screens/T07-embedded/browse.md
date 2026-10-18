@@ -149,7 +149,7 @@ reference:
 ## 7. PNG Referansı
 
 - **Dosya:** `.ai/.png/home-1024/Linux  1024 - Göz At Page.png`
-- **Klasör:** `home-1024/` (12 PNG) · Alternatif açı: `.ai/.png/home-1920/Linux - 1920 - Home.png`
+- **Klasör:** `home-1024/` (12 PNG) · Alternatif açı: `.ai/.png/home-1920/Linux 1920 - Home.png`
 - **Mockup indeksi:** [[ui-design/01-mockup-index]]
 - **Kullanım sırası:** PNG > ASCII art > Inventory > Tokens > Reference (AGENTS.md §7.2)
 - **Figma:** frame `2831:9555` "Linux  1024 - Göz At Page" (typo yok) · Disk Buttons `18:3607` ailesi · Navigate `891:9227` (gizli alt elemanlar dâhil)

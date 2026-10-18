@@ -46,7 +46,7 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 25 PNG
 │   ├── Linux  1024 - Wifi Connect Light.png
 │   └── Linux  1024 - Bluetooth Quick Page Base.png
 ├── home-1920/          ← 4 PNG (Desktop 1920×1080)
-│   ├── Linux - 1920 - Home.png
+│   ├── Linux 1920 - Home.png
 │   ├── Linux 1920 -  Geçmiş Page.png
 │   ├── Linux 1920 -  Göz At Page.png
 │   └── Linux 1920 -  Playlist  Page.png
@@ -94,7 +94,7 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 25 PNG
 
 | # | Dosya Adı | Viewport | Cihaz | İçerik |
 |---|-----------|----------|-------|--------|
-| 13 | `Linux - 1920 - Home.png` | 1920×1080 | Desktop FHD | Ana sayfa: 3 sütun (Now Playing 33%, Welcome 34%, Widgets 33%), alt satır 2 sütun (7+6 kart), footer player |
+| 13 | `Linux 1920 - Home.png` | 1920×1080 | Desktop FHD | Ana sayfa: 3 sütun (Now Playing 33%, Welcome 34%, Widgets 33%), alt satır 2 sütun (7+6 kart), footer player |
 | 14 | `Linux 1920 -  Geçmiş Page.png` | 1920×1080 | Desktop FHD | Geçmiş sayfası — ⚠️ ekran spec'i yok (00-ascii-art-index §7 madde 6) |
 | 15 | `Linux 1920 -  Göz At Page.png` | 1920×1080 | Desktop FHD | Dosya yöneticisi (1920) — ⚠️ ekran spec'i yok |
 | 16 | `Linux 1920 -  Playlist  Page.png` | 1920×1080 | Desktop FHD | Çalma listesi (1920) — ⚠️ ekran spec'i yok |
@@ -156,7 +156,7 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 25 PNG
 
 | # | Screen Spec Dosyası | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status |
 |---|---------------------|------------------|-------------------------------|:------:|
-| 19 | `screens/T17-monitor-22fhd/home-dashboard.md` | `2831:13747` | `.ai/.png/home-1920/Linux - 1920 - Home.png` | active |
+| 19 | `screens/T17-monitor-22fhd/home-dashboard.md` | `2831:13747` | `.ai/.png/home-1920/Linux 1920 - Home.png` | active |
 | 20 | `screens/T17-monitor-22fhd/welcome-popup.md` | `2876:6439` (modal 600×308) | `⚠️ VERIFICATION REQUIRED — 1920 popup PNG'si yok` | **draft** |
 | 21 | `screens/T17-monitor-22fhd/admin-layout.md` | `2161:12499` | `.ai/.png/admin-1920/Admin - layout.png` | active |
 | 22 | `screens/T17-monitor-22fhd/admin-login.md` | `2161:12506` | `.ai/.png/admin-1920/Admin - Login.png` | active |

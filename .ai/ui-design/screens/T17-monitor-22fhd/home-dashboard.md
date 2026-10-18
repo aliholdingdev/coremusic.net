@@ -13,7 +13,7 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/ui-design/screens/T17-monitor-22fhd/home-dashboard.md"
-  source_of_truth: ".ai/.png/home-1920/Linux - 1920 - Home.png"
+  source_of_truth: ".ai/.png/home-1920/Linux 1920 - Home.png"
 path: "screens/T17-monitor-22fhd/"
 related_tokens: [tokens/design-tokens-master]
 related_components: [02-component-inventory]
@@ -161,7 +161,7 @@ Not: `--cm-bg-overlay: rgba(0,0,0,0.60)` **DEPRECATED** (master §2.1.2) → SSO
 
 ## 7. PNG Referansı
 
-- **PNG (SSOT):** `.ai/.png/home-1920/Linux - 1920 - Home.png`
+- **PNG (SSOT):** `.ai/.png/home-1920/Linux 1920 - Home.png`
   - 1920×1080; nav 8 link, "En Son Dinlenen Şarkılar" + "Son Oluşturlan…", 10+6 kart, üst "350 kbps", footer "350 kpps", footer y988-1080 — metinler taze kırımpa+piksel bitmap ile okundu (stale read'ler file-avg ile eledi).
 - **Figma (referans):** frame Home 1920 (origin 606,−589); nav `2831:13748` (`I…;1314:20425-20433`), Player Info `2849:21489`, üst bitrate `2849:21479`, Banner, Div2 `2850:21494`, başlık `2850:21627`, row1 `2856:22290`, row2 `2890:7922/7923/7924/7966/7967/7968`, Footer `2831:13859` (bitrate `I2831:13859;1330:24174`).
 - **Figma PNG export:** `.ai/ui-design/reference/figma/png/` (referans).

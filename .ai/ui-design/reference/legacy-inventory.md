@@ -145,7 +145,7 @@ Bu dosya, CoreMusic `ui-design` vault'unun **salt-okunur tarama envanteridir**: 
 
 **home-1024/ (12 PNG):** `Linux  1024 - Albumler Details Detay Page.png` · `Linux  1024 - Albumler Page.png` · `Linux  1024 - Bluetooth Quick Page Base.png` · `Linux  1024 - Göz At - Tıklama Clicked.png` · `Linux  1024 - Göz At Page.png` · `Linux  1024 - Home Page Welcome Popup.png` · `Linux  1024 - Home Page.png` · `Linux  1024 - Playlist Page - Video Played.png` · `Linux  1024 - Playlist Page.png` · `Linux  1024 - Singer Page.png` · `Linux  1024 - Wifi Connect Light.png` · `Linux  1024 - Wifi Quick Page Base.png`
 
-**home-1920/ (1 PNG):** `Linux - 1920 - Home.png`
+**home-1920/ (4 PNG):** `Linux 1920 - Home.png` · `Linux 1920 -  Geçmiş Page.png` · `Linux 1920 -  Göz At Page.png` · `Linux 1920 -  Playlist  Page.png`
 
 **shared-1024/ (6 PNG):** `Linux  1024 - Login Girl.png` · `Linux  1024 - Register Girl.png` · `Linux  1024 - Register Girl step 2.png` · `Linux  1024 - Register Girl step 3.png` · `Linux  1024 - Select Gender.png` · `Linux  1024 - Select Gender - selected.png`
 

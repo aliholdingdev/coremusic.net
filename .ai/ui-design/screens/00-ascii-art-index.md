@@ -79,7 +79,7 @@ PNG Mockup > Figma (extracted) > ASCII Art > Component Inventory > Tokens > Impl
 
 | # | Dosya | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status | Açıklama |
 |---|-------|------------------|-------------------------------|:------:|----------|
-| 19 | [[T17-monitor-22fhd/home-dashboard]] | `2831:13747` | `.ai/.png/home-1920/Linux - 1920 - Home.png` | active | 1920×1080 ana ekran: 3 sütun üst blok, 10+6 kart satırı, footer player |
+| 19 | [[T17-monitor-22fhd/home-dashboard]] | `2831:13747` | `.ai/.png/home-1920/Linux 1920 - Home.png` | active | 1920×1080 ana ekran: 3 sütun üst blok, 10+6 kart satırı, footer player |
 | 20 | [[T17-monitor-22fhd/welcome-popup]] | `2876:6439` (modal 600×308) | `⚠️ VERIFICATION REQUIRED — 1920 popup PNG'si yok` | **draft** | Karşılama modalı — 1024 popup PNG + Figma'dan türetildi, PNG doğrulaması bekliyor |
 | 21 | [[T17-monitor-22fhd/admin-layout]] | `2161:12499` | `.ai/.png/admin-1920/Admin - layout.png` | active | Admin ana layout: sol sidebar 250px, navbar, içerik paneli, footer (§7 Tier notu) |
 | 22 | [[T17-monitor-22fhd/admin-login]] | `2161:12506` | `.ai/.png/admin-1920/Admin - Login.png` | active | Yönetici girişi: foto sol %74 + sağ 500px glass panel, form + QR bloğu |

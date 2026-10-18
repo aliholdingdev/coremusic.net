@@ -136,7 +136,7 @@ reference:
 ## 7. PNG Referansı
 
 - **Dosya:** `.ai/.png/home-1024/Linux  1024 - Home Page.png`
-- **Klasör:** `home-1024/` (12 PNG) · Alternatif açı: `.ai/.png/home-1920/Linux - 1920 - Home.png`
+- **Klasör:** `home-1024/` (12 PNG) · Alternatif açı: `.ai/.png/home-1920/Linux 1920 - Home.png`
 - **Mockup indeksi:** [[ui-design/01-mockup-index]]
 - **Kullanım sırası:** PNG > Figma extracted > ASCII — çelişki §5'e "ÇELİŞKİ" olarak yazılır (AGENTS.md §7.2)
 - **`screens/00-ascii-art-index.md` satırı:** BEKLEMEDE (bu görevde indeks dosyası yazım yasağı)

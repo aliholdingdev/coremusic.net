@@ -301,3 +301,24 @@ Figma `/v1/images` endpoint'i bu 15 node için **NULL** döndürüyor (HTTP 200,
 **Supersession:** `extracted-1920.md` §"Doğrulanan raw dosya" satırındaki `page-462-5874.json` atfı (2026-09-21 sürümü) artık geçersizdir; `extracted-462-5874.md` sayfa-geneli taze SSOT'tur (`extracted-1920.md`'nin birincil kaynağı `nodes-1024-1920.json`dur, dosya silinmez).
 
 **Doğrulamalar:** vault-utf8-writer `verify` → BOM 0 · mojibake 0 · CJK 0 · NUL 0 · 3897 satır · wiki-link-check repo kökünden (aşağıdaki sonuç).
+
+## Extract: refresh çekim - sayfa 462:5874 "Core Music" Linux 1920 (2026-10-17)
+
+**Tetikleyici:** kullanıcı talimatı - 2026-10-16 çekimi ertesi gün eskidi; tüm figma verisi + ASCII art tazelenecek.
+
+**Yeni SSOT:** `raw/page-462-5874.json` - version `2411290726990257863` - lastModified `2026-10-17T12:59:45Z` - 3.414.381 bayt - 4 root child (CANVAS + 3644 node). Eski sürüm yedekte: `C:\temp\opencode\page-462-5874-OLD-20261016.json` (v`2410933437250453593` - 3.212.649 bayt).
+
+**Compare (eski → yeni):** node 3452 → 3644 (+192; Home `2831:13747` 803 sabit · Göz At `3155:18252` +64 · Playlist `3155:19834` +64 · Geçmiş `3155:22392` +64) - root child silindi/eklenmedi - TEXT 781 → 844 - gizli efekt 0 → 3 - **frame rename:** `Linux - 1920 - Home` → `Linux 1920 - Home` (PNG adı da değişti).
+
+**Üretilen dosyalar:**
+
+1. `reference/figma/extracted-462-5874.md` v1.1.0 (710.478 bayt · 4091 satır · Kalıp A) - format kalibrasyonu: eski doc ile satır-hizalı diff **3814/3814 satır**, kalan 3 fark bilinçli (eski PNG adı diskte yok ×2; §9 ağaç satırı 3448 → gerçek 3447 düzeltmesi). Sayımlar: 3644 node · 3639 ağaç satırı · wiki-link 16 · TEXT mismatch 485 · AL 98 · efekt 1458 (gizli 3) · INSTANCE 287 · PNG 4/4 (existsSync).
+2. `tokens/tokens-1920.json` yeniden üretildi - figma-tokens.ps1 Faz 9 gate: `toplam=7 | pass=5 | bos=2 | fail=0 | bos_bp=3840,tv` + `BITTI` (1920: node=28864, korunan eski=2469, PASS); çakışma günlüğü `token-conflicts.md` (400 satır).
+
+**PNG referans güncelle (15 satır):** `Linux - 1920 - Home.png` → `Linux 1920 - Home.png` - `01-mockup-index.md` ×3 · `screens/00-ascii-art-index.md` ×1 · `screens/T17-monitor-22fhd/home-dashboard.md` ×2 · `welcome-popup.md` ×2 (yalnız aktif PNG satırları) · `reference/04-verification.md` ×1 · `reference/legacy-inventory.md` ×1 (1 → 4 PNG) · `screens/T07-embedded/{browse,home-dashboard}.md` ×2 · `tokens/{design-tokens-master,color-palettes}.md` ×2 (node adı) · `.png/home-1920/CLAUDE.md` (1 → 4 PNG + rename notu). **Tarihsel kayıt satırları DEĞİŞTİRİLMEDİ** (welcome-popup 2026-09-28 notları ×3 · 00-ascii-art-index L121 · extracted-1920.md L13 · 13 legacy dosya listesi).
+
+**Gate ölçümü (repo kökünden, 2026-10-17):** screens-frontmatter `24 dosya / 0 sorunlu` · kalip-abc `A:21·0 / B:21·0 / C:52·1` (tek sorunlu: `prompt/component/aaaa.md` - commit `c46f08a` ile önceden var, bu oturum dışı) · wiki-link-check `347 link / 6 raporlanan` = 6 sahte (§13.7 listesi ile birebir) → gerçek kırık 0 · extracted doc vault-utf8-writer verify: BOM yok, UTF-8 geçerli.
+
+**Açık konu:** `.templates/ui-design/screen-spec-template.md` L42 "19 PNG / home-1920 1" envanter iddiası eskimiş (diskte 25 PNG / home-1920 4) - şablon statik, sahip onayı ile güncellenmeli.
+
+**Commit:** atılmadı (subagent kuralı - orkestratöre ait).

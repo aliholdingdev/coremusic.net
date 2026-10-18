@@ -358,7 +358,7 @@ Faz 0–7 commit'leri bu listenin **dışında (daha eski)** — §5'te `git cat
 10. `1920 - Welcome Div.png`
 11. `Core Music - Linux Pi.png`
 12. `Linux  1024 - Home Page.png`
-13. `Linux - 1920 - Home.png`
+13. `Linux 1920 - Home.png`
 
 **Sonuç:** envanter kapısı bu ölçümden sonra **"eksik" iddiası kabul etmez**; gizli node'lar Figma tarafında `visible: false` olduğu için API'den PNG alınamaz ve bu bir **veri kaybı değil, Figma davranışı**dır. İlgili ham kayıt: `[[ui-design/reference/figma/_extraction-notes]]` § "PNG hedef kırılımı (Faz 8b)".
 

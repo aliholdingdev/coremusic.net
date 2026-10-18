@@ -247,7 +247,7 @@ CoreMusic renk paletlerinin **tek kaynağıdır**. 3 tema, semantik renkler, gri
 | 12 | `Siyah Arkaplan Evekt / gradient stop 1` | `--cm-black-bg-effect-gradient-stop-1` | ✓ | — | `#120C14` | Siyah overlay gradient 1 ⚠️ |
 | 13 | `Ellipse 16 / gradient stop 0` | `--cm-ellipse-16-gradient-stop-0` | ✓ | — | `#140E16` | Dekoratif elips zemini ⚠️ |
 | 14 | `ProgresbarValue / fill` | `--cm-progressbar-tick-stop-1` | ✓ | — | `#FF65E9` | Anahtar Figma'da yazım hatalı (1024: `Progresbar`); **kod kanıtlı:** `_player-info.css` L196 |
-| 15 | `Linux - 1920 - Home / fill` | `--cm-page-background-fill` | — | ✓ | `#FFFFFF` | 1920 sayfa zemini |
+| 15 | `Linux 1920 - Home / fill` | `--cm-page-background-fill` | — | ✓ | `#FFFFFF` | 1920 sayfa zemini |
 | 16 | `Ana Sayfa / stroke` | `--cm-black-bg-effect-gradient-stop-0` | — | ✓ | `#000000` | 1920 sayfa stroke — hex aynı, **rol farklı** (satır 11 gradient stop ile aynı token'a eşlendi; Stroke rolü için ayrı ad gerekirse `-figma` soneki kuralı devreye girer) ⚠️ |
 | 17 | `ProgressbarTick / gradient stop 1` | `--cm-progressbar-tick-stop-1` | — | ✓ | `#FF65E9` | 1920 tick orta stop — 1024'te aynı hex farklı anahtarda (`ProgresbarValue`) |
 

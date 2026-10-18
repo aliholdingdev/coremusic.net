@@ -265,13 +265,13 @@ x:0        128       256       384       512       640       768       896  1023
 
 | # | Dosya | Boyut | Erişim |
 |---|---|---|---|
-| — | **T17 gerçek popup PNG'si** | — | **`⚠️ VERIFICATION REQUIRED — PNG bekleniyor`** (`home-1920/Linux - 1920 - Home.png` içinde popup YOK → `status: draft` gerekçesi) |
+| — | **T17 gerçek popup PNG'si** | — | **`⚠️ VERIFICATION REQUIRED — PNG bekleniyor`** (`home-1920/Linux 1920 - Home.png` içinde popup YOK → `status: draft` gerekçesi) |
 | 1 | `.ai/ui-design/reference/figma/png/1920 - Welcome Div.png` | 2048×1202 (2× export) | ✅ Mevcut — görsel SSOT (typo + alpha doğrulandı) |
 | 2 | `.ai/ui-design/reference/figma/png/1024 - Welcome Div.png` | 2048×1202 | ✅ Mevcut — #1 ile **bayt-bayt aynı** (MD5 `82D18A759F6B4461242934CFECF19895`) |
 | 3 | `.ai/.png/home-1024/Linux  1024 - Home Page Welcome Popup.png` | 1026×601 | ✅ Mevcut — gerçek uygulama görüntüsü (embedded tier) |
 
 **Notlar:**
-- `.ai/.png/home-1920/Linux - 1920 - Home.png` ekranında popup **yok** (T17'de
+- `.ai/.png/home-1920/Linux 1920 - Home.png` ekranında popup **yok** (T17'de
   karşılamama anı henüz yakalanmamış) → T17 yerleşimi §1'de türetilmiş.
 - `01-mockup-index.md` popup'ı "1024×600" olarak listeler; gerçek asset
   **1026×601** (indleme PNG'si) — minör boyut farkı, not.
