@@ -45,12 +45,17 @@ $currentBitrate  = $h((string)($_SESSION['current_bitrate'] ?? '350 kbps'));
 $currentArt      = $_SESSION['current_art'] ?? ($assetsUrl . '/Image/res-pink/album-goksel.png');
 /* Volume kalıcılığı: cookie (JS tek yazıcı, ratio 0..1) → session → default 50
    (JS getVolumeCookie() cookie yoksa 0.5 döner — açılışta ikon/UI sıçramasın) */
-$volRaw       = $_COOKIE['MM_Volume'] ?? null;
-$volCookiePct = ($volRaw !== null && is_numeric($volRaw))
-    ? (int) round(max(0.0, min(1.0, (float)$volRaw)) * 100)
-    : null;
-$volumePct    = $volCookiePct ?? max(0, min(100, (int)($_SESSION['volume'] ?? 50)));
-$volumeRatio  = number_format($volumePct / 100, 4, '.', '');
+$volRaw   = $_COOKIE['MM_Volume'] ?? null;
+$volRatio = ($volRaw !== null && is_numeric($volRaw))
+    ? max(0.0, min(1.0, (float)$volRaw))
+    : max(0, min(100, (int)($_SESSION['volume'] ?? 50))) / 100;
+/* JS VolumeCalculator.edgeSnap aynası — SIRA birebir (setVolume: edgeSnap →
+   toPercent: Math.round): snap ÖNCE, round SONRA. Pct'ye snap uygulamak
+   0.02<x≤0.025 ve 0.975≤x<0.98 bantlarında % sapması üretirdi (üretilmez):
+   0.021 → JS %2 / pct-snap %0 · 0.976 → JS %98 / pct-snap %100. */
+$volSnapped  = ($volRatio >= 0.98) ? 1.0 : (($volRatio <= 0.02) ? 0.0 : $volRatio);
+$volumePct   = (int) round($volSnapped * 100);
+$volumeRatio = number_format($volumePct / 100, 4, '.', '');
 
 /* ─── İkonlar (PNG birebir) ─── */
 $iconBack  = $h($assetsUrl . '/Image/res-pink/media-back.png');
@@ -58,14 +63,16 @@ $iconPlay  = $h($assetsUrl . '/Image/res-pink/media-play.png');
 $iconPause = $h($assetsUrl . '/Image/res-pink/media-pause.png');
 $iconStop  = $h($assetsUrl . '/Image/res-pink/media-stop.png');
 $iconNext  = $h($assetsUrl . '/Image/res-pink/media-ileri.png');
-/* Eşikler coreplayer.volume.js getIconName ile BİREBİR aynı olmalı:
-   0 → volume-mute · <33 → volume-low · <66 → volume-medium · ≥66 → volume-high
-   (JS edgeSnap aynası: ratio <=0.02 → 0 → pct 1-2 mute) */
-$iconVolPct = $volumePct <= 2 ? 0 : $volumePct;
-$iconVol    = $h($assetsUrl . '/Image/res-pink/' . match (true) {
-    $iconVolPct === 0 => 'volume-mute.png',
-    $iconVolPct < 33  => 'volume-low.png',
-    $iconVolPct < 66  => 'volume-medium.png',
+/* Eşikler coreplayer.volume.js getIconName ile BİREBİR — karar HAM oran
+   ($volRatio, yuvarlama ÖNCESİ); JS de setVolume'da ikona snap sonraki
+   ham value'yu verir:
+   0 → volume-mute · <0.33 → volume-low · <0.66 → volume-medium · ≥0.66 → volume-high
+   (<=0.02 zaten snap mute'a götürür · >=0.98 zaten high bandı — snap ikonu
+   değiştirmez, yalnız pct'ye uygulanır) */
+$iconVol = $h($assetsUrl . '/Image/res-pink/' . match (true) {
+    $volRatio <= 0.02 => 'volume-mute.png',
+    $volRatio < 0.33  => 'volume-low.png',
+    $volRatio < 0.66  => 'volume-medium.png',
     default           => 'volume-high.png',
 });
 $iconMusic   = $h($assetsUrl . '/Image/res-pink/music.png');
