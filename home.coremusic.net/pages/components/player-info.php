@@ -29,7 +29,15 @@ $cmConfig = htmlspecialchars(
 <?php if ($isWide): ?>
 <section class="player-info player-info--wide" aria-label="Şu an çalan" data-cm-component="cm-player-info" data-cm-config='<?= $cmConfig ?>'>
     <div class="player-info__cover">
-        <img src="<?= $this->h($this->imgCover) ?>" alt="Çalan şarkının albüm kapağı" loading="lazy">
+        <!-- Kapak yığını — mini kart (home-song__mini-card) ile birebir:
+             kapak → cd-case çerçeve → tip rozeti → CD overlay.
+             Albüm görseli yoksa yalnız kılıf basılır. -->
+        <img class="player-info__cover-img" src="<?= $this->h($this->imgCover) ?>" alt="Çalan şarkının albüm kapağı" loading="lazy">
+<?php if ($this->hasCoverArt): ?>
+        <img class="player-info__cover-case" src="<?= $this->h($this->imgCase) ?>" alt="" aria-hidden="true" loading="lazy">
+        <img class="player-info__cover-badge" src="<?= $this->h($this->imgBadge) ?>" alt="" aria-hidden="true" loading="lazy">
+        <img class="player-info__cover-cd" src="<?= $this->h($this->imgOverlay) ?>" alt="" aria-hidden="true" loading="lazy">
+<?php endif; ?>
     </div>
     <div class="player-info__info-panel">
         <h1 class="player-info__row player-info__title"><span class="player-info__label"><span class="player-info__label-icon"><img src="<?= $this->h($this->iconMusic) ?>" class="player-info__label-icon-img player-info__label-icon-img--music" alt="" loading="lazy"></span>Şarkı Adı :</span> <span class="now-playing__meta-value"><?= $this->song ?></span></h1>
@@ -49,7 +57,13 @@ $cmConfig = htmlspecialchars(
 <?php else: ?>
 <section class="now-playing now-playing--embedded" aria-label="Şu an çalan" data-cm-component="cm-player-info" data-cm-config='<?= $cmConfig ?>'>
     <div class="now-playing__art now-playing__art--embedded">
-        <img src="<?= $this->h($this->imgCover) ?>" alt="Çalan şarkının albüm kapağı" loading="lazy">
+        <!-- Kapak yığını — mini kart ile birebir (bkz. wide varyant). -->
+        <img class="now-playing__art-img" src="<?= $this->h($this->imgCover) ?>" alt="Çalan şarkının albüm kapağı" loading="lazy">
+<?php if ($this->hasCoverArt): ?>
+        <img class="now-playing__art-case" src="<?= $this->h($this->imgCase) ?>" alt="" aria-hidden="true" loading="lazy">
+        <img class="now-playing__art-badge" src="<?= $this->h($this->imgBadge) ?>" alt="" aria-hidden="true" loading="lazy">
+        <img class="now-playing__art-cd" src="<?= $this->h($this->imgOverlay) ?>" alt="" aria-hidden="true" loading="lazy">
+<?php endif; ?>
     </div>
     <div class="now-playing__info now-playing__info--embedded">
         <h1 class="now-playing__title"><?= $this->song ?></h1>

@@ -44,7 +44,20 @@
   gap: 15px;
 }
 
-.player-info__cover img {
+/* ═══════════════ Album Cover ═══════════════
+   Katman yığını mini kart (c-home-song-btn.css) ile birebir:
+   kapak → cd-case çerçeve → tip rozeti → CD overlay (overlay markup'ta en üstte).
+   Albüm görseli yoksa ($hasCoverArt = false) yalnız kılıf basılır. */
+.player-info__cover {
+  position: relative;
+  width: var(--cm-player-info-cover);
+  height: var(--cm-player-info-cover);
+  border-radius: 5px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.player-info__cover-img {
   display: block;
   width: 100%;
   height: 100%;
@@ -52,12 +65,36 @@
   border-radius: 8px;
 }
 
-.player-info__cover {
-  width: var(--cm-player-info-cover);
-  height: var(--cm-player-info-cover);
-  border-radius: 5px;
-  overflow: hidden;
-  flex-shrink: 0;
+/* Kılıf frame (cd-case.png) — mini kart: inset 0 · object-fit: fill */
+.player-info__cover-case {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* Tip rozeti (music/video) — mini kart 10/50 ≈ %20, inset 2/50 ≈ %4 */
+.player-info__cover-badge {
+  position: absolute;
+  right: 4%;
+  bottom: 4%;
+  width: 20%;
+  height: 20%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* CD overlay — mini kart: top %9.3 · height %79 · object-fit: fill */
+.player-info__cover-cd {
+  position: absolute;
+  top: 9.3%;
+  left: 0;
+  width: 100%;
+  height: 79%;
+  object-fit: fill;
+  pointer-events: none;
 }
 
 .player-info__progress__play {

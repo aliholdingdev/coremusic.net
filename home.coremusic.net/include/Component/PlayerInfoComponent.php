@@ -21,6 +21,11 @@ final class PlayerInfoComponent extends AbstractComponent
     public readonly string $duration;
     public readonly int    $seekPct;
     public readonly string $imgCover;
+    /** Albüm görseli var mı — false ise yalnız CD kılıfı basılır (view 4 katmanı atlar). */
+    public readonly bool $hasCoverArt;
+    public readonly string $imgCase;
+    public readonly string $imgOverlay;
+    public readonly string $imgBadge;
     public readonly string $imgStar;
     public readonly string $iconPlay;
     public readonly string $iconMusic;
@@ -44,7 +49,22 @@ final class PlayerInfoComponent extends AbstractComponent
         $this->elapsed   = $this->h($this->sessionString('current_elapsed', '00:00:00'));
         $this->duration  = $this->h($this->sessionString('current_duration', '00:05:00'));
         $this->seekPct   = $this->sessionInt('progress_pct', 30);
-        $this->imgCover  = (string)($_SESSION['current_art'] ?? $this->asset('/Image/res-pink/album-goksel.png'));
+        /* Kapak — footer.php ile AYNI kural: anahtar yoksa default kapak korunur,
+           kapak YOK ('' / geçersiz tip) ise yalnız CD kılıfı (cd-case.png) basılır. */
+        $artRaw          = $_SESSION['current_art'] ?? null;
+        $this->hasCoverArt = is_string($artRaw) ? trim($artRaw) !== '' : $artRaw === null;
+        if ($artRaw === null) {
+            $artRaw = $this->asset('/Image/res-pink/album-goksel.png');
+        } elseif (!$this->hasCoverArt) {
+            $artRaw = $this->asset('/Image/res-pink/cd-case.png');
+        }
+        $this->imgCover  = (string)$artRaw;
+        $this->imgCase    = $this->asset('/Image/res-pink/cd-case.png');
+        $this->imgOverlay = $this->asset('/Image/res-pink/cd-overlay.png');
+        /* Tip rozeti — footer $mediaType ile aynı allowlist (audio|video). */
+        $this->imgBadge   = $this->asset(
+            '/Image/res-pink/' . (($_SESSION['GET_MEDIA_TYPE'] ?? 'audio') === 'video' ? 'video.png' : 'music.png')
+        );
         $this->imgStar   = $this->asset('/Image/res-pink/star-filled.png');
         $this->iconPlay    = $this->asset('/Image/res-pink/play.png');
         $this->iconMusic   = $this->asset('/Image/res-pink/music.png');

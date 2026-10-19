@@ -151,18 +151,60 @@
   margin: 0;
 }
 
-/* ═══ Album Cover: Figma 85×85 (0 padding, fit) ═══ */
-.footer-player__cover {
+/* ═══ Album Cover: Figma 85×85 (0 padding, fit) ═══
+   Katman yığını mini kart (c-home-song-btn.css) ile birebir:
+   kapak → cd-case çerçeve → tip rozeti → CD overlay (overlay markup'ta en üstte). */
+.footer-player__cover-wrap {
+  position: relative;
   width: auto;
   height: calc(var(--footer-h, 90px) - 6px);
   max-height: calc(var(--footer-h, 90px) - 6px);
   aspect-ratio: 1 / 1;
-  object-fit: cover;
   flex-shrink: 0;
+  display: block;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.footer-player__cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   padding: 0;
   margin: 0;
-  display: block;
-  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Kılıf frame (cd-case.png) — mini kart: inset 0 · object-fit: fill */
+.footer-player__cover-case {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* Tip rozeti (music/video) — mini kart 10/50 ≈ %20, inset 2/50 ≈ %4 (tier bağımsız) */
+.footer-player__cover-badge {
+  position: absolute;
+  right: 4%;
+  bottom: 4%;
+  width: 20%;
+  height: 20%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* CD overlay ("Show CD") — mini kart: top %9.3 · height %79 · object-fit: fill */
+.footer-player__cover-cd {
+  position: absolute;
+  top: 9.3%;
+  left: 0;
+  width: 100%;
+  height: 79%;
+  object-fit: fill;
+  pointer-events: none;
 }
 
 /* ═══ Responsive — Laptop/Desktop (utility icons görünür) ═══ */

@@ -42,7 +42,18 @@ $currentArtist   = $h((string)($_SESSION['current_artist'] ?? 'Göksel'));
 $currentElapsed  = $h((string)($_SESSION['current_elapsed'] ?? '00:00:00'));
 $currentDuration = $h((string)($_SESSION['current_duration'] ?? '00:05:00'));
 $currentBitrate  = $h((string)($_SESSION['current_bitrate'] ?? '350 kbps'));
-$currentArt      = $_SESSION['current_art'] ?? ($assetsUrl . '/Image/res-pink/album-goksel.png');
+/* Albüm kapağı — mini kart (HomeSongButton) ile AYNI kural:
+   · anahtar hiç yok (null) → Figma default kapağı (album-goksel.png) korunur
+   · geçerli URL var → kapak + cd-case çerçeve + tip rozeti + CD overlay
+   · kapak YOK ('' / geçersiz tip) → yalnız CD kılıfı basılır (cd-case.png) */
+$artRaw      = $_SESSION['current_art'] ?? null;
+$hasCoverArt = is_string($artRaw) ? trim($artRaw) !== '' : $artRaw === null;
+if ($artRaw === null) {
+    $artRaw = $assetsUrl . '/Image/res-pink/album-goksel.png';
+} elseif (!$hasCoverArt) {
+    $artRaw = $assetsUrl . '/Image/res-pink/cd-case.png';
+}
+$currentArt = (string)$artRaw;
 /* Volume kalıcılığı: cookie (JS tek yazıcı, ratio 0..1) → session → default 50
    (JS getVolumeCookie() cookie yoksa 0.5 döner — açılışta ikon/UI sıçramasın) */
 $volRaw   = $_COOKIE['MM_Volume'] ?? null;
@@ -115,7 +126,17 @@ $mediaStatus = $homeSession->getMediaStatus();
     <div class="footer-player__inner">
         <!-- ZON 1 — Sol: Albüm kapağı 85×85 + Meta bilgileri -->
         <div class="footer-player__meta">
-            <img class="footer-player__cover" id="footer_songimages" src="<?= $h((string)$currentArt) ?>" alt="<?= $currentSong ?> albüm kapağı" loading="lazy">
+            <!-- Kapak yığını — mini kart (home-song__mini-card) ile birebir:
+                 kapak → cd-case çerçeve → tip rozeti → CD overlay (overlay en üstte).
+                 Albüm görseli yoksa ($hasCoverArt = false) yalnız kılıf basılır. -->
+            <div class="footer-player__cover-wrap">
+                <img class="footer-player__cover" id="footer_songimages" src="<?= $h($currentArt) ?>" alt="<?= $currentSong ?> albüm kapağı" loading="lazy">
+<?php if ($hasCoverArt): ?>
+                <img class="footer-player__cover-case" src="<?= $h($assetsUrl . '/Image/res-pink/cd-case.png') ?>" alt="" aria-hidden="true" loading="lazy">
+                <img class="footer-player__cover-badge" src="<?= $h($assetsUrl . '/Image/res-pink/' . ($mediaType === 'video' ? 'video.png' : 'music.png')) ?>" alt="" aria-hidden="true" loading="lazy">
+                <img class="footer-player__cover-cd" src="<?= $h($assetsUrl . '/Image/res-pink/cd-overlay.png') ?>" alt="" aria-hidden="true" loading="lazy">
+<?php endif; ?>
+            </div>
             <div class="footer-player__info">
                 <span class="footer-player__text footer-player__song"><img src="<?= $iconMusic ?>" class="footer-player__icon" width="10" height="10" loading="lazy">Şarkı Adı : <span id="footer_songname"><?= $currentSong ?></span></span>
                 <span class="footer-player__text footer-player__album"><img src="<?= $iconCd ?>" class="footer-player__icon" width="10" height="10" loading="lazy">Albüm : <span id="footer_albumadi"><?= $currentAlbum ?></span></span>
