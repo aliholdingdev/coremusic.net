@@ -112,7 +112,7 @@ if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_write_close();
         }
-        header('Location: /dashboard', true, 302);
+        header('Location: /admin-dashboard', true, 302);
         exit;
     }
 

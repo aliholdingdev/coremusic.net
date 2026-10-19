@@ -37,6 +37,22 @@ return [
         meta: ['redirect_to' => "$authDomain/register?client_id=$clientId&response_type=session&redirect_uri=$callbackUrl"],
     ),
 
+    // Görev D: admin'in KENDİ formları (figma) — yönlendirme DEĞİL; form
+    // fetch ile doğrudan auth API'sine (POST /v1/auth/login|register) gider.
+    // CSP form-action 'self' nedeniyle çapraz-origin native POST engellenir.
+    'admin-login' => new SpaRoute(
+        page: 'admin-login',
+        requiresAuth: false,
+        title: 'Yönetici Girişi',
+        cacheable: false,
+    ),
+    'admin-register' => new SpaRoute(
+        page: 'admin-register',
+        requiresAuth: false,
+        title: 'Yönetici Kaydı',
+        cacheable: false,
+    ),
+
     // Auth callback (cross-domain session transfer — bootstrap'te kernel öncesi işlenir)
     'auth/callback' => new SpaRoute(
         page: 'login',
@@ -45,32 +61,34 @@ return [
     ),
 
     // Admin sayfaları (auth required)
-    'dashboard' => new SpaRoute(
-        page: 'dashboard',
+    // D2: adlandırma kuralı admin-{pagename} — ViewModeManager route prefix
+    // '/admin*' eşleşmesi ve sayfa dosyaları (pages/admin-*.php) ile senkron.
+    'admin-dashboard' => new SpaRoute(
+        page: 'admin-dashboard',
         requiresAuth: true,
         title: 'Kontrol Paneli',
         cacheable: false,
     ),
-    'songs' => new SpaRoute(
-        page: 'songs',
+    'admin-songs' => new SpaRoute(
+        page: 'admin-songs',
         requiresAuth: true,
         title: 'Şarkılar',
         cacheable: false,
     ),
-    'song-add' => new SpaRoute(
-        page: 'song-add',
+    'admin-song-add' => new SpaRoute(
+        page: 'admin-song-add',
         requiresAuth: true,
         title: 'Şarkı Ekle',
         cacheable: false,
     ),
-    'playlist' => new SpaRoute(
-        page: 'playlist',
+    'admin-playlist' => new SpaRoute(
+        page: 'admin-playlist',
         requiresAuth: true,
         title: 'Playlistler',
         cacheable: false,
     ),
-    'settings' => new SpaRoute(
-        page: 'settings',
+    'admin-settings' => new SpaRoute(
+        page: 'admin-settings',
         requiresAuth: true,
         title: 'Ayarlar',
         cacheable: false,

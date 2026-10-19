@@ -44,7 +44,7 @@ if (!defined('ROOT_PATH')) {
     define('PAGES_PATH', ROOT_PATH . '/pages');
     define('HEADER_PATH', ROOT_PATH . '/header.php');
     define('FOOTER_PATH', ROOT_PATH . '/footer.php');
-    define('DEFAULT_PAGE', $env('DEFAULT_PAGE', 'dashboard'));
+    define('DEFAULT_PAGE', $env('DEFAULT_PAGE', 'admin-dashboard'));
 }
 
 /* --- Session --- */
