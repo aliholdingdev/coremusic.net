@@ -32,7 +32,6 @@ php_value error_log ../../coremusic_php_errors.log
     RewriteRule ^ - [L]
 
     RewriteRule \.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$ - [L]
-    RewriteRule ^(config|include)(/.*)?$ - [F,L]
-    RewriteRule ^(.*\.php)$ - [F,L]
+    RewriteRule ^(config|include|pages)(/.*)?$ - [F,L]
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>

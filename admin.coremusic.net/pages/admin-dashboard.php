@@ -18,8 +18,8 @@ declare(strict_types=1);
 $pageTitle = 'Dashboard';
 $activeNav = 'admin-dashboard';
 
-use CoreMusic\Admin\Platform\Database\DatabaseConfig;
-use CoreMusic\Admin\Platform\Database\DatabaseManager;
+use CoreMusic\Database\Config\DatabaseConfig;
+use CoreMusic\Database\DatabaseManager;
 
 /**
  * Dashboard için tek gerçek veri kaynağı: admin_users sayımı.
