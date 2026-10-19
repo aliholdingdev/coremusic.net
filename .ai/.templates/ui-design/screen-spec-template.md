@@ -39,7 +39,7 @@ Bu şablon, CoreMusic ui-design vault'unda **bir ekranın piksel düzeyinde spes
 
 > **v1.0.1'deki eski tablo (yànlış):** "23 md / 8 tier / `T01-phone-hd` `T02-phone-fhd` `T03-phone-qhd` `T25-tv-43fhd` `T29-car-android-auto` `T31-watch-apple-40mm` dizinleri" → bu dizinler diskte **hiç var olmadı**; `artists`/`file-browser`/`now-playing`/`wifi-modal` adları da yanlış (doğru adlar: `singer`/`browse`/`playlist`/`wifi-quick`). 2026-09-29 Figma tam çekimi (15 sayfa) ile düzeltildi.
 
-**PNG kanıtı:** `.ai/.png/` altında **19 PNG** vardır — `home-1024/` 12 · `home-1920/` 1 (`Linux - 1920 - Home.png`) · `shared-1024/` 6. `reference.source_of_truth` yalnızca bu 19 dosyadan birini gösterebilir.
+**PNG kanıtı (2026-10-18 düzeltmesi — disk gerçeği):** `.ai/.png/` altında **26 PNG** vardır — `home-1024/` 12 · `home-1920/` 4 · `shared-1024/` 6 · `admin-1920/` 3 · `home-3840/` 1. `reference.source_of_truth` yalnızca bu 26 dosyadan birini gösterebilir. (Önceki "19 PNG / home-1920 1" bayattı — v6.3.0 admin 3 PNG, v6.4.0 home-3840 1 PNG ekledi.)
 
 | Karar | Kaynak | Şablona gömülü karşılığı |
 |-------|--------|--------------------------|

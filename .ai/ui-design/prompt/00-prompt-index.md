@@ -4,9 +4,9 @@ title: "CoreMusic UI Design — Master Prompt Index"
 type: prompt-index
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-29
+updated: 2026-10-19
 status: active
-version: 1.1.1
+version: 1.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -33,15 +33,15 @@ CoreMusic UI tasarımında AI ile kod üretimi için kullanılacak prompt dosyal
 | # | Kategori | Prompt Sayısı | Dosya Yolu |
 |---|----------|:---:|------------|
 | 1 | **Screen** | 10 | `prompt/screen/` |
-| 2 | **Component** | 16 | `prompt/component/` |
+| 2 | **Component** | 17 | `prompt/component/` |
 | 3 | **Layout** | 10 | `prompt/layout/` |
 | 4 | **Page** | 12 | `prompt/page/` |
-| | **Prompt alt toplam** | **48** | |
+| | **Prompt alt toplam** | **49** | |
 | 5 | İndeks dosyaları | 2 | `prompt/00-prompt-index.md` · `prompt/screen/00-prompt-index.md` |
 | 6 | Araştırma | 1 | `prompt/web-research.md` |
-| | **TOPLAM (disk md)** | **51** | |
+| | **TOPLAM (disk md)** | **52** | |
 
-**Disk kanıtı (2026-09-27, glob):** `prompt/` altında 51 `.md` = 48 prompt + 2 indeks + 1 web-research. Kategori dışı klasör yoktur.
+**Disk kanıtı (2026-10-19, glob):** `prompt/` altında 52 `.md` = 49 prompt + 2 indeks + 1 web-research. Kategori dışı klasör yoktur. (2026-10-19: `component/aaaa.md` → **C17 Player Info** olarak tescil edildi; önceki "16 component / 51 md" sayımı bu dosyayı kayıtsız saydığı için geçersizdir.)
 
 ---
 
@@ -86,8 +86,10 @@ Her tier; tanım, layout pattern, token overrides, code example içerir. Alt ind
 | C14 | Modal | `component/C14-modal.md` |
 | C15 | Toggle | `component/C15-toggle.md` |
 | C16 | Network Row | `component/C16-network-row.md` |
+| C17 | Player Info | `component/aaaa.md` |
 
 > ⚠️ Eski sürüm adları (`C02-search-bar`, `C03-album-card`, `C07-player-controls` …) diskte **yok**; bu tablo 2026-09-27 glob'undan alınmıştır. Bileşen tanım SSOT'u: `02-component-inventory.md`.
+> ℹ️ **C17 notu (2026-10-19):** Player Info prompt'u diskteki adıyla `component/aaaa.md`'dir — dosya adı değiştirilmedi (Rule #1: rename onay ister); Kimlik/H1 `Component Prompt (C17)` olarak tescil edildi, Kalıp C iskeletine hizalandı (gate C:0).
 
 ---
 
@@ -169,7 +171,7 @@ component: C01
 | Kaynak | Hedef | İlişki |
 |--------|-------|--------|
 | `00-prompt-index.md` | `01-mockup-index.md` | PNG referansları |
-| `00-prompt-index.md` | `02-component-inventory.md` | Bileşen tanımları (C01-C16) |
+| `00-prompt-index.md` | `02-component-inventory.md` | Bileşen tanımları (C01-C17) |
 | `00-prompt-index.md` | `03-implementation-plan.md` | Uygulama planı |
 | `00-prompt-index.md` | `screen/00-prompt-index.md` | Screen alt indeksi (v2.0.0) |
 | `00-prompt-index.md` | `web-research.md` | Araştırma promptları (kapsam dışı) |
@@ -180,11 +182,11 @@ component: C01
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 1.1.0 |
+| Version | 1.2.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Cross References | 4 |
 | Screen Prompts | 10 (T1-T10) |
-| Component Prompts | 16 (C01-C16) |
+| Component Prompts | 17 (C01-C17) |
 | Layout Prompts | 10 (01-10) |
 | Page Prompts | 12 (01-12) |
 | Prompt Files | 48 |

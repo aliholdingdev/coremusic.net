@@ -1,31 +1,30 @@
 ---
 reference_doc: "Template (Guardrail #16) — .ai/.templates/ui-design/prompt-template.md (Kalıp C)"
-title: "CoreMusic — Player Info (1024/1920/4K) Frontend Production Prompt"
+title: "CoreMusic — Player Info Component Prompt (C17)"
 type: prompt
 category: ui-design
 pattern: C
 component: player-info
 date: 2026-09-30
-version: 2.0.0
+updated: 2026-10-19
+version: 2.1.0
 status: active
 authority: "Prompt (Kalıp C) — SSOT: .ai/.templates/ui-design/prompt-template.md"
 governance: Red Team · Human Mode · Truth Mode
 assignee: "Frontend-Developer (UI Designer, A3 — K10-K11)"
-reference:
-  authority: ".ai/.templates/ui-design/prompt-template.md"
-  source_of_truth: ".ai/ui-design/prompt/00-prompt-index.md §7 · assets.coremusic.net/AGENTS.md §CSS SSOT"
 ---
 
-# Player Info — Frontend Production Prompt (1024 / 1920 / 4K)
+# Player Info Component Prompt (C17)
 
 > **GÖREV SAHİBİ:** Frontend-Developer (UI Designer). **SEVİYE:** Senior — kopyala-yapıştır yok, SSOT'tan oku, kısa düşün, edit et.
 > **NE ZAMAN OKUNUR:** Player Info bileşeni Figma "if renderer" karşılığı 1024×600 / 1920×1080 / 3840×2160 görünümlerinde kodlanırken ve regresyon test edilirken.
 
 **Zorunlu Bağlantılar:** [[00-prompt-index]] · [[../../AGENTS.md]] · [[../../../CLAUDE.md]] · [[C06-form-input]] (kalıp örneği)
+**SSOT Kaynağı:** `00-prompt-index.md §7` · `assets.coremusic.net/AGENTS.md §CSS SSOT` · Figma raw: `reference/figma/raw/nodes-1024-1920.json`
 
----
+## AI Code Generation Prompt
 
-## 1. Context
+### Context
 
 **Problem:** Player Info bileşeninin 1024 ve 1920 px görünümleri Figma'ya birebir oturmalı; 4K devamı aynı token zincirinden gelmeli. Mevcut kodda **7 kritik sorun** tespit edildi ve düzeltildi — CSP ihlali, cascade hatası, renk uyumsuzluğu, yanlış import, eksik JS init. Düzeltmeler yapıldı, **browser testi bekliyor**.
 
@@ -61,9 +60,7 @@ reference:
 
 **Mevcut durum (2026-09-30):** 7 sorun düzeltildi, CSS/JS/PHP edit edildi. Token zinciri: T07 `392×131` embedded · T17 `469×184` wide · 4K `750×300` wide. **Browser testi + unit/E2E test koşusu bekliyor.**
 
----
-
-## 2. Required Inputs
+### Required Inputs
 
 | # | Dosya | Ne için |
 |---|-------|---------|
@@ -77,9 +74,7 @@ reference:
 
 **Mockup Gate (§13):** `.ai/.png/` altındaki `home-1024` / `home-1920` görselleri kod yazımdan ÖNCE okunur. **Not:** AI modeli görsel okuyamıyor — Figma JSON SSOT kullanılır, görsel doğrulama kullanıcı tarafından yapılır.
 
----
-
-## 3. ASCII Reference
+### ASCII Reference
 
 ```
 1024×600 (T07, d-embedded.css)         1920×1080 (T17, d-desktop.css) / 4K (d-4k.css)
@@ -97,9 +92,7 @@ Progress fill akışı (CSP-safe):
        → CSS 30% render eder (transition: width 0.5s linear)
 ```
 
----
-
-## 4. Prompt (Dispatch — Frontend-Developer'e birebir)
+### Prompt Template
 
 ```text
 SEVİYE: Senior Frontend Developer. Kısa oku, kısa düşün, edit et. Adım adım git, her adımda kanıt üret.
@@ -131,9 +124,7 @@ ADIMLAR:
 8. [Sonuç topla] 3 breakpoint tablosu + console + CSP + test sonuçları + değişen dosyalar listesi.
 ```
 
----
-
-## 5. Expected Output (Düzeltilen + Korunan)
+### Expected Output
 
 **Düzeltilen (S1-S7):**
 - ✅ S1: `style="width:X%"` inline → kaldırıldı; `width: var(--progress-percent, 0)` CSP-safe
@@ -152,26 +143,7 @@ ADIMLAR:
 - ✅ BEM: `player-info__element--modifier` · ITCSS Layer 04_Components · WCAG 2.2 AA
 - ✅ `d-4k.css` import zinciri korundu (hala `a-layout-tokens-1024.css` import ediyor)
 
----
-
-## 6. Validation (Definition of Done)
-
-| # | Kriter | Kanıt |
-|---|--------|-------|
-| V1 | 1024×600 → 392×131 embedded, time görünür, progress>0% | Playwright evaluate + screenshot `c06-t07-1024.png` |
-| V2 | 1920×1080 → 469×184 wide, time görünür, progress>0% | screenshot `c06-t17-1920.png` |
-| V3 | 3840×2160 → 750×300 wide, token tanımlı, pembe bg | screenshot `c06-4k-3840.png` |
-| V4 | Console 0 hata/uyarı — CSP ihlali YOK | CDP console listesi |
-| V5 | unit 47 + E2E 21 test | `npm run test:unit` / `test:e2e` çıktısı |
-| V6 | Yeni dosya üretilmedi; CSS yolu sabit | `git status` (yalnız mevcut dosya edit'leri) |
-| V7 | Değişiklik commit edilmedi | commit orkestratöre ait (verify-loop §0) |
-| V8 | `d-laptop.css` → `a-layout-tokens.css` import | grep `a-layout-tokens` d-laptop.css |
-| V9 | Progress fill `var(--progress-percent,0)` | grep `_player-info.css` |
-| V10 | JS `mount()` → `setProgress()` çağrısı | grep `PlayerInfoComponent.js` |
-
----
-
-## 7. Değişen Dosyalar Listesi
+**Değişen Dosyalar Listesi:**
 
 | Dosya | Değişiklik |
 |-------|-----------|
@@ -187,18 +159,31 @@ ADIMLAR:
 | `home.coremusic.net/pages/components/player-info.php` | S1: inline style + nonce kaldırıldı |
 | `home.coremusic.net/config/.env` | S6: `TEST_MODE=true` |
 
----
+### Validation
 
-## 8. References (otomatik toplandı)
+| # | Kriter | Kanıt |
+|---|--------|-------|
+| V1 | 1024×600 → 392×131 embedded, time görünür, progress>0% | Playwright evaluate + screenshot `c06-t07-1024.png` |
+| V2 | 1920×1080 → 469×184 wide, time görünür, progress>0% | screenshot `c06-t17-1920.png` |
+| V3 | 3840×2160 → 750×300 wide, token tanımlı, pembe bg | screenshot `c06-4k-3840.png` |
+| V4 | Console 0 hata/uyarı — CSP ihlali YOK | CDP console listesi |
+| V5 | unit 47 + E2E 21 test | `npm run test:unit` / `test:e2e` çıktısı |
+| V6 | Yeni dosya üretilmedi; CSS yolu sabit | `git status` (yalnız mevcut dosya edit'leri) |
+| V7 | Değişiklik commit edilmedi | commit orkestratöre ait (verify-loop §0) |
+| V8 | `d-laptop.css` → `a-layout-tokens.css` import | grep `a-layout-tokens` d-laptop.css |
+| V9 | Progress fill `var(--progress-percent,0)` | grep `_player-info.css` |
+| V10 | JS `mount()` → `setProgress()` çağrısı | grep `PlayerInfoComponent.js` |
 
-**Harici:**
+**Referanslar (otomatik toplandı):**
+
+*Harici:*
 1. MDN — `clamp()` CSS function (2026-08-12; Baseline: July 2020) — https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/clamp
 2. web.dev — Min, max, clamp: CSS functional AKA (2020-10-14) — https://web.dev/articles/min-max-clamp
 3. MDN — CSS Custom Properties (`--*`) — https://developer.mozilla.org/en-US/docs/Web/CSS/--*
 4. MDN — CSP `style-src` directive — https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src
 5. caniuse — mdn-css_types_clamp — https://caniuse.com/mdn-css_types_clamp
 
-**Depo içi:**
+*Depo içi:*
 6. Figma ham SSOT — `.ai/ui-design/reference/figma/raw/nodes-1024-1920.json` (node `1639:9772`)
 7. ADR-008 Bypass Auth Middleware — `.ai/.decisions/accepted/ADR-008-*`
 8. ADR-012 CSP Nonce strict-dynamic — `.ai/.decisions/accepted/ADR-012-csp-nonce-strict-dynamic.md`
@@ -210,5 +195,5 @@ ADIMLAR:
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-30 (v2.0.0 — 7 sorun düzeltildi)
+**Last Updated:** 2026-10-19 (v2.1.0 — Kalıp C iskeletine taşındı; C17 olarak tescil edildi)
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -69,7 +69,7 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 26 PNG
 > - **Vault mockup'ı (SSOT):** `.ai/.png/` → **26 PNG** (12 `home-1024` + 4 `home-1920` + 6 `shared-1024` + 3 `admin-1920` + 1 `home-3840`; klasörlerde ayrıca `CLAUDE.md` vardır, PNG sayılmaz).
 > - **Figma çekim arşivi:** `.ai/ui-design/reference/figma/png/` → **154 PNG** (2026-09-29 tam çekim 149 + 2026-10-18 taze export 5: 4× `home-1920` frame adıyla + 1× `3175-13502-Linux-3840---Home`). Bu arşiv ham referanstır; Mockup Before Frontend gate'i **önce `.ai/.png/`** için geçerlidir.
 >
-> **Not (açık madde):** `home-1920/` içindeki `Geçmiş` / `Göz At` / `Playlist` 3 PNG'nin ve `home-3840/Linux 3840 - Home.png`'nin ekran spec'i **yok** (`screens/00-ascii-art-index.md` §7 madde 6).
+> **Not (✅ KAPANDI — 2026-10-18):** `home-1920/` içindeki `Geçmiş` / `Göz At` / `Playlist` 3 PNG ve `home-3840/Linux 3840 - Home.png` artık **spec'lidir** (`screens/00-ascii-art-index.md` §7 madde 6 kapandı): `T17-monitor-22fhd/{history,browse,playlist}` + yeni dizin `T20-monitor-4k/home-dashboard`. 26/26 PNG'nin spec'i var.
 
 ---
 
@@ -97,9 +97,9 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 26 PNG
 | # | Dosya Adı | Viewport | Cihaz | İçerik |
 |---|-----------|----------|-------|--------|
 | 13 | `Linux 1920 - Home.png` | 1920×1080 | Desktop FHD | Ana sayfa: 3 sütun (Now Playing 33%, Welcome 34%, Widgets 33%), alt satır 2 sütun (7+6 kart), footer player |
-| 14 | `Linux 1920 -  Geçmiş Page.png` | 1920×1080 | Desktop FHD | Geçmiş sayfası — ⚠️ ekran spec'i yok (00-ascii-art-index §7 madde 6) |
-| 15 | `Linux 1920 -  Göz At Page.png` | 1920×1080 | Desktop FHD | Dosya yöneticisi (1920) — ⚠️ ekran spec'i yok |
-| 16 | `Linux 1920 -  Playlist  Page.png` | 1920×1080 | Desktop FHD | Çalma listesi (1920) — ⚠️ ekran spec'i yok |
+| 14 | `Linux 1920 -  Geçmiş Page.png` | 1920×1080 | Desktop FHD | Geçmiş sayfası — spec: `screens/T17-monitor-22fhd/history.md` (v6.5.0) |
+| 15 | `Linux 1920 -  Göz At Page.png` | 1920×1080 | Desktop FHD | Dosya yöneticisi (1920) — spec: `screens/T17-monitor-22fhd/browse.md` (v6.5.0) |
+| 16 | `Linux 1920 -  Playlist  Page.png` | 1920×1080 | Desktop FHD | Çalma listesi (1920) — spec: `screens/T17-monitor-22fhd/playlist.md` (v6.5.0) |
 
 ### 3.3 Auth Ekranları — Shared (6 PNG)
 
@@ -124,11 +124,11 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 26 PNG
 
 | # | Dosya Adı | Viewport | Cihaz | İçerik |
 |---|-----------|----------|-------|--------|
-| 26 | `Linux 3840 - Home.png` | 3840×2160 | Linux 4K | Ana sayfa (4K): frame `3175:13502` · Figma sayfası `3175:13501` (ilk çekim 2026-10-18) — ⚠️ ekran spec'i yok · içerik grupları 1920 ile aynı adlar (Footer · Navbar · Player Info · Önerilen Sanacılar/Albumler · En Son Dinlenen …); çıkarım: `reference/figma/extracted-3175-13501.md` |
+| 26 | `Linux 3840 - Home.png` | 3840×2160 | Linux 4K | Ana sayfa (4K): frame `3175:13502` · Figma sayfası `3175:13501` (ilk çekim 2026-10-18) — spec: `screens/T20-monitor-4k/home-dashboard.md` (v6.5.0, yeni dizin) · içerik grupları 1920 ile aynı adlar (Footer · Navbar · Player Info · Önerilen Sanacılar/Albumler · En Son Dinlenen …); çıkarım: `reference/figma/extracted-3175-13501.md` |
 
 ---
 
-## 4. Screen Spec Eşleştirmesi (23 spec — 4b9ef53 tabanı + 2026-10-16 admin eklemesi)
+## 4. Screen Spec Eşleştirmesi (27 spec — 4b9ef53 tabanı + 2026-10-16 admin eklemesi + 2026-10-18 v6.5.0 eklemesi)
 
 > **Kaynak (disk gerçeği):** `screens/00-ascii-art-index.md` §3-5 (2026-10-16). v5.0.0'daki `screens/T07-embedded/*` yolları tarihte hiç var olmadı → eski adların haritası §7'de.
 
@@ -160,7 +160,7 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 26 PNG
 | 17 | `screens/shared/select-gender.md` | `2831:9748` | `.ai/.png/shared-1024/Linux  1024 - Select Gender.png` | active |
 | 18 | `screens/shared/select-gender-selected.md` | `2831:9787` | `.ai/.png/shared-1024/Linux  1024 - Select Gender - selected.png` | active |
 
-### 4.3 T17 Desktop Monitor — `screens/T17-monitor-22fhd/` (1920×1080, 5 spec)
+### 4.3 T17 Desktop Monitor — `screens/T17-monitor-22fhd/` (1920×1080, 8 spec)
 
 | # | Screen Spec Dosyası | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status |
 |---|---------------------|------------------|-------------------------------|:------:|
@@ -169,6 +169,15 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 26 PNG
 | 21 | `screens/T17-monitor-22fhd/admin-layout.md` | `2161:12499` | `.ai/.png/admin-1920/Admin - layout.png` | active |
 | 22 | `screens/T17-monitor-22fhd/admin-login.md` | `2161:12506` | `.ai/.png/admin-1920/Admin - Login.png` | active |
 | 23 | `screens/T17-monitor-22fhd/admin-register.md` | `2161:12529` | `.ai/.png/admin-1920/Admin - Register.png` | active |
+| 24 | `screens/T17-monitor-22fhd/history.md` | `3155:22392` | `.ai/.png/home-1920/Linux 1920 -  Geçmiş Page.png` | active |
+| 25 | `screens/T17-monitor-22fhd/browse.md` | `3155:18252` | `.ai/.png/home-1920/Linux 1920 -  Göz At Page.png` | active |
+| 26 | `screens/T17-monitor-22fhd/playlist.md` | `3155:19834` | `.ai/.png/home-1920/Linux 1920 -  Playlist  Page.png` | active |
+
+### 4.3B T20 Desktop Monitor 4K — `screens/T20-monitor-4k/` (3840×2160, 1 spec — yeni dizin, 2026-10-18)
+
+| # | Screen Spec Dosyası | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status |
+|---|---------------------|------------------|-------------------------------|:------:|
+| 27 | `screens/T20-monitor-4k/home-dashboard.md` | `3175:13502` (sayfa `3175:13501`) | `.ai/.png/home-3840/Linux 3840 - Home.png` | active |
 
 > **Tier notu (çelişki — ✅ taşındı, 2026-09-29):** dizin `screens/T07-embedded/`'e taşındı + 12 spec `tier: T07` (owner onayı); viewport 1024×600 = `00-device-matrix` `EM-T07` (Embedded, RPi5 7"), 1280×800 = `EM-T08`. Kapanış: `screens/00-ascii-art-index.md` §7 madde 1. **CatID ile:** dizin kanonik karşılığı `EM-T07` (§4.4).
 
@@ -179,7 +188,8 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 26 PNG
 | Dizin | CatID | Tier | Viewport | Ekran spec | Figma tasarım durumu |
 |-------|-------|------|----------|-----------|----------------------|
 | `screens/T07-embedded/` | `EM-T07` | T07 | 1024×600 | 12 md | ✅ `1047:15802` (Linux Pi sayfası) |
-| `screens/T17-monitor-22fhd/` | `DM-T17` | T17 | 1920×1080 | 5 md | ✅ `462:5874` (Linux 1920 sayfası) · `2161:12438` (Music Admin sayfası) · ek: `3175:13501` (Linux 3840 sayfası — spec'i yok, §3.5) |
+| `screens/T17-monitor-22fhd/` | `DM-T17` | T17 | 1920×1080 | 8 md | ✅ `462:5874` (Linux 1920 sayfası) · `2161:12438` (Music Admin sayfası) |
+| `screens/T20-monitor-4k/` | `DM-T20` | T20 | 3840×2160 | 1 md | ✅ `3175:13501` (Linux 3840 sayfası — 2026-10-18 çekimi; yeni dizin v6.5.0) |
 | `screens/shared/` | `EM-T07` (frontmatter `tier: T07`) | T07 | 1024×600 | 6 md | ✅ `2135:19832` (Linux Pi Son Kullanıcı) |
 
 **Çakışan tier'lar ve durumları:**
@@ -216,7 +226,7 @@ PNG Mockup > ASCII Art > Component Inventory > Tokens > Implementation Plan
 
 ## 7. Quick Reference (qr-) Sistemi
 
-> **23 screen spec dosyası** (T07 12 + shared 6 + T17 5) — her ekran için hızlı referans.
+> **27 screen spec dosyası** (T07 12 + shared 6 + T17 8 + T20 1) — her ekran için hızlı referans.
 > Tarihçe: 17 adet `screens/qr-*.md` 2026-09-19'da (commit 8ce113f) silindi; eski `.ai copy/ui-design/screens/qr-*.md` türevi de kaldırıldı.
 
 | Dosya Grubu | Quick Reference Dosyaları |
@@ -227,8 +237,9 @@ PNG Mockup > ASCII Art > Component Inventory > Tokens > Implementation Plan
 | FileManager | `screens/T07-embedded/browse.md`, `screens/T07-embedded/browse-clicked.md` |
 | Settings | `screens/T07-embedded/wifi-quick.md`, `screens/T07-embedded/wifi-connect-light.md`, `screens/T07-embedded/bluetooth-quick.md` |
 | Auth | `screens/shared/select-gender.md`, `screens/shared/select-gender-selected.md`, `screens/shared/login.md`, `screens/shared/register-step1.md`, `screens/shared/register-step2.md`, `screens/shared/register-step3.md` |
-| Desktop (T17) | `screens/T17-monitor-22fhd/home-dashboard.md`, `screens/T17-monitor-22fhd/welcome-popup.md` |
+| Desktop (T17) | `screens/T17-monitor-22fhd/home-dashboard.md`, `screens/T17-monitor-22fhd/welcome-popup.md`, `screens/T17-monitor-22fhd/history.md`, `screens/T17-monitor-22fhd/browse.md`, `screens/T17-monitor-22fhd/playlist.md` |
 | Admin (T17) | `screens/T17-monitor-22fhd/admin-layout.md`, `screens/T17-monitor-22fhd/admin-login.md`, `screens/T17-monitor-22fhd/admin-register.md` |
+| Desktop 4K (T20) | `screens/T20-monitor-4k/home-dashboard.md` |
 
 **Eski ad haritası (v5.0.0 listesi → disk gerçeği; 4b9ef53 = 2026-09-27):**
 
@@ -246,7 +257,7 @@ PNG Mockup > ASCII Art > Component Inventory > Tokens > Implementation Plan
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 6.4.0 |
+| Version | 6.5.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Total PNG | 26 (12 home-1024 + 4 home-1920 + 6 shared-1024 + 3 admin-1920 + 1 home-3840) |
 | Figma PNG Arşivi | 154 (`.ai/ui-design/reference/figma/png/` — çekim 129 → 149 → 154; +5 2026-10-18 taze export) |
@@ -256,8 +267,8 @@ PNG Mockup > ASCII Art > Component Inventory > Tokens > Implementation Plan
 | Components | 19 (C01-C16 + C17 Widget Area + C18 Quick Apps + C19 Mini Card) |
 | Layout Patterns | 7 (Standard 60/40, Split Home 1024, Split Home 1920, Fullscreen, Modal, Auth 72/28, Admin Right Panel 500px) |
 | Auth Flow | Select Gender → Login → Register (3 adım) |
-| Screen Specs | 23 spec dosya (22 active · 1 draft) · 22'si PNG'li · `screens/` toplam 24 md (23 spec + 1 indeks) · `.ai/.png` 26 PNG (4'ün spec'i yok: `home-1920` Geçmiş / Göz At / Playlist + `home-3840` Home) |
-| Spec Senkronu | 4b9ef53 (2026-09-27) → §4/§7 2026-09-28 20 dosya → 2026-10-16 admin 3 ekran eklendi (23 dosya) |
+| Screen Specs | 27 spec dosya (26 active · 1 draft) · 26'sı PNG'li (26/26 PNG spec'li — v6.5.0) · `screens/` toplam 28 md (27 spec + 1 indeks) · `.ai/.png` 26 PNG |
+| Spec Senkronu | 4b9ef53 (2026-09-27) → §4/§7 2026-09-28 20 dosya → 2026-10-16 admin 3 ekran (23) → 2026-10-18 v6.5.0: 4 eksik spec (history/browse/playlist + T20 3840 home) = 27 dosya |
 | Figma Sources | 1024×600 (Embedded) + 1920×1080 (Desktop + Admin) + 3840×2160 (Linux 4K) pixel-perfect |
 | Bayat Ad Taraması | 0 isabet — eski ekran adları bu dosyada tutulmuyor (§7) |
 | ADR Uyumlu | ADR-001 (Vanilla JS), ADR-044 (Theme Engine) |

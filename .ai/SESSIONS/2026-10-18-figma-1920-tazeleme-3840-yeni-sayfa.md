@@ -58,3 +58,46 @@
 ## Sonraki adım
 
 Commit **atılmadı** (orkestratöre ait). Onay bekleyenler: (a) bu görevin commit'i, (b) `screen-spec-template` L42 + `.ai/AGENTS.md` §7.2 envanter düzeltmesi, (c) `prompt/component/aaaa.md` Kalıp C uyumu, (d) `.ai/log.md` + `MEMORY.md` + `architecture/**` mojibake onarımı.
+
+---
+
+## Tamamlama Kaydı (2026-10-19 — v6.5.0 + C17 tescil + gate'ler)
+
+> Bu bölüm 2026-10-18 oturumunun devamı/onaylı kapanışıdır. Commit'ler bu oturumda atıldı (orkestratör).
+
+### Onaylı işler (özet)
+
+1. **4 eksik spec üretildi** (Kalıp D) — kaynak: PNG + Figma node dump:
+   - `screens/T17-monitor-22fhd/{history,browse,playlist}.md` (node `3155:22392` / `3155:18252` / `3155:19834`)
+   - `screens/T20-monitor-4k/home-dashboard.md` (**yeni dizin**, frame `3175:13502` 3840×2160, sayfa `3175:13501`)
+2. **Envanter düzeltmeleri** (sahip onayı verildi):
+   - `.ai/AGENTS.md` §7.2: "19 PNG" → **26 PNG** · envanter screens 28 (27 spec) · `.png` 26 (5 dizin)
+   - `.templates/ui-design/screen-spec-template.md` L42: 19 → 26 PNG
+3. **İndeksler v6.5.0**: `00-ascii-art-index.md` (27 spec · T20 satırı · §5B · Quality 27/27) + `01-mockup-index.md` (§4.3B T20 · CatID DM-T20 · Screen Specs 27 · Spec Senkronu 2026-10-18 v6.5.0)
+4. **`prompt/component/aaaa.md` → C17 Player Info tescil** (kullanıcı onayı): Kalıp C iskeletine taşındı — H1 `# Player Info Component Prompt (C17)` · tek H2 `## AI Code Generation Prompt` · 6 H3 (Context→Required Inputs→ASCII Reference→Prompt Template→Expected Output→Validation) · `reference:` bloğu kaldırıldı (gate yasağı) · Authority footer korundu. Tüm içerik korundu (§7 Değişen Dosyalar → Expected Output'a, §8 Referanslar → Validation altına katlandı). `00-prompt-index.md` v1.2.0 (C17 satırı · component 16→17 · 52 md).
+
+### Gate'ler (repo kökünden, 2026-10-19 — taze)
+
+| Gate | Sonuç | Kanıt |
+|---|---|---|
+| `screens-frontmatter-check.ps1` | ✅ PASS | `dosya: 28 | sorunlu: 0` |
+| `wiki-link-check.ps1` | ✅ PASS | `kontrol edilen link: 389 | kırık: 6` = §13.7 bilinen 6 sahte (gerçek kırık 0) |
+| `figma-tokens.ps1` (Faz 9) | ✅ PASS | `toplam=7 | pass=6 | bos=1 | fail=0 | bos_bp=tv` + `BITTI` → **exit 0** |
+| `kalip-abc-check.ps1` | ✅ **PASS (exit 0)** | `A:0 B:0 C:0` · C toplam 52 (aaaa.md/C17 dahil) · sorunlu 0 |
+| `vault-utf8-writer.mjs verify` | ✅ | 4 yeni spec + 2 indeks + aaaa + 00-prompt-index = 8/8 OK (moji 0 · BOM yok · CJK 0) |
+
+### Not (figma-tokens bos_bp)
+
+- 2026-10-18 oturumundaki `bos=1 | bos_bp=tv` ölçümü ile aynı: **3840 ilk kez PASS** (önceki `bos=2 (3840,tv)` ölçümü geçersizleşti — tokens-3840.json 2026-10-18'de doldu). `.ai/AGENTS.md` §7.2 gate satırındaki eski beklenti (`bos=2 | bos_bp=3840,tv`) bu yüzden artık bayat; sonraki sahip turunda güncellenmeli (işaretlendi, bu oturumda dokunulmadı — boot SSOT satırı).
+
+### Mojibake durumu (kapsam notu)
+
+- `.ai/log.md` **194 U+FFFD + CJK 2** — `git show HEAD:.ai/log.md` ile de aynı; **HEAD'de önceden commit'li**, append-only kuralı gereği dokunulmadı (geri getirilemez).
+- `.ai/MEMORY.md` ~1033 + `architecture/**` 100+ dosya mojibake — önceden var, düşük öncelik, kapsam dışı (önceki oturumda cp1252 döngüsü yakınsadı; MEMORY.md katmanlı moji round-trip guard bıraktı).
+
+### Commit (bu oturum — orkestratör)
+
+- **#1** figma işi: raw ×2 · extracted ×2 · tokens · indeksler · `.png/**` · session · log.md · figma-tokens.ps1 · token-conflicts.md
+- **#2** hijyen + screens: `.ai/AGENTS.md` §7.2 · screen-spec-template L42 · `aaaa.md` C17 · mojibake onarımlı dosyalar · 4 yeni spec · 00-ascii-art-index v6.5.0 · 01-mockup-index v6.5.0 · 00-prompt-index v1.2.0
+
+> Paralel oturumun 4 git-M dosyası (architecture/CSS) **hariç** tutuldu (commit edilmedi).
