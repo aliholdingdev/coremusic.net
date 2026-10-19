@@ -35,6 +35,7 @@
     const DEVICES = window.CoreMusic && window.CoreMusic.DEVICES ? window.CoreMusic.DEVICES : {};
     const HOME_CSS = DEVICES.HOME_CSS || {};
     const AUTH_CSS = DEVICES.AUTH_CSS || {};
+    const ADMIN_CSS = DEVICES.ADMIN_CSS || {};
     const VIEW_CSS = DEVICES.VIEW_CSS || {};
     const ALL_DEVICES = DEVICES.ALL || Object.keys(HOME_CSS);
 
@@ -169,6 +170,14 @@
             loadCSS(base + 'auth-bundled.css', 'cm-auth-bundled');
             loadCSS(base + AUTH_CSS[device], 'cm-device-css');
             removeCSS('cm-view-css');
+        } else if (viewMode === 'admin') {
+            // Admin: TEK cihaz girişi d-admin-1920.css (DeviceCssMap::adminToCssPath
+            // ile senkron — cihaz ayrımı yok, breakpoint'ler dosyanın içinde).
+            // HOME_CSS admin'i EZMESİN: admin responsive @media kuralları yalnızca
+            // d-admin-1920.css'tedir; home device CSS swap'i responsive'i düşürüyordu.
+            loadCSS(base + ADMIN_CSS[device], 'cm-device-css');
+            loadCSS(base + (VIEW_CSS[viewMode] || VIEW_CSS['home']), 'cm-view-css');
+            removeCSS('cm-auth-bundled');
         } else {
             // Home: d-{device}.css + v-{viewMode}.css
             // P1-11: `+` > `||` — parantez ZORUNLU: `base + undefined` truthy
@@ -184,13 +193,16 @@
      * Sadece device CSS'i değiştir (view korunarak)
      * @param {string} device
      * @param {boolean} isAuth
+     * @param {string} viewMode  View mode (admin → d-admin-1920.css korunur)
      * @param {string} baseUrl
      */
-    function loadDeviceOnly(device, isAuth, baseUrl) {
+    function loadDeviceOnly(device, isAuth, viewMode, baseUrl) {
         const base = baseUrl || '/Css/';
 
         if (isAuth) {
             loadCSS(base + AUTH_CSS[device], 'cm-device-css');
+        } else if (viewMode === 'admin') {
+            loadCSS(base + ADMIN_CSS[device], 'cm-device-css');
         } else {
             loadCSS(base + HOME_CSS[device], 'cm-device-css');
         }
@@ -257,7 +269,7 @@
                 }
 
                 // Yeni device CSS yükle
-                loadDeviceOnly(newDevice, state.isAuth, state.baseUrl);
+                loadDeviceOnly(newDevice, state.isAuth, state.viewMode, state.baseUrl);
 
                 // CSS yüklendikten sonra fade-in
                 setTimeout(function () {

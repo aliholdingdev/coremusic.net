@@ -84,7 +84,9 @@ abstract class BaseOAuthProvider implements IOAuthProvider
 
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        // curl_close() PHP 8.0+'da etkisiz, 8.5'te deprecated — handle $ch
+        // scope sonunda otomatik kapanır (GC). curl_error() çağrısı close
+        // SONRASI yapılıyordu; bilinçli kaldırıldı (2026-10-19).
 
         if ($response === false) {
             throw new \RuntimeException("HTTP request failed: " . curl_error($ch));
@@ -118,7 +120,9 @@ abstract class BaseOAuthProvider implements IOAuthProvider
 
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        // curl_close() PHP 8.0+'da etkisiz, 8.5'te deprecated — handle $ch
+        // scope sonunda otomatik kapanır (GC). curl_error() çağrısı close
+        // SONRASI yapılıyordu; bilinçli kaldırıldı (2026-10-19).
 
         if ($response === false) {
             throw new \RuntimeException("HTTP request failed");

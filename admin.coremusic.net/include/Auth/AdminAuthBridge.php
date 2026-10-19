@@ -173,7 +173,8 @@ final class AdminAuthBridge
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error    = curl_error($ch);
-        curl_close($ch);
+        // curl_close() PHP 8.0+'da etkisiz, 8.5'te deprecated — handle $ch
+        // scope sonunda otomatik kapanır (GC). Bilinçli kaldırıldı (2026-10-19).
 
         if ($response === false || $error !== '') {
             error_log('[AdminAuthBridge] curl error: ' . ($error ?: 'unknown'));

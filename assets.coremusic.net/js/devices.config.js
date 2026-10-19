@@ -31,6 +31,20 @@ window.CoreMusic.DEVICES = Object.freeze({
         '4k-monitor': '08_Devices/d-auth-4k-monitor.css',
     }),
 
+    /** Admin cihaz CSS — TEK giriş dosyası, senkron: DeviceCssMap::adminToCssPath()
+     *  (shared) tüm cihazlara d-admin-1920.css döner. Admin mockup'ı yalnız 1920 (T17);
+     *  responsive breakpoint'ler (1919/1024/767) dosyanın İÇİNDEDİR — kural: HER
+     *  @media SADECE 08_Devices'te. Cihaz ayrımı yapılmaz, uydurma cihaz tasarımı yok. */
+    ADMIN_CSS: Object.freeze({
+        'embedded':   '08_Devices/d-admin-1920.css',
+        'phone':      '08_Devices/d-admin-1920.css',
+        'tablet':     '08_Devices/d-admin-1920.css',
+        'laptop':     '08_Devices/d-admin-1920.css',
+        'desktop':    '08_Devices/d-admin-1920.css',
+        '4k-tv':      '08_Devices/d-admin-1920.css',
+        '4k-monitor': '08_Devices/d-admin-1920.css',
+    }),
+
     /** View mode CSS dosyaları */
     VIEW_CSS: Object.freeze({
         'home':   '09_ViewModes/v-home.css',
