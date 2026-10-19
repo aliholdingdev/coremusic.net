@@ -14,6 +14,7 @@ final class DomainConfig
     {
         if ($domainConfigPath === null) {
             $candidates = [
+                dirname(__DIR__, 2) . '/config/domain.php',
                 dirname(__DIR__, 3) . '/config/domain.php',
                 dirname(__DIR__, 4) . '/config/domain.php',
             ];
