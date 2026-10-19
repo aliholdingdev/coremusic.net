@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Neva Engine — Kullanıcı Gereksinimleri & FxSound/VoiceMeeter Farkları"
 type: doc
 category: audio-engine
