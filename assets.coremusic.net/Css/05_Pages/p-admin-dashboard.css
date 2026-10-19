@@ -1,0 +1,20 @@
+/* ============================================================
+   p-admin-dashboard.css — Admin (05_Pages · P04)
+   Ekran: dashboard (admin-layout içindeki içerik görünümü)
+   Başlık "Admin Panelim" + breadcrumb "Home / Dashboard"
+   zaten 04_Components/c-adm-panel.css içinde konumlandırıldı
+   (panel-rel 29,24 / 1481,24).
+   Scope: .adm-page--dashboard (Görev A HTML contract)
+   KAPI: ham hex/px YOK · var fallback YOK · @media YOK
+   ============================================================ */
+
+.adm-page--dashboard .adm-auth-panel {
+  display: none;
+}
+
+/* Dashboard kart gövdesi — yuva: .adm-content altı.
+   ⚠️ VERIFICATION REQUIRED: dashboard kartları (istatistik/
+   liste) için PNG/mockup ve ASCII spec'i BU VAULT'TA YOK
+   (yalnız title/breadcrumb çizili) → kart bileşeni/sınıfı
+   UYDURULMADI; spec gelince 04_Components + bu dosya'ya
+   genişletilecek. */

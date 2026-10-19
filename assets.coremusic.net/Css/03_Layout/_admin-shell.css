@@ -1,0 +1,140 @@
+/* ============================================================
+   _admin-shell.css — Admin (03_Layout · objectif/kabuk)
+   1920×1080 sabit tuval (ADR-006 CLS: tüm yükseklikler token).
+   Yerleşim: figma 2161:12499 (sidebar/nav/content/footer) +
+   auth panel 2161:12508/12531 · Görev B · media YOK (08'de)
+   ============================================================ */
+
+/* Sayfa kabuku — figma frame 1920×1080; taşma kırpma
+   (copyright 1456+467=1923 → figma 3px taşması bilinçli) */
+.adm-page {
+  position: relative;
+  width: var(--adm-canvas-w, 1920px);
+  min-width: var(--adm-canvas-w, 1920px); /* §12 #3 inline fallback — 1024'de
+                                             yatay kaydırma (08_Devices) */
+  height: var(--adm-canvas-h, 1080px);
+  overflow: hidden;
+  background-color: var(--adm-c-scrim-solid);
+}
+
+/* ------------------------------------------------------------
+   Arkaplan — 2161:12500/12507/12530 IMAGE FILL 1920×1080.
+   ⚠️ --adm-bg-image: none (dosya yolu bilinmiyor — Görev A
+   setler; inline style ile de bağlanabilir).
+   ------------------------------------------------------------ */
+.adm-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.adm-bg__image {
+  position: absolute;
+  inset: 0;
+  background-image: var(--adm-bg-image);
+  background-size: var(--adm-bg-size);
+  background-position: var(--adm-bg-pos);
+}
+
+/* Siyah scrim · figma "Siyah Arkaplan Evekt" α.15 (2161:12501) */
+.adm-bg__scrim {
+  position: absolute;
+  inset: 0;
+  background-color: var(--adm-c-bg-scrim15);
+}
+
+/* ------------------------------------------------------------
+   Sidebar — Menu DivA 2161:12504 (0,0,250,1080)
+   ------------------------------------------------------------ */
+.adm-sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: var(--adm-sidebar-w);
+  height: var(--adm-canvas-h);
+  background-color: var(--adm-c-sidebar-bg);
+}
+
+/* ------------------------------------------------------------
+   Navbar — 2161:12505 (1623,18,296,35) → sağ kenar 1px
+   ------------------------------------------------------------ */
+.adm-navbar {
+  position: absolute;
+  top: var(--adm-navbar-top);
+  right: var(--adm-navbar-right);
+  z-index: 3;
+  width: var(--adm-navbar-w);
+  height: var(--adm-navbar-h);
+  background-color: var(--adm-c-navbar-bg);
+}
+
+/* ------------------------------------------------------------
+   İçerik paneli — I…;463:2343 (268,78,1631,940)
+   ------------------------------------------------------------ */
+.adm-content {
+  position: absolute;
+  top: var(--adm-content-y);
+  left: var(--adm-content-x);
+  z-index: 1;
+  width: var(--adm-content-w);
+  height: var(--adm-content-h);
+  background-color: var(--adm-c-panel-bg);
+  border-radius: var(--adm-r-panel);
+  box-shadow: var(--adm-shadow-xs);
+}
+
+/* ------------------------------------------------------------
+   Footer — 2161:12502 (1053,1040,367,29)
+   ------------------------------------------------------------ */
+.adm-footer {
+  position: absolute;
+  top: var(--adm-footer-y);
+  left: var(--adm-footer-x);
+  z-index: 2;
+  width: var(--adm-footer-w);
+  height: var(--adm-footer-h);
+}
+
+/* Copyright — I…;463:411 (1456,1053,467,27) */
+.adm-copyright {
+  position: absolute;
+  top: var(--adm-copyright-y);
+  left: var(--adm-copyright-x);
+  z-index: 2;
+  width: var(--adm-copyright-w);
+  height: var(--adm-copyright-h);
+  font-family: var(--adm-font-script);
+  font-size: var(--adm-fs-copyright);
+  font-weight: var(--adm-fw-reg);
+  line-height: var(--adm-lh-tight);
+  color: var(--adm-c-text);
+}
+
+/* ------------------------------------------------------------
+   Auth paneli kabuğu — 500×1080 @x:1420 → sağa yaslı.
+   İç yerleşim (başlık/not/form/qr) 05_Pages katmanında.
+   ------------------------------------------------------------ */
+.adm-auth-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: var(--adm-auth-w);
+  height: var(--adm-auth-h);
+  background-color: var(--adm-c-authpanel-bg);
+  border-radius: var(--adm-r-panel) 0 0 var(--adm-r-panel);
+  overflow: hidden;
+}
+
+/* Blur yalnızca destekleniyorsa eklenir; solid zemin her zaman
+   yukarıda mevcut (05-responsive §12 #4) */
+@supports (backdrop-filter: blur(1px)) {
+  .adm-sidebar,
+  .adm-navbar,
+  .adm-content,
+  .adm-auth-panel {
+    backdrop-filter: blur(var(--adm-glass-blur));
+    -webkit-backdrop-filter: blur(var(--adm-glass-blur));
+  }
+}

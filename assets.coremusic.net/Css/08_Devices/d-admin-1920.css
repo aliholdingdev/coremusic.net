@@ -1,0 +1,79 @@
+/* ============================================================
+   d-admin-1920.css — Admin (08_Devices · GİRİŞ DOSYASI)
+   Bu dosya HTML'in yüklediği TEK CSS girişidir (C5 import
+   iskeleti) + cihaz kuralları (kural: HER @media SADECE 08'de).
+   Ekran: T17 1920×1080 · Figma 2161:12438 · Görev B
+   Versiyon: ?v=1.0.0 (tümü aynı — C5)
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   C5 — ITCSS import sırası (01→10; 07_Vendors / 11_OAuth boş,
+   09/10 dahil → dosya sırası yığınlama sırasını da verir)
+   ------------------------------------------------------------ */
+@import url("../01_Abstracts/a-admin-tokens.css?v=1.0.0");
+@import url("../01_Abstracts/a-mixins.css?v=1.0.0");
+@import url("../02_Base/b-admin-core.css?v=1.0.0");
+@import url("../03_Layout/_admin-shell.css?v=1.0.0");
+@import url("../04_Components/c-adm-sidebar.css?v=1.0.0");
+@import url("../04_Components/c-adm-navbar.css?v=1.0.0");
+@import url("../04_Components/c-adm-footer.css?v=1.0.0");
+@import url("../04_Components/c-adm-panel.css?v=1.0.0");
+@import url("../04_Components/c-adm-form.css?v=1.0.0");
+@import url("../04_Components/c-adm-button.css?v=1.0.0");
+@import url("../04_Components/c-adm-auth.css?v=1.0.0");
+@import url("../05_Pages/p-admin-login.css?v=1.0.0");
+@import url("../05_Pages/p-admin-register.css?v=1.0.0");
+@import url("../05_Pages/p-admin-layout.css?v=1.0.0");
+@import url("../05_Pages/p-admin-dashboard.css?v=1.0.0");
+@import url("../06_Utilities/u-adm-utility.css?v=1.0.0");
+@import url("../09_ViewModes/v-admin.css?v=1.0.0");
+@import url("../10_Helpers/h-adm-ellipsis.css?v=1.0.0");
+
+/* ------------------------------------------------------------
+   1) Reduced-motion kill (ADR-018 · T6) — 08'e taşındı çünkü
+   kural: her @media yalnız bu dosyada. 2 özellik ·
+   özelik-işareti sınırı 3.
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .adm-page *,
+  .adm-page *::before,
+  .adm-page *::after {
+    animation-duration: 0ms !important;
+    transition-duration: 0ms !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   2) 1024 (T17) — admin 1024 spesifikasyonu YOK → §12 #1:
+   varsayılan (1920) değerler geçerli kalır, tuval yatay
+   kaydırılır (min-width + dikey Scrollbar yok).
+   Inline fallback: var(--adm-canvas-w, 1920px) (§12 #3 —
+   bu katmanda fallback serbest; 04/05'te yasak).
+   ⚠️ VERIFICATION REQUIRED: admin'e özgü 1024 token'ları yok.
+   ------------------------------------------------------------ */
+@media (max-width: 1919px) {
+  .adm-page {
+    min-width: var(--adm-canvas-w, 1920px);
+    width: var(--adm-canvas-w, 1920px);
+  }
+
+  html {
+    overflow-x: auto; /* yatay kaydırma — yeniden akış YOK */
+  }
+}
+
+/* ------------------------------------------------------------
+   3) 4K (2160/4K) — 05-responsive §7.4 "No-Center": tam genişlik
+   akış · max-width 100% · ❌ margin-auto ortalama YASAK ·
+   yeni token adı ÜRETİLMEZ (C6) · fixed yükseklik korunur
+   (ADR-006: 4K'e özel yükseklik token'ı yok → CLS riski
+   olmadan yalnız genişlik akar).
+   ⚠️ VERIFICATION REQUIRED: 4K'e özel admin token'ı vault'ta yok.
+   ------------------------------------------------------------ */
+@media (min-width: 3840px) {
+  .adm-page {
+    width: 100%;
+    max-width: 100%;
+    height: var(--adm-canvas-h, 1080px);
+  }
+}
