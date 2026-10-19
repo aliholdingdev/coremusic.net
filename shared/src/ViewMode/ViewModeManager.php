@@ -47,6 +47,10 @@ final class ViewModeManager
         // 2. Check route prefix
         if ($route !== '') {
             $lower = strtolower($route);
+            // Route URI'ler başlarında '/' olmadan gelir (PageRouter::resolveUri
+            // trim'ler); prefix eşleşmesi için normalize edilir. D2: '/studio'
+            // (eski ölü kod) ve '/admin' prefix'i artık gerçek route'larla eşleşir.
+            $lower = '/' . ltrim($lower, '/');
             foreach (self::ROUTE_MAP as $prefix => $mode) {
                 if (str_starts_with($lower, $prefix)) {
                     return $mode;
