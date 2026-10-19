@@ -10,7 +10,7 @@ updated: 2026-10-15
 
 # Neva Engine — HTML/CSS Kod Örnekleri (Web Mixer Arayüzü)
 
-**Zorunlu Bağlantılar:** [[11-cok-dilli-kod-ornekleri]] (index · 10 dil · 6 örnek şeması) · [[05-neva-mixer-web-pcm-plani]] (web mixer Layer 3) · [[10-io-format-32bit-192khz-kurallari]] (K1-K6 SSOT) · [[06-gereksinimler-ve-farkliliklar]] (R10 · R18)
+**Zorunlu Bağlantılar:** [[11-cok-dilli-kod-ornekleri]] (index · 20 dil · 6 örnek şeması) · [[05-neva-mixer-web-pcm-plani]] (web mixer Layer 3) · [[10-io-format-32bit-192khz-kurallari]] (K1-K6 SSOT) · [[06-gereksinimler-ve-farkliliklar]] (R10 · R18)
 
 > **Durum:** v1.0.0 · tarayıcıda görsel doğrulanmadı (araştırma MD) · mockup gate: gerçek UI işi için .ai/ui-design/ görseli zorunlu
 

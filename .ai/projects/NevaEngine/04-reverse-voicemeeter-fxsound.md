@@ -2,10 +2,10 @@
 title: "Neva Engine — Reverse-Engineering: VoiceMeeter Potato & FxSound"
 type: doc
 category: audio-engine
-version: 1.3.0
+version: 1.4.0
 status: analiz
 authority: "REA shipped-artifact evidence · zero-hallucination (string kanıtları diskte)"
-updated: 2026-10-15
+updated: 2026-10-19
 ---
 
 # RE Raporu — VoiceMeeter Potato + FxSound (Özellik Envanteri)
@@ -455,8 +455,162 @@ Uninstall kaydı: `FxSound | 1.2.13.0 | C:\Program Files\FxSound LLC\FxSound\`.
 | 1.1.0 | 2026-10-15 | Tur 2: VersionInfo + PDB + Remote API + Potato string |
 | 1.2.0 | 2026-10-15 | Tur 3: Ghidra decompile + ASIO sürücü RE (`vbvm*_asiodriver64.dll` ×5) |
 | 1.3.0 | 2026-10-15 | **Tur 4: OS & sürücü matrisi** — VB 29-sürücü dosya matrisi (5 OS × 6 aile, PE resource envanteri + INF DriverVer) · FxSound fxvad.sys PE resource + oem39.inf (DFX mirası + `$CHICAGO$`) · fxmcp.exe Go build-info (go1.26.5 + resmi MCP SDK v1.6.1 + oauth2) · §9-§12 yeni · kurulu sistem registry durumu |
+| 1.4.0 | 2026-10-19 | **Tur 5: Potato 32-bit (`voicemeeter8.exe`) + FxSound hash teyidi** — §14 yeni · PE32/PE32+ hash kaydı · StripComp parser Ghidra decompile (strip struct 0x430) · dil paleti envanteri (C++ VS2010 / Go YOK / Rust YOK / CLR YOK) · FxSound 73 kaynak-dosya modül envanteri · §14.7 ses motoru zinciri (mix matrisi 5 strip × 4 bus, crossover √2 Q, kompresör envelope AÇIK madde) |
 
 **Authority:** Embedded Engineer (L1) · Statü: ANALİZ TUR 2+3+**Ghidra** (string/resource
 + decompile katmanı tam — Banana+Potato+FxSound+GEQ15+**ASIO sürücü ×5** · EQ band=31
-KAPANDI · ASIO param aralıkları KAPANDI · DSP iç matematik + outputReady opsiyonel açık)
+KAPANDI · ASIO param aralıkları KAPANDI · DSP iç matematik + outputReady opsiyonel açık · **Tur 5: Potato 32-bit §14**)
+
+---
+
+## §14 Tur 5 — Potato 32-bit (`voicemeeter8.exe`) + FxSound hash teyidi (2026-10-19)
+
+> **İstek:** "Voicemeeter Potato ve FxSound derin binary analizi — REA ile, önceki analize
+> bağlanarak" (kullanıcı yolları verildi). Kapsam: `voicemeeter8.exe` (YENİ hedef) +
+> `FxSound.exe` (hash teyidi) + dil paleti envanteri. Önceki turlar §1-§13'tedir; tekrar analiz YOK.
+
+### §14.1 Hedef kimliği (disk kanıtlı — REA Evidence + PowerShell)
+
+| Hedef | SHA-256 | Boyut | PE | Zaman damgası | VersionInfo | Evidence |
+|---|---|---|---|---|---|---|
+| `C:\Program Files (x86)\VB\Voicemeeter\voicemeeter8.exe` | `e1f2cdf2990fdf3d96057e18fe441e81f91385b5f63f87a6432b8b3708b92520` | 13.333.352 B | **PE32 (x86)** | 2025-12-11 14:09:58 UTC | **VoiceMeeter Potato 3.1.2.2** (OriginalFilename `VoiceMeeter8.exe`, © 2017-2025) | `ev_12797556…2118e` (overview) · `ev_15ca6899…c3746` (PE resources) |
+| `C:\Program Files\FxSound LLC\FxSound\FxSound.exe` | `5a4fa19e525cf29c8a5f10551f54fb7b7c7488eac0b571d56288e12329f78b07` | 3.819.472 B | PE32+ (x86_64) | 2026-08-18 08:37:30 UTC | v1.2.13.0 (§3) | `ev_f837c4eb…b76e7` (overview) |
+
+**Kimlik kararı:** `voicemeeter8.exe` ≠ §1'deki `voicemeeter8x64.exe` (13.441.384 B, PE32+) —
+**aynı sürümün 32-bit varyantı, ayrı artifact** (boyut + PE magic farkı + hash). FxSound.exe:
+boyut 3.819.472 B §3 kaydıyla birebir → **aynı binary**; hash bu turda ilk kez kaydedildi
+(önceki turlarda hash alanı boştu) → tekrar analiz yerine §3 kanıtları reuse edildi.
+
+### §14.2 Potato 32-bit — Ghidra katmanı (yeni kanıt)
+
+- Ghidra 12.1.4 (analyzeHeadless, `C:\ghidra\ghidra_12.1.4_PUBLIC`): **2464 prosedür · 3078
+  tanımlı string · 7 segment**, image base `0x400000`, `.text` 1.19 MB, `.rsrc` **11,7 MB**.
+- **Rsrc envanteri (181 resource):** RCDATA (id:10) **8,35 MB** (isim 100-104; en büyüğü 3,80 MB)
+  + BITMAP (id:2) **3,30 MB** (isim 500/600/700 — gömülü skin/panel bitmap'leri) + ICON/MENU/
+  MESSAGETABLE/VERSION. Yani exe'nin büyük bölümü gömülü UI resource'u — derlenmemiş asset
+  ağırlığı UI görsellerinden geliyor (Neva dersi: asset'leri exe'ye gömmek yerine paketle).
+- **PDB/araç zinciri:** `.rdata` 0x53f5c3 bayt eşleşmesi `vc2010` → **MSVC VS2010 C++** (x64
+  `Voicemeeter8_vc2010` PDB'siyle aynı soy; §7.1 teyidi).
+- **RTTI:** `?AV` literal string eşleşmesi **0** → RTTI typeinfo string'i yok (muhtemelen
+  `/GR-` veya strip — DD/Debug Directory ile doğrulanmadı → *inferred*).
+- **Potato-özel string teyidi (x64 §7.6 ile birebir):** `JustVerb III (Reverb)` + `VB-Audio
+  JustVerb3 WND-CLASS` · `VoicemeeterBUSGEQ15.exe` · `VBAN Service/CHAT/M.I.D.I./StreamIn/
+  DataIn` (45 VBAN string'i) · Potato ayar XML'leri (`VoiceMeeterPotato_Default/LastSettings/
+  TodaySettings/YesterdaySettings.xml`) + registry `VB-Audio\VoiceMeeterPotatoInstall`.
+- **Import paleti (dil/API kanıtı):** WINMM · MSACM32 · Mfplat/Mfreadwrite · Wmvcore · Avrt ·
+  ksuser · `mpg123\libmpg123-0.dll` (MP3 decode) · `mp3lame\lame_enc.dll` (MP3 encode —
+  kayıt/encoder özelliği) · Ws2_32 + WININET + iphlpapi (VBAN + update) · Gdiplus (skin).
+  `mscoree.dll` import'u = VS linker stub'u (**CLR directory yok**, aşağıdaki managed kanıtı).
+- **Insert-FX serializer delta (32-bit):** MultiTap XML şeması 3'lü (`MultiTapGeneral`
+  mute/balance/dry/wet/autofit/phase · `MultiTapDelay` predelay/timeratio/currentBPM/feedback/
+  feedbacktype · `MultiTapParam` index/tapon/delay/gain/filtergain/pan) + `VBAudioVoicemeeter
+  MultiTapConfig` kök · Denoiser strip paramı (`audibility_c/g`, `denoiser_g`, `dn_bypass`,
+  `dn_learn` — `<Strip …>` serializer'ının parçası), `DenoiserIn1/2` (Denoiser strip başına).
+
+### §14.3 StripComp parser — Ghidra decompile (32-bit, ilk kez)
+
+`xrefs("StripComp" @ 0x530afc)` → 6 referans (3 kardeş fonksiyon çifti: kaydet/yükle/aç) →
+`FUN_004e0ef0` (pseudocode 24.340 birim · Evidence `ev_1ced6166…1eb5` · view `ev_1ed42a91…fc8d`).
+Gözlemler (Ghidra high-pcode pseudocode; ≠ orijinal kaynak, ≠ çalışma-zamanı gözlemi):
+
+1. **Strip struct stride = `0x430` (1072 B):** `puVar13 = (uint*)((param_3-1)*0x430 + in_ECX)`
+   — strip dizisi tabanı `in_ECX`, indeks `param_3-1`, üst sınır `7 < uVar11` → **8 slot**
+   (Potato 5 fiziksel + virtual strip havuzu — *inferred*).
+2. **XML parse akışı:** `strcmp("StripComp")` → `FUN_00412090(param_1, "<attr>")` (attribute
+   value retriever) → `_atof(local_408)` → **min/max clamp** (global float çiftleri:
+   `0x54f9b8/9bc` gainin · `0x54fb74/78` attack · `0x54fc08/0c` release · `0x54fc9c/a0` 4.
+   param · `0x54fa4c/50` comprate…) → float bit-pattern store (`puVar13[0x17..0x1b]` =
+   struct offset 0x5C..0x6C).
+3. **4. attribute = `knee`** (XML format string sırası: gainin/attack/release/**knee**/
+   comprate/threshold/automakeup/gainout; `DAT_0052c85c` string listesinde tanımsız →
+   sıradan türetme = *inferred*).
+4. `/GS` security cookie (`DAT_00542004 ^ &stack`) aktif.
+
+**Neva için dersler:** compressor param struct'ı **düz float array** (x86-32 hizası, SSE
+padding yok) · clamp'ler global tabloda = runtime-safe deserialization · serializer tek dev
+fonksiyon (if/zincir) — Neva'da tablo-driven parser tercih edilebilir (doc 02'ye karşılaştırma).
+
+### §14.4 Dil paleti envanteri (zero-hallucination — "20+ dil" sorusunun dürüş cevabı)
+
+| Dil/Katman | voicemeeter8.exe | FxSound.exe | Kanıt |
+|---|---|---|---|
+| C/C++ (MSVC) | ✅ VS2010 | ✅ statik CRT `/MT` (*inferred*: `vcruntime` string 0) | PDB `vc2010` · 73 `__FILE__` kaynak yolu |
+| x86 assembly | ✅ (PE32) | ✅ (x86_64) | PE magic + `.text` |
+| XML (config/serializer) | ✅ StripComp/MultiTap/Denoiser | ✅ .settings (§7.7) | string kanıtı |
+| Go | ❌ | ❌ | `inspect_go_binary` build-info yok (fxmcp.exe **ayrı** binary — §11) |
+| Rust | ❌ | ❌ | `inspect_rust_binary`: `.dep-v0` yok + rustc path yok (null = kanıt yok, "yok" DEĞİL iddiası) |
+| .NET/C# | ❌ | ❌ | `inspect_managed_artifact` → `cli-directory-absent` (mscoree = linker stub'u) |
+| Delphi/Electron/Qt/Python | ❌ kanıt yok | ❌ kanıt yok | framework string eşleşmesi 0 |
+
+**Sonuç:** iki executable'da **3 dil katmanı** (C++ · x86 asm · XML) kanıtlanabildi; "20+ dil"
+bu binary'lerde **mevcut değil** — dürüst envanter budur. 20+ dil hedefi doc 11
+(`11-cok-dilli-kod-ornekleri.md`, **20 dil — 2026-10-19'da tamamlandı, v2.0.0** · §8 sürüm
+geçmişi) ile karşılaştırılır.
+
+### §14.5 FxSound modül envanteri (Tur 5 string katmanı — §7.7'e ek)
+
+73 `fxsound-app\` kaynak-dosya string'i → modüller: `audiopassthru/src` (AudioPassthru/
+Private · sndDevices Init/ReInit/GetAll/Get/Set/SetupDevices/DoCapture/DoPlayback/
+ImplementDeviceRules) · `dsp/DfxDspEq.cpp` · `dsp/DfxDspPreset.cpp` · `dsp/DfxDspPrivate.cpp`
+· `dsp/ptComSftDfx` · `dsp/ptechDsp` · `dsp/ptutil`. Geliştirme yolu `C:\Users\vijay\
+Documents\Projects\FxSound\main\` (assert/TRACE `__FILE__` string'leri). Ghidra overview:
+**6990 prosedür · 3080 string · `.text` 2,20 MB · `.fptable` özel section (512 B, işlevi
+UNKNOWN)**. Go build-info YOK (fxmcp ayrık) · `.dep-v0` YOK · managed YOK.
+
+### §14.6 32/64-bit geçiş notu
+
+`voicemeeter8x64.exe` (Potato 64-bit) §7'de analiz edilmişti; bu tur **32-bit varyantın aynı
+özellik setine sahip olduğunu** kanıtladı (StripComp şeması, insert FX envanteri, VBAN, GEQ15
+bağlantısı birebir) — 32/64-bit fork'ta DSP/özellik farkı YOK, yalnız PE mimarisi + struct
+offsetleri farklı. ASIO sürücüleri 64-bit-only'dir (§8); 32-bit uygulamalar WoW64 üzerinden
+Remote API kullanır (`VoicemeeterRemote.dll` 32-bit varyantı §7.2 envanterinde).
+
+### §14.7 Ses motoru zinciri — Ghidra decompile (32-bit, ilk kez harita)
+
+`FUN_0048b5b0` (410 B · Evidence `ev_c7843f17…3f13`) = **blok-seviyesi ses adımı** (audio step /
+motor thread'inin blok çağrısı). Çağrı sırası ve harita:
+
+```text
+FUN_0048b5b0 (blok adımı, 410 B)
+├─ FUN_004893a0  MIX MATRİSİ (8.204 B, ev_a67e8ff3…5197)   ← ana gain computer
+├─ FUN_00489230  (2.5 KB — ek katman, sınıflandırılmadı)
+├─ FUN_004878f0  CROSSOVER/EQ katsayı kurulumu (430 B, ev_7e57275a…a748)
+├─ FUN_0048b520  (step yardımcı)
+├─ FUN_00408640 / FUN_0040ac30 / FUN_004055c0  genel yardımcılar (meter/IO varsayım — INFERENCE)
+└─ do { FUN_00487730(strip_i); strip_i += 0x430 } ×5   ← 5 strip dispatch (stride 0x430)
+       └─ FUN_004a5720  strip gain/katsayı hesabı (601 B, ev_52cce9dc…e15e6)
+```
+
+**Bulgular (pseudocode kanıtlı, ≠ orijinal kaynak, ≠ çalışma-zamanı gözlemi):**
+
+1. **`FUN_004893a0` — mix matrisi gain computer:**
+   - `pow()` (CRT `FUN_00520900`, MXCSR fast-path + double fallback) ile **dB→linear** dönüşüm,
+     clamp **[−60, +12] dB** — her strip ve her bant için ayrı ayrı.
+   - **5 strip × 4 bus** matrisi: strip `puVar14 += 0x10c` (268 B/strip param struct'ı), bus
+     katsayıları `pfVar12` üzerinde `-5/0/+5/10` stride = sütun-major 4×5 (4 çıkış × 5 strip).
+   - **One-pole smoothing:** hedef katsayı × `0.1` (blok-başı yaklaşım katsayısı; per-strip
+     master gain `local_58` bayrak bitleri `0x01000000/0x02000000/0x04000000/0x08000000` ile
+     devreye girer → 4 bant×bus kombinasyonu ayrı ayrı ölçekleniyor).
+   - `pow` çağrı siteleri: 6 adet (strip master + bant). Neva doc 02'deki `mix-gain` step ile
+     aynı aile: hedef-değer + blok-başı lineer yaklaşım (PoT/mixer-ramp deseni).
+2. **`FUN_004878f0` — crossover/katsayı kurulumu:** sabitler `0x42480000` = **50.0f**,
+   `0x43160000` = **150.0f**, `0x43480000` = **200.0f**, `0x457A0000` = **4000.0f**,
+   `0x45FA0000` = **8000.0f**, `0x461C4000` = **10000.0f** + `1.4142135623730951` (sqrt2 = Q).
+   `local_20 = {3,4,3}` = moda göre **bant sayısı/dizilimi** (mode 2 → 150/8000 Hz, mode 3/4 →
+   200/4000 Hz kesişimleri değişir). Yani: **çok bantlı crossover katsayı tablosu, moda göre
+   bant/frekans seçimi, √2 Q** (Butterworth sınıfı). §14.2'deki `C5-Limiter (MultiBand
+   Compressor)` string'i ile uyumlu — *inferred*: multiband splitter katsayıları burada kurulur.
+3. **`FUN_004a5720` — strip gain/katsayı:** `pow` ×4 (dB→linear), `±12.0` clamp, `0.01` ölçek
+   (yüzde param → katsayı), `1.0 ± fVar6` (pan/balance benzeri).
+4. **`FUN_00487730` — strip dispatch (198 B):** `strip.gain × 0.08` (master gain ölçeği —
+   *inferred*: 0.08 sabiti UI yüzde↔katsayı dönüşümü olabilir), `local_2c = (gain != 0)` mute
+   flag, tek callee `FUN_004a5720`. Not: bu dispatcher küçük — tam per-sample strip DSP
+   (EQ/comp örnek döngüsü) `FUN_00489230` içinde veya ayrı bir render callback'inde olabilir.
+
+**⚠️ AÇIK (VERIFICATION REQUIRED):** Strip başına per-sample **compressor envelope
+gain-computer** (attack/release `exp` katsayı, ratio, knee) bu turda **pinlenmedi** —
+`FUN_00487730` callee zinciri yalnız gain/katsayı hesabına gidiyor. Sonraki tur hedefi:
+`FUN_00489230` (2.5 KB) decompile + `xrefs("Compressor Details" / "Reset Compressor 0x25c")`
+üzerinden WM_COMMAND handler zinciri. Karşılaştırma için: FxSound GraphicEqNew decompile'u
+(§7.7) örnek-seviyesi biquad döngüsü gösteriyor; Potato'da karşılığı henüz pinlenmedi.
 

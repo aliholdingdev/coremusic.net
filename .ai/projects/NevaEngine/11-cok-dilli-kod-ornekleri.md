@@ -1,22 +1,24 @@
 ---
-title: "Neva Engine — Çok Dilli Kod Örnekleri (10 Dil, Index)"
+title: "Neva Engine — Çok Dilli Kod Örnekleri (20 Dil, Index)"
 type: reference
 category: nevaengine
-version: 1.0.0
+version: 2.0.0
 status: active
 authority: "Master Orchestrator → Embedded Engineer / UI Designer inceleme bekliyor"
-updated: 2026-10-15
+updated: 2026-10-19
 ---
 
 # Neva Engine — Çok Dilli Kod Örnekleri (Index)
 
-> **Durum:** v1.0.0 · örnekler derlenmedi/test edilmedi (araştırma MD) · K1-K6 uyumlu
+> **Durum:** v2.0.0 · örnekler derlenmedi/test edilmedi (araştırma MD) · K1-K6 uyumlu
 > **İstek:** "Bütün yazılım dilleri için kod örnekleri ekle" (2026-10-15, kullanıcı onayı: 10 dil · geniş
 > örnek seti · hem yeni doc 11 hem doc 03 bağlantısı hem dil-başına dosya · Neva K1-K6 + CoreMusic karma).
+> **Genişleme:** "devam et hepsini yap" (2026-10-19) → 10 → **20 dil** (11-swift … 20-r);
+> doc 04 §14.4 dil paleti envanteriyle bağlantılı (binary'lerde C++/asm/XML — burada dil-bazlı örnek seti).
 
 ## §1 Kapsam
 
-`11-examples/` altında **10 dil dosyası**; her dosya aynı 6-örnek şemasını kendi idiomuyla uygular.
+`11-examples/` altında **20 dil dosyası**; her dosya aynı 6-örnek şemasını kendi idiomuyla uygular.
 Kod blokları vault referansıdır — **derlenmemiş, çalıştırılmamış**; canlı kod üretiminde ayrıca
 build + test (Faz 0) gerekir (doc 01/03 geliştirme planı).
 
@@ -49,6 +51,16 @@ build + test (Faz 0) gerekir (doc 01/03 geliştirme planı).
 | 8 | Go | [`11-examples/08-go.md`](11-examples/08-go.md) | Yerel servis / MCP köprü (§11 doc 04 dersi) | 6 |
 | 9 | Rust | [`11-examples/09-rust.md`](11-examples/09-rust.md) | Sistem güvenliği alternatifi | 6 |
 | 10 | HTML/CSS | [`11-examples/10-html-css.md`](11-examples/10-html-css.md) | Mixer UI (DSP yok — görselleştirme örnekleri) | 6 |
+| 11 | Swift | [`11-examples/11-swift.md`](11-examples/11-swift.md) | iOS/macOS R17 (CoreAudio bağlamı — SPSC NSLock sapması) | 6 |
+| 12 | Kotlin | [`11-examples/12-kotlin.md`](11-examples/12-kotlin.md) | Android NDK/AAudio R17 (JNI katmanı — **tek lock-free SPSC** JVM atomikleriyle) | 6 |
+| 13 | Java | [`11-examples/13-java.md`](11-examples/13-java.md) | Masaüstü kontrol katmanı (javax.sound — backend enum ⚠️) | 6 |
+| 14 | Dart | [`11-examples/14-dart.md`](11-examples/14-dart.md) | Flutter R13 arayüz (RT yok, SendPort kuyruğu dürüst sapma) | 6 |
+| 15 | Lua | [`11-examples/15-lua.md`](11-examples/15-lua.md) | Preset/skript motoru eklentisi (tek-thread VM — SPSC yok) | 6 |
+| 16 | Julia | [`11-examples/16-julia.md`](11-examples/16-julia.md) | DSP araştırması (offline — GC/JIT, Float64 kaçak uyarısı) | 6 |
+| 17 | MATLAB/Octave | [`11-examples/17-matlab.md`](11-examples/17-matlab.md) | Offline filtre tasarımı (RBJ elle — toolbox API'si çağrılmadı) | 6 |
+| 18 | Zig | [`11-examples/18-zig.md`](11-examples/18-zig.md) | C-FFI alternatif çekirdek (std sürüm duyarlılığı ⚠️) | 6 |
+| 19 | Ruby | [`11-examples/19-ruby.md`](11-examples/19-ruby.md) | CoreMusic araç zinciri (GVL — SPSC yok, elle WAV parse) | 6 |
+| 20 | R | [`11-examples/20-r.md`](11-examples/20-r.md) | Ölçüm/istatistik analizi (DSP değil — dürüst not, tek iş parçacığı) | 6 |
 
 ## §4 Ortak örnek şeması (1-9: DSP dilleri; 10: UI)
 
@@ -64,6 +76,13 @@ build + test (Faz 0) gerekir (doc 01/03 geliştirme planı).
 HTML/CSS dosyası aynı sıra numaralarını UI örneklerine uyarlar (strip · rozet/SR · meter ·
 worklet yükleyici · gain-reduction bar · OS rozeti).
 
+11-20 arası yeni dil dosyaları da §4 sırasını izler; **atomik/RT erişimi olmayan dillerde**
+(SPSC örneği) dürüst sapmalar dosya içindedir: Kotlin = gerçek lock-free (JVM atomikleri) ·
+Swift/Java/Dart/Lua/Ruby/R = kilit/isolasyon tabanlı emülasyon + "gerçek lock-free SPSC yok"
+itirafı · Julia/MATLAB = vektörel alternatif · Dart/Lua/Ruby/R/Julia = K2 sapması (native
+float32 primitive yok → double + dürüst not). Harici paket adları `⚠️ VERIFICATION REQUIRED`
+ile işaretlidir (WAV.jl, tuneR, ruby-audio vb. — API'leri uydurulmadı).
+
 ## §5 Paket yapısı
 
 ```
@@ -71,6 +90,8 @@ worklet yükleyici · gain-reduction bar · OS rozeti).
 11-examples/
   01-c11.md   02-cpp20.md   03-csharp.md   04-php8.md   05-javascript.md
   06-typescript.md  07-python.md  08-go.md  09-rust.md  10-html-css.md
+  11-swift.md  12-kotlin.md  13-java.md  14-dart.md  15-lua.md
+  16-julia.md  17-matlab.md  18-zig.md  19-ruby.md  20-r.md
 ```
 
 ## §6 Bağlam eşlemesi (kullanıcı kararı: "3 ve 1" = karma + Neva özel)
@@ -80,6 +101,13 @@ worklet yükleyici · gain-reduction bar · OS rozeti).
 - **JS/TS/HTML/CSS:** Neva web mixer (doc 05) — AudioWorklet 128-frame, K5 otomatik (AudioContext
   sampleRate = cihazın max SR'si).
 - **Python:** offline analiz — **real-time değil** (GIL notu dosyada).
+- **Mobil diller (Swift/Kotlin/Java/Dart):** R13/R17 katmanları — DSP çekirdeği C++20'de
+  kalır; bu diller yalnız platform erişimi + kontrol. Dart'ta gerçek zamanlı ses zinciri yok.
+- **Skript/araç dilleri (Lua/Ruby):** preset/skript motoru ve CoreMusic araç zinciri —
+  **RT yok** (tek-thread/GVL), dürüst sınır dosyalarda.
+- **Araştırma/analiz (Julia/MATLAB/R):** offline filtre tasarımı + ölçüm istatistiği —
+  **RT değil**; SPSC emülasyonu veya yokluğu dosyada itiraf edildi.
+- **Zig:** C-FFI alternatif çekirdek adayı — std sürüm duyarlılığı `⚠️ VERIFICATION REQUIRED`.
 
 ## §7 Uyarlama & guardrails
 
@@ -96,6 +124,8 @@ worklet yükleyici · gain-reduction bar · OS rozeti).
 | Sürüm | Tarih | Değişiklik |
 |---|---|---|
 | 1.0.0 | 2026-10-15 | İlk sürüm: 10 dil dosyası + 6 örnek şeması + K1-K6 eşlemesi |
+| 2.0.0 | 2026-10-19 | **Genişleme 10 → 20 dil** (kullanıcı: "devam et hepsini yap"): 11-swift · 12-kotlin · 13-java · 14-dart · 15-lua · 16-julia · 17-matlab · 18-zig · 19-ruby · 20-r — her biri 6 örnek şeması, dürüst sapma raporları §4'e eklendi, harici paket adları ⚠️ işaretli · doc 04 §14.4 dil paleti envanterine bağlandı |
 
 **Authority:** Master Orchestrator — Embedded Engineer (C/Rust) + UI Designer (HTML/CSS) inceleme
-bekliyor · Örnekler derlenmedi · doc 03 §8 ile çapraz bağlı · commit'siz (orkestratöre ait)
+bekliyor · Örnekler derlenmedi (araştırma MD) · doc 03 §8 ile çapraz bağlı · doc 04 §14.4'e bağlı ·
+20 dil QA: 20/20 dosya · 6 örnek/doğrulandı (2026-10-19 glob + regex sayımı)
