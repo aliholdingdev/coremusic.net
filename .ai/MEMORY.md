@@ -718,6 +718,8 @@ Bu revizyonda her dÃƒ¼zeltme ÃƒÂ¼Ãƒ§ kaynakla desteklendi: (1) Test-Pa
 
 2026-10-16 | session | Home song button Figma kapak overlay'lari TAMAMLANDI (commit b0921d8, 5 dosya +345/-9): cd-case frame (inset 0) + tur rozeti music/video (sag-alt 2px, 10px/12px wide) + Show CD (istockphoto, opacity 0.35 = cd-ico.png + CSS) yalniz Supermix (Plist Video Button) kartinda; Figma kaniti raw nodes-1024-1920.json + images API izole render (alpha 89/255 olculdu). Component suite 22/22 (76 assertion); full-suite 2 onceden mevcut fail baska oturumun (history/nowplaying.php) - goreve ait degil. Session: .ai/SESSIONS/2026-10-16-home-song-btn-figma-overlay.md
 
+2026-10-19 | session | Footer volume ikon + mute toggle TAMAMLANDI (commits 59ea405 + 339104d, dis oturum atti; MO atmedi): P0 container secici onarimi (.volume-set-slider DOM 0 isabet -> .footer-player__volume, init artik sessiz olmuyor - _initialized yalniz basarili bind'de + dbg.warn), P1 #volumeIcon toggle (_lastNonZero, e.repeat guard, aria-label toggle), PHP ikon KARARI HAM ORAN ($volRatio <=0.02/<0.33/<0.66 = JS getIconName birebir; eski yuvarlanmis pct 0.325/0.655/0.98 bantlarinda sapma KAPANDI) + edgeSnap pct aynasi. Canli dogrulama :81/home: JS 12/12, PHP sinir 6/6, cookiesiz %50, toggle/kb/a11y, konsol 0 hata. DERS: (1) DOM'da olmayan container ile init eden moduller SESSIZ OLUR - her container check'i basarisizlikta dbg.warn + flag false birakmali; (2) PHP<->JS esik karsilastirmasi yuvarlamadan ONCE ham oran uzerinden yapilmali, yuvarlanmis pct ile degil. Kapsam disi rapor: res-blue/res-default 404, .volume-set-slider olu secici, volume birim testi yok. Session: .ai/SESSIONS/2026-10-19-footer-volume-icon-yuzde-mute-toggle.md
+
 ## Session State (2026-10-14)
 
 | Alan | Durum |
