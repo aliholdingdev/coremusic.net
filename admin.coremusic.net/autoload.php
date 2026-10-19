@@ -26,6 +26,7 @@ if (file_exists($sharedVendor)) {
             'CoreMusic\\Admin\\Controller\\'  => __DIR__ . '/include/Controller/',
             'CoreMusic\\Admin\\Middleware\\'  => __DIR__ . '/include/Middleware/',
             'CoreMusic\\Admin\\Repository\\'  => __DIR__ . '/include/Repository/',
+            'CoreMusic\\Admin\\Routing\\'     => __DIR__ . '/include/Routing/',
             'CoreMusic\\Admin\\Service\\'     => __DIR__ . '/include/Service/',
         ];
         foreach ($prefixes as $prefix => $baseDir) {

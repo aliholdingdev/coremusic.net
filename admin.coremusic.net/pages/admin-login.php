@@ -11,8 +11,8 @@
  * (desen: auth.coremusic.net/pages/login.php). Kernel'de POST handler YOKTUR.
  * Başarı → API `data.redirect` (admin /auth/callback?auth_key=...) → AdminAuthBridge.
  *
- * Not: auth.coremusic.net/pages/login.php GÖRÜNMEDEN kalır (routes.php 'login'
- * redirect_to meta'sı korunmuştur — RouteResolutionTest sözleşmesi).
+ * Not: /login ve /register bu sayfaya TAKMA ADdır (G2, 2026-10-19) — bootstrap'te
+ * kernel öncesi302 ile /admin-login'e yönlenir; auth domain redirect YOKTUR.
  */
 
 $h = static fn(string $v): string => htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');

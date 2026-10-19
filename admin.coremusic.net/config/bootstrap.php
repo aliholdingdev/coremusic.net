@@ -10,6 +10,7 @@
  */
 
 use CoreMusic\Admin\Auth\AdminAuthBridge;
+use CoreMusic\Admin\Routing\AuthAliasRedirector;
 use CoreMusic\Config\ConfigManager;
 use CoreMusic\Config\DomainConfig;
 use CoreMusic\Log\LoggerFactory;
@@ -81,6 +82,20 @@ if ($requestUri === '/health') {
         'version' => APP_VERSION,
         'time'    => date('c'),
     ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// G2 (2026-10-19): admin host'ta /login ve /register → lokal Figma formları.
+// Kernel'e taşınsa AuthGuard::checkAuthRedirectRoute (shared AuthRouteConfig)
+// bu URI'leri auth.coremusic.net'e yönlendirirdi — admin host'ta auth redirect
+// YOK (karar 2026-10-19). Mantık AuthAliasRedirector'da (test edilebilir saf sınıf);
+// query string korunur: /login?error=invalid_key → /admin-login?error=invalid_key.
+$authAlias = AuthAliasRedirector::resolve(
+    (string)($_SERVER['REQUEST_URI'] ?? ''),
+    (string)($_SERVER['QUERY_STRING'] ?? '')
+);
+if ($authAlias !== null) {
+    header('Location: ' . $authAlias['location'], true, $authAlias['status']);
     exit;
 }
 

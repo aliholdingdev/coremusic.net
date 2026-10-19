@@ -47,21 +47,19 @@ final class RouteResolutionTest extends TestCase
         self::assertContains('admin-songs', $protected);
     }
 
-    public function testLoginAndRegisterDoNotRequireAuthAndCarryRedirectToAuthDomain(): void
+    public function testLoginAndRegisterAreLocalAliasesToAdminForms(): void
     {
-        foreach (['login', 'register'] as $key) {
+        // G2 (2026-10-19): /login ve /register artık admin'in lokal Figma
+        // formlarına bağlanır (auth domain redirect meta'sı YOK — bootstrap'te
+        // kernel öncesi302 ile /admin-login, /admin-register'e yönlenir).
+        foreach (['login' => 'admin-login', 'register' => 'admin-register'] as $key => $page) {
             $route = $this->registry->resolve($key);
             self::assertInstanceOf(SpaRoute::class, $route, $key . ' rotası bulunamadı');
             self::assertFalse($route->requiresAuth, $key . ' auth gerektirmemeli');
-            self::assertArrayHasKey('redirect_to', $route->meta, $key . ' rotasinda redirect_to meta olmali');
-            self::assertStringContainsString('auth.coremusic.net', $route->meta['redirect_to']);
-            self::assertStringContainsString('client_id=coremusic-web', $route->meta['redirect_to']);
+            self::assertFalse($route->cacheable, $key . ' cacheable olmamalı (oturum-bağımlı chrome)');
+            self::assertSame($page, $route->page, $key . ' lokal form sayfasına bağlanmalı');
+            self::assertArrayNotHasKey('redirect_to', $route->meta, $key . ' auth domain redirect taşımamalı');
         }
-
-        // Callback URL admin domainine dönmeli
-        $login = $this->registry->resolve('login');
-        self::assertNotNull($login);
-        self::assertStringContainsString('admin.coremusic.net/auth/callback', $login->meta['redirect_to']);
     }
 
     public function testUnknownRouteResolvesToNull(): void
@@ -70,9 +68,8 @@ final class RouteResolutionTest extends TestCase
     }
 
     /**
-     * Görev D: admin'in kendi formları (admin-login/admin-register) yönlendirme
-     * rotası DEĞİLDİR — redirect_to meta'sı taşımaz; eski login/register
-     * redirect sözleşmesi değişmeden kalır (yukarıdaki test korur).
+     * G2 (2026-10-19): login/register artık lokal formların takma adıdır;
+     * redirect_to meta'sı taşımaz (yukarıdaki test korur).
      */
     public function testAdminLoginAndRegisterAreFormPagesWithoutRedirectTo(): void
     {
@@ -84,10 +81,5 @@ final class RouteResolutionTest extends TestCase
             self::assertSame($page, $route->page, $key . ' sayfası eşleşmeli');
             self::assertArrayNotHasKey('redirect_to', $route->meta, $key . ' yönlendirme rotası değil — redirect_to taşımamalı');
         }
-
-        // Eski login/register hâlâ auth'a yönlendiriyor (bozulmadı)
-        $login = $this->registry->resolve('login');
-        self::assertNotNull($login);
-        self::assertArrayHasKey('redirect_to', $login->meta);
     }
 }
