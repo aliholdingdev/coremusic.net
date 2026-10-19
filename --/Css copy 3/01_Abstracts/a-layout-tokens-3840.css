@@ -1,0 +1,32 @@
+/**
+ * CoreMusic — Layout Token'ları · ≥3840px (4K TV · 10ft UI)
+ * ITCSS Layer: 01_Abstracts · Dosya: a-layout-tokens-3840.css
+ * Kaynak: d-4k-tv.css :root override bloğu (gerçek disk kanıtı — extract edildi)
+ *         + notes.md (2026-10-03)
+ * Import: 08_Devices/d-4k-tv.css (a-layout-tokens.css'ten SONRA)
+ * Kural: yalnız token tanımı (@media içi var() okuma YASAK — css-token.md §1)
+ *
+ * NOT: Bu dosya d-4k-tv.css'teki :root {} override'larından taşındı
+ * (şablon §3.5 — cihaz katmanı yalnızca import + davranış yazar;
+ *  token override 01_Abstracts'e aittir).
+ */
+
+@media (min-width: 3840px) {
+  :root {
+    /* --- Layout (4K TV — 10ft UI) --- */
+    --header-h: 80px;
+    --footer-h: 160px;
+    --sidebar-w: 340px;
+
+    /* --- Content padding (generous) --- */
+    --content-padding: 2.5rem;
+
+    /* --- Touch (4K TV — 10ft için çok büyük) --- */
+    --touch-min: 56px;
+    --touch-recommended: 64px;
+    --touch-large: 72px;
+
+    /* --- Hover YOK (TV uzaktan kumanda) --- */
+    --hover-display: none;
+  }
+}

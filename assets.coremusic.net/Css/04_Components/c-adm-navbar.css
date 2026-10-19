@@ -1,0 +1,109 @@
+/* ============================================================
+   c-adm-navbar.css — Admin (04_Components · C02)
+   Block: .adm-navbar — figma 2161:12505 (1623,18,296,35)
+   İçerik: avatar · isim · wifi/bt · battery+%"100%" · logout
+   KAPI: ham hex/px YOK · @media YOK · geçiş yalnız transform/opacity
+   ============================================================ */
+
+/* Avatar — @1630,25 → rel 7,7 · I…;462:6894 placeholder --adm-c-avatar */
+.adm-navbar__avatar {
+  position: absolute;
+  top: var(--adm-nav-avatar-y);
+  left: var(--adm-nav-avatar-x);
+  width: var(--adm-nav-avatar);
+  height: var(--adm-nav-avatar);
+  border-radius: var(--adm-r-pill);
+  object-fit: cover;
+  background-color: var(--adm-c-avatar);
+}
+
+/* "Bayram Ali - admin" @1653,30 → rel 30,12 · Avalon 7 (I…;917:10787) */
+.adm-navbar__name {
+  position: absolute;
+  top: var(--adm-nav-name-y);
+  left: var(--adm-nav-name-x);
+  width: var(--adm-nav-name-w);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--adm-font-ui);
+  font-size: var(--adm-fs-nav-name);
+  font-weight: var(--adm-fw-reg);
+  line-height: var(--adm-lh-tight);
+  color: var(--adm-c-text);
+}
+
+/* Sistem ikonları (wifi/bt) 11×12 — rel x108/122, y11 */
+.adm-navbar__icon {
+  position: absolute;
+  top: var(--adm-nav-ic-y);
+  width: var(--adm-nav-ic-w);
+  height: var(--adm-nav-ic-h);
+  object-fit: contain;
+}
+
+.adm-navbar__icon--wifi {
+  left: var(--adm-nav-wifi-x);
+}
+
+.adm-navbar__icon--bt {
+  left: var(--adm-nav-bt-x);
+}
+
+/* Battery icon 17×16 @1765,27 → rel 142,9 */
+.adm-navbar__icon--battery {
+  top: var(--adm-nav-batt-y);
+  left: var(--adm-nav-batt-x);
+  width: var(--adm-nav-batt-w);
+  height: var(--adm-nav-batt-h);
+}
+
+/* "100%" @1784,32 → rel 161,14 · Avalon 5 (I…;897:15863) */
+.adm-navbar__battery {
+  position: absolute;
+  top: var(--adm-nav-batt-txt-y);
+  left: var(--adm-nav-batt-txt-x);
+  width: var(--adm-nav-batt-txt-w);
+  font-family: var(--adm-font-ui);
+  font-size: var(--adm-fs-battery);
+  font-weight: var(--adm-fw-reg);
+  line-height: var(--adm-lh-tight);
+  color: var(--adm-c-text);
+}
+
+/* Logout 15×16 @1898,26 → rel 275,8 · r=13 (I…;462:6907)
+   T17 dokunma: görsel --adm-nav-logout-w → tıklama alanı
+   --adm-check-hit (padding ile, görsel ölçü korunur —
+   04-accessibility-gaps §4) */
+.adm-navbar__logout {
+  position: absolute;
+  top: var(--adm-nav-logout-y);
+  left: var(--adm-nav-logout-x);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--adm-nav-logout-w);
+  height: var(--adm-nav-logout-h);
+  padding: var(--adm-check-hit);
+  margin: calc(-1 * var(--adm-check-hit)) 0 0 calc(-1 * var(--adm-check-hit));
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  appearance: none;
+  transition: transform var(--adm-duration-fast) var(--adm-ease-out),
+              opacity var(--adm-duration-fast) var(--adm-ease-out);
+}
+
+.adm-navbar__logout:hover {
+  opacity: 0.8;
+}
+
+.adm-navbar__logout:active {
+  transform: scale(var(--adm-scale-press));
+}
+
+.adm-navbar__icon--logout {
+  width: var(--adm-nav-logout-w);
+  height: var(--adm-nav-logout-h);
+  object-fit: contain;
+}

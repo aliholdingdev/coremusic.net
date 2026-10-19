@@ -1,0 +1,57 @@
+/*
+ * Dosya: v-admin.css
+ * Katman: 09_ViewModes - görünüm modu (view mode) uyarlaması
+ * Rol: ADMIN görünümünün TEK GİRİŞ AGREGATÖRÜ — token -> base ->
+ *      layout -> components -> utilities -> helpers -> pages import
+ *      zinciri (auth-bundled.css deseni · Görev C · ADR-001 tek uygulama
+ *      noktası · 17 @import / 17 dosya)
+ * Bağımlılık: @import ile 16 dosya (aşağıda); 07_Vendors YOK (boş),
+ *      08_Devices/d-admin-1920.css BURADA @import EDİLMEZ: ayrı
+ *      <link id="cm-device-css"> olarak basılır (auth-bundled NOT satırı
+ *      deseni) — içe aktarılsa çift yüklenir. 1024/4K fallback +
+ *      reduced-motion kill o dosyada korunur.
+ * Güncelleme: 2026-10-19 (Görev C — taşınan admin CSS'in view girişi)
+ *
+ * Kaynak: .ai/.templates/frontend/css-template.md (C5 import sırası)
+ * NOT (Token-First · Görev B §4.4 kararı): taban değerler figma kazanır;
+ *   durum renkleri master'dan (bkz a-admin-tokens.css satır içi notlar).
+ */
+
+/* === ADMIN TOKENS === */
+/* 01_Abstracts — tek raw-value kaynağı (ham hex/px yalnız burada) */
+@import url("../01_Abstracts/a-admin-tokens.css?v=1.0.0");
+@import url("../01_Abstracts/a-mixins.css?v=1.0.0");
+
+/* === ADMIN BASE === */
+/* 02_Base — font apply + focus-visible (3px/offset2) */
+@import url("../02_Base/b-admin-core.css?v=1.0.0");
+
+/* === ADMIN LAYOUT === */
+/* 03_Layout — 1920x1080 sabit kabuk (ADR-006 CLS) */
+@import url("../03_Layout/_admin-shell.css?v=1.0.0");
+
+/* === ADMIN COMPONENTS === */
+/* 04_Components — BEM .adm-* (7 dosya) */
+@import url("../04_Components/c-adm-sidebar.css?v=1.0.0");
+@import url("../04_Components/c-adm-navbar.css?v=1.0.0");
+@import url("../04_Components/c-adm-footer.css?v=1.0.0");
+@import url("../04_Components/c-adm-panel.css?v=1.0.0");
+@import url("../04_Components/c-adm-form.css?v=1.0.0");
+@import url("../04_Components/c-adm-button.css?v=1.0.0");
+@import url("../04_Components/c-adm-auth.css?v=1.0.0");
+
+/* === ADMIN UTILITIES + HELPERS === */
+/* 06_Utilities + 10_Helpers (sayfalardan önce — C5 sırası) */
+@import url("../06_Utilities/u-adm-utility.css?v=1.0.0");
+@import url("../10_Helpers/h-adm-ellipsis.css?v=1.0.0");
+
+/* === ADMIN PAGES === */
+/* 05_Pages — ekran varyantlari (.adm-page--login/register/layout/dashboard) */
+@import url("../05_Pages/p-admin-login.css?v=1.0.0");
+@import url("../05_Pages/p-admin-register.css?v=1.0.0");
+@import url("../05_Pages/p-admin-layout.css?v=1.0.0");
+@import url("../05_Pages/p-admin-dashboard.css?v=1.0.0");
+
+/* === ADMIN DEVICES === */
+/* d-admin-1920.css burada @import EDİLMEZ (yukarıdaki Bağımlılık notu).
+   Cihaz link'i ayrı: cm-device-css deseni + DeviceCssMap/devices.config. */

@@ -1,0 +1,236 @@
+/* ============================================================
+   c-adm-form.css — Admin (04_Components · C05)
+   Blocks: .adm-form · .adm-form__label · .adm-form__field
+   .adm-form__input · .adm-form__actions · .adm-form__check
+   .adm-form__link
+   Figma: input 390×30 (2161:12515) · etiket 00543 20 (12516)
+   checkbox 15×15 r1.5 (12512) · link "Şifremi Unuttum" (12511)
+   Touch: input --adm-input-h AA ✅ (gaps L56) · check satırı
+   --adm-check-hit (L55)
+   KAPI: ham hex/px YOK · @media YOK · geçiş yalnız transform/opacity
+   ============================================================ */
+
+/* Form — konumlandırma bağlamı (kaydırmasız; satırlar 05'te
+   figma top'larıyla yerleşir) */
+.adm-form {
+  position: relative;
+  width: var(--adm-actions-w);
+  height: 100%;
+}
+
+/* Etiket — 00543 20/400 · bbox h12 (2161:12516) */
+.adm-form__label {
+  position: absolute;
+  left: 0;
+  display: block;
+  height: var(--adm-label-h);
+  font-family: var(--adm-font-label);
+  font-size: var(--adm-fs-label);
+  font-weight: var(--adm-fw-reg);
+  line-height: var(--adm-lh-tight);
+  color: var(--adm-c-text);
+}
+
+/* ------------------------------------------------------------
+   Input kabuğu — --adm-input-w × --adm-input-h · zemin
+   --adm-c-input-bg + --adm-c-input-layer (2161:12515 · extracted §6)
+   · gölge ham JSON (0,0.1) r1 α.80 → --adm-shadow-1
+   ------------------------------------------------------------ */
+.adm-form__field {
+  position: absolute;
+  left: 0;
+  width: var(--adm-input-w);
+  height: var(--adm-input-h);
+  background-color: var(--adm-c-input-bg);
+  border: 0; /* figma default: kenarlıksız (gölge + α katman) */
+  border-style: solid;
+  border-width: 0;
+  border-color: transparent;
+  border-radius: var(--adm-r-input);
+  box-shadow: var(--adm-shadow-1);
+  overflow: hidden;
+}
+
+/* Beyaz α.05 üst katman (extracted §6 — pseudo; zemin rengi
+   hareket edemez — ADR-018: yalnız transform/opacity) */
+.adm-form__field::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--adm-c-input-layer);
+  pointer-events: none;
+}
+
+.adm-form__input {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0 var(--adm-input-pad);
+  border: 0;
+  background-color: transparent;
+  font-family: var(--adm-font-ui);
+  font-size: var(--adm-fs-input);
+  font-weight: var(--adm-fw-reg);
+  line-height: var(--adm-lh-tight);
+  color: var(--adm-c-text);
+}
+
+.adm-form__input::placeholder {
+  color: var(--adm-c-placeholder); /* ⚠️ placeholder rengi figma'da
+                                    * doğrulanmadı (D9D9D9 paletten) */
+  opacity: 1;
+}
+
+.adm-form__input:focus {
+  outline: none; /* halka .adm-form__field :focus-visible'da (T2) */
+}
+
+/* Odak halkası — --adm-focus-w / --adm-focus-offset (görev globali) */
+.adm-form__field:focus-within {
+  outline: var(--adm-focus-w) solid var(--adm-focus-color);
+  outline-offset: var(--adm-focus-offset);
+}
+
+/* İkon 15×15 — inset @1481 = 1475+6 (2161:12515) */
+.adm-form__icon {
+  position: absolute;
+  top: 50%;
+  left: var(--adm-input-pad);
+  z-index: 2;
+  width: var(--adm-icon-input);
+  height: var(--adm-icon-input);
+  transform: translateY(-50%);
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.adm-form__field--icon .adm-form__input {
+  padding-left: var(--adm-icon-input);
+  padding-right: var(--adm-input-pad);
+}
+
+/* Parola / doğum tarihi — hap (r=20 · 2161:12513/12537) */
+.adm-form__field--pill {
+  border-radius: var(--adm-r-pill);
+}
+
+.adm-form__field--pill .adm-form__input {
+  border-radius: var(--adm-r-input-inner);
+}
+
+/* Parola değeri 18px ("**********" · 2161:12513) */
+.adm-form__field--password .adm-form__input {
+  font-size: var(--adm-fs-password);
+}
+
+/* ------------------------------------------------------------
+   Durumlar — state matrix (tasarımda çizilmemiş → master token)
+   ------------------------------------------------------------ */
+.adm-form__field.is-error {
+  border-width: var(--adm-border-w);
+  border-color: var(--adm-c-error-border);
+  box-shadow: var(--adm-shadow-1);
+}
+
+.adm-form__field.is-error .adm-form__input {
+  color: var(--adm-c-error);
+}
+
+.adm-form__field.is-success {
+  border-width: var(--adm-border-w);
+  border-color: var(--adm-c-success-border);
+}
+
+.adm-form__field.is-disabled {
+  opacity: 0.6;
+}
+
+.adm-form__field.is-disabled .adm-form__input {
+  color: var(--adm-c-text-disabled);
+}
+
+/* Input hover: figma'da çizim yok → zemin DEĞİŞMEZ
+   (yalnız focus halkası belirir — T2) */
+
+/* Yardım / hata metni */
+.adm-form__message {
+  position: absolute;
+  left: 0;
+  font-family: var(--adm-font-ui);
+  font-size: var(--adm-fs-meta);
+  font-weight: var(--adm-fw-reg);
+  line-height: var(--adm-lh-note);
+  color: var(--adm-c-error);
+}
+
+/* ------------------------------------------------------------
+   Aksiyon satırı — checkbox --adm-check-box + --adm-check-hit
+   tıklama satırı (L55) + sağa yaslı link (L55/L56)
+   ------------------------------------------------------------ */
+.adm-form__actions {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: var(--adm-actions-w);
+  height: var(--adm-check-hit);
+}
+
+.adm-form__remember {
+  display: flex;
+  align-items: center;
+  gap: var(--adm-input-pad);
+  height: var(--adm-check-hit);
+  font-family: var(--adm-font-ui);
+  font-size: var(--adm-fs-cta);
+  font-weight: var(--adm-fw-reg);
+  line-height: var(--adm-lh-tight);
+  color: var(--adm-c-text);
+  cursor: pointer;
+}
+
+/* Checkbox görsel 15×15 r1.5 (2161:12512) */
+.adm-form__check {
+  flex: 0 0 auto;
+  width: var(--adm-check-box);
+  height: var(--adm-check-box);
+  margin: 0;
+  border-radius: var(--adm-r-check);
+  background-color: var(--adm-c-checkbox-bg);
+  box-shadow: var(--adm-shadow-1);
+  appearance: none;
+  cursor: pointer;
+  transition: transform var(--adm-duration-fast) var(--adm-ease-out);
+}
+
+.adm-form__check:checked {
+  background-color: var(--adm-c-accent); /* ⚠️ checked durumu figma'da
+                                          * çizilmedi (master primary) */
+}
+
+.adm-form__check:active {
+  transform: scale(var(--adm-scale-press));
+}
+
+/* "Şifremi Unuttum" — --adm-c-link · 15/400 (2161:12511) */
+.adm-form__link {
+  font-family: var(--adm-font-ui);
+  font-size: var(--adm-fs-cta);
+  font-weight: var(--adm-fw-reg);
+  line-height: var(--adm-lh-tight);
+  color: var(--adm-c-link);
+  text-decoration: none;
+  transition: opacity var(--adm-duration-fast) var(--adm-ease-out);
+}
+
+.adm-form__link:hover,
+.adm-form__link:focus-visible {
+  color: var(--adm-c-link-hover);
+}
+
+.adm-form__link:active {
+  opacity: 0.8;
+}

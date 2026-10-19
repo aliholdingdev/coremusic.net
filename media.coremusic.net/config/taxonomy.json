@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "updated": "2026-09-29",
+  "definitions": {
+    "tur": ["arabesk", "damar", "turk-pop", "turkce", "yabanci", "nostalji", "oryantel", "halay", "roman-sorti", "dans", "klasik", "slow", "enstrumantal", "turk-rock"],
+    "kullanim": ["dugun", "hane", "org-esligi", "alt-yapi", "kina", "pasta-nikah", "ara-show", "dj-set"],
+    "media_tipi": ["full", "enstrumantal", "karaoke", "canli", "remix", "cover"],
+    "donem": ["on-yil", "70ler", "80ler", "90ler", "2000ler", "2010lar", "2020lar"],
+    "ruh": ["duygusal", "yavas", "enerjik", "nostaljik", "huzunlu"],
+    "klip_tipi": ["official", "live", "lyric", "dance", "acoustic"],
+    "dil": ["tr", "en", "de", "fr", "it", "es", "ar", "fa", "ru", "az", "ku", "sq"],
+    "durum": ["inbox", "aktif", "sakli", "tekrar", "arsiv"],
+    "album_tip": ["studyo", "canli", "derleme", "ep", "soundtrack", "tekli"],
+    "fiziksel_bicim": ["lp", "45lik", "7lik", "cd", "kaset", "dijital"],
+    "sanatci_tip": ["kisi", "grup", "topluluk", "cesitli"],
+    "video_kaynak": ["yt", "vhs", "dvd", "cekim"],
+    "koleksiyon_kaynak": ["usb", "disk", "indirme", "diger"],
+    "altyazi_tip": ["yan", "govde"],
+    "cover_kaynak": ["kaynak", "uretilmis", "dis"],
+    "koleksiyon_hak": ["kisisel", "ticari", "bilinmiyor"],
+    "bitrate_tip": ["yok", "cbr", "vbr", "abr"]
+  },
+  "kurallar": {
+    "mod": "kapalı (closed) — yeni değer = taxonomy.json'a 1 satır + audit",
+    "serbest": "meta.json 'etiket[]' açık (open) set, denetlenmez"
+  }
+}

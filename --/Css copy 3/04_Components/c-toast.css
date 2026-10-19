@@ -1,0 +1,240 @@
+/**
+ * c-toast.css — CoreMusic Toast Notification Component (C16)
+ * ITCSS Layer: 04_Components
+ * SSOT: .ai/ui-design/02-component-inventory.md §C16
+ *       .ai/ui-design/tokens/component-tokens.md §17
+ * BEM: .toast -> --success, --error, --info, --warning, __icon, __message, __close
+ * Tier: Phone bottom-sheet, Desktop top-right
+ * Versiyon: 1.0.0 — 2026-09-20
+ */
+
+/* ============================================================
+   TOAST — Token Tanımları (C16)
+   ============================================================ */
+.toast {
+  --toast-bg: rgba(30, 20, 40, 0.95);
+  --toast-border: 1px solid rgba(255, 255, 255, 0.10);
+  --toast-radius: 12px;
+  --toast-padding: 12px 16px;
+  --toast-max-w: 360px;
+  --toast-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  --toast-blur: blur(20px);
+}
+
+/* ============================================================
+   TOAST — Container (pozisyonlama)
+   ============================================================ */
+.toast-container {
+  position: fixed;
+  top: var(--cm-pos-80px);
+  right: var(--cm-pos-16px);
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  pointer-events: none;
+  max-width: var(--cm-w-400px);
+}
+
+/* ============================================================
+   TOAST — Base
+   ============================================================ */
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cm-gap-10px);
+  padding: var(--toast-padding);
+  min-width: var(--cm-w-280px);
+  max-width: var(--toast-max-w);
+  background: var(--toast-bg);
+  border: var(--toast-border);
+  border-radius: var(--toast-radius);
+  box-shadow: var(--toast-shadow);
+  backdrop-filter: var(--toast-blur);
+  -webkit-backdrop-filter: var(--toast-blur);
+  color: var(--cm-white);
+  font-size: var(--cm-fs-14px);
+  line-height: 1.4;
+  pointer-events: auto;
+  animation: toast-slide-in 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* ============================================================
+   TOAST — Icon
+   ============================================================ */
+.toast__icon {
+  flex-shrink: 0;
+  width: var(--cm-w-20px);
+  height: var(--cm-h-20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--cm-fs-16px);
+  margin-top: var(--cm-mar-1px);
+}
+
+/* ============================================================
+   TOAST — Message
+   ============================================================ */
+.toast__message {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast__title {
+  font-weight: 600;
+  font-size: var(--cm-fs-14px);
+  margin-bottom: var(--cm-mar-2px);
+}
+
+.toast__text {
+  font-size: var(--cm-fs-13px);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ============================================================
+   TOAST — Close button
+   ============================================================ */
+.toast__close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cm-w-24px);
+  height: var(--cm-h-24px);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  border-radius: var(--cm-radius-4px);
+  transition: all 150ms ease;
+  font-size: var(--cm-fs-14px);
+}
+
+.toast__close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cm-white);
+}
+
+.toast__close:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--cm-accent);
+  outline-offset: var(--cm-pos-1px);
+}
+
+/* ============================================================
+   TOAST — Variants
+   ============================================================ */
+.toast--success {
+  border-left: var(--cm-bw-3px) solid var(--cm-success);
+}
+
+.toast--success .toast__icon {
+  color: var(--cm-success-light);
+}
+
+.toast--error {
+  border-left: var(--cm-bw-3px) solid var(--cm-danger);
+}
+
+.toast--error .toast__icon {
+  color: var(--cm-danger-light);
+}
+
+.toast--warning {
+  border-left: var(--cm-bw-3px) solid var(--cm-warning);
+}
+
+.toast--warning .toast__icon {
+  color: var(--cm-warning-light);
+}
+
+.toast--info {
+  border-left: var(--cm-bw-3px) solid var(--cm-info);
+}
+
+.toast--info .toast__icon {
+  color: var(--cm-info-light);
+}
+
+/* ============================================================
+   TOAST — Exiting animation
+   ============================================================ */
+.toast--hiding {
+  animation: toast-slide-out 200ms ease-in forwards;
+}
+
+@keyframes toast-slide-out {
+  to {
+    opacity: 0;
+    transform: translateX(100%) scale(0.95);
+  }
+}
+
+/* ============================================================
+   TOAST — Responsive: Phone (≤767px)
+   Bottom-sheet style
+   ============================================================ */
+@media (max-width: 767px) {
+  .toast-container {
+    top: auto;
+    bottom: var(--cm-pos-90px); /* footer üstü */
+    right: var(--cm-pos-8px);
+    left: var(--cm-pos-8px);
+    max-width: 100%;
+  }
+
+  .toast {
+    min-width: 0;
+    max-width: 100%;
+    border-radius: var(--cm-radius-12px);
+  }
+}
+
+/* ============================================================
+   TOAST — Responsive: 4K (≥3840px)
+   ============================================================ */
+@media (min-width: 3840px) {
+  .toast {
+    --toast-radius: 18px;
+    --toast-padding: 18px 24px;
+    --toast-max-w: 500px;
+    font-size: var(--cm-fs-22px);
+  }
+
+  .toast__icon {
+    width: var(--cm-w-28px);
+    height: var(--cm-h-28px);
+    font-size: var(--cm-fs-22px);
+  }
+
+  .toast__close {
+    width: var(--cm-w-36px);
+    height: var(--cm-h-36px);
+    font-size: var(--cm-fs-20px);
+  }
+}
+
+/* ============================================================
+   WCAG 2.2 §2.3.3 — reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+
+  .toast--hiding {
+    animation: none;
+    opacity: 0;
+  }
+}

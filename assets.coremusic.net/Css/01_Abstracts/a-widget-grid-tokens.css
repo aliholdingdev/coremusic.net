@@ -1,0 +1,152 @@
+/**
+ * Dosya: a-widget-grid-tokens.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Widget grid için Figma pixel-perfect ölçülerinden türetilmiş token'lar
+ * Bağımlılık: token üretir: var(--wg-*)
+ * Güncelleme: 2026-10-03
+ *
+ * Figma SSOT (pixel-perfect API extraction):
+ *   node 2831:13747 (1920 Home) → "Div2 Button" grubu
+ *   id 2850:21494 — container 752×184.44 (relative origin x:1679 y:-490)
+ * Alt widget'lar (container'a göre relatif x/y — sol-üst köşe 0,0):
+ *   Ses Kaynağı            id 2850:21553  x:0   y:0     173×54.88
+ *   Hava Durmu             id 2850:21545  x:193 y:0     172×54.88
+ *   traih Saat Widet       id 2850:21512  x:0   y:76.40 109×43.04
+ *   EEquaizer Quick Acess  id 2850:21519  x:130 y:76.40 42×43.04
+ *   Depelama Yöneticisi    id 2850:21560  x:193 y:76.40 173×43.04 (Figma visible:false — konum
+ *                          mevcut sütun genişliğine hizalanarak yerleştirildi, ölçüler Figma'dan)
+ *   Dosya Yönetici Btn     id 2850:21539  x:0   y:140.96 129×43.04
+ *   Youtube Music Btn      id 2850:21534  x:146 y:140.96 42×43.04
+ *   Youtube Btn            id 2850:21529  x:205 y:140.96 42×43.04
+ *   Deezer Btn             id 2850:21524  x:264 y:140.96 42×43.04
+ */
+
+:root {
+  /* ═══ Container (Figma referans — fluid grid içinde max-width olarak kullanılır) ═══ */
+  --wg-w: 752px;
+  --wg-h: 184px;
+
+  /* ═══ Satır yükseklikleri (Figma exact) ═══ */
+  --wg-row-h-top: 54.88px;    /* Ses Kaynağı / Hava Durumu */
+  --wg-row-h-mid: 43.04px;    /* Saat / EQ / Depolama */
+  --wg-row-h-bottom: 43.04px; /* Dosya Yönetici / servis butonları */
+
+  /* ═══ Satır arası dikey boşluk (Figma: 76.40-54.88=21.52 · 140.96-119.44=21.52) ═══ */
+  --wg-row-gap: 21.52px;
+
+  /* ═══ Satır 1 — Ses Kaynağı (173) + Hava Durumu (172), gap 20 (193-173) ═══ */
+  --wg-row-top-col-1: 173px;
+  --wg-row-top-col-2: 172px;
+  --wg-row-top-gap: 20px;
+
+  /* ═══ Satır 2 — Saat (109) + EQ (42) + Depolama (173), gap 21 (130-109 · 193-172) ═══ */
+  --wg-row-mid-col-1: 109px;
+  --wg-row-mid-col-2: 42px;
+  --wg-row-mid-col-3: 173px;
+  --wg-row-mid-gap: 21px;
+
+  /* ═══ Satır 3 — Dosya Yönetici (129) + 3×servis (42), gap 17 (146-129 · 205-188 · 264-247) ═══ */
+  --wg-row-bottom-col-1: 129px;
+  --wg-row-bottom-col-service: 42px;
+  --wg-row-bottom-gap: 17px;
+
+  /* ═══ WIDE satır track'leri (fr — Figma 2850:21494 container 752fr = 752px @1920) ═══
+     row1: 173 +20+ 172 +20+ 172 (+195 boş)                  = 752fr
+     row2: 109 +21+ 42 +21+ 50 +15+ 50 +15+ 47×4 (+3×15) (+196) = 752fr
+     row3: 129 +17+ 42×4 (+4×17) + 47×3 (+3×17) (+195)       = 752fr
+     y = Figma: row1 h54.88 · row2/3 h43.04 · y76.40 / y140.96 · boş slotlar
+     Figma "block 234×108" bölgesini 4 eşit boş slota böler (PNG'de ayrı kutular). */
+  --wg-wt-c1: 173fr;
+  --wg-wt-c2: 172fr;
+  --wg-wt-g: 20fr;
+  --wg-wt-tall: 195fr;
+
+  --wg-wm-c1: 109fr;
+  --wg-wm-c2: 42fr;
+  --wg-wm-g: 21fr;
+  --wg-wm-sc: 50fr;
+  --wg-wm-sg: 15fr;
+  --wg-wm-e: 47fr;
+  --wg-wm-tall: 196fr;
+
+  --wg-wb-c1: 129fr;
+  --wg-wb-s: 42fr;
+  --wg-wb-g: 17fr;
+  --wg-wb-e: 47fr;
+  --wg-wb-tall: 195fr;
+
+  /* Tall kart genişliği — Figma 169 / 752 */
+  --wg-tall-w: 22.4747%;
+
+  /* ═══ Kart ortak stil (Figma: Color Overlay #fff·10% + Stroke #373737·50%/#fff·10% · radius 3 · dropShadow 2/2/4 #000·50%) ═══ */
+  --wg-card-radius: 3px;
+  --wg-card-bg: rgba(255, 255, 255, 0.10);
+  --wg-card-border: rgba(255, 255, 255, 0.10);
+  --wg-card-border-inset: rgba(55, 55, 55, 0.5);
+  --wg-card-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  --wg-text: #ffffff;
+
+  /* ═══ İkon boyutları (Figma exact) ═══ */
+  --wg-icon-speaker: 31.12px;             /* Ses Kaynağı img source 31.119×31.119 */
+  --wg-icon-weather-w: 30px;              /* Hava Durumu img source 30×32.28 */
+  --wg-icon-weather-h: 32.28px;
+  --wg-icon-clock: 17px;                  /* saat 1 17×17 */
+  --wg-icon-eq: 20px;                     /* icons8-eq 20×21.52 */
+  --wg-icon-eq-h: 21.52px;
+  --wg-icon-service: 20px;                /* icons8-youtube-48 vb. 20×21.52 */
+  --wg-icon-service-h: 21.52px;
+  --wg-icon-storage: 22.82px;             /* icons8-hdd-48 22.82×22.82 */
+  --wg-icon-filemanager: 45px;            /* FileManager 45×45 */
+
+  /* ═══ Tipografi (Figma: font=Avalon, renk her zaman #fff) ═══ */
+  --wg-font-speaker-label: 10px;      /* "Hoparlör" 700 */
+  --wg-font-speaker-value: 9px;       /* "Core Music - Hoparlör" 700 */
+  --wg-font-weather-title: 8.5px;     /* "Hava Durumu" 700 */
+  --wg-font-weather-value: 8px;       /* "Güneşli 13°" 700 */
+  --wg-font-weather-sub: 6.5px;       /* "İstanbul" 700 */
+  --wg-font-clock: 9px;               /* "07:00" / "5 Haziran 2026" 700 */
+  --wg-font-storage: 7px;             /* "Depolama" / "32GB / 128GB" 500 */
+  --wg-font-filemanager: 9.5px;       /* "Kütüphanelerim" 500 */
+
+  /* ═══ Depolama progressbar (Figma: 115×4.30, dolgu 52.21/115≈45%, #FF65E9) ═══ */
+  --wg-progress-w: 115px;
+  --wg-progress-h: 4.3px;
+  --wg-progress-track-bg: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.46) 0%,
+    rgba(213, 213, 213, 1) 53%,
+    rgba(255, 255, 255, 0.46) 100%
+  );
+  --wg-progress-fill-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0.39) 100%
+  ), #ff65e9;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EMBEDDED 1024×600 — Figma SSOT node 1639:10160 (container 365×171)
+   row1 173 +20+ 172           h51
+   row2 109/42/50/50/42        h40  (gap 21,21,15,15 — mixed → spacer-track)
+   row3 129 +42×4              h40  (gap 17 uniform)
+   row-gap 20 → 51+20+40+20+40 = 171 ✓ (12 slot: 2/5/5 — aaa.md §13.9)
+   ═══════════════════════════════════════════════════════════════ */
+/* --bp-1024: 1024px — a-breakpoint-tokens.css (@media'de var() geçersiz) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  :root {
+    --wg-w: 365px;
+    --wg-h: 171px;
+    --wg-row-gap: 20px;
+    --wg-row-h-top: 51px;
+    --wg-row-h-mid: 40px;
+    --wg-row-h-bottom: 40px;
+
+    /* row2: 9 track (içinde boşluklar da track) — gap 0, nth-child ile yerleşim */
+    --wg-emb-row-mid-cols: 109px 21px 42px 21px 50px 15px 50px 15px 42px;
+    --wg-emb-row-mid-gap: 0px;
+
+    /* row3: 5 slot (base 4 track — embedded'de 5. servis slotu var) */
+    --wg-emb-row-bottom-cols: 129px 42px 42px 42px 42px;
+  }
+}

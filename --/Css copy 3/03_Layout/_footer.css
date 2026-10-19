@@ -1,0 +1,462 @@
+/**
+ * CoreMusic — Footer Player Bar (v3.2)
+ * Figma SSOT: node-id=1639-9773 (1024: 1025×90) / 2831-13747 child[1] (1920: 1923×92)
+ * BEM: .footer-player, .footer-player__cover, .footer-player__info, etc.
+ * ITCSS Layer: 03_Layout
+ * Version: 3.2.0 — 2026-09-23 (multi-screen responsive scaling)
+ *
+ * Figma measurements (API extraction):
+ *   Album cover: 85×85
+ *   Progressbar: 1025×4.8
+ *   Player buttons: 297×62 (embedded) / 126×27 (desktop)
+ *   Media info: 367×73 (Avalon 10px w500)
+ *   Volume: 186×14 (embedded) / 353×14 (desktop)
+ *
+ * Layout: meta (left) | play btns (absolute center) | utility btns + volume (right)
+ * Drop-shadow: 0.3 opacity (subtle, applied to all)
+ * Responsive: phone / 1024 / laptop / wide / 4K TV — proportional sizing
+ */
+
+/* ═══ Base Footer ═══ */
+.footer {
+    --footer-accent:       #ff4fd8;
+    --footer-text:         rgba(255, 255, 255, 0.88);
+    --footer-progresbar-bg:rgba(255, 255, 255, 0.2);
+    --footer-btn-hover:    rgba(255, 255, 255, 0.1);
+    --footer-btn-gap: 10px;
+    --footer-btn-util-size:    22px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--footer-h);
+  backdrop-filter: blur(0.2px);
+  -webkit-backdrop-filter: blur(0.2px);
+  z-index: var(--z-footer);
+  display: flex;
+  flex-direction: column;
+  border-top: solid var(--cm-bw-0.1px) var(--cm-color-ffffff30);
+}
+
+/* ═══ Progressbar: Figma 1025×4.8 ═══ */
+.footer-player__progress {
+  position: relative;
+  width: 100%;
+  height: var(--cm-h-5px);
+  background: var(--footer-progresbar-bg);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.footer-player__seek-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.footer-player__progress-bar {
+  height: 100%;
+  background: var(--footer-accent);
+  width: 43%; /* Figma: 443/1025 */
+  pointer-events: none;
+  transition: width 0.3s ease;
+}
+
+/* ═══ Inner Layout ═══ */
+.footer-player__inner {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    "meta controls-main controls-utility volume";
+  align-items: center;
+  justify-items: center;
+  column-gap: 8px;
+  row-gap: 0;
+  min-height: var(--cm-h-60px);
+  position: relative;
+}
+
+.footer-player__inner > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: var(--cm-h-60px);
+}
+
+/* ZON 1 — Sol hizalama */
+.footer-player__meta {
+  grid-area: meta;
+  justify-self: start;
+}
+
+/* ZON 2a — Ana kontrol butonları (sol orta) */
+.footer-player__controls {
+  grid-area: controls-main;
+  justify-self: center;
+  position: relative;
+}
+
+/* Sadece play butonları (ilk .footer-player__controls) tam ortada */
+.footer-player__controls:not(:has(.footer__utility-icons)) {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.footer-player__controls + .footer-player__controls,
+.footer__utility-icons {
+  grid-area: controls-utility;
+  justify-self: center;
+}
+
+/* ZON 3 — Sağ hizalama */
+.footer-player__volume {
+  grid-area: volume;
+  justify-self: end;
+}
+
+/* Volume gizli ise volume alanını kullanma */
+.footer-player__inner:not(:has(.footer-player__volume)) {
+  grid-template-areas: "meta controls-main controls-utility .";
+}
+
+/* Utility icons gizli ise */
+.footer-player__inner:not(:has(.footer__utility-icons)) {
+  grid-template-areas: "meta controls-main . volume";
+}
+
+/* ═══ ZON 1 — Meta Section ═══ */
+.footer-player__meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--cm-gap-10px);
+  color: var(--footer-text);
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* ═══ Album Cover: Figma 85×85 (0 padding, fit) ═══ */
+.footer-player__cover {
+  width: auto;
+  height: calc(var(--footer-h, 90px) - 6px);
+  max-height: calc(var(--footer-h, 90px) - 6px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  flex-shrink: 0;
+  padding: 0;
+  margin: 0;
+  display: block;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* ═══ Responsive — Laptop/Desktop (utility icons görünür) ═══ */
+@media (min-width: 1025px) {
+  .footer-player__btn {
+    width: var(--cm-w-36px);
+    height: var(--cm-h-36px);
+    padding: var(--space-1);
+  }
+
+  .footer-player__btn img {
+    width: var(--cm-w-20px);
+    height: var(--cm-h-20px);
+  }
+
+  .footer__utility-icon {
+    width: var(--cm-w-28px);
+    height: var(--cm-h-28px);
+  }
+
+  .footer__utility-icon img {
+    width: var(--cm-w-18px);
+    height: var(--cm-h-18px);
+  }
+
+  .footer-player__volume img {
+    width: var(--cm-w-22px);
+    height: var(--cm-h-22px);
+  }
+
+  .footer__utility-icons {
+    gap: var(--space-1);
+  }
+}
+
+/* ═══ Responsive — Wide / 2K (1441-2559px) ═══ */
+@media (min-width: 1441px) {
+  .footer-player__btn {
+    width: var(--cm-w-40px);
+    height: var(--cm-h-40px);
+  }
+
+  .footer-player__btn img {
+    width: var(--cm-w-22px);
+    height: var(--cm-h-22px);
+  }
+
+  .footer__utility-icon {
+    width: var(--cm-w-32px);
+    height: var(--cm-h-32px);
+  }
+
+  .footer__utility-icon img {
+    width: var(--cm-w-20px);
+    height: var(--cm-h-20px);
+  }
+
+  .footer-player__volume img {
+    width: var(--cm-w-24px);
+    height: var(--cm-h-24px);
+  }
+}
+
+/* ═══ Responsive — 4K / TV (2560px+) ═══ */
+@media (min-width: 2560px) {
+  .footer-player__btn {
+    width: var(--cm-w-56px);
+    height: var(--cm-h-56px);
+    padding: var(--cm-pad-6px);
+  }
+
+  .footer-player__btn img {
+    width: var(--cm-w-32px);
+    height: var(--cm-h-32px);
+  }
+
+  .footer__utility-icon {
+    width: var(--cm-w-48px);
+    height: var(--cm-h-48px);
+  }
+
+  .footer__utility-icon img {
+    width: var(--cm-w-32px);
+    height: var(--cm-h-32px);
+  }
+
+  .footer-player__volume img {
+    width: var(--cm-w-36px);
+    height: var(--cm-h-36px);
+  }
+}
+
+/* ═══ Responsive — Phone (≤767px) ═══ */
+@media (max-width: 767px) {
+  .footer-player__btn {
+    width: var(--cm-w-36px);
+    height: var(--cm-h-36px);
+    padding: var(--space-1);
+  }
+
+  .footer-player__btn img {
+    width: var(--cm-w-20px);
+    height: var(--cm-h-20px);
+  }
+
+  .footer__utility-icons {
+    gap: var(--cm-gap-2px);
+  }
+}
+
+/* ═══ Media Info: Figma 367×73, Avalon 10px w500 ═══ */
+.footer-player__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  max-width: var(--footer-media);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  justify-content: center;
+}
+
+.footer-player__text {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-body);
+  font-size: var(--footer-text-size);
+  font-weight: 500;
+  color: var(--footer-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footer-player__icon {
+  width: var(--footer-icon);
+  height: var(--footer-icon);
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.footer-player__sep {
+  opacity: 0.5;
+  margin: 0 var(--cm-mar-2px);
+}
+
+/* ═══ ZON 2 — Controls: Figma 297×62 (embedded) / 126×27 (desktop) ═══ */
+.footer-player__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  flex-wrap: nowrap;
+  height: 100%;
+}
+
+.footer-player__controls > * {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-player__btn {
+  cursor: pointer;
+  border-radius: 50%;
+  padding: var(--cm-pad-3px);
+  transition: background 0.2s, transform 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+  transform: scale(1);
+  transform-origin: center;
+  /* width: 32px; */
+  /* height: 32px; */
+  background: transparent;
+  border: none;
+  margin: 0;
+}
+
+.footer-player__btn:hover {
+  background:var(--footer-btn-hover);
+  transform: scale(1.05);
+}
+
+.footer-player__btn img {
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+  width: var(--cm-w-40px);
+  height: var(--cm-h-40px);
+  object-fit: contain;
+}
+
+.footer-player__play-icon--pause.is-hidden {
+  display: none;
+}
+
+/* ═══ ZON 3 — Volume: Figma 186×14 (embedded) / 353×14 (desktop) ═══ */
+.footer-player__volume {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin: 0;
+  width: var(--footer-volume);
+  height: 100%;
+  padding: 0 var(--space-1);
+}
+
+.footer-player__volume img {
+  width: var(--cm-w-18px);
+  height: var(--cm-h-18px);
+  flex-shrink: 0;
+  filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.35));
+}
+
+.footer-player__volume-track {
+  flex: 1;
+  position: relative;
+  height: var(--cm-h-4px);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--cm-radius-2px);
+  cursor: pointer;
+}
+
+.footer-player__volume-slider {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.footer-player__volume-fill {
+  height: 100%;
+  background: var(--footer-accent);
+  border-radius: var(--cm-radius-2px);
+  width: 80%;
+  pointer-events: none;
+  transition: width 0.2s ease;
+}
+
+.footer-player__volume-value {
+  font-family: var(--font-body);
+  font-size: var(--cm-fs-9px);
+  font-weight: 500;
+  color: var(--footer-text);
+  white-space: nowrap;
+  min-width: var(--cm-w-30px);
+}
+.footer__utility-icon{
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: var(--cm-w-26px);
+  height: var(--cm-h-26px);
+  border-radius: 50%;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+  transform: scale(1);
+  transform-origin: center;
+  transition: background 0.2s ease, transform 0.15s ease;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+}
+
+.footer__utility-icon img {
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+  object-fit: contain;
+  width: var(--cm-w-18px);
+  height: var(--cm-h-18px);
+}
+
+.footer__utility-icon:hover {
+  background: var(--footer-btn-hover);
+  transform: scale(1.1);
+}
+
+.footer__utility-icons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  height: 100%;
+  padding: 0;
+}

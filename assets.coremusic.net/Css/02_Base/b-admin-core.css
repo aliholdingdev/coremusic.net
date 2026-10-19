@@ -1,0 +1,50 @@
+/* ============================================================
+   b-admin-core.css — Admin (02_Base · Görev C: b-base-core.css'ten
+   yeniden adlandırıldı — hedefte `b-base-core.css` mevcuttu, ezilmedi)
+   Yalniz: font uygulama, *, kutu modeli, focus-visible (T2),
+   reduced-motion kill (T6). Görsel kimlik YOK (token yok).
+   Kaynak: Figma 2161:12438 · Görev B
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* UI font — Avalon (family stack; font dosyasi URL'si
+     bilinmiyor → @font-face YOK, dosya eklenince bu stack
+     yakalar; bkz rapor ⚠️) */
+  font-family: var(--adm-font-ui);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--adm-font-ui);
+  font-size: var(--adm-fs-note);  /* gövde: okuma metni ölçeği (figma'da
+                                   * çerçevesel default yok → 16 ⚠️) */
+  font-weight: var(--adm-fw-reg);
+  line-height: 1.4;
+}
+
+img {
+  max-width: 100%;
+  border: 0;
+}
+
+/* T2 — WCAG 2.2 AA focus (3px halka, offset 2px; master L131).
+   Görev kabul kapi: 04/05'te ham hex/px yok → değerler token. */
+:focus-visible {
+  outline: var(--adm-focus-w) solid var(--adm-focus-color);
+  outline-offset: var(--adm-focus-offset);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* T6 — reduced-motion kill (ADR-018; 2 kural) → 08_Devices/
+   d-admin-1920.css içinde uygulanir (kural: her @media SADECE
+   08'de — Görev B kapisi). */

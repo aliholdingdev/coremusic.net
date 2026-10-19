@@ -1,0 +1,3154 @@
+/**
+ * Dosya: _player.css
+ * Katman: 05_Pages - sayfa özel stiller
+ * Rol: Tam ekran müzik player sayfası - sol albüm görseli, sağ playlist sidebar'ı
+ * Bağımlılık: token tüketir: var(--glass-*), var(--text-*), var(--scrollbar-*), var(--theme-*), var(--glow-*)
+ * Güncelleme: 2026-10-03
+ *
+ * Layout: Fullscreen with background artist image
+ *   Left: Album art / visual
+ *   Right: Playlist sidebar
+ *   Bottom: Mini player with controls
+ * Platform: 1024x600 Embedded (RPi5) baseline
+ * Token usage: 100% (all box-shadow, color, text-shadow, and glow values
+ *   replaced with CSS custom property tokens from 01_Abstracts)
+ */
+
+/* ═══════════════════════════════════════════════════════════════════
+   PLAYER PAGE — Full-Screen Layout
+   ═══════════════════════════════════════════════════════════════════ */
+
+.page-player {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg-base);
+    color: var(--text-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BACKGROUND IMAGE LAYER
+   ═══════════════════════════════════════════════════════════════════ */
+
+.player-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.player-bg__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(30px) brightness(0.4);
+    transform: scale(1.1);
+}
+
+.player-bg__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(10, 10, 15, 0.3) 0%,
+        rgba(10, 10, 15, 0.7) 50%,
+        rgba(10, 10, 15, 0.95) 100%
+    );
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BACK BUTTON
+   ═══════════════════════════════════════════════════════════════════ */
+
+.player-back {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 100;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--glass-3-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.player-back:hover {
+    background: var(--glass-4-bg);
+    transform: scale(1.05);
+}
+
+.player-back:active {
+    transform: scale(0.95);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MAIN CONTENT AREA
+   ═══════════════════════════════════════════════════════════════════ */
+
+.player-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    height: calc(100vh - 140px);
+    padding: 70px 16px 0;
+    gap: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LEFT: ALBUM ART / VISUAL
+   ═══════════════════════════════════════════════════════════════════ */
+
+.player-visual {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.player-visual__art {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+        var(--shadow-2xl),
+        var(--glow-widget);
+}
+
+.player-visual__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: player-rotate 20s linear infinite;
+    animation-play-state: paused;
+}
+
+.page-player.is-playing .player-visual__image {
+    animation-play-state: running;
+}
+
+@keyframes player-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.player-visual__glow {
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 79, 216, 0.3) 0%,
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RIGHT: PLAYLIST SIDEBAR
+   ═══════════════════════════════════════════════════════════════════ */
+
+.player-playlist {
+    width: 307px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.player-playlist__header {
+    padding: 20px;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-playlist__title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.player-playlist__count {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.player-playlist__list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.player-playlist__list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.player-playlist__list::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+.player-playlist__list::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+}
+
+.player-playlist__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.player-playlist__item:hover {
+    background: var(--interactive-secondary-hover);
+}
+
+.player-playlist__item.is-active {
+    background: rgba(255, 79, 216, 0.2);
+    border-left: 3px solid var(--theme-primary);
+}
+
+.player-playlist__item:focus {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: -2px;
+}
+
+.player-playlist__thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.player-playlist__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.player-playlist__track-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-playlist__track-artist {
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-playlist__duration {
+    font-size: 12px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BOTTOM: MINI PLAYER BAR
+   ═══════════════════════════════════════════════════════════════════ */
+
+.player-mini {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    height: 140px;
+    background: var(--bg-player);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px;
+}
+
+/* Seek Bar */
+.player-mini__seek {
+    position: relative;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.player-mini__seek-input {
+    flex: 1;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--player-progress-bg);
+    border-radius: 2px;
+    cursor: pointer;
+    outline: none;
+}
+
+.player-mini__seek-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--theme-primary);
+    cursor: pointer;
+    box-shadow: var(--glow-seek);
+}
+
+.player-mini__seek-input::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--theme-primary);
+    cursor: pointer;
+    border: none;
+    box-shadow: var(--glow-seek);
+}
+
+.player-mini__seek-progress {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    background: linear-gradient(90deg, var(--theme-primary), var(--theme-secondary));
+    border-radius: 2px;
+    pointer-events: none;
+    transition: width 0.1s linear;
+}
+
+.player-mini__time {
+    font-size: 12px;
+    color: var(--text-secondary);
+    min-width: 40px;
+    font-variant-numeric: tabular-nums;
+}
+
+.player-mini__time--current {
+    text-align: right;
+}
+
+.player-mini__time--total {
+    text-align: left;
+}
+
+/* Info + Controls Row */
+.player-mini__info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+}
+
+.player-mini__thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: var(--shadow-lg);
+}
+
+.player-mini__meta {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.player-mini__song {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-mini__artist {
+    font-size: 13px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Controls */
+.player-mini__controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.player-mini__btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s, color 0.2s;
+}
+
+.player-mini__btn:hover {
+    background: var(--interactive-secondary-hover);
+}
+
+.player-mini__btn:active {
+    transform: scale(0.9);
+}
+
+.player-mini__btn.is-active {
+    color: var(--theme-primary);
+}
+
+.player-mini__btn--play {
+    width: 56px;
+    height: 56px;
+    background: var(--theme-primary);
+    color: var(--text-primary);
+}
+
+.player-mini__btn--play:hover {
+    background: var(--theme-secondary);
+    transform: scale(1.05);
+}
+
+.player-mini__btn--play:active {
+    transform: scale(0.95);
+}
+
+/* Volume */
+.player-mini__volume {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-secondary);
+}
+
+.player-mini__volume-input {
+    width: 100px;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--player-progress-bg);
+    border-radius: 2px;
+    cursor: pointer;
+    outline: none;
+}
+
+.player-mini__volume-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    cursor: pointer;
+}
+
+.player-mini__volume-input::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    cursor: pointer;
+    border: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — Embedded 1024x600
+   ═══════════════════════════════════════════════════════════════════ */
+
+.page-player--embedded {
+    height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile (< 768px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+    .player-content {
+        flex-direction: column;
+        padding: 60px 12px 0;
+    }
+
+    .player-visual {
+        padding: 16px;
+    }
+
+    .player-visual__art {
+        max-width: 280px;
+    }
+
+    .player-playlist {
+        width: 100%;
+        max-height: 200px;
+    }
+
+    .player-mini {
+        height: 100px;
+        padding: 0 12px;
+    }
+
+    .player-mini__thumb {
+        width: 44px;
+        height: 44px;
+    }
+
+    .player-mini__controls {
+        gap: 8px;
+    }
+
+    .player-mini__btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .player-mini__btn--play {
+        width: 44px;
+        height: 44px;
+    }
+
+    .player-mini__volume {
+        display: none;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — Desktop (>= 1024px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 1024px) {
+    .player-content {
+        padding: 80px 32px 0;
+        gap: 32px;
+    }
+
+    .player-visual__art {
+        max-width: 600px;
+    }
+
+    .player-playlist {
+        width: 350px;
+    }
+
+    .player-mini {
+        height: 150px;
+        padding: 0 32px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — 4K TV (>= 3840px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 3840px) {
+    .player-content {
+        padding: 100px 48px 0;
+        gap: 48px;
+    }
+
+    .player-visual__art {
+        max-width: 900px;
+    }
+
+    .player-playlist {
+        width: 500px;
+    }
+
+    .player-playlist__title {
+        font-size: 22px;
+    }
+
+    .player-playlist__track-title {
+        font-size: 18px;
+    }
+
+    .player-playlist__track-artist {
+        font-size: 16px;
+    }
+
+    .player-mini {
+        height: 180px;
+        padding: 0 48px;
+    }
+
+    .player-mini__thumb {
+        width: 80px;
+        height: 80px;
+    }
+
+    .player-mini__song {
+        font-size: 20px;
+    }
+
+    .player-mini__artist {
+        font-size: 16px;
+    }
+
+    .player-mini__btn {
+        width: 60px;
+        height: 60px;
+    }
+
+    .player-mini__btn--play {
+        width: 72px;
+        height: 72px;
+    }
+
+    .player-mini__volume-input {
+        width: 160px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SHELL UYUMU — sayfa HtmlShellRenderer shell'i içinde render edilir
+   (header/footer fixed + .page-layout kabuğu). pages/nowplaying.php
+   yükseklik/taşma/yön burada reconcile edilir — 05_Pages içi tek nokta.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.page-player.page-layout {
+    height: auto;
+    width: calc(100vw - var(--sidebar-offset, 0px));
+}
+
+.page-player.page-layout .player-content {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+}
+
+/* Sol sütun: kapak + Player Info kartı alt alta; taşma kendi içinde scroll */
+.page-player.page-layout:not(.page-player--wide) .player-visual {
+    flex-direction: column;
+    gap: var(--space-4, 16px);
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   WIDE DESKTOP (1920px) — Figma node 1390:24448
+   "Laptop 1920 - Playlist Page" (Şimdi Oynatılıyor — Kabuk İçi)
+   SSOT: 1390-24448-Laptop-1920---Playlist-Page.png (Kullanıcı Ek 2)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.page-player.page-layout,
+.page-player--wide:not(.page-player--fullscreen) {
+    position: relative;
+    width: 100%;
+    /* max-width kaldırıldı: 4K dahil tüm ekranlarda %100 genişlik (kullanıcı kararı 2026-10-16) */
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: calc(var(--header-h, 70px) + 14px) !important;
+    padding-bottom: calc(var(--footer-h, 92px) + 14px) !important;
+    padding-left: var(--space-5, 24px);
+    padding-right: var(--space-5, 24px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+    background: transparent !important;
+}
+
+/* Toolbar: Geri + Başlık + Arama */
+.player-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3, 14px);
+    gap: var(--space-3, 12px);
+    flex-shrink: 0;
+}
+
+.player-toolbar__left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3, 12px);
+}
+
+.player-toolbar__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--white, #fff);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.player-toolbar__btn--circle,
+.player-toolbar__back {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: var(--radius-full, 50%);
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.4) 0%, rgba(224, 37, 168, 0.25) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid var(--cm-accent, #ff4fd8);
+    border-top: 1.5px solid #ff85e4;
+    color: var(--white, #fff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 16px rgba(255, 79, 216, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.player-toolbar__btn--circle:hover,
+.player-toolbar__back:hover {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.7) 0%, rgba(224, 37, 168, 0.5) 100%);
+    transform: scale(1.08);
+    box-shadow: 0 0 24px rgba(255, 79, 216, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.player-toolbar__btn--home {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    border-radius: var(--radius-full, 50%);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.player-toolbar__btn--home:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: scale(1.06);
+    color: var(--cm-accent, #ff4fd8);
+}
+
+.player-toolbar__btn--disk {
+    height: 36px;
+    padding: 0 14px;
+    gap: 8px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.35) 0%, rgba(139, 92, 246, 0.25) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 79, 216, 0.5);
+    font-size: 12.5px;
+    font-weight: 600;
+    box-shadow: 0 0 14px rgba(255, 79, 216, 0.35);
+}
+
+.player-toolbar__btn--disk:hover {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.6) 0%, rgba(139, 92, 246, 0.45) 100%);
+    transform: scale(1.04);
+    box-shadow: 0 0 20px rgba(255, 79, 216, 0.6);
+}
+
+.player-toolbar__btn-text {
+    letter-spacing: 0.3px;
+}
+
+.player-toolbar__title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--white, #fff);
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    letter-spacing: 0.2px;
+}
+
+.player-toolbar__search {
+    position: relative;
+    width: 270px;
+}
+
+.player-toolbar__search-input {
+    width: 100%;
+    height: 40px;
+    padding: 0 40px 0 18px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%), rgba(20, 10, 30, 0.35);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    color: var(--white, #fff);
+    font-size: 13.5px;
+    outline: none;
+    box-sizing: border-box;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 4px 16px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.player-toolbar__search-input::placeholder {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.player-toolbar__search-input:focus {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.1) 100%), rgba(30, 12, 45, 0.45);
+    border-color: var(--cm-accent, #ff4fd8);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 18px rgba(255, 79, 216, 0.55);
+}
+
+.player-toolbar__search-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cm-accent, #ff4fd8);
+    pointer-events: none;
+    filter: drop-shadow(0 0 4px rgba(255, 79, 216, 0.6));
+}
+
+/* Ana Grid: Sol Tablo + Sağ Sidebar (SSOT Figma 3155:19834 — Tablo: 1621px, Sidebar: 224px) */
+.player-body--wide {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 224px;
+    gap: var(--space-4, 20px);
+    flex: 1;
+    min-height: 0;
+    height: calc(100vh - var(--header-h, 70px) - var(--footer-h, 92px) - 86px);
+    max-height: calc(100vh - var(--header-h, 70px) - var(--footer-h, 92px) - 86px);
+}
+
+/* Sol Panel: Şarkı Tablosu — Multi-layer Frosted Glassmorphism */
+.player-table-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0.05) 100%
+    ), rgba(18, 10, 28, 0.45);
+    backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
+    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    box-shadow: 
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.25),
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 4px 12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    position: relative;
+}
+
+.player-table-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cm-accent, #ff4fd8) rgba(255, 255, 255, 0.08);
+}
+
+.player-table-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.player-table-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 3px;
+}
+
+.player-table-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #ff4fd8 0%, #e025a8 100%);
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(255, 79, 216, 0.6);
+}
+
+.player-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+.player-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: rgba(28, 14, 38, 0.68);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 14px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    text-align: left;
+    letter-spacing: 0.3px;
+}
+
+.player-col--thumb {
+    width: 50px;
+    text-align: center !important;
+}
+
+.player-col--title {
+    width: 28%;
+}
+
+.player-col--album {
+    width: 24%;
+}
+
+.player-col--artist {
+    width: 18%;
+}
+
+.player-col--duration {
+    width: 12%;
+    text-align: center !important;
+    font-variant-numeric: tabular-nums;
+}
+
+.player-col--stars {
+    width: 18%;
+    text-align: center !important;
+}
+
+.player-table tbody tr {
+    transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.player-table tbody tr:hover:not(.player-row--active) {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(2px);
+}
+
+.player-table tbody td {
+    padding: 11px 16px;
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.92);
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.player-row__thumb {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Seçili / Aktif Satır (Figma: pembe vurgulu satır) */
+.player-row--active {
+    background: linear-gradient(90deg, #ff4fd8 0%, #e025a8 100%) !important;
+    box-shadow: 0 4px 20px rgba(255, 79, 216, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+    transform: scale(1.002);
+}
+
+.player-row--active td {
+    color: #ffffff !important;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.player-stars {
+    display: inline-flex;
+    /* justify-content: center; */
+    gap: 2px;
+    line-height: 1;
+}
+
+.player-star {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.25);
+    transition: color 0.15s ease;
+}
+
+.player-star--filled {
+    color: #ffb700;
+    text-shadow: 0 0 8px rgba(255, 183, 0, 0.7);
+}
+
+.player-row--active .player-star--filled {
+    color: #fff275;
+    text-shadow: 0 0 10px rgba(255, 242, 117, 0.9);
+}
+
+/* Sağ Panel: Sanatçı & Öneriler Kartı — Multi-layer Frosted Glass */
+.player-sidebar--recommendations {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0.05) 100%
+    ), rgba(18, 10, 28, 0.45);
+    backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
+    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 24px;
+    box-shadow: 
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.25),
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 4px 12px rgba(0, 0, 0, 0.25);
+    padding: 24px 20px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cm-accent, #ff4fd8) rgba(255, 255, 255, 0.08);
+}
+
+.player-sidebar--recommendations::-webkit-scrollbar {
+    width: 5px;
+}
+
+.player-sidebar--recommendations::-webkit-scrollbar-thumb {
+    background: var(--cm-accent, #ff4fd8);
+    border-radius: 3px;
+}
+
+.player-sidebar__art {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+    border-radius: var(--radius-full, 50%);
+    overflow: hidden;
+    border: 3px solid #ff4fd8;
+    box-shadow: 
+        0 0 28px rgba(255, 79, 216, 0.55),
+        0 10px 25px rgba(0, 0, 0, 0.5),
+        inset 0 0 12px rgba(255, 79, 216, 0.3);
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.player-sidebar__art:hover {
+    transform: scale(1.04);
+    box-shadow: 
+        0 0 38px rgba(255, 79, 216, 0.75),
+        0 14px 30px rgba(0, 0, 0, 0.6);
+}
+
+.player-sidebar__avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.player-sidebar__meta {
+    margin-top: 14px;
+    text-align: center;
+}
+
+.player-sidebar__song-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--white, #fff);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.player-sidebar__song-sub {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 4px 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.player-sidebar__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+    flex-shrink: 0;
+}
+
+.player-action-btn {
+    width: 44px;
+    height: 40px;
+    min-width: 44px;
+    min-height: 40px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+}
+
+.player-action-btn--pink {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.65) 0%, rgba(224, 37, 168, 0.5) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-top: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 4px 14px rgba(255, 79, 216, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.player-action-btn--pink:hover {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.85) 0%, rgba(224, 37, 168, 0.75) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 79, 216, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.player-action-btn--glass {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.player-action-btn--glass:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.12) 100%);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.player-action-btn img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
+}
+
+.player-sidebar__section {
+    margin-top: 22px;
+    text-align: left;
+    flex-shrink: 0;
+}
+
+.player-sidebar__section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.player-sidebar__section-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--white, #fff);
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.2px;
+}
+
+.player-sidebar__section-link {
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.player-sidebar__section-link:hover {
+    color: var(--cm-accent, #ff4fd8);
+    text-decoration: underline;
+}
+
+.player-sidebar__artist-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    text-align: center;
+}
+
+.player-sidebar__artist-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 6px 4px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.player-sidebar__artist-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 79, 216, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.player-sidebar__artist-thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-full, 50%);
+    overflow: hidden;
+    border: 2px solid rgba(255, 79, 216, 0.6);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.player-sidebar__artist-item:hover .player-sidebar__artist-thumb {
+    border-color: #ff4fd8;
+    box-shadow: 0 0 14px rgba(255, 79, 216, 0.6);
+}
+
+.player-sidebar__artist-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.player-sidebar__artist-name {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 66px;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SIDEBAR TABS & PANES (SSOT Figma 1390:24448 ↔ 2831:9443)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.player-sidebar__tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    background: rgba(0, 0, 0, 0.28);
+    padding: 4px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+}
+
+.player-sidebar__tab {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.player-sidebar__tab:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.player-sidebar__tab.is-active {
+    background: linear-gradient(135deg, #ff4fd8 0%, #d63cb8 100%);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(255, 79, 216, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.player-sidebar__pane {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.player-sidebar__pane.is-hidden {
+    display: none !important;
+}
+
+/* SSOT Figma 1390:24448 — Player Info Kartı */
+.player-sidebar__cover-card {
+    width: 100%;
+    height: 200px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+.player-sidebar__cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.player-sidebar__info-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.player-sidebar__info-row {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    line-height: 1.4;
+    gap: 10px;
+}
+
+.player-sidebar__info-label {
+    color: rgba(255, 255, 255, 0.72);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.player-sidebar__info-val {
+    color: #fff;
+    font-weight: 500;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.player-sidebar__stars-gold {
+    color: #ffd700;
+    letter-spacing: 2px;
+    font-size: 14px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+.player-sidebar__format-badges {
+    display: inline-flex;
+    gap: 4px;
+    margin-left: 6px;
+}
+
+.player-sidebar__info-transport {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FULLSCREEN OVERLAY (1920px) — Figma node 2135:34323
+   "Laptop 1920 - Playlist Page full screen mode 2" (Kullanıcı Ek 1)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.page-player--wide.page-player--fullscreen,
+.page-player--diskplayer {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #0b0714 !important;
+}
+
+.player-topbar--wide {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player-topbar__left,
+.player-topbar__right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.player-toolbar__btn--toggle-vinyl {
+    height: 36px;
+    padding: 0 14px;
+    gap: 8px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.4) 0%, rgba(139, 92, 246, 0.3) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 79, 216, 0.5);
+    font-size: 12.5px;
+    font-weight: 600;
+    box-shadow: 0 0 14px rgba(255, 79, 216, 0.35);
+    cursor: pointer;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.player-toolbar__btn--toggle-vinyl:hover {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.65) 0%, rgba(139, 92, 246, 0.5) 100%);
+    transform: scale(1.04);
+}
+
+.player-toolbar__btn--toggle-vinyl:not(.is-active) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+    opacity: 0.75;
+}
+
+.player-toolbar__btn--fs {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.player-toolbar__btn--fs:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.06);
+    color: var(--cm-accent, #ff4fd8);
+}
+
+.player-visual--vinyl-center.is-hidden {
+    display: none !important;
+}
+
+.player-bg__image--scenic {
+    filter: blur(0px) brightness(0.88) !important;
+    transform: scale(1.0) !important;
+}
+
+.player-bg__overlay--subtle {
+    background: radial-gradient(circle at center, rgba(13, 8, 22, 0.15) 0%, rgba(13, 8, 22, 0.65) 100%) !important;
+}
+
+.player-back--wide {
+    position: static;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--glass-3-bg, rgba(255, 255, 255, 0.1));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+    transition: var(--transition-all, all 0.2s);
+}
+
+.player-back--wide:hover {
+    background: var(--glass-4-bg, rgba(255, 255, 255, 0.2));
+    transform: scale(1.05);
+}
+
+/* Tablo satır play ikonu — Figma 3155:19834: pembe daire + play glyph */
+.player-row__play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--cm-accent, #ff4fd8);
+  background: rgba(255, 79, 216, 0.16);
+  color: var(--cm-accent, #ff4fd8);
+  box-shadow: 0 0 6px rgba(255, 79, 216, 0.45);
+}
+
+.player-topbar__song-title {
+    margin: 0;
+    /* Figma 2135:34323 — başlık geri butonunun hemen yanında (sol-üst) */
+    margin-right: auto;
+    margin-left: 14px;
+    font-size: 18px;
+    font-weight: var(--font-medium, 500);
+    color: var(--white, #fff);
+    text-shadow: var(--ts-sm);
+    letter-spacing: 0.5px;
+}
+
+.player-content--wide,
+.player-content--diskplayer {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 100vh;
+    padding: 70px 24px 24px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CENTER: VINYL RECORD TURNTABLE (Figma node 2135:34323)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.player-visual--vinyl-center {
+    position: absolute;
+    left: calc(50% - 250px);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(520px, 45vw);
+    height: min(520px, 45vw);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.player-visual__vinyl-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 24px 50px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 35px rgba(255, 79, 216, 0.25));
+}
+
+.player-visual__vinyl {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #151515 0%, #0d0d0d 38%, #1f1f1f 39%, #0d0d0d 40%, #151515 58%, #222 59%, #0c0c0c 60%, #080808 100%);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9), 0 0 0 2px rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: vinyl-spin 22s linear infinite;
+    animation-play-state: running;
+}
+
+.player-visual__vinyl.is-paused {
+    animation-play-state: paused;
+}
+
+@keyframes vinyl-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.player-visual__vinyl-grooves {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 45deg,
+        rgba(255, 255, 255, 0.08) 0deg,
+        transparent 35deg,
+        rgba(255, 255, 255, 0.05) 90deg,
+        transparent 125deg,
+        rgba(255, 255, 255, 0.08) 180deg,
+        transparent 215deg,
+        rgba(255, 255, 255, 0.05) 270deg,
+        transparent 305deg,
+        rgba(255, 255, 255, 0.08) 360deg
+    );
+    pointer-events: none;
+}
+
+.player-visual__vinyl-grooves::after {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 16px transparent, inset 0 0 0 17px rgba(255, 255, 255, 0.04),
+                inset 0 0 0 34px transparent, inset 0 0 0 35px rgba(255, 255, 255, 0.04),
+                inset 0 0 0 52px transparent, inset 0 0 0 53px rgba(255, 255, 255, 0.04),
+                inset 0 0 0 70px transparent, inset 0 0 0 71px rgba(255, 255, 255, 0.04);
+}
+
+.player-visual--vinyl-center .player-visual__art {
+    position: relative;
+    width: 44%;
+    height: 44%;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15), 0 0 24px rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-visual--vinyl-center .player-visual__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: none;
+}
+
+.player-visual__center-hole {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #000;
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.9);
+    z-index: 2;
+}
+
+/* Sol Alt: Player Info Div Mini (435×180, Figma node I2135:35489;894:15744) */
+.player-mini-card {
+    width: 435px;
+    min-height: 180px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0.05) 100%
+    ), rgba(18, 10, 28, 0.45);
+    backdrop-filter: blur(28px) saturate(190%) brightness(1.08);
+    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.08);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    box-shadow:
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(255, 79, 216, 0.15);
+    padding: 16px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    z-index: 20;
+    margin-bottom: 12px;
+}
+
+.player-mini-card__main {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.player-mini-card__cover {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.player-mini-card__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.player-mini-card__details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.player-mini-card__row {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.player-mini-card__label {
+    color: var(--white-70, rgba(255, 255, 255, 0.7));
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    font-size: 11px;
+}
+
+.player-mini-card__icon {
+    color: var(--cm-accent, #ff4fd8);
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.player-mini-card__value {
+    color: var(--white, #fff);
+    font-weight: var(--font-medium, 500);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-mini-card__transport {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.player-mini-card__play {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    background: var(--cm-accent, #ff4fd8);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    transition: var(--transition-all, all 0.2s);
+}
+
+.player-mini-card__play:hover {
+    transform: scale(1.1);
+}
+
+.player-mini-card__progress {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.player-mini-card__progress-fill {
+    height: 100%;
+    width: 30%;
+    background: var(--cm-accent, #ff4fd8);
+    border-radius: 3px;
+}
+
+.player-mini-card__bottom-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.player-mini-card__badge-mp3 {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white, #fff);
+    letter-spacing: 0.5px;
+}
+
+.player-mini-card__stars {
+    display: inline-flex;
+    gap: 2px;
+    color: #ffd700;
+}
+
+.player-mini-card__star-icon {
+    fill: #ffd700;
+}
+
+/* Sağ Playlist Paneli (500×988, Figma node 2135:35315) */
+.player-playlist--wide {
+    width: 500px;
+    height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0.05) 100%
+    ), rgba(18, 10, 28, 0.45);
+    backdrop-filter: blur(28px) saturate(190%) brightness(1.08);
+    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.08);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    box-shadow:
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(255, 79, 216, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 20;
+    margin-bottom: 12px;
+}
+
+.player-playlist__head-wide {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) 70px;
+    gap: 12px;
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: var(--font-medium, 500);
+    color: var(--white-70, rgba(255, 255, 255, 0.7));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.25);
+    text-shadow: var(--ts-xs);
+}
+
+.player-playlist__col-dur {
+    text-align: right;
+}
+
+.player-playlist__list--wide {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    scrollbar-width: thin;
+}
+
+.player-playlist__list--wide::-webkit-scrollbar {
+    width: 4px;
+}
+
+.player-playlist__list--wide::-webkit-scrollbar-track {
+    background: var(--scrollbar-track, rgba(0, 0, 0, 0.1));
+}
+
+.player-playlist__list--wide::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb, rgba(255, 255, 255, 0.2));
+    border-radius: 2px;
+}
+
+.player-playlist__item--wide {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) 70px;
+    gap: 12px;
+    align-items: center;
+    padding: 6px 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-all, all 0.2s);
+}
+
+.player-playlist__item--wide:hover {
+    background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
+}
+
+.player-playlist__thumb--wide {
+    width: 34px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.player-playlist__track-title--wide {
+    font-size: 13px;
+    color: var(--white, #fff);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: var(--ts-xs);
+}
+
+.player-playlist__duration--wide {
+    font-size: 12px;
+    color: var(--white-70, rgba(255, 255, 255, 0.7));
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    text-shadow: var(--ts-xs);
+}
+
+/* En Alt: Tam genişlik 5px ilerleme çubuğu (Figma node 2135:35497) */
+.player-bottom-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 100;
+}
+
+.player-bottom-progress__fill {
+    height: 100%;
+    width: 30%;
+    background: var(--cm-accent, #ff4fd8);
+    box-shadow: 0 0 10px var(--cm-accent, #ff4fd8);
+}
+
+/* ================================================================
+   4K / UHD (≥3840px) — tam genişlik, büyütülmüş bileşenler
+   ScaleManager 4K tier ile birlikte çalışır — transform override yok,
+   sadece token tabanlı boyut artışı.
+   SSOT: Figma nodes 1339:23464 / 1390:24448 / 2135:34323
+   ================================================================ */
+@media (min-width: 3840px) {
+    /* Genel padding artışı */
+    .page-player--wide:not(.page-player--fullscreen) {
+        padding-left: var(--space-10, 48px);
+        padding-right: var(--space-10, 48px);
+    }
+
+    /* Toolbar */
+    .player-toolbar__title {
+        font-size: 30px;
+    }
+
+    .player-toolbar__btn--circle,
+    .player-toolbar__back {
+        width: 56px;
+        height: 56px;
+        min-width: 56px;
+        min-height: 56px;
+    }
+
+    .player-toolbar__search {
+        width: 420px;
+    }
+
+    .player-toolbar__search-input {
+        height: 52px;
+        font-size: 16px;
+    }
+
+    /* Şarkı tablosu */
+    .player-body--wide {
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: var(--space-6, 24px);
+    }
+
+    .player-table thead th {
+        padding: 18px 20px;
+        font-size: 15px;
+    }
+
+    .player-table tbody td {
+        padding: 15px 20px;
+        font-size: 16px;
+    }
+
+    .player-row__thumb {
+        width: 44px;
+        height: 44px;
+    }
+
+    .player-star {
+        font-size: 18px;
+    }
+
+    /* Sağ sidebar (4K büyütme) */
+    .page-sidebar--figma-wide {
+        width: 320px;
+        gap: 20px;
+    }
+
+    .page-sidebar__cover-card {
+        width: 315px;
+        height: 315px;
+        border-radius: 24px;
+    }
+
+    .page-sidebar__info-card {
+        width: 310px;
+        height: 160px;
+        padding: 14px 18px;
+        border-radius: 18px;
+    }
+
+    .page-sidebar__info-row {
+        font-size: 15px;
+    }
+
+    .page-sidebar__info-label {
+        font-size: 14px;
+    }
+
+    .page-sidebar__info-val {
+        max-width: 190px;
+    }
+
+    .page-sidebar__status-card {
+        width: 320px;
+        border-radius: 28px;
+    }
+
+    /* Mini kart (fullscreen) */
+    .player-mini-card {
+        width: 600px;
+    }
+
+    .player-mini-card__cover {
+        width: 120px;
+        height: 120px;
+    }
+
+    .player-mini-card__row {
+        font-size: 15px;
+    }
+
+    /* Playlist (fullscreen) */
+    .player-playlist--wide {
+        width: 680px;
+    }
+
+    .player-playlist__track-title--wide {
+        font-size: 16px;
+    }
+
+    .player-playlist__duration--wide {
+        font-size: 14px;
+    }
+
+    /* Fullscreen topbar */
+    .player-topbar__song-title {
+        font-size: 26px;
+    }
+
+    /* İlerleme çubuğu */
+    .player-bottom-progress {
+        height: 8px;
+    }
+}
+
+/* ================================================================
+   Reduced Motion
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .player-toolbar__btn,
+    .player-toolbar__btn--circle,
+    .player-action-btn,
+    .player-sidebar__art,
+    .player-sidebar__artist-item,
+    .player-row,
+    .player-visual__vinyl {
+        transition: none;
+        animation: none;
+    }
+}
+/* ════════════════════════════════════════════════════════════════════
+   WIDE 1920 — Figma SSOT 3155:19834 "Linux 1920 - Playlist Page" (2026-10-16)
+   Koordinat: viewport px. Root top=60 (header), bottom=90 (footer).
+   Cam: blur YOK — Figma: group opacity 0.21 · beyaz/gri katman + 1px beyaz kenar.
+   Sağ kenar çubuğu: history (3155:22392) ile ortak.
+   ════════════════════════════════════════════════════════════════════ */
+
+html body .page-player--wide.page-layout,
+html body .page-history--wide.page-layout {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 90px;
+    display: block;
+    width: auto;
+    max-width: none;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Cam panel — Figma "Playlist" (24,89) 1621×880 */
+:is(.page-player--wide, .page-player--embedded) .player-glass {
+    position: absolute;
+    left: 24px;
+    top: 29px;
+    right: 275px;
+    bottom: 21px;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: rgba(186, 186, 186, 0.21);
+    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* Araç çubuğu — geri (45,110) 40×40 · başlık (90,121) · arama (1376,118) 257×25 */
+:is(.page-player--wide, .page-player--embedded) .player-toolbar {
+    position: absolute;
+    inset: 0;
+    display: block;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: 0;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__btn {
+    position: absolute;
+    left: 21px;
+    top: 21px;
+    width: 40px;
+    height: 40px;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__btn img {
+    display: block;
+    width: 40px;
+    height: 40px;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__title {
+    position: absolute;
+    left: 66px;
+    top: 32px;
+    height: 18px;
+    margin: 0;
+    font-family: "SF Pro Text", "SF Pro Display", -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #fff;
+    text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__search {
+    position: absolute;
+    right: 12px;
+    top: 29px;
+    width: 257px;
+    height: 25px;
+    box-sizing: border-box;
+    margin: 0;
+    border: 0;
+    border-radius: 4px;
+    background: rgba(255, 253, 254, 0.25);
+    /* Figma 3155:20586 stroke: #FF00B2 %35 + #FFFFFF %20 · 0.5px INSIDE · DROP_SHADOW 0/1/1 %80 */
+    box-shadow: inset 0 0 0 0.5px rgba(255, 0, 178, 0.35), inset 0 0 0 0.5px rgba(255, 255, 255, 0.2),
+        0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__search-input {
+    position: absolute;
+    left: 14px;
+    top: 6px;
+    /* kullanıcı geri bildirimi 2026-10-17: 130px yazma alanı çok dardı (konteyner 257 · ikon left:236)
+       -> 210px: soldan 14px başlar, 224px'te biter, ikona 12px nefes payı bırakır */
+    width: 210px;
+    height: 13.5px;
+    min-height: 0;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    /* taban kuraldan miras kalan pill'i kapat (Figma'da input arkaplanı/Shadow yok) */
+    border-radius: 0;
+    box-shadow: none;
+    font-family: 'Avalon Medium', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 13.5px;
+    color: #000;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__search-input::placeholder {
+    color: #000;
+    opacity: 1;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-toolbar__search-icon {
+    position: absolute;
+    left: 236px;
+    right: auto;
+    top: 5px;
+    /* taban kuraldan miras: translateY(-50%) ikonu 7.5px yukarı kaydırıyordu · Figma 3155:20587'de glow efekti yok */
+    transform: none;
+    filter: none;
+    width: 15px;
+    height: 15px;
+    display: block;
+}
+
+/* Tablo — başlık bandı (25,171) 1620×34 · satırlar (32,217) pitch 28.5, yükseklik 21 */
+:is(.page-player--wide, .page-player--embedded) .player-table-panel {
+    position: absolute;
+    left: 1px;
+    top: 82px;
+    right: 0;
+    bottom: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    overflow-y: auto;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-table {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: none;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-table thead {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgba(56, 56, 56, 0.35);
+}
+
+/* Son iki track: 195/159fr — yıldız grubu 6px aralıklı (5×15+4×6=99px),
+   159px track'te ortalanır → her yanda 30px; panel sağ kenarı (1645) ile
+   son yıldız arası ~30px (kullanıcı: "yıldızlar bitişik, sağda boşluk olsun").
+   Süre metni sol hizalı (1291) — track 195px metne fazlasıyla yeter. */
+:is(.page-player--wide, .page-player--embedded) .player-table thead tr {
+    display: grid;
+    grid-template-columns: 108px minmax(0, 445fr) minmax(0, 396fr) minmax(0, 310fr) minmax(0, 195fr) minmax(74px, 159fr);
+    align-items: start;
+    height: 34px;
+    margin: 0 0 0 7px;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-table thead th {
+    position: relative;
+    margin: 0;
+    padding: 9px 0 0 0;
+    border: 0;
+    background: none;
+    font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 15px;
+    color: #fff;
+    text-align: left;
+    text-shadow: 0 0.1px 1px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+}
+
+/* İkon ve "/" başlığı: hücre ortası (86) −40px → cx=46, disk x=33 = Figma 1390:24448
+   cd_case rx=33. Sol boşluk 41px'ten 1px'e iner, "/" diskin tam üstünde kalır. */
+:is(.page-player--wide, .page-player--embedded) .player-row__disc { margin: 0 auto; transform: translateX(-40px); }
+
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--icon { padding-left: 0; text-align: center !important; transform: translateX(-40px); }
+/* Şarkı Adı diske yaklaşır: başlık/hücre 140 → 70 (disk 60'da biter → 10px gap) */
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--title { padding-left: 0.27px; margin-left: -70px; }
+:is(.page-player--wide, .page-player--embedded) .player-row .player-col--title { margin-left: -70px; }
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--album { margin-left: -0.53px; }
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--artist { margin-left: -1.17px; }
+/* Figma 1390:24448 — "Süre" başlığı hücre solunda (x=1298.3 = 1291+7.3),
+   taban text-align:center metni 1410'a kaydırıyordu */
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--duration { padding-left: 7.3px; padding-top: 10px; text-align: left !important; }
+/* Başlık yıldız grubunun tam ortası (1522+123/2=1583.5; metin ~75px → 1546 civarı) */
+:is(.page-player--wide, .page-player--embedded) .player-table thead .player-col--stars { margin-left: 0; text-align: center !important; }
+
+:is(.page-player--wide, .page-player--embedded) .player-table tbody {
+    display: block;
+    margin: 0;
+    padding: 12px 0 0 0;
+    border: 0;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-row {
+    display: grid;
+    grid-template-columns: 108px minmax(0, 445fr) minmax(0, 396fr) minmax(0, 310fr) minmax(0, 195fr) minmax(74px, 159fr);
+    align-items: center;
+    position: relative;
+    isolation: isolate;
+    height: 21px;
+    margin: 0 0 7.5px 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    transition: none;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-row:hover {
+    background: none;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-row td {
+    height: 21px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    vertical-align: middle;
+    font-family: 'Avalon Medium', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 12.15px;
+    letter-spacing: 1.22px;
+    color: #fff;
+    text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.8), 0.5px 0.5px 0.1px #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-row__disc {
+    display: block;
+    width: 27px;
+    height: 21px;
+}
+
+/* Sütun genişlikleri — taban yüzde genişlikler (28/24/18/12/18%) geniş modda
+   grid track'ini (445/396/310/251/103fr) küçültüp içeriği kırpıyordu:
+   title 124.6px (içerik 142) · artist 55.8px (içerik 109) · duration 30.1px
+   ("00:00:00" 44px → "00:0…") · stars 42px (83px içerik). Figma 1390:24448. */
+:is(.page-player--wide, .page-player--embedded) .player-col--title,
+:is(.page-player--wide, .page-player--embedded) .player-col--album,
+:is(.page-player--wide, .page-player--embedded) .player-col--artist,
+:is(.page-player--wide, .page-player--embedded) .player-col--stars {
+    width: auto;
+}
+
+/* Figma 1390:24448 — süre metni hücre solundan başlar (x=1291 = td başlangıcı);
+   taban %12 width + text-align:center metni 1395'e taşıyordu */
+:is(.page-player--wide, .page-player--embedded) .player-col--duration {
+    width: auto;
+    text-align: left !important;
+}
+
+/* Track 1486–1645 (159px), yıldızlar bitişik (gap 0) — PNG'nin kendi 0.75px
+   şeffaf kenarı sayesinde görsel olarak ~1.5px ayrım kalır, grup ortada */
+:is(.page-player--wide, .page-player--embedded) .player-stars {
+    display: flex;
+    /* justify-content: center; */
+    gap: 0;
+    height: 15px;
+    margin-top: 2px;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-star {
+    display: block;
+    width: 15px;
+    height: 15px;
+}
+
+/* Vurgu satırı — Figma (34,302.5) 1602×21 · 3 katman: #808080 .15 / #FF00C8 .35 / #BBBBBB .25 */
+:is(.page-player--wide, .page-player--embedded) .player-row--active {
+    background: none;
+}
+
+:is(.page-player--wide, .page-player--embedded) .player-row--active::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    right: 9px;
+    top: 0;
+    height: 21px;
+    z-index: -1;
+    background:
+        linear-gradient(rgba(128, 128, 128, 0.15), rgba(128, 128, 128, 0.15)),
+        linear-gradient(rgba(255, 0, 200, 0.35), rgba(255, 0, 200, 0.35)),
+        linear-gradient(rgba(187, 187, 187, 0.25), rgba(187, 187, 187, 0.25));
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   SAĞ KENAR ÇUBUĞU (ortak: Playlist + Geçmiş)
+   Kapak (1681,87) 221×221 · bilgi (1681,328) 218×114 · durum (1680,462) 224×507
+   Sidebar sol = 1680, üst = 87 - 60 (root) = 27
+   ════════════════════════════════════════════════════════════════════ */
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar--figma-wide {
+    position: absolute;
+    right: 15px;
+    top: 27px;
+    width: 245px;
+    height: calc(100% - 48px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 16px 12px;
+    flex: none;
+    overflow-y: auto;
+    /* Multi-layer Frosted Glass — mockup panel zemini */
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0.05) 100%
+    ), rgba(18, 10, 28, 0.45);
+    backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
+    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 14px;
+    box-shadow:
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.25),
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* ── 1) PROFİL KARTI — dairesel avatar + şarkı + 5 aksiyon butonu ── */
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__profile-card {
+    flex: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__art {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #ff4fd8;
+    box-shadow:
+        0 0 28px rgba(255, 79, 216, 0.55),
+        0 10px 25px rgba(0, 0, 0, 0.5),
+        inset 0 0 12px rgba(255, 79, 216, 0.3);
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__art:hover {
+    transform: scale(1.04);
+    box-shadow:
+        0 0 38px rgba(255, 79, 216, 0.75),
+        0 14px 30px rgba(0, 0, 0, 0.6);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__avatar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__meta {
+    margin-top: 12px;
+    text-align: center;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__song-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white, #fff);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__song-sub {
+    margin: 4px 0 0;
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.75);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+    flex-shrink: 0;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn {
+    width: 44px;
+    height: 40px;
+    min-width: 44px;
+    min-height: 40px;
+    padding: 0;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn--pink {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.65) 0%, rgba(224, 37, 168, 0.5) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-top: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 4px 14px rgba(255, 79, 216, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn--pink:hover {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.85) 0%, rgba(224, 37, 168, 0.75) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 79, 216, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn--glass {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn--glass:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.12) 100%);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* ── 2) ÖNERİLER — 2 satır × (2 etiket + 4 dairesel sanatçı) ── */
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__recs {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__rec-labels {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0 0 10px;
+    font-family: 'Avalon Medium', sans-serif;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__rec-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__rec-labels + .page-sidebar__artist-grid {
+    margin-bottom: 18px;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    text-align: center;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 6px 2px;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 79, 216, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-thumb {
+    display: block;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(255, 79, 216, 0.6);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-item:hover .page-sidebar__artist-thumb {
+    border-color: #ff4fd8;
+    box-shadow: 0 0 14px rgba(255, 79, 216, 0.6);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-name {
+    margin-top: 6px;
+    max-width: 100%;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 3) DURUM KARTI — Figma bilgi (1681,328) 218×114: #929292 @ .135 + 1px beyaz kenar @ .21
+   Kart kendisi akışta; iç satırlar kart-içi absolute koordinat (Figma piksel). */
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-card {
+    position: relative;
+    flex: none;
+    width: 218px;
+    height: 114px;
+    margin: 0 auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    box-sizing: border-box;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-card::before {
+    content: "";
+    position: absolute;
+    left: -1.43px;
+    top: -2px;
+    width: 224px;
+    height: 116px;
+    border-radius: 10px;
+    background: rgba(146, 146, 146, 0.135);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.21), 0 0.2px 1px rgba(0, 0, 0, 0.5);
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row {
+    position: absolute;
+    left: 9.6px;
+    width: 200px;
+    height: 13px;
+    margin: 0;
+    font-family: 'Avalon Medium', sans-serif;
+    font-size: 9.5px;
+    font-weight: 500;
+    line-height: 12.83px;
+    letter-spacing: 0.71px;
+    color: #fff;
+    white-space: nowrap;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--title { top: 4.64px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--album { top: 19.51px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--artist { top: 34.39px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--stars { top: 48px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--bitrate { top: 63.14px; }
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--time { top: 78.01px; }
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-icon {
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 11.43px;
+    height: 10px;
+    display: block;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--stars .page-sidebar__info-icon {
+    top: 2.26px;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--bitrate .page-sidebar__info-icon,
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row--time .page-sidebar__info-icon {
+    top: 2px;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-val,
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-label {
+    position: absolute;
+    left: 17.25px;
+    top: 0;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+    font-weight: 500;
+    max-width: none;
+    overflow: visible;
+    text-align: left;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-stars {
+    position: absolute;
+    left: 50.73px;
+    top: 0.26px;
+    display: flex;
+    gap: 0.23px;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-stars img {
+    display: block;
+    width: 11.43px;
+    height: 10px;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__format {
+    position: absolute;
+    display: block;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__format--mp3 {
+    left: 113.25px;
+    top: 3px;
+    width: 17px;
+    height: 8px;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__format--mp4 {
+    left: 131.03px;
+    top: 0;
+    width: 19px;
+    height: 13px;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__format--vlc {
+    left: 149.95px;
+    top: 1px;
+    width: 11.43px;
+    height: 10px;
+}
+
+/* Süre ilerlemesi — play (1690.6,422.9) · bar (1707.7,425) 180.6×6 · dolu 65px #FF65E9 */
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__progress {
+    position: absolute;
+    left: 9.6px;
+    top: 94.89px;
+    width: 198px;
+    height: 10px;
+    margin: 0;
+    background: none;
+    border-radius: 0;
+    overflow: visible;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__progress-play {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    width: 11.43px;
+    height: 10px;
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__progress-track {
+    position: absolute;
+    left: 17.14px;
+    top: 2.11px;
+    width: 180.57px;
+    height: 6px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+}
+
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 65px;
+    height: 6px;
+    background: #ff65e9;
+}
+
+/* Durum kartı — cam (1678.6,462) 225.2×507 · aynı katman modeli */
+/* 4) BOŞ KART — Figma durum (1680,462) 224×507 · kalan yüksekliği doldurur */
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__status-card {
+    flex: 1 1 auto;
+    min-height: 120px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(146, 146, 146, 0.135);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.21), 0 0.2px 1px rgba(0, 0, 0, 0.5);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   EMBEDDED 1024×600 — "Linux 1024 - Playlist Page" (SSOT, 2026-10-17)
+   Tablo/araç çubuğu düzeni wide ile ORTAKTIR (yukarıdaki :is(...) bloğu).
+   Burada yalnız 1024'e özgü ölçü farkları vardır:
+     · cam panel 743px (wide: 1621) → sağ boşluk 257px (wide: 275)
+     · sağ kenar çubuğu 203px @ right 28 (wide: 225 @ right 15)
+     · dairesel avatar 97px (wide: 140) · sanatçı dairesi 34px (wide: 52)
+   Durum + boş kart BURADA RENDER EDİLMEZ — bileşen tarafında
+   WideSidebarComponent::$showStatusCards = isWide() ile kapatılır.
+   ═══════════════════════════════════════════════════════════════════ */
+.page-player--embedded .player-glass {
+    right: 257px;
+}
+
+/* ── Toolbar — Figma 2831:9485 "Navigate Div" (PNG'de GÖRÜNÜR katman) ──────
+   2×30px back @abs27.677/62.677 · başlık Avalon 9.5/500 ls0.712 @abs100.677
+   · home 13×13 @abs186.677. Markup'ta TEK back butonu var (btnCount=1) →
+   yalnız boyut/konum uygulanır. Dikey (top) header offset'i nedeniyle
+   kapsam dışı bırakıldı. */
+.page-player--embedded .player-toolbar__btn {
+    left: 4.677px;
+    width: 30px;
+    height: 30px;
+}
+
+.page-player--embedded .player-toolbar__btn img {
+    width: 30px;
+    height: 30px;
+}
+
+.page-player--embedded .player-toolbar__title {
+    left: 77.677px;
+    font-family: 'Avalon Medium', 'Avalon', sans-serif;
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.712px;
+}
+
+/* ── Search — Figma 2831:9476 159×25 @abs597,85 · radius 4
+   stroke #FF00B2 alpha1 0.5px INSIDE · DROP_SHADOW 0/1/1 %80
+   input "Şarkı Ara" Avalon 10/500 #000 @box+5,+6 w130 · ikon 15×15 @box+138,+5 */
+.page-player--embedded .player-toolbar__search {
+    width: 159px;
+    box-shadow: inset 0 0 0 0.5px #ff00b2, 0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.page-player--embedded .player-toolbar__search-input {
+    left: 5px;
+    width: 130px;
+}
+
+.page-player--embedded .player-toolbar__search-icon {
+    left: 138px;
+}
+
+/* ── Tablo — Figma 2831:9465 "label text" 742×34 @rel(24,127) · thead bg
+   #383838 .35 (2831:9466) · satır 725×31 pitch 46 @relx31 · scrollbar
+   2831:9473 3×320 r50 #C4C4C4 .42 @rel(763,152).
+   Başlıklar Poppins 10/400 lh15 · hücre metinleri Avalon 11/500 ls0.11
+   lh14.851 (2831:9491-9494).
+   Satır-içi kolon sınırları: 0 · 47 · 250 · 433 · 575 · 650 · 725
+   (= metin başlangıçları ŞARKI 47 / ALBUM 250 / SANATCI 433 / SURE 575 /
+    yıldız 650; satır x=32 → frame 79 / 282 / 465 / 607 / 682).
+   1920 frame'ine (1390:24448) göre yazılmış transform/margin hileleri
+   embedded'de geçersiz — sıfırlanır. */
+.page-player--embedded .player-table-panel::-webkit-scrollbar {
+    width: 3px;
+}
+
+.page-player--embedded .player-table-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.page-player--embedded .player-table-panel::-webkit-scrollbar-thumb {
+    background: rgba(196, 196, 196, 0.42);
+    border-radius: 50px;
+}
+
+/* Sabit track'ler 1024'ün altında taşma üretiyor (min toplam 724px);
+   media guard ile yalnız 1024+ embedded'de uygulanır — dar viewport'ta
+   paylaşımlı fr tablona (min toplam 182px) düşer. */
+@media (min-width: 1024px) {
+
+    .page-player--embedded .player-table thead tr,
+    .page-player--embedded .player-row {
+        grid-template-columns: 47px 203px 183px 142px 75px 74px;
+        margin-right: 8px;
+    }
+
+}
+
+.page-player--embedded .player-table thead .player-col--icon {
+    padding-left: 16px;
+    text-align: left !important;
+    transform: none;
+}
+
+.page-player--embedded .player-table thead .player-col--title {
+    padding-left: 1px;
+    margin-left: 0;
+}
+
+.page-player--embedded .player-table thead .player-col--album {
+    padding-left: 1px;
+    margin-left: 0;
+}
+
+.page-player--embedded .player-table thead .player-col--artist {
+    margin-left: 0;
+}
+
+.page-player--embedded .player-table thead .player-col--duration {
+    padding-left: 8px;
+}
+
+.page-player--embedded .player-table thead .player-col--stars {
+    margin-left: 0;
+    text-align: center;
+}
+
+/* satır: 31px + margin-bottom 15 = pitch 46 (2831:9463-9464) */
+.page-player--embedded .player-row {
+    height: 31px;
+    margin-bottom: 15px;
+}
+
+/* height:auto → grid align-items:center metni satırın dikey ortasına koyar
+   (+8.07; Figma +8) */
+.page-player--embedded .player-row td {
+    height: auto;
+    font-size: 11px;
+    line-height: 14.851px;
+    letter-spacing: 0.11px;
+}
+
+.page-player--embedded .player-row .player-col--title {
+    margin-left: 0;
+}
+
+/* 2831:9494 cd_case 33.546×30 @satır+0.284 — kaynak PNG 108×84 (aspect
+   1.286); Figma scaleMode=FILL → object-fit: cover (kırpma, deformasyon yok) */
+.page-player--embedded .player-row__disc {
+    width: 33.546px;
+    height: 30px;
+    margin: 0;
+    transform: none;
+    object-fit: cover;
+}
+
+/* yıldızlar satır başlangıcına hizalı (PNG: 5 yıldızlı ve 2 yıldızlı satır
+   da x=682'den başlar) */
+.page-player--embedded .player-stars {
+    margin-top: 0;
+    justify-content: flex-start;
+}
+
+/* ── Sağ panel — Figma 2831:9486 219×420 @abs782,69 radius 8 ──────────── */
+.page-player--embedded .page-sidebar--figma-wide {
+    right: 23px;
+    width: 219px;
+    border-radius: 8px;
+    padding: 14px 12px;
+    gap: 10px;
+}
+
+/* Figma 2831:9490 Foto 100×100 @abs842,104 stroke #FF6BD2 r50 */
+.page-player--embedded .page-sidebar__art {
+    width: 100px;
+    height: 100px;
+}
+
+.page-player--embedded .page-sidebar__meta {
+    margin-top: 10px;
+}
+
+/* 2831:9495 Poppins 12/500 lh18 CENTER · 2831:9496 Poppins 10/300 lh15 CENTER
+   ⚠️ Poppins font dosyası repo'da YOK (Fonts/ 0 isabet, @font-face 0) →
+   fallback zinciri yerel geometric sans 'Avalon Medium'e düşer. */
+.page-player--embedded .page-sidebar__song-title {
+    font-family: "Poppins", "Avalon Medium", "Segoe UI", system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+.page-player--embedded .page-sidebar__song-sub {
+    font-family: "Poppins", "Avalon Medium", "Segoe UI", system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    line-height: 15px;
+}
+
+/* 2831:9497-9506 — 5×(30×30 r3) @x803..951 pitch 37 → gap 7 */
+.page-player--embedded .page-sidebar__actions {
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.page-player--embedded .page-action-btn {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 3px;
+}
+
+.page-player--embedded .page-action-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* 2831:9540/9525 Poppins 7/500 lh10.5 ls0 — label satırı 804..973 (w169);
+   içerik kolonu 795'te değil 804'te başlıyor (SSOT x=804) → margin-left 9.
+   margin-bottom 10 → 1.5: Figma rec-label sonu (346.5) ile ilk daire (353)
+   arası 6.5px; tabanda 10 + item border/padding 5 = 15 geliyordu (+8.5). */
+.page-player--embedded .page-sidebar__rec-labels {
+    width: 170px;
+    margin-left: 9px;
+    margin-bottom: 1.5px;
+}
+
+.page-player--embedded .page-sidebar__rec-label {
+    font-family: "Poppins", "Avalon Medium", "Segoe UI", system-ui, sans-serif;
+    font-size: 7px;
+    font-weight: 500;
+    line-height: 10.5px;
+    letter-spacing: 0;
+}
+
+/* 2831:9542-9549 4×35 @x804,849,894,894,939 → pitch 45 = item 39 + gap 6.
+   min-content: item padding 1px×2 + border 1px×2 = thumb 35 + 4 = 39.
+   margin-left 7: daire 797→804 (Figma x=804).
+   margin-bottom 5.5 (taban 18): Figma name1 sonu (name0 +62.5) ile
+   rec-label2 arası 10.5px — tabanda 4 (padding-bottom) + 1 (border) + 18 = 23
+   geliyordu (+12.5). */
+.page-player--embedded .page-sidebar__rec-labels + .page-sidebar__artist-grid {
+    margin-left: 7px;
+    margin-bottom: 5.5px;
+}
+
+.page-player--embedded .page-sidebar__artist-grid {
+    grid-template-columns: repeat(4, min-content);
+    justify-content: start;
+    gap: 6px;
+}
+
+.page-player--embedded .page-sidebar__artist-item {
+    padding: 4px 1px;
+}
+
+.page-player--embedded .page-sidebar__artist-thumb {
+    width: 35px;
+    height: 35px;
+}
+
+/* 2831:9536-9539 Poppins 5/500 lh7.5 ls0 CENTER — margin-top 3 (taban 4):
+   daire sonu (809) ile name (812) arası 3px (Figma 388→391). */
+.page-player--embedded .page-sidebar__artist-name {
+    margin-top: 3px;
+    font-family: "Poppins", "Avalon Medium", "Segoe UI", system-ui, sans-serif;
+    font-size: 5px;
+    font-weight: 500;
+    line-height: 7.5px;
+    letter-spacing: 0;
+}

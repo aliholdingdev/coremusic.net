@@ -1,0 +1,19 @@
+/* ============================================================
+   p-admin-layout.css — Admin (05_Pages · P03)
+   Ekran: admin-layout · figma 2161:12499 · PNG admin-1920/layout
+   Kabuk yerleşimi 03_Layout'ta; bu sayfa yalnız sayfa varyantı:
+   auth paneli YOK (layout ekranında sağ panel gösterilmez —
+   PNG layout: içerik paneli sağa kadar uzanır, auth panel yok).
+   Scope: .adm-page--layout (Görev A HTML contract)
+   KAPI: ham hex/px YOK · var fallback YOK · @media YOK
+   ============================================================ */
+
+.adm-page--layout .adm-auth-panel {
+  display: none;
+}
+
+/* İçerik içeriği — layout ekranı ASCII'de panel içi boş
+   (başlık + breadcrumb hariç): içerik yuvaları Görev A /
+   dashboard spesifikasyonundan gelecek.
+   ⚠️ VERIFICATION REQUIRED: layout içerik blokları (liste/
+   tablo/grid) için ekran spec'i yok — sınıflar uydurulmadı. */

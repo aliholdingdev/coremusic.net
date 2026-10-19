@@ -1,0 +1,29 @@
+/**
+ * 10_Helpers/h-skip-link.css
+ * AMACI : WCAG 2.4.1 (Bypass Blocks) — klavye atlama bağlantısı
+ * TOKEN : 01_Abstracts'ten okur — token TANIMLAMAZ
+ * IMPORT: 08_Devices/d-*.css veya auth-bundled.css zincirine eklenir
+ *
+ * Kullanım (PHP tarafı):
+ *   <a class="h-skip-link" href="#main-content">Skip to main content</a>
+ *
+ * Tab tuşuyla odaklanınca ekranın üstünden kayarak görünür hale gelir;
+ * klavye kullanıcıları header/sidebar'ı atlayıp doğrudan içeriğe geçer.
+ */
+
+.h-skip-link {
+  position: absolute;
+  left: var(--space-sm);
+  top: -100px;
+  z-index: var(--z-toast);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  transition: top var(--transition-fast);
+}
+
+.h-skip-link:focus,
+.h-skip-link:focus-visible {
+  top: var(--space-sm);
+}

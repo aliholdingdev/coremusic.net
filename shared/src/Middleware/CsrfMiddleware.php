@@ -1,0 +1,65 @@
+<?php declare(strict_types=1);
+
+namespace CoreMusic\Middleware;
+
+use CoreMusic\Contracts\Middleware\IMiddleware;
+
+final class CsrfMiddleware implements IMiddleware
+{
+    /** @var list<string> */
+    private readonly array $bypassRoutes;
+
+    /** @param list<string>|null $bypassRoutes */
+    public function __construct(?array $bypassRoutes = null)
+    {
+        // CSRF bypass route'ları kaldırıldı — tüm state-changing istekler CSRF token gerektirir
+        // Önceki: ['set-gender'] — A01:2021 Broken Access Control riski taşıyordu
+        $this->bypassRoutes = $bypassRoutes ?? [];
+    }
+
+    public function handle(array $request, callable $next): array
+    {
+        $method = strtoupper($request['method'] ?? 'GET');
+
+        $stateChanging = !in_array($method, ['GET', 'HEAD', 'OPTIONS'], true);
+        if (!$stateChanging) {
+            return $next($request);
+        }
+
+        $uri = trim((string)($request['uri'] ?? ''), '/');
+        if (in_array($uri, $this->bypassRoutes, true)) {
+            return $next($request);
+        }
+
+        // Session'dan CSRF token'ı al
+        $sessionToken = ($request['_session']['csrf_token'] ?? '') ?: ($_SESSION['csrf_token'] ?? '') ?: '';
+
+        $submitted = $request['headers']['x-csrf-token'] ?? '';
+        if ($submitted === '') {
+            $submitted = $request['body']['csrf_token'] ?? '';
+        }
+
+        if ($sessionToken === '' || $submitted === '' || !hash_equals($sessionToken, (string)$submitted)) {
+            return $this->fail();
+        }
+
+        return $next($request);
+    }
+
+    private function fail(): array
+    {
+        // P5-32: CSRF reddi gözlemlenir (öncekte sessizce 403 dönüyordu).
+        \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('csrf_invalid', [
+            'uri' => $_SERVER['REQUEST_URI'] ?? '-',
+            'ip'  => $_SERVER['REMOTE_ADDR'] ?? '-',
+        ]);
+
+        return [
+            'httpStatus' => 403,
+            'type'       => 'json',
+            'body'       => ['error' => 'csrf_invalid'],
+            'headers'    => [],
+            'halt'       => true,
+        ];
+    }
+}

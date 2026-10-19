@@ -1,0 +1,8 @@
+/**
+ * Dosya: d-auth-laptop.css
+ * Katman: 08_Devices - cihaz/breakpoint override
+ * Rol: Auth 1025-1440px (laptop) split layout override'ları
+ * Bağımlılık: token tüketir: var(--lgn-*)
+ * Güncelleme: 2026-10-03
+ */
+:root {  --lgn-panel-w: 400px;  --lgn-font-size: 14px;}html { font-size: 14px; }/* ═══ PANEL ═══ */.lgn-panel {  width: var(--lgn-panel-w);}/* ═══ HERO — Padding for panel ═══ */.lgn-hero {  padding-right: calc(var(--lgn-panel-w) + 3vw) !important;  padding-left: 3vw;}/* ═══ FORM ELEMENTS ═══ */.lgn-form__input {  height: clamp(38px, 2vw, 48px);}.lgn-btn {  height: clamp(42px, 2vw, 50px);}.lgn-social {  grid-template-columns: repeat(3, 1fr);}/* Background image is controlled by auth-gender-bg.js for crossfade animation */

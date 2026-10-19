@@ -1,0 +1,152 @@
+/**
+ * c-footer-volume.css — CoreMusic Footer Volume Slider (KAİ sözleşme)
+ * ITCSS Layer: 04_Components
+ * Version: 2.1.0 — 2026-09-08
+ *
+ * v2.1.0: Referans proje yapısı birebir (örnek: Yeni klasör/c-footer-volume.css):
+ *         #volumeclick  180×10 relative + overflow:hidden + clip-path:inset(0)
+ *         #volume       ABSOLUTE top:0 (input slider — fill ÜSTÜNDE)
+ *         #volume2      ABSOLUTE top:0 (fill — container ÜSTÜNDE)
+ *         Tüm yükseklikler 10px = EŞİT (container=track=fill=thumb)
+ *         Thumb: 10×10 KARE (border-radius:0), #ff00d5
+ *         Geometri+görsel TEK KAYNAK BU DOSYA (ID seçici > class — _footer.css'e taşınmaz)
+ * v2.2.0: Kenar fade — track sağ ve soldan %10 beyaz opacity 0.5 gradient overlay
+ *         (::after, pointer-events:none); rounded kenarlar kaldırıldı (radius:0)
+ * v2.0.0: KAİ coreplayer yapısı — #volumeclick + #volume + #volume2
+ */
+
+/* ============================================================
+    VOLUME SLIDER — Theme Variables
+    ============================================================ */
+:root {
+    --volume-thumb-color: var(--cm-accent-glow);
+    --volume-track-color: var(--cm-gray-xlight);
+    --volume-fill-color:  var(--cm-accent-glow);
+}
+
+/* ============================================================
+    CONTAINER (KAİ: #volumeclick) — 180×10, input+fill üzerine absolute
+    Kenar fade: sağ ve soldan %10 beyaz opacity 0.5 gradient
+    ============================================================ */
+#volumeclick {
+    position: relative;
+    width: var(--cm-w-180px);
+    height: var(--cm-h-10px);
+    overflow: hidden;
+    clip-path: inset(0);
+    touch-action: none;
+    cursor: pointer;
+}
+
+#volumeclick::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(255, 255, 255, 0) 10%,
+                rgba(255, 255, 255, 0) 90%,
+                rgba(255, 255, 255, 0.5) 100%);
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* ============================================================
+    FILL (KAİ: #volume2) — container ÜSTÜNDE absolute, genişlik JS/PHP %
+    ============================================================ */
+#volume2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: var(--cm-h-10px);
+    width: 0;
+    background-color: var(--volume-fill-color);
+    pointer-events: none;
+}
+
+/* ============================================================
+    INPUT SLIDER (KAİ: #volume) — fill ÜSTÜNDE absolute
+    ============================================================ */
+#volume {
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--cm-w-180px);
+    height: var(--cm-h-10px);
+    margin: 0;
+    background: transparent;
+    display: block;
+    pointer-events: auto;
+}
+
+#volume:focus {
+    outline: none;
+}
+
+#volume:focus-visible {
+    outline: var(--cm-bw-2px) solid var(--fp-accent, var(--cm-accent));
+    outline-offset: var(--cm-pos-2px);
+}
+
+/* Chrome/Safari — track 10px + thumb 10×10 KARE */
+#volume::-webkit-slider-runnable-track {
+    width: 100%;
+    height: var(--cm-h-10px);
+    background: var(--volume-track-color);
+    cursor: pointer;
+}
+
+#volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: var(--cm-h-10px);
+    width: var(--cm-w-10px);
+    border-radius: 0;
+    background: var(--volume-thumb-color);
+    cursor: pointer;
+}
+
+/* Firefox — track 10px + thumb 10×10 KARE (native progress gizli — fill #volume2) */
+#volume::-moz-range-track {
+    height: var(--cm-h-10px);
+    background: var(--volume-track-color);
+    border: none;
+}
+
+#volume::-moz-range-thumb {
+    height: var(--cm-h-10px);
+    width: var(--cm-w-10px);
+    border-radius: 0;
+    background: var(--volume-thumb-color);
+    border: none;
+    cursor: pointer;
+}
+
+#volume::-moz-range-progress {
+    background: transparent;
+}
+
+/* ============================================================
+    RESPONSIVE — Tablet/Embedded (1024px, compact genişlik)
+    ============================================================ */
+/* --bp-1024: 1024px — a-breakpoint-tokens.css (@media'de var() geçersiz) */
+@media (max-width: 1024px) {
+    #volumeclick,
+    #volume {
+        width: var(--cm-w-145px);
+    }
+}
+
+/* ============================================================
+    RESPONSIVE — Mobile (hidden)
+    ============================================================ */
+@media (max-width: 767px) {
+    .volume-set-slider {
+        display: none;
+    }
+}

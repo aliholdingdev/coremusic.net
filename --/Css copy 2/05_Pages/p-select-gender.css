@@ -1,0 +1,47 @@
+/**
+ * CoreMusic — Select Gender Page
+ * Cinsiyet seçim ekranı — premium glassmorphism
+ * Görsel referans: yağmurlu gece, mor/pembe dreamy atmosfer
+ * ITCSS Layer: 05_Pages
+ * 
+ * NOT: Bu sayfa lgn-* class sistemini kullanır (p-login-view.css'te tanımlıdır).
+ * Bu dosya yalnızca select-gender sayfasına özel ek stiller içerir.
+ */
+
+/* ============================================================
+   FLOATING PARTICLES (decorative — gender-aware colors in p-login-view)
+   ============================================================ */
+
+.lgn-particle {
+  transition: background var(--dur-slower, 0.8s) var(--ease-soft, ease);
+}
+
+/* ============================================================
+   PAGE-SPECIFIC OVERRIDES
+   ============================================================ */
+
+/* Gender form specific top padding */
+.lgn-gender-form {
+  padding-top: clamp(0.5rem, 1vh, 1rem);
+}
+
+/* Gender button icon — per-gender gradient backgrounds */
+[data-gender="female"] .lgn-gender-btn__icon {
+  background: linear-gradient(135deg, rgba(232,180,184,0.25) 0%, rgba(184,169,201,0.2) 100%);
+}
+[data-gender="male"] .lgn-gender-btn__icon {
+  background: linear-gradient(135deg, rgba(91,143,185,0.25) 0%, rgba(137,196,217,0.2) 100%);
+}
+[data-gender="neutral"] .lgn-gender-btn__icon {
+  background: linear-gradient(135deg, rgba(184,169,201,0.25) 0%, rgba(139,107,174,0.2) 100%);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .lgn-gender-form {
+    padding-top: 0;
+  }
+}

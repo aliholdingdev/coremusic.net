@@ -1,0 +1,55 @@
+---
+node_id: K005-firmware/boot
+node_type: subdomain
+status: draft
+parent_id: "K005-firmware"
+children:
+  - boot-anayasa.md
+  - boot-surucu.md
+  - boot-ornekler.md
+depends_on:
+  - K001-donanım
+evidence:
+  - "v2 §2.5 mini-ağaç — ad kaynağı"
+  - "firmware-master.md §3 satır 1"
+validation: "draft — A1 tur-1; D-kriterleri K005-firmware/firmware-dogrulama.md §2 · 2026-10-14 §GRUPLAR disk ile birebir"
+open_questions:
+  - "boot ↔ runtime ↔ device-control sınırı (K005 Q3)"
+group: mimari
+---
+
+# K005-firmware/boot — ELI15
+
+Cihazın ilk uyandığı an: güç gelir gelmez çalışan ilk kod, kendini tanıtması, belleği ve parçaları hazırlaması. Kötü bir açılış, tüm sistemin açılmasını engeller — bu yüzden en küçük ve en dikkatli adımdır.
+
+> ⚠️ VERIFICATION REQUIRED: Bu düğümün tanımı yalnızca v2 §2.5'teki **adından**
+> türetilmiştir; v2 çocukları içerik olarak tanımlamaz. Register/sürüm/protokol
+> bilgileri kanıt turunda netleşecektir — uydurma değer yazılmaz.
+
+## Durum
+
+| Alan | Değer |
+|---|---|
+| node_type | subdomain |
+| parent | K005-firmware |
+| children | 3 modül (anayasa · surucu · ornekler) · disk 6 md |
+| status | draft |
+| Kapsam | `boot-kapsam.md` içinde tanımlı |
+| Üretim | 2026-10-14 — §GRUPLAR 6/6 tamamlandı (anayasa/surucu satırları eklendi) |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `boot-anayasa.md` | Anayasa — kural, ilke ve iddialar | Kademe-2 |
+| mimari | `boot-surucu.md` | Arayüz ve sözleşme katmanı | Kademe-2 |
+| mimari | `boot-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| kod | `boot-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| kanit | `boot-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

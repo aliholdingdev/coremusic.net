@@ -1,0 +1,48 @@
+/**
+ * CoreMusic — Layout Token'ları · 768–1023px (Tablet)
+ * ITCSS Layer: 01_Abstracts · Dosya: a-layout-tokens-tablet.css
+ * Kaynak: d-tablet.css (.layout--tablet overrides — gerçek disk kanıtı)
+ *         + notes.md (2026-10-03)
+ * Import: 08_Devices/d-tablet.css (a-layout-tokens.css'ten SONRA)
+ * Kural: yalnız token tanımı (@media içi var() okuma YASAK — css-token.md §1)
+ */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    /* --- Layout (tablet — split 45/55) --- */
+    --header-h: 62px;
+    --footer-h: 95px;
+    --sidebar-w: 240px;
+    --layout-split-left: 45%;
+    --layout-split-right: 55%;
+
+    /* --- Content (tablet) --- */
+    --content-padding-top: 12px;
+    --content-padding-bottom: 16px;
+    --page-padding-x: 18px;
+
+    /* --- Card / art (tablet) --- */
+    --card-thumb-size: 160px;
+    --now-playing-art-size: 120px;
+    --mini-card-art-size: 60px;
+    --widget-min-height: 120px;
+
+    /* --- Footer player art --- */
+    --footer-album-art-size: 130px;
+
+    /* --- Font (tablet) --- */
+    --text-base: 13px;
+    --text-lg: 15px;
+
+    /* --- Grid --- */
+    --grid-gap: 10px;
+
+    /* --- Touch (tablet — touch-first, hover YOK) --- */
+    --touch-min: 48px;
+    --touch-recommended: 56px;
+    --touch-large: 56px;
+
+    /* --- Hover YOK (dokunmatik cihaz) --- */
+    --hover-display: none;
+  }
+}
