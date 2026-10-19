@@ -1,0 +1,40 @@
+/* ===========================================
+   01_Abstracts — Tokenlar (tek sabit değer kaynağı)
+   Kural: sabit değer yalnız bu dosyada --cm-* ile.
+   =========================================== */
+:root {
+  /* Renk */
+  --cm-color-bg: #0f1115;
+  --cm-color-surface: #181c23;
+  --cm-color-surface-2: #1f242d;
+  --cm-color-primary: #4f8cff;
+  --cm-color-primary-hover: #6ba0ff;
+  --cm-color-text: #e8eaed;
+  --cm-color-muted: #9aa4b2;
+  --cm-color-border: #2a303a;
+  --cm-color-success: #34c98e;
+  --cm-color-warn: #f5b83d;
+
+  /* Boşluk */
+  --cm-space-1: 4px;
+  --cm-space-2: 8px;
+  --cm-space-3: 12px;
+  --cm-space-4: 16px;
+  --cm-space-6: 24px;
+  --cm-space-8: 32px;
+
+  /* Tipografi */
+  --cm-font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --cm-font-size-sm: 13px;
+  --cm-font-size-md: 15px;
+  --cm-font-size-lg: 18px;
+  --cm-font-size-xl: 24px;
+
+  /* Biçim */
+  --cm-radius-sm: 6px;
+  --cm-radius-md: 10px;
+  --cm-radius-lg: 16px;
+  --cm-focus-width: 3px;
+  --cm-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --cm-max-width: 960px;
+}

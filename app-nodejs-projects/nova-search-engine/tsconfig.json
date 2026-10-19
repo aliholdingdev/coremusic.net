@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2023", "DOM"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "types": ["node", "bun"],
+    "baseUrl": ".",
+    "paths": {
+      "@novasearch/common": ["packages/common/src/index.ts"],
+      "@novasearch/cache": ["packages/cache/src/index.ts"],
+      "@novasearch/database": ["packages/database/src/index.ts"],
+      "@novasearch/ai": ["packages/ai/src/index.ts"],
+      "@novasearch/youtube": ["packages/youtube/src/index.ts"],
+      "@novasearch/workers": ["packages/workers/src/index.ts"],
+      "@novasearch/search": ["packages/search/src/index.ts"]
+    }
+  },
+  "include": ["packages/*/src/**/*.ts", "apps/*/src/**/*.ts", "apps/web/**/*.js", "tests/**/*.ts"],
+  "exclude": ["node_modules", "**/dist/**", "**/node_modules/**"]
+}

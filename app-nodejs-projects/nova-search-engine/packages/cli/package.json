@@ -1,0 +1,28 @@
+{
+  "name": "@novasearch/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "nova-search": "./src/index.ts",
+    "nova-search-wizard": "./src/wizard.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "start": "bun src/index.ts",
+    "start:wizard": "bun src/wizard.ts"
+  },
+  "dependencies": {
+    "@novasearch/ai": "workspace:*",
+    "@novasearch/cache": "workspace:*",
+    "@novasearch/common": "workspace:*",
+    "@novasearch/database": "workspace:*",
+    "@novasearch/search": "workspace:*",
+    "@novasearch/workers": "workspace:*",
+    "@novasearch/youtube": "workspace:*",
+    "commander": "^12.1.0"
+  }
+}

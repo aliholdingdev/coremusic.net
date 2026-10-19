@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaSearch AI — Admin</title>
+  <link rel="stylesheet" href="/css/01-abstracts.css" />
+  <link rel="stylesheet" href="/css/02-base.css" />
+  <link rel="stylesheet" href="/css/03-layout.css" />
+  <link rel="stylesheet" href="/css/04-components.css" />
+</head>
+<body>
+  <header class="cm-header">
+    <h1 class="cm-header__logo">NovaSearch <span class="cm-header__badge">Admin</span></h1>
+    <p class="cm-header__tagline"><a href="/">← Aramaya dön</a></p>
+  </header>
+
+  <main class="cm-layout">
+    <section class="cm-search">
+      <h2>Sistem Durumu</h2>
+      <pre id="stats" class="cm-card__detail">Yükleniyor…</pre>
+      <h2>Metrikler</h2>
+      <pre id="metrics" class="cm-card__detail">Yükleniyor…</pre>
+    </section>
+
+    <section class="cm-search">
+      <h2>İşlemler</h2>
+      <button id="btn-refresh" class="cm-search__button" type="button">Metadata Tazele (50 kayıt)</button>
+      <button id="btn-backup" class="cm-search__button" type="button">Yedek Al</button>
+      <button id="btn-trending" class="cm-search__button" type="button">Trendleri Yükle</button>
+      <pre id="action-out" class="cm-card__detail"></pre>
+    </section>
+
+    <section class="cm-results">
+      <h2>En Çok İzlenenler</h2>
+      <div id="trending" class="cm-results__list"></div>
+    </section>
+  </main>
+
+  <script src="/js/config.js"></script>
+  <script type="module" src="/js/admin.js"></script>
+</body>
+</html>

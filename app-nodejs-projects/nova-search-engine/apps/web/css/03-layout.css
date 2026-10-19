@@ -1,0 +1,44 @@
+/* ===========================================
+   03_Layout — sayfa iskeleti (mobil öncelikli)
+   =========================================== */
+.cm-header,
+.cm-footer {
+  padding: var(--cm-space-6) var(--cm-space-4);
+  text-align: center;
+}
+
+.cm-header {
+  border-bottom: 1px solid var(--cm-color-border);
+}
+
+.cm-layout {
+  max-width: var(--cm-max-width);
+  margin: 0 auto;
+  padding: var(--cm-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cm-space-6);
+}
+
+.cm-filters__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--cm-space-3);
+}
+
+@media (min-width: 640px) {
+  .cm-filters__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.cm-results__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--cm-space-3);
+}
+
+.cm-footer {
+  color: var(--cm-color-muted);
+  font-size: var(--cm-font-size-sm);
+}

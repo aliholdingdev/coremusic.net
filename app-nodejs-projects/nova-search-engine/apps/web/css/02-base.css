@@ -1,0 +1,49 @@
+/* ===========================================
+   02_Base — Reset + tipografi + erişilebilirlik
+   =========================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--cm-font-family);
+  font-size: var(--cm-font-size-md);
+  color: var(--cm-color-text);
+  background: var(--cm-color-bg);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--cm-color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* WCAG 2.2: görünür odak — 3px outline */
+:focus-visible {
+  outline: var(--cm-focus-width) solid var(--cm-color-primary);
+  outline-offset: 2px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+input,
+select {
+  font: inherit;
+}

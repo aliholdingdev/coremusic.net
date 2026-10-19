@@ -1,0 +1,16 @@
+{
+  "name": "@novasearch/youtube",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@novasearch/common": "workspace:*",
+    "youtubei.js": "^18.1.0"
+  }
+}

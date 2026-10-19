@@ -1,0 +1,28 @@
+{
+  "name": "novasearch",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "NovaSearch AI - bagimsiz YouTube metadata arama motoru (CLI + Web + API)",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "bun test tests/",
+    "test:coverage": "bun test tests/ --coverage",
+    "nova": "bun packages/cli/src/index.ts",
+    "wizard": "bun packages/cli/src/wizard.ts",
+    "api": "bun apps/api/src/index.ts",
+    "dev": "bun apps/api/src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.3",
+    "@types/node": "^26.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/parser": "^8.67.0",
+    "eslint": "^9.39.0",
+    "typescript": "^5.9.0"
+  }
+}

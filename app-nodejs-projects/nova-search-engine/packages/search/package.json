@@ -1,0 +1,20 @@
+{
+  "name": "@novasearch/search",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@novasearch/ai": "workspace:*",
+    "@novasearch/cache": "workspace:*",
+    "@novasearch/common": "workspace:*",
+    "@novasearch/database": "workspace:*",
+    "@novasearch/workers": "workspace:*",
+    "@novasearch/youtube": "workspace:*"
+  }
+}

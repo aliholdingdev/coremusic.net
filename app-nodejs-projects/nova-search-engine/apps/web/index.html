@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaSearch AI — Bağımsız Arama Motoru</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/css/01-abstracts.css" />
+  <link rel="stylesheet" href="/css/02-base.css" />
+  <link rel="stylesheet" href="/css/03-layout.css" />
+  <link rel="stylesheet" href="/css/04-components.css" />
+</head>
+<body>
+  <header class="cm-header">
+    <h1 class="cm-header__logo">NovaSearch <span class="cm-header__badge">AI</span></h1>
+    <p class="cm-header__tagline">Kendi veritabanıyla büyüyen bağımsız arama motoru</p>
+  </header>
+
+  <main class="cm-layout">
+    <section class="cm-search">
+      <form id="search-form" class="cm-search__form" role="search">
+        <input
+          id="search-input"
+          class="cm-search__input"
+          type="search"
+          list="search-suggest"
+          placeholder='Örn: "Akasya Durağı" veya "Adele live london 2016"'
+          aria-label="Arama sorgusu"
+          autocomplete="off"
+          required
+        />
+        <datalist id="search-suggest"></datalist>
+        <button id="search-button" class="cm-search__button" type="submit">Ara</button>
+      </form>
+
+      <details class="cm-filters" open>
+        <summary class="cm-filters__title">Filtreler</summary>
+        <div class="cm-filters__grid">
+          <label class="cm-field">
+            <span class="cm-field__label">İçerik</span>
+            <select id="f-filter" class="cm-field__control">
+              <option value="all">Tümü</option>
+              <option value="v">Video</option>
+              <option value="s">Şarkı</option>
+              <option value="sh">Shorts</option>
+            </select>
+          </label>
+          <label class="cm-field">
+            <span class="cm-field__label">Yüklenme</span>
+            <select id="f-uploadDate" class="cm-field__control">
+              <option value="all">Tümü</option>
+              <option value="today">Bugün</option>
+              <option value="week">Bu hafta</option>
+              <option value="month">Bu ay</option>
+              <option value="year">Bu yıl</option>
+            </select>
+          </label>
+          <label class="cm-field">
+            <span class="cm-field__label">Süre</span>
+            <select id="f-duration" class="cm-field__control">
+              <option value="all">Tümü</option>
+              <option value="short">&lt; 5 dk</option>
+              <option value="medium">5-20 dk</option>
+              <option value="long">&gt; 20 dk</option>
+            </select>
+          </label>
+          <label class="cm-field">
+            <span class="cm-field__label">Sırala</span>
+            <select id="f-sortBy" class="cm-field__control">
+              <option value="relevance">İlgili</option>
+              <option value="view_count">İzlenme</option>
+              <option value="upload_date">Yenilik</option>
+              <option value="rating">Puan</option>
+            </select>
+          </label>
+          <label class="cm-field cm-field--check">
+            <input id="f-ai" class="cm-field__check" type="checkbox" />
+            <span class="cm-field__label">AI destekli arama</span>
+          </label>
+          <label class="cm-field cm-field--wide">
+            <span class="cm-field__label">AI yönlendirme promptu (opsiyonel)</span>
+            <input
+              id="f-aiQuery"
+              class="cm-field__control"
+              type="text"
+              placeholder='Örn: "resmi klipler, canlı performanslar"'
+            />
+          </label>
+          <label class="cm-field cm-field--wide">
+            <span class="cm-field__label">Ekstra AI sorgusu (opsiyonel)</span>
+            <input
+              id="f-extraQuery"
+              class="cm-field__control"
+              type="text"
+              placeholder='Örn: "akasya durağı full bölümler"'
+            />
+          </label>
+          <label class="cm-field">
+            <span class="cm-field__label">Sonuç</span>
+            <input id="f-result" class="cm-field__control" type="number" value="20" min="1" max="100" />
+          </label>
+        </div>
+      </details>
+    </section>
+
+    <section class="cm-results" aria-live="polite">
+      <div id="results-meta" class="cm-results__meta"></div>
+      <div id="results-list" class="cm-results__list"></div>
+    </section>
+
+    <section id="system-status" class="cm-status" aria-label="Sistem durumu">
+      <span id="status-text" class="cm-status__text">Sistem durumu yükleniyor…</span>
+    </section>
+  </main>
+
+  <footer class="cm-footer">
+    <p>NovaSearch AI · yerel kullanım · YouTube yalnız veri sağlayıcıdır · <a href="/admin.html">Admin</a></p>
+  </footer>
+
+  <script src="/js/config.js"></script>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
