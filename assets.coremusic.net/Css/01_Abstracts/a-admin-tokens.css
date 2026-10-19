@@ -17,13 +17,31 @@
  * ⚠️ = VERIFICATION REQUIRED (bkz. teslim raporu).
  * ========================================================================== */
 
+/* ---------------------------------------------------------------------------
+ * 0) @font-face — Görev E GAP-1: `00543` a-fonts-token.css'te YOKTU (grep:
+ * 0 isabet) → label fontu fallback'e düşüyordu. Fonts/00543.ttf diskte MEVCUT.
+ * Kaynak: extracted-admin-1920.md §7.3 (00543 400 · form etiketi + alt başlık).
+ * Yalnız @font-face; token değeri yok → 01_Abstracts kuralı (css-template).
+ * ------------------------------------------------------------------------ */
+@font-face {
+  font-family: '00543';
+  src: url('../../Fonts/00543.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+
 :root {
   /* ---------------------------------------------------------------------------
    * 1) TİPOGRAFİ — font aileleri
-   * Font dosyaları/webfont URL'leri bilinmiyor → yalnızca stack (⚠️ font
-   * dosyaları Görev A / assets tarafından gelecek; @font-face bu dosyada YOK).
+   * Görev E GAP-1 DÜZELTMESİ (2026-10-19): --adm-font-ui "Avalon" idi ama
+   * bildirilen (declare edilen) aile `a-fonts-token.css` L71'de `'Avalon Medium'`
+   * → isim uyuşmadığı için @font-face EŞLEŞMEZ fallback'e düşüyordu. Figma adı
+   * `Avalon` (extracted §7.3, ağırlık 500); diskteki tek Avalon TTF'i
+   * `Fonts/AvalonMedium.ttf` → aile "Avalon Medium" + weight 500 (uydurulmadı,
+   * en yakın TTF seçildi ⚠️ VERIFICATION REQUIRED — figma "Avalon" ≠ TTF
+   * "AvalonMedium", gerçek Avalon.ttf repo'da YOK).
+   * `00543` @font-face artık bu dosyada (yukarıda) → --adm-font-label eşleşir.
    * ------------------------------------------------------------------------ */
-  --adm-font-ui: "Avalon", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --adm-font-ui: "Avalon Medium", "Segoe UI", system-ui, -apple-system, sans-serif;
   --adm-font-label: "00543", "Segoe UI", system-ui, sans-serif;
   --adm-font-script: "Respective", "Segoe Script", "Brush Script MT", cursive;
   --adm-font-arial: Arial, "Helvetica Neue", Helvetica, sans-serif;
