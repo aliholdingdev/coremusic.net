@@ -35,4 +35,37 @@ final class AdminAuthBridgeTest extends TestCase
         self::assertFalse($bridge->isAuthenticated());
         self::assertNull($bridge->getCurrentUser());
     }
+
+    public function testEstablishSessionSetsExpectedKeysAndAuthenticatesUser(): void
+    {
+        $bridge = new AdminAuthBridge('http://127.0.0.1:9');
+
+        $userInfo = [
+            'id'           => 'adm-uuid-001',
+            'username'     => 'superadmin',
+            'email'        => 'admin@coremusic.net',
+            'display_name' => 'Super Administrator',
+            'account_type' => 'admin',
+            'avatar_url'   => 'https://assets.coremusic.net/avatar.png',
+            'gender'       => 'male',
+        ];
+
+        $bridge->establishSession($userInfo);
+
+        self::assertTrue($bridge->isAuthenticated());
+        self::assertSame('adm-uuid-001', $_SESSION['MM_UserID']);
+        self::assertSame('superadmin', $_SESSION['MM_Username']);
+        self::assertSame('admin@coremusic.net', $_SESSION['MM_Email']);
+        self::assertSame('admin', $_SESSION['MM_AccountType']);
+        self::assertArrayHasKey('_session_created_at', $_SESSION);
+        self::assertArrayHasKey('_session_last_active', $_SESSION);
+        self::assertArrayHasKey('last_activity', $_SESSION);
+
+        $current = $bridge->getCurrentUser();
+        self::assertNotNull($current);
+        self::assertSame('adm-uuid-001', $current['id']);
+        self::assertSame('superadmin', $current['username']);
+        self::assertSame('admin@coremusic.net', $current['email']);
+        self::assertSame('Super Administrator', $current['display_name']);
+    }
 }
