@@ -10,7 +10,9 @@
  */
 
 use CoreMusic\Admin\Auth\AdminAuthBridge;
+use CoreMusic\Admin\Routing\AdminRootRedirector;
 use CoreMusic\Admin\Routing\AuthAliasRedirector;
+use CoreMusic\PageRouter\PageRouterHelper;
 use CoreMusic\Config\ConfigManager;
 use CoreMusic\Config\DomainConfig;
 use CoreMusic\Log\LoggerFactory;
@@ -96,6 +98,22 @@ $authAlias = AuthAliasRedirector::resolve(
 );
 if ($authAlias !== null) {
     header('Location: ' . $authAlias['location'], true, $authAlias['status']);
+    exit;
+}
+
+// Admin kök (/) — 2026-10-19. Shared PageRouter::handleRootUrl() kök isteği
+// home.coremusic.net'e (oturum açık) veya auth login'ine atıyordu; admin host'ta
+// bu yanlıştır. Kernel ÖNCESİ (G2 alias deseniyle aynı yer): oturum açık →
+// /admin-dashboard, yok → /admin-login. Karar saf sınıf AdminRootRedirector'da.
+if ($requestUri === '') {
+    SessionBootstrapper::ensureStarted();
+    $rootHelper = new PageRouterHelper();
+    $rootTarget = AdminRootRedirector::resolve($rootHelper->checkAuthenticated());
+    $rootQuery = (string)($_SERVER['QUERY_STRING'] ?? '');
+    if ($rootQuery !== '') {
+        $rootTarget['location'] .= '?' . $rootQuery;
+    }
+    header('Location: ' . $rootTarget['location'], true, $rootTarget['status']);
     exit;
 }
 
