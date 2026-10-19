@@ -54,9 +54,9 @@ iş birimlerinin (use case · command · query · event · DTO · zamanlanmış 
 | 4 | Şifreleme, politika, CSRF/CSP kararı | kapıdaki bekçi | **K009-security** | v2 §2.9 |
 | 5 | Kimlik deposu, rol/izin saklama | "kim olduğun" | **K0100-identitiy** | v2 §2.10 |
 | 6 | MySQL şema, index, migration, N+1 | veritabanı | **K007-data** | v2 §2.7 |
-| 7 | Cron/CI altyapısı, deploy, artefakt | kodun yayılma yolu | **K018-devops** | v2 §2.18 |
-| 8 | Log/metrik/trace sahipliği (altyapı) | sistem gözetimi | **K017-observability** | v2 §2.17 |
-| 9 | Test **altyapısı** (runner, pipeline) | her katmanın sınandığı yer | **K019-testing** | v2 §2.19 |
+| 7 | Cron/CI altyapısı, deploy, artefakt | kodun yayılma yolu | **K17-devops** | v2 §2.18 |
+| 8 | Log/metrik/trace sahipliği (altyapı) | sistem gözetimi | **K016-observability** | v2 §2.17 |
+| 9 | Test **altyapısı** (runner, pipeline) | her katmanın sınandığı yer | **K18-testing** | v2 §2.19 |
 | 10 | SPA bileşen ağacı, ITCSS, mockup | arayüz kendisi | **UI (K011/web çocuğu kısıtlı)** | `.ai/AGENTS.md` §5 |
 | 11 | Ses motoru, DSP zinciri, ASIO/WASAPI | realtime ses | **K003-audio · K004-dsp** | v2 §2.3/§2.4 |
 | 12 | Ajan/orkestrasyon, RAG, model | yapay zekâ çalışma biçimi | **K015-AI** | v2 §2.16 |
@@ -197,13 +197,13 @@ iş birimlerinin (use case · command · query · event · DTO · zamanlanmış 
 | O-3 | Şema · index · migration · BCNF kararı | şema sahibi | revert | K007-data |
 | O-4 | Sağlayıcı API anahtarı · şifre · token saklama | sır sahibi | revert + log ERROR | K009-security |
 | O-5 | Şifreleme algoritması seçimi (Argon2id vb.) | politika sahibi | revert | K009-security |
-| O-6 | Kimlik deposu · rol/izin saklama | kimlik sahibi | revert | K0100-identitiy |
+| O-6 | Kimlik deposu · rol/izin saklama | kimlik sahibi | revert | ⚠️ |
 | O-7 | Dış servis adaptörü (HTTP client, sağlayıcı) | dış dünya bağlantısı | adaptöre devret | K013-integraion |
 | O-8 | Ödeme sağlayıcı bağlantısı | sağlayıcı sözleşmesi | akış K011, bağlantı K012 | K012-services |
 | O-9 | Kuyruk / worker / uzun iş çalıştırıcısı | kaynak yönetimi | kuyruğa devret | K012-services |
-| O-10 | Cron/CI altyapısı · deploy adımı | yayım yolu | revert | K018-devops |
-| O-11 | Log/metrik/trace altyapısı ve şeması | gözetim sahibi | yalnız gönderim | K017-observability |
-| O-12 | Test runner · coverage altyapısı | test altyapısı | yalnız test yazar | K019-testing |
+| O-10 | Cron/CI altyapısı · deploy adımı | yayım yolu | revert | K17-devops |
+| O-11 | Log/metrik/trace altyapısı ve şeması | gözetim sahibi | yalnız gönderim | K016-observability |
+| O-12 | Test runner · coverage altyapısı | test altyapısı | yalnız test yazar | K18-testing |
 | O-13 | ITCSS katmanı · BEM · token · mockup | arayüz sahibi | UI alanına taşı | UI (ui-design) |
 | O-14 | Ses motoru · DSP · ASIO/WASAPI | realtime ses | revert | K003-audio · K004-dsp |
 | O-15 | Model · prompt · RAG · ajan orkestrasyonu | yapay zekâ çalışma biçimi | revert | K015-AI |
@@ -488,9 +488,9 @@ K007-data   K008-domain    K009-security   K0100-identitiy  K012-services
 | M-4 | K0100-identitiy | AuthGuard + AuthMiddleware | §4/S6 | `AuthGuard.php` 42 metot | yeterli |
 | M-5 | K012-services | yalnız event sınırı | §4/S3–S4 | senkron çağrı 0 | doğrulanmış |
 | M-6 | K013-integraion | Api/ 34 PHP | §4/S8 | `Gateway.php` | kısmi |
-| M-7 | K017-observability | `StructuredLogger` + `Log/` 3 PHP | §4/S9 | `shared/src/Log/` | kısmi |
-| M-8 | K018-devops | yok (tanım PLANNED) | §4/S10 | cron kodu 0 | açık ⚠️ |
-| M-9 | K019-testing | `shared/tests/` 9 dizin | §3/9 | 22+ test dosyası | kısmi |
+| M-7 | K016-observability | `StructuredLogger` + `Log/` 3 PHP | §4/S9 | `shared/src/Log/` | kısmi |
+| M-8 | K17-devops | yok (tanım PLANNED) | §4/S10 | cron kodu 0 | açık ⚠️ |
+| M-9 | K18-testing | `shared/tests/` 9 dizin | §3/9 | 22+ test dosyası | kısmi |
 
 ### §A.6 — Kapsam sorumluluk matrisi (kim neyi onaylar)
 

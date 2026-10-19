@@ -81,9 +81,9 @@ alanındadır.
 | /proc /sys üretimi | `isletim-sistemi-core` | okuma yöntemi |
 | PMU/sayaç çekirdeği | `isletim-sistemi-kernel` | arayüz tanımı |
 | kernel event sayacı etiketleri | `isletim-sistemi-plan` | yalnız sayma |
-| eşik alert çıkışı (softlockup logu) | `K017-observability` | OS eşiği kalır, iş alarmı gitmez |
+| eşik alert çıkışı (softlockup logu) | `K016-observability` | OS eşiği kalır, iş alarmı gitmez |
 | metrik doğrulama testi | `isletim-sistemi-testing` | gereksinim düzeyi |
-| prometheus/OTel metriği, APM | `K017-observability` | yalnız sınır tarifi |
+| prometheus/OTel metriği, APM | `K016-observability` | yalnız sınır tarifi |
 
 ## §6 depends_on
 

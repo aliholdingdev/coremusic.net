@@ -65,7 +65,7 @@ K014'ün beş işi (master §1):
 | Servis keşfi/servis kaydı | K012/K016 vs K014 — belirsiz | §7 kapsam sorusu |
 | Medya akışının içeriği/indirme mantığı | K014-media | Taşıma burada, içerik orada |
 | Çevrimdışı veri kuyruğu içeriği | K015/offline · K012 | §7 sınır sorusu |
-| Ağ gözlemi/metriği | K017-observability | K014 yalnız veri üretir |
+| Ağ gözlemi/metriği | K016-observability | K014 yalnız veri üretir |
 
 **Sınır savunması:** K014'te şifreleme üreten, medya codec'i çözen veya API anlamı ayrıştıran her kod satırı domain ihlalidir (master §19).
 
@@ -77,7 +77,7 @@ K014'ün beş işi (master §1):
 | 2 | comms/websocket | sürekli çift yönlü canlı bağlantı | K012-services |
 | 3 | comms/webrtc | doğrudan medya/veri yolu | K014-media codec |
 | 4 | comms/tcp-ip | yerel ağ düzeyi taşıma | K001-donanım |
-| 5 | comms/device-communication | ev içi cihaz konuşması | K0100-identitiy |
+| 5 | comms/device-communication | ev içi cihaz konuşması | ⚠️ |
 
 **Kademe notu:** Beş torun `bounded-context` (kademe-3) türündedir; kendi `index.md'leri` vardır; module'e inilmez (master §3.1).
 
@@ -294,8 +294,8 @@ K014'ün beş işi (master §1):
 | K012-services | servisler arası taşıma | mesaj içeriği | net |
 | K013-integraion | dış API taşıması | API anlamı/adaptör | net |
 | K014-media | akış/indirme taşıması | medya codec'i, offline içerik | net (offline sınırı hariç) |
-| K017-observability | bağlantı metriği verisi | gözlem/metrği toplama | net |
-| K019-testing | davranış testi verisi | test altyapısı | belirsiz (§15) |
+| K016-observability | bağlantı metriği verisi | gözlem/metrği toplama | net |
+| K18-testing | davranış testi verisi | test altyapısı | belirsiz (§15) |
 
 ## §20 Kapsam İhlali Denetim Kuralları
 
@@ -481,11 +481,11 @@ K014'ün beş işi (master §1):
 | Bağlantı taşıma | EVET | — |
 | Şifreleme üretimi | hayır | K009-security |
 | Donanım/sürücü | hayır | K001-donanım |
-| Kimlik doğrulama | hayır | K0100-identitiy |
+| Kimlik doğrulama | hayır | ⚠️ |
 | Medya codec'i | hayır | K014-media |
 | API anlamı | hayır | K013-integraion |
-| Ağ gözlemi | hayır (veri üretir) | K017-observability |
-| Test altyapısı | hayır (davranış verir) | K019-testing |
+| Ağ gözlemi | hayır (veri üretir) | K016-observability |
+| Test altyapısı | hayır (davranış verir) | K18-testing |
 
 ## §35 Değişiklik Kaydı
 

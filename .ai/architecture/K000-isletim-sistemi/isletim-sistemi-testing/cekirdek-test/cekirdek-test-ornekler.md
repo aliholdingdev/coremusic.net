@@ -284,7 +284,7 @@ benzer biçimde `komut + koşul` satırı olacaktır (repo'da yok → `UNKNOWN`)
 | Workflow kalıpları | `ci-ve-kalite-kapisi/` |
 | Sürücü kodu | `isletim-sistemi-kernel` |
 | Elektronik sürücü | `electroncis` (repo yazımı) |
-| Test ağaçları | `K019-testing` (0 satır) |
+| Test ağaçları | `K18-testing` (0 satır) |
 
 ## §10 Kaynakça
 

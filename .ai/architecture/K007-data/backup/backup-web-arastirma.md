@@ -39,7 +39,7 @@ group: kanit
 ## §3 K007 karşılığı
 
 - **D-B3/D-B4/D-B5** bu taramanın T3 çıktılarıdır (backup-dogrulama.md).
-- Operasyonel sahiplik (cron/RTO) **S-2 ile K018-devops'a askıda**.
+- Operasyonel sahiplik (cron/RTO) **S-2 ile K17-devops'a askıda**.
 
 ---
 

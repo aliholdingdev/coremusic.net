@@ -53,7 +53,7 @@ davranışının doğrulanmasını — kapsar.
 1. Uygulama testi = kodun **davranışını** (girdi→çıktı, HTTP durumu, DOM)
    doğrular; test altyapısının kendisi değil.
 2. Test *çerçevesi kurulumu*, *coverage politikası* ve *gate sahipliği*
-   K019-testing'e aittir; burada yalnız **mevcut durum envanteri** tutulur.
+   K18-testing'e aittir; burada yalnız **mevcut durum envanteri** tutulur.
 
 **Sınıf-sayım gerçeği (disk ölçümü 2026-10-15):**
 
@@ -79,7 +79,7 @@ davranışının doğrulanmasını — kapsar.
 | # | Sınır | Sorumlu düğüm | Gerekçe (kaynak) |
 |---|---|---|---|
 | 1 | Test **altyapısı** (çerçeme kurulumu, runner seçimi) | K019-testing | `application-testing` = kapsam sahibi değil (index.md sınırı) |
-| 2 | Coverage **eşiği** ve gate politikası | K019-testing + ADR | `%80` soft-gate kararı A7 (ci.yml yorumu · Satır: 165) |
+| 2 | Coverage **eşiği** ve gate politikası | K18-testing + ADR | `%80` soft-gate kararı A7 (ci.yml yorumu · Satır: 165) |
 | 3 | Ses/DSP motoru testleri | K001-K003 (Neva Engine) | C++/JUCE yüzeyi — bu modül PHP/JS |
 | 4 | Donanım/firmware testleri | K004-K005 | XMOS/ASIO |
 | 5 | Veritabanı şema doğrulama (BCNF/migration testi) | K007-data | `.ai/.sql/` sahipliği; burada yalnız ilgili test dosyaları envanterlenir |

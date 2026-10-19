@@ -523,7 +523,7 @@ private static function resolveLogDir(): string
 | 5 | `isletim-sistemi-turu` | platform araç farkları | L-W13, M-W8 |
 | 6 | `isletim-sistemi-plan` | kernel event üretimi sınırı | T-W2, T-W3 |
 | 7 | `isletim-sistemi-testing` | gözlem testi sınırı | §7 eşik kuralı |
-| 8 | `K017-observability` | OTel sınırı | §6 N8 (0 isabet) |
+| 8 | `K016-observability` | OTel sınırı | §6 N8 (0 isabet) |
 
 ## §15 — Platform bazlı kanıt özeti
 
@@ -599,8 +599,8 @@ private static function resolveLogDir(): string
 | 2 | ETW provider kaynak kodu | ETW uygulama yazımı bu turda yok | `isletim-sistemi-turu` |
 | 3 | PDH counter registry | 1. turda 404 (§4 X6) | **2. turda kapandı** — M-W28…M-W32 |
 | 4 | macOS DTrace/ktrace | 1. turda doğrulanmadı | **2. turda aynayla kapandı** — T-W19…T-W22; hedef sürüm `UNKNOWN` |
-| 5 | OTel/dağıtık trace | kapsam dışı (K017) | `K017-observability` |
-| 6 | uygulama log metriği | kapsam dışı | `K017-observability` |
+| 5 | OTel/dağıtık trace | kapsam dışı (K017) | `K016-observability` |
+| 6 | uygulama log metriği | kapsam dışı | `K016-observability` |
 | 7 | audit politikası/süresi | kapsam dışı | `isletim-sistemi-security` |
 | 8 | slow query log | kapsam dışı | `K007-data` |
 

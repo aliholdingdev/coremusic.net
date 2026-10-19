@@ -58,9 +58,9 @@ Tablo notu: "kapsam içi" = bu alt-dalda tanımlanır ve doğrulanır; "komşuya
 | 5 | Bellek ve GC runtime boyutu | Nihai RSS bütçesi sahipliği | `isletim-sistemi-observability` |
 | 6 | Hata zamanlaması ve fail-fast davranışı | Hata kodu kataloğu | `isletim-sistemi-testing` |
 | 7 | Isınma (warm-up): opcache / APCu | Cache politikası tasarımı | `K011-application` |
-| 8 | Kapanış (shutdown) ve drenaç | Kuyruk tüketici tasarımı | `K018-devops` |
+| 8 | Kapanış (shutdown) ve drenaç | Kuyruk tüketici tasarımı | `K17-devops` |
 | 9 | Ölçüm tanımları: throughput, latency, RSS | Ölçüm toplayıcı kurulumu | `isletim-sistemi-observability` |
-| 10 | Dağıtım birimi olarak runtime topolojisi | Deploy pipeline | `K018-devops` |
+| 10 | Dağıtım birimi olarak runtime topolojisi | Deploy pipeline | `K17-devops` |
 
 **Sınır kuralı (tek satır):** Bu alt-dal **ne HTTP'nin ne işletim sisteminin sahibidir**; ikisi arasında kalan "uygulama nasıl ayakta kalır" sorusunun sahibidir.
 
@@ -165,7 +165,7 @@ Tablo notu: sıra numarası, dosyadaki fiziksel okuma sırasıdır; alt-dal `bas
 | 5 | Runtime metrik | `isletim-sistemi-observability` | runtime → observability | RSS, throughput, latency ölçüm tanımı |
 | 6 | Runtime testi | `isletim-sistemi-testing` | runtime → testing | boot süresi ve hata zamanlaması testi |
 | 7 | Uygulama katmanı | `K011-application` | runtime → application | bootstrap'ten sonra devreden servis grafiği |
-| 8 | Dağıtım | `K018-devops` | runtime → devops | topoloji birimi, worker sayısı, drenaç |
+| 8 | Dağıtım | `K17-devops` | runtime → devops | topoloji birimi, worker sayısı, drenaç |
 | 9 | Ses/DSP çalışma zamanı | `isletim-sistemi-audio` | runtime → audio | gerçek zamanlı çalışma zamanı ayrıdır |
 | 10 | Donanım çalışma zamanı | `electroncis` | runtime → electroncis | donanım runtime'ı bu dalın konusu değildir |
 
@@ -315,7 +315,7 @@ Tablo notu: bu tablo yalnız **tanım** taşır; toplayıcı kurulumu `isletim-s
 | 4 | Metrik toplayıcı ve dashboard | gözlemlenebilirlik | `isletim-sistemi-observability` |
 | 5 | PHPUnit/Vitest test altyapısı | test stratejisi | `isletim-sistemi-testing` |
 | 6 | Çekirdek syscall ve kesme | OS çekirdeği | `isletim-sistemi-kernel` |
-| 7 | Deploy pipeline, Docker, rollback | dağıtım | `K018-devops` |
+| 7 | Deploy pipeline, Docker, rollback | dağıtım | `K17-devops` |
 | 8 | Controller/servis/DTO kodu | uygulama | `K011-application` |
 | 9 | ASIO/WASAPI gerçek zamanlı audio | ayrı çalışma zamanı | `isletim-sistemi-audio` |
 | 10 | Donanım BOM ve PCB | donanım | `electroncis` |
@@ -367,7 +367,7 @@ Tablo notu: bu tablo yalnız **tanım** taşır; toplayıcı kurulumu `isletim-s
 | 4 | Sandbox direktifleri bu dalda yazılmaz | `isletim-sistemi-security` | güvenlik veto yetkisi |
 | 5 | Metrik toplayıcı bu dalda kurulmaz | `isletim-sistemi-observability` | yalnız ölçüm tanımı |
 | 6 | Boot süresi **eşiği** test tarafında | `isletim-sistemi-testing` | kabul kriteri QA'da |
-| 7 | Worker sayısı **önerisi** bu dalda, deploy'u `K018-devops` | ikili | topoloji vs. uygulama |
+| 7 | Worker sayısı **önerisi** bu dalda, deploy'u `K17-devops` | ikili | topoloji vs. uygulama |
 | 8 | DI container kullanımı uygulama katmanına devredilir | `K011-application` | servis grafiği uygulamada |
 | 9 | Gerçek zamanlı audio çalışma zamanı ayrıdır | `isletim-sistemi-audio` | lock-free kısıt |
 | 10 | Çekirdek süreç tablosu bu dalda anlatılmaz | `isletim-sistemi-core` | OS sahipliği |
@@ -462,7 +462,7 @@ Tablo notu: bu tablo yalnız **tanım** taşır; toplayıcı kurulumu `isletim-s
 | 9 | `fastcgi_finish_request` kullanımı | gözlenmedi | R6 [UNKNOWN] |
 | 10 | Warm-up betiği | gözlenmedi | R5 [UNKNOWN] |
 | 11 | pthreads / `pcntl_*` üretim kullanımı | yalnız testte `proc_open` | R2 [UNKNOWN] |
-| 12 | Deploy pipeline runtime adımı | `.github/workflows` 2 dosya | `K018-devops` |
+| 12 | Deploy pipeline runtime adımı | `.github/workflows` 2 dosya | `K17-devops` |
 | 13 | `assets` için giriş noktası | `index.php` yok | [UNKNOWN] |
 | 14 | `media` için `.htaccess`/`web.config` | ikisi de yok | ⚠️ VERIFICATION REQUIRED |
 | 15 | Üretim `APP_ENV_MODE` değeri | `.env` depoda yok (`.env.example` var) | [UNKNOWN] |

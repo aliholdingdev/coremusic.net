@@ -121,7 +121,7 @@ group: mimari
 ## §C — Açık Kararlar (kesin değil — ADR/üzeri karar bekliyor)
 
 ### Q1 · Öneri sahipliği 3-way — **AÇIK**
-- **Durum:** K006-recommendation ↔ K008-recommendation ↔ K020-recomenataion üçlüsünde
+- **Durum:** K006-recommendation ↔ K008-recommendation ↔ K021-recomenataion üçlüsünde
   **hiçbiri kesin sahip değil** (registry §6 · `ai-master.md` §7/2). Bu dosyaların hiçbiri
   "sahibi K006'dır" **demek zorunda değildir** ve dememiştir.
 - **Kapanış koşulu:** ADR ile sahiplik ataması. Kanıt gelene kadar `⚠️ VERIFICATION REQUIRED`.
@@ -213,7 +213,7 @@ group: mimari
   |---|---|---|
   | Model/skorlama | **K006.8-recommendation** | aday üretimi, skorlama, sıralama algoritması |
   | İş kuralı filtresi | **K008-domain** | "beğen", yaş sınırı, engelli içerik, katalog kuralları |
-  | Keşif/UI akışı | **K020-recomenataion** | kullanıcıya sunum sırası, keşif akışı |
+  | Keşif/UI akışı | **K021-recomenataion** | kullanıcıya sunum sırası, keşif akışı |
 - **Kaynak:** kullanıcı onayı 2026-10-14 (hibrit sahiplik sorusunun cevabı).
 - **Gerekçe:** tek sahiplik K008 veya K020'nin meşru payını silerdi; v2 §2.6 K006'yı
   "öneri motoru" (algoritma) olarak tanımlar — sahiplik algoritmada kalır, diğerleri

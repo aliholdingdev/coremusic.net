@@ -37,7 +37,7 @@ group: mimari
 | node_id | `K000-isletim-sistemi/isletim-sistemi-cross/tasinabilirlik-siniri/tasinabilirlik-siniri-anayasa` |
 | parent_id | `K000-isletim-sistemi/isletim-sistemi-cross/tasinabilirlik-siniri` |
 | group | `mimari` |
-| Komşular | `platform-yuzeyleri` · `derleme-ve-paketleme` · `isletim-sistemi-testing` · `isletim-sistemi-turu` · `K018-devops` |
+| Komşular | `platform-yuzeyleri` · `derleme-ve-paketleme` · `isletim-sistemi-testing` · `isletim-sistemi-turu` · `K17-devops` |
 | Repo gerçeği | Aynı uygulama **iki** sunucu platformunda yapılandırılmış: Apache (`.htaccess`) + IIS (`web.config`) |
 
 ## §0 ELI15
@@ -78,7 +78,7 @@ bu üç soruyu sırayla yanıtlar ve sonunda bir **karar tablosu** üretir.
 | 1 | **Karar vermek**: taşınabilir / platforma özel / ölçülür | OS API'lerin tanımı (`-api`) |
 | 2 | **Sınıflandırmak**: kod yüzeylerini 6 kategoriye ayırmak | Platform karşılaştırması (`-turu`) |
 | 3 | **Eşik koymak**: kabul/red ölçütü | Test koşumu (`-testing`) |
-| 4 | **Maliyet tarif etmek**: soyutlama başına katman | Pipeline tasarımı (`K018-devops`) |
+| 4 | **Maliyet tarif etmek**: soyutlama başına katman | Pipeline tasarımı (`K17-devops`) |
 
 ### §1.3 Otorite ve güncelleme
 
@@ -235,7 +235,7 @@ bu üç soruyu sırayla yanıtlar ve sonunda bir **karar tablosu** üretir.
 | 1 | Yüzey envanteri | tüm platforma özel satırların listesi | bu dosya §2.3 |
 | 2 | Eşdeğer eşleme | her özel yüzeyin eşdeğeri | `-ornekler` §1 |
 | 3 | Senkron denetimi | çift yazılım dosyaları için diff betiği | `-surucu` §4 (PLANNED) |
-| 4 | Platform matrisi | Linux + Windows + macOS koşusu | `K018-devops` (Q-X52) |
+| 4 | Platform matrisi | Linux + Windows + macOS koşusu | `K17-devops` (Q-X52) |
 | 5 | Eşik kararı | kabul eşiği onayı | Q-X54 (açık) |
 
 ### §3.5 Uygulama akışı — repo kanıtları ile adım adım
@@ -336,7 +336,7 @@ bu üç soruyu sırayla yanıtlar ve sonunda bir **karar tablosu** üretir.
 | 2 | Derleme **araç zinciri** | `derleme-ve-paketleme` | toolchain orası |
 | 3 | Platform **sınıflandırması** | `isletim-sistemi-turu` | tür orada |
 | 4 | Test **koşumu** | `isletim-sistemi-testing` | burada yalnız ölçüm tanımı |
-| 5 | CI **pipeline** | `K018-devops` | `ci.yml` kanıt olarak okunur |
+| 5 | CI **pipeline** | `K17-devops` | `ci.yml` kanıt olarak okunur |
 | 6 | Güvenlik **politikası** | `isletim-sistemi-security` | izin/ACL politikası orada |
 | 7 | DSP/donanım **taşınabilirliği** | `K004-dsp` · `K001-donanım` | kapsam dışı |
 
@@ -348,7 +348,7 @@ bu üç soruyu sırayla yanıtlar ve sonunda bir **karar tablosu** üretir.
 | 2 | `derleme-ve-paketleme` | girdi | toolchain gerçekleri | taşınabilirlik kararı |
 | 3 | `isletim-sistemi-turu` | girdi | platform sınıflandırması | kategori 4 kapsamı |
 | 4 | `isletim-sistemi-testing` | çıkış | — | ölçüm tanımı + kapılar |
-| 5 | `K018-devops` | çıkış | — | CI matrisi tasarımı |
+| 5 | `K17-devops` | çıkış | — | CI matrisi tasarımı |
 | 6 | `isletim-sistemi-security` | çıkış | — | izin/ACL politikası |
 | 7 | `K004-dsp` · `K001-donanım` | yok | — | kapsam dışı |
 
@@ -392,7 +392,7 @@ bu üç soruyu sırayla yanıtlar ve sonunda bir **karar tablosu** üretir.
 | 2 | Sürücü/çekirdek taşınabilirliği | çekirdek kodu yok | `isletim-sistemi-kernel` |
 | 3 | Dosya biçimi (ELF/PE/Mach-O) detayı | üretim yüzeyi PHP/JS | `platform-yuzeyleri` |
 | 4 | Paket formatı seçimi | — | `derleme-ve-paketleme` |
-| 5 | CI runner genişletme tasarımı | — | `K018-devops` (Q-X52) |
+| 5 | CI runner genişletme tasarımı | — | `K17-devops` (Q-X52) |
 | 6 | Dosya izni/ACL politikası | — | `isletim-sistemi-security` |
 | 7 | Locale/kodlama politikası | ölçülmedi | `⚠️ VERIFICATION REQUIRED` |
 
@@ -404,7 +404,7 @@ bu üç soruyu sırayla yanıtlar ve sonunda bir **karar tablosu** üretir.
 | 2 | Sürücü/çekirdek taşınabilirliği | çekirdek kodu yok | `isletim-sistemi-kernel` |
 | 3 | Dosya biçimi (ELF/PE/Mach-O) | üretim yüzeyi PHP/JS | `platform-yuzeyleri` |
 | 4 | Paket formatı seçimi | araç zinciri orası | `derleme-ve-paketleme` |
-| 5 | CI runner genişletme | pipeline orası | `K018-devops` (Q-X52) |
+| 5 | CI runner genişletme | pipeline orası | `K17-devops` (Q-X52) |
 | 6 | Dosya izni/ACL politikası | güvenlik orası | `isletim-sistemi-security` |
 | 7 | Locale/kodlama politikası | ölçülmedi | `⚠️ VERIFICATION REQUIRED` |
 | 8 | Donanım taşınabilirliği | donanım orası | `K001-donanım` |

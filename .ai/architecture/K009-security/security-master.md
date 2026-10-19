@@ -84,7 +84,7 @@ Kaynak: https://owasp.org/www-project-top-ten/ (HTTP 200 · 2026-10-12 · doğru
 | A03 Injection | input-validation + PDO kuralı | input-validation (dalga-3) | kısmi — kod kuralı master §2/2 |
 | A04 Insecure Design | threat-model | threat-model (dalga-3) | tasarımı bu anayasa taşır |
 | A05 Security Misconfiguration | security headers · CORS · CSP | session-security, secrets | kapsamda (SecurityHeadersMiddleware kanıtı) |
-| A06 Vulnerable Components | K018-devops bağımlılık taraması | — (bağımlılık) | K009 yalnız kural koyar, tarama K018 |
+| A06 Vulnerable Components | K17-devops bağımlılık taraması | — (bağımlılık) | K009 yalnız kural koyar, tarama K018 |
 | A07 Identification/Auth Failures | authentication | authentication | kapsamda |
 | A08 Software/Data Integrity | signatures · CI supply chain | secrets (rotasyon/imza), K018 | kısmi |
 | A09 Logging/Monitoring Failures | audit | audit (dalga-3) | log redaksiyonu kanıtlı, denetim dalga-3 |
@@ -162,8 +162,8 @@ Sıra, kod dosyalarının alfabetik envanterinden türetilmiştir; **çalışma 
 | K011-application | security header/CSP sözleşmesi | sayfa/ekran UI kodu | header sözleşmesi ihlali → revert |
 | K013-integraion | origin/CORS/token kuralları | adaptör implementasyonu | SSRF yüzeyi → kısmi (A10 eşlemesi) |
 | K010-network | TLS politikası gereksinimi | DNS/firewall/altyapı | NIST SP 800-52r2 → security-dogrulama.md §2 |
-| K017-observability | redaksiyon kuralı (log secret yazmaz) | loglama altyapısı, metrik | log sızıntısı → [REDACTED] |
-| K018-devops | secret envanteri kuralı | CI pipeline, tarama araçları | GitLeaks ZAP korelasyonu → K018 |
+| K016-observability | redaksiyon kuralı (log secret yazmaz) | loglama altyapısı, metrik | log sızıntısı → [REDACTED] |
+| K17-devops | secret envanteri kuralı | CI pipeline, tarama araçları | GitLeaks ZAP korelasyonu → K018 |
 
 ## §9 Kalite standartları (eşleme: .ai/AGENTS.md §16)
 
@@ -172,7 +172,7 @@ Sıra, kod dosyalarının alfabetik envanterinden türetilmiştir; **çalışma 
 | Security | OWASP Top 10 · CSRF=csrf_token · Argon2id | security-dogrulama.md §1 |
 | Backend | strict_types · PSR-12 · prepared statement | auth.coremusic.net/AGENTS.md §4 |
 | Test | güvenlik testleri dahil coverage ≥%80 | security-test-stratejisi.md §2 |
-| CI | secret-scan temiz (.github/workflows/secret-scan.yml) | K018-devops |
+| CI | secret-scan temiz (.github/workflows/secret-scan.yml) | K17-devops |
 
 ## §10 Açık sorular (master)
 
@@ -268,7 +268,7 @@ Kaynak: https://owasp.org/www-project-application-security-verification-standard
 | 2 | Log redaksiyonu [REDACTED] deseni — testi mevcut | IMPLEMENTED (LoggerRedactionTest.php · 132) |
 | 3 | Session/cookie değeri log'a yazılmaz | auth.coremusic.net/AGENTS.md §4 yasaklar |
 | 4 | Sensitive data sızıntısı → .ai/AGENTS.md §17/3 | bağlayıcı |
-| 5 | Log altyapısı sahipliği K017-observability | sınır kararı |
+| 5 | Log altyapısı sahipliği K016-observability | sınır kararı |
 
 ## §18 Uyum yüzeyi (bilgi notu — içerik UNKNOWN)
 
@@ -493,8 +493,8 @@ Kaynak: https://owasp.org/www-project-application-security-verification-standard
 | Kimlik modeli, kullanıcı, hesap, rol TANIMI | K0100-identitiy | yalnız tüketici; tanımlanmaz | §7 · §8 |
 | İşletim sistemi güvenliği (kernel, disk, servis) | K000-isletim-sistemi/security | yalnız sınır referansı | §7 |
 | Ağ katmanı (DNS, TLS sonlandırma, firewall) | K010-network | deployment kanıtı UNKNOWN | §18 |
-| Gözlemlenebilirlik (SIEM, metrik, alarm) | K017-observability | audit dalga-3'e devredilir | §17 |
-| Dağıtım ve altyapı (CI/CD, konteyner) | K018-devops | php.ini/tls yapılandırması burada | §18 |
+| Gözlemlenebilirlik (SIEM, metrik, alarm) | K016-observability | audit dalga-3'e devredilir | §17 |
+| Dağıtım ve altyapı (CI/CD, konteyner) | K17-devops | php.ini/tls yapılandırması burada | §18 |
 | CSRF stratejisi | ADR-010 | `csrf_token` adı bağlayıcı | §7 |
 | Parola depolama | ADR-022 | Argon2id 64MB/t=4/p=2 | §12 |
 | Vault şifreleme | ADR-022 | AES-256-GCM · 96-bit IV · 16-byte tag | §12 |

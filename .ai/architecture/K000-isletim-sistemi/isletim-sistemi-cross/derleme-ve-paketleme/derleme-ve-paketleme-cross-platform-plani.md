@@ -144,7 +144,7 @@ Hepsi `[TASARIM]`/`[KALIP]` işaretlidir — repo'da henüz C++ derlemesi **yok*
 |---|---|---|
 | 1 | OS tespiti (makro/CMake/runtime) matrisi | `derleme-ve-paketleme-ide-platform-tespiti.md` |
 | 2 | Paket formatı sürüm/denetim matrisi | `derleme-ve-paketleme-surucu.md` |
-| 3 | CI pipeline tasarımı (GitHub Actions akışı) | `K018-devops` |
+| 3 | CI pipeline tasarımı (GitHub Actions akışı) | `K17-devops` |
 | 4 | Embedded `.hex` dağıtımı | `K001-donanım/donanaım-type/mikrodenetleyici` |
 
 ## §10 Kaynakça (web · 2026-10-14 · HEAD · envanter kesişimi 0)

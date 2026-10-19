@@ -35,7 +35,7 @@ group: mimari
 |----------|--------|---------|
 | Keşif/katalog kuralları (ne aranır) | K020-discovery | S-1 sahiplik sınırı |
 | İndeks hızlandırması (B-tree) | indexing | FULLTEXT ayrı dil |
-| Dış motor kurulumu/operasyonu | K018-devops | süreç |
+| Dış motor kurulumu/operasyonu | K17-devops | süreç |
 | Öneri/vektör arama modeli | K006-yapay-zeka | model eğitimi |
 
 ## §3 Sınır cümlesi

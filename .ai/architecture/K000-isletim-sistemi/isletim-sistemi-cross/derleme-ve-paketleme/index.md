@@ -46,7 +46,7 @@ group: mimari
 | `tasinabilirlik-siniri` | `#ifdef` guard, ortak payda | derleme bayrakları bu dalda |
 | `isletim-sistemi-kernel` | çekirdek/AB | toolchain bu dalda |
 | `isletim-sistemi-testing` | test koşumu | paket doğrulama bu dalda |
-| `K018-devops` | CI pipeline | `ci.yml` yalnız kanıt |
+| `K17-devops` | CI pipeline | `ci.yml` yalnız kanıt |
 | `K004-dsp` | DSP algoritması | derleme hedefi sınır |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

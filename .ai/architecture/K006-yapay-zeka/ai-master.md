@@ -101,13 +101,13 @@ bu tablo **tasarım yorumu** olarak işaretlidir ve kademe-3'te (ADR-097 K4) kil
 | 1 | LLM/ajan altyapısı, ajan çalışma zamanı, MCP, RAG pipeline | **K015-AI** | ✅ kapsam ayrımı | registry §6 · v2 §2.16 |
 | 2 | Şarkı/kullanıcı/liste verisinin saklanması | K007-data | yapısal | v2 §2.7 |
 | 3 | İş kuralları ("çal", "beğen", "listeye ekle" anlamı) | K008-domain | yapısal | v2 §2.8 |
-| 4 | Öneri/keşif **domain sahipliği** | K020-recomenataion | ⚠️ SINIR AÇIK | ai-master §7/2 |
+| 4 | Öneri/keşif **domain sahipliği** | K021-recomenataion | ⚠️ SINIR AÇIK | ai-master §7/2 |
 | 5 | Öneriyi yürüten arka plan süreci | K012-services | TASARIM İDDIASI | — |
 | 6 | Kimlik · yetki · oturum güvenliği | K0100-identitiy · K009-security | yapısal | v2 §2.9/§2.10 |
 | 7 | UI'da öneri kartlarının çizimi | K011-application | TASARIM İDDIASI | — |
 | 8 | Ses motorunun gerçek DSP'si (EQ curve üretimi hariç) | K004-dsp · K003-audio | yapısal | v2 §2.3/§2.4 |
-| 9 | Model/depo güvenlik taraması · CI | K009-security · K018-devops | yapısal | v2 §2.18 |
-| 10 | Ölçüm/telemetri altyapısı | K017-observability | yapısal | v2 §2.17 |
+| 9 | Model/depo güvenlik taraması · CI | K009-security · K17-devops | yapısal | v2 §2.18 |
+| 10 | Ölçüm/telemetri altyapısı | K016-observability | yapısal | v2 §2.17 |
 
 ### §2.2 K006 ↔ K015-AI — bağlayıcı ayrım
 
@@ -216,7 +216,7 @@ Tam tablo: `yapay-zeka-bagimliliklar.md`. Özet — **hepsi TASARIM İDDİASI** 
 | → depends_on | K003-audio · K004-dsp | ses özellikleri çıkarma (gerçek DSP) | `extractFeatures()` şu an **placeholder** | ✅ KOD KANITI |
 | ← used_by | K011-application | önerinin UI'da gösterilmesi | — | TASARIM İDDİASI |
 | ← used_by | K015-AI | ajanların ML yeteneğini çağırması | sınır ihlali riski (§2.3) | TASARIM İDDİASI |
-| ← used_by | K019-testing | model kalite / regresyon testi | — | TASARIM İDDİASI |
+| ← used_by | K18-testing | model kalite / regresyon testi | — | TASARIM İDDİASI |
 
 > **Kod kanıtı ile tasarım iddiası ayrımı:** `extractFeatures()`'ın placeholder olduğu
 > `AIEngine.php` satır 315–327'de **kod olarak** okunmuştur — bu bir iddia değil, gözlemdir.
@@ -251,7 +251,7 @@ Tam tablo: `yapay-zeka-dogrulama.md` §8 (30 satır). Özet:
 | # | Soru | Etiket | Kapanış koşulu | Kayıt |
 |---|---|---|---|---|
 | 1 | `ai-master.md` adı registry §5'te K015-AI ile de geçiyor (satır 6 ve 16) | ⚠️ VERIFICATION REQUIRED | ADR kararı | `-dogrulama` §7/1 |
-| 2 | Öneri sahipliği: K006-recommendation · K008-recommendation · K020-recomenataion? | ⚠️ KISMEN KAPANDI — 2026-10-14 hibrit bölen kararı (K-11 · §18); ADR kaydı bekliyor | sahiplik ADR'si | `-dogrulama` §7/2 |
+| 2 | Öneri sahipliği: K006-recommendation · K008-recommendation · K021-recomenataion? | ⚠️ KISMEN KAPANDI — 2026-10-14 hibrit bölen kararı (K-11 · §18); ADR kaydı bekliyor | sahiplik ADR'si | `-dogrulama` §7/2 |
 | 3 | local-inference donanım gereksinimi (K001/K004 sınırı) | ⚠️ VERIFICATION REQUIRED | gereksinim kaydı | `-dogrulama` §7/3 |
 | 4 | Üretim modeli/runtime seçimi (hangi model, hangi format) | **UNKNOWN** | teknoloji karar kaydı | `-dogrulama` §7/4 |
 | 5 | 9 çocuğun kademe-3 (bounded-context) yapısı | ⚠️ VERIFICATION REQUIRED | ADR-097 K4 | `-dogrulama` §7/5 |
@@ -537,7 +537,7 @@ H7 her faz kapanışında `-dogrulama.md`'ye iddia·URL·tarih satırı.
 |---|---|---|
 | Etkileşim veri şeması (BCNF) | K007-data | yalnız gereksinim tanımı (H3/§2.1) |
 | "çal/beğen" iş kuralı filtresi | K008-domain | K-11 böleni — K006 yalnız algoritma |
-| Keşif akışı/UI sunumu | K020-recomenataion | K-11 böleni |
+| Keşif akışı/UI sunumu | K021-recomenataion | K-11 böleni |
 | Öneriyi çalıştıran arka plan süreci | K012-services | iddia (§5) |
 | KVKK rıza/silme uygulaması | K009-security · K010 | gereksinim + test (T6) |
 

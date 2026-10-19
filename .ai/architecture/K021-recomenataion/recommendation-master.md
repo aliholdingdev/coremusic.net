@@ -112,7 +112,7 @@ S6 tanımlanmadan S4 yayına alınamaz (süreç kuralı — §9 K4/K5).
 | `K009-security` | Şifreleme, erişim kontrolü, oturum | **auth/CSRF/rate-limit** K009 + `shared/src/Middleware/` |
 | `K015-AI` | Ajan altyapısı (Orchestrator, PromptEngine, ToolCalling) | **ajan hattı** K015'te — öneri ≠ ajan |
 | `K020-discovery` | Dış servis keşfi (Spotify PKCE, Apple JWT) | **dış katalog erişimi ve entegrasyon onayı** discovery'de |
-| `K020-comilance` | KVKK/GDPR kapsam kararı | **kişisel veri işleme hukuku** comilance'da |
+| `K019-comilance` | KVKK/GDPR kapsam kararı | **kişisel veri işleme hukuku** comilance'da |
 
 > **Açık sahiplik çakışması (korunuyor, düzeltilmedi):** öneri motoru K006 (ML ürün)
 > mü, K015 (ajan altyapısı) mı, K021 (bu program) mı — üçlü ayrım **ADR gerektirir**
@@ -401,7 +401,7 @@ HTTP/1.1 200 OK
 | D1 | Boru hattı kanonik tanımı S1–S6 (bu dosya §4) | ✅ alındı (2026-10-17) | Vault Steward |
 | D2 | Sıralama yöntemi (A kural / B skor / C öğrenen) | ⏸ bekliyor — ADR-2 | `K020-adr` |
 | D3 | Metrik seçimi + eşikler | ⏸ bekliyor — ADR-3 | `evaluation/` + ADR |
-| D4 | KVKK kapsamı + hukuki dayanak | ⏸ bekliyor — K1 | `K020-comilance` |
+| D4 | KVKK kapsamı + hukuki dayanak | ⏸ bekliyor — K1 | `K019-comilance` |
 | D5 | `0.6/0.4` ağırlık doğrulaması | ⏸ bekliyor — Faz-4 ölçümü | Vault Steward + K006 |
 | D6 | Klasör ID'si (K021 vs 40+ K020 referansı) | ⏸ üst karar | Vault Steward + kullanıcı |
 
@@ -468,7 +468,7 @@ Kullanıcı "Yeni bir şeyler dinle" der
 ## 30. Bağımlılık grafiği (dosya/komşu düzeyi)
 
 ```text
-                     K020-comilance ──(K1 veri kapsamı)──┐
+                     K019-comilance ──(K1 veri kapsamı)──┐
                              │                            │
 K020-discovery ──(dış katalog)─┤                            ▼
                              │              K021-recomenataion (bu program)

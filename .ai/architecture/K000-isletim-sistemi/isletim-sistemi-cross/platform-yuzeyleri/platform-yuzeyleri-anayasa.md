@@ -30,7 +30,7 @@ group: mimari
 | node_id | `K000-isletim-sistemi/isletim-sistemi-cross/platform-yuzeyleri/platform-yuzeyleri-anayasa` |
 | parent_id | `…/isletim-sistemi-cross/platform-yuzeyleri` |
 | group | `mimari` |
-| Komşular | `isletim-sistemi-api` · `isletim-sistemi-kernel` · `isletim-sistemi-turu` · `isletim-sistemi-testing` · `K018-devops` |
+| Komşular | `isletim-sistemi-api` · `isletim-sistemi-kernel` · `isletim-sistemi-turu` · `isletim-sistemi-testing` · `K17-devops` |
 | Repo gerçeği | Native kod yok (`.cpp`/`.h` glob = 0) → kanıtlar PHP/web/CI katmanından |
 
 ## §0 ELI15
@@ -447,7 +447,7 @@ ve Neva Engine PLANNED olduğunda S1'e çevrilecektir.
 | 2 | Çekirdek/AB anatomisi | `isletim-sistemi-kernel` | Sistem çağrısının **iç yapısı** sınır dışı |
 | 3 | OS ailelerinin derin karşılaştırması | `isletim-sistemi-turu` | Aile **içinde** derinlik orada |
 | 4 | Test koşumu ve eşikler | `isletim-sistemi-testing` | Burada yalnız ölçüm **tanımı** var |
-| 5 | CI pipeline tasarımı | `K018-devops` | `ci.yml` yalnız kanıt |
+| 5 | CI pipeline tasarımı | `K17-devops` | `ci.yml` yalnız kanıt |
 | 6 | DSP/donanım taşınabilirliği | `K004-dsp` · `K001-donanım` | Donanım katmanı sınır dışı |
 | 7 | Ses platform API'leri (WASAPI/ALSA/CoreAudio) | `isletim-sistemi-audio` | §4 #4 komşuya devredildi |
 | 8 | OS güvenlik mekanizmaları | `isletim-sistemi-security` | Güvenlik politikası ayrı dal |

@@ -106,7 +106,7 @@ group: mimari
 | 1 | playback sahibi (K014 vs K012/playback-service) | **KARAR YOK** | §7/1 — Vault Steward kararı |
 | 2 | offline sahibi (K014/offline-sync vs K012/offline kuyruğu) | **KARAR YOK** | §7/2 |
 | 3 | synchronization adı iki domain'de (K013 + K014) | **ÇELİŞKİ** | §7/3 — ne ayırıyor? |
-| 4 | media-testing sahipliği (K014 vs K18-testing — master'da: K019-testing) | **KARAR YOK** | §7/4 |
+| 4 | media-testing sahipliği (K014 vs K18-testing — master'da: K18-testing) | **KARAR YOK** | §7/4 |
 | 5 | Referans ürünler neyi kanıtlar (Plexamp/Finamp/Navidrome/Jellyfin) | **Onay bekliyor** | §7/5 |
 | 6 | Plex/Emby proprietary lisans kararı | **VERIFICATION REQUIRED** | §7/6 |
 | 7 | OpenAudio deposu tam adresi | **UNKNOWN** | §7/7 (~2800★) |

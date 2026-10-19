@@ -534,8 +534,8 @@ filtreleme anahtarıdır (L-W25).
 | --- | --- | --- |
 | journald/syslog/ETW halkası | Evet | — |
 | `dmesg` çekirdek okuması | Evet | `isletim-sistemi-kernel` (kaynak) |
-| Uygulama log korelasyonu, OTel LogRecord | Hayır | `K017-observability` |
-| Log metriği (`rate(logs)`) | Hayır | `metrik/` alt-dalı + `K017-observability` |
+| Uygulama log korelasyonu, OTel LogRecord | Hayır | `K016-observability` |
+| Log metriği (`rate(logs)`) | Hayır | `metrik/` alt-dalı + `K016-observability` |
 | Audit trail güvenliği | Hayır | `isletim-sistemi-security` |
 | Log bozulma/parçalanma testi | Hayır | `isletim-sistemi-testing` |
 | Syslog uçları / API log sözleşmesi | Hayır | `isletim-sistemi-api` |

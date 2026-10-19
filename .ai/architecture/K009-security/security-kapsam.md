@@ -52,8 +52,8 @@ group: mimari
 | 4 | SQL şema, migration | K007-data | .ai/AGENTS.md §5 domain boundary |
 | 5 | API routing sözleşmesi | K013-integraion | K013 API kontratlarını taşır |
 | 6 | DNS / firewall / altyapı | K010-network | K009 yalnız TLS gereksinimi koyar |
-| 7 | Loglama altyapısı, metrik, izleme | K017-observability | redaksiyon kuralı K009'da, altyapı K017'de |
-| 8 | CI/CD, secret scan aracı, deploy | K018-devops | tarama K018; kural K009 |
+| 7 | Loglama altyapısı, metrik, izleme | K016-observability | redaksiyon kuralı K009'da, altyapı K017'de |
+| 8 | CI/CD, secret scan aracı, deploy | K17-devops | tarama K018; kural K009 |
 | 9 | DSP/firmware güvenliği | K004-dsp / K005-firmware | donanım yüzeyi |
 | 10 | Lisans/uyum belgeleri | K020-* (ID CONFLICT kayıtlı) | v2 §3.1 |
 
@@ -139,9 +139,9 @@ Kaynak: https://owasp.org/www-project-top-ten/ (HTTP 200 · 2026-10-12).
 
 | Kalem | Neden Dışarıda | Giden Yer |
 |---|---|---|
-| Kullanıcı/hesap modeli (tablo, alan) | Kimlik katmanı tanımı K0100-identitiy | K0100-identitiy |
-| Login/MFA/şifre sıfırlama akışı | Kimlik doğrulama deneyimi K010 | K0100-identitiy |
-| OAuth2/OIDC sağlayıcı rolü | Kimlik sağlayıcı mimarisi K010 | K0100-identitiy |
+| Kullanıcı/hesap modeli (tablo, alan) | Kimlik katmanı tanımı ⚠️ | ⚠️ |
+| Login/MFA/şifre sıfırlama akışı | Kimlik doğrulama deneyimi K010 | ⚠️ |
+| OAuth2/OIDC sağlayıcı rolü | Kimlik sağlayıcı mimarisi K010 | ⚠️ |
 | Fiziksel/altyapı güvenlik (DC, kilit) | Yazılım katmanı değil | Dış (opsyonel) |
 | GDPR/kanuni saklama süreleri | Hukuki politika | policies (dalga-3) |
 | DSP/ses motoru güvenliği | K004/K005 kapsamı | İlgili katman |
@@ -242,7 +242,7 @@ Kaynak: https://owasp.org/www-project-top-ten/ (HTTP 200 · 2026-10-12).
 | 5 · İş mantığı | kullanıcı verisi | uygulama → K011-application | — (K009 yalnız veri taşıma güveni) | veri sızıntısı = redaksiyon |
 | 6 · Veritabanı | parametreli sorgu | uygulama → K007-data | prepared statement zorunlu (ADR-002) | string SQL = VETO |
 | 7 · Yanıt | başlık + gövde | uygulama → istemci | header seti + no-store + redaksiyon | hata gövdesi stack içermez |
-| 8 · Audit/log | güvenlik olayı meta | uygulama → K017-observability | [REDACTED] deseni | secret log'a = ihlal |
+| 8 · Audit/log | güvenlik olayı meta | uygulama → K016-observability | [REDACTED] deseni | secret log'a = ihlal |
 
 | §11 Sınır Kuralı | Açıklama |
 |---|---|
@@ -433,7 +433,7 @@ Kaynak: https://owasp.org/www-project-top-ten/ (HTTP 200 · 2026-10-12).
 | 1 | APP_PEPPER | politika yok | tüm parola hash'leri geçersiz → kullanıcı parola sıfırlama zinciri gerekir | ⚠️ istisna (§13/5) |
 | 2 | JWT RS256 private key | D-28 açık | public key JWKS ile çoklu yayınlama → sonra private key değişimi | ⚠️ D-28 |
 | 3 | API key | kullanıcı talebi / sızıntı | yeni key üret (random 256-bit) → eskiyi grace periyodunda reddet → kaldır | IMPLEMENTED üretim var; politika kural |
-| 4 | DB parola | sunucu/DB politikası | secrets manager üzerinden; uygulama restart | K018-devops |
+| 4 | DB parola | sunucu/DB politikası | secrets manager üzerinden; uygulama restart | K17-devops |
 | 5 | Session secret/cookie anahtarı | — | ⚠️ K009'da kanıt yok | UNKNOWN |
 
 | §20 Sııntı Müdahalesi (S3 sınıfı — security-kapsam §14) | Adım |

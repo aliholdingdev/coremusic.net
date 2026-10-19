@@ -30,7 +30,7 @@ v2'de yoktur**; ayrıntı §3'teki R sorularındadır.
 | 2 | Çeşitlilik (diversity) filtresi ve minimum skor eşiği | "beğeni/öneri" iş kuralının tanımı | K008-domain (bagimliliklar §2/2) |
 | 3 | Öneri sonucunun tek ML çağrı noktası olarak verilmesi | Öneri kartının UI'da çizimi | K011-application (ai-master §2.1) |
 | 4 | Öneri modelinin K006'da çalıştırılması | Ajan çalışma zamanı / prompt yönetimi | K015-AI (ai-master §2.1) |
-| 5 | Öneri kalitesinin ölçülmesi (evaluation ile birlikte) | Genel uygulama testi | K019-testing (bagimliliklar §3/3) |
+| 5 | Öneri kalitesinin ölçülmesi (evaluation ile birlikte) | Genel uygulama testi | K18-testing (bagimliliklar §3/3) |
 | 6 | Öneri akışının arka plan süreciyle ilişkisi (sözleşme) | Sürecin kendisi | K012-services (ai-master §2.1) |
 
 **Sınır kuralı (v2 §2.6 · registry §6):** bu dal yalnız **K006 = ML ürün tarafını** kapsar; K015-AI ajan altyapısına
@@ -44,7 +44,7 @@ bu dal "önerinin sahibi" olduğunu **iddia edemez**.
 
 | # | Ayrım | Durum | Kaynak |
 |---|---|---|---|
-| A1 | K006-recommendation ↔ K008-recommendation ↔ K020-recomenataion | ⚠️ **SINIR AÇIK** | ai-master §7/2 · bagimliliklar §5/2 |
+| A1 | K006-recommendation ↔ K008-recommendation ↔ K021-recomenataion | ⚠️ **SINIR AÇIK** | ai-master §7/2 · bagimliliklar §5/2 |
 | A2 | Collaborative filtering gerçekten uygulanacak mı (şu an boş)? | ⚠️ taslak — repo kodu `[]` döndürür | `AIEngine.php` satır 209–218 |
 | A3 | Skor ağırlıkları (0.6/0.4) sabit mi, öğrenilen mi? | **UNKNOWN** — değer hardcoded | `AIEngine.php` satır 65 |
 | A4 | Öneri verisi K007'de mi, önbellekte mi saklanır? | ⚠️ VERIFY REQUIRED | bagimliliklar §4/2 |

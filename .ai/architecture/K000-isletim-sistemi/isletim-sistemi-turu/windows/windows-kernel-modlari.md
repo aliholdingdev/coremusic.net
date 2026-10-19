@@ -503,4 +503,4 @@ taşınır. `windows-dma-ve-interrupt.md` §9 da aynı kararı vermiştir (çapr
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 **Satır:** ≥500 · **Group:** mimari · **Tarih:** 2026-10-12
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

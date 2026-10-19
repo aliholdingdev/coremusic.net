@@ -90,7 +90,7 @@ Medya verisi eşitlemesi, kitaplık/bilgi/ilerleme gibi medya verisinin cihazlar
 | 5 | Yön kapısı | tek yönlü/çift yönlü mod okuması — seçimi YAPMAZ | ⚠️ UNKNOWN (master §12/9 → Vault Steward §22.6) |
 | 6 | Taşıma kapısı | senkron paketini K010-network üzerinden taşır | TASARIM İDDİASI (master §2.2) |
 | 7 | Kalıcılık seam'i | eşitleme kaydı + vektör saat → şema K007'de | TASARIM İDDİASI (master §2.2) |
-| 8 | Tutarlılık ölçüm veri | cihazlar arası fark → K017-observability | TASARIM İDDİASI (ölçüm master §15/5 — eşik ⚠️ UNKNOWN) |
+| 8 | Tutarlılık ölçüm veri | cihazlar arası fark → K016-observability | TASARIM İDDİASI (ölçüm master §15/5 — eşik ⚠️ UNKNOWN) |
 
 ## §STANDARTLAR
 
@@ -112,7 +112,7 @@ Medya verisi eşitlemesi, kitaplık/bilgi/ilerleme gibi medya verisinin cihazlar
 | 2 | Yön kararı (tek/çift) belirlenmeden kalıcı senkron kuyruğu açılmaz | §12/9 açık kalmaya devam ediyor | master §12/9 · §22.6 → Vault Steward kararı |
 | 3 | Senkron kuyruğu pending/failed durumları + yeniden deneme taşır | hata dayanıklılığı; failed kaydı silinmez | TASARIM ÖNERİSİ (`ornekler.md`) |
 | 4 | Delta alışverişi (tam senkron değil, yalnız değişiklik listesi) | bant genişliği ve gerilim tasarrufu | TASARIM ÖNERİSİ (`ornekler.md`) |
-| 5 | Tutarlılık ölçümü K017-observability'a akar; eşik konmaz | eşik Vault Steward belirler | master §15/5 (eşik ⚠️ UNKNOWN) |
+| 5 | Tutarlılık ölçümü K016-observability'a akar; eşik konmaz | eşik Vault Steward belirler | master §15/5 (eşik ⚠️ UNKNOWN) |
 
 ---
 

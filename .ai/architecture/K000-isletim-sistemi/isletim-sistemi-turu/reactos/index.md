@@ -79,4 +79,4 @@ Toplam: 8 içerik dosyası · ~3.900 satır (minimum 500/dosya — `reactos-kod-
 
 **Authority: Bayram Ali / Vault Steward**
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

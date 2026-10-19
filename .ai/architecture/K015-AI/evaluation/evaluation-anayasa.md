@@ -361,8 +361,8 @@ FM bloğu dosyanın **ilk** `---` çifti arasında olur; `---` içinde `---` bul
 | # | Tip | Örnek | Tespit | Sonuç |
 |---|-----|-------|--------|-------|
 | 1 | Bozuk karakter | `U+FFFD` () | `[regex]::Matches($text,[char]0xFFFD).Count` | >0 → FAIL |
-| 2 | Çift kodlama | `Ã¼`, `Ã§` | gözden geçirme + tarama | FAIL |
-| 3 | Kopuk Türkçe | `GÃ¶rev`, `UYGUNL` | §7-§8 checklist kapsamı | FAIL |
+| 2 | Çift kodlama | `ü`, `ç` | gözden geçirme + tarama | FAIL |
+| 3 | Kopuk Türkçe | `Görev`, `UYGUNL` | §7-§8 checklist kapsamı | FAIL |
 | 4 | Emoji/karakter kaybı | `⚠` yerine `?` | `⚠️ VERIFICATION REQUIRED` etiketi doğrulaması | FAIL |
 | 5 | Unicode ayraç kaybı | `·` → `-` | Authority `-ceq` (§18) | FAIL |
 

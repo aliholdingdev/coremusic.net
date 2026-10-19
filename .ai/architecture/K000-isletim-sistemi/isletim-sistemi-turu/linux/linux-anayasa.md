@@ -275,7 +275,7 @@ Neva Engine (C++20, PLANNED — kod yok)
 | PCB/donanım | DAC/ADC/codec devreleri | `K000-isletim-sistemi/electroncis/` + audio-hardware-engineer |
 | DSP algoritması | EQ/reverb/filtre | dsp-firmware-engineer (handover) |
 | Web/PHP/domain kodu | Controller/middleware | backend-architect |
-| Container sahipliği | Docker/K8s operasyonu | K018-devops (bu dal yalnız namespace/cgroup **kavramını** anlatır, sahiplenmez) |
+| Container sahipliği | Docker/K8s operasyonu | K17-devops (bu dal yalnız namespace/cgroup **kavramını** anlatır, sahiplenmez) |
 | Frozen ADR metinleri | ADR-001…037 | Dokunulmaz — yalnız referans |
 
 ---
@@ -514,4 +514,4 @@ Referanslar 2026-10-12'de `Get-Content` ile okunmuştur; numaralar uydurma deği
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

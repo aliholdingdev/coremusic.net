@@ -66,7 +66,7 @@ group: mimari
 | # | Kaynak düğüm | Ne için | Etiket |
 |---|---|---|---|
 | 1 | K011-application | Uygulamanın servis çağrıları | TASARIM İDDİASI |
-| 2 | K019-testing | Servis seviyesi testleri | TASARIM İDDİASI (sahiplik ⚠️) |
+| 2 | K18-testing | Servis seviyesi testleri | TASARIM İDDİASI (sahiplik ⚠️) |
 | 3 | Diğerleri | — | ⚠️ VERIFICATION REQUIRED (v2'de ters ok yok) |
 
 ## §3 Entegrasyon sınırları (K012 dışına çıkış kapıları)
@@ -206,7 +206,7 @@ group: mimari
 
 | Alan | Değer | Etiket |
 |---|---|---|
-| Kaynak | K019-testing | TASARIM İDDİASI |
+| Kaynak | K18-testing | TASARIM İDDİASI |
 | Ne için | servis seviyesi testleri | TASARIM İDDİASI |
 | Sahiplik | testin K019'da mı K012'de mi | ⚠️ VERIFICATION REQUIRED |
 | Repo kanıtı | `shared/tests/` 22 dosya (vault §25.2 beyanı) | ✅ metin-seviyesi |
@@ -245,7 +245,7 @@ group: mimari
 
 | Alan | Değer |
 |---|---|
-| Sahip | K0100-identitiy |
+| Sahip | ⚠️ |
 | Arayüz adı | ⚠️ UNKNOWN (token/oturum biçimi) |
 | Geçiş | servis → kimlik doğrulama → K010 |
 | Kural | kimlik doğrulama middleware'de (PSR-15 iddiası — Q8) |

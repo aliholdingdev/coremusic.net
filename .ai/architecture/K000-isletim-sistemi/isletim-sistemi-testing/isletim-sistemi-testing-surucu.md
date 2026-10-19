@@ -142,7 +142,7 @@ kaynak sınırı `phpunit.xml:34-38` (`<source>`). Kapsama raporu **bu zincirde 
 | Konu | Sınır |
 |---|---|
 | Job ekleme/çıkarma onayı | `.github/AGENTS.md` §3.3 sınır 4 (kullanıcı onayı) |
-| Deploy adımları | `K018-devops` — bu dalda yok |
+| Deploy adımları | `K17-devops` — bu dalda yok |
 | GitLeaks kural dosyası (`.gitleaks.toml`) | Security onayı + ADR (`.github/AGENTS.md` §3.1) |
 | OS test komut zinciri (`make kselftest` vb.) | Hedef referans §10 — bu depoda çalışmaz |
 

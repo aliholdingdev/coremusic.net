@@ -47,11 +47,11 @@ group: mimari
 |---|---|---|
 | Kernel/QEMU testi | → `isletim-sistemi-testing/cekirdek-test` | Yalnız uygulama katmanı |
 | CI pipeline kalite kapısı | → `isletim-sistemi-testing/ci-ve-kalite-kapisi` | Kapıda çalışan test komutunun sahibi |
-| Coverage ağacı | → `K019-testing` | Erişim YOK (0 satır); eşik uydurulmaz |
+| Coverage ağacı | → `K18-testing` | Erişim YOK (0 satır); eşik uydurulmaz |
 | Uygulama mimarisi | → `isletim-sistemi-api` | Test stratejisi; endpoint tasarımı DEĞİL |
 | Ses/isletim uygulaması | → `isletim-sistemi-audio` | Genel uygulama testi; ses DSP testi DEĞİL |
 | Güvenlik testi (auth/CSRF) | → `isletim-sistemi-security` | Davranış testi; güvenlik politikası DEĞİL |
-| CI/CD altyapısı | → `K018-devops` | Test adımı; pipeline sahipliği DEĞİL |
+| CI/CD altyapısı | → `K17-devops` | Test adımı; pipeline sahipliği DEĞİL |
 | Ölçüm telemetrisi | → `isletim-sistemi-observability` | Test metrikleri; canlı telemetri DEĞİL |
 | Sürücü/donanım arayüzü | → `isletim-sistemi-kernel` | Uygulama testi sınırı; kod DEĞİL |
 | Süreç/örtü bölgesi modeli | → `isletim-sistemi-core` | Uygulama davranışı; model DEĞİL |

@@ -73,7 +73,7 @@ belgelenir, uydurma zamanlayıcı kodu **üretilmez**.
 | 6 | Cache adaptörünün TTL **mekanizması** | K011/caching | `MemoryAdapter` TTL kodu var — kardeş düğüm |
 | 7 | Rate limiter'ın pencere hesabı | K009-security | `RateLimiterMiddleware` — güvenlik katmanı |
 | 8 | CSS animasyon **tasarımı** (görsel karar) | K11-ux / ui-design | Token **değerleri** burada, tasarım kararı orada |
-| 9 | Uptime/health-check **altyapısı** | K017-observability | `HEALTH_CHECK` enum değeri var, üretici yok |
+| 9 | Uptime/health-check **altyapısı** | K016-observability | `HEALTH_CHECK` enum değeri var, üretici yok |
 | 10 | Üretim kodu (`*.php` · `*.js` · `*.css` · `*.sql`) | İlgili katman agent'ları | Kök AGENTS.md §16.4 dokunulmaz yüzeyler |
 
 **Sınır kuralı:** Yukarıdaki 10 satırdan birine düşen bir görev geldiğinde bu modül yalnız
@@ -254,8 +254,8 @@ kod yoktur** (PHP cron 0). Şema **geleceğe hazır**, altyapı **kurulmamış**
 | 4 | Cron/queue/worker kurulumu | K012-services (olası) | §6-1 |
 | 5 | CSS animasyon tasarımı | K11-ux / ui-design | Tasarım kararı |
 | 6 | `radio_schedules` iş mantığı | K008-domain | Domain kararı |
-| 7 | Health-check altyapısı | K017-observability | Gözlemlenebilirlik |
-| 8 | Test altyapısı sahipliği | K019-testing | Test katmanı |
+| 7 | Health-check altyapısı | K016-observability | Gözlemlenebilirlik |
+| 8 | Test altyapısı sahipliği | K18-testing | Test katmanı |
 
 ---
 
@@ -409,8 +409,8 @@ saniyede üretilen ID'ler sıralanamaz. `microtime(true)*1000` tek doğru seçim
 | 5 | K009-security | Rotation/nonce güvenlik kararı | `SessionConfig` sabitleri |
 | 6 | K008-domain | `radio_schedules` iş mantığı | `coremusic_musics.sql:442` |
 | 7 | K014-media | Radyo yayın akışı | `radio_schedules` tüketicisi |
-| 8 | K017-observability | `HEALTH_CHECK` enum değeri | `coremusic_logs.sql:325` |
-| 9 | K019-testing | Zamanlayıcı testleri | 45 PHP test / 9 JS spec |
+| 8 | K016-observability | `HEALTH_CHECK` enum değeri | `coremusic_logs.sql:325` |
+| 9 | K18-testing | Zamanlayıcı testleri | 45 PHP test / 9 JS spec |
 | 10 | K11-ux / ui-design | Animasyon tasarım kararı | token **değerleri** burada |
 | 11 | K012-services | Cron/queue/worker altyapısı | ❌ yok → §6-1 |
 

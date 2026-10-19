@@ -342,9 +342,9 @@ zaman_damgasi: NOT PROVIDED
 | F1 | `TBD` / `// ...` / `{...}` / boş hücre yazmak | `UNKNOWN` / `NOT PROVIDED` yaz | kapsam §21/Y1 · Guardrail #6 |
 | F2 | Uydurma ölçü değeri (SNR/THD+N/W/V/A) | yalnız §B1'deki kanıtlı değerler | kapsam §21/Y2 |
 | F3 | Register adresi/değeri yazmak | yazma — K005/kernel işi | kapsam §21/Y3 |
-| F4 | SNR/THD+N eşiğini core'da uygulamak | core yalnız toplar; uygular K019-testing | kapsam §21/Y4 · §8.2 |
+| F4 | SNR/THD+N eşiğini core'da uygulamak | core yalnız toplar; uygular K18-testing | kapsam §21/Y4 · §8.2 |
 | F5 | Pin-for-pin şema / PCB çizimi | K002-electronics | kapsam §21/Y5 |
-| F6 | BOM fiyatı / tedarikçi listesi | K020-comilance | kapsam §21/Y6 |
+| F6 | BOM fiyatı / tedarikçi listesi | K019-comilance | kapsam §21/Y6 |
 | F7 | `donanaım-type` yazımını düzeltmek | yazım **kaynaktandır**, değiştirilmez | kapsam §21/Y7 |
 | F8 | Class AB topolojisini tartışmak | sabit — Class D yasak | kapsam §21/Y8 |
 | F9 | core↔kernel sınırını tek başına çözmek | Q3 kararı Vault Steward'ın | kapsam §21/Y9 |

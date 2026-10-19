@@ -36,9 +36,9 @@ group: mimari
 
 | Öğe | Neden | Giden Yer |
 |---|---|---|
-| Kimlik deposu, kullanıcı modeli | kimlik tanımı | K0100-identitiy |
+| Kimlik deposu, kullanıcı modeli | kimlik tanımı | ⚠️ |
 | OS/systemd journal, dosya izinleri, zaman sunucusu | işletim sistemi | K000-isletim-sistemi/security |
-| Gözlemlenebilirlik metrikleri/trace saklama | tüketici sistem | K017-observability |
+| Gözlemlenebilirlik metrikleri/trace saklama | tüketici sistem | K016-observability |
 | Yetki kararının kendisi (neye erişim) | yetki modeli | authorization |
 | Oturum politikası/timeout | oturum yaşam döngüsü | session-security |
 | Sır deposu ve sır erişim politikası | sır yaşam döngüsü | secrets |
@@ -52,7 +52,7 @@ group: mimari
 |---|---|---|
 | "Ne kaydedilir?" | bu çocuk (anayasa §2-§3) | audit |
 | "Kayıt nasıl üretilir/sürülür?" | bu çocuk (surucu §3) | audit |
-| "Kayıt nereye akar, metrik olur mu?" | tüketim | K017-observability |
+| "Kayıt nereye akar, metrik olur mu?" | tüketim | K016-observability |
 | "Kayıt ne kadar saklanır, silinir mi?" | retention/KVKK | ⚠️ sahipsiz (anayasa U-1/U-2) |
 | "Kayıt değiştirilemez mi?" | bütünlük | ⚠️ kanıtsız (anayasa U-7) |
 | "Kim/ne zaman/neye erişti?" | olay kaydı | audit (bu çocuk) |
@@ -68,7 +68,7 @@ group: mimari
 | StructuredLogger | normalize | `StructuredLogger.php·7` |
 | Domain Events | olay üretimi | `UserLoggedInEvent.php·20`, `UserLoggedOutEvent.php·20` |
 | SecurityHelper | bypass kaydı | `SecurityHelper.php·42-55` |
-| K017-observability | tüketici | ⚠️ KANIT YOK (surucu U-1) |
+| K016-observability | tüketici | ⚠️ KANIT YOK (surucu U-1) |
 
 ## §5 Kapsam İçi/Dışı Kesişim Matrisi
 
@@ -145,7 +145,7 @@ group: mimari
 | retention süresi | sahipsiz → Vault Steward ADR | anayasa U-1 |
 | KVKK silme | sahipsiz → hukuki karar | anayasa U-2 |
 | imza/zoetluk | sahipsiz → Architect ADR | anayasa U-7 |
-| SIEM/uzak aktarım | K017-observability | surucu §14 |
+| SIEM/uzak aktarım | K016-observability | surucu §14 |
 | dosya izinleri | K000-isletim-sistemi | index §4 |
 | olay alanının kimliği (userId) doğruluğu | K0100-identitiy | index §4 |
 

@@ -35,10 +35,10 @@ group: mimari
 
 | Öğe | Neden | Giden Yer |
 |---|---|---|
-| Kullanıcı hesabı modeli (tablo/alan) | kimlik tanımı | K0100-identitiy |
-| Kayıt/şifre sıfırlama akış tasarımı | kimlik deneyimi | K0100-identitiy |
+| Kullanıcı hesabı modeli (tablo/alan) | kimlik tanımı | ⚠️ |
+| Kayıt/şifre sıfırlama akış tasarımı | kimlik deneyimi | ⚠️ |
 | MFA/2FA tasarımı ve kanıtı | kimlik faktörleri | K0100-identitiy (⚠️ kanıt yok) |
-| OAuth2/OIDC sağlayıcı MİMARİSİ | kimlik sağlayıcı | K0100-identitiy |
+| OAuth2/OIDC sağlayıcı MİMARİSİ | kimlik sağlayıcı | ⚠️ |
 | Rol TANIMI (hangi rol, neye sahip) | yetki modeli | authorization + K010 |
 | Oturum çerez/timeout yönetimi | oturum yaşam döngüsü | session-security |
 | Anti-automation (rate limit politikası) | ayrı politika | rate-limiting |
@@ -50,7 +50,7 @@ group: mimari
 | "Kim bu?" | session/token/key doğrulama | authentication (bu çocuk) |
 | "Kim olduğu ne yapabilir?" | yetki kararı | authorization |
 | "Oturum ne kadar sürer?" | timeout/rotation | session-security |
-| "Hesap nasıl oluşur?" | kayıt/model | K0100-identitiy |
+| "Hesap nasıl oluşur?" | kayıt/model | ⚠️ |
 | "Kaç deneme?" | kota | rate-limiting |
 
 ## §4 BAĞIMLILIKLAR

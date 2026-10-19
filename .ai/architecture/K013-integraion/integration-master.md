@@ -59,7 +59,7 @@ politika/kripto üretmez (K009'un işidir).
 | OAuth/PKCE oturumu, kullanıcı kimliği | K0100-identitiy | |
 | Kalıcı veri şeması | K007-data | synchronization sonucu yazar, şema K007'de |
 | Medya dosyası/akış | K014-media | Dış katalog senkronu sınırı ⚠️ |
-| Servis dağıtım/hat sorumluluğu | K018-devops | |
+| Servis dağıtım/hat sorumluluğu | K17-devops | |
 
 ## §3 Kademe-2 çocuk tablosu (v2 §2.13 birebir — 8 çocuk)
 

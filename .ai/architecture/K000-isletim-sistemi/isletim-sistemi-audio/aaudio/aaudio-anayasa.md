@@ -252,7 +252,7 @@ sistem/paylaşımlı yola düşer. (Kaynak: §3.1 matrisi · [W1])
 | 3 | HAL (donanım katmanı yazılımı) | Cihaza indirme | Üreticiye özel |
 | 4 | Kernel ses yolu | Donanım kuyrukları | ALSA ailesi (bu dal dışı) |
 | 5 | Codec/DAC | Dijital-analog dönüşüm | K001-donanım |
-| 6 | Cihaz hoparlör/kulaklık | Fiziksel çıkış | Ölçüm (K019-testing) |
+| 6 | Cihaz hoparlör/kulaklık | Fiziksel çıkış | Ölçüm (K18-testing) |
 
 ### §4.3 CoreMusic ile temas
 

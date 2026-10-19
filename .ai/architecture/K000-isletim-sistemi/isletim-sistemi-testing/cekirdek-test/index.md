@@ -54,8 +54,8 @@ group: mimari
 | Güvenlik denetimi | → `isletim-sistemi-security` | KASAN/syzkaller testi; güvenlik politikası DEĞİL |
 | Telemetri/trace | → `isletim-sistemi-observability` | ftrace ölçümü; telemetri altyapısı DEĞİL |
 | Platform dağılımı | → `isletim-sistemi-turu` | Test matrisindeki satırlar; kurulum DEĞİL |
-| Test ağaçları/coverage | → `K019-testing` | Faz-A teslimi; 0 satır yazım |
-| CI altyapısı sahipliği | → `K018-devops` | Test komutu; pipeline DEĞİL |
+| Test ağaçları/coverage | → `K18-testing` | Faz-A teslimi; 0 satır yazım |
+| CI altyapısı sahipliği | → `K17-devops` | Test komutu; pipeline DEĞİL |
 
 ## §4 Kanıt ve validation durumu
 
@@ -70,7 +70,7 @@ group: mimari
 
 1. `tsc.c:__rdtsc()` — ölçüm kaynağı seçimi `plan` dalının konusudur (root kapsam §D.3).
 2. `virtio-gpu` pointer trap — `cross` dalı sınırı (root kapsam §D.4).
-3. K019-testing erişimi yok; 0 satır.
+3. K18-testing erişimi yok; 0 satır.
 4. `phpunit.xml` → `uygulama-testi` ve `ci-ve-kalite-kapisi`; burada değil.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

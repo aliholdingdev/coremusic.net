@@ -53,7 +53,7 @@ başka düğümdedir ve hangi düğüm olduğu (K006-yapay-zeka ↔ K015-AI) **a
 | 1 | YZ yeteneğini servislere sunma arayüzü (öneri, skorlama isteği) | YZ modeli / ML altyapısı | K006-yapay-zeka / K015-AI (hangisi ⚠️ — §5/R1) |
 | 2 | Öneri bağlamının (context) taşınması: user_id · session_id · mood · genre | Öneri algoritmasının matematiği | K008-domain (iş kuralı) |
 | 3 | YZ çıktısının servis sözleşmesine uygun DTO'ya oturtulması | Sözleşme biçiminin sahipliği | service-contracts |
-| 4 | YZ çağrılarının kullanıcı/cihaz bağlamıyla yapılması | Kimlik doğrulama | K0100-identitiy |
+| 4 | YZ çağrılarının kullanıcı/cihaz bağlamıyla yapılması | Kimlik doğrulama | ⚠️ |
 | 5 | YZ istek/sonuç kayıtlarının kalıcıya yazımı | Şema kararı | K007-data |
 
 **Durum:** satır 1'deki sınır, master §7/1 karar verilene kadar **tasarım önerisidir** —
@@ -228,7 +228,7 @@ sınıf olduğu → UNKNOWN (§2.1/3, R6).
 |---|---|---|---|
 | 1 | YZ modeli / ML altyapısı | §2/1 dışı sütunu | K006 / K016 (hangisi R1) |
 | 2 | Öneri matematiği (ALS, cosine) | §2/2 dışı sütunu + kaynak yorumları Satır: 216/233 | K008-domain / belirsiz |
-| 3 | Kimlik doğrulama | §2/4 dışı sütunu | K0100-identitiy |
+| 3 | Kimlik doğrulama | §2/4 dışı sütunu | ⚠️ |
 | 4 | Şema kararı | §2/5 dışı sütunu | K007-data |
 | 5 | Sözleşme biçiminin sahipliği | §2/3 dışı sütunu | service-contracts |
 | 6 | EQ/analiz DSP çekirdeği | §7.1 kaydı | K003 (karar üstte) |

@@ -303,8 +303,8 @@ Bu belge K001 düğümünün bağlayıcı kural setidir; çelişkide bu dosya ka
 | Ses işleme zinciri | K003-audio | HAYIR | K003 anayasası |
 | DSP algoritması | K004-dsp | HAYIR | K004 anayasası |
 | Fiziksel PCB / BOM | hardware vault | HAYIR | elektronik vault |
-| Test stratejisi gate | K019-testing | HAYIR | K019 |
-| Compliance denetimi | K020-comilance | HAYIR | K020 |
+| Test stratejisi gate | K18-testing | HAYIR | K019 |
+| Compliance denetimi | K019-comilance | HAYIR | K020 |
 
 ### §14.1 Yetki İhlali Senaryoları
 
@@ -378,7 +378,7 @@ Bu belge K001 düğümünün bağlayıcı kural setidir; çelişkide bu dosya ka
 
 | Eşik | K001 sorumluluğu | K001 dışındaki |
 |---|---|---|
-| SNR/THD+N | envanter kaydı (ölçü saklama) | ölçüm K019-testing |
+| SNR/THD+N | envanter kaydı (ölçü saklama) | ölçüm K18-testing |
 | Buffer/48kHz | envanter kaydı | uygulama K003-audio |
 | DC offset | envanter kaydı + alarm | röle donanım vault |
 | Coverage | test stratejisi | çalıştırma K019 |

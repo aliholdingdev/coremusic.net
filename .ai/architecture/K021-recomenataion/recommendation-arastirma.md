@@ -61,7 +61,7 @@ group: kanit
 | 20 | `https://aws.amazon.com/blogs/machine-learning/evaluate-a-production-recommendation-system-using-amazon-sagemaker-model-monitor/` | **404** | ❌ elendi |
 | 21 | `https://cloud.google.com/architecture/tech-tutorials/ai-ml/optimizing-recommendation-system-performance-with-bigquery-ml-and-vertex-ai/` | **404** | ❌ elendi |
 | 22 | `https://microsoft.github.io/recommenders/` | **404** | ❌ elendi — sayfa GitHub'a taşınmış (bkz #7) |
-| 23 | `https://gdpr.eu/article-6-lawful-basis/` | **404** | ❌ elendi — GDPR hukuki dayanak yorumu **bu vaultun kapsamı değil** (K020-comilance) |
+| 23 | `https://gdpr.eu/article-6-lawful-basis/` | **404** | ❌ elendi — GDPR hukuki dayanak yorumu **bu vaultun kapsamı değil** (K019-comilance) |
 | 24 | `https://developers.google.com/machine-learning/recommendation/content-based` | **404** | ❌ elendi |
 | 25 | `https://dl.acm.org/doi/10.1145/3477495` | **403** | ⚠️ erişim engelli (bot koruması) — URL gerçek, içerik okunmadı |
 | 26 | `https://dl.acm.org/doi/10.1145/3523227` | **403** | ⚠️ erişim engelli — aynı davranış |
@@ -99,7 +99,7 @@ benzersiz URL sayısı **28**'dir.
 | AWS SageMaker Model Monitor blog | 404 |
 | Cloud AI/ML BigQuery+Vertex optimizasyon tutorial | 404 |
 | `microsoft.github.io/recommenders/` | 404 — sayfa GitHub reposuna taşınmış (çalışan karşılığı §1 satır 7) |
-| `gdpr.eu/article-6-lawful-basis/` | 404 — GDPR hukuki dayanak yorumu ayrıca **bu vaultun kapsamı değil** (K020-comilance) |
+| `gdpr.eu/article-6-lawful-basis/` | 404 — GDPR hukuki dayanak yorumu ayrıca **bu vaultun kapsamı değil** (K019-comilance) |
 | Google ML `/recommendation/content-based` | 404 — içerik-bazlı rehber sayfası mevcut değil |
 
 > **Kural:** bu 404 URL'ler hiçbir vault dosyasında "kaynak" olarak kullanılmaz;
@@ -133,7 +133,7 @@ benzersiz URL sayısı **28**'dir.
 
 | # | Konu | Durum |
 |---|---|---|
-| 1 | Öneri sistemlerinde KVKK'nın **uygulama** yorumu (hukuki analiz) | bu vaultun kapsamı **değil** → `K020-comilance` |
+| 1 | Öneri sistemlerinde KVKK'nın **uygulama** yorumu (hukuki analiz) | bu vaultun kapsamı **değil** → `K019-comilance` |
 | 2 | ACM makalelerinin içeriği (RecSys literatürü) | 403 — erişilemedi → erişim sağlanınca yeniden tur |
 | 3 | CoreMusic'e özgü veri hacmi/ölçüm | dış kaynakla **kanıtlanamaz** — S5 verisi toplanınca ölçülecek |
 

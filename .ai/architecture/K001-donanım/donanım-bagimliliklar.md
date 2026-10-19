@@ -70,7 +70,7 @@ group: mimari
 | 2 | donanım-kernel ↔ donanım-core belirsizliği | Aynı iş iki yerde tanımlanabilir | ⚠️ kapsam onayı |
 | 3 | donanaım-type envanteri eksik (ekran, kablo) | Kapsam boşluğu | ⚠️ envanter + ADR |
 | 4 | K002 ID GAP | Kayıt defteri tutarsızlığı | ⚠️ registry §6 — onaysız düzeltilmez |
-| 5 | Ölçüm eşikleri kod tarafında karşılanmıyor mu | Ürün kalite kapısı | Ölçüm protokolü K019-testing'e taşınır |
+| 5 | Ölçüm eşikleri kod tarafında karşılanmıyor mu | Ürün kalite kapısı | Ölçüm protokolü K18-testing'e taşınır |
 
 ## §5 Kapanış
 

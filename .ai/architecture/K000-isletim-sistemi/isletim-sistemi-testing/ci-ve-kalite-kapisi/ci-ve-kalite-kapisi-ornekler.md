@@ -350,7 +350,7 @@ da kurar — lokal koşturma ile CI koşturma arasındaki farkı kapatır.
 |---|---|
 | Job ekleme/çıkarma | `.github/AGENTS.md` §3.3 sınır 4 — kullanıcı onayı |
 | `.gitleaks.toml` yazımı | Security + ADR onayı |
-| Deploy workflow'u | `K018-devops` |
+| Deploy workflow'u | `K17-devops` |
 | K019 workflow örnekleri | Komşu dal |
 
 ## §15 Eke — açık sorular

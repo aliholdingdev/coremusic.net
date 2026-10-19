@@ -115,7 +115,7 @@ group: mimari
 
 ### K-09 · Yedekleme/arama sahipliği (K007 mi komşu mu) — `UNKNOWN`
 
-- **Çatışma:** `backup` K007 mi K018-devops mu (S-2); `search` K007 mi K020-discovery mu (S-1).
+- **Çatışma:** `backup` K007 mi K17-devops mu (S-2); `search` K007 mi K020-discovery mu (S-1).
 - **Geçici çözüm:** bu K-space'te her iki çocuk da **K007'de tanımlı**; operasyon/ürün
   sahipliği komşuya devredilebilir. Devir gerçekleşirse children listesi güncellenir —
   bu da **K007'de yapılacak tek yapısal değişiklik** olur.

@@ -48,7 +48,7 @@ katmanını tek yerde toplar.
 | 2 | Çekirdek kavramları (süreç, bellek, dosya) | `isletim-sistemi-kernel` | İçerik: syscall/AB'nin anatomisi değil, **yüzey farkı** |
 | 3 | Platform türü karşılaştırması (Windows/Linux/macOS/Android…) | `isletim-sistemi-turu` | Aile **içinde** derinlik orada; burada **aileler arası fark** |
 | 4 | Test stratejisi ve portability matrix | `isletim-sistemi-testing` | Burada ölçüm tanımlanır, test koşumu orada |
-| 5 | CI/CD pipeline, runner matrisi | `K018-devops` | `ci.yml` yalnız **kanıt** olarak okunur; pipeline tasarımı orada |
+| 5 | CI/CD pipeline, runner matrisi | `K17-devops` | `ci.yml` yalnız **kanıt** olarak okunur; pipeline tasarımı orada |
 | 6 | DSP/donanım taşınabilirliği (örn. ARM64, ses kartı) | `K004-dsp` · `K001-donanım` | Donanım katmanı bu dalın **kapsam dışı**dır |
 
 ## §3 Web doğrulama (2026-10-13 · HEAD · envanter kesişimi 0)

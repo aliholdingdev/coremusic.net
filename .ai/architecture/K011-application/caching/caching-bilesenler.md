@@ -442,8 +442,8 @@ kaynaklıdır (§16 R-2, R-4).
 | Rate limit **politikası** (limit değerleri, pencere seçimi) | Yalnız mekanizma (§3, §7) | K009-security + ürün kararı |
 | Şema/DDL/migration | Yalnız `rate_limits` envanteri (§7) | K007-data |
 | CDN/Varnish operasyonu | PLANNED etiketi (§13 P-CDN1) | K012-services/DevOps |
-| Test stratejisi ve coverage eşiği | Boşluk listesi (§8, §13) | K019-testing |
-| JS test altyapısı (vitest) | Bağımlılık notu (§19) | K019-testing + UI |
+| Test stratejisi ve coverage eşiği | Boşluk listesi (§8, §13) | K18-testing |
+| JS test altyapısı (vitest) | Bağımlılık notu (§19) | K18-testing + UI |
 | HTML shell emit genişliği | Yalnız `Vary` kanıtı (§6 H-4) | K011-routing |
 
 ---

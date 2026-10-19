@@ -46,7 +46,7 @@ group: mimari
 | D1 | Boru hattı kanonik tanımı S1-S6 | ✅ alındı (2026-10-17) | Vault Steward |
 | D2 | Sıralama yöntemi (A kural / B skor / C öğrenen) | ⏸ bekliyor — ADR-2 | ADR mercii (master'da `K020-adr` — ⚠️ klasör adı doğrulanmadı) |
 | D3 | Metrik seçimi + eşikler | ⏸ bekliyor — ADR-3 | `evaluation/` + ADR |
-| D4 | KVKK kapsamı + hukuki dayanak | ⏸ bekliyor — K1 | `K019-comilance` (⚠️ master 'K020-comilance' yazar) |
+| D4 | KVKK kapsamı + hukuki dayanak | ⏸ bekliyor — K1 | `K019-comilance` (⚠️ master 'K019-comilance' yazar) |
 | D5 | `0.6/0.4` ağırlık doğrulaması | ⏸ bekliyor — Faz-4 ölçümü | Vault Steward + K006 |
 | D6 | Klasör ID'si (K021 vs 40+ K020 referansı) | ⏸ üst karar | Vault Steward + kullanıcı |
 

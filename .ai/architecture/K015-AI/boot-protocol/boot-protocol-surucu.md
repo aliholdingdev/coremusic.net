@@ -135,7 +135,7 @@ için bağlayıcıdır; S5/S6 sayı farkını çözer (§5). S7 hiçbir zaman "k
 | B5 | Boot süresi | MEMORY §4: Initialize max 25s · §5: toplam max 36s | aşımda P2 adımları atlanabilir | §15 |
 
 **Mojibake ölçümü (2026-10-17, gerçek):** `.ai/MEMORY.md` → **1063 × U+00C3 + 441 × U+00E2**
-(çift kodlanmış UTF-8 belirtisi — read çıktısında `Ã¢â‚¬` dizgileri görünür);
+(çift kodlanmış UTF-8 belirtisi — read çıktısında `â€` dizgileri görünür);
 karşılaştırma `.ai/AGENTS.md` → **0**. Boot sürücüsü bu bulguyu **işaretler, düzeltmez**
 (düzeltme yetkisi Vault Steward — §26/Q2).
 

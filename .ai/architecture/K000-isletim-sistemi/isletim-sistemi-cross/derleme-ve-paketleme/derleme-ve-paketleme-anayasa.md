@@ -30,7 +30,7 @@ group: mimari
 | node_id | `K000-isletim-sistemi/isletim-sistemi-cross/derleme-ve-paketleme/derleme-ve-paketleme-anayasa` |
 | parent_id | `…/isletim-sistemi-cross/derleme-ve-paketleme` |
 | group | `mimari` |
-| Komşular | `../platform-yuzeyleri` · `../tasinabilirlik-siniri` · `K018-devops` · `isletim-sistemi-testing` |
+| Komşular | `../platform-yuzeyleri` · `../tasinabilirlik-siniri` · `K17-devops` · `isletim-sistemi-testing` |
 | Repo gerçeği | C++ toolchain YOK; derlenen yüzey = PHP (Composer) + JS (npm) |
 
 ## §0 ELI15
@@ -140,7 +140,7 @@ Neva Engine ile gelecektir.
 
 | # | Konu | Nereye gider |
 |---|---|---|
-| 1 | CI pipeline tasarımı | `K018-devops` |
+| 1 | CI pipeline tasarımı | `K17-devops` |
 | 2 | Test koşumu | `isletim-sistemi-testing` |
 | 3 | `#ifdef` guard kalıpları | `../tasinabilirlik-siniri` |
 | 4 | OS API/ABI farkları | `../platform-yuzeyleri` |
@@ -382,7 +382,7 @@ matrisleri hedef tasarımdır, bugünkü davranış değildir.
 | 2 | Kod örnekleri (CMake/Composer) | `derleme-ve-paketleme-ornekler.md` |
 | 3 | OS API/ABI farkları | `../platform-yuzeyleri/…-anayasa.md` |
 | 4 | `#ifdef` guard | `../tasinabilirlik-siniri/…-anayasa.md` |
-| 5 | CI pipeline | `K018-devops` (kanıt: ci.yml) |
+| 5 | CI pipeline | `K17-devops` (kanıt: ci.yml) |
 | 6 | Test eşikleri | `isletim-sistemi-testing` |
 
 ## §26 Kırılma noktaları — derleme-paketleme (S4)

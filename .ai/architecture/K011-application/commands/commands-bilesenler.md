@@ -519,7 +519,7 @@ uydurulmadı, §10 ile aynı).
 | # | Bileşen | Ait olduğu K | Neden K011'de değil |
 |---|---|---|---|
 | 1 | `Events/` (domain+integration) | K012-services | yayım orkestrasyonu |
-| 2 | Testing (12+3 test) | K019-testing | test stratejisi |
+| 2 | Testing (12+3 test) | K18-testing | test stratejisi |
 | 3 | BFF katmanı (5) | K006/yonetim | sunucu-yerleşim |
 | 4 | CLI Command (`bin/`) | K018 (⚠ sınır açık) | CLI ≠ uygulama |
 | 5 | `Contracts/` (19) | K008-domain | sözleşme sahipliği |

@@ -67,7 +67,7 @@ repo'da bulunmamaktadır. Bu dosya, mevcut durumu ve hedef modeli birlikte tanı
 | Yayılım | ✅ Yanıt başlığı + log alanları | ❌ Servisler arası header aktarımı (henüz yok) |
 | Span modeli | ✅ Hedef tanım ve eşleme | ❌ Span API implementasyonu |
 | Örnekleme | ✅ Kural ve seçenekler | ❌ Oran seçimi → üst karar |
-| Toplayıcı | ✅ Seçim kriterleri | ❌ Kurulum → K018-devops |
+| Toplayıcı | ✅ Seçim kriterleri | ❌ Kurulum → K17-devops |
 | Korelasyon | ✅ `traceId` ile log bağı | `correlation/` altındaki kimlik politikası |
 | Ses zinciri izleme | ❌ Değil | `audio-diagnostics/` + K015 |
 | Uyarı | ❌ Değil | `alerting/` |
@@ -332,7 +332,7 @@ döndürür.
 | 6 | Dikey | `logging/` | Aynı alan | Tutarlılık |
 | 7 | Dikey | `correlation/` | Kimlik politikası | Sınır |
 | 8 | Dikey | `metrics/` | `route_pattern` köprüsü | Etiket |
-| 9 | Dikey | K018-devops | Toplayıcı kurulumu | Ortam |
+| 9 | Dikey | K17-devops | Toplayıcı kurulumu | Ortam |
 
 ## §12 Uçtan uca iz şeması
 

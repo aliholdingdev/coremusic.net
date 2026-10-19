@@ -505,7 +505,7 @@ export function resolve(a: Claim, b: Claim): { winner: Claim; loser: Claim | nul
 | 3 | Hayalet indeks satırı | hedef açılamıyor | `Test-Path` false (§18/C1) | satır sil/raporla |
 | 4 | Frozen'a dokunma | ADR metni değişmiş | git diff (orkestratör) | geri al + yeni ADR |
 | 5 | SSOT sırası ihlali | alt dosya kazanmış | §11 karşılaştırması | üst katmana göre düzelt |
-| 6 | Mojibake | `Ã‡`, `â€"` gibi bozuk karakterler | §17/B2 taraması | düzelt (vault geneli 745 düzeltme geçmişi — `.ai/AGENTS.md §26.3`) |
+| 6 | Mojibake | `Ç`, `â€"` gibi bozuk karakterler | §17/B2 taraması | düzelt (vault geneli 745 düzeltme geçmişi — `.ai/AGENTS.md §26.3`) |
 | 7 | Kırık wiki-link | `[[...]]` hedefi yok | `wiki-link-check.ps1` (kökten) | 6 sahte kırık **onarılmaz** (§24/7) |
 | 8 | Ölçümsüz sayı | tarihiz istatistik | sayı yanında `ölçüm` yok | ölç + tarihle ya da `UNKNOWN` |
 | 9 | `updated:` unutulması | tazelik zinciri kopuk | §18/A2 bayat | G adımını tekrarla |

@@ -259,8 +259,8 @@ Bağlayıcı taşma kuralları:
 
 | # | Konu | Bu dal | Karşılığı |
 |---|---|---|---|
-| 1 | OTel span, korelasyon servisi | yalnız sınır tarifi | `K017-observability` |
-| 2 | "gecikme > eşik → alarm" | ölçüm/iz | alarm → `K017-observability` |
+| 1 | OTel span, korelasyon servisi | yalnız sınır tarifi | `K016-observability` |
+| 2 | "gecikme > eşik → alarm" | ölçüm/iz | alarm → `K016-observability` |
 | 3 | sayaç okuma/periyot | yalnız perf_event ortaklığı | `metrik` alt-dalı |
 | 4 | log yazımı, rotasyon | yalnız trace↔log kesişimi | `log` alt-dalı (`log-surucu` §7 traceId köprüsü) |
 | 5 | tracepoint kaynağı | yalnız yakalama | `isletim-sistemi-kernel` |

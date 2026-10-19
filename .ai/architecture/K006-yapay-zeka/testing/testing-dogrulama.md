@@ -467,7 +467,7 @@ M4 (K006.7 §5) · M5 (§3 + local-inference §2.3) · M6 (§3). Bu nedenle bu b
 | K006.4-evaluation | metrik kodu 0 → G4 kapısı **blokaj altında** | `evaluation/evaluation-dogrulama.md` §14 |
 | K006.7-local-inference | 7 hedefin 2'si (ffprobe deseni · timeout) onun seam'ine bağlı | `local-inference-dogrulama.md` §6 |
 | K006.1-model-management | model dosyası fixture'ı (fuzz yüzeyi) onun kapsamına girer | `model-management/*` |
-| K019-testing (dış) | ai-master L219: `used_by K019 — TASARIM İDDİASI` | ai-master §? (dokunulmadı) |
+| K18-testing (dış) | ai-master L219: `used_by K019 — TASARIM İDDİASI` | ai-master §? (dokunulmadı) |
 | Kök `-test-stratejisi` | G1–G5 kapısı bu turda 5/5 **kapalı** teyit edildi (§15) | kök dosya (dokunulmadı) |
 
 **Yasak hatırlatması:** kök `yapay-zeka-test-stratejisi.md` · `ai-master.md` · `index.md` bu

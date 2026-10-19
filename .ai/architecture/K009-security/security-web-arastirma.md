@@ -127,9 +127,9 @@ group: kanit
 
 | Konu | Kaynak (§) | Neden K009 DIŞI | Giden Dosya |
 |---|---|---|---|
-| AAL seviyesi seçimi | §4 800-63-3 | Kimlik/kullanıcı modeli K010 kapsamı | K0100-identitiy |
-| Login akışı, MFA, parola sıfırlama | §3 Authentication | Kimlik doğrulama akışı K010 kapsamı | K0100-identitiy |
-| OAuth2/OIDC uçları (authoriz. server) | §4 (temel) | Kimlik sağlayıcı rolü K010 kapsamı | K0100-identitiy |
+| AAL seviyesi seçimi | §4 800-63-3 | Kimlik/kullanıcı modeli K010 kapsamı | ⚠️ |
+| Login akışı, MFA, parola sıfırlama | §3 Authentication | Kimlik doğrulama akışı K010 kapsamı | ⚠️ |
+| OAuth2/OIDC uçları (authoriz. server) | §4 (temel) | Kimlik sağlayıcı rolü K010 kapsamı | ⚠️ |
 | Kullanıcı rolleri modeli (rol tanımı) | §3 Authorization | Yetki TANIMI K010, uygulaması K009 | K010 → K009 devri |
 
 | Sınır Kuralı | Açıklama |
@@ -345,12 +345,12 @@ group: kanit
 | SP 800-38B CMAC → kimlik doğrulamalı şifreleme modu referansı | encryption | AES-GCM tercihi ADR-022'de; CMAC uygulanmadı |
 | SP 800-92 log → audit dalga-3 girdisi | audit | LoggerRedactionTest kanıtı §6'da |
 | SP 800-94 IDPS → izleme katmanı; K009'da SIEM yok | audit / K010-network | UNKNOWN — izleme altyapısı okunmadı |
-| SP 800-123 sunucu güvenliği → deployment yüzeyi | K000 / K018-devops | K009 kapsamı DIŞI (sınır) |
+| SP 800-123 sunucu güvenliği → deployment yüzeyi | K000 / K17-devops | K009 kapsamı DIŞI (sınır) |
 | SP 800-40r4 yama → bağımlılık güncelliği (A06) | bagimliliklar | composer.json envanteri §8'de |
 | SP 800-83r1 malware → olay müdahale öncesi hazırlık | audit dalga-3 | — |
 | SP 800-115 test → security-testing dalga-3 girdisi | security-testing | WSTG (§2) ile birlikte kullanılır |
 | SP 800-161r1 tedarik zinciri → A06/A08 girdisi | bagimliliklar · secrets | Software_Supply_Chain CS (§3 havuzu) ile örtüşür |
-| SP 800-184 kurtarma → afet kurtarma planı | K018-devops | K009 kapsamı DIŞI |
+| SP 800-184 kurtarma → afet kurtarma planı | K17-devops | K009 kapsamı DIŞI |
 
 | §17 Batch'inde ELENEN adaylar (2026-10-13) | Sonuç | Karar |
 |---|---|---|
@@ -395,7 +395,7 @@ group: kanit
 | 14 | SP 800-83r1 | audit (dalga-3) | malware olay hazırlığı | bu dosya havuzu |
 | 15 | SP 800-115 | security-testing (dalga-3) | test yöntemi | bu dosya havuzu |
 | 16 | SP 800-161r1 | security-bagimliliklar.md | tedarik zinciri riski | bu dosya havuzu |
-| 17 | SP 800-184 | K018-devops | kurtarma planı sınırı | bu dosya havuzu |
+| 17 | SP 800-184 | K17-devops | kurtarma planı sınırı | bu dosya havuzu |
 
 | Tahsis Kuralı (yeni havuz) | Açıklama |
 |---|---|
@@ -489,14 +489,14 @@ group: kanit
 |---|---|---|---|---|---|
 | A-17 | A10 SSRF için kontrol listesi uygulanabilir mi? | §17 satır 2 (SSRF Prevention CS) | input-validation dosyası açılınca | dalga-3 | ⚠️ VERIFICATION REQUIRED |
 | A-18 | Parola sıfırlama akışı kodda var mı? | §17 satır 3 (Forgot Password CS) | K0100-identitiy dosyası okununca | K010 | ⚠️ VERIFICATION REQUIRED |
-| A-19 | php.ini yüzeyi deployment'ta nasıl? | §17 satır 5 (PHP Configuration CS) | sunucu yapılandırması okununca | K018-devops | UNKNOWN |
+| A-19 | php.ini yüzeyi deployment'ta nasıl? | §17 satır 5 (PHP Configuration CS) | sunucu yapılandırması okununca | K17-devops | UNKNOWN |
 | A-20 | SAML kullanılıyor mu? | §17 satır 8 (SAML Security CS) | composer.json + kod taraması | authentication/ | ⚠️ VERIFICATION REQUIRED |
 | A-21 | Log yönetimi standardı uygulanıyor mu? | §17 satır 10 (SP 800-92) | audit dosyası açılınca | dalga-3 | UNKNOWN |
 | A-22 | İzleme/IDPS katmanı var mı? | §17 satır 11 (SP 800-94) | K014/K017 okununca | K010-network | UNKNOWN |
 | A-23 | Yama/yüncelik döngüsü tanımlı mı? | §17 satır 13 (SP 800-40r4) | bagimliliklar derinleştirmesinde | security-bagimliliklar.md | UNKNOWN |
 | A-24 | Test yöntemi (SP 800-115) WSTG ile eşleşiyor mu? | §17 satır 15 | security-testing dosyasında | dalga-3 | ⚠️ VERIFICATION REQUIRED |
 | A-25 | Tedarik zinciri riski (SP 800-161r1) değerlendirildi mi? | §17 satır 16 | A06/A08 denetiminde | bagimliliklar | UNKNOWN |
-| A-26 | Kurtarma planı (SP 800-184) kapsam dışı mı? | §17 satır 17 | sınır onayı | K018-devops | Kapsam dışı (sınır) |
+| A-26 | Kurtarma planı (SP 800-184) kapsam dışı mı? | §17 satır 17 | sınır onayı | K17-devops | Kapsam dışı (sınır) |
 
 | Sonraki Dalga Sırası | Neden |
 |---|---|

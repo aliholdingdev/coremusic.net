@@ -79,9 +79,9 @@ yalnızca `depends_on` ile bağ taşır.
 | 2 | `command` / `query` ayırır ve handler'a dağıtır | Aggregate state'i kalıcı yapmaz | K007-data |
 | 3 | Domain event'i yayınlar (`EventDispatcher`) | Dış servisi HTTP ile tetiklemez | K012-services |
 | 4 | `DTO` ↔ entity/map dönüşümünü yapar | BCNF şema kararı vermez | K007-data |
-| 5 | Zamanlanmış görevi tanımlar ve çalıştırır | Cron altyapısını barındırmaz | K018-devops |
+| 5 | Zamanlanmış görevi tanımlar ve çalıştırır | Cron altyapısını barındırmaz | K17-devops |
 | 6 | Middleware zincirini sırayla yürütür | Güvenlik politikasını sahiplenmez | K009-security |
-| 7 | Kimlik doğrulama adımını çağırır | Kimlik deposunu tutmaz | K0100-identitiy |
+| 7 | Kimlik doğrulama adımını çağırır | Kimlik deposunu tutmaz | ⚠️ |
 | 8 | Sayfa/API zarfını üretir | Dış API adaptörü yazmaz | K013-integraion |
 
 ## §4 — Kademe-2 çocuk kataloğu (16 çocuk)
@@ -200,7 +200,7 @@ yalnızca `depends_on` ile bağ taşır.
 | İş kuralı ihlali nasıl bildirilir? | Handler `Result` zarfı alır, yorumlamaz | K008-domain |
 | Dış servis çağrısı nasıl olur? | Handler → event → K012 adaptörü | K012-services |
 | Ödeme sağlayıcı şifresi? | K011'de **bulunmaz** | K009-security / K012 |
-| Cron zamanlayıcı? | Görev **tanımı** K011'de; **çalıştırıcı** K018 | K018-devops |
+| Cron zamanlayıcı? | Görev **tanımı** K011'de; **çalıştırıcı** K018 | K17-devops |
 
 ## §11 — Bağımlılık grafiği
 

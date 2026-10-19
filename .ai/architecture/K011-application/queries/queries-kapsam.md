@@ -76,7 +76,7 @@ CoreMusic repo'sunda bu yol üç parçalıdır: (1) PDO bağlantısını kuran
 | 2 | HTTP middleware (auth/CSRF/rate limit) | application-services · Security | `Dosya: api.coremusic.net/index.php · Satır: 147` (pipeline ayrı katman) |
 | 3 | Route eşleme & sayfa render | routing · usecase-akislari | `Dosya: shared/src/PageRouter/PageRouterKernel.php` (usecase-akislari kanıtı) |
 | 4 | ORM / ActiveRecord | **YASAK** — repo'da yok | `Dosya: shared/AGENTS.md` §4 Yasak #3 — "ORM (ADR-002)" |
-| 5 | Veritabanı sunucusu kurulumu/backup | K018-devops | `queries-index` sınır ifadesi |
+| 5 | Veritabanı sunucusu kurulumu/backup | K17-devops | `queries-index` sınır ifadesi |
 | 6 | Cache katmanı (APCu vb.) | caching (Ünite-3) | `Dosya: shared/src/Cache/ApcuAdapter.php · Satır: 5` |
 | 7 | İstemci tarafı fetch/istek kütüphanesi | routing (istemci router'ı) — yalnız çapraz referans | `Dosya: assets.coremusic.net/js/router/FetchWrapper.js · Satır: 5` |
 

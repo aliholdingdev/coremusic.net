@@ -47,7 +47,7 @@ group: mimari
 | 8 | Offline | Çevrimdışı Kullanılabilirlik | §9.8 — READY/PENDING/MISSING · ADR-027 |
 | 9 | Media Cache | Medya Önbelleği | §9.9 — ARC (scan-resistant, §22.5) |
 | 10 | Synchronization | Medya Verisi Eşitlemesi | §9.10 — K013 ile aynı ad §7/3 · yön ⚠️ UNKNOWN (§12/9) |
-| 11 | Media Testing | Medya Testleri | §9.11 — K18-testing ile §7/4 belirsiz (master'da: K019-testing) |
+| 11 | Media Testing | Medya Testleri | §9.11 — K18-testing ile §7/4 belirsiz (master'da: K18-testing) |
 | 12 | Track | Parça | media-kod-ornekleri §2.1 (Track record — ULID + hash) |
 | 13 | Content Hash | İçerik Özeti (Hash) | §2.1 — SHA-256 · dedup anahtarı |
 | 14 | ULID | ULID Kimliği | ADR-092 — kronolojik sortlanabilir tekil kimlik |

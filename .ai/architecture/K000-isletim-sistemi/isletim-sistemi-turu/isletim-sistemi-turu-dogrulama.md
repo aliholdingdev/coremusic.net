@@ -246,7 +246,7 @@ ağaç genişlemesinin tarihsel izidir ve doğrulama bunu kayda alır:
 | # | Bulgu | Sayı | Karar |
 |---|---|---|---|
 | 1 | bu dosyanın sonunda authority satırı iki kez tekrar ediyor | 2 | **silinmedi** — mevcut satır silme/değiştirme yasağı gereği korundu |
-| 2 | ikinci satırda ayraç çift-kodlanmış (mojibake varyant: `Â·`) | 1 | korundu — imla/dosya hatası değiştirilmez |
+| 2 | ikinci satırda ayraç çift-kodlanmış (mojibake varyant: `·`) | 1 | korundu — imla/dosya hatası değiştirilmez |
 | 3 | birinci satır ayraçlı düz varyant | 1 | korundu |
 | 4 | beyaz liste 9 dosyanın kalan 8'inde authority satırı sayısı | 1 | normal — anomali yalnız bu dosyada |
 
@@ -303,7 +303,7 @@ dosyanın kendi doğrulama turunun ham çıktısıdır. Yeni URL tescili 0.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 
 ### §XX.10 - Sayaç Yöntemi: Bayt Düzeyi Ölçüm Protokolü (tamamlama eki)
 
@@ -414,7 +414,7 @@ geçen iddia → iddia). İmla hataları kural gereği düzeltilmez — bu düze
 imla değil, yazı-taşımasıdır.
 
 **Korunan anomali (§XX.5):** bu dosyada iki authority satırı vardır; ikincisi
-farklı noktalama biçimiyle (Â·) yazılmıştır. Kural gereği ikisi de silinmez —
+farklı noktalama biçimiyle (·) yazılmıştır. Kural gereği ikisi de silinmez —
 anomali kaydı §XX.5'te yaşar ve bu ekle birleşmez.
 
 **Commit durumu:** tüm değişiklikler working tree'dedir; bu turda git commit

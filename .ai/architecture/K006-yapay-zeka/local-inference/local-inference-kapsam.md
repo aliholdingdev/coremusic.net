@@ -146,10 +146,10 @@ children:
   - K006.8-recommendation
   - K006.9-testing
 depends_on:
-  - K004-shared
+  - ⚠️
   - K015-AI
   - K002-database
-  - K001-core
+  - ⚠️
 ```
 
 ### B3 — `local-inference/index.md` tanım ve bağımlılık bloğu

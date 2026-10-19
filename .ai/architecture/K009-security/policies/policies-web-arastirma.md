@@ -56,7 +56,7 @@ Her iddia, kod/vault yüzeyine bağlanır (`policies-surucu.md` §2 tablosu):
 4. **ISO 27001** → kapsam §1 kalem 6; kontrol seti mantığı (doküman + kanıt +
    denetim) anayasa/doğrulama ikilisine karşılık gelir.
 5. **KVKK** → kapsam §3: saklama metni üretilmedi → `⚠️ ONAY BEKLİYOR`
-   (dogrulama §6 madde 3; sahiplik K020-comilance).
+   (dogrulama §6 madde 3; sahiplik K019-comilance).
 6. **www-policy** → anayasa §4 atıf notu: kaynak doğrulanmadan politika
    yazılmaz; `⚠️` ile işaretlenir (zero-hallucination uygulaması).
 7. **NIST CSF** → surucu §7: P-10 (OWASP %100) için denetim toplama noktası;

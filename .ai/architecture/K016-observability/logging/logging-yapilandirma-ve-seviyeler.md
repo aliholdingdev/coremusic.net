@@ -65,18 +65,18 @@ yalnız seviye tanımlayıp redaction'ı bırakmak, KVKK/OWASP açısından aç�
 |---|---|---|
 | Seviye adları ve sırası | ✅ PSR-3 sekiz seviye + eşik kuralı | ❌ Uyarı kanalları (Slack, e-posta) → `alerts/` |
 | Context alanları | ✅ Zorunlu altı alan + opsiyonel alanlar | ❌ Metrik üretimi → `metrics/` |
-| Redaction kuralları | ✅ Anahtar adı, hash, e-posta maskeleri | ❌ Sızıntı taraması (secret scan) → K018-devops/secrets |
+| Redaction kuralları | ✅ Anahtar adı, hash, e-posta maskeleri | ❌ Sızıntı taraması (secret scan) → K17-devops/secrets |
 | Correlation | ✅ traceId'nin log satırına yazımı | ❌ Uçtan uca span ağacı → `tracing/` |
-| Dosya düzeni | ✅ info/warning ayrımı, format satırı | ❌ Saklama süresi (retention) → K018-devops |
-| Test kapsamı | ✅ Mevcut testlerin neyi kanıtladığı | ❌ Yeni test yazımı → K019-testing |
+| Dosya düzeni | ✅ info/warning ayrımı, format satırı | ❌ Saklama süresi (retention) → K17-devops |
+| Test kapsamı | ✅ Mevcut testlerin neyi kanıtladığı | ❌ Yeni test yazımı → K18-testing |
 | PSR-3 arayüzü | ✅ `LoggerInterface` uygulaması | ❌ Olay yayımı (event dispatch) → `Events/` |
 
 **Komşu domainlerle sınır:**
 
 | Komşu | Geçiş noktası | Bu dosyanın rolü |
 |---|---|---|
-| K018-devops | CI log çıktısı | Aynı seviye adları kullanılır; içerik bu dosyada tanımlı |
-| K019-testing | Testlerde log assertion | `Psr3LoggerTest` bu dosyanın kurallarını doğrular |
+| K17-devops | CI log çıktısı | Aynı seviye adları kullanılır; içerik bu dosyada tanımlı |
+| K18-testing | Testlerde log assertion | `Psr3LoggerTest` bu dosyanın kurallarını doğrular |
 | K009-security | Hassas veri tespiti | Redaction anahtar listesi buradan beslenir |
 | K016-alerting | Uyarı üreten loglar | `warning` ailesi uyarı adaydır |
 | K016-metrics | Log tabanlı sayaçlar | Log hacmi metrik olarak ayrıca üretilir |
@@ -418,7 +418,7 @@ Bu komut 1-based satır 40'ı, yani `private const LEVELS = [` satırını dönd
 | 5 | Çıkış | Standart hata akışı | `error_log()` | Yapılandırılmış kayıt |
 | 6 | Dikey | `metrics/` | Aynı seviye adları | Alarm adayları |
 | 7 | Dikey | `tracing/` | `traceId` alanı | Bağlam aktarımı |
-| 8 | Dikey | K018-devops | CI stdout | Aynı format |
+| 8 | Dikey | K17-devops | CI stdout | Aynı format |
 | 9 | Çıkış | `CsrfMiddleware` | `securityEvent('csrf_invalid')` | Güvenlik olayı kaydı |
 | 10 | Çıkış | `RateLimiterMiddleware` | `securityEvent('rate_limited')` | Sınır aşımı kaydı |
 | 11 | Çıkış | `PageRouterKernel` | `setTraceId()` iki sınıfa birden | İstek korelasyonu |
@@ -438,7 +438,7 @@ Bu komut 1-based satır 40'ı, yani `private const LEVELS = [` satırını dönd
 | 6 | TraceId üretim yöntemi (rastgelelik) bilinmiyor | Çakışma | düşük | `setTraceId()` çağıran kod incelenecek | ⚠️ VERIFICATION REQUIRED |
 | 7 | Dosya izinleri (0700 vb.) repo'da görünmüyor | Yetkisiz okuma | orta | `Psr3LoggerTest` setUp'ında `0700` var | kısmen doğrulandı |
 | 8 | İki logger (dosya + JSON) aynı anda yazıyor | Kaynak tüketimi ve tekrar | orta | Bileşim `PageRouterKernel`'da | açık |
-| 9 | `critical`/`alert`/`emergency` için test yok | Eşik regresyonu | orta | `K019-testing` iş kalemi | açık |
+| 9 | `critical`/`alert`/`emergency` için test yok | Eşik regresyonu | orta | `K18-testing` iş kalemi | açık |
 | 10 | Log hacminin üst sınırı tanımlı değil | Disk kullanımı | orta | Rota/saklama politikası K018'de | ⚠️ VERIFICATION REQUIRED |
 | 11 | Redaction anahtar listesi yeni alan adlarıyla senkron değil | Sızıntı | yüksek | Liste gözden geçirmesi | açık |
 | 12 | `error_log()` hedefi ortama göre farklı olabilir | Kayıt yeri belirsizliği | düşük | Ortam araştırması | ⚠️ VERIFICATION REQUIRED |

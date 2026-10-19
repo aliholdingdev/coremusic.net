@@ -155,7 +155,7 @@ Kural: eşiği olmayan ölçüm **sadece bilgidir**, kapıdır sayılmaz. T2 kap
 | Uygulama testi içeriği (PHPUnit desen detayı) | `K019-testing` | Faz-A teslimi (kapsam.md §E.1) |
 | Sürücü/çekirdek implementasyonu | `isletim-sistemi-kernel` | Kod sahipliği farklı dalda |
 | Workflow sahipliği ve deploy onayı | `K018-devops` + `.github/AGENTS.md` §3.1 | Yml sahibi DevOps'tur |
-| K019 test altyapısının kendisi | `K019-testing` | Bu dal test **stratejisini** kurar, framework kurmaz |
+| K019 test altyapısının kendisi | `K18-testing` | Bu dal test **stratejisini** kurar, framework kurmaz |
 
 ## §11 Kaynakça (2026-10-13 · HTTP 200 · ayrıntı `-web-arastirma.md` §2-§3)
 

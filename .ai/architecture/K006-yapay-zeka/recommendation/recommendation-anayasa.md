@@ -29,7 +29,7 @@ sıralar ve tek bir öneri listesi döner.
 | 2 | Skorlama ve hybrid ağırlıklandırma | "beğeni/öneri" iş kuralının sahibi olması | K008-domain |
 | 3 | Çeşitlilik (diversity) filtresi ve MIN_SCORE eşiği | Öneri kartının UI'da çizimi | K011-application |
 | 4 | Öneri modelinin K006 ürün tarafında çalıştırılması | Ajan çalışma zamanı / prompt yönetimi | K015-AI (**kapsam dışı**) |
-| 5 | Öneri kalitesinin ölçülmesi (evaluation ile) | Genel uygulama testi | K019-testing |
+| 5 | Öneri kalitesinin ölçülmesi (evaluation ile) | Genel uygulama testi | K18-testing |
 
 **Sınır cümlesi (v2 §2.6 · registry §6):** Bu dal yalnız **K006 = ML ürün tarafını**
 kapsar. K015-AI ajan altyapısına öneri yeteneği **taşınamaz**; ajanlar K006'yı **çağırır**.
@@ -147,7 +147,7 @@ DIŞINDADIR**. Ajanlar K006'nın öneri API'sini çağırır; öneriyi **üretme
 | 3 | "beğeni" iş kuralının tanımı | K008-domain |
 | 4 | Öneri kartı UI çizimi | K011-application |
 | 5 | Ajan prompt/tool yönetimi | K015-AI |
-| 6 | Genel uygulama testi | K019-testing |
+| 6 | Genel uygulama testi | K18-testing |
 
 ## §11 Açık Sorular (anayasa kilidi)
 

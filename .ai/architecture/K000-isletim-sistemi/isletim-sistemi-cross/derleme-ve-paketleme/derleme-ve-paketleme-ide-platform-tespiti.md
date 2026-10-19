@@ -238,7 +238,7 @@ seçmek OS tespitini değiştirmez; build dosyasını (CMake) seçmek değiştir
 | 3 | `#ifdef`/taşınabilirlik **kararı** | `../tasinabilirlik-siniri` |
 | 4 | OS API/ABI **farkları** | `../platform-yuzeyleri` |
 | 5 | Embedded (PIC/AVR/Arduino) derleme zinciri | `K001-donanım/donanaım-type/mikrodenetleyici` |
-| 6 | CI pipeline tasarımı | `K018-devops` |
+| 6 | CI pipeline tasarımı | `K17-devops` |
 
 ## §9 Kaynakça (web · 2026-10-14 · HEAD · envanter kesişimi 0)
 

@@ -49,7 +49,7 @@ final class CacheManager
 |-------|----------|-----|
 | `function_exists('apcu_fetch')` | runtime tespiti | apcu yoksa sessiz fallback — "neden hızlı değil?" gizlenebilir (R-cache) |
 | `static $adapter` | process-ömrü singleton | FPM worker bazlı; workerlar arası tutarlılık APCu'ya bağlı |
-| `setAdapter` | test seam'i | K019-testing için enjeksiyon kapısı |
+| `setAdapter` | test seam'i | K18-testing için enjeksiyon kapısı |
 
 ---
 

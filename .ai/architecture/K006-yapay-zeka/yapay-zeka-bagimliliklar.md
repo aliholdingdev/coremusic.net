@@ -165,13 +165,13 @@ group: mimari
 ```
 K006 (ürün ML)
   ├─ iç → CoreMusic\Contracts\AI (AIEngineInterface, AIOrchestratorInterface)
-  ├─ iç → CoreMusic\Config\ConfigManager (K004-shared)
+  ├─ iç → CoreMusic\Config\ConfigManager (⚠️)
   ├─ iç → DI (php-di/php-di) üzerinden diğer AI sınıfları
   ├─ çağrı → K016 profili sınıfları (KnowledgeBase, MemorySystem,
   │           PromptEngine, ToolCalling) ← AIWorkflow constructor'ında zorunlu
   │                                        (SADECE ÇAĞRI, KOD TAŞINMAZ)
   ├─ veri → K002-database (öneri eğitim verisi)          ⚠️ depo adı UNKNOWN
-  ├─ yapılandırma → K001-core / ConfigManager             ⚠️ AI anahtar dosyası UNKNOWN
+  ├─ yapılandırma → ⚠️ / ConfigManager             ⚠️ AI anahtar dosyası UNKNOWN
   └─ aday harici → ONNX / PyTorch / TF / vLLM / librosa   ⚠️ kurulu değil
 ```
 

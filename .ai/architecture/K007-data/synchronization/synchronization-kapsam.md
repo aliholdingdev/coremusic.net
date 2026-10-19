@@ -36,7 +36,7 @@ group: mimari
 | Tek DB atomikliği | transactions | senkron ≠ atomik |
 | API entegrasyon protokolleri | K013-integraion | taşıma katmanı |
 | Cihaz-servis senkronu (uygulama seviyesi) | K011-application | UI akışı |
-| Bildirim/telemetri | K017-observability | ölçüm |
+| Bildirim/telemetri | K016-observability | ölçüm |
 
 ## §3 Sınır cümlesi
 

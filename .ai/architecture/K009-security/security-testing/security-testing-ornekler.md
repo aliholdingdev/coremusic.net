@@ -368,7 +368,7 @@ public function testPasswordIsRedactedInKeyValueAndJsonFormats(): void
 | [[security-kod-ornekleri]] | kardeş | K009 kök kod örnekleri (bu dosya test örneklerini taşır) |
 | [[authentication/authentication-ornekler]] | kardeş | auth üretim kodu alıntıları |
 | [[secrets/secrets-ornekler]] | kardeş | secret/redaction alıntıları |
-| `K019-testing` | dışı | genel test kapsamı |
+| `K18-testing` | dışı | genel test kapsamı |
 
 ## §16 REVİZYON
 

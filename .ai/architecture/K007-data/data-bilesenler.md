@@ -118,7 +118,7 @@ group: mimari
 | P-01 | Redis istemcisi (K-04) | `UNKNOWN` | Redis'e geçilip geçilmeyeceği | cache |
 | P-02 | Dış arama motoru istemcisi (K-06) | `UNKNOWN` | Meilisearch/Solr/Elasticsearch seçimi | search |
 | P-03 | CDC/outbox yayıncısı (K-07) | `UNKNOWN` | Debezium benzeri akış gerekli mi | synchronization |
-| P-04 | Periyodik yedek görevi | `TASARIM` | K007 mi K018-devops mu sahiplenecek (S-2) | backup |
+| P-04 | Periyodik yedek görevi | `TASARIM` | K007 mi K17-devops mu sahiplenecek (S-2) | backup |
 | P-05 | Veri kalitesi iş kuralı paketi | `TASARIM` | Great Expectations benzeri araç mı, uygulama-içi kontrol mü | data-quality |
 | P-06 | İndeks/baby-plan gözden geçirme görevi | `TASARIM` | 171 tabloda `EXPLAIN` tabanlı indeks denetimi | indexing |
 | P-07 | Silme-talebi iş akışı (KVKK md.17) | `UNKNOWN` | Soft delete'e fiziksel silme eklenecek mi (S-7/R-04) | data-quality, schema |
@@ -277,7 +277,7 @@ uydurularak kapatılmaz.
 | Açık sınır | Soru | Karar için gereken kanıt | Sahip olacak K | Durum |
 |---|---|---|---|---|
 | PageCacheAdapter | Sayfa önbelleği K007'nin mi K006/Presentation'ın mı? | anahtarın URI olmasının sunum katmanına ait olduğu argümanı | K007-cache ↔ K006 | UNKNOWN |
-| Yedek görevi (cron) | Periyodik yedek K007 mi K018-devops mu sahiplenecek (S-2)? | RPO/RTO hedefleri ve cron altyapısının hangi katmanda olduğu | K007-backup ↔ K018 | UNKNOWN |
+| Yedek görevi (cron) | Periyodik yedek K007 mi K17-devops mu sahiplenecek (S-2)? | RPO/RTO hedefleri ve cron altyapısının hangi katmanda olduğu | K007-backup ↔ K018 | UNKNOWN |
 | Arama motoru runtime | Dış motor istemcisi hangi çocuğa ait (S-1)? | motor seçimi (K-06) ve istemcinin K020-discovery ile ilişkisi | K007-search ↔ K020 | UNKNOWN |
 
 **Karar defteri kuralı:** Her açık sınır için yalnız **bir** K sahibi olur; ortak

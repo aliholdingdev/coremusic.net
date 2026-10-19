@@ -529,4 +529,4 @@ AuMeter, giriş–çıkış sayılarını **scope + element** üzerinden ölçen
 > **Authority: Bayram Ali / Vault Steward**
 > *AuMeter · Ölçüm: 531 satır · 10 alanlı frontmatter · 15 tablo · 21 benzersiz URL (§14 + §23.1) · çapraz tekrar 0*
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

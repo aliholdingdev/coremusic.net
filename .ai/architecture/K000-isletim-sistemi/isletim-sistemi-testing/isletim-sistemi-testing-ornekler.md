@@ -516,7 +516,7 @@ Bu dosya ASCII temizdir (non-ASCII satır 0) — bu yüzden alıntılmıştır.
 | `phpunit.xml` değişikliği | yapılmaz — yalnız okunur |
 | `ci.yml` değişikliği | yapılmaz — yalnız okunur |
 | Test yazımı | yapılmaz — test sahibi QA Engineer |
-| K019-testing dosyaları | girilmez |
+| K18-testing dosyaları | girilmez |
 | OS test kodu (KUnit/kselftest) | repo'da yok, yazılmaz |
 | Satır numarası | uydurulmaz, indeks ile doğrulanır |
 

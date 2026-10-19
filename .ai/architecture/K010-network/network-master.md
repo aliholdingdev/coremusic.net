@@ -59,7 +59,7 @@ ile sınır §7/2).
 | Servis keşfi/servis kaydı | K012/K016 vs K014 — belirsiz | §7/3 kapsam sorusu |
 | Medya akışının içeriği/indirme mantığı | K014-media | Taşıma burada, içerik orada |
 | Çevrimdışı veri **kuyruğu içeriği** | K015/offline · K012 | §7/2 sınır sorusu |
-| Ağ gözlemi/metrği | K017-observability | K014 yalnız veri üretir |
+| Ağ gözlemi/metrği | K016-observability | K014 yalnız veri üretir |
 
 ## §3 Kademe-2 çocuk tablosu (v2 §2.14 birebir — 7 çocuk)
 
@@ -250,7 +250,7 @@ K014'ün yukarı dönme oku: YOK → döngü yok (2026-10-12)
 | websocket | TCP+TLS | multi-room · handoff sinyalleri | K012-services |
 | webrtc | UDP/SRTP | handoff · multi-room medya | K014-media codec |
 | tcp-ip | TCP | device-communication · offline-sync yerel eşitleme | K001-donanım |
-| device-communication | tcp-ip üstü | ev içi cihaz topluğu | K0100-identitiy |
+| device-communication | tcp-ip üstü | ev içi cihaz topluğu | ⚠️ |
 
 **§9'in kanıt oranı üzerinde etkisi YOKTUR:** yalnız mevcut v2 çocuk/torun adlarını
 derinleştiren tasarım iddiası tablolarıdır; hiçbir satır "verified" statüsü kazandırmaz.
@@ -498,7 +498,7 @@ derinleştiren tasarım iddiası tablolarıdır; hiçbir satır "verified" stat�
 |---|---|---|---|---|
 | 1 | TLS/şifreleme | yalnız çağırır | üretir/yönetir | K014'te şifreleme kodu YAZILMAZ |
 | 2 | Anahtar yönetimi | dokunmaz | sahibi | K009 |
-| 3 | Cihaz kimliği | taşır | doğrular | K0100-identitiy |
+| 3 | Cihaz kimliği | taşır | doğrular | ⚠️ |
 | 4 | Yerel ağ güvenliği (device-communication) | paketleri taşır | politika K009'da | ⚠️ TASARIM İDDİASI |
 | 5 | DTLS/SRTP (webrtc) | kanalı sürer | anahtar/negotiation | ⚠️ TASARIM İDDİASI |
 

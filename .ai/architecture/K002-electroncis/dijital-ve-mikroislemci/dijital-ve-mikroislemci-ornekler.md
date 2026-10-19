@@ -188,7 +188,7 @@ değerler part veri sayfası okunmadan **kesin** sayılmaz (Q-DVM-O1).
 | 2 | ISR gövdesi | K005 | kural (anayasa §3.3) |
 | 3 | DSP zinciri | K004 | yalnız bütçe |
 | 4 | Register yazımı | K005 | şartname (anayasa §2.6) |
-| 5 | Test kodu | K019-testing | eşik sağlama |
+| 5 | Test kodu | K18-testing | eşik sağlama |
 
 ### §2.7 Şartname taslağı — saat ve kare tabloları (48 kHz)
 
@@ -427,7 +427,7 @@ değerler part veri sayfası okunmadan **kesin** sayılmaz (Q-DVM-O1).
 |---|---|---|---|
 | 1 | K1 | bu dosya | format |
 | 2 | K2 | bu dosya + K005 | statik |
-| 3 | K3 | K019-testing | test |
+| 3 | K3 | K18-testing | test |
 | 4 | K4/K5 | bu dosya | ölçüm |
 | 5 | K6/K7 | `imalat-ve-test` | üretim |
 | 6 | Tasarım eşiği | `-anayasa.md` §4 | burada tanımlı |

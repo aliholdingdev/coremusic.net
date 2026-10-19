@@ -1,4 +1,4 @@
-﻿---
+---
 title: "driver — Doğrulama"
 type: architecture-verification
 node_id: K003-audio/driver

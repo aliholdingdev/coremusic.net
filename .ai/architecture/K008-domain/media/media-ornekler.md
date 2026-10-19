@@ -93,7 +93,7 @@ kavramı da bu ayrımı taşımak zorundadır.
 1. `media.accessed` olayı tek başına yeterli değildir: `accessType` değer kümesi
    ADR-097 K4'te **kapalı liste** olarak yazılmalıdır (satır 80'deki "etc." kapanır).
 2. Download izni (lisans) ayrı bir karar yüzeyidir — `master §2.1` onu K015/K003'e,
-   lisans sorusunu K020-licence'a bırakır; bu dosyada **izin kuralı yazılmaz**.
+   lisans sorusunu ⚠️'a bırakır; bu dosyada **izin kuralı yazılmaz**.
 
 ## §4 İlişkili dosyalar
 

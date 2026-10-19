@@ -35,7 +35,7 @@ group: mimari
 |----------|--------|---------|
 | Şema tasarımı | schema | kısıt orada tasarlanır |
 | Çok DB senkronizasyonu | synchronization | transaction sınırı tek DB |
-| DB kurulumu/innoDB yapılandırması | K018-devops / K000 | runtime yapılandırma |
+| DB kurulumu/innoDB yapılandırması | K17-devops / K000 | runtime yapılandırma |
 | Lock timeout politikası değeri | → UNKNOWN | ölçüm yok |
 
 ## §3 Sınır cümlesi
@@ -52,7 +52,7 @@ DB'ler arası koordinasyon synchronization'ın konusudur (sınır açık, S-3/S-
 | **A** — Atomiklik | undo log; rollback tüm transaction'ın undo zincirini uygular | `IDatabaseManager::rollBack()` sözleşmede | `IDatabaseManager.php:8-14` |
 | **C** — Tutarlılık | kısıtlar (PK/FK/UNIQUE) her INSERT/UPDATE'de zorlanır | 110 FK, 118 UNIQUE, 0 CHECK | `schema-kapsam` §A.2 |
 | **I** — İzolasyon | MVCC + kilitler; 4 izolasyon seviyesi | **REPEATABLE READ** (MySQL varsayılan) — session ayarı repo'da **yok** | `.ai/.sql/CLAUDE.md §1`; repo kanıtı: `ATTR_*` seçenekleri arasında izolasyon ayarı **yok** (`DatabaseManager.php:22-27`) |
-| **D** — Dayanıklılık | redo log (ib_logfile) + fsync; `innodb_flush_log_at_trx_commit` | yapılandırma repo'da **yok** → `UNKNOWN` (K018-devops) | — |
+| **D** — Dayanıklılık | redo log (ib_logfile) + fsync; `innodb_flush_log_at_trx_commit` | yapılandırma repo'da **yok** → `UNKNOWN` (K17-devops) | — |
 
 ## T.1 Kanıt boşluğu — izolasyon seviyesi açıkça ayarlanmıyor
 

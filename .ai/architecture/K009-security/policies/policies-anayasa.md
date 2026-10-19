@@ -27,7 +27,7 @@ group: mimari
 | parent_id | K009-security |
 | Grup | mimari |
 | Kapsam | parola · kripto · sır (secret) · katman · fail-safe · OWASP · CSRF · CSP/güvenlik başlığı |
-| Kapsam dışı | kimlik deposu tasarımı (K0100-identitiy) · OS/patch politikası (K000-isletim-sistemi) · sürüm/deploy gate (K018-devops) |
+| Kapsam dışı | kimlik deposu tasarımı (⚠️) · OS/patch politikası (K000-isletim-sistemi) · sürüm/deploy gate (K17-devops) |
 | Bağlayıcılık | Bu dosyadaki MUST satırı vault'ta bağlayıcıdır; kod bu satırı ihlal ederse kapı RED/BLOCK ile durur (§12) |
 | Sürüş | `policies-surucu.md` (politika → kod → test zinciri) |
 | Kanıt | `policies-ornekler.md` (gerçek PHP/vault alıntıları) · `policies-dogrulama.md` (AD-xx) |
@@ -232,8 +232,8 @@ group: mimari
 | Katman tek yön | Evet (P-08) | OS düzeyi izin → `K000-isletim-sistemi/security` |
 | Fail-safe | Evet (P-09) | Rate limit kotası → `rate-limiting` (politika P-17 köprüsü) |
 | OWASP | Evet (P-10) | OWASP tarama/testleri → `security-testing` |
-| CSRF/CSP | Evet (P-11..P-15) | CI gate / deploy → `K018-devops` |
-| KVKK saklama | Kısmi — yalnız çerçeve (§15) ⚠️ | Veri saklama süresi → `K020-comilance` (⚠️ metin yok) |
+| CSRF/CSP | Evet (P-11..P-15) | CI gate / deploy → `K17-devops` |
+| KVKK saklama | Kısmi — yalnız çerçeve (§15) ⚠️ | Veri saklama süresi → `K019-comilance` (⚠️ metin yok) |
 
 ## §15 BİLİNMEYENLER VE AÇIK SORULAR
 

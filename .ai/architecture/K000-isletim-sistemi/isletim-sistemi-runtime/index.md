@@ -61,7 +61,7 @@ Web sunucusu ✅ `.htaccess` + `web.config` · PHP runtime ✅ `RuntimeBootstrap
 | `isletim-sistemi-observability` | Log/ölçüm çıkışı | Sunucu erişim logu | `observability` metrik |
 | `isletim-sistemi-testing` | Ortam sağlama | Runtime boot ortamı | `testing` test harness |
 | `K011-application` | Uygulama boot bağımlılığı | `RuntimeBootstrap` | `K011` uygulama mantığı |
-| `K018-devops` | Dağıtım/ortam hedefi | Sunucu hedefi R1 | `K018` deploy pipeline |
+| `K17-devops` | Dağıtım/ortam hedefi | Sunucu hedefi R1 | `K018` deploy pipeline |
 
 ## §GRUPLAR
 

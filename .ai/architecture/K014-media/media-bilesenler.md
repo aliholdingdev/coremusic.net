@@ -130,7 +130,7 @@ group: mimari
 ### 2.11 media-testing — Medya Testleri
 
 - **Rol**: medya testleri (v2 §2.15 · S2).
-- **Sahiplik**: K18-testing ile belirsiz — **⚠️ §7/4** (master §7/4: K019-testing).
+- **Sahiplik**: K18-testing ile belirsiz — **⚠️ §7/4** (master §7/4: K18-testing).
 - **Kapsam**: decode/çalma/akış kalitesi — TASARIM İDDİASI.
 - **Araç**: **⚠️ UNKNOWN** (§12/10 — K019 incelemesi).
 - **Kod**: ornekler.md (decode PCM SHA-256 golden fixture · EBU R128 −23 LUFS · Range 206 sözleşmesi · etiket round-trip).

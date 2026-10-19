@@ -71,7 +71,7 @@ controller** — bağlayıcı biçimde tanımlar; yürütme ayrıntısı `-suruc
 | Süreç modeli | Worker process'ler Windows süreç oluşturma API'si ile doğar; app-pool kimliği sürecin çalışma kimliğidir |
 | Kilit olgu | `web.config` bu process'in içinde IIS katmanı için kurallar tanımlar |
 | Kaynak | `https://learn.microsoft.com/en-us/windows/win32/procthread/creating-processes` (bu ağacın kök `index.md` Web Research bölümünde — 2026-10-13 HTTP 200) |
-| Sınır | App-pool **kavramı** burada; havuz kimliği/identitiy ayarları `K018-devops` |
+| Sınır | App-pool **kavramı** burada; havuz kimliği/identitiy ayarları `K17-devops` |
 | Bu repoda | `web.config` 43 satır — çift hedefin IIS yüzeyi (R1) |
 
 ### M3 — nginx + PHP-FPM (FastCGI zinciri)
@@ -82,7 +82,7 @@ controller** — bağlayıcı biçimde tanımlar; yürütme ayrıntısı `-suruc
 | İstek sırası | vhost eşlemesi → rewrite → `fastcgi_pass` → FPM worker'ı |
 | PATH_INFO | `fastcgi_split_path_info` regex'i ile yol ayrıştırılır (kök `-ornekler.md` §21) |
 | Kaynak | `https://nginx.org/en/docs/http/request_processing.html` · `https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html` (bu ağacın kök `index.md` ve `-ornekler.md` Web Research bölümlerinde) |
-| Sınır | FastCGI **kavramı** burada; nginx betiği `K018-devops` |
+| Sınır | FastCGI **kavramı** burada; nginx betiği `K17-devops` |
 | Bu repoda | Repo'da nginx betiği yok; kavram çapraz hedef olarak taşınır |
 
 ### M4 — Çift hedef (.htaccess + web.config)
@@ -94,7 +94,7 @@ controller** — bağlayıcı biçimde tanımlar; yürütme ayrıntısı `-suruc
 | İçerik eşlemesi | İkisi de: statik dosya pas · zararlı yollar 403 · her şey `index.php`'ye rewrite |
 | Sonuç | Üretimde hangisinin aktif olduğu **okunamaz** → R1 [UNKNOWN] |
 | Kural | "Yalnız Apache" ya da "yalnız IIS" iddiası bu ağaçta yazılmaz |
-| Sınır | Tekilleştirme kararı `K018-devops` + kullanıcı onayı |
+| Sınır | Tekilleştirme kararı `K17-devops` + kullanıcı onayı |
 
 ### M5 — Vhost ve subdomain topolojisi
 
@@ -221,7 +221,7 @@ controller** — bağlayıcı biçimde tanımlar; yürütme ayrıntısı `-suruc
 | Route tablosu ve dispatch | `isletim-sistemi-api` | front controller **kapısı** kalır |
 | Güvenlik başlığı politikası | `isletim-sistemi-security` | başlık **yazımı** burada, politika orada |
 | Erişim logu toplama | `isletim-sistemi-observability` | sunucu logu **çıkışı** burada |
-| Sunucu kurulumu, deploy | `K018-devops` | topoloji **tanımı** kalır |
+| Sunucu kurulumu, deploy | `K17-devops` | topoloji **tanımı** kalır |
 | Domain listesi değişikliği | `shared/AGENTS.md` (onay) | eşleme **kavramı** kalır |
 | Test ortamı sunucu | `isletim-sistemi-testing` | senaryo doküman düzeyinde |
 
@@ -255,7 +255,7 @@ controller** — bağlayıcı biçimde tanımlar; yürütme ayrıntısı `-suruc
 |---|---|---|
 | 1 | Süreç/parçacık semantiği | `surec-ve-parcacik` |
 | 2 | Boot sırası, ini/OPcache uygulaması | `baslangic-ve-bootstrap` |
-| 3 | Apache/nginx kurulum betikleri | `K018-devops` |
+| 3 | Apache/nginx kurulum betikleri | `K17-devops` |
 | 4 | Route/dispatch kodu | `isletim-sistemi-api` |
 | 5 | Güvenlik başlığı politikası yazımı | `isletim-sistemi-security` |
 | 6 | Log toplama/analiz | `isletim-sistemi-observability` |

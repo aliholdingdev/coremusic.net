@@ -410,7 +410,7 @@ Bu dosya **düzeltme uygulamaz**; uygulama `devops-engineer`, yeniden ölçüm
 |---|---|
 | Workflow ilkeleri/artifact/determinizm | `-anayasa.md` §1–§5 |
 | Gerçek blok alıntıları | `-ornekler.md` §1 |
-| Pipeline sahipliği, deploy, release | `K018-devops` |
+| Pipeline sahipliği, deploy, release | `K17-devops` |
 | Uygulama test stratejisi | K019 · `uygulama-testi/` |
 | OS/çekirdek test altyapısı | `cekirdek-test/` |
 | OWASP / kimlik doğrulama denetimi | `isletim-sistemi-security` |

@@ -73,7 +73,7 @@ group: mimari
 | 4 | Donanım bağımlılığı (K001) | donanım yoksa K014 işlevsiz | hizmet kesintisi | fallback stratejisi (§7/7) |
 | 5 | Güvenlik katmanı sıçraması | TLS dışı şifreleme burada üretilirse | güvenlik olayı | K009 sahipliği zorunlu |
 | 6 | WebRTC iddiasının kanıtsızlığı | URL yok, "standard" beyanı | yanlış zemin | §7/4 — ⚠️ VERIFY REQUIRED |
-| 7 | network-testing ↔ K019-testing | iki test sahibi | test tekrarı | §7/6 |
+| 7 | network-testing ↔ K18-testing | iki test sahibi | test tekrarı | §7/6 |
 
 **Döngü denetimi:** §1'de K014'e geri dönüş yok → graf **DAG** (2026-10-12).
 
@@ -105,7 +105,7 @@ group: mimari
 | 2 | K012-services | servisler arası taşıma | servis paketleri | K012 → K014 | anlam K012'de |
 | 3 | K013-integraion | dış API taşıması | dış istek/yanıt | K013 → K014 | dış anlamı K013 anlar |
 | 4 | K014-media | akış/indirme taşıması | medya paketleri | K015 → K014 | medya içeriği K015 |
-| 5 | K017-observability | ağ metrikleri | sayaç/log | K014 → K017 (veri) | K014 yalnız üretir |
+| 5 | K016-observability | ağ metrikleri | sayaç/log | K014 → K017 (veri) | K014 yalnız üretir |
 
 ### §6.3 Bağımlılık yoğunluk matrisi (giden × gelen)
 
@@ -204,7 +204,7 @@ K011 (kullanıcı tetikleri)
 | 5 | K012-services | servis taşıması | servis paketleri | iş mantığı/kuyruk içeriği |
 | 6 | K013-integraion | dış API taşıması | dış istek/yanıt | dış API anlamı/adaptör |
 | 7 | K014-media | akış/indirme taşıması | medya paketleri | medya codec'i/decode |
-| 8 | K017-observability | ağ metrikleri | sayaç/log | metrik analizi/alert |
+| 8 | K016-observability | ağ metrikleri | sayaç/log | metrik analizi/alert |
 
 > Her sınır ihlali = domain violation (AGENTS.md §18 Warnings #6).
 

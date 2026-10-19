@@ -73,7 +73,7 @@ metadata, K014-media'nın "şarkı bilgileri" çocuğudur: sanatçı, albüm, s�
 | 4 | Kalıcı veri şeması/ORM | K007-data | master §2.2 |
 | 5 | Loudness kazancının sinyale uygulanması (DSP) | K003-audio / K004-dsp | master §1 (DSP yapmaz) |
 | 6 | Arama indeksi (etiket araması) | K014-media/catalog | master §9.4 |
-| 7 | YZ önerileri / kişiselleştirme | K006-yapay-zeka / K020-recomenataion | master §2.2 |
+| 7 | YZ önerileri / kişiselleştirme | K006-yapay-zeka / K021-recomenataion | master §2.2 |
 | 8 | Uygulama akışı / arayüz | K011-application | master §2.2 |
 
 ## §BİLEŞENLER

@@ -226,7 +226,7 @@ Durum geçişi (v2 §4.4): `draft` → tüm ölçütler kapanırsa `verified` ·
 | # | İddia | Neden kanıtsız | Durum |
 |---|-------|---------------|-------|
 | U-1 | Canlı MySQL sürümü | repo'da sürüm sabiti okunmadı | UNKNOWN |
-| U-2 | Yedek sıklığı / RTO-RPO | operasyon K018-devops | UNKNOWN |
+| U-2 | Yedek sıklığı / RTO-RPO | operasyon K17-devops | UNKNOWN |
 | U-3 | MySQL FULLTEXT kullanımı | `MATCH…AGAINST` repo'da görülmedi | ⚠️ VERIFICATION REQUIRED |
 | U-4 | CDC/outbox altyapısı | repo'da referans YOK | UNKNOWN |
 | U-5 | Slow query log yapılandırması | repo'da okunmadı | ⚠️ VERIFICATION REQUIRED |
@@ -448,7 +448,7 @@ taşır; uydurma iddia yok, mojibake yok, `parent:` anahtarı yok. Bu dosya K007
 | # | Kapanacak açık | Koşul |
 |---|----------------|-------|
 | 1 | U-1 canlı MySQL sürümü | repo/DB'den sürüm oku |
-| 2 | U-2 yedek sıklığı/RTO-RPO | K018-devops kaydı |
+| 2 | U-2 yedek sıklığı/RTO-RPO | K17-devops kaydı |
 | 3 | U-3 FULLTEXT kullanımı | repo'da `MATCH…AGAINST` kanıtı |
 | 4 | U-4 CDC/outbox | altyapı kanıtı |
 | 5 | U-5 slow query log | yapılandırma okuma |

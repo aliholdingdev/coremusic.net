@@ -398,9 +398,9 @@ public function timing(string $module, string $middleware, float $durationMs): v
 
 | # | Konu | Gittiği yer |
 |---|---|---|
-| 1 | OTel LogRecord / log collector | `K017-observability` |
-| 2 | log metriği (satır/sn) ve alert | `K017-observability` |
-| 3 | uygulama kuyruğu/saklama politikası | `K017-observability` |
+| 1 | OTel LogRecord / log collector | `K016-observability` |
+| 2 | log metriği (satır/sn) ve alert | `K016-observability` |
+| 3 | uygulama kuyruğu/saklama politikası | `K016-observability` |
 | 4 | OS servisi kurulumu (rsyslog/journald yapılandırması) | O1 çözülünceye kadar tanımsız |
 
 ## §16 Kaynakça (envanter dışı, HTTP 200 — 2026-10-13)

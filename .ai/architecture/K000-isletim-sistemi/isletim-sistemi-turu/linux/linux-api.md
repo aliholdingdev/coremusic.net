@@ -456,7 +456,7 @@ hangi standart gövdesine bağlanır, hangisi Linux uzantısıdır.
 
 | Konu | Sahibi | Bu dosyadaki rolü |
 |---|---|---|
-| namespace/cgroup operasyonu | K018-devops | yalnız API yüzeyi tanıtılır |
+| namespace/cgroup operasyonu | K17-devops | yalnız API yüzeyi tanıtılır |
 | konteyner image | K018-devops | kapsam dışı (`linux-anayasa.md` §8) |
 | kısıt politikası tasarımı | security-engineer | ⚠️ AÇIK (bu dosya karar almaz) |
 
@@ -571,4 +571,4 @@ okunmuştur; uydurma satır numarası kullanılmamıştır.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

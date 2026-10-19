@@ -320,8 +320,8 @@ gövdede:
 
 | Burada (OS) | Karşıda (K017 / komşu) |
 | --- | --- |
-| Halka/rotasyon/journald | Uygulama log collector, OTel exporter → `K017-observability` |
-| `setlogmask` kapısı | Uygulama seviye filtresi → `K017-observability` |
+| Halka/rotasyon/journald | Uygulama log collector, OTel exporter → `K016-observability` |
+| `setlogmask` kapısı | Uygulama seviye filtresi → `K016-observability` |
 | Log metriği üretimi | `metrik/` alt-dalı |
 | `traceId` satır etiketi | Span/sampler → `trace/` alt-dalı (üretim) + K017 (dağıtık) |
 | Log bozulma testi | `isletim-sistemi-testing` |

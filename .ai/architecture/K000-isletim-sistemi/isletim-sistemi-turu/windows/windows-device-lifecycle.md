@@ -535,4 +535,4 @@ bu yöntemin kesin tetiklenme koşulu ⚠️ UNKNOWN olarak kalır (tek sayfa ko
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

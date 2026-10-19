@@ -507,4 +507,4 @@ audio-components sayfaları.
 ⚠️ işaretli satırlar doğrulanmadan kesin sayılmaz (zero-hallucination).
 **Durum etiketi:** Şartname: ✅ IMPLEMENTED (belge) · Kod: ⚠️ PLANNED (cpp=0).
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

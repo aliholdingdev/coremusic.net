@@ -46,7 +46,7 @@ group: mimari
 
 | Konu | Sınır | Bu alt-dal ne YAPAR |
 |---|---|---|
-| CI/CD pipeline sahipliği, deploy | → `K018-devops` | Test adımlarının doğrulanması; deploy YOK |
+| CI/CD pipeline sahipliği, deploy | → `K17-devops` | Test adımlarının doğrulanması; deploy YOK |
 | Uygulama test içeriği | → `isletim-sistemi-testing/uygulama-testi` | Kapıda ÇALIŞTIRILAN komut; testin kendisi DEĞİL |
 | Çekirdek test altyapısı | → `isletim-sistemi-testing/cekirdek-test` | CI'da koşabilecek çekirdek komut; QEMU kurulumu DEĞİL |
 | Güvenlik politikası | → `isletim-sistemi-security` | Secret gate; OWASP denetimi DEĞİL |

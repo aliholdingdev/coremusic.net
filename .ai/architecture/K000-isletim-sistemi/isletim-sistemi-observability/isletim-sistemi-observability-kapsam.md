@@ -56,15 +56,15 @@ group: mimari
 
 | # | Kapsam dışı konu | Nereye gider | Gerekçe |
 |---|---|---|---|
-| B1 | Uygulama/dağıtık gözlemlenebilirlik (OpenTelemetry, Prometheus, Grafana, alert) | `K017-observability` | K017 uygulama ve dağıtık katmanın sahibidir; çakışma önlemi |
+| B1 | Uygulama/dağıtık gözlemlenebilirlik (OpenTelemetry, Prometheus, Grafana, alert) | `K016-observability` | K017 uygulama ve dağıtık katmanın sahibidir; çakışma önlemi |
 | B2 | Uygulama log şablonu (business event adlandırma, PSR-3 seviye seçimi) | uygulama katmanı (`K011-application` / `K012-services`) | Bu dal yalnız OS kanalını tarif eder |
-| B3 | Log metriği (log üzerinden uyarı üretimi) | `K017-observability` | Dağıtık/uygulama tarafı işi |
-| B4 | APM, distributed tracing backend, span depolama | `K017-observability` | O3 [UNKNOWN] çözülmeden bu dalda tasarımlanmaz |
+| B3 | Log metriği (log üzerinden uyarı üretimi) | `K016-observability` | Dağıtık/uygulama tarafı işi |
+| B4 | APM, distributed tracing backend, span depolama | `K016-observability` | O3 [UNKNOWN] çözülmeden bu dalda tasarımlanmaz |
 | B5 | Ayrıntılı hata yönetimi deseni (ErrorHandler, ErrorResponse) | `isletim-sistemi-core` | İş mantığı hata akışı, gözlemlenebilirlik değil |
 | B6 | PHP SAPI log yönlendirme kurulumu (Apache/nginx error_log) | `isletim-sistemi-runtime` | Sunucu yapılandırması bu dalın konusu değil |
 | B7 | Güvenlik logu politikası, audit süresi, SIEM entegrasyonu | `isletim-sistemi-security` | Politika sahibi güvenlik alanıdır; burada yalnız kanal adı geçer |
 | B8 | Veritabanı sorgu logu / slow query log | `K007-data` | DBMS içi log OS logu değildir |
-| B9 | CI/CD log akışı ve arşivleme | `K018-devops` | Boru hattı logu üretim OS logundan ayrıdır |
+| B9 | CI/CD log akışı ve arşivleme | `K17-devops` | Boru hattı logu üretim OS logundan ayrıdır |
 | B10 | Çekirdek kaynağındaki printk/ftrace iç implementasyonu | `isletim-sistemi-kernel` | Bu dal yalnız kullanıcı arayüzünü (sysfs/tracefs/araç) tarif eder |
 | B11 | Kernel event üretiminin kendisi (interrupt, scheduler olayı) | `isletim-sistemi-plan` | Olay üretimi planlama dalının; yakalama/okuma bu dalın |
 | B12 | /proc ve /sys dosya sistemlerinin üretilmesi | `isletim-sistemi-core` | procfs/sysfs çekirdekte üretilir; okuma yöntemi bu dalda |
@@ -246,7 +246,7 @@ group: mimari
 | 2 | OS servis katmanı | journald, syslog, Event Log, sayaç toplayıcı | sistem yöneticisi, toplama ajanı | **bu subdomain** |
 | 3 | Çalışma zamanı (runtime) | PHP SAPI error_log hedefi, süreç çıktıları | dosya okuyucu | `isletim-sistemi-runtime` |
 | 4 | Uygulama | JSON log satırı, istek kimliği, redaction | log dosyası okuyucusu | `isletim-sistemi-core` / `K011-application` |
-| 5 | Dağıtık/uygulama gözlemlenebilirlik | span, metrik dışa aktarımı, alert | K017 | `K017-observability` |
+| 5 | Dağıtık/uygulama gözlemlenebilirlik | span, metrik dışa aktarımı, alert | K017 | `K016-observability` |
 
 ### §D.2 Bağımlılık okları (bu dalın `depends_on` frontmatter'i)
 
@@ -255,7 +255,7 @@ group: mimari
 | 1 | `isletim-sistemi-kernel` | bu dal → kernel | tracepoint, sayaç, printk çekirdekte tanımlıdır |
 | 2 | `isletim-sistemi-core` | bu dal → core | çekirdek kavramları (süreç, dosya, bellek) ölçümün konusudur |
 | 3 | `isletim-sistemi-runtime` | bu dal → runtime | uygulama logunun OS kanalına çıktığı sınır runtime'dır |
-| 4 | `K017-observability` | bu dal → K017 (yalnız sınır) | uygulama/dağıtık yüzey bu dalın dışıdır |
+| 4 | `K016-observability` | bu dal → K017 (yalnız sınır) | uygulama/dağıtık yüzey bu dalın dışıdır |
 | 5 | `K002-altyapi` | bu dal → altyapı (O2) | toplama ajanı yerleşimi altyapı kararıdır [UNKNOWN] |
 
 ### §D.3 Veri akışı (olay → kayıt)
@@ -292,12 +292,12 @@ group: mimari
 | 6 | `isletim-sistemi-api` | syslog uçları, socket yüzeyi | syslog soketi bir API uçudur → api; log kanalı modeli → bu dal | düşük |
 | 7 | `isletim-sistemi-turu` | OS araç farkları (journalctl vs wevtutil vs log) | platform/tool fark matrisi → turu; OS gözlemlenebilirlik kavramı → bu dal | orta |
 | 8 | `isletim-sistemi-runtime` | PHP SAPI log hedefi | yapılandırma → runtime; kanal modeli → bu dal | düşük |
-| 9 | `K017-observability` | log/metrik/trace üçlüsü | OS düzeyi → bu dal; uygulama/dağıtık → K017 | **yüksek** |
+| 9 | `K016-observability` | log/metrik/trace üçlüsü | OS düzeyi → bu dal; uygulama/dağıtık → K017 | **yüksek** |
 | 10 | `K002-altyapi` | toplama ajanı, sunucu kurulumu | ajan yerleşimi → K002; kaynak listesi → bu dal | orta |
 
 ### §E.2 K017 ile ayrım (her iki dosyada da yazılı olacak)
 
-| # | Boyut | Bu dal (OS/çekirdek) | `K017-observability` (uygulama/dağıtık) |
+| # | Boyut | Bu dal (OS/çekirdek) | `K016-observability` (uygulama/dağıtık) |
 |---|---|---|---|
 | 1 | Örnek araç | ftrace, perf, ETW, journald, wevtutil | OTel collector, Prometheus scrape, alert rule |
 | 2 | Örnek metrik | `/proc/stat` CPU jiffy, cgroup `cpu.stat` | iş metriği (`http_requests_total`) |
@@ -324,7 +324,7 @@ group: mimari
 
 | # | Konu | Bu alt-dal | Komşu | Giden alan |
 |---|---|---|---|---|
-| 1 | uygulama log satırı | sınırı tarif eder | `K017-observability` | içerik/biçim K017 |
+| 1 | uygulama log satırı | sınırı tarif eder | `K016-observability` | içerik/biçim K017 |
 | 2 | dmesg kaynağı | okuma | `isletim-sistemi-kernel` | üretilmesi kernel |
 | 3 | audit trail güvenliği | kanal adı | `isletim-sistemi-security` | politika security |
 | 4 | syslog uçları | model | `isletim-sistemi-api` | socket/API yüzeyi api |
@@ -337,7 +337,7 @@ group: mimari
 | 1 | /proc üretimi | okuma yöntemi | `isletim-sistemi-core` | dosya sistemi core |
 | 2 | PMU/ sayaç çekirdeği | arayüz | `isletim-sistemi-kernel` | sayaç üretilmesi kernel |
 | 3 | kernel event sayacı | etiket | `isletim-sistemi-plan` | olay üretimi plan |
-| 4 | eşik alert çıkışı | OS eşiği | `K017-observability` | iş alarmı K017 |
+| 4 | eşik alert çıkışı | OS eşiği | `K016-observability` | iş alarmı K017 |
 | 5 | metrik doğrulama testi | gereksinim | `isletim-sistemi-testing` | test testing |
 
 ### §E.6 Alt-dal bazlı komşu sınır matrisi — `trace/`
@@ -348,7 +348,7 @@ group: mimari
 | 2 | syscall yüzeyi | ölçüm | `isletim-sistemi-api` | syscall semantiği api |
 | 3 | ETW provider kaydı | oturum | `isletim-sistemi-turu` | platform farkı turu |
 | 4 | audit olayı izleme | kanal | `isletim-sistemi-security` | politika security |
-| 5 | OTel span | sınır | `K017-observability` | dağıtık span K017 |
+| 5 | OTel span | sınır | `K016-observability` | dağıtık span K017 |
 
 ### §E.7 Dokunulmaz yüzeyler (bu tur için)
 

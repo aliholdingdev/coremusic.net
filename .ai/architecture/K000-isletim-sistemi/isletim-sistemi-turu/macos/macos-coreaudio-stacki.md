@@ -499,4 +499,4 @@ aynı Authority zincirindedir ve kardeş macos dosyalarıyla **disjoints** kanı
 **Durum:** 2026-10-12 ölçümünde dosya `verify-required` kapısı açık: URL/erişim kanıtı tam (10/10
 HEAD 200), içerik-kanıtı/ölçüm yok → `status: draft` korunur; statü değişikliği üst onayı ister.
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

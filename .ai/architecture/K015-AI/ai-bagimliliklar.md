@@ -40,7 +40,7 @@ entegrasyon sınırlarını ve riskli bağımlılıkları taşır. Kaynak: v2 §
 | # | Kullanıcı | Etiket | Gerekçe |
 |---|---|---|---|
 | 1 | Vault günlük süreçleri (AGENTS/WORKFLOW/RAG) | kanıtlı (doküman) | boot-protocol + orchestration + permissions aktif kullanılıyor (.ai/AGENTS.md §6–§14) |
-| 2 | K020-recomenataion | planlanan | öneri motoru ajan altyapısını kullanır (v2 K020 children'ı) |
+| 2 | K021-recomenataion | planlanan | öneri motoru ajan altyapısını kullanır (v2 K020 children'ı) |
 | 3 | K006-yapay-zeka | planlanan (sınırlı) | K006 eval/test süreçleri ajan değerlendirme araçlarını kullanabilir — sınır dikkatli çekilecek (§5 risk-3) |
 | 4 | shared/src/AI/ tüketicileri (API katmanı) | kanıtlı (kod) | AIEngine/AIOrchestrator/KnowledgeBase/MemorySystem/PromptEngine/ToolCalling interface üzerinden enjekte edilir (6 use satırı — §8) |
 
@@ -50,7 +50,7 @@ entegrasyon sınırlarını ve riskli bağımlılıkları taşır. Kaynak: v2 §
 |---|---|---|
 | K015 ↔ K006 | K015 ajanı **altyapıyı**, K006 modeli **ürünü** tanımlar; eval/test isim benzerliği ≠ aynı kapsam | registry §6 |
 | K015-permissions ↔ K009-security | Ajan yetkisi (hangi dosyaya dokunabilir) K015'da; sistem auth/encryption K009'da | .ai/AGENTS.md §5 vs §2 |
-| K015-agent-testing ↔ K019-testing | Ajan davranışı testi K015'da; genel test altyapısı (PHPUnit/vitest/E2E) K019'da | v2 §2.16/§2.19 |
+| K015-agent-testing ↔ K18-testing | Ajan davranışı testi K015'da; genel test altyapısı (PHPUnit/vitest/E2E) K019'da | v2 §2.16/§2.19 |
 | K015-tools ↔ K012-services | Ajan aracı, servis katmanının **kamuya açık** yüzeyini çağırır; servis içine sızamaz | mimari yargı (planlanan) |
 | vault yazma yetkisi | Ajanların vault yazımı MO yetkisindedir; diğer ajanlar okuma serbest | .ai/AGENTS.md §5 |
 
@@ -145,7 +145,7 @@ Azaltma: sürüm pin + anahtar env substitution + health-check (K020-discovery i
 | K020 düğümü | K015'ya bağımlılığı | Etiket |
 |---|---|---|
 | K020-discovery | servis health/registry desenleri ajan tool-call sözleşmesine benzer | benzerlik (planlanan) |
-| K020-recomenataion | öneri motoru ajan orchestration'ını kullanabilir | planlanan (§3/2) |
+| K021-recomenataion | öneri motoru ajan orchestration'ını kullanabilir | planlanan (§3/2) |
 | K020-comilance | denetim izi ajan log davranışını (log.md append-only) bağlar | planlanan |
 | K020-adr | ADR yazım süreci persona turlarını (K015 evaluation) kullanır | kanıtlı (doküman §6.1) |
 
@@ -194,11 +194,11 @@ Azaltma: sürüm pin + anahtar env substitution + health-check (K020-discovery i
 | 4 | K015-AI | K012-services | dışa (tool-call) | planlanan | v2 §2.12 |
 | 5 | K015-AI | Harici harness | dışa (config) | kanıtlı | .claude/settings.json · .claude/mcp.json |
 | 6 | K015-AI | PHP çalışma zamanı | dışa (runtime) | kanıtlı | shared/composer.json L8-L12 |
-| 7 | K020-recomenataion | K015-AI | içeri (kullanım) | planlanan | v2 K020 children |
+| 7 | K021-recomenataion | K015-AI | içeri (kullanım) | planlanan | v2 K020 children |
 | 8 | K020-comilance | K015-AI | içeri (denetim izi) | planlanan | log.md append-only kuralı |
 | 9 | K020-adr | K015-AI | içeri (persona turları) | kanıtlı (doküman) | .ai/AGENTS.md §6.1 |
 | 10 | K006-yapay-zeka | K015-AI | içeri (sınırlı) | sınır gerekli | §4 K015 ↔ K006 kuralı |
-| 11 | K019-testing | K015-AI | içeride değil | ayrık | ajan testi K015, ünite/E2E K019 |
+| 11 | K18-testing | K015-AI | içeride değil | ayrık | ajan testi K015, ünite/E2E K019 |
 | 12 | K017 (per-OS player) | K015-AI | ilişki yok | Frozen | ADR-019 — bu turda dokunulmadı |
 
 ## §17 Harness Yüzeyi Envanteri (repo-dışı bağımlılık detayı)
@@ -382,7 +382,7 @@ Azaltma: sürüm pin + anahtar env substitution + health-check (K020-discovery i
 Yeni paket düşünüldü
   → composer.json'a eklendi (tek yer YASAK)
   → bu dosya §2/§7'ye satır eklendi (zorunlu)
-  → §13 kuralı: sürüm bump ise önce K020-licence kontrolü
+  → §13 kuralı: sürüm bump ise önce ⚠️ kontrolü
   → kullanılıyorsa §3 used_by'a kullanıcı yazıldı
   → kanıt yoksa etiket: planlanan (kanıtlı yazılmaz)
   → açık yüzey kaldıysa §6'ya açık soru eklendi

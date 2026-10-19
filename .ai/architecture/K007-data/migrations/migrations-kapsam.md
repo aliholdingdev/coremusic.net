@@ -34,7 +34,7 @@ group: mimari
 |----------|--------|---------|
 | Şema tasarımı (yeni tablo) | schema | tasarım ≠ uygulama |
 | Yedek alma operasyonu | backup | ön-koşul orada |
-| Yedekleme hedefi/depolama | K018-devops | altyapı |
+| Yedekleme hedefi/depolama | K17-devops | altyapı |
 | Çevrimdışı şema kaydı (dump) | .ai/.sql/mysql/ | veri SSOT |
 
 ## §3 Sınır cümlesi

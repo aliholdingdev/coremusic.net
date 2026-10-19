@@ -38,7 +38,7 @@ gövdelendiğini** göstermek.
 3. **Denetlenmemiş kod "geçti" sayılmaz.** Bu dosya `status: draft` kalır; üretim
    koduna giren her blok `verification/index.md`'ye kanıt satırıyla işlenir.
 4. Zamanlama/timing, RNG ve kripto blokları **olduğu gibi kopyalanmaz** — birim
-   testi (`K019-testing`) + güvenlik gözden geçirmesi (`security-engineer`) sonrası
+   testi (`K18-testing`) + güvenlik gözden geçirmesi (`security-engineer`) sonrası
    üretime girer.
 
 ## §1 Dil → Kontrol matrisi

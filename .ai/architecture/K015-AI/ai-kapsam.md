@@ -58,11 +58,11 @@ group: mimari
 | # | Yüzey | Sahip domain | Ayırt eden kural |
 |---|---|---|---|
 | 1 | Model eğitimi, ağırlık, inference sunucusu | K006-yapay-zeka | v2 §2.6 |
-| 2 | Öneri/kişiselleştirme ürün özellikleri | K006 · K020-recomenataion | ürün = model domaini |
+| 2 | Öneri/kişiselleştirme ürün özellikleri | K006 · K021-recomenataion | ürün = model domaini |
 | 3 | Müzik analizi / audio intelligence ürünleri | K006 | v2 §2.6 |
-| 4 | Ünite/E2E/coverage test altyapısı | K019-testing | test edilen şey kod mu ajan mı |
+| 4 | Ünite/E2E/coverage test altyapısı | K18-testing | test edilen şey kod mu ajan mı |
 | 5 | Sistem auth/CSRF/CSP/encryption | K009-security | ajan izni ≠ sistem auth |
-| 6 | CI/CD, pipeline, deploy kapısı | K018-devops | — |
+| 6 | CI/CD, pipeline, deploy kapısı | K17-devops | — |
 | 7 | OS player metrik/davranışı | K017 (ADR-019 Frozen) | değişiklik ≥088 |
 | 8 | MySQL şema/migrasyon | K007-data | veri katmanı |
 | 9 | Donanım/firmware (DAC, DSP, PCB) | donanım düğümleri | — |
@@ -72,7 +72,7 @@ group: mimari
 
 ```text
 Konu K015'da mı?
-  ├─ Model/eğitim/öneri/analiz ürünü?        → HAYIR (K006 / K020-recomenataion)
+  ├─ Model/eğitim/öneri/analiz ürünü?        → HAYIR (K006 / K021-recomenataion)
   ├─ Kod testi (ünite/E2E/coverage)?         → HAYIR (K019)
   ├─ Sistem güvenliği (auth/CSRF/şifreleme)? → HAYIR (K009)
   ├─ CI/CD veya deploy?                      → HAYIR (K018)
@@ -134,7 +134,7 @@ Konu K015'da mı?
 
 ## §9 K019 ile Ortak Görünen Konular
 
-| # | Konu | K015-AI | K019-testing | Ayrım testi |
+| # | Konu | K015-AI | K18-testing | Ayrım testi |
 |---|---|---|---|---|
 | 1 | agent-testing | ajan davranışı, persona turları | ünite/E2E/coverage | test edilen özne |
 | 2 | gate | vault/hook kapıları | CI test kapısı | çalıştığı yer |
@@ -346,8 +346,8 @@ Yeni konu teklifi
 | # | Konu | Neden kapsam dışı |
 |---|---|---|
 | 1 | PCI/ücretlendirme | K020 iş alanları |
-| 2 | KVKK/GDPR metni | K020-comilance |
-| 3 | Paket lisans envanteri | K020-licence |
+| 2 | KVKK/GDPR metni | K019-comilance |
+| 3 | Paket lisans envanteri | ⚠️ |
 | 4 | Servis registry implementasyonu | K020-discovery |
 | 5 | ADR şablonları | K020-adr |
 

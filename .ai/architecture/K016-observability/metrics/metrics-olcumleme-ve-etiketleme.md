@@ -64,9 +64,9 @@ isimlendirme kuralı). Yanlış tip seçimi geri dönülemez veri kaybına yol a
 
 | Alan | Bu dosyada | Bu dosyada DEĞİL |
 |---|---|---|
-| Metrik tipi seçimi | ✅ Dört tip ve karar ağacı | ❌ Toplayıcı kurulumu → K018-devops |
+| Metrik tipi seçimi | ✅ Dört tip ve karar ağacı | ❌ Toplayıcı kurulumu → K17-devops |
 | Etiket kümesi | ✅ İzinli/banned etiket listesi | ❌ Dashboard tasarımı → ayrı konu |
-| Cardinality | ✅ Bütçe kuralı ve hesaplaması | ❌ Depolama kapasitesi → K018-devops |
+| Cardinality | ✅ Bütçe kuralı ve hesaplaması | ❌ Depolama kapasitesi → K17-devops |
 | Adlandırma | ✅ `namespace_subsystem_name_unit` | ❌ Etiket dili çevirisi |
 | Percentil | ✅ Histogram ile hesap kuralı | ❌ Özet (summary) dağıtımı |
 | Uyarı eşiği | ✅ Metrikten türeyen eşik adayı | ❌ Uyarı kuralı ve kanalı → `alerting/` |
@@ -326,7 +326,7 @@ Sorgu yalnız `AIEngine::predictFault(array $metrics)` isabeti verdi; bu metodun
 | 5 | Çıkış | `alerting/` | Eşik eşlemesi | Uyarı adayı |
 | 6 | Dikey | `logging/` | Aynı etiket adları | Tutarlılık |
 | 7 | Dikey | `tracing/` | Aynı `route_pattern` | Köprü |
-| 8 | Dikey | K018-devops | Toplayıcı kurulumu | Ortam |
+| 8 | Dikey | K17-devops | Toplayıcı kurulumu | Ortam |
 
 ## §11 Riskler ve açık sorular
 

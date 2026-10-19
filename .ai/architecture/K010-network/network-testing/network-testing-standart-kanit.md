@@ -51,7 +51,7 @@ eşik değerleri/SLA (faz C) · K014 dışı senaryolar.
 | Ağ performans ölçümünün resmi metodolojisi vardır | RFC 2544 (§1/1) | S1 ✅ |
 | Async senaryo testi (gecikme/kopma enjeksiyonu) çalıştırılabilir | asyncio + pytest (§2/2–3) | S1 ✅ |
 | Yük/denetçi kolu Rust'ta mümkündür | tokio + warp (§2/4–5) | S1 ✅ |
-| **Kapsam sahipliği** (network-testing vs K019-testing) | Seçim YOK — araç ≠ sahiplik | ⚠️ §7/6 faz C |
+| **Kapsam sahipliği** (network-testing vs K18-testing) | Seçim YOK — araç ≠ sahiplik | ⚠️ §7/6 faz C |
 | Ölçüm eşikleri (hedef gecikme/kopma toleransı) | Seçim YOK | ⚠️ faz C |
 
 ## §4 Kanıt Sınıfı Özeti

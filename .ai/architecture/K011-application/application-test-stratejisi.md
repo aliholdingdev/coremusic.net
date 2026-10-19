@@ -459,7 +459,7 @@ group: kod
 |---|---|---|
 | 1 | Sınıf kapısı | `application-kod-ornekleri.md` |
 | 2 | Güvenlik kapısı | K009-security · `application-dogrulama.md` |
-| 3 | Coverage | K019-testing |
+| 3 | Coverage | K18-testing |
 | 4 | Regresyon | bu dosya §3 |
 | 5 | Katman kapısı | `usecase-akislari/` · `command-query/` |
 | 6 | Sözleşme | `odem-servisleri/` |

@@ -155,7 +155,7 @@ olarak kalır ve tablodan **silinmez**.
 | 2 | iki eğik çizgi + üç nokta | kod dolgusu | 0 |
 | 3 | satır başı `parent` anahtarı | FM şeması ihlali | 0 |
 | 4 | `group` değeri içinde çift tırnak | şema ihlali | 0 |
-| 5 | mojibake karakterleri (Ã, â€™, �) | bozuk kodlama | 0 |
+| 5 | mojibake karakterleri (Ã, ’, �) | bozuk kodlama | 0 |
 | 6 | ardışık dolgu satırı | içerik şişirme | 0 |
 | 7 | uydurma URL/envanter kesişimi | kanıt sahteciliği | 0 (§5.3) |
 | 8 | `{...}` yer tutucu | şablon kalıntısı | 0 |

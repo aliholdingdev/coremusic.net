@@ -335,7 +335,7 @@ $mm = '.ai\MEMORY.md'
      (Select-String -Path $mm -Pattern 'Ã‚Â|Ã¢â‚¬â€"').Count
 ```
 
-**2026-10-17 gözlem (gerçek):** `.ai/MEMORY.md` okumasında `Ã‚Â§` / `Ã¢â‚¬â€"` biçiminde mojibake
+**2026-10-17 gözlem (gerçek):** `.ai/MEMORY.md` okumasında `Ã‚§` / `Ã¢â‚¬â€"` biçiminde mojibake
 dizgeleri gözlendi (ör. `Satır: 3, 26, 311`) — bu **rapor-only** bir bulgudur; subagent dosyayı
 düzeltmez (§24 yasak).
 

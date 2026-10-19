@@ -67,9 +67,9 @@ Her kalem en az bir P-xx politikasına bağlanmıştır; bağlanmayan kalem kaps
 | HTML/CSS/JS işlevsellik | güvenlik politikası değil | UI katmanı |
 | Yeni endpoint tasarımı | API sözleşmesi işi | backend-architect |
 | Yetki/rol modeli detayı | dokümante edilmiş yetki ağacı | [[../authorization/index]] (K0100-identitiy) |
-| KVKK saklama/imha süresi metni | vault'ta metin yok | `⚠️ ONAY BEKLİYOR` → `K020-comilance` (dogrulama §6) |
+| KVKK saklama/imha süresi metni | vault'ta metin yok | `⚠️ ONAY BEKLİYOR` → `K019-comilance` (dogrulama §6) |
 | OS patch/izin politikası | ayrı domen | `K000-isletim-sistemi/security` |
-| CI gate / deploy | ayrı domen | `K018-devops` |
+| CI gate / deploy | ayrı domen | `K17-devops` |
 | Figma token üretimi | `FIGMA_TOKEN` yalnız `.ai/.env.figma` | ui-design |
 | ADR-013 rate-limit kotası ayrıntısı | ADR-013 kapsamı | [[../rate-limiting/index]] (P-17 köprüsü) |
 
@@ -128,14 +128,14 @@ Tek dosya **daraltma** (kalemin devri) da aynı sıra ile yapılır; devir anaya
 | Parola (P-01..P-04) | `K0100-identitiy` / [[../authentication/index]] | anayasa §14 devir satırı | auth test |
 | Kripto (P-05..P-06) | [[../encryption/index]] | surucu §2 + ADR-022 zinciri | security-audit |
 | Sır (P-07) | [[../secrets/index]] | `.env` envanteri (değer yazılmaz) | olay kaydı |
-| Katman (P-08) | bu çocuk (surucu §3) + `K018-devops` (CI) | pipeline test | revert + log ERROR |
+| Katman (P-08) | bu çocuk (surucu §3) + `K17-devops` (CI) | pipeline test | revert + log ERROR |
 | Fail-safe (P-09) | bu çocuk (surucu §6) | ADR-010/013 | RED/OPEN |
 | OWASP (P-10) | [[../security-testing/index]] + [[../audit/index]] | QA gate raporu | BLOCK |
 | CSRF/CSP (P-11..P-15) | ADR-010 (`.ai/.decisions/accepted/`, node yok) | ADR revizyonu (ONAY) | 403 / başlık testi |
 | Log (P-16) | [[../audit/index]] | LoggerRedactionTest | RED |
 | Rate-limit (P-17) | [[../rate-limiting/index]] (ADR-013) | ADR gerekçe + log | BLOCK |
 | Bypass (P-18) | [[../authorization/index]] + ADR-008 | ADR değişikliği (ONAY) | RED |
-| KVKK metni | `K020-comilance` | `⚠️ ONAY BEKLİYOR` (dogrulama §6) | üst karar |
+| KVKK metni | `K019-comilance` | `⚠️ ONAY BEKLİYOR` (dogrulama §6) | üst karar |
 
 **Devir kuralı**: sahip node'a taşınan iş anayasa §14'te satır olarak kalır; silinmez.
 Bu çocuk yalnız bu matristeki kapıları izler, sahiplerinin içeriğine girmez (§3).
@@ -145,7 +145,7 @@ Bu çocuk yalnız bu matristeki kapıları izler, sahiplerinin içeriğine girme
 - [x] 7 index kalemi §1'e eşlendi (parola · kripto · sır · katman · fail-safe · OWASP · CSRF/CSP).
 - [x] Eklenen 3 kalem (P-16 log · P-17 rate · P-18 bypass) anayasa §4 ile kapsandı.
 - [x] Kapsam dışı 8 kalem sahibi node/ADR ile işaretlendi (§3).
-- [ ] KVKK saklama metni — `⚠️ ONAY BEKLİYOR` (K020-comilance).
+- [ ] KVKK saklama metni — `⚠️ ONAY BEKLİYOR` (K019-comilance).
 - [ ] index §1'deki `.ai/CLAUDE.md §Security` atfı — `⚠️ VERIFICATION REQUIRED` (anayasa §4 notu).
 
 ---

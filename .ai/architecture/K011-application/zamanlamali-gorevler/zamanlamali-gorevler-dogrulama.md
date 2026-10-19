@@ -111,7 +111,7 @@ iddiası için çalışma zamanı log'ları gerekir → §7'de `⚠️ VERIFICAT
 |---|---|---|---|
 | 5 | Cron altyapısı | Repo'da hiç üretilmemiş (kasıtlı boşluk) | K012 ile sınır netleştir → §7-1 |
 | 6 | Worker/queue | `SidebarManager.js:163` RAF sarmalayıcı — gerçek kuyruk değil | K012 → §7-1 |
-| 9 | JS timer testi | `vitest` fakeTimers hiç kullanılmamış | K019-testing'e devir → §7-4 |
+| 9 | JS timer testi | `vitest` fakeTimers hiç kullanılmamış | K18-testing'e devir → §7-4 |
 | 10 | Token çakışması | İki dosya farklı değer veriyor | Import zinciri kararı → §7-3 |
 
 **Kritik okuma:** 4 BLOCK = "kusur" değil **"kasıtlı ve belgelenmiş boşluk"**. Hiçbiri
@@ -378,7 +378,7 @@ zinciri hangisinin geçerli olduğunu belirler → §7-3.
 | 4 | Session nonce üretimi | K009-security | `random_bytes` + `time()` | ✅ |
 | 5 | Cron altyapısı | K012 (olası) | boşluk raporu | 🟡 |
 | 6 | Radio schedule mantığı | K008-domain | şema kanıtı | 🟡 |
-| 7 | Timer testleri | K019-testing | kapsam açığı | ❌ |
+| 7 | Timer testleri | K18-testing | kapsam açığı | ❌ |
 | 8 | Animasyon tasarımı | K11-ux | token envanteri | ✅ |
 
 ---
@@ -448,7 +448,7 @@ zinciri hangisinin geçerli olduğunu belirler → §7-3.
 |---|---|---|---|
 | 5 | Cron altyapısı | Repo kodu yok — modül kod üretemez (yasak) | K012 (atanacak) |
 | 6 | Worker/queue | Aynı | K012 |
-| 9 | JS timer testi | Test yazımı K019 alanı | K019-testing |
+| 9 | JS timer testi | Test yazımı K019 alanı | K18-testing |
 | 10 | Token çakışması | Import zinciri kararı UI/Backend | UI Designer + Backend |
 
 **Kural:** Bu 4 kapı bilinçli olarak **açık** bırakılmıştır; kapatmaya çalışmak

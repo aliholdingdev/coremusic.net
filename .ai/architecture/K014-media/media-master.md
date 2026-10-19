@@ -56,8 +56,8 @@ arka plan servisi yürütmez (K012-services), arayüz göstermez (K011-applicati
 | Ağ taşıması ayrıntısı | K010-network | akış/indirme oradan taşınır |
 | Çalma durumu/orkestrasyonu | K012-services (playback-service) | §7/1 sahiplik sorusu |
 | Uygulama akışı / arayüz | K011-application | |
-| YZ önerileri / kişiselleştirme | K006-yapay-zeka / K020-recomenataion | |
-| Medya kalite testleri sahipliği | K019-testing vs K015/media-testing | §7/4 |
+| YZ önerileri / kişiselleştirme | K006-yapay-zeka / K021-recomenataion | |
+| Medya kalite testleri sahipliği | K18-testing vs K015/media-testing | §7/4 |
 
 ## §3 Kademe-2 çocuk tablosu (v2 §2.15 birebir — 11 çocuk)
 
@@ -73,7 +73,7 @@ arka plan servisi yürütmez (K012-services), arayüz göstermez (K011-applicati
 | 8 | offline | Çevrimdışı kullanılabilirlik | K014/offline-sync ile sınır §7/2 | draft |
 | 9 | media-cache | Medya önbelleği | Boyut/süre politikası → ⚠️ UNKNOWN | draft |
 | 10 | synchronization | Medya verisi eşitlemesi | K013/synchronization ile aynı ad → §7/3 | draft |
-| 11 | media-testing | Medya testleri | K019-testing ile sahiplik §7/4 | draft |
+| 11 | media-testing | Medya testleri | K18-testing ile sahiplik §7/4 | draft |
 
 ## §4 Teknoloji / ekosistem (YALNIZCA DOĞRULANMIŞ KANIT — 2026-10-12)
 
@@ -271,7 +271,7 @@ K015'in K011/K012'ye geri dönüş oku: YOK → döngü yok (2026-10-12)
 | Boyut | Tasarım iddiası | Sınır |
 |---|---|---|
 | Rol | medya testleri | v2 §2.15 (S2) |
-| Sahiplik | K019-testing ile belirsiz | ⚠️ §7/4 |
+| Sahiplik | K18-testing ile belirsiz | ⚠️ §7/4 |
 | Kapsam | decode/çalma/akış kalitesi | TASARIM İDDİASI |
 | Araç | ⚠️ UNKNOWN | — |
 

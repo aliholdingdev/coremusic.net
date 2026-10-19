@@ -57,14 +57,14 @@ kapsar; üretim kodu (`*.php`, `*.js`, `*.css`, `*.sql`) bu modülün **kapsam d
 
 | # | Bu düğüm DEĞİLDİR | Sorumlu | Gerekçe (disk kanıtı) |
 |---|---|---|---|
-| 1 | Testlerin kendisi (test dosyaları, coverage sahibi) | K019-testing / `application-testing` | `shared/tests/**` 57 dosya bu modülün komşusudur |
+| 1 | Testlerin kendisi (test dosyaları, coverage sahibi) | K18-testing / `application-testing` | `shared/tests/**` 57 dosya bu modülün komşusudur |
 | 2 | Üretim kodu (`*.php`, `*.js`, `*.css`, `*.sql`) | İlgili katman agent'ları | Kök AGENTS.md §16.4 dokunulmaz yüzeyler |
 | 3 | Prodüksiyon dağıtım onayı ve rollback kararı | `.workflows/deployment.md` (süreç) + DevOps onayı | `deployment.md` · 281 satır — onay akışı orada tanımlı |
 | 4 | ADR metinleri ve karar geçmişi | K020-adr / `.ai/.decisions/` | `adr-creation.md` yalnız *nasıl yazılır* talimatıdır |
 | 5 | Vault içerik sahipliği (`.ai/**` dosyalarının yazarlığı) | MO (vault-updater) | `vault-sync.md` · 238 satır — senkron talimatı |
 | 6 | GitHub org/repo ayarları (branch protection, ruleset) | GitHub arayüzü (diskte değil) | `.github/CONTEXT.md` §2 kapsam dışı |
 | 7 | Issue/PR şablonlarının içeriği | MO (doküman) | `.github/ISSUE_TEMPLATE/01-bug-report.md` |
-| 8 | Runner/altyapı maliyeti, self-hosted agent | K018-devops | `.github/workflows/*` yalnızca `ubuntu-latest` kullanır |
+| 8 | Runner/altyapı maliyeti, self-hosted agent | K17-devops | `.github/workflows/*` yalnızca `ubuntu-latest` kullanır |
 | 9 | İş akışı *motoru* (kalıcı workflow state machine) | ⚠️ VERIFICATION REQUIRED | Repo'da motor kodu yok → açık soru §11-2 |
 | 10 | Mobil/E2E test altyapısının sahipliği | `application-testing` (bu modülün kardeşi) | `assets.coremusic.net/playwright.config.ts` · 56 satır |
 
@@ -221,11 +221,11 @@ job eklenmez/çıkarılmaz · (5) `.ai/` içine yazma yalnız MO · (6) frozen A
 | # | Devredilen iş | Hedef | Devir biçimi | Durum |
 |---|---|---|---|---|
 | 1 | Test dosyası yazımı/korunumu | `application-testing` | Dosya sahipliği | ✅ tanımlı |
-| 2 | Coverage eşiği kararı (JS %80) | K019-testing + QA | ADR (A7 henüz kapandı mı → §11) | ⚠️ açık |
+| 2 | Coverage eşiği kararı (JS %80) | K18-testing + QA | ADR (A7 henüz kapandı mı → §11) | ⚠️ açık |
 | 3 | Prodüksiyon deploy tetikleme | `.workflows/deployment.md` | Süreç kapısı | ✅ tanımlı |
 | 4 | K13 CI/CD **plan** dokümanı | K018-devops | Dosya yolu | ❌ diskte YOK → §11-1 |
 | 5 | Branch protection / ruleset | GitHub repo ayarı | Arayüz | ⚠️ diskte değil |
-| 6 | Runner image seçimi | K018-devops | Karar | ⚠️ `ubuntu-latest` sabit, politika yok |
+| 6 | Runner image seçimi | K17-devops | Karar | ⚠️ `ubuntu-latest` sabit, politika yok |
 | 7 | Package registry secret'ları | Security + DevOps | `secrets.*` | ⚠️ repo ayarı (diskte değil) |
 | 8 | Bağımlılık güncelleme (actions pin) | dependency-manager | PR | ⚠️ `@v4` floating tag |
 

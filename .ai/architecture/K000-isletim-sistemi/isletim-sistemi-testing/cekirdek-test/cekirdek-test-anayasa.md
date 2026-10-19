@@ -291,7 +291,7 @@ referans OS satırı budur; QEMU hedefi bu dosyada YOKTUR.
 | Güvenlik politikası | `isletim-sistemi-security` | denetim |
 | Telemetri altyapısı | `isletim-sistemi-observability` | canlı sistem |
 | Platform kurulumu | `isletim-sistemi-turu` | dağıtım |
-| Test ağaçları | `K019-testing` | 0 satır yazım |
+| Test ağaçları | `K18-testing` | 0 satır yazım |
 | Donanım devresi | `electroncis` (repo yazımı) | elektronik dalı |
 
 ## §10 Kaynakça

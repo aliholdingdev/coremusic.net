@@ -32,7 +32,7 @@ Ses kesildi, patladı ya da takıldı. Bunun **teşhisi** bu domaindedir: xrun/u
 | Buffer doluluğu izleme | ✅ watermark ölçümü | ❌ Buffer tasarımı → K014-media |
 | Audio gecikme (latency) | ✅ round-trip ölçümü | ❌ ASIO/WASAPI sürücü → K014 |
 | Teşhis akışı (şiddet ayrımı) | ✅ hafif/şiddetli bozulma | ❌ Karar/aksiyon → incident-response/ |
-| Tekrar üretme (repro) | ✅ teşhis verisi paketleme | ❌ Test stratejisi → K019-testing |
+| Tekrar üretme (repro) | ✅ teşhis verisi paketleme | ❌ Test stratejisi → K18-testing |
 
 ## §3 Terimler ve kısaltmalar
 

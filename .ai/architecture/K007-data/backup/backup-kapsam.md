@@ -35,7 +35,7 @@ group: mimari
 
 | Dışarıda | Nereye | Gerekçe |
 |----------|--------|---------|
-| Yedek **çalıştırma** (cron, pipeline) | K018-devops | operasyon ≠ plan (S-2) |
+| Yedek **çalıştırma** (cron, pipeline) | K17-devops | operasyon ≠ plan (S-2) |
 | Fiziksel disk/hedef depolama | K000-isletim-sistemi | donanım sahipliği |
 | Şifreli yedek anahtarı | K009-security | anahtar sahibi security |
 | 18 DB'nin dump içeriği | `.ai/.sql/mysql/` | veri SSOT orada |

@@ -30,7 +30,7 @@ Eşik/yükseklik hesabı: "şu metrik, şu sürede şu eşiği aşarsa mı uyar�
 ## §2 Kapsam Sınırı
 
 - Bu düğüm yalnız K016-observability (sistem gözetimi) altındadır.
-- Uyarı kuralı+kanalı → `alerts/` (sibling) · metrik üretimi → `metrics/` · deploy/aksiyon → K018-devops.
+- Uyarı kuralı+kanalı → `alerts/` (sibling) · metrik üretimi → `metrics/` · deploy/aksiyon → K17-devops.
 - **Disk fazlası durumu:** `alerting/` registry'de Kademe-2 child olarak yer almaz; diskte fazladan bulunur (kademe-3 adayı). Bu turda **taşınmadı** — sadece index.md eklendi + açık karar raporlandı.
 
 ## §3 Durum
@@ -63,7 +63,7 @@ Eşik/yükseklik hesabı: "şu metrik, şu sürede şu eşiği aşarsa mı uyar�
 |---|---|---|---|
 | 1 | alerts/ | Kural+kanal burada; eşik hesabı alerting/ | sibling |
 | 2 | metrics/ | Metrik üretimi metrics; eşik mantığı burada | iç |
-| 3 | K018-devops | Aksiyon (deploy) K018; eşik K016 | K016 → K018 |
+| 3 | K17-devops | Aksiyon (deploy) K018; eşik K016 | K016 → K018 |
 
 ## §GRUPLAR
 

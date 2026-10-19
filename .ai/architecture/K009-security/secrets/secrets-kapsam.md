@@ -155,7 +155,7 @@ Son iki satır REDAKSİYON BOŞLUĞUDUR → doğrulama.md §5'te kontrol edilir.
 | 3 | Hata yanıt gövdesi (stack trace) | genel mesaj + RFC 9457 | master §23 |
 | 4 | CI değişken sızıntısı (echo $SECRET) | min permission + maskeleme | security-kod-ornekleri §20.16 |
 | 5 | Bellek dump / swap | S1 bellek temizliği kuralı | kısmi |
-| 6 | Yedek / eski kopya | yedek şifreleme | K018-devops |
+| 6 | Yedek / eski kopya | yedek şifreleme | K17-devops |
 | 7 | İnsan hatası (screenshot, e-posta) | politika | K020-policies |
 
 ### 12.3 Rotasyon Protokolü (S-07 kapandığında uygulanacak)

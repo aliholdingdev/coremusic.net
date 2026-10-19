@@ -70,7 +70,7 @@ Medya testleri, medya tarafının doğru çalıştığını kanıtlayan testleri
 
 | # | Konu | Ait olduğu düğüm | Kaynak |
 |---|---|---|---|
-| 1 | Ortak test altyapısı (runner/CI/coverage gate) | K019-testing | master §7/4 (⚠️ sahiplik) · stub sınır |
+| 1 | Ortak test altyapısı (runner/CI/coverage gate) | K18-testing | master §7/4 (⚠️ sahiplik) · stub sınır |
 | 2 | Ses kalite/sinyal testi (DSP çıktı ölçümü) | K003-audio / K019 sınırı | stub sınır |
 | 3 | Çevrimdışı erişim testi (ne hazır) | K014-media/offline | master §13/3 |
 | 4 | İndirme resume testi (yarıda kesilme) | K014-media/downloads | master §13/4 |
@@ -78,7 +78,7 @@ Medya testleri, medya tarafının doğru çalıştığını kanıtlayan testleri
 | 6 | Metadata doğruluk testi (etiket kaynağı) | K014-media/metadata | master §13/6 |
 | 7 | Artwork yükleme testi (kapak resmi) | K014-media/artwork | master §13/7 |
 | 8 | Eşitleme tutarlılık testi (cihazlar arası eşitlik) | K014-media/synchronization | master §13/8 |
-| 9 | Ölçüm altyapısı (istek/panel/alarm) | K017-observability | master §15 notu |
+| 9 | Ölçüm altyapısı (istek/panel/alarm) | K016-observability | master §15 notu |
 | 10 | Test aracı seti seçimi (ne ile test edileceği?) | Vault Steward + K019 incelemesi | master §12/10 · §22.6 (⏳ AÇIK) |
 | 11 | DSP/sinyal işleme doğrulaması | K003-audio / K004-dsp | master §2.2 |
 
@@ -93,7 +93,7 @@ Medya testleri, medya tarafının doğru çalıştığını kanıtlayan testleri
 | 5 | Golden fixture deposu | referans dosya + beklenen hash/LUFS/etiket çifti; fixture'lar salt-okunur, test verisi üretiminde kullanılır | TASARIM ÖNERİSİ (`ornekler.md`) |
 | 6 | Regresyon eşiği kapısı | tolerans/sınır DEĞERİ okur — değer KOYMAZ | ⚠️ UNKNOWN → Vault Steward (master §15) |
 | 7 | Araç kapısı | test aracı setini çağrır — araç SEÇİMİ YAPMAZ | ⚠️ UNKNOWN (master §12/10 · §22.6 ⏳ AÇIK) |
-| 8 | Ölçüm verisi akışı | test metrikleri → K017-observability (K015 yalnız veri üretir) | TASARIM İDDİASI (master §15 notu) |
+| 8 | Ölçüm verisi akışı | test metrikleri → K016-observability (K015 yalnız veri üretir) | TASARIM İDDİASI (master §15 notu) |
 | 9 | Senaryo kayıt defteri | master §13/#1–#8 senaryolarının medya'ya özgü içerik tanımı (sahiplik satır bazında) | master §13 |
 
 ## §STANDARTLAR
@@ -123,7 +123,7 @@ Medya testleri, medya tarafının doğru çalıştığını kanıtlayan testleri
 | 3 | Her medya sunucu testi Range sözleşmesini (206 + `Content-Range` + `Accept-Ranges`) doğrular | parça/seek temeli RFC 9110 (§22.2) | master §22.2 |
 | 4 | Etiket round-trip'i format başına yazılır; ID3v2.3↔v2.4 TYER→TDRC kırılması ayrıca sınanır | bilinen uyumluluk kırmızı çizgisi | master §22.3 |
 | 5 | Regresyon eşiği (tolerans) Vault Steward kararı olmadan CI'a bağlanmaz | eşik AÇIK — uydurma sayı yazılmaz | master §15 (eşik ⚠️ UNKNOWN) |
-| 6 | Test aracı seti seçimi K019-testing incelemesi + Vault Steward kararına bağlıdır | araç AÇIK (§12/10) — bu dosya araç SEÇMEZ | master §12/10 · §22.6 |
+| 6 | Test aracı seti seçimi K18-testing incelemesi + Vault Steward kararına bağlıdır | araç AÇIK (§12/10) — bu dosya araç SEÇMEZ | master §12/10 · §22.6 |
 
 ---
 

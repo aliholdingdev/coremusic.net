@@ -394,7 +394,7 @@ Kapı 1–3 açılmadan aşağıdaki maddelerin **hiçbiri** üretim adımına g
 | 3 | `K020-discovery/discovery-web-arastirma.md` | üst düzey tur-2 taraması (12 servis) | bu dosyayı tamamlar |
 | 4 | `K020-discovery/discovery-dogrulama.md` | üst düzey doğrulama | bu dosyayı tamamlar |
 | 5 | `K020-discovery/search` | katalog arama keşfi (index.md depends_on) | paralel kardeş |
-| 6 | `K020-recomenataion` | öneri tarafı — kimlik token'ı burada kullanılmaz | ayrık |
+| 6 | `K021-recomenataion` | öneri tarafı — kimlik token'ı burada kullanılmaz | ayrık |
 | 7 | `K009-security` | şifreleme, auth middleware, secret kanunu | kural verir → bu ağaç |
 | 8 | `K007/data` | token tablosu şeması (BCNF) | şema sahibi |
 | 9 | `K011-application/web` | tarayıcı yönlendirme/UI (redirect_uri taşıyan taraf) | sınır komşusu |

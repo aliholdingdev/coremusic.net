@@ -84,22 +84,22 @@ group: mimari
 
 | # | Kapsam dışı madde | Nereye ait | Not |
 |---|---|---|---|
-| X-01 | Uygulama test **stratejisi** | `K019-testing` | Test seçimi, önceliklendirme |
+| X-01 | Uygulama test **stratejisi** | `K18-testing` | Test seçimi, önceliklendirme |
 | X-02 | Coverage **hedefi / eşiği** politikası | `K019-testing/coverage/` | Bu dal yalnız diskteki `<source>` tanımını raporlar |
-| X-03 | Flaky test tespiti ve karantinası | `K019-testing/flaky/` | Bu dala girilmez |
-| X-04 | Contract test uyumluluğu | `K019-testing/contract/` | Bu dala girilmez |
-| X-05 | Performance test ölçüm protokolü | `K019-testing/performance/` | Ağır ölçüm işi |
-| X-06 | Regression test seçım kuralları | `K019-testing/regression/` | Strateji kararı — bu dal yalnız tanımı taşır |
-| X-07 | Unit test tasarım desenleri | `K019-testing/unit/` | Desen kataloğu |
-| X-08 | Integration test ortamı (uygulama) | `K019-testing/integration/` | Uygulama katmanı |
-| X-09 | E2E tarayıcı testi detayı | `K019-testing/e2e/` | Tarayıcı senaryoları |
-| X-10 | Deploy ve release pipeline'ı | `K018-devops` | Kapı sonrası aşama |
-| X-11 | Runner/altyapı yönetimi, saklama stratejisi | `K018-devops` | CI altyapısı sahipliği |
+| X-03 | Flaky test tespiti ve karantinası | `K18-testing/flaky/` | Bu dala girilmez |
+| X-04 | Contract test uyumluluğu | `K18-testing/contract/` | Bu dala girilmez |
+| X-05 | Performance test ölçüm protokolü | `K18-testing/performance/` | Ağır ölçüm işi |
+| X-06 | Regression test seçım kuralları | `K18-testing/regression/` | Strateji kararı — bu dal yalnız tanımı taşır |
+| X-07 | Unit test tasarım desenleri | `K18-testing/unit/` | Desen kataloğu |
+| X-08 | Integration test ortamı (uygulama) | `K18-testing/integration/` | Uygulama katmanı |
+| X-09 | E2E tarayıcı testi detayı | `K18-testing/e2e/` | Tarayıcı senaryoları |
+| X-10 | Deploy ve release pipeline'ı | `K17-devops` | Kapı sonrası aşama |
+| X-11 | Runner/altyapı yönetimi, saklama stratejisi | `K17-devops` | CI altyapısı sahipliği |
 | X-12 | Kodun kendisi (`*.php`, `*.js`, `*.css`, `*.sql`) | ilgili sahip ajanlar | Bu dal yalnız okur |
 | X-13 | `phpunit.xml` ve `ci.yml` değişikliği | QA Engineer / DevOps Engineer | Bu dal dosyaları değiştirmez |
 | X-14 | Donanım testi (DSP, PCB) | `K001-donanım` | Fiziksel ölçüm |
 | X-15 | Çekirdek kodunun kendisi (Linux kernel kaynağı) | repo dışında | CoreMusic'te çekirdek kodu yok |
-| X-16 | Ses kalitesi doğrulaması | `K019-testing/audio-quality/` | Ölçüm domeni |
+| X-16 | Ses kalitesi doğrulaması | `K18-testing/audio-quality/` | Ölçüm domeni |
 | X-17 | Build doğrulama stratejisi | `K019-testing/build-verification/` | Derleme kapısı |
 | X-18 | Vault boot dosyaları (`CLAUDE.md`, `AGENTS.md`) | `.ai/` kök | Bu dalda dokunulmaz |
 | X-19 | `.decisions/` ADR metinleri | `.ai/.decisions/` | Frozen |
@@ -124,13 +124,13 @@ group: mimari
 | Soru | Karar | Sahip | Kanıt |
 |---|---|---|---|
 | PHPUnit testleri bu dalda mı? | Evet — altyapı ve kapı olarak | bu dal | `shared/phpunit.xml:8-33` |
-| Test **stratejisi** bu dalda mı? | Hayır | `K019-testing` | görev tanımı |
+| Test **stratejisi** bu dalda mı? | Hayır | `K18-testing` | görev tanımı |
 | KUnit/kselftest bu dalda mı? | Evet — hedef referans olarak | bu dal | §A.1 A-01, A-02 |
 | Çekirdek kodu yazımı | Hayır — repo'da çekirdek kodu yok | repo dışı | §A.2 X-15 |
 | CI workflow dosyası değişikliği | Hayır — yalnız okuma | DevOps Engineer | §A.2 X-13 |
 | Coverage eşiği | Hayır — yalnız diskte ne varsa raporlanır | `K019-testing/coverage/` | §F.2 |
 | Secret tarama kapsamı | Evet — kapı bileşeni olarak | bu dal | `secret-scan.yml:5-31` |
-| Deploy/rollback pipeline'ı | Hayır | `K018-devops` | §A.2 X-10 |
+| Deploy/rollback pipeline'ı | Hayır | `K17-devops` | §A.2 X-10 |
 | Platform test matrisi | Hayır | `isletim-sistemi-turu` | §E E-07 |
 | Donanım (fiziksel) test | Hayır | `K001-donanım` | §A.2 X-14 |
 
@@ -159,7 +159,7 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 
 ## §C — OS test ↔ uygulama test ↔ K019 ayrım matrisi
 
-| # | Test türü | OS test (cekirdek-test) | Uygulama test (uygulama-testi) | K019-testing | Repo durumu |
+| # | Test türü | OS test (cekirdek-test) | Uygulama test (uygulama-testi) | K18-testing | Repo durumu |
 |---|---|---|---|---|---|
 | C-01 | Birim test — çekirdek içi | KUnit | bu dalda değil | bu dalda değil | yok |
 | C-02 | Birim test — PHP sınıfı | bu dalda değil | PHPUnit `tests/Unit` | desenler `K019/unit` | var (15 dosya) |
@@ -217,12 +217,12 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 | D-09 | `uygulama-testi` | → | `shared/phpunit.xml` | disk kanıtı (okuma) |
 | D-10 | `uygulama-testi` | → | `shared/tests/` | disk kanıtı (okuma) |
 | D-11 | `uygulama-testi` | → | `shared/composer.json` | require-dev kanıtı |
-| D-12 | `uygulama-testi` | → | `K019-testing` | strateji/flaky/contract sınırı |
+| D-12 | `uygulama-testi` | → | `K18-testing` | strateji/flaky/contract sınırı |
 | D-13 | `uygulama-testi` | → | `isletim-sistemi-runtime` | bootstrap ve çalışma zamanı |
 | D-14 | `uygulama-testi` | → | `isletim-sistemi-api` | API testinin hedefi |
 | D-15 | `ci-ve-kalite-kapisi` | → | `.github/workflows/ci.yml` | disk kanıtı (okuma) |
 | D-16 | `ci-ve-kalite-kapisi` | → | `.github/workflows/secret-scan.yml` | disk kanıtı (okuma) |
-| D-17 | `ci-ve-kalite-kapisi` | → | `K018-devops` | deploy/runner sınırı |
+| D-17 | `ci-ve-kalite-kapisi` | → | `K17-devops` | deploy/runner sınırı |
 | D-18 | `ci-ve-kalite-kapisi` | → | `isletim-sistemi-security` | secret tarama kavramı |
 | D-19 | `ci-ve-kalite-kapisi` | → | `package.json` | JS test scriptleri |
 | D-20 | `ci-ve-kalite-kapisi` | → | `auth.coremusic.net/phpunit.xml` | matris args kanıtı |
@@ -243,8 +243,8 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 |---|---|---|---|---|---|
 | E-01 | `isletim-sistemi-core` | Bağımlılık | Test edilecek çekirdek/süreç davranış tanımı | Test senaryosu içeriği | kök FM `depends_on` |
 | E-02 | `isletim-sistemi-observability` | Bağımlılık | Log/metric ile doğrulama sinyali | Alarm politikası | kök FM `depends_on` |
-| E-03 | `K019-testing` | Sınır | Test terminolojisi (unit/integration/e2e) | flaky, contract, coverage eşiği, strateji | görev tanımı |
-| E-04 | `K018-devops` | Sınır | `ci.yml` dosya referansı | deploy, rollback, runner yönetimi | görev tanımı |
+| E-03 | `K18-testing` | Sınır | Test terminolojisi (unit/integration/e2e) | flaky, contract, coverage eşiği, strateji | görev tanımı |
+| E-04 | `K17-devops` | Sınır | `ci.yml` dosya referansı | deploy, rollback, runner yönetimi | görev tanımı |
 | E-05 | `K001-donanım` | Sınır | Fiziksel test kavramı | Ölçüm protokolü, PCB testi | `cekirdek-test-surucu` §5 |
 | E-06 | `isletim-sistemi-runtime` | Sınır | Bootstrap bilgisi (test öncesi kurulum) | Runtime mimarisi | `uygulama-testi-surucu` §4 |
 | E-07 | `isletim-sistemi-turu` | Sınır | Platform test matrisi kavramı | Platform mimarisi | görev tanımı |
@@ -252,11 +252,11 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 | E-09 | `isletim-sistemi-plan` | Komşu | Zamanlama testi kavramı | Zamanlayıcı tasarımı | görev tanımı |
 | E-10 | `isletim-sistemi-security` | Komşu | Secret tarama ve güvenlik testi kavramı | Güvenlik mimarisi | `ci-ve-kalite-kapisi-anayasa` §7 |
 | E-11 | `isletim-sistemi-api` | Komşu | API testinin hedefi (suite `Api`) | API tasarımı | `uygulama-testi-anayasa` §7 |
-| E-12 | `K019-testing/coverage` | Komşu | `<source>` tanımı (disk kanıtı) | Eşik politikası | `-kapsam` §F.2 |
-| E-13 | `K019-testing/flaky` | Komşu | bu dalda paylaşılan yok | Her şey | `-kapsam` §A.2 X-03 |
-| E-14 | `K019-testing/contract` | Komşu | bu dalda paylaşılan yok | Her şey | `-kapsam` §A.2 X-04 |
+| E-12 | `K18-testing/coverage` | Komşu | `<source>` tanımı (disk kanıtı) | Eşik politikası | `-kapsam` §F.2 |
+| E-13 | `K18-testing/flaky` | Komşu | bu dalda paylaşılan yok | Her şey | `-kapsam` §A.2 X-03 |
+| E-14 | `K18-testing/contract` | Komşu | bu dalda paylaşılan yok | Her şey | `-kapsam` §A.2 X-04 |
 | E-15 | `K013-integraion` | Komşu | CI/entegrasyon testi adı benzerliği | Tasarım | K-uzay |
-| E-16 | `K017-observability` | Komşu | Gözlemlenebilirlik testi kavramı | Metrik politikası | K-uzay |
+| E-16 | `K016-observability` | Komşu | Gözlemlenebilirlik testi kavramı | Metrik politikası | K-uzay |
 | E-17 | `isletim-sistemi-cross` | Komşu | çapraz-platform test kavramı | Platform tasarımı | görev yasağı |
 | E-18 | Vault `.ai/.decisions` | Dokunulmaz | ADR okuma | Yazma | görev yasağı |
 | E-19 | `*.php`, `*.js`, `*.css`, `*.sql` | Dokunulmaz | Okuma (kanıt) | Yazma | görev yasağı |
@@ -266,14 +266,14 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 
 | Komşu | Test sorumluluğu bu dalda mı? | Bu dalın paylaştığı | Bu dalın **paylaşmadığı** |
 |---|---|---|---|
-| `K019-testing` | Hayır — uygulama test **stratejisi** orada | test adlarının sözlüğü | strateji, öncelik, flaky, contract, eşik politikası |
+| `K18-testing` | Hayır — uygulama test **stratejisi** orada | test adlarının sözlüğü | strateji, öncelik, flaky, contract, eşik politikası |
 | `isletim-sistemi-kernel` | Kısmen — çekirdek/sürücü testi bu dalın `cekirdek-test` kolu | test yöntemi (KUnit, kselftest) | çekirdek tasarımı, sürücü kodu |
 | `isletim-sistemi-core` | Hayır — süreç testi orada | test edilecek süreç tanımı | süreç davranışı, zamanlama ayrıntısı |
 | `isletim-sistemi-plan` | Hayır — zamanlama testi orada | doğrulama sinyali (metric) | zamanlayıcı politikası |
 | `isletim-sistemi-security` | Hayır — güvenlik testi orada | secret tarama kapısı kavramı | güvenlik mimarisi, OWASP kontrolleri |
 | `isletim-sistemi-observability` | Hayır — gözlem doğrulama orada | log/metric okuma sinyali | alarm eşiği, retention |
 | `isletim-sistemi-turu` | Hayır — platform test matrisi orada | platform etiketi | platform API ayrıntısı |
-| `K018-devops` | Hayır — CI altyapısı orada | workflow dosyası referansı | runner, deploy, rollback, saklama |
+| `K17-devops` | Hayır — CI altyapısı orada | workflow dosyası referansı | runner, deploy, rollback, saklama |
 
 ## §F — Açık sorular
 
@@ -307,7 +307,7 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 | failOnRisky / failOnWarning | auth phpunit.xml'de `true` | `auth.coremusic.net/phpunit.xml:6-7` |
 | Soru | Hedef coverage yüzdesi (ör. %80) bağlayıcı mı? | — |
 | Durum | **[UNKNOWN] — açık kalır**; bu dosya yalnızca diskte **ne olduğunu** raporlar, hedef **uydurulmaz** |
-| Not | Eşik politikasının sahibi `K019-testing/coverage/`; buraya taşınmaz |
+| Not | Eşik politikasının sahibi `K18-testing/coverage/`; buraya taşınmaz |
 
 ### §F.3 Kapanış kuralları
 
@@ -315,7 +315,7 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 |---|---|
 | Uydurma yasak | T1/T2 için sayısal hedef yazılmaz; `UNKNOWN` etiketi korunur |
 | Daraltma serbest | Disk kanıtı eklendikçe soru daralır ama `open_questions` alanı kalır |
-| Sahiplik | Eşik kararı → `K019-testing`; OS test kapsamı kararı → ADR |
+| Sahiplik | Eşik kararı → `K18-testing`; OS test kapsamı kararı → ADR |
 | Yeniden ölçüm | Her vault revizyonunda `phpunit.xml` ve `ci.yml` yeniden okunur |
 | Çelişki | Disk ile vault çelişirse disk kazanır, soru yeniden açılır |
 | Etiket | Doğrulanamayan iddia `⚠️ VERIFICATION REQUIRED`, bilinmeyen `UNKNOWN` |
@@ -335,7 +335,7 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 | G-09 | Yumuşak kapı (continue-on-error) | js-coverage, js-e2e | eşik kararı ile sertleşebilir |
 | G-10 | OS test aracı isabeti | 0 (`kunit`, `kselftest`) | çekirdek kodu eklenirse |
 | G-11 | URL envanteri (öncesi) | 2097 benzersiz URL | yeni revizyon başında |
-| G-12 | K019-testing'e girilen dosya | 0 | her zaman 0 |
+| G-12 | K18-testing'e girilen dosya | 0 | her zaman 0 |
 
 *2026-10-14 yeniden ölçümü (G-01 · disk sayımı):* kök testing dosya sayısı **4 → 10**; bu dal toplamı **22 dosya** (12 alt-dal + 10 kök). G-01'in "16" hedefi güncellenmiştir: yeni kök dosya `isletim-sistemi-testing-cross-platform-ornekleri.md` eklendi (bkz. §H H-17). G-02..G-12 değerleri bu tarihte yeniden ölçülmemiştir — değişiklik yok varsayılmaz, yalnız G-01 tazelendi.
 
@@ -383,7 +383,7 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 | # | Artefakt | Kaynak | Hedef | Biçim |
 |---|---|---|---|---|
 | A-01 | Test stratejisi | bu dal | K019-test (Faz-A) | markdown |
-| A-02 | Kalite kapısı tanımı | bu dal | K018-devops | workflow referansı |
+| A-02 | Kalite kapısı tanımı | bu dal | K17-devops | workflow referansı |
 | A-03 | Test komutu | uygulama-testi | ci-ve-kalite-kapisi | komut |
 | A-04 | QEMU boot komutu | cekirdek-test | ci-ve-kalite-kapisi | komut |
 | A-05 | Doğrulama kanıtı | dogrulama | bu dal `validation` | `[]` (henüz yok) |
@@ -430,7 +430,7 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 | Senaryo | Tetik | Geçiş | Sonuç |
 |---|---|---|---|
 | S-01 | yeni test ekle | uygulama-testi → kapı | G-3 |
-| S-02 | yeni workflow ekle | kapı → K018-devops | devralınır |
+| S-02 | yeni workflow ekle | kapı → K17-devops | devralınır |
 | S-03 | kernel testi ekle | cekirdek-test → kapı | G-6/G-7 |
 | S-04 | secret sızıntısı | kapı → security dalı | eskalasyon |
 | S-05 | coverage sorusu | herhangi → K019 | erişim yok |

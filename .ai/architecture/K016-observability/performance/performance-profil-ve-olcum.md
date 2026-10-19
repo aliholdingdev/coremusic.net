@@ -472,7 +472,7 @@ spec:
 | 2 | audio-diagnostics/ | Audio gecikme/xrun özelinde derinleşme | iç | §3 |
 | 3 | K014-media | Buffer/latency kaynağı media; düzeltme K003/K004 | K016 → K014 | master §C/4 |
 | 4 | K011-application | Frontend Core Web Vitals ölçümü uygulama katmanı | K016 ↔ K011 | §2 |
-| 5 | K019-testing | Performans regresyon testi | K016 → K019 | §5 satır 6 |
+| 5 | K18-testing | Performans regresyon testi | K016 → K019 | §5 satır 6 |
 
 ## §9 Açık sorular (⚠️ VERIFICATION REQUIRED)
 

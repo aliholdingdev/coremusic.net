@@ -288,8 +288,8 @@ tracerpt C:\traces\MyTrace.etl -o report.html -of HTML
 
 | # | Alan | Gittiği dal | Bu dosyanın yaptığı |
 |---|---|---|---|
-| 1 | OTel span üretimi, korelasyon servisi | `K017-observability` | yalnız traceId ile ayrım (§10) |
-| 2 | alarm/alert kuralları | `K017-observability` | yok |
+| 1 | OTel span üretimi, korelasyon servisi | `K016-observability` | yalnız traceId ile ayrım (§10) |
+| 2 | alarm/alert kuralları | `K016-observability` | yok |
 | 3 | sayaç okuma/periyot | `metrik` alt-dalı | yalnız perf_event ortaklığına atıf |
 | 4 | log formatı/rotasyon | `log` alt-dalı | yalnız `:72`/`:213` köprü kanıtı |
 | 5 | tracepoint kaynağı | `isletim-sistemi-kernel` | yok |

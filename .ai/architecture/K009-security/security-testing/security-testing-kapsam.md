@@ -98,7 +98,7 @@ bakış açısıyla **not alır, test etmez**.
 
 ## §3. Sınır Matrisi — kim ne yapar
 
-| Durum | security-testing | K019-testing | authentication | Üretim/DevOps |
+| Durum | security-testing | K18-testing | authentication | Üretim/DevOps |
 |---|---|---|---|---|
 | Middleware negatif testi (401/403/419/429) | **Yazar** | — | — | — |
 | CSRF/Origin/RateLimit assertion'ı | **Yazar** | — | — | — |
@@ -119,11 +119,11 @@ build, test-reporter, codacy-security-scan, codacy-analysis-cli, sourcery);
 
 | Kapsam İÇİNDE | Kapsam DIŞINDA (aynı kelime farklı anlam) |
 |---|---|
-| "Test" = güvenlik doğrulayıcı test (negatif senaryo, assertion) | "Test" = genel QA kapsam/coverage politikası (K019-testing) |
+| "Test" = güvenlik doğrulayıcı test (negatif senaryo, assertion) | "Test" = genel QA kapsam/coverage politikası (K18-testing) |
 | "Middleware testi" = davranış assertion'ı (status/header/regex) | "Middleware üretimi" = `K002-backend` / PHP kod yazarlığı |
 | "Secret tarama" = tarama tanımı + kanıt okuma | "Secret sızıntısı kurtarma" = olay müdahalesi (üretim sahibi) |
 | "Staging'de DAST" = kapsam İÇİ, koşul `ci.yml` gate | "Prod'da DAST" = kapsam DIŞI, yasak |
-| "SAST (phpstan)" = statik analiz kanıtı | "SAST aracı kurulumu/sürüm politikası" = K019-testing `bagimliliklar` |
+| "SAST (phpstan)" = statik analiz kanıtı | "SAST aracı kurulumu/sürüm politikası" = K18-testing `bagimliliklar` |
 
 ---
 
@@ -133,7 +133,7 @@ build, test-reporter, codacy-security-scan, codacy-analysis-cli, sourcery);
 GİRDİ (bu node okur, SAHİP DEĞİL):
   security-test-stratejisi.md   T-01..T-20  (plan)
   K009-security/*.md            güvenlik disiplinleri (alan tanımları)
-  K019-testing/*                test altyapısı politikası (sürüm/coverage)
+  K18-testing/*                test altyapısı politikası (sürüm/coverage)
   shared/composer.json          phpunit/phpstan sürümleri (gerçek)
 
 ÇIKTI (bu node üretir, TEK SAHİP):
@@ -172,7 +172,7 @@ farklı satırlar farklı sahip olabilir — sahiplik satır bazlıdır.
 | K5 | Çakışma halleri en az 5 | §6 C-01..C-05 |
 | K6 | Üretim yasağı kapsam içinde tekrarlandı | §2 + §6 C-04 (anayasa A-01/A-06 ile uyumlu) |
 | K7 | `shared/tests/` ölçümü disk ile tutarlı | §1.1 not: 45 dosya / 41 sınıf / 9 dizin |
-| K8 | K019-testing varlığı disk kanıtlı | `.ai/architecture/K019-testing/` (index/dogrulama/bagimliliklar/testing-master) |
+| K8 | K18-testing varlığı disk kanıtlı | `.ai/architecture/K18-testing/` (index/dogrulama/bagimliliklar/testing-master) |
 | K9 | Yeni hedef eklendiğinde kapsam satırı önce gelir | §1/§2 akışı |
 | K10 | Kapsam dışı iade C-05 ile işleme alınır | §6 |
 | K11 | Strateji T-01..T-20 kapsam İÇİNDE | §1.3 (strateji satır aralığı: `security-test-stratejisi.md·51-75`) |
@@ -203,6 +203,6 @@ AD-xx satırlarına bağlanır (Faz 7'de çalıştırılacak; bu dosyada PASS id
 - [[K009-security/security-testing/security-testing-dogrulama]] — AD-xx kanıt satırları (KK bağlandığı yer)
 - [[K009-security/security-test-stratejisi]] — T-01..T-20 planı (girdi)
 - [[authentication-kapsam]] — kardeş kapsam örneği (paralel yapı)
-- [[K019-testing/index]] — genel test domaini (kapsam dışı sahip)
+- [[K18-testing/index]] — genel test domaini (kapsam dışı sahip)
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -42,21 +42,21 @@ tersi değil. Kapsam boşluğu tahminle değil, disk ölçümüyle doldurulur (z
 
 | # | Kapsam (K016 üretir/gözetir) | Kapsam DIŞI (domain · gerekçe) |
 |---|---|---|
-| 1 | Uygulama logları: yazım · format · seviye · redaction | Test stratejisi/coverage/E2E → **K019-testing** (K016 yalnız ölçer) |
+| 1 | Uygulama logları: yazım · format · seviye · redaction | Test stratejisi/coverage/E2E → **K18-testing** (K016 yalnız ölçer) |
 | 2 | Metrik toplama: sayaç · gecikme · hata oranı | Metrik üreten servis mantığı → **K012-services** (K016 toplar, K012 üretir) |
 | 3 | Tracing: trace/span · uçtan uca istek izi | Ağ katmanı trace başlığı işleme → **K010-network** |
 | 4 | Correlation: request-id/trace-id üretimi tek nokta | İstek yönlendirme → **K011-application / K012-services** |
 | 5 | Health-check uçları: tanım · durum kodu | Sağlık uçunun servis sahipliği → **K012-services** |
-| 6 | Alerts: eşik · koşul · kanal | Uyarı tetiklediği deploy/rollback aksiyonu → **K018-devops** |
+| 6 | Alerts: eşik · koşul · kanal | Uyarı tetiklediği deploy/rollback aksiyonu → **K17-devops** |
 | 7 | Performance gözlemi: profil · bottleneck kaydı | Performans **optimizasyonu** kodu → üretim domaini (K011/K012) |
 | 8 | audio-diagnostics: xrun · clip · latency teşhisi | DSP zinciri düzeltmesi → **K003-audio / K004-dsp** |
 | 9 | Incident-response: runbook · eskalasyon (ürün odaklı) | Ajan eskalasyon zinciri → **K015-AI** (.ai/AGENTS.md §10) |
 | 10 | Güvenlik olay logu (auth/security stream) | Auth/encryption **politikası** → **K009-security** (K016 yalnız kanıt üretir) |
 | 11 | Vault audit trail (.ai/log.md) formatı ve eki | Vault depolama/senkron mekaniği → **K000-vault** |
-| 12 | Log dosyası yazma hedefi (repo kökü, kanonik 4 dosya) | Disk kesme/döndürme politikası → **K018-devops** (depo/ortam) |
+| 12 | Log dosyası yazma hedefi (repo kökü, kanonik 4 dosya) | Disk kesme/döndürme politikası → **K17-devops** (depo/ortam) |
 | 13 | Seviye etiketleri ([EMERGENCY]…[DEBUG]) kanonik adlandırma | Eşik değeri politikası (hangi seviye alarm) → alerts/ kademe-3 |
 | 14 | Trace-id satır damgası ([trace=...]) | Trace-id üretiminin dağıtımı → correlation/ kademe-3 |
-| 15 | CI job loglarının gözlem yüzeyi olarak okunması | CI loglarının üretilmesi → **K018-devops** (ci.yml sahipliği) |
+| 15 | CI job loglarının gözlem yüzeyi olarak okunması | CI loglarının üretilmesi → **K17-devops** (ci.yml sahipliği) |
 
 **Sınır ilkeleri:**
 
@@ -127,7 +127,7 @@ eksikler uydurulmadı, işaretlendi.
 | 4 | K0100-identitiy | Kimlik olay logu | login/register event kaydı | Kimlik doğrulama mantığı |
 | 5 | K011-application | İstek logu · correlation | trace-id üretimi · format | Uygulama iş mantığı |
 | 6 | K012-services | Servis log/metric/health | Toplama · health tanımı | Servis üretimi · health sahipliği |
-| 7 | K018-devops | Alert → pipeline | Uyarı üretimi | Deploy/rollback aksiyonu |
+| 7 | K17-devops | Alert → pipeline | Uyarı üretimi | Deploy/rollback aksiyonu |
 | 8 | K010-network | Ağ trace/health | Trace başlığı · sağlık | Ağ katmanı işleme |
 | 9 | K014-media | Medya/ses izleme | Teşhis raporu | Medya işleme |
 | 10 | K015-AI | Ajan eskalasyonu | Ürün runbook'u | Ajan zinciri (.ai/AGENTS.md §10) |

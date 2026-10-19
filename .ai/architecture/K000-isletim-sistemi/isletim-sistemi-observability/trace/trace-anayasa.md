@@ -62,7 +62,7 @@ Değişmez üç madde:
 |---|---|---|---|---|
 | 1 | OS olay izi | çekirdek/uygulama olaylarını sırayla (pid, tid, cpu, zaman damgası) | ftrace, tracepoint, kprobe, eBPF, ETW | **evet** |
 | 2 | Uygulama traceId | tek isteğin log satırlarını birleştiren kimlik | uygulama kodu (`PageRouterKernel.php:87`) | yalnız ayrım (`-ornekler` §10) |
-| 3 | Dağıtık span (OTel) | servisler arası çağrı ağacı | OpenTelemetry / APM | hayır — `K017-observability` |
+| 3 | Dağıtık span (OTel) | servisler arası çağrı ağacı | OpenTelemetry / APM | hayır — `K016-observability` |
 
 | Kriter | OS olay izi | Uygulama traceId | Dağıtık span |
 |---|---|---|---|
@@ -245,7 +245,7 @@ aynı sınıftır (ham → yorumlanabilir).
 |---|---|---|
 | 1 | uygulama JSON alanları (seviye, istek yolu) | `log` alt-dalı |
 | 2 | sayaç değeri (CPU %, sayaç birikimi) | `metrik` alt-dalı |
-| 3 | servis adı, span kimliği, korelasyon (OTel) | `K017-observability` |
+| 3 | servis adı, span kimliği, korelasyon (OTel) | `K016-observability` |
 
 ## §7a Olay veri yolu — halkadan uygulamaya (tarif)
 
@@ -302,8 +302,8 @@ aynı sınıftır (ham → yorumlanabilir).
 
 | Konu | Sınır | Gittiği dal |
 |---|---|---|
-| OTel span üretimi, korelasyon servisi, APM paneli | uygulama/dağıtık | `K017-observability` |
-| alarm kuralı ("trace gecikmesi > eşik") | iş kuralı | `K017-observability` |
+| OTel span üretimi, korelasyon servisi, APM paneli | uygulama/dağıtık | `K016-observability` |
+| alarm kuralı ("trace gecikmesi > eşik") | iş kuralı | `K016-observability` |
 | tracepoint tanımı/kaynağı | çekirdek | `isletim-sistemi-kernel` |
 | event üretimi ve sırası | planlama | `isletim-sistemi-plan` |
 | süreç/bellek bağlamı (pid, addr) | core | `isletim-sistemi-core` |
@@ -327,7 +327,7 @@ aynı sınıftır (ham → yorumlanabilir).
 | 4 | kayıt | ftrace hattı / ring buffer | T-W1, ringbuf |
 | 5 | çözümleme | `perf script` / histogram | T-W11, T-W4 |
 | 6 | sembol | ad uzayları | T-W9 |
-| 7 | yorum + alarm | uygulama katmanı | `K017-observability` |
+| 7 | yorum + alarm | uygulama katmanı | `K016-observability` |
 
 > Bu senaryo **tariftir** — repo'da bu yolu çağıran kod yoktur (grep 0 isabet,
 > `-ornekler` §9). Senaryonun 1–6. adımları OS dalı, 7. adımı K017 dalıdır.
@@ -354,7 +354,7 @@ aynı sınıftır (ham → yorumlanabilir).
 |---|---|---|---|
 | 1 | OS olay akışı ölçümü | tarif (`-surucu` §7) | repo ölçümü yok |
 | 2 | uygulama süresi ölçümü | yalnız ayrım (`-ornekler` §5) | `metrik` dalı da değil — uygulama içi |
-| 3 | alarm eşiği | yok | `K017-observability` |
+| 3 | alarm eşiği | yok | `K016-observability` |
 
 ## §12 Resmi yapı taşları — URL envanteri (2026-10-13)
 

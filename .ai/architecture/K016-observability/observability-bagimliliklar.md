@@ -52,16 +52,16 @@ Kaynak: v2 §2.17 + disk ölçümü 2026-10-12 (shared/src/Log · .ai/log.md · 
 | 1 | K012-services | planlanan | log/metric üreten asıl yüzey servis katmanıdır | v2 §2.12 · genel mimari yargı |
 | 2 | K010-network | planlanan | tracing/health ağ trafiğini gözlemler | v2 §2.14 · genel mimari yargı |
 | 3 | K014-media | planlanan | audio-diagnostics ses zincirine dokunur | v2 §2.15/§2.17 children |
-| 4 | K018-devops | planlanan | alert çıktısı ortam/pipeline kararını besler | mimari yargı (ADR gerekli) |
+| 4 | K17-devops | planlanan | alert çıktısı ortam/pipeline kararını besler | mimari yargı (ADR gerekli) |
 | 5 | shared/src/Log (K011-K012 kod tabanı) | kanıtlı | logging/ bu sınıfta yaşar | glob 2026-10-12 |
 
 ## §3 used_by (bu domain kimleri besliyor)
 
 | # | Kullanıcı | Etiket | Gerekçe |
 |---|---|---|---|
-| 1 | K018-devops | kanıtlı (kısmi) | CI job logları gözetim yüzeyidir (ci.yml 6 job) |
+| 1 | K17-devops | kanıtlı (kısmi) | CI job logları gözetim yüzeyidir (ci.yml 6 job) |
 | 2 | K009-security | planlanan | redaction + audit logları güvenlik denetimini besler (Redactor.php + LoggerRedactionTest) |
-| 3 | K019-testing | planlanan | performance/ regression testleriyle karşılaştırılır |
+| 3 | K18-testing | planlanan | performance/ regression testleriyle karşılaştırılır |
 | 4 | Operatör / Vault Steward | kanıtlı (doküman) | .ai/log.md + §10 eskalasyon zinciri |
 
 ## §4 Entegrasyon Sınırları
@@ -69,8 +69,8 @@ Kaynak: v2 §2.17 + disk ölçümü 2026-10-12 (shared/src/Log · .ai/log.md · 
 | Sınır | Kural | Kaynak |
 |---|---|---|
 | K016-logging ↔ K009-security | Hassas veri log'a **asla** yazılmaz; redaction zorunlu (REDACTED) | .ai/AGENTS.md §17 edge-3 |
-| K016 ↔ K018-devops | Gözlem **uyarı üretir**, kapıyı (deploy/rollback) K018 işletir | v2 §2.17/§2.18 ayrımı |
-| K016 ↔ K019-testing | Gözlem **ölçer**, kararı test domaini verir | v2 §2.19 |
+| K016 ↔ K17-devops | Gözlem **uyarı üretir**, kapıyı (deploy/rollback) K018 işletir | v2 §2.17/§2.18 ayrımı |
+| K016 ↔ K18-testing | Gözlem **ölçer**, kararı test domaini verir | v2 §2.19 |
 | K016 ↔ K003-audio | audio-diagnostics **teşhis** tanımlar; DSP düzeltmesi K003/K004'tedir | v2 §2.3/§2.4/§2.17 |
 | Vault log ↔ uygulama log | .ai/log.md (append-only, ajan izi) ≠ shared/src/Log (ürün logu) | .ai/AGENTS.md §5 |
 
@@ -87,7 +87,7 @@ Kaynak: v2 §2.17 + disk ölçümü 2026-10-12 (shared/src/Log · .ai/log.md · 
 ## §6 Açık Sorular (⚠️ VERIFICATION REQUIRED)
 
 1. K012-services somut hangi log/metric yüzeyini açacak? (interfeys yok)
-2. K018-devops'a geri besleme kanalı (webhook/hook) tasarlandı mı? — plan yok.
+2. K17-devops'a geri besleme kanalı (webhook/hook) tasarlandı mı? — plan yok.
 3. shared/src/Log dışındaki log kullanan katmanlar var mı? — bu turda taranmadı.
 
 ## §7 Kaynaklar
@@ -157,7 +157,7 @@ Bu dosyanın beslendiği girdiler. Her satır 2026-10-13 tarihinde diskten okuna
 | 5 | Web araştırması bu bölüm için | Girdi değil, §G tablosuna ait | URL kanıtı §G'de taşınır |
 | 6 | Belirsiz API/sınıf adları | Zero-hallucination (kök AGENTS.md §3) | Doğrulanmayan = UNKNOWN |
 | 7 | Yapay satır numaraları | Kanıt zinciri bozulur | Her numara satır indeksi ile okunur |
-| 8 | K019-testing / K003 / K004 içeriği | Görev beyaz-listesi dışı (yazma yasağı) | Yalnız referans olarak anılır |
+| 8 | K18-testing / K003 / K004 içeriği | Görev beyaz-listesi dışı (yazma yasağı) | Yalnız referans olarak anılır |
 
 ### §A.5 Ölçüm girdileri (tekrarlanabilir komutlar)
 

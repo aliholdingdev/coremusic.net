@@ -101,8 +101,8 @@ group: kanit
   operasyonunun sahibi de açık (K-09/S-2).
 - **Kanıt:** `data-web-arastirma.md` §9; tek somut geri-öz-dönüş örneği Ö-9
   (mysqldump → CREATE+INSERT).
-- **A:** RPO/RTO değerlerini K018-devops ile birlikte yazmak; tek-tablo değil **18 DB
-  envanteri** bazında yedek planı. **S:** K007-backup + K018-devops.
+- **A:** RPO/RTO değerlerini K17-devops ile birlikte yazmak; tek-tablo değil **18 DB
+  envanteri** bazında yedek planı. **S:** K007-backup + K17-devops.
 
 ## R-09 · Yıkıcı migration onay zinciri kırılabilir — `E:Yüksek · O:Düşük`
 
@@ -125,7 +125,7 @@ group: kanit
 
 - **Tanım:** Motor kararı (K-06) verilmeden hem `search/` (K007) hem K020-discovery
   planlama yapamıyor; iki taraf da "diğer sahiplenecek" varsayımıyla bekleyebilir.
-- **Kanıt:** S-1/S-6; `.ai/architecture/K020-recomenataion/` ağacının varlığı (disk).
+- **Kanıt:** S-1/S-6; `.ai/architecture/K021-recomenataion/` ağacının varlığı (disk).
 - **A:** Tek karar oturumu (motor + sahiplik birlikte). **S:** orchestrator + K020.
 
 ## R-12 · İki migration deseni standardı — `E:Düşük · O:Yüksek`

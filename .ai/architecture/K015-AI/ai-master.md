@@ -37,8 +37,8 @@ Bir "AI ürün"ü değil, **AI'yi ayakta tutan altyapı**dır.
 |---|---|
 | Ajan tanımları, roller, yetki sınırları | Şarkı öneren/sesi analiz eden ML ürün özellikleri → **K006-yapay-zeka** (v2 §2.6: model-management · inference · recommendation · personalization · music-analysis · audio-intelligence · local-inference) |
 | RAG/KG altyapısı (bilgiye erişim yolu) | Model eğitimi, ağırlık yönetimi, inference sunucusu → **K006** |
-| Ajan testi (agent-testing) | Genel test stratejisi, coverage, E2E → **K019-testing** |
-| Ajan boot protokolü (oturum açılışı) | CI kapısı, pipeline → **K018-devops** |
+| Ajan testi (agent-testing) | Genel test stratejisi, coverage, E2E → **K18-testing** |
+| Ajan boot protokolü (oturum açılışı) | CI kapısı, pipeline → **K17-devops** |
 | Ajan permissions | Sistem auth/CSRF/CSP → **K009-security** (ajan izinleri burada, sistem güvenliği orada) |
 
 **KURAL (registry §6 — tescilli ayrım):** K006 = ML **ürün** · K015 = ajan **altyapısı**. İkisi ayrı domaindir;
@@ -88,7 +88,7 @@ isim benzerliği taşır → kademe-3'te ayrım tescillenecek (açık soru §7/6
 | depends_on | K007-data | planlanan | RAG/bilgi tabanı veri katmanına ihtiyaç duyar |
 | depends_on | K009-security | planlanan | permissions domain sınırı güvenlik domainine komşu |
 | depends_on | K011-application · K012-services | planlanan | ajanlar uygulama/servis katmanını çağrırlar |
-| used_by | K020-recomenataion | planlanan | öneri ajanları bu altyapıyı kullanır (v2 K020 children'ı) |
+| used_by | K021-recomenataion | planlanan | öneri ajanları bu altyapıyı kullanır (v2 K020 children'ı) |
 | used_by | vault süreçleri (AGENTS/WORKFLOW) | kanıtlı (doküman) | boot-protocol + orchestration + permissions aktif kullanılıyor (.ai/AGENTS.md §6–§14) |
 
 ## §6 Doğrulama Özeti (detay: ai-dogrulama.md)
@@ -190,7 +190,7 @@ isim benzerliği taşır → kademe-3'te ayrım tescillenecek (açık soru §7/6
 | # | Konu | K015-AI | Komşu | Kural |
 |---|---|---|---|---|
 | 1 | Model eğitim/inference | hayır | K006 | v2 §2.6 |
-| 2 | Öneri/kişiselleştirme ürün özellikleri | hayır | K006 · K020-recomenataion | — |
+| 2 | Öneri/kişiselleştirme ürün özellikleri | hayır | K006 · K021-recomenataion | — |
 | 3 | Ajan altyapısı (boot/dispatch/permission) | evet | — | v2 §2.16 |
 | 4 | Ajan değerlendirme | evet | — | model değil, ajan çıktısı |
 | 5 | OS player metrikleri | hayır | K017 (ADR-019 Frozen) | değişiklik ≥088 |
@@ -342,10 +342,10 @@ isim benzerliği taşır → kademe-3'te ayrım tescillenecek (açık soru §7/6
 |---|---|---|---|
 | 1 | K006-yapay-zeka | evaluation ismi | K015=ajan · K006=model |
 | 2 | K009-security | permissions/auth | K015=ajan izni · K009=sistem auth |
-| 3 | K019-testing | agent-testing | K015=ajan davranışı · K019=ünite/E2E |
+| 3 | K18-testing | agent-testing | K015=ajan davranışı · K019=ünite/E2E |
 | 4 | K012-services | tool-call hedefi | ajan servisin kamuya açık yüzeyini çağırır |
 | 5 | K007-data | RAG verisi | vektör/depo kararı K007 |
-| 6 | K018-devops | gate'ler | CI kapısı K018 · vault kapısı K015 hook |
+| 6 | K17-devops | gate'ler | CI kapısı K018 · vault kapısı K015 hook |
 
 ## §28 Öncelik Sırası ve Bağımlılık (dosya üretim sırası)
 
@@ -464,7 +464,7 @@ Görev mi geldi?
 | # | Benzer görünen | Doğru domain | Ayırt edici işaret |
 |---|---|---|---|
 | 1 | evaluation (K015) vs evaluation (K006) | K015 = ajan çıktısı | ölçtüğü şey ajan mı model mi |
-| 2 | agent-testing vs K019-testing | K015 | test edilen: ajan davranışı |
+| 2 | agent-testing vs K18-testing | K015 | test edilen: ajan davranışı |
 | 3 | permissions vs K009-auth | K015 | kapsam: dosya tipi/ajan izni |
 | 4 | knowledge vs K007-data | K015 | kapsam: bilgi modeli/erişim yolu |
 | 5 | tools vs K012-services | K015 | kapsam: ajan araç envanteri |

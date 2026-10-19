@@ -731,7 +731,7 @@ Select-Object -Index 31
 | X3 | Oturum/MFA akisi tanimi | `K0100-identitiy` |
 | X4 | ADR yazimi | Mimari sahibi (yeni ise `>=088`) |
 | X5 | OS araci kurulumu | S1 karari — `[UNKNOWN]` |
-| X6 | Sizma testi senaryosu | `K019-testing` |
+| X6 | Sizma testi senaryosu | `K18-testing` |
 
 ## §12 — Kaynakca (HTTP 200 · 2026-10-13 · envanter disi)
 

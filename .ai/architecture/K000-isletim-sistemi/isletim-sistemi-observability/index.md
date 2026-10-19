@@ -53,7 +53,7 @@ yalnızca tarif eder.
 
 | Komşu | Bu dalın ondan aldığı | Bu dalın ona verdiği |
 |---|---|---|
-| `K017-observability` | uygulama/dağıtık desenler (OTel, alert, log metriği) | OS kaynağı listesi — uygulama katmanına girmez |
+| `K016-observability` | uygulama/dağıtık desenler (OTel, alert, log metriği) | OS kaynağı listesi — uygulama katmanına girmez |
 | `isletim-sistemi-kernel` | dmesg/printk kaynağı, tracepoint tanımı | okuma/yorumlama arayüzü |
 | `isletim-sistemi-core` | /proc /sys üretimi, süreç/bellek kavramı | ölçüm yöntemi |
 | `isletim-sistemi-plan` | kernel event üretimi | event yakalama (tracepoint/kprobe) |

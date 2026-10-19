@@ -506,4 +506,4 @@ test kodu · PHP/domain kodu · frozen ADR (001-037, 019 dahil) düzenleme · se
 **Durum:** Şartname IMPLEMENTED (belge) · Kod: ⚠️ PLANNED (cpp=0, CMakeLists=0)
 **İlişkili:** `../index.md` · `../isletim-sistemi-turu-kapsam.md` · `macos-kernel.md` · `macos-ses-yigini.md` · `macos-dogrulama.md`
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

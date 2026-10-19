@@ -51,7 +51,7 @@ Bu subdomain, CoreMusic'in **iki guvenlik katmani arasindaki siniri** tanimlar: 
 |---|---|---|---|---|
 | X1 | Kimlik dogrulama / oturum (session) / sifre / MFA | `K0100-identitiy` | Uygulama kimlik is mantigi | "Oturum is mantigi K010'da; burada yalniz OS dosya sistemi kisiti (0750)" |
 | X2 | Ag guvenligi (firewall, DNS, TLS sonlandirma) | `K013-integraion` | Ag katmani OS cekirdek guvenliginin parcasi degil | "Rate limit'in ag karsiligi K013'te; burada yalniz uygulama-OS siniri" |
-| X3 | Sizma testi / pentest kampanyasi | `K019-testing` | Test faaliyeti != guvenlik mekanizmasi | "Pentest senaryolari K019'da; burada mekanizma ve olcum metodolojisi" |
+| X3 | Sizma testi / pentest kampanyasi | `K18-testing` | Test faaliyeti != guvenlik mekanizmasi | "Pentest senaryolari K019'da; burada mekanizma ve olcum metodolojisi" |
 | X4 | Kriptografik algoritma secimi (AES-256-GCM, Argon2id) | `K009-security` + ADR-022 | Kripto karari dondurulmus ADR alanidir | "Kripto ADR-022'de; bu dal yalniz sinir etkisini isaretler" |
 | X5 | Uygulama OWASP denetiminin tamami | `K009-security` | Burada yalniz "OS vs uygulama" ayrimi ve sinirlar | "OWASP denetimi K009'da; bu dal ayrim matrisini tutar" |
 | X6 | Donanim/firmware guvenligi (secure boot donanim, HSM) | `K001-donanaım-type` + elektronik vault | Fiziksel katman bu dalin disinda | "Donanim guvenligi K001'de; bu dal yalniz yazilim katmani" |
@@ -220,9 +220,9 @@ repo pratiigi (mevcut)  --(sinir + kanit)-------->  uygulama-guvenlik-siniri
                                                          +--> uygulama-guvenlik-siniri-ornekler
 
 Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
-                              K0100-identitiy (kimlik/oturum/sifre/MFA)
+                              ⚠️ (kimlik/oturum/sifre/MFA)
                               K013-integraion (ag)
-                              K019-testing (sizma testi)
+                              K18-testing (sizma testi)
 ```
 
 ### §4.1 Bagimlilik tablosu
@@ -260,7 +260,7 @@ Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
 | `K0100-identitiy` | Kimlik dogrulama, oturum, sifre, MFA uygulama katmani | **Sinir**: uygulama oturumunun OS'taki karsiligi (oturum dosyasi izni `0750`, TTY sahipligi) | Oturum is mantigi, session fixation korumasi, MFA akisi — **buraya girilmez** |
 | `K009-security` | OWASP, auth, CSRF, kripto ADR'leri (ADR-022) | Sinir etkisi isaretleme | OWASP denetimi, kripto algoritma secimi, CSRF tasarimi |
 | `K013-integraion` | Ag entegrasyonu, servis iletisim yuzeyi | — (yalniz sinir isareti) | Rate limit'in ag katmani karsiligi, TLS sonlandirma |
-| `K019-testing` | Sizma testi senaryolari | Test edilebilirlik yuzeyi (olcum metodolojisi) | Pentest kampanyasi yurutumu |
+| `K18-testing` | Sizma testi senaryolari | Test edilebilirlik yuzeyi (olcum metodolojisi) | Pentest kampanyasi yurutumu |
 
 ### §5.2 Komluluk kurali ihlali isaretleri
 

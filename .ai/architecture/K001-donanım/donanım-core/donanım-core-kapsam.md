@@ -258,7 +258,7 @@ paylaşılmaz; Q2-Q3 gelmeden A3/A6 satırları UNKNOWN kalır.
 | # | Soru | Cevap |
 |---|---|---|
 | Y1 | LM5122 pin-for-pin şeması bu dosyada mı? | **HAYIR** — K002-electronics |
-| Y2 | LM5122 BOM fiyatı bu dosyada mı? | **HAYIR** — K020-comilance (sınır ⚠️) |
+| Y2 | LM5122 BOM fiyatı bu dosyada mı? | **HAYIR** — K019-comilance (sınır ⚠️) |
 | Y3 | LM5122 hangi devrede kullanılacak? | **UNKNOWN** — K002 kararı |
 | Y4 | LM5122 core envanterine mi ait? | **UNKNOWN** — Q-C4 |
 
@@ -350,7 +350,7 @@ paylaşılmaz; Q2-Q3 gelmeden A3/A6 satırları UNKNOWN kalır.
 
 | # | Kapsam dışı konu | Nereye gider | Dayanak |
 |---|---|---|---|
-| X3 | Ölçüm eşiklerinin ürün kalite kapısı olarak uygulanması | K019-testing | anayasa §10/3 · bagimliliklar §4/5 |
+| X3 | Ölçüm eşiklerinin ürün kalite kapısı olarak uygulanması | K18-testing | anayasa §10/3 · bagimliliklar §4/5 |
 | X4 | Sinyal şekillendirme (EQ/filtre/reverb) | K004-dsp | anayasa §2 |
 | X5 | Cihazın boot-time kendi yazılımı | K005-firmware | anayasa §2 |
 | X6 | Devre/PCB tasarımı | K002-electronics | anayasa §2 |
@@ -456,9 +456,9 @@ ilgili satır güncellenir, tarihçe korunur.
 | Y1 | `TBD` / `// ...` / `{...}` / boş hücre | Doldurucu (Guardrail #6) | `donanım-dogrulama.md` §y |
 | Y2 | Uydurma ölçü değeri (SNR/THD+N/W/V/A) | Zero-hallucination §3 | kök `AGENTS.md` §3 |
 | Y3 | Register adresi/değeri yazmak | K005-firmware / donanım-kernel | anayasa §3/47 |
-| Y4 | Ölçüm eşiklerini core'da uygulamak | K019-testing | anayasa §10/3 |
+| Y4 | Ölçüm eşiklerini core'da uygulamak | K18-testing | anayasa §10/3 |
 | Y5 | Pin-for-pin şema / PCB çizimi | K002-electronics | anayasa §2 |
-| Y6 | BOM fiyatı / tedarikçi listesi | K020-comilance | anayasa §2 (sınır ⚠️) |
+| Y6 | BOM fiyatı / tedarikçi listesi | K019-comilance | anayasa §2 (sınır ⚠️) |
 | Y7 | `donanaım-type` yazımını düzeltmek | v2 §3 KURAL 1 | anayasa §3/60-61 |
 | Y8 | Class AB topolojisini tartışmak | Sabit | kök `CLAUDE.md` |
 | Y9 | core ↔ kernel sınırını tek başına çözmek | Q3 kararı Vault Steward'ın | anayasa §7 |
@@ -475,7 +475,7 @@ ilgili satır güncellenir, tarihçe korunur.
 | T4 | K000-isletim-sistemi | core K001'de, sürücü K000'de | §14/X7 | ✅ — anayasa §10/2 |
 | T5 | K005-firmware | core kalıcı, firmware boot-time | §14/X5 | ✅ — anayasa §2 |
 | T6 | K003-audio / K004-dsp | core donanım verisi, ses motoru yazılım | §14/X4, X8 | ✅ — anayasa §2 |
-| T7 | K019-testing | core toplar, testing uygular | §3/B4 · §8.2/K1-K2 | ✅ — anayasa §10/3 |
+| T7 | K18-testing | core toplar, testing uygular | §3/B4 · §8.2/K1-K2 | ✅ — anayasa §10/3 |
 | T8 | K002-electronics | core envanter verisi, K002 devre tasarımı | §14/X6 | ✅ — anayasa §2 |
 
 **§22 sonucu:** 8 komşu düğümle **çelişki yoktur**; her ilişki anayasa satırıyla
@@ -495,7 +495,7 @@ desteklenmiştir.
 | R6 | Q-C6 ölçüm doğruluğu | audio-hw | AÇIK |
 | R7 | Q-C7 DMTF kullanımı | Vault Steward | AÇIK |
 | R8 | Envanter şeması (DB) | data | AÇIK |
-| R9 | Ölçüm kabul kapısı (SNR/THD+N) | K019-testing | SABİT |
+| R9 | Ölçüm kabul kapısı (SNR/THD+N) | K18-testing | SABİT |
 
 **§23 sonucu:** 9 sorumluluktan **8'i açık**, 1'i sabittir (R9 — anayasa §10/3).
 Hiçbir açık satır bu dosyada **doldurulmamıştır**; tahmin yazılmamıştır.

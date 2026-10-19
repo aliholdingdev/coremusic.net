@@ -133,7 +133,7 @@ Kabul kriteri: (a) birincil/resmi kaynak, (b) iki envanter dosyasında kesişim 
 | A: **database-per-service** — her BC'nin kendi DB'si | W-15 (mikroservis olgunluğunda en yaygın benimsenen öneri) | BC otonomisi en güçlü biçimde; bağımsız ölçekleme | repo'daki 18 BCNF MySQL şemasıyla birebir uyumsuzluk riski; servisler arası join kaybı | K007-data · services-master.md §2.2 |
 | B: **paylaşımlı tek DB** (şema bölünmeden) | W-15 (aynı kaynakta tartışılan alternatif) | mevcut 18 şemayla uyum; geçiş maliyeti düşük | servisler arası gizli bağımlılık; otonomi iddiası zayıf | K007-data |
 | C: **paylaşımlı DB + katı şema-sahipliği kuralı** — her tablonun tek BC sahibi var; başka BC okuma bile sınır üzerinden | W-15 (otonomi ile mevcudiyet arası denge pratiği) | otonomiye en yakın mevcut-uyumlu denge | kural disiplinli denetlenmezse B'ye kayar | K007-data · service-contracts |
-| D: **hybrid** — servis başına DB (yazma), raporlama/analiz için ayrı okuma kopyası | W-15 | ayrık yazma + tek okuma yüzeyi | replikasyon/operasyon yükü K007/K018-devops'a biner | K007-data · K018-devops |
+| D: **hybrid** — servis başına DB (yazma), raporlama/analiz için ayrı okuma kopyası | W-15 | ayrık yazma + tek okuma yüzeyi | replikasyon/operasyon yükü K007/K17-devops'a biner | K007-data · K17-devops |
 
 öneri-seviyesi: repo gerçeği (tek şema, 18 BCNF) B/C lehine bir "başlangıç noktası" gösterir; A hedef mimari olarak kalabilir — geçiş sırası ve bugünkü seçim ADR konusu.
 

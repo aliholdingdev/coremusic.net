@@ -78,7 +78,7 @@ iş kuralı K008'de, dış dünya K013'te durur.
 | depends_on → | K010-network | Servisler arası taşıma |
 | depends_on → | K014-media | Kitaplık/metadata/akış verisi |
 | ← used_by | K011-application | Uygulamanın servis çağrıları |
-| ← used_by | K019-testing | Servis testleri (sahiplik ⚠️) |
+| ← used_by | K18-testing | Servis testleri (sahiplik ⚠️) |
 
 ## 4. Durum & açık sorular
 

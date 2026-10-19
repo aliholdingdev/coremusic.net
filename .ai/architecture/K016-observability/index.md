@@ -54,7 +54,7 @@ updated: 2026-10-18
 ## 1. Kapsam Sınırı (kısa)
 
 - **Burada:** sistemin kendi gözlemi (log/metric/trace/health/alert/incident).
-- **DEĞİL:** test stratejisi (K019-testing) · CI kapısı ve deploy (K018-devops) · güvenlik denetimi (K009-security).
+- **DEĞİL:** test stratejisi (K18-testing) · CI kapısı ve deploy (K17-devops) · güvenlik denetimi (K009-security).
 - audio-diagnostics/ ses zincirine özgü teşhistir → K003-audio/K014-media ile **entegrasyon sınırı** vardır (K016 teşhisi tanımlar, ses motoru orada kalır).
 
 ## 2. Kademe-2 Çocuk Kataloğu (v2 §2.17 — birebir)

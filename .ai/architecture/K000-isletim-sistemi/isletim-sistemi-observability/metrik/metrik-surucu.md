@@ -227,9 +227,9 @@ perf_event_open(pid, cpu, group_fd, flags)
 
 | # | Konu | Bu dosyada | Gittiği yer |
 |---|---|---|---|
-| 1 | scrape periyodu / scrape_timeout | yok | `K017-observability` |
-| 2 | alert kuralı (eşik + süre + hedef) | yok — yalnız OS olayı tarif | `K017-observability` |
-| 3 | metrik depolama/downsampling | yok | `K017-observability` |
+| 1 | scrape periyodu / scrape_timeout | yok | `K016-observability` |
+| 2 | alert kuralı (eşik + süre + hedef) | yok — yalnız OS olayı tarif | `K016-observability` |
+| 3 | metrik depolama/downsampling | yok | `K016-observability` |
 | 4 | örnekleme modu / profil kaydı | devredildi | `trace/` alt-dalı |
 | 5 | log hacmi metriği | devredildi | `log/log-ornekler.md` §11 |
 

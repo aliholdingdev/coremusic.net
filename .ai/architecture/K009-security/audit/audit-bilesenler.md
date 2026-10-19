@@ -89,7 +89,7 @@ group: mimari
 | authorization | authz_denied olayını tetikler | olay adı `FileHandler.php·179` (üretici kod ⚠️) |
 | authentication | bypass log akışını tetikler | authentication-ornekler §7 |
 | secrets | secret_access kaynağı | ⚠️ kanıt yok |
-| K017-observability | security.log tüketir | ⚠️ kanıt yok |
+| K016-observability | security.log tüketir | ⚠️ kanıt yok |
 | K000-isletim-sistemi | dosya izinleri/OS journal | sınır referansı (index §4) |
 
 ## §8 Bileşen × Olay Matrisi

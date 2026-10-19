@@ -268,7 +268,7 @@ $file = 'C:\www\coremusic.net\.ai\MEMORY.md'
 $lines = [IO.File]::ReadAllLines($file, [Text.Encoding]::UTF8)
 $moji = @()
 for ($i=0; $i -lt $lines.Count; $i++) {
-    if ($lines[$i] -cmatch 'Ã¢â‚¬â€|ÃƒÆ|ÃƒÂ|Ã¢â‚¬"') { $moji += ($i+1) }
+    if ($lines[$i] -cmatch 'Ã¢â‚¬â€|ÃƒÆ|ÃƒÂ|â€"') { $moji += ($i+1) }
 }
 "mojibake satır sayısı: $($moji.Count)"
 $moji | ForEach-Object { "L$_" }

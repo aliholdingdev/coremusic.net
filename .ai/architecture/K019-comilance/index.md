@@ -95,7 +95,7 @@ policies/ (ne kural?) → controls/ (nasıl + kod gövdesi) → verification/ (n
 | `[[verification/index]]` | Tur kayıtları (tur-1 · tur-2) |
 | `[[../adr/index]]` | Mimari ADR serisi (kendi numara uzayı) |
 | `@.ai/.decisions/draft/ADR-097-…md` | K-Space V3 kurulum kararı (karar serisi) |
-| `[[../K020-discovery/index]]` · `[[../K020-recomenataion/index]]` | K020 bandı kardeşleri (disk adlarıyla) |
+| `[[../K020-discovery/index]]` · `[[../K021-recomenataion/index]]` | K020 bandı kardeşleri (disk adlarıyla) |
 | `@.ai/CLAUDE.md` §6 · `@.ai/AGENTS.md` §16 | Vault LINT + kalite standartları |
 
 > **Kırık referans düzeltmesi (2026-10-17):** eski `[[../K020-licence/index]]` ve

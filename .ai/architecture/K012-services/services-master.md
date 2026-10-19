@@ -93,8 +93,8 @@ yalnız oradan gelen kontratı kullanır), ses sinyali işlemez (K003-audio/K004
 | İş kuralı / domain modeli | K008-domain | Servis kuralı uygular, üretmez |
 | Kalıcılık ve şema | K007-data | ORM/SQL kararı burada verilmez |
 | ML modeli / ajan altyapısı | K006-yapay-zeka / K015-AI | ai-service yalnız sunar (hangisi ⚠️) |
-| Servislerin dağıtımı/dağıtım hattı | K018-devops | |
-| Servis test altyapısı | K019-testing | K012 yalnız testini yazar |
+| Servislerin dağıtımı/dağıtım hattı | K17-devops | |
+| Servis test altyapısı | K18-testing | K012 yalnız testini yazar |
 
 ## §3 Kademe-2 çocuk tablosu (v2 §2.12 birebir — 10 çocuk)
 
@@ -152,7 +152,7 @@ yalnız oradan gelen kontratı kullanır), ses sinyali işlemez (K003-audio/K004
 | Kaynak | Ne için | Etiket |
 |---|---|---|
 | K011-application | Uygulama servis çağrıları | TASARIM İDDİASI |
-| K019-testing | Servis testleri | TASARIM İDDİASI (sahiplik ⚠️) |
+| K18-testing | Servis testleri | TASARIM İDDİASI (sahiplik ⚠️) |
 | Diğerleri | — | ⚠️ VERIFICATION REQUIRED |
 
 ### §5.3 Graf özeti (özet iddia — DAG denetimi 2026-10-12)
@@ -313,7 +313,7 @@ müdahale metodları (clear/healthCheck) S1 ile doğrulanmıştır.
 | Sağlık metriği | kısmi S1 | `ServiceHealth` + `healthCheck` |
 | İstek sayacı | kısmi S1 | RateLimit sayaçları (middleware içi) |
 | Loglama | ⚠️ UNKNOWN | log biçimini bu görevde okumadık |
-| Metrik/izleme dış sistemi | ⚠️ UNKNOWN | K018-devops alanı |
+| Metrik/izleme dış sistemi | ⚠️ UNKNOWN | K17-devops alanı |
 | Dağıtık izleme (trace) | ⚠️ UNKNOWN | kanıt yok |
 | Uyarı (alert) | ⚠️ UNKNOWN | kanıt yok |
 
@@ -346,8 +346,8 @@ tam görsellik için tur-3 gerekir.
 | Dış API protokolü | K013-integraion | yazılmaz |
 | Ağ ayrıntısı | K010-network | yalnız bağımlılık satırı |
 | Medya dosyası sahipliği | K014-media | yalnız bağımlılık satırı |
-| CI/CD/dağıtım | K018-devops | yazılmaz |
-| Test altyapısı | K019-testing | yalnız test yazarlığı |
+| CI/CD/dağıtım | K17-devops | yazılmaz |
+| Test altyapısı | K18-testing | yalnız test yazarlığı |
 | Kaynak kod (`*.php` vb.) | ilgili agent'lar | salt-okunur |
 
 ## §20 Tur-2 Kaydı ve Kapanış

@@ -254,12 +254,12 @@ L48 `        "stan": "phpstan analyse src --level=5"` · L49 `    }` (4/4 birebi
 |---|---|---|
 | Çekirdek/QEMU testi | `cekirdek-test/` | işletim sistemi katmanı |
 | CI iş/kapı tanımı | `ci-ve-kalite-kapisi/` | orkestrasyon |
-| Coverage ağacı | `K019-testing` | 0 satır yazım |
+| Coverage ağacı | `K18-testing` | 0 satır yazım |
 | Uygulama tasarımı | `isletim-sistemi-api` | test ≠ tasarım |
 | Güvenlik politikası | `isletim-sistemi-security` | denetim |
 | Ses DSP testi | `isletim-sistemi-audio` | alan sınırı |
 | Telemetri | `isletim-sistemi-observability` | canlı sistem |
-| Pipeline sahipliği | `K018-devops` | deploy |
+| Pipeline sahipliği | `K17-devops` | deploy |
 | Önbellek stratejisi | `isletim-sistemi-core` | model sahipliği |
 
 ## §10 Kaynakça

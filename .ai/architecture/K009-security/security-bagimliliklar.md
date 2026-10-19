@@ -68,11 +68,11 @@ group: mimari
 | K011-application | K009 → K011 | CSP nonce + header sözleşmesi | SecurityHeadersMiddleware.php · 18, 31 | implement |
 | K013-integraion | K009 → K013 | Origin/CORS/token kuralı | CorsMiddleware.php · 15 · OriginCheckMiddleware.php · 15 | implement |
 | K010-network | K014 → K009 | TLS/HSTS ön koşulu | NIST SP 800-52r2 referansı | verify-required |
-| K017-observability | K009 → K017 | redaksiyon kuralı | LoggerRedactionTest.php · 132 | partial |
-| K018-devops | K018 → K009 | secret scan çıktısı | .github/workflows/secret-scan.yml | partial |
+| K016-observability | K009 → K017 | redaksiyon kuralı | LoggerRedactionTest.php · 132 | partial |
+| K17-devops | K018 → K009 | secret scan çıktısı | .github/workflows/secret-scan.yml | partial |
 | K000-isletim-sistemi | K000 → K009 | dosya/izin/örtü modeli | — | verify-required |
 | K007-data | K009 → K007 | PDO prepared statement kuralı | auth.coremusic.net/AGENTS.md §4.2 | kural |
-| K019-testing | K019 ↔ K009 | güvenlik testi gate'i | shared/tests/Middleware/ | partial |
+| K18-testing | K019 ↔ K009 | güvenlik testi gate'i | shared/tests/Middleware/ | partial |
 
 ## §4 Paket bağımlılıkları (composer — kanıt: composer.json)
 

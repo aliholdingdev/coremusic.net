@@ -350,7 +350,7 @@ Domain ancak §2'deki ⚠️ satırları kapandığında verified olabilir. Kan�
 
 | # | Yüzey | Neden okunmadı | İşaret |
 |---|---|---|---|
-| 1 | K019-testing/** | Görev beyaz-listesi dışı (yazma + okuma kısıtı) | referans olarak adı geçer |
+| 1 | K18-testing/** | Görev beyaz-listesi dışı (yazma + okuma kısıtı) | referans olarak adı geçer |
 | 2 | K000-* / K003-* / K004-dsp | Beyaz-liste dışı | referans olarak adı geçer |
 | 3 | .ai/.decisions/** | Frozen ADR — yalnız wiki-link verilir | ADR-097 §2/§5 (§7) |
 | 4 | .ai/architecture/index.md (yazma) | Okundu, YAZILMADI | §D.4/2 bayat kayıt notu |

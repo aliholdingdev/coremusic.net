@@ -543,4 +543,4 @@ anti-pattern'dir (A-karşılığı: filtre zorunlu).
 **Kaynak (yetki zinciri):** ADR-097 §5.5 (field `group` · §GRUPLAR) · README §4.2 (FM zorunlu alanlar) · repo kanıtı: `.github/workflows/ci.yml` (§12)
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

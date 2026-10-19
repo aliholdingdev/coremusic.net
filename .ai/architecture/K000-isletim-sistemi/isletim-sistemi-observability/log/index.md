@@ -82,7 +82,7 @@ yazan kod **yoktur** (grep 0 isabet). Uygulama/dağıtık log desenleri
 | audit trail politikası | `isletim-sistemi-security` | OS log kanalı adları |
 | syslog socket/API yüzeyi | `isletim-sistemi-api` | log kanalı modeli |
 | OS araç farkları (journalctl vs wevtutil vs log) | `isletim-sistemi-turu` | platform karşılaştırma örneği |
-| uygulama log desenleri, log metriği, alert | `K017-observability` | yalnız sınır tarifi |
+| uygulama log desenleri, log metriği, alert | `K016-observability` | yalnız sınır tarifi |
 
 ## §6 depends_on
 

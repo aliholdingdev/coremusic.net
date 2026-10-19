@@ -61,4 +61,4 @@ M-D1 mevcut dosya kapsamı [⚠️] · M-D2 macOS hedefte mi? [UNKNOWN]
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

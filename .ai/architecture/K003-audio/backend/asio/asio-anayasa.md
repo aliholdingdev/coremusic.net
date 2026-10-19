@@ -350,7 +350,7 @@ düzeyinde kalır, kod düzeyine inmez.
 ## §11 Açık sorular
 
 1. **Lisans birleşimi:** GPLv3 seçeneği CoreMusic'in tescilli çekirdeğiyle nasıl birleşir?
-   Hukuki onay K020-licence kanalından alınmalıdır (bu dosya karar üretmez).
+   Hukuki onay ⚠️ kanalından alınmalıdır (bu dosya karar üretmez).
 2. **Fallback önceliği:** ASIO yokken WASAPI mi, önce evrensel ASIO sürücüsü mü denenecek?
    `.ai/AGENTS.md` §17/6 "WASAPI fallback" der; evrensel sürücü senaryosu açık bırakılmıştır.
 3. **Sürüm envanteri:** indirilen zip `ASIO-SDK_2.3.4_2025-10-15.zip` ise özet değeri

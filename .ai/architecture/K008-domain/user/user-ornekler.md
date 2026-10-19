@@ -88,7 +88,7 @@ ayrı kavramlardır ve ikisi de tek `userId` kimliğine bağlanır.
 1. `userId` bu dalın **paylaşılan kimliği**dir; playback · playlist · library olayları
    onu **okur**, tanımlamaz.
 2. Parola/oturum olayları (`PasswordResetRequestedEvent`) burada **kapsanmaz** —
-   K0100-identitiy'ye ait kanıt olarak §4'te listelenir.
+   ⚠️'ye ait kanıt olarak §4'te listelenir.
 
 ## §4 İlişkili dosyalar
 

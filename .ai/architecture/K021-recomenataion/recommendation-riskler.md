@@ -41,7 +41,7 @@ Risk = ters giderse ne kaybederiz. Her riskte dört zorunlu alan: **Olasılık**
 | R7 | Ağırlık dondurma — 0.6/0.4 veriyle doğrulanmadı → sessiz kalite kaybı | yüksek | orta | Faz-4 ölçümü (D5); K006 iş birliği; offline metrik karşılaştırması | Vault Steward + K006 |
 | R8 | Eşik davranışı — `MIN_SCORE=0.7` + sort öncesi filtre → hepsi altta kalır, boş çıkma | orta | orta | S6 izleme alarmı (boş çıkma oranı — §21); repo değeri tasarım onayına bağlanır | evaluation/ |
 | R9 | Kaynak bayatlığı — servis URL'leri değişir (404×9 elendi; 403×4 içerik okunamadı) | orta | düşük | Erişim tarihli kanıt (2026-10-17); iddia yalnız okunan içerikten | K021 (arastirma) |
-| R10 | ID CONFLICT geri dönüşü — 40+ K020-recomenataion referansı vs disk K021 | yüksek | orta | Disk adı immutable; dönüşüm yalnız üst karar + ADR-098 | Vault Steward + kullanıcı |
+| R10 | ID CONFLICT geri dönüşü — 40+ K021-recomenataion referansı vs disk K021 | yüksek | orta | Disk adı immutable; dönüşüm yalnız üst karar + ADR-098 | Vault Steward + kullanıcı |
 
 ## §3. Hata/azaltma senaryoları (fail-safe — master §19, 7 senaryo)
 

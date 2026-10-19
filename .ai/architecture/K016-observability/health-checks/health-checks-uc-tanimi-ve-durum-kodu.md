@@ -29,9 +29,9 @@ Sistem "sağlıklı mısın?" sorusuna yanıt veren uçlar tanımlar. Üç farkl
 | Alan | Bu dosyada | Bu dosyada DEĞİL |
 |---|---|---|
 | Health uç tanımı (rota, şema) | ✅ RFC healthcheck şeması | ❌ Servis içi kod → K012-services |
-| Durum kodu eşlemesi (200/503) | ✅ pass/warn/fail → HTTP | ❌ Deploy'a bağlama → K018-devops |
+| Durum kodu eşlemesi (200/503) | ✅ pass/warn/fail → HTTP | ❌ Deploy'a bağlama → K17-devops |
 | Bağımlılık sorgusu tipi | ✅ DB/Redis/media kontrolü | ❌ Bağımlılığın kendisi → ilgili servis |
-| Probe tipi ayrımı | ✅ liveness/readiness/startup | ❌ K8s kurulumu → K018-devops |
+| Probe tipi ayrımı | ✅ liveness/readiness/startup | ❌ K8s kurulumu → K17-devops |
 | Uyarı üretimi | ✅ health sonucundan uyarı adayı | ❌ Uyarı kuralı/kanalı → alerts/ |
 
 ## §3 Terimler ve kısaltmalar
@@ -495,7 +495,7 @@ spec:
 | # | Komşu | Sınır | Yön | Kaynak |
 |---|---|---|---|---|
 | 1 | K012-services | Health KODU/sahipliği serviste; bu domain yalnız tanım | K016 → K012 | master §C/16 |
-| 2 | K018-devops | Health sonucu deploy kapısına bağlanır (K8s probe) | K016 → K018 | master §D.1/8 |
+| 2 | K17-devops | Health sonucu deploy kapısına bağlanır (K8s probe) | K016 → K018 | master §D.1/8 |
 | 3 | alerts/ | Health fail → uyarı adayı | iç | §5 |
 | 4 | audio-diagnostics/ | Medya health'i xrun sinyalini besler | iç | §8 satır 3 |
 | 5 | K005-firmware | Donanım health'i sınır (kapsam dışı) | ayrım | master §4/12 |

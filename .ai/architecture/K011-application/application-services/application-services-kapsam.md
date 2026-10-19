@@ -63,7 +63,7 @@ group: mimari
 | 5 | Şema/BCNF/migration | K00x-data (`.ai/.sql/mysql`) | DDL tek kaynağı dump SSOT'udur |
 | 6 | HTTP istek/yanıt iskeleti, rota çözümü | K011 routing (PageRouter) | Çatı ayrı dosyada (`routing/`) |
 | 7 | Önbellek teknoloji seçimi (APCu/Redis/CDN) | K012-services + caching alt klasörü | `caching/` alt klasörü ayrı düğüm |
-| 8 | Test altyapısı, suite tanımı, coverage kapısı | K019-testing + `application-testing/` | Ayrı kardeş klasör |
+| 8 | Test altyapısı, suite tanımı, coverage kapısı | K18-testing + `application-testing/` | Ayrı kardeş klasör |
 | 9 | UI bileşeni davranışı, ITCSS katmanı | UI alanı (`ui-design`, `Css/`) | Sunum katmanı |
 | 10 | WebSocket/gerçek zamanlı taşıma | K010-network | Taşıma protokolü |
 

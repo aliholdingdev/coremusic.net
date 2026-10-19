@@ -82,7 +82,7 @@ span) `K017-observability` alanındadır.
 | /proc /sys, süreç/bellek | `isletim-sistemi-core` | ölçüm yöntemi |
 | OS eşik/log kesişimi (softlockup izi) | `log` alt-dalı | yalnız trace tarafı |
 | sayaç üretimi (PMU/perf_event) | `metrik` alt-dalı | yalnız olay/örnekleme tarafı |
-| span/OTel/APM, alert | `K017-observability` | yalnız sınır tarifi |
+| span/OTel/APM, alert | `K016-observability` | yalnız sınır tarifi |
 
 ## §6 depends_on
 

@@ -67,7 +67,7 @@ R1 çift hedef (Apache/IIS) · R3 mod_php-vs-FPM · R7 MPM/FPM kapasitesi — ü
 | `isletim-sistemi-security` | Güvenlik başlıkları / 403 filtresi | `.htaccess` FilesMatch + headers | `security` auth/CSRF |
 | `isletim-sistemi-observability` | Erişim logu | Sunucu erişim logu | `observability` metrik |
 | `K011-application` | Subdomain haritası | `domain.php` 7 subdomain | `K011` uygulama mantığı |
-| `K018-devops` | Sunucu dağıtım hedefi | MPM/havuz kapasite tanımı | `K018` deploy pipeline |
+| `K17-devops` | Sunucu dağıtım hedefi | MPM/havuz kapasite tanımı | `K018` deploy pipeline |
 
 ## Web Research
 

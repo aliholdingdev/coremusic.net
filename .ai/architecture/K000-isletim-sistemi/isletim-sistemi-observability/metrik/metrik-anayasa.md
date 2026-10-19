@@ -312,10 +312,10 @@ için bu dosyaya alınmamıştır (kök `-dogrulama.md` §4 X2, X6);
 
 | # | Konu | Bu dosyada | Gittiği yer |
 |---|---|---|---|
-| 1 | Prometheus metriği / scrape | yok | `K017-observability` |
-| 2 | OTel metrik adı/kaydı | yok | `K017-observability` |
-| 3 | APM paneli / dashboard | yok | `K017-observability` |
-| 4 | İş alarmı (alert kuralı) | yok — yalnız OS eşiği (softlockup) tarif | `K017-observability` |
+| 1 | Prometheus metriği / scrape | yok | `K016-observability` |
+| 2 | OTel metrik adı/kaydı | yok | `K016-observability` |
+| 3 | APM paneli / dashboard | yok | `K016-observability` |
+| 4 | İş alarmı (alert kuralı) | yok — yalnız OS eşiği (softlockup) tarif | `K016-observability` |
 | 5 | Sayaç üretimi (PMU, /proc) | yalnız okuma | `isletim-sistemi-kernel`, `isletim-sistemi-core` |
 | 6 | Örnekleme/profil kaydı | yok | `trace/` alt-dalı |
 

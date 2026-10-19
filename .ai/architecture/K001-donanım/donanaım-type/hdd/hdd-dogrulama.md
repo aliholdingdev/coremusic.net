@@ -501,7 +501,7 @@ kapanmaz. Takvim sıklıkları **öneridir** (⚠️ üst karar onayı bekliyor)
 | 3 | SSD sağlığı / TRIM / TBW | `[[ssd-dogrulama]]` | Farklı fizik — kapılar ayrık |
 | 4 | Çıkış tamponu (512 / 48 kHz) | `[[output-kapsam]]` | S2 dayanağı buradan gelir |
 | 5 | DSP/zaman zinciri | K003-audio · K004-dsp | Disk gecikmesi bu kapıların konusu değil |
-| 6 | Yedekleme görevinin kendisi | K018-devops / K014-media (dosya kopya işi) | Bu dosya yalnızca **doğrular** |
+| 6 | Yedekleme görevinin kendisi | K17-devops / K014-media (dosya kopya işi) | Bu dosya yalnızca **doğrular** |
 | 7 | RAID donanım/kurulumu | K001 envanter + üst karar (Q-HK3) | Kurulum adımları kapsam dışı |
 | 8 | Envanter | K001 Q4 | Q-HK1 kapanmadan kapı 1–2 kapanamaz |
 

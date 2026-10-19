@@ -189,7 +189,7 @@ Composer vendor/ kurulumudur — `package.json:10-17` + `ci.yml:154` (`npm ci`) 
 |---|---|---|
 | 1 | Toolchain/derleme bayrakları | `derleme-ve-paketleme-anayasa.md` §11 |
 | 2 | Kod örnekleri (CMake/Composer) | `derleme-ve-paketleme-ornekler.md` |
-| 3 | CI pipeline tasarımı | `K018-devops` |
+| 3 | CI pipeline tasarımı | `K17-devops` |
 | 4 | Güvenlik/İmzalama politikası | `isletim-sistemi-security` |
 | 5 | Test eşikleri (smoke test) | `isletim-sistemi-testing` |
 | 6 | OS API/ABI | `../platform-yuzeyleri` |
@@ -396,7 +396,7 @@ Composer vendor/ kurulumudur — `package.json:10-17` + `ci.yml:154` (`npm ci`) 
 | 2 | Artifact adlandırma | `derleme-ve-paketleme-anayasa.md` §23 |
 | 3 | Repo paketçileri (npm/Composer) | `derleme-ve-paketleme-ornekler.md` |
 | 4 | Servis surucüsü | `../platform-yuzeyleri/platform-yuzeyleri-surucu.md` §3 |
-| 5 | CI kanıtları | `K018-devops` (ci.yml) |
+| 5 | CI kanıtları | `K17-devops` (ci.yml) |
 
 ## §29 Paket surucüsü — 12 sık yapılan hata (PLANNED)
 

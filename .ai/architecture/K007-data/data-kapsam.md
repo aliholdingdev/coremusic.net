@@ -82,8 +82,8 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 | 3 | Fiziksel disk/RAID/dosya sistemi | K000-isletim-sistemi · K001-donanım | biz mantıksal modeliz |
 | 4 | HTTP cache-header / CDN | K010-network · K011-application | sayfa-önbellek **veri** katmanı; transport network'un |
 | 5 | Model eğitimi / özellik çıkarımı | K006-yapay-zeka | biz yalnız **girdi verisi**ni veririz |
-| 6 | Metrik/telemetri **kaydı** | K017-observability | biz veriyi tutar; olay akışı onun |
-| 7 | CI/CD pipeline · deploy zamanlaması | K018-devops | ⚠️ SINIR AÇIK — backup sahipliği bekliyor |
+| 6 | Metrik/telemetri **kaydı** | K016-observability | biz veriyi tutar; olay akışı onun |
+| 7 | CI/CD pipeline · deploy zamanlaması | K17-devops | ⚠️ SINIR AÇIK — backup sahipliği bekliyor |
 | 8 | Keşif/katalog **kuralları** | K020-discovery | ⚠️ SINIR AÇIK — search sahipliği bekliyor |
 | 9 | API sözleşmesi/versiyonlama | K013-integraion | biz repository'yiz; endpoint onun |
 | 10 | Kimlik **verimiz** (hesap, rol) | K0100-identitiy | veri tutulur; kimlik **anlamı** orada |
@@ -97,9 +97,9 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 | K007 ↔ K000-isletim-sistemi | saklama yolu, dosya boyutu | disk kuyruğu, fsync politikası | os-master |
 | K007 ↔ K006-yapay-zeka | veriye erişim **sözleşmesi** (repo) | eğitim, öznitelik çıkarımı | ai-master |
 | K007 ↔ K020-discovery | arama **indeksi verisi** | keşif kuralları/ranking | ⚠️ AÇIK |
-| K007 ↔ K018-devops | yedek **artefaktı** | zamanlama/pipeline | ⚠️ AÇIK |
+| K007 ↔ K17-devops | yedek **artefaktı** | zamanlama/pipeline | ⚠️ AÇIK |
 | K007 ↔ K013-integraion | senkron **olay şeması** | taşıma protokolü | ⚠️ AÇIK |
-| K007 ↔ K017-observability | sorgu **sayımı/hızı** | metrik deposu/alert | observability-master |
+| K007 ↔ K016-observability | sorgu **sayımı/hızı** | metrik deposu/alert | observability-master |
 
 ## §5 Sınır kararları (her biri gerekçeli)
 
@@ -184,7 +184,7 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 |-----|--------|-------|
 | Şema sürümleme (up/down) | İÇİNDE | `oauth_connections_migration.php:13,46` (dizi döndürür) |
 | Yıkıcı migration ön-kontrol + yedek talimatı | İÇİNDE | `2026-10_07_drop_…migration.php:14-20,26-31` |
-| Pipeline/zamanlama çalıştırma | DIŞINDA → K018-devops | ⚠️ sınır |
+| Pipeline/zamanlama çalıştırma | DIŞINDA → K17-devops | ⚠️ sınır |
 | Veri taşıma (backfill) iş mantığı | DIŞINDA → K011-application | ⚠️ sınır |
 
 ### §8.3 Erişim katmanı (repositories) — içinde / dışında
@@ -221,7 +221,7 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 | APCu + fallback seçimi | İÇİNDE | `CacheManager.php:12-16` |
 | Sayfa önbelleği (`page_pub_`/`page_auth_`) | İÇİNDE | `PageCacheAdapter.php:11,30-31` |
 | Uygulama-seviyesi cache invalidation kuralları | DIŞINDA → K011-application | ⚠️ sınır |
-| Cache ölçüm/telemetri | DIŞINDA → K017-observability | ⚠️ sınır |
+| Cache ölçüm/telemetri | DIŞINDA → K016-observability | ⚠️ sınır |
 
 ### §8.7 Arama (search) — içinde / dışında
 
@@ -245,8 +245,8 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 | Öğe | Kapsam | Kanıt |
 |-----|--------|-------|
 | Politika + KVKK soft-delete | İÇİNDE | dump'larda `deleted_at` |
-| Yedek **zamanlama/çalıştırma** | DIŞINDA → K018-devops | ⚠️ sınır (S-2) |
-| PITR/binlog operasyonu | DIŞINDA → K018-devops | repo kanıtı YOK |
+| Yedek **zamanlama/çalıştırma** | DIŞINDA → K17-devops | ⚠️ sınır (S-2) |
+| PITR/binlog operasyonu | DIŞINDA → K17-devops | repo kanıtı YOK |
 
 ### §8.10 Veri kalitesi (data-quality) — içinde / dışında
 
@@ -268,9 +268,9 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 | K011-application | ← used_by | repo üzerinden veri | domain kuralı | TASARIM İDDİASI |
 | K012-services | ← used_by | servis kalıcılığı | atomiklik kararı | TASARIM İDDİASI |
 | K013-integraion | ↔ sınır | — | synchronization | ⚠️ SINIR AÇIK |
-| K017-observability | ← used_by | — | metrik kaydı | TASARIM İDDİASI |
-| K018-devops | ↔ sınır | — | yedek operasyonu | ⚠️ SINIR AÇIK |
-| K019-testing | ← used_by | test verisi | veri-beklentisi | TASARIM İDDİASI |
+| K016-observability | ← used_by | — | metrik kaydı | TASARIM İDDİASI |
+| K17-devops | ↔ sınır | — | yedek operasyonu | ⚠️ SINIR AÇIK |
+| K18-testing | ← used_by | test verisi | veri-beklentisi | TASARIM İDDİASI |
 | K020-discovery | ↔ sınır | — | arama keşfi | ⚠️ SINIR AÇIK |
 
 ---
@@ -292,7 +292,7 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 | Sınır | Neden açık | Kapanış koşulu |
 |-------|-----------|----------------|
 | S-1 search ↔ K020-discovery | iki düğüm de "arama" diyor | sahiplik ADR'si |
-| S-2 backup ↔ K018-devops | politika (K007) vs operasyon (K018) | sahiplik ADR'si |
+| S-2 backup ↔ K17-devops | politika (K007) vs operasyon (K018) | sahiplik ADR'si |
 | S-3 synchronization ↔ K013-integraion | tazelik vs entegrasyon olayı | sınır kaydı |
 | S-4 identity ↔ K010 | identity verisi K007'de ama kimlik K010'da | sınır kaydı |
 
@@ -372,11 +372,11 @@ Ne **kütüphaneci** (K008-domain — hangi kitabın hangi rafta olduğunun **an
 | Yapma | Nereye devredilir |
 |-------|-------------------|
 | PHP kodu yazma | `shared/src/` (K011/K012) |
-| SQL migration çalıştırma | K018-devops pipeline |
+| SQL migration çalıştırma | K17-devops pipeline |
 | Domain kuralı koyma | K008-domain |
 | Şifreleme anahtarı üretme | K009-security |
 | Arama keşif kuralı yazma | K020-discovery |
-| Kimlik doğrulama akışı | K0100-identitiy |
+| Kimlik doğrulama akışı | ⚠️ |
 
 ---
 

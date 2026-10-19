@@ -65,7 +65,7 @@ R2 pthread varlığı · R9 APCu cache tutarlılığı · R10 arka-plan kuyruk s
 | `isletim-sistemi-observability` | Süreç log/ölçüm | Process stderr / error_log çıkışı | `observability` metrik toplayıcı |
 | `isletim-sistemi-testing` | Test süreci sağlama | Test boot ortamı (process env) | `testing` PHPUnit harness |
 | `K011-application` | Uygulama boot bağımlılığı | `RuntimeBootstrap` çağrısı | `K011` uygulama mantığı |
-| `K018-devops` | Süreç modeli dağıtım hedefi | Worker/app-pool kapasitesi | `K18` deploy / süreç yöneticisi |
+| `K17-devops` | Süreç modeli dağıtım hedefi | Worker/app-pool kapasitesi | `K18` deploy / süreç yöneticisi |
 
 ## Web Research
 

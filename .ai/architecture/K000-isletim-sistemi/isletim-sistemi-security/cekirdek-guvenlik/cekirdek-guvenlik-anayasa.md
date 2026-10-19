@@ -510,7 +510,7 @@ Invoke-WebRequest -Method Head -UseBasicParsing -TimeoutSec 20 -Uri $url
 | Y1–Y3 | Evet (deploy ortaminda mitigasyon okumasi) | `isletim-sistemi-testing` | Yapilmadi — `[UNKNOWN]` |
 | Y4 | Evet (sysctl okuma) | bu dal (§6 C4) | Yapilmadi — `[UNKNOWN]` |
 | Y5 | Evet (firmware sorgusu) | bu dal (§6 C3) | Yapilmadi — `[UNKNOWN]` |
-| Y6 | Evet (uygulama katmani testi) | `K009-security` + `K019-testing` | Kanitli (§7.1) — OWASP denetimi bu dalin disi |
+| Y6 | Evet (uygulama katmani testi) | `K009-security` + `K18-testing` | Kanitli (§7.1) — OWASP denetimi bu dalin disi |
 
 ## §22 — OS grupları (8 platform · 2026-10-14)
 

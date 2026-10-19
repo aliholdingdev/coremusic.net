@@ -322,10 +322,10 @@ vmstat 1 5
 
 | # | Konu | Gittiği yer |
 |---|---|---|
-| 1 | Prometheus metriği / scrape | `K017-observability` |
-| 2 | OTel metrik adı/kaydı | `K017-observability` |
-| 3 | APM paneli / dashboard | `K017-observability` |
-| 4 | alert kuralı (eşik + süre + hedef) | `K017-observability` |
+| 1 | Prometheus metriği / scrape | `K016-observability` |
+| 2 | OTel metrik adı/kaydı | `K016-observability` |
+| 3 | APM paneli / dashboard | `K016-observability` |
+| 4 | alert kuralı (eşik + süre + hedef) | `K016-observability` |
 | 5 | örnekleme/profil kaydı | `trace/` alt-dalı |
 
 ## §12 Açık sorular
@@ -431,7 +431,7 @@ vmstat 1 5
 | 3 | depo | zaman serisi deposu | repo'da **yok** (§9 kural 2) |
 | 4 | kimlik | etiket/dimensiyon kümesi | `traceId` var ama etiket değil (trace dalı) |
 | 5 | OS katmanı | sayaç okuyucu | yok (§6) — O1 [UNKNOWN] |
-| 6 | eşik | alarm eşiği | `K017-observability` (§11) |
+| 6 | eşik | alarm eşiği | `K016-observability` (§11) |
 
 | # | Karar | Gerekçe |
 |---|---|---|

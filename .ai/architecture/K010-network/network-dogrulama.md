@@ -318,8 +318,8 @@ group: kanit
 | 5 | K012-services | servisler düğümü var | v2 §2.12 (S2) |
 | 6 | K013-integraion | entegrasyon düğümü var (imla korundu) | v2 §2.13 (S2) |
 | 7 | K014-media | medya düğümü var | v2 §2.15 (S2) |
-| 8 | K017-observability | gözlem düğümü var | v2 §2.17 (S2) |
-| 9 | K019-testing | test düğümü var | v2 §2.19 (S2) |
+| 8 | K016-observability | gözlem düğümü var | v2 §2.17 (S2) |
+| 9 | K18-testing | test düğümü var | v2 §2.19 (S2) |
 
 > Bu bölüm kanıt oranını DEĞİŞTİRmez — yalnız komşu düğüm varlıklarını kaydeder (S2).
 

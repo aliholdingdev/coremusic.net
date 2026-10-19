@@ -256,13 +256,13 @@ workflow'da YOKTUR (ci.yml 203 satırında qemu/kunit/kasan geçmiyor).
 
 | Konu | Sınır |
 |---|---|
-| QEMU kurulum/dağıtım | `isletim-sistemi-turu` / `K018-devops` |
+| QEMU kurulum/dağıtım | `isletim-sistemi-turu` / `K17-devops` |
 | Uygulama testi sürücüsü (phpunit) | `uygulama-testi/` |
 | CI işi tanımı | `ci-ve-kalite-kapisi/` |
 | Sürücü implementasyonu | `isletim-sistemi-kernel` |
 | Zamanlayıcı ölçüm kaynağı | `isletim-sistemi-plan` |
 | Telemetri toplama | `isletim-sistemi-observability` |
-| Test ağaçları | `K019-testing` (0 satır) |
+| Test ağaçları | `K18-testing` (0 satır) |
 
 ## §9 Kaynakça
 

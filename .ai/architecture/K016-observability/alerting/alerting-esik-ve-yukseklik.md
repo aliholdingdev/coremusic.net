@@ -404,7 +404,7 @@ Sorgu yalnız ilgisiz isabetler verdi; uygulama katmanında **bildirim gönderen
 | 4 | Giriş | `AIEngine` | Donanım eşiği | Donanım tetikleyici |
 | 5 | Çıkış | Bildirim kanalı | Uyarı kaydı | ⚠️ kanal yok |
 | 6 | Çıkış | `incident-response/` | Olay kaydı | Sınır |
-| 7 | Dikey | K018-devops | CI kapısı | Soft/hard gate |
+| 7 | Dikey | K17-devops | CI kapısı | Soft/hard gate |
 | 8 | Dikey | `health-checks/` | Sağlık ucu | Veri kaynağı |
 
 ## §18 Riskler ve açık sorular

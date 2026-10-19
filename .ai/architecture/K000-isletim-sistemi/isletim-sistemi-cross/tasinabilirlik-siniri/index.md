@@ -74,7 +74,7 @@ soyutlama kaç para.
 | 2 | Derleme/paket araçları | `derleme-ve-paketleme` | araç zinciri orası |
 | 3 | Platform türü karşılaştırması | `isletim-sistemi-turu` | aile içi sınıflandırma orada |
 | 4 | Test koşumu / portability matrix | `isletim-sistemi-testing` | ölçüm tanımlanır, koşum orada |
-| 5 | CI pipeline tasarımı | `K018-devops` | `ci.yml` yalnız kanıt olarak okunur |
+| 5 | CI pipeline tasarımı | `K17-devops` | `ci.yml` yalnız kanıt olarak okunur |
 | 6 | Çekirdek/AB kavramları · DSP/donanım | `isletim-sistemi-kernel` · `K004-dsp` · `K001-donanım` | kapsam dışı |
 
 ## §6 depends_on

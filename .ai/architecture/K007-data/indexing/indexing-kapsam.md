@@ -35,7 +35,7 @@ group: mimari
 |----------|--------|---------|
 | FULLTEXT indeks davranış arama dili | search | FULLTEXT ≠ B-tree |
 | Şema genel tasarımı | schema | indeks şemanın bir parçası, bu çocuk yalnız **hız** sorusunu sorar |
-| Slow query log işletimi | K017-observability | ölçüm akışı |
+| Slow query log işletimi | K016-observability | ölçüm akışı |
 | Migration ile indeks taşıma | migrations | uygulama yüzeyi |
 
 ## §3 Sınır cümlesi

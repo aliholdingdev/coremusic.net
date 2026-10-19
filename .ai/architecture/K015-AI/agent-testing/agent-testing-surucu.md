@@ -361,7 +361,7 @@ FAIL sonrası güncellemek = testi sonuca uydurmak = **sahte PASS** (§26/2).
 | N3 | `template` + `CSS` birlikte | Guardrail #16 satırı **önce** okunmalı mı? → **belirsiz = adaylı** | §26/4 |
 | N4 | İkincil `—` iken ikincil üretim | **FAIL E4** | kapsam aşımı |
 | N5 | Boş girdi | `⚠️ VERIFICATION REQUIRED` → **PASS E6** | dürüstlük |
-| N6 | Mojibake girdi (`ÅŸablon`) | **FAIL (fixture hatası)** — test değil, fixture düzeltilir | §26/4 |
+| N6 | Mojibake girdi (`şablon`) | **FAIL (fixture hatası)** — test değil, fixture düzeltilir | §26/4 |
 | N7 | Çıktı künyesiz | **FAIL E2** | `Satır: 304` |
 
 ## §14. Regresyon Testi — Vault/Registry değişince davranış korunuyor mu?
@@ -819,7 +819,7 @@ export function regress(
 | 1 | **Flaky test** | aynı girdi bazen PASS bazen FAIL | 3 koşuda sonuç değişiyor (§9 tur sayacı) | Beklenti sabitlenir; değişkenlik **girdide** ise fixture tazelenir; hâlâ flaky ise test **kaldırılmaz, BROKEN işaretlenir** — `flaky test %0` hedefi (`Satır: 580`) |
 | 2 | **Sahte PASS** | test geçiyor ama sistem yanlış | `expected` ile `§6` satırı **aynı anda** üretiliyor (test kaynağı üretim kaynağıyla aynı) | Golden değer **bağımsız** kaynaktan (vault snapshot) okunur; FAIL sonrası beklenti **değiştirilmez** (§9) |
 | 3 | **Test production'a dokunma** | koşu `git status`'ta beklenmedik dosya gösteriyor | `git status --porcelain` → whitelist dışı dosya (§20/G) | Koşu **durur**, değişiklik raporlanır; `.ai/scripts/**`, `shared/**`, `.ai/*.md` **salt-okunur**; `git commit` **YASAK** (orkestratöre ait) |
-| 4 | **Mojibake false-negative** | `ÅŸablon` gibi bozuk keyword → eşleşme yok → haksız FAIL | `[regex]::Matches($s6, '[ÃÂ]')` > 0 (§19/D) | Önce **fixture** düzeltilir; test **FAIL sayılmaz** — kaynak bozuksa `DUR` + rapor (§10) |
+| 4 | **Mojibake false-negative** | `şablon` gibi bozuk keyword → eşleşme yok → haksız FAIL | `[regex]::Matches($s6, '[ÃÂ]')` > 0 (§19/D) | Önce **fixture** düzeltilir; test **FAIL sayılmaz** — kaynak bozuksa `DUR` + rapor (§10) |
 | 5 | **Gizli dizin unutulması** | `.ai/**` araması sahte "0 sonuç" | `hidden: false` kullanıldı mı? | Tarama `hidden: true` / `Force` ile tekrar (`Dosya: kök AGENTS.md · §7 adım 2`) |
 | 6 | **Yanlış CWD** | `.ai/` içinden betik → 19 sahte "PNG yok" | CWD ≠ repo kökü | Koşu **geçersiz** sayılır, kökten tekrar (`Satır: 144`) |
 | 7 | **Sahte kırık link** | `wiki-link-check` 6 raporluyor | §13.7 listesiyle eşleşme | **Onarılmaz** — 6'da kalır, kusur sayılmaz (`Satır: 145`) |

@@ -402,7 +402,7 @@ karar gelmeden tahmin yazılmaz. Q-C2/Q-C3 gelmeden depolama ve sağlık satırl
 | # | Eşik | Değer | Kaynak | Uygulayıcı |
 |---|---|---|---|---|
 | K1 | SNR | > 100 dB | anayasa §10/3 · ~/.config/opencode/AGENTS.md §5 | K019-testing |
-| K2 | THD+N | < 0.01 % @ 1 kHz | Aynı | K019-testing |
+| K2 | THD+N | < 0.01 % @ 1 kHz | Aynı | K18-testing |
 | K3 | Kanal sayısı | — | Eşik yok | — |
 | K4 | Sıcaklık | — | Eşik yok | — |
 | K5 | Besleme | — | Eşik yok | — |
@@ -519,7 +519,7 @@ Topoloji sabittir ve **tartışılmaz**.
 
 | # | Kapsam dışı | Hedef düğüm | Dayanak | Doğrulandı mı? |
 |---|---|---|---|---|
-| X3 | Ölçüm kabul kapısı | K019-testing | anayasa §10/3 | ✅ |
+| X3 | Ölçüm kabul kapısı | K18-testing | anayasa §10/3 | ✅ |
 | X4 | Sinyal şekillendirme | K004-dsp | anayasa §2 | ✅ |
 | X5 | Boot-time firmware | K005-firmware | anayasa §2 | ✅ |
 | X6 | Devre/PCB tasarımı | K002-electronics | anayasa §2 | ✅ |
@@ -544,7 +544,7 @@ desteklenir.
 | T4 | K000-isletim-sistemi | sürücü K000'de | anayasa §10/2 | ✅ |
 | T5 | K005-firmware | core kalıcı, firmware boot-time | anayasa §2 | ✅ |
 | T6 | K003-audio/K004-dsp | core donanım verisi | anayasa §2 | ✅ |
-| T7 | K019-testing | core toplar, testing uygular | anayasa §10/3 | ✅ |
+| T7 | K18-testing | core toplar, testing uygular | anayasa §10/3 | ✅ |
 | T8 | K002-electronics | core veri, K002 devre | anayasa §2 | ✅ |
 
 **§25 sonucu:** 8 komşu düğümle **çelişki yoktur**.
@@ -604,7 +604,7 @@ desteklenir.
 | R6 | Q-C6 ölçüm doğruluğu | audio-hw | AÇIK |
 | R7 | Q-C7 DMTF kullanımı | Vault Steward | AÇIK |
 | R8 | Q-C8 envanter şeması | data | AÇIK |
-| R9 | Ölçüm kabul kapısı | K019-testing | SABİT |
+| R9 | Ölçüm kabul kapısı | K18-testing | SABİT |
 
 ---
 

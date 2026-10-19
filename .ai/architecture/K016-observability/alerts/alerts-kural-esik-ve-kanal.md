@@ -29,10 +29,10 @@ Bir eşik aşıldığında sistem alarm çalar. Uyarı bir **kural**dır: "şu k
 | Alan | Bu dosyada | Bu dosyada DEĞİL |
 |---|---|---|
 | Uyarı kuralı (koşul+eşik+kanal) | ✅ kural şeması | ❌ Eşik hesabı (burn-rate) → alerting/ |
-| Ciddiyet (severity) eşlemesi | ✅ page/ticket | ❌ Aksiyon (deploy/rollback) → K018-devops |
+| Ciddiyet (severity) eşlemesi | ✅ page/ticket | ❌ Aksiyon (deploy/rollback) → K17-devops |
 | Kanal tanımı | ✅ webhook/e-mail | ❌ Kanal gizlilik politikası → K009-security |
 | Multiwindow burn-rate | ✅ Google SRE deseni | ❌ Metrik üretimi → metrics/ |
-| Uyarı testi | ✅ kural doğrulama | ❌ Test stratejisi → K019-testing |
+| Uyarı testi | ✅ kural doğrulama | ❌ Test stratejisi → K18-testing |
 
 ## §3 Terimler ve kısaltmalar
 
@@ -78,9 +78,9 @@ Bir eşik aşıldığında sistem alarm çalar. Uyarı bir **kural**dır: "şu k
 |---|---|---|---|
 | 1 | Tanım | Kural şeması yazılır | K016 (bu dosya) |
 | 2 | Eşik seçimi | Metrik + burn-rate (alerting/) | K016 + alerting/ |
-| 3 | Test | Kural yanlış tetikliyor mu? | K019-testing |
+| 3 | Test | Kural yanlış tetikliyor mu? | K18-testing |
 | 4 | Kanal onayı | Gizlilik (PII) kontrolü | K009-security |
-| 5 | Dağıtım | Alertmanager'a yükleme | K018-devops |
+| 5 | Dağıtım | Alertmanager'a yükleme | K17-devops |
 | 6 | Gözlem | Gürültü/silence takibi | K016 (bu dosya) |
 
 **Kural:** Kural, test edilmeden üretime alınmaz (K019). Kanal, K009 onayı olmadan kullanılmaz.
@@ -143,8 +143,8 @@ Bir eşik aşıldığında sistem alarm çalar. Uyarı bir **kural**dır: "şu k
 | 2 | health status=fail 2m | HealthFail | page | nöbetçi → insan | incident-response/ |
 | 3 | xrun > 5/dk | AudioXrun | page | nöbetçi → insan | audio-diagnostics/ |
 | 4 | p95 > 500ms 15m | LatencyHigh | ticket | iş kaydı açılır | alerts/ (bu dosya) |
-| 5 | kural test başarısız | AlertTestFail | info | log (aksiyon yok) | K019-testing |
-| 6 | kanal gönderim hatası | NotifyFail | ticket | yedek kanal → K018 | K018-devops |
+| 5 | kural test başarısız | AlertTestFail | info | log (aksiyon yok) | K18-testing |
+| 6 | kanal gönderim hatası | NotifyFail | ticket | yedek kanal → K018 | K17-devops |
 
 ### §6.2 Uyarı gürültü azaltma kuralları
 
@@ -444,7 +444,7 @@ receivers:
 
 | # | Komşu | Sınır | Yön | Kaynak |
 |---|---|---|---|---|
-| 1 | K018-devops | Uyarı üretimi K016'da; aksiyon (deploy/rollback) K018'de | K016 → K018 | master §C/2 |
+| 1 | K17-devops | Uyarı üretimi K016'da; aksiyon (deploy/rollback) K018'de | K016 → K018 | master §C/2 |
 | 2 | alerting/ | Eşik/yükseklik hesabı ayrı dosya; bu dosya kural+kanal | iç | §1 |
 | 3 | K009-security | Kanal gizlilik politikası (e-mail PII) | K016 ↔ K009 | master §C/23 |
 | 4 | metrics/ | Uyarı, ölçülen metriğe bağlı | iç | master §D.2/4 |

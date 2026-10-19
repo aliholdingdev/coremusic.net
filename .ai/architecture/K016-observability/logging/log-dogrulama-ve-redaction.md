@@ -70,7 +70,7 @@ dosyadadır (`logging-yapilandirma-ve-seviyeler.md`); burada yalnız **içerik g
 | Seviyeler | ✅ Atıf (seviye listesi okunur) | ❌ Seviye kararı → `logging-yapilandirma-ve-seviyeler.md` |
 | Dosya split | ✅ Audit kanalı atfı | ❌ Dosya yerleşimi → kardeş dosya |
 | Trace köprüsü | ✅ `traceId` maske dışı | ❌ İz modeli → `../tracing/` |
-| Secret envanteri | ✅ Sınır (şablon = K018) | ❌ CI taraması → K018-devops/ci |
+| Secret envanteri | ✅ Sınır (şablon = K018) | ❌ CI taraması → K17-devops/ci |
 | Syslog/uzak gönderim | ✅ Sınır (RFC bağlamı) | ❌ Aktarım tasarımı → `../tracing/` §7 |
 | Retention | ✅ Dokunulmazlık kuralı | ❌ Silme periyodu → ⚠️ VERIFICATION REQUIRED |
 
@@ -433,9 +433,9 @@ tutulmaz; UUID tire içerdiği için bu kurala girmez.
 | 2 | `../tracing/tracing-dagilik-izleme.md` | UUID koruma kuralı | İz köprüsü | §6.1 satır 1 | mevcut |
 | 3 | `../metrics/metrics-olcumleme-ve-etiketleme.md` | Etiket gizliliği | PII etiketlenmez | Kural | ⚠️ VERIFICATION REQUIRED |
 | 4 | `../alerting/alerting-esik-ve-yukseklik.md` | Uyarı metni güvenliği | Redaction | Ortak | mevcut |
-| 5 | K018-devops/ci/secret-yonetimi-ve-tarama | Statik tarama | Dinamik redaction | §12 (dosyaları) | mevcut |
+| 5 | K17-devops/ci/secret-yonetimi-ve-tarama | Statik tarama | Dinamik redaction | §12 (dosyaları) | mevcut |
 | 6 | K009-security | Politika | Hassas sınıf listesi | Atıf | sınır |
-| 7 | K019-testing | Test kapısı | Redaction testi | §7.1 | mevcut |
+| 7 | K18-testing | Test kapısı | Redaction testi | §7.1 | mevcut |
 
 ## §14 Riskler ve açık sorular
 

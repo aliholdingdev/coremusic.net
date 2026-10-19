@@ -34,9 +34,9 @@ group: mimari
 
 | Dışarıda | Nereye | Gerekçe |
 |----------|--------|---------|
-| Entegre test işletimi | K019-testing | burada yalnız veri güvencesi |
+| Entegre test işletimi | K18-testing | burada yalnız veri güvencesi |
 | PII/şifreleme doğruluğu | K009-security | güvenlik ≠ kalite |
-| Ölçüm metrik yayını | K017-observability | yayım akışı |
+| Ölçüm metrik yayını | K016-observability | yayım akışı |
 | Veri üretimi/etiketleme | K006-yapay-zeka | model verisi |
 
 ## §3 Sınır cümlesi

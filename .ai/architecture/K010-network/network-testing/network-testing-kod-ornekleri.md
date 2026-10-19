@@ -33,7 +33,7 @@ declare(strict_types=1);
 /**
  * K014/network-testing — RTT ölçüm koşucusu (TASARIM ÖRNEĞİ).
  * Çerçeve: RFC 2544 gecikme ölçümü (basitleştirilmiş) — network-testing-standart-kanit.md §1/1.
- * Sınır: eşik değeri UNKNOWN (faz C); K019-testing sahipliği §7/6.
+ * Sınır: eşik değeri UNKNOWN (faz C); K18-testing sahipliği §7/6.
  */
 final readonly class LatencyStats
 {

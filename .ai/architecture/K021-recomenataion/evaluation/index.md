@@ -115,7 +115,7 @@ group: mimari
 | Alan | Sahip | Not |
 |---|---|---|
 | Sıralama stratejisi | `[[../ranking/index]]` | evaluation ölçer, karar vermez |
-| Profil/gizlilik | `[[../personalization/index]]` + `../K020-comilance/` | veri işleme kapsamı |
+| Profil/gizlilik | `[[../personalization/index]]` + `../K019-comilance/` | veri işleme kapsamı |
 | Olay üretimi | `[[../recommendation-master]]` §4 (S5) | evaluation olay **alır** |
 | Test altyapısı (CI) | `K019-testing` (diskte `K18-testing`) | birim/E2E testi burada değil |
 

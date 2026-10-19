@@ -502,4 +502,4 @@ tekrarı yasak olduğu için burada kalır, HAL dosyası kendi kaynaklarını ku
 
 **Authority: Bayram Ali / Vault Steward**
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

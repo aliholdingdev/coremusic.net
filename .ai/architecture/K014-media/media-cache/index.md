@@ -89,7 +89,7 @@ Medya önbelleği, tekrar indirilmemesi için tutulan geçici veridir: artwork, 
 | 4 | ETag revalidatörü | `If-None-Match` → 304: gövde yok, önbellek geçerli/süre tazelenir | TASARIM ÖNERİSİ · ETag doğrulanmış (master §22.5) · RFC 9110 (§22.7) |
 | 5 | Cache başlığı üreteci | katalog/artwork için `Cache-Control: immutable` + ETag sunumu | doğrulanmış (master §22.5) |
 | 6 | İçerik sınıfı ayrımı | katalog/artwork → ARC; parça önbelleği → TTL (LRU ölçüt değil) | TASARIM ÖNERİSİ (master §22.5 önerisi) |
-| 7 | Ölçüm veri üretici | hit/miss oranı verisi (K017-observability'a taşınır) | TASARIM İDDİASI (ölçüm master §15/4 — eşik ⚠️ UNKNOWN) |
+| 7 | Ölçüm veri üretici | hit/miss oranı verisi (K016-observability'a taşınır) | TASARIM İDDİASI (ölçüm master §15/4 — eşik ⚠️ UNKNOWN) |
 | 8 | Politika kapısı | boyut/TTL eşiği okuması | ⚠️ UNKNOWN (master §9.9 · §12/3 → Vault Steward §16/3) |
 
 ## §STANDARTLAR
@@ -112,7 +112,7 @@ Medya önbelleği, tekrar indirilmemesi için tutulan geçici veridir: artwork, 
 | 2 | Parça (audio stream) önbelleği → TTL; LRU ile ölçülmez | tekil dinlemede LRU isabet ≈ 0 | master §22.5 · süre ⚠️ UNKNOWN (§16/3) |
 | 3 | Revalidasyon = `If-None-Match` → 304; 304'te gövde yok, süre tazelenir | bandwidht tasarrufu, içerik bütünlüğü | master §22.5 (ETag) + RFC 9110 (§22.7) · `ornekler.md` |
 | 4 | Üç kademe artwork (thumbnail/medium/large) `immutable` cache ile sunulur | CAA kademesi (250/500/1200 px) ile uyum | master §22.4 TASARIM ÖNERİSİ → §22.5 |
-| 5 | Hit/miss oranı K017-observability'a ölçüm olarak akar; eşik konmaz | eşik Vault Steward §16/3 kararı | master §15/4 (eşik ⚠️ UNKNOWN) |
+| 5 | Hit/miss oranı K016-observability'a ölçüm olarak akar; eşik konmaz | eşik Vault Steward §16/3 kararı | master §15/4 (eşik ⚠️ UNKNOWN) |
 
 ---
 

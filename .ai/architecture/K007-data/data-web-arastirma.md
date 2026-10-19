@@ -276,7 +276,7 @@ en güçlü doğrulama hattıdır (bkz. `data-dogrulama.md` D06-D08).
 1. **Ölçüm yok:** hiçbir "hızlı/ucuz/yüksek ölçek" iddiası bağımsız benchmark ile
    doğrulanmadı — hepsi `⚠️` (W49) ile işaretlidir.
 2. **Lisans metinleri okunmadı:** Elasticsearch-Loke Lisansı, Meilisearch MIT/GPL-dual
-   iddiaları ikincil kaynak (W27-W28) düzeyindedir; K020-licence sahibine devredilmiştir.
+   iddiaları ikincil kaynak (W27-W28) düzeyindedir; ⚠️ sahibine devredilmiştir.
 3. **Sürüm/ekin/ücret:** hiçbir araç için sürüm numarası, yayın tarihi veya fiyat yazılmadı
    (uydurma yasağı gereği).
 4. **Kod içine gömülü web içeriği yok:** bu dosyada yalnız kaynak-kategori analizi vardır;
@@ -297,7 +297,7 @@ kapsam dışında bırakıldığını kayda geçirir.
 | Kapsam dışı konu | Gerekçe | Devredilen yüzey |
 |---|---|---|
 | Araç sürüm numaraları | Sürüm iddiası doğrulanmadan yazılamaz | genel sürüm takibi yok (uydurma yasağı) |
-| Fiyat/ücret tabloları | Ücret bilgisi hızla eskiyen ikincil veri | K020-licence |
+| Fiyat/ücret tabloları | Ücret bilgisi hızla eskiyen ikincil veri | ⚠️ |
 | Lisans metinlerinin tam okunması | Birincil metin okunmadı | `K020-licence` |
 | Bağımsız benchmark sayıları | Ölçüm yapılmadı; tüm performans iddiaları `⚠️` | ölçüm yüzeyi (planned) |
 | Depoya özgü SQL ince ayarları | Kod içi kanıt `data-kod-ornekleri.md`'de | kod örnekleri |

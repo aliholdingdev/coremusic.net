@@ -34,7 +34,7 @@ kanıt protokolü. Testlerin ne olduğu değil, **testlerin kendisi** burada tan
 |---|---|---|
 | Uygulama (PHP/JS) testi içeriği | `K019-testing` | Faz-A olarak $K019'a teslim (kapsam.md §E.1) |
 | Sürücü implementasyonu | `isletim-sistemi-kernel` | Backlog kaynağı #14 |
-| Workflow sahipliği/deploy | `K018-devops` | Sadece test adımları |
+| Workflow sahipliği/deploy | `K17-devops` | Sadece test adımları |
 | Telemetri altyapısı | `isletim-sistemi-observability` | Ölçümün altyapısı DEĞİL |
 
 ## §3 Alt-dallar (Kademe-3)

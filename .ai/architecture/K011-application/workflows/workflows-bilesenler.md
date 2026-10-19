@@ -263,7 +263,7 @@ modül **kendi içinde eksiksiz**, **çevresiyle ise boşluklu**dur.
 | 4 | `*.js` üretim kodu | kapsam dışı | §2 sınır |
 | 5 | `*.css` üretim kodu | kapsam dışı | §2 sınır |
 | 6 | `*.sql` üretim kodu | kapsam dışı | §2 sınır |
-| 7 | `shared/tests/**` | K019-testing | §2 sınır |
+| 7 | `shared/tests/**` | K18-testing | §2 sınır |
 
 **7 sınır** — hiçbiri bu modülde **değiştirilemez**. Değişirse bu modül
 **kapsamı aşar** ve `.ai` vault'uyla **çakışır**.
@@ -394,7 +394,7 @@ bir **sınırlılığıdır**, eksiklik **değil**.
 | 9 | Release notu | gereksinim yok | §K-9 |
 | 10 | Coverage arşivi | log yok | §K-10 |
 | 11 | Üretim kodu (php/js/css/sql) | kapsam dışı | §2 |
-| 12 | Test dosyaları | K019-testing | §2 |
+| 12 | Test dosyaları | K18-testing | §2 |
 
 **12 sınır** — hiçbiri bu dosyada **üretilmedi**.
 

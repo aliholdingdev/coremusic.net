@@ -470,11 +470,11 @@ eşleme 7, güvenlik 3, yasağı 4, ölçüm 4, kapı 4 → sonraki: bilgi-kavra
 | Sıra | Düğüm |
 |---|---|
 | 1 | K015-AI (tamamlandı: root + agents) |
-| 2 | K020-recomenataion |
-| 3 | K020-comilance |
-| 4 | K020-comere |
+| 2 | K021-recomenataion |
+| 3 | K019-comilance |
+| 4 | ⚠️ |
 | 5 | K020-discovery |
-| 6 | K020-licence |
+| 6 | ⚠️ |
 | 7 | K020-adr |
 
 ## §48. Çıkış Tablosu Sütunları (final)

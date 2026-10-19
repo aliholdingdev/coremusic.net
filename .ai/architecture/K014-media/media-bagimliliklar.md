@@ -68,7 +68,7 @@ group: mimari
 | 1 | playback sahipliği (K015 ↔ K012) | iki "çalma" sahibi | iki gerçek durum | §7/1 — sınır ADR'si |
 | 2 | Üç eşitleme (K015/synchronization · K013/synchronization · K014/offline-sync) | aynı iş üç aday | çakışan yazım | §7/2–3 |
 | 3 | Dış servise bağımlı metadata/artwork | dış kesintisi içeriği kırar | bozuk görünüm | önbellek + fallback (kanıt yok ⚠️) |
-| 4 | media-testing ↔ K019-testing | iki test sahibi | test tekrarı | §7/4 |
+| 4 | media-testing ↔ K18-testing | iki test sahibi | test tekrarı | §7/4 |
 | 5 | Referans ürün kopyalama riski (Plex/Emby proprietary) | telif/lisans sınırı | hukuki risk | §7/6 — yalnız fikir referansı |
 | 6 | OpenAudio beyanının adresinin belirsizliği | ★ var, depo yok | yanlış referans | §7/7 — ⚠️ UNKNOWN |
 | 7 | Kimlik (K010) yazımı "identitiy" | v2 kuralı imla hatalarını korur | yanlış arama | yazım DOKUNULMAZ (v2 §3) |

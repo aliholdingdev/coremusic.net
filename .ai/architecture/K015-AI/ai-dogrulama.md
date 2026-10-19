@@ -292,7 +292,7 @@ group: kanit
 | 4 | Dil | Türkçe anlatım + İngiliziz terim (standingart) | — |
 | 5 | TBD / `// ...` / `{...}` yer tutucu | yasak | sil/güncelle |
 | 6 | Boş tablo hücresi | yasak | doldur veya satırı kaldır |
-| 7 | Mojibake (Ã, â€œ, �) | yasak | §11 ölçümü = 0 |
+| 7 | Mojibake (Ã, “, �) | yasak | §11 ölçümü = 0 |
 | 8 | Kanıtsız kesin iddia | yasak | ⚠️ VERIFICATION REQUIRED / UNKNOWN |
 
 ## §23 Kod Kanıtı Kuralı (her içerik dosyasında en az 1)

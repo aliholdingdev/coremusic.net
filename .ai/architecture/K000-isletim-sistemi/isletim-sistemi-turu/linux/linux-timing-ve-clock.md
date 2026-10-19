@@ -555,4 +555,4 @@ sonraki-tur maddesiyle **kapanmaz**; durumu `verify-required` olarak korunur.
 **Mode:** Red Team · Human Mode · Truth Mode
 **Ölçüm:** ≥500 satır · 10 alanlı frontmatter · 15 tablo · 10 benzersiz URL (bu dosyaya özel)
 
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

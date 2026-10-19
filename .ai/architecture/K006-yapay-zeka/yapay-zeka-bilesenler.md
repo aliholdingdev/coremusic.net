@@ -355,8 +355,8 @@ taraması **bu oturumda yapılmadı** → `⚠️ VERIFICATION REQUIRED`.
 | G2 | `AIWorkflow` interface'siz (§11 H5) | sözleşme ekleme kararı | K006.8 / K016 | Orta |
 | G3 | 7 bileşenin testi 0 (§15) | W1–W5 birim testi | K006.9-testing | Yüksek |
 | G4 | docblock↔implementasyon 6/10 alan (§12 Y1) | şemayı daraltma veya docblock düzeltme | K006.8 | Orta |
-| G5 | biçim denetimi yok (§14) | N1/N2 kurulum kararı | K018-devops | Düşük |
-| G6 | paket sürümü doğrulanmadı (§13) | composer.lock üretimi | K018-devops | Orta |
+| G5 | biçim denetimi yok (§14) | N1/N2 kurulum kararı | K17-devops | Düşük |
+| G6 | paket sürümü doğrulanmadı (§13) | composer.lock üretimi | K17-devops | Orta |
 | G7 | K016 bileşenleri bu dizinde (§1 M4–M7) | kapsama ihlali kararı (R-07) | ADR | Yüksek |
 
 > **Bu bölüm kanıt oranını DEĞİŞTİRmez.**

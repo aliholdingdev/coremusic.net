@@ -33,7 +33,7 @@ declare(strict_types=1);
 /**
  * K014/service-discovery — servis kayıt/çözüm deposu (TASARIM ÖRNEĞİ).
  * Model: DNS-SD (RFC 6763) — hizmet adı + tip + adres; TTL ile son kullanma.
- * Sınır: mDNS ağa paket atmaz (kütüphane seçimi faz C); dağıtım K018-devops.
+ * Sınır: mDNS ağa paket atmaz (kütüphane seçimi faz C); dağıtım K17-devops.
  */
 final class ServiceRegistry
 {

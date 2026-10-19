@@ -100,7 +100,7 @@ group: mimari
 |---|---|---|
 | Skor/çünkü üretimi | `[[../ranking/index]]` | personalization profil **verir**, sıralamaz |
 | Metrik (kişiselleştirme kazancı) | `[[../evaluation/index]]` | kişiselleştirme-kişiselleştirmesiz karşılaştırması S6'da |
-| Hukuki kapsam | `../K020-comilance/` | K1 kapıları |
+| Hukuki kapsam | `../K019-comilance/` | K1 kapıları |
 | Şema/migration | `K007-data` | profil tablosu burada tanımlanmaz |
 | Şifreleme/anahtar | `K009-security` | hassas alan şifrelemesi sınırı |
 

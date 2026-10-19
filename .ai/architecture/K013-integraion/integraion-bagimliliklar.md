@@ -332,7 +332,7 @@ kapalı olmadan senkron **başlamaz bile**; bu yüzden §11 backlog maddesi 1
 | veri erişimi | tablo/şema okuma-yazma | şema değişimi | K007-data |
 | tip tüketimi | DTO/enum paylaşımı | alan tipi değişimi | K008-domain |
 | güvenlik | secret/anahtar okuma | secret rotasyonu | K009-security |
-| kimlik | token/oturum doğrulama | JWT claim değişimi | K0100-identitiy |
+| kimlik | token/oturum doğrulama | JWT claim değişimi | ⚠️ |
 | taşıma | HTTP/TLS/istek | timeout/protokol | K010-network |
 | kontrat | arayüz sözleşmesi | imza değişimi | K012 ↔ K013 |
 | politika | kural/kısıt | kural revizyonu | error-handling |

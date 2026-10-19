@@ -271,7 +271,7 @@ olanaklığı **sınırlıdır**; koşu içi tekrarlanabilirlik ise lock+sürüm
 | Determinizm | **Evet** | bu dosya |
 | `ci.yml` job/matris satırları | Hayır | `-surucu.md` §1 |
 | Gerçek workflow blokları | Hayır | `-ornekler.md` §1 |
-| Pipeline sahipliği ve deploy | Hayır | `K018-devops` |
+| Pipeline sahipliği ve deploy | Hayır | `K17-devops` |
 | Uygulama test stratejisi | Hayır | K019 / `uygulama-testi/` |
 | OWASP denetimi | Hayır | `isletim-sistemi-security` |
 | Canlı telemetri / metrik | Hayır | `isletim-sistemi-observability` |

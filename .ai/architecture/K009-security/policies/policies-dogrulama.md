@@ -138,7 +138,7 @@ AD-xx = RED
 2. **Parola min uzunluk** — OWASP 12+ önerisi vs repo 8 (anayasa P-01c,
    `index.md:21/49`) → `⚠️ ONAY BEKLİYOR`.
 3. **KVKK saklama metni** — politika metni üretilmedi (`policies-kapsam.md` §3) →
-   üst karar, K020-comilance sahipliğinde.
+   üst karar, K019-comilance sahipliğinde.
 4. **JWT stub** — `validateJwtToken` hep null döner (anayasa §15 U-5) →
    [[../authentication/index]] node'una devir.
 5. **`.ai/CLAUDE.md §Security` başlığı yok** — 78 başlık/0 isabet (2026-10-15);

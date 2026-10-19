@@ -1,4 +1,4 @@
-﻿---
+---
 node_id: K001-donanım-platformlararasi-kod-ornekleri
 node_type: architecture
 status: draft

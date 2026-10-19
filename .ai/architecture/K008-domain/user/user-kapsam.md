@@ -30,7 +30,7 @@ değil** (bkz. §2 satır 4).
 | # | İçinde (bu dal) | Dışında | Sınır komşusu |
 |---|---|---|---|
 | 1 | Kullanıcı **kavramı**: id · username · displayName · avatar · gender | Parola, oturum, JWT, kimlik doğrulama | K0100-identitiy (master §2.1 satır 55) |
-| 2 | Olaylardaki `userId` kimliğinin anlamı (kim ekledi/beğendi/çaldı) | Yetki/rol **tanımı** (`roles` alanı burada taşınır, anlamı K010'un) | K0100-identitiy |
+| 2 | Olaylardaki `userId` kimliğinin anlamı (kim ekledi/beğendi/çaldı) | Yetki/rol **tanımı** (`roles` alanı burada taşınır, anlamı K010'un) | ⚠️ |
 | 3 | Kullanıcı kavramının playlist'ten ayrı tanımı | Liste sahipliği/ortaklık kuralı | playlist (master §1 satır 41) |
 | 4 | Kullanıcı kavramının kütüphaneden ayrı tanımı | Koleksiyon içeriği | library (master §1 satır 41) |
 | 5 | Cinsiyet/görünen ad gibi profil alanlarının **kavramı** | Profilin şemada saklanması | K007-data (bagimliliklar §3/1) |
