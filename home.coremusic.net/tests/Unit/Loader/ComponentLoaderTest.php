@@ -62,7 +62,7 @@ final class ComponentLoaderTest extends TestCase
 
         // Aynı anahtar ikinci kez kaydedilirse ezilir, istisna fırlatılmaz.
         $loader->register('fake', FakeComponent::class);
-        $this->assertSame(['player-info', 'recent-tracks', 'widget-grid', 'welcome-banner', 'fake'], $loader->keys());
+        $this->assertSame(['player-info', 'recent-tracks', 'widget-grid', 'welcome-banner', 'wide-sidebar', 'fake'], $loader->keys());
     }
 
     public function testRegister_classNotImplementingInterface_throwsInvalidArgumentException(): void

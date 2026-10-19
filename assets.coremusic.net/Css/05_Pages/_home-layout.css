@@ -548,6 +548,16 @@ html:not(.sidebar-collapsed) .home-layout {
   padding-inline: 25px 67px;   /* sayfa padding 28 → 53 sol / 95 sağ (PNG SSOT) */
 }
 
+/* Orta sütun: Hoş Geldin Banner
+   grid-column: 2 — sağ sütun gibi sabitlenir; DOM sırası bozulsa da orta
+   sütun garanti altına alınır (Figma node 2849:21492 "Banner Div" 491×184).
+   home.php banner'ı sarmalayıcı olmadan grid'e yazar → kural bileşenin
+   kendisine, sayfa-grid kapsamında uygulanır. Bkz. pages/components/welcome-banner.php */
+.home-layout--wide .home-layout__top--wide > .welcome-banner {
+  grid-column: 2;
+  justify-self: stretch;
+}
+
 /* Sağ sütun: Widget'lar + Quick Apps yan yana
    grid-column: 3 — orta sütun artık Hoş Geldin Banner ile dolu (home-layout__top-center,
    grid-column: 2); bu değer, DOM sırası bozulsa da sağ sütunu garanti altına alır. */

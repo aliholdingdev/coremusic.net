@@ -63,7 +63,7 @@
         const _gender = document.documentElement?.getAttribute('data-gender') || 'female';
         const _themeMap = { female: 'res-pink', male: 'res-blue' };
         VolumeController.init({
-          percentSelector: 'p.c-footer__volume-slider-volume-size',
+          percentSelector: '.footer-player__volume-value',
           iconBasePath: '//assets.coremusic.net/Image/' + (_themeMap[_gender] || 'res-pink') + '/',
         });
       } catch (e) {
@@ -247,23 +247,6 @@
     };
 
     bindTrackStream();
-
-    /* Setup volume input range sync with percentage text & fill */
-    const volumeInput = document.getElementById('volume');
-    const volumeFill = document.getElementById('volume2');
-    const volumePct = document.querySelector('.c-footer__volume-slider-volume-size');
-
-    if (volumeInput) {
-      const updateVolumeUi = function () {
-        const val = parseFloat(volumeInput.value) || 0;
-        const pct = Math.round(val * 100);
-        if (volumePct) volumePct.textContent = '% ' + pct;
-        if (volumeFill) volumeFill.style.width = (val * 100) + '%';
-      };
-
-      volumeInput.addEventListener('input', updateVolumeUi);
-      updateVolumeUi();
-    }
 
     /* Setup seekbar input range sync */
     const seekInput = document.getElementById('seekbar');

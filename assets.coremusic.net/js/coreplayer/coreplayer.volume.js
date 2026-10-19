@@ -84,9 +84,14 @@
   class VolumeController {
     constructor() {
       this._isDragging = false;
-      this._bound = { setFromInput: this._setFromInput.bind(this), setFromDrag: this._setFromDrag.bind(this), setFromWheel: this._setFromWheel.bind(this), startDrag: this._startDrag.bind(this), stopDrag: this._stopDrag.bind(this) };
+      this._lastNonZero = 0;
+      this._iconEl = null;
+      this._inputEl = null;
+      this._fillEl = null;
+      this._pctEl = null;
+      this._bound = { setFromInput: this._setFromInput.bind(this), setFromDrag: this._setFromDrag.bind(this), setFromWheel: this._setFromWheel.bind(this), startDrag: this._startDrag.bind(this), stopDrag: this._stopDrag.bind(this), toggleMute: this._toggleMute.bind(this), toggleMuteKey: this._toggleMuteKey.bind(this) };
       this._containerEl = null;
-      this._config = { container: '.volume-set-slider', fillSelector: '#volume2', percentSelector: 'p.c-footer__volume-slider-volume-size', iconSelector: '#volumeIcon', iconBasePath: this.#resolveThemePath(), trackSelector: '#volumeclick' };
+      this._config = { container: '.footer-player__volume', fillSelector: '#volume2', percentSelector: '.footer-player__volume-value', iconSelector: '#volumeIcon', iconBasePath: this.#resolveThemePath(), trackSelector: '#volumeclick' };
     }
 
     /** Resolve theme image path from data-gender attribute on <html>. */
@@ -99,14 +104,18 @@
 
     init(config) {
       if (this._initialized) return;
-      this._initialized = true;
       if (config) Object.assign(this._config, config);
 
       const el = (this._containerEl = document.querySelector(this._config.container));
-      if (!el) return;
+      if (!el) {
+        /* Sessiz ölüm önleme: flag set EDİLMEZ → sonraki init çağrısı retry eder */
+        if (window.dbg && typeof window.dbg.warn === 'function') window.dbg.warn('[VolumeController] container bulunamadı:', this._config.container);
+        return;
+      }
 
       const input = el.querySelector('input[type="range"]');
       if (input) {
+        this._inputEl = input;
         input.addEventListener('input', this._bound.setFromInput);
         input.addEventListener('change', this._bound.setFromInput);
       }
@@ -120,10 +129,27 @@
 
       el.addEventListener('wheel', this._bound.setFromWheel, { passive: false });
 
+      /* Cached lookups — setVolume başına tekrar querySelector yok */
+      this._fillEl = document.querySelector(this._config.fillSelector);
+      this._pctEl = document.querySelector(this._config.percentSelector);
+
+      /* Mute toggle (icon) — icon yoksa sessizce atla */
+      const icon = el.querySelector(this._config.iconSelector);
+      if (icon) {
+        this._iconEl = icon;
+        /* A11y: bir kez, ikon bind edilirken — erişilebilir adın tek kaynağı aria-label; alt dekoratif */
+        icon.setAttribute('role', 'button');
+        icon.setAttribute('tabindex', '0');
+        icon.setAttribute('alt', '');
+        icon.addEventListener('click', this._bound.toggleMute);
+        icon.addEventListener('keydown', this._bound.toggleMuteKey);
+      }
+
+      /* Yalnız başarılı bind sonunda flag → başarısızlıkta retry mümkün */
+      this._initialized = true;
+
       const saved = VolumeRepository.getVolumeCookie();
       this.setVolume(saved);
-
-      this._updateVolumeIcon(saved);
     }
 
     destroy() {
@@ -131,7 +157,13 @@
       const el = this._containerEl;
       if (!el) return;
 
-      const input = el.querySelector('input[type="range"]');
+      if (this._iconEl) {
+        this._iconEl.removeEventListener('click', this._bound.toggleMute);
+        this._iconEl.removeEventListener('keydown', this._bound.toggleMuteKey);
+        this._iconEl = null;
+      }
+
+      const input = this._inputEl || el.querySelector('input[type="range"]');
       if (input) {
         input.removeEventListener('input', this._bound.setFromInput);
         input.removeEventListener('change', this._bound.setFromInput);
@@ -145,6 +177,9 @@
       document.removeEventListener('touchcancel', this._bound.stopDrag);
       el.removeEventListener('wheel', this._bound.setFromWheel);
 
+      this._inputEl = null;
+      this._fillEl = null;
+      this._pctEl = null;
       this._containerEl = null;
     }
 
@@ -154,6 +189,7 @@
 
     setVolume(raw) {
       const value = VolumeCalculator.edgeSnap(VolumeCalculator.clamp(raw));
+      if (value > 0) this._lastNonZero = value;
       VolumeRepository.saveVolumeCookie(value);
 
       const media = VolumeRepository.getMediaElement();
@@ -214,27 +250,53 @@
       this.setVolume(raw);
     }
 
+    _toggleMute() {
+      const current = VolumeCalculator.edgeSnap(VolumeCalculator.clamp(VolumeRepository.getVolumeCookie()));
+      if (current === 0) {
+        this.setVolume(this._lastNonZero || 0.5);
+      } else {
+        this.setVolume(0);
+      }
+    }
+
+    _toggleMuteKey(e) {
+      if (e.repeat) return;
+      if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+      e.preventDefault();
+      this._toggleMute();
+    }
+
     _updateSlider(value) {
       const el = this._containerEl;
       if (!el) return;
-      const input = el.querySelector('input[type="range"]');
+      const input = this._inputEl || el.querySelector('input[type="range"]');
       if (input) input.value = String(value);
     }
 
     _updateFill(value) {
-      const fill = document.querySelector(this._config.fillSelector);
+      const fill = this._fillEl || document.querySelector(this._config.fillSelector);
       if (fill) fill.style.width = Math.round(value * 100) + '%';
     }
 
     _updatePercentDisplay(value) {
-      const pct = document.querySelector(this._config.percentSelector);
+      const pct = this._pctEl || document.querySelector(this._config.percentSelector);
       if (pct) pct.textContent = '% ' + VolumeCalculator.toPercent(value);
     }
 
     _updateVolumeIcon(value) {
-      const icon = document.querySelector(this._config.iconSelector);
+      const icon = this._iconEl || document.querySelector(this._config.iconSelector);
       if (icon) {
-        icon.src = this._config.iconBasePath + VolumeCalculator.getIconName(value);
+        /* src cache: aynı ikon adında DOM yazımı yok (dataset karşılaştırması) */
+        const iconName = VolumeCalculator.getIconName(value);
+        if (icon.dataset.iconName !== iconName) {
+          icon.dataset.iconName = iconName;
+          icon.src = this._config.iconBasePath + iconName;
+        }
+        /* A11y: label yalnız mute ↔ sesli DURUM DEĞİŞİMİNDE yazılır */
+        const label = value === 0 ? 'Sesi aç' : 'Sesi kapat';
+        if (icon.getAttribute('aria-label') !== label) {
+          icon.setAttribute('aria-label', label);
+        }
       }
 
       if (window._footerUpdateVolumeIcon) {

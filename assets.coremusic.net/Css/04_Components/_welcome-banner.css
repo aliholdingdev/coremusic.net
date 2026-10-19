@@ -1,41 +1,206 @@
 /**
  * Dosya: _welcome-banner.css
  * Katman: 04_Components - yeniden kullanılabilir UI bileşenleri
- * Rol: Welcome banner bileşeni - WIDE/4K üst satır "Hoş Geldin" kartı
- * Bağımlılık: token tüketir: var(--cm-*), var(--wb-*)
- * Güncelleme: 2026-10-03
+ * Rol: Welcome banner bileşeni — "Hoş Geldin" kartı (referans görsel v4.0.0)
+ * Bağımlılık: token tüketir: var(--wb-*), var(--cm-welcome-banner-w)
+ * Güncelleme: 2026-10-19
  *
- * Figma SSOT: node 2831:13747 (1920 Home) → "Banner Div" id 2849:21492 (491×184)
- * WIDE/4K üst satırında Player Info (sol) ile Widget Grid (sağ) arasında
- * orta sütun ("Hoş Geldin" kartı). Embedded (1024, node 1639:10160) altında
- * eşdeğeri yok — bkz. WelcomeBannerComponent.php doc-block.
- * NOT: Bu, `#welcomeModalOverlay` ile açılan "Welcome Modal" popup'ından
- * (Figma "Welcome Div" id 2831:10267) AYRI bir bileşendir — üst satırda
- * her zaman görünen statik bir karttır, o modalı DEĞİŞTİRMEZ.
- * Figma "Banner Div" node'u salt bir RECTANGLE'dır (children yok, IMAGE fill) —
- * metin içeriği Figma'da tanımlı değildir. v2.0.0: içerik PNG mockup'ından
- * numeric ölçümle kodlandı (bkz. a-welcome-banner-tokens.css v2.0.0 notu):
- *   eyebrow "Hoş Geldin" · user (session) · quote · brand "Core Music" ·
- *   CTA "Keşfetmeye Başla" (/kesfet) · 5 stat chip · trailing "+" ring.
- * Kullanıcı adı session'da MM_DisplayName/MM_Username varsa onu kullanır.
- * Yerleşim: tüm bloklar mutlak konumlu (banner 491×184 sabit kutu) —
- * metin sütunu 0..296px içinde text-align:center (metin merkezi x≈148),
- * stats satırı (28,147) sabit; ham px/hex → 01_Abstracts'a-welcome-banner-tokens.css.
- * Token'lar: 01_Abstracts/a-welcome-banner-tokens.css (ham px/hex bu dosyada YAZILMAZ)
+ * Yerleşim: WIDE/4K üst satır ORTA SÜTUN (home-layout__top--wide grid-column 2).
+ * Grid 469fr|491fr|752fr → banner kutusu 491×184 @1920 (Figma node 2849:21492).
+ * Embedded (1024) altında eşdeği yok — yalnız WIDE/4K'da render edilir.
+ *
+ * NOT — KARIŞTIRMA: Bu component, #welcomeModalOverlay ile açılan "Welcome
+ * Modal" popup'ından (Figma "Welcome Div" id 2831:10267) AYRI bir bileşendir;
+ * o modalı DEĞİŞTİRMEZ.
+ *
+ * v4.0.0 (2026-10-19) — kullanıcının verdiği referans banner görseline göre yeniden
+ *   yazıldı (3 panelli v3.0.0 yapısı kaldırıldı):
+ *     · sol üst: "Hoş Geldin" (Bickham Script Two)
+ *     · orta: dairesel avatar + isim (Respective) + alt satır (Arima)
+ *     · sağ: çapraz kenarlı kız fotoğrafı paneli (bkimage1.png, clip-path)
+ *     · arkaplan: aynı sahne + solda koyulaşan --wb-scrim (WCAG kontrast katmanı)
+ *   v3.0.0'daki panel/side/wave/cta/quick/photo sınıf ailesi ve v2.0.0'ın mutlak
+ *   konumlu içerik düzeni kaldırıldı (kullanılmayan kod = dead code).
+ *
+ * Boyama sırası (z-index YOK): ::before (scrim) → __hero (mutlak, DOM 1.)
+ *   → __content (DOM 2., üstte) — konumlu kutular DOM sırasına göre boyanır.
+ *
  * BEM: .welcome-banner, .welcome-banner__*
+ * Guardrail: hardcoded px/hex YOK (hepsi --wb-* token) · !important YOK ·
+ *            inline style YOK · emoji YOK (yalnız PNG/görsel varlıklar) ·
+ *            responsive değer override yalnız 01_Abstracts'te.
  */
 
-/* ═══ Kart kabuğu (Figma: 491×184, radius 8, dropShadow 2/2/4 @0.8) ═══ */
-.welcome-banner.welcome-banner--wide {
+/* ══════════════════════════════════════════════════════════════
+   KABUK — kart (Figma: 491×184, radius 8, dropShadow)
+   ══════════════════════════════════════════════════════════════ */
+.welcome-banner {
   position: relative;
   box-sizing: border-box;
-  width: var(--cm-welcome-banner-h);
-  max-width: var(--cm-welcome-banner-h);
-  height: var(--cm-welcome-banner-w);
+  display: flex;
+  align-items: stretch;
+  width: var(--cm-welcome-banner-w, 100%);
+  min-height: var(--wb-h);
   border-radius: var(--wb-radius);
+  border: var(--wb-border);
+  /* Üst katman: sahne görseli · alt katman: görsel yüklenmezse gradyan */
+  background-image: var(--wb-bg-image), var(--wb-bg-fallback);
+  background-size: var(--wb-bg-size), var(--wb-bg-size);
+  background-position: var(--wb-bg-position), center;
+  background-repeat: no-repeat, no-repeat;
+  box-shadow: var(--wb-shadow);
   overflow: hidden;
-  background-image: var(--wb-bg-gradient);
-  background-size: cover;
-  background-position: center;
-  box-shadow: var(--cm-box-shadow);
+  font-family: var(--wb-font);
+  transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
 }
+
+.welcome-banner:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* Metin koruma & atmosferik ışık katmanı */
+.welcome-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--wb-scrim);
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SAĞ PANEL — çapraz kenarlı kız fotoğrafı (dekoratif)
+   ══════════════════════════════════════════════════════════════ */
+.welcome-banner__hero {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: var(--wb-hero-w);
+  overflow: hidden;
+  clip-path: var(--wb-hero-clip);
+  filter: var(--wb-hero-filter);
+  pointer-events: none;
+}
+
+.welcome-banner__hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--wb-hero-beam-clip);
+  background: var(--wb-hero-beam-bg);
+  box-shadow: var(--wb-hero-beam-shadow);
+  pointer-events: none;
+}
+
+.welcome-banner__hero-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--wb-hero-position);
+  transform: var(--wb-hero-scale);
+  transform-origin: var(--wb-hero-origin);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.welcome-banner:hover .welcome-banner__hero-img {
+  transform: var(--wb-hero-scale-hover, scale(1.46) translate(-2%, 1%));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   İÇERİK — selamlama + avatar + isim + alt satır
+   ══════════════════════════════════════════════════════════════ */
+.welcome-banner__content {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  padding-block: var(--wb-content-pad-block) var(--wb-content-pad-end);
+  padding-inline: var(--wb-content-pad-inline) var(--wb-content-hero-guard);
+}
+
+/* ═══ Selamlama — sol üst, el yazısı (Figma SSOT: Geraldine Italic 20) ═══ */
+.welcome-banner__greet {
+  align-self: flex-start;
+  margin: 0;
+  font-family: var(--wb-greet-font);
+  font-style: var(--wb-greet-style, italic);
+  font-size: var(--wb-greet-fs);
+  font-weight: 400;
+  line-height: var(--wb-greet-lh);
+  letter-spacing: var(--wb-greet-ls, 0.078em);
+  color: var(--wb-greet-color);
+  text-shadow: var(--wb-greet-shadow, var(--wb-text-shadow));
+  white-space: nowrap;
+}
+
+/* ═══ Kimlik bloğu — avatar + isim + alt satır (dikey ortalanmış) ═══ */
+.welcome-banner__identity {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wb-content-gap);
+  margin: 0;
+  min-width: 0;
+}
+
+.welcome-banner__avatar {
+  box-sizing: border-box;
+  width: var(--wb-avatar-size);
+  height: var(--wb-avatar-size);
+  border: var(--wb-avatar-ring);
+  border-radius: var(--wb-avatar-radius);
+  background: var(--wb-avatar-bg, var(--wb-avatar-fallback));
+  object-fit: var(--wb-avatar-fit, cover);
+  object-position: var(--wb-avatar-position, 50% 18%);
+  box-shadow: var(--wb-avatar-shadow);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.welcome-banner:hover .welcome-banner__avatar {
+  transform: scale(1.05);
+  box-shadow: var(--wb-avatar-hover-shadow, var(--wb-avatar-shadow));
+}
+
+.welcome-banner__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--wb-content-gap);
+  min-width: 0;
+}
+
+.welcome-banner__name {
+  font-family: var(--wb-name-font);
+  font-style: var(--wb-name-style, normal);
+  font-size: var(--wb-name-fs);
+  letter-spacing: var(--wb-name-ls, 0.078em);
+  line-height: var(--wb-name-lh);
+  color: var(--wb-name-color);
+  text-shadow: var(--wb-text-shadow);
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.welcome-banner__tagline {
+  font-family: var(--wb-tagline-font);
+  font-style: var(--wb-tagline-style, normal);
+  font-size: var(--wb-tagline-fs);
+  letter-spacing: var(--wb-tagline-ls, 0.05em);
+  line-height: var(--wb-tagline-lh);
+  color: var(--wb-tagline-color);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 6px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+

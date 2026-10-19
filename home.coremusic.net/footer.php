@@ -43,8 +43,14 @@ $currentElapsed  = $h((string)($_SESSION['current_elapsed'] ?? '00:00:00'));
 $currentDuration = $h((string)($_SESSION['current_duration'] ?? '00:05:00'));
 $currentBitrate  = $h((string)($_SESSION['current_bitrate'] ?? '350 kbps'));
 $currentArt      = $_SESSION['current_art'] ?? ($assetsUrl . '/Image/res-pink/album-goksel.png');
-$volumePct       = max(0, min(100, (int)($_SESSION['volume'] ?? 100)));
-$volumeRatio     = number_format($volumePct / 100, 4, '.', '');
+/* Volume kalıcılığı: cookie (JS tek yazıcı, ratio 0..1) → session → default 50
+   (JS getVolumeCookie() cookie yoksa 0.5 döner — açılışta ikon/UI sıçramasın) */
+$volRaw       = $_COOKIE['MM_Volume'] ?? null;
+$volCookiePct = ($volRaw !== null && is_numeric($volRaw))
+    ? (int) round(max(0.0, min(1.0, (float)$volRaw)) * 100)
+    : null;
+$volumePct    = $volCookiePct ?? max(0, min(100, (int)($_SESSION['volume'] ?? 50)));
+$volumeRatio  = number_format($volumePct / 100, 4, '.', '');
 
 /* ─── İkonlar (PNG birebir) ─── */
 $iconBack  = $h($assetsUrl . '/Image/res-pink/media-back.png');
@@ -52,7 +58,16 @@ $iconPlay  = $h($assetsUrl . '/Image/res-pink/media-play.png');
 $iconPause = $h($assetsUrl . '/Image/res-pink/media-pause.png');
 $iconStop  = $h($assetsUrl . '/Image/res-pink/media-stop.png');
 $iconNext  = $h($assetsUrl . '/Image/res-pink/media-ileri.png');
-$iconVol   = $h($assetsUrl . '/Image/res-pink/volume-high.png');
+/* Eşikler coreplayer.volume.js getIconName ile BİREBİR aynı olmalı:
+   0 → volume-mute · <33 → volume-low · <66 → volume-medium · ≥66 → volume-high
+   (JS edgeSnap aynası: ratio <=0.02 → 0 → pct 1-2 mute) */
+$iconVolPct = $volumePct <= 2 ? 0 : $volumePct;
+$iconVol    = $h($assetsUrl . '/Image/res-pink/' . match (true) {
+    $iconVolPct === 0 => 'volume-mute.png',
+    $iconVolPct < 33  => 'volume-low.png',
+    $iconVolPct < 66  => 'volume-medium.png',
+    default           => 'volume-high.png',
+});
 $iconMusic   = $h($assetsUrl . '/Image/res-pink/music.png');
 $iconCd      = $h($assetsUrl . '/Image/res-pink/cd-ico.png');
 $iconMic     = $h($assetsUrl . '/Image/res-pink/mic-1.png');

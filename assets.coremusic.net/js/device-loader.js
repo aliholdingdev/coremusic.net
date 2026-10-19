@@ -297,7 +297,7 @@
      * @param {Object} opts
      * @param {string} opts.assetsUrl    Assets URL
      * @param {boolean} opts.isAuth      Auth sayfası mı?
-     * @param {string} opts.viewMode     View mode (home/pro/studio/car)
+     * @param {string} opts.viewMode     View mode (home/pro/studio/car/admin)
      * @param {string} opts.serverDevice Sunucu cihaz tahmini (varsa)
      * @returns {string} Tespit edilen cihaz
      */

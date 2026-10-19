@@ -19,7 +19,7 @@
 @import url("../01_Abstracts/a-layout-tokens-1024.css?v=5.1.0");
 @import url("../01_Abstracts/a-layout-tokens-1920.css?v=1.0.0");
 @import url("../01_Abstracts/a-widget-grid-tokens.css?v=1.0.0");
-@import url("../01_Abstracts/a-welcome-banner-tokens.css?v=2.0.0");
+@import url("../01_Abstracts/a-welcome-banner-tokens.css?v=4.0.0");
 @import url("../07_Vendors/bootstrap-reboot.min.css?v=5.3.8");
 @import url("../07_Vendors/bootstrap-grid.min.css?v=5.3.8");
 @import url("../02_Base/b-base-core.css?v=2.2.0");
@@ -28,7 +28,7 @@
 @import url("../03_Layout/_footer.css?v=3.2.0");
 @import url("../03_Layout/_widget-grid.css?v=1.0.0");
 @import url("../04_Components/_player-info.css?v=2.0.0");
-@import url("../04_Components/_welcome-banner.css?v=1.0.0");
+@import url("../04_Components/_welcome-banner.css?v=4.0.0");
 @import url("../04_Components/c-scrollbar-accent.css?v=2.4.0");
 @import url("../04_Components/c-footer-seek.css?v=2.2.0");
 @import url("../04_Components/c-footer-volume.css?v=2.2.0");

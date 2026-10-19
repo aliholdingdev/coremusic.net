@@ -32,6 +32,40 @@
     font-weight: 400; font-style: normal; font-display: swap;
 }
 
+/* ═══ Geraldine Personal Use — Welcome Banner greeting font (Figma SSOT) ═══ */
+@font-face {
+    font-family: 'GERALDINE PERSONAL USE';
+    src: url('../../Fonts/GERALDINE%20PERSONAL%20USE.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'GERALDINE PERSONAL USE';
+    src: url('../../Fonts/GERALDINE%20PERSONAL%20USE.ttf') format('truetype');
+    font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+    font-family: 'Geraldine';
+    src: url('../../Fonts/GERALDINE%20PERSONAL%20USE.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Geraldine';
+    src: url('../../Fonts/GERALDINE%20PERSONAL%20USE.ttf') format('truetype');
+    font-weight: 400; font-style: italic; font-display: swap;
+}
+
+/* ═══ Anilla Roeslan — Welcome Banner identity font (Figma SSOT) ═══ */
+@font-face {
+    font-family: 'Anilla Roeslan';
+    src: url('../../Fonts/AnillaRoeslan.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'AnillaRoeslan';
+    src: url('../../Fonts/AnillaRoeslan.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+
 /* ═══ Avalon Medium — Fallback body ═══ */
 @font-face {
     font-family: 'Avalon Medium';

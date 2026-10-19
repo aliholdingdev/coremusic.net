@@ -30,6 +30,7 @@ final class DeviceCssMap
         'pro'     => '09_ViewModes/v-pro.css',
         'studio'  => '09_ViewModes/v-studio.css',
         'car'     => '09_ViewModes/v-car.css',
+        'admin'   => '09_ViewModes/v-admin.css',
     ];
 
     public static function toCssPath(string $deviceType): string

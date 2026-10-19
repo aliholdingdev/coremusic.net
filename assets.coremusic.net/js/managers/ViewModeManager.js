@@ -1,6 +1,6 @@
 /**
  * CoreMusic — ViewModeManager
- * Görünüm modu yönetimi (ADR-045). home/pro/studio/car.
+ * Görünüm modu yönetimi (ADR-045). home/pro/studio/car/admin.
  *
  * @module managers/ViewModeManager
  * @version 5.0.0
@@ -8,7 +8,7 @@
  */
 export default class ViewModeManager {
     #eventBus;
-    /** @type {'home'|'pro'|'studio'|'car'} */
+    /** @type {'home'|'pro'|'studio'|'car'|'admin'} */
     #currentMode = 'home';
 
     /** View mode CSS haritası */
@@ -17,6 +17,7 @@ export default class ViewModeManager {
         pro: '09_ViewModes/v-pro.css',
         studio: '09_ViewModes/v-studio.css',
         car: '09_ViewModes/v-car.css',
+        admin: '09_ViewModes/v-admin.css',
     };
 
     /** @param {import('../core/EventBus.js').default} eventBus */
@@ -33,7 +34,7 @@ export default class ViewModeManager {
 
     /**
      * Görünüm modunu değiştir
-     * @param {'home'|'pro'|'studio'|'car'} mode
+     * @param {'home'|'pro'|'studio'|'car'|'admin'} mode
      */
     setMode(mode) {
         if (!ViewModeManager.VIEW_CSS[mode]) return;

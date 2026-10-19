@@ -10,13 +10,14 @@ namespace CoreMusic\ViewMode;
  */
 final class ViewModeManager
 {
-    private const VALID_MODES = ['home', 'pro', 'studio', 'car'];
+    private const VALID_MODES = ['home', 'pro', 'studio', 'car', 'admin'];
 
     private const VIEW_CSS = [
         'home'   => '09_ViewModes/v-home.css',
         'pro'    => '09_ViewModes/v-pro.css',
         'studio' => '09_ViewModes/v-studio.css',
         'car'    => '09_ViewModes/v-car.css',
+        'admin'  => '09_ViewModes/v-admin.css',
     ];
 
     /** Route prefix to mode mapping */
@@ -24,6 +25,7 @@ final class ViewModeManager
         '/studio' => 'studio',
         '/pro'    => 'pro',
         '/car'    => 'car',
+        '/admin'  => 'admin',
     ];
 
     /**

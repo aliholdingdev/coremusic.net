@@ -37,6 +37,7 @@ window.CoreMusic.DEVICES = Object.freeze({
         'pro':    '09_ViewModes/v-pro.css',
         'studio': '09_ViewModes/v-studio.css',
         'car':    '09_ViewModes/v-car.css',
+        'admin':  '09_ViewModes/v-admin.css',
     }),
 
     /** Tüm desteklenen cihaz türleri */
