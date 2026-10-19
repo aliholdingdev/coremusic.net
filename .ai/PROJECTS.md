@@ -192,7 +192,13 @@ CoreMusic, her sektörel ihtiyacı ayrı bir alt alan adı (*subdomain*) ile dik
 | Tema Sistemi | Ambient Aura, AI Theme Maker, Gender-based |
 | CSS | ITCSS 9-layer, BEM methodology |
 | Offline Desteği | Service Worker, IndexedDB, local cache |
-| Durum | GELİŞTİRMEDE |
+| Durum | GELİŞTİRMEDE (web) · native media stack: ADR-0105 accepted (2026-10-19), C++ iskelet app-cpp-projects/neva-engine/ — benchmark kapısı (ADR-0105 §5.6) geçmeden IMPLEMENTED etiketi YOK |
+
+> **Native Media Stack notu (2026-10-19):** Ayrı native player workstreami başlatıldı —
+> `[[projects/NevaPlayer/01-kapsam-ve-kabul-kriterleri]]` · mimari `[[architecture/neva-player/index]]` ·
+> karar `[[.decisions/draft/ADR-0105-neva-player-media-stack]]` (draft) · RE dump `[[reports/neva-re-dump-aimp-vlc]]` ·
+> araştırma `[[research/neva-player-media-stack]]` + `[[research/neva-player-dil-uyumluluk-matrisi]]`.
+> Aşama 1: C++20, Windows (WASAPI exclusive bit-perfect), 32b/192kHz, 31-band EQ, 4K/HDR (libplacebo D3D11), C ABI FFI. Kod durumu: PLANNED (0 .cpp).
 
 #### 7.1.3 WirelessConnect (Bluetooth/WiFi Audio)
 | Özellik | Değer |
