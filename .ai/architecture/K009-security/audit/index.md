@@ -14,7 +14,7 @@ children:
   - audit-web-arastirma
 depends_on:
   - K009-security/authorization
-  - K017-observability
+  - K016-observability
 evidence:
   - "v2 §2.9 satır 326 (ad) — kod: Log/Redactor, Log/LoggerFactory, PageRouter/StructuredLogger"
   - "shared/src/Events/Domain/UserLoggedInEvent.php · UserLoggedOutEvent.php"
@@ -39,7 +39,7 @@ group: mimari
 | 2 | Alanlar normalize edilir | StructuredLogger: JSON alan adları |
 | 3 | Hassas alan maskelenir | `Redactor` — parola/sır/token asla ham |
 | 4 | Kayıt yazılır | Append-only, zaman damgalı |
-| 5 | Kayıt tüketilir | `K017-observability`'e aktarılır |
+| 5 | Kayıt tüketilir | `K016-observability`'e aktarılır |
 
 ## §2 KAPSAM ÖZETİ
 
@@ -72,7 +72,7 @@ group: mimari
 |---|---|---|
 | Kimlik deposu, kullanıcı kimlik alanı | `K0100-identitiy` | Yalnız sınır referansı |
 | OS/systemd journal, dosya izinleri, zaman sunucusu | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
-| Gözlemlenebilirlik metrikleri/trace saklama | `K017-observability` | Yalnız entegrasyon |
+| Gözlemlenebilirlik metrikleri/trace saklama | `K016-observability` | Yalnız entegrasyon |
 
 ## §5 BAĞLANTILAR
 
@@ -81,7 +81,7 @@ group: mimari
 | `authorization` | öncesi | reddi üreten katman |
 | `secrets` | öncesi | sır erişim olayları maskelenir |
 | `security-testing` | sonrası | audit kapsamı test edilir |
-| `K017-observability` | sonrası | tüketici sistem |
+| `K016-observability` | sonrası | tüketici sistem |
 
 | İddia | URL | 2026-10-13 | Durum |
 |---|---|---|---|

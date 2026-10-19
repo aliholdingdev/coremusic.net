@@ -1,6 +1,6 @@
 ---
-title: "K019-testing — Master (Domain Anayasa)"
-node_id: K019-testing
+title: "K18-testing — Master (Domain Anayasa)"
+node_id: K18-testing
 node_type: domain-master
 status: draft
 authority: "Derived — SSOT: v2 spec §2.19 + ADR-097 (draft)"
@@ -23,7 +23,7 @@ Bu domain bir özellik değil, **güven kapısıdır** — CI (K018) bu domainin
 
 | Kapsam (bu domain) | Kapsam DIŞI |
 |---|---|
-| Test stratejisi, test pyramid, coverage hedefi | Testlerin hangi pipeline'da çalıştırıldığı, deploy → **K018-devops** (ci.yml jobları orada tanımlı) |
+| Test stratejisi, test pyramid, coverage hedefi | Testlerin hangi pipeline'da çalıştırıldığı, deploy → **K17-devops** (ci.yml jobları orada tanımlı) |
 | Unit / integration / contract / E2E testleri | Ajan davranışının testi (agent-testing) → **K015-AI**/agent-testing |
 | Regression / güvenlik / performans testi | Sistem auth/CSRF/CSP politikasının kendisi → **K009-security** (burada: o politikanın *sınanması*) |
 | Audio-quality / hardware-validation ölçümü | Ses motorunun kendisi (DSP/ASIO) → **K003-audio** / **K004-dsp** (burada: ölçülen taraf) |

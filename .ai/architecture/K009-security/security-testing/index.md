@@ -15,7 +15,7 @@ children:
 depends_on:
   - K009-security/authentication
   - K009-security/input-validation
-  - K018-devops
+  - K17-devops
 evidence:
   - "v2 §2.9 satır 328 (ad) — `.github/workflows/ci.yml` · `secret-scan.yml`"
   - "shared/src/Exception/RateLimitException.php · AuthenticationException.php (test hedefi)"
@@ -81,7 +81,7 @@ group: mimari
 | Bağ | Yön | Not |
 |---|---|---|
 | tüm K009 çocukları | hedef | doğrulanan yüzey |
-| `K018-devops` | sonrası | CI gate, deploy kapısı |
+| `K17-devops` | sonrası | CI gate, deploy kapısı |
 | `audit` | öncesi | test olayları kayda geçer |
 | `policies` | öncesi | politika uyum testi |
 

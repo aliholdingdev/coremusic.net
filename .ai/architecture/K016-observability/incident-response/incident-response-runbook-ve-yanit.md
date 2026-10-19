@@ -8,7 +8,7 @@ children: []
 depends_on:
   - K016-observability
   - K015-AI
-  - K018-devops
+  - K17-devops
 evidence:
   - "# incident-response runbook'u için disk kanıtı YOK (tasarım dosyası)"
 validation:
@@ -30,9 +30,9 @@ Bir olay (incident) patladığında ekip ne yapacağını **önceden** yazılmı
 | Alan | Bu dosyada | Bu dosyada DEĞİL |
 |---|---|---|
 | Olay tanımı + şiddet kademesi | ✅ SEV1-SEV4 | ❌ Uyarı üretimi → alerts/ |
-| Runbook adımları | ✅ ilk müdahale şablonu | ❌ Aksiyon (deploy/rollback) → K018-devops |
+| Runbook adımları | ✅ ilk müdahale şablonu | ❌ Aksiyon (deploy/rollback) → K17-devops |
 | Eskalasyon zinciri | ✅ insan + ajan ayrımı | ❌ Ajan tasarımı → K015-AI |
-| Kapanış ölçütü | ✅ postmortem girdisi | ❌ Test stratejisi → K019-testing |
+| Kapanış ölçütü | ✅ postmortem girdisi | ❌ Test stratejisi → K18-testing |
 | Sözlük (glossary) | ✅ ortak dil | ❌ Vault sözlüğü → K000-vault |
 | Olay takip metrikleri | ✅ MTTR/MTTT/MTBF hesabı | ❌ Metrik altyapısı/depoya → metrics/ |
 | Durum sayfası şablonu | ✅ olay bildirim şablonu | ❌ Sayfa kodu → K011-application |
@@ -457,12 +457,12 @@ $chain = switch ($Severity) {
 
 | # | Komşu | Sınır | Yön | Kaynak |
 |---|---|---|---|---|
-| 1 | K018-devops | Aksiyon (deploy/rollback) K018'de; bu dosya yalnız yanıt adımı | K016 → K018 | §6.2 adım 4-6 |
+| 1 | K17-devops | Aksiyon (deploy/rollback) K018'de; bu dosya yalnız yanıt adımı | K016 → K018 | §6.2 adım 4-6 |
 | 2 | K015-AI | Ajan yalnız ÖNERİ yapar; onay insan | K016 ↔ K015-AI | §5 satır 3 |
 | 3 | alerts/ | Tetikleyici uyarılar alerts'ten gelir | iç | §4 |
 | 4 | health-checks/ | Doğrulama health/ready ile (§6.2 adım 1) | iç | §6.2 |
 | 5 | K009-security | Güvenlik olayı ayrı kanal | ayrım | §5 satır 4 |
-| 6 | K019-testing | Postmortem → test senaryosu | K016 → K019 | §8 |
+| 6 | K18-testing | Postmortem → test senaryosu | K016 → K019 | §8 |
 
 ## §10 Açık sorular (⚠️ VERIFICATION REQUIRED)
 

@@ -1,13 +1,13 @@
 ---
-title: "K019-testing/e2e — Subdomain Kaydı"
-node_id: K019-testing/e2e
+title: "K18-testing/e2e — Subdomain Kaydı"
+node_id: K18-testing/e2e
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 modül dokümanı e2e-tarayici-testi.md (kademe-3 zinciri ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
-  - K018-devops     # js-e2e CI job'ı (ci.yml L178–L203) — kanıtlı
+  - K18-testing    # domain kökü
+  - K17-devops     # js-e2e CI job'ı (ci.yml L178–L203) — kanıtlı
 evidence:
   - "@playwright/test ^1.63.0 + playwright ^1.63.0 + axe-playwright ^1.0.0 — root package.json L11/L13/L15 (grep 2026-10-12)"
   - "assets.coremusic.net/playwright.config.ts — okundu 2026-10-12: testDir ./tests/e2e · testMatch **/*.spec.ts · baseURL http://home.coremusic.net:81 · webServer php -S (command: npx playwright test -c assets.coremusic.net/playwright.config.ts / npm run test:e2e)"
@@ -34,9 +34,9 @@ Gerçek tarayıcıda uçtan uca akış (sayfa → etkileşim → beklenen sonuç
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing altındadır.
-- E2E'nin CI'da koşumu K018-devops'tur (js-e2e job — soft); burada senaryo/aralık.
-- Kademe-3 modül dokümanı: [[e2e-tarayici-testi]] (K019-testing/e2e/e2e-tarayici-testi); zincir ADR-097 K4.
+- Bu düğüm yalnız K18-testing altındadır.
+- E2E'nin CI'da koşumu K17-devops'tur (js-e2e job — soft); burada senaryo/aralık.
+- Kademe-3 modül dokümanı: [[e2e-tarayici-testi]] (K18-testing/e2e/e2e-tarayici-testi); zincir ADR-097 K4.
 
 ## 3. Durum
 

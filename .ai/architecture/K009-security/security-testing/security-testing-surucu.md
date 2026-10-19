@@ -7,7 +7,7 @@ children: []
 depends_on:
   - K009-security/security-testing/security-testing-anayasa
   - K009-security/security-test-stratejisi
-  - K018-devops
+  - K17-devops
 evidence:
   - ".github/workflows/ci.yml:24-203 — 6 job (php-lint, php-test, composer-audit, js-test, js-coverage, js-e2e)"
   - ".github/workflows/secret-scan.yml:18-31 — gitleaks job"
@@ -220,7 +220,7 @@ group: mimari
 | Lokal (geliştirici) | G-2, G-3, G-4 | komutlar `shared/composer.json` scriptleri |
 | CI (GitHub Actions) | G-5..G-11 | 2 workflow dosyası (`ci.yml`, `secret-scan.yml`) |
 | staging/DAST | — | YOK ⚠️ |
-| Production | deploy kapısı | `K018-devops` — bu çocukta değil |
+| Production | deploy kapısı | `K17-devops` — bu çocukta değil |
 
 ## §14 ÖNCELİKLİ MÜDAHALE
 
@@ -335,8 +335,8 @@ group: mimari
 | [[security-master]] | üst | K009 künyesi |
 | [[security-kararlar]] | kaynak | ADR-010/013/020 kapı kararları |
 | [[secrets/secrets-kapsam]] | kardeş | secret-scan kapsamı |
-| `K018-devops` | sahip | workflow dosyaları (`ci.yml`, `secret-scan.yml`) |
-| `K019-testing` | dışı | genel QA test kapsamı |
+| `K17-devops` | sahip | workflow dosyaları (`ci.yml`, `secret-scan.yml`) |
+| `K18-testing` | dışı | genel QA test kapsamı |
 
 ## §21 REVİZYON
 

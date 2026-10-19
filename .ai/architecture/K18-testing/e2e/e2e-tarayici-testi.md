@@ -1,13 +1,13 @@
 ---
-title: "K019-testing/e2e — E2E Tarayıcı Testi: Locator, Assertion, WCAG ve Bekleme Kuralları"
-node_id: K019-testing/e2e/e2e-tarayici-testi
+title: "K18-testing/e2e — E2E Tarayıcı Testi: Locator, Assertion, WCAG ve Bekleme Kuralları"
+node_id: K18-testing/e2e/e2e-tarayici-testi
 node_type: module
 status: draft
-parent_id: K019-testing/e2e
+parent_id: K18-testing/e2e
 children: []
 depends_on:
-  - K019-testing
-  - K019-testing/e2e
+  - K18-testing
+  - K18-testing/e2e
 evidence:
   - "assets.coremusic.net/tests/e2e/player-info.spec.ts — 400 satır, 18 test (2026-10-12 tam okuma)"
   - "assets.coremusic.net/tests/e2e/player-info.spec.ts — Satır 19 baseURL yasagi, Satır 20 selector sabiti (2026-10-12)"
@@ -595,13 +595,13 @@ void test_oynat_duraklatir(void) {
 
 | # | Komşu düğüm | Ne alır | Ne verir | Arayüz | Durum |
 |---|---|---|---|---|---|
-| 1 | K019-testing/unit | Birim yeşili | E2E öncesi ön koşul | CI sırası | mevcut |
-| 2 | K019-testing/integration | Sözleşme yeşili | HTTP kodu seti | 200 assertion | mevcut |
-| 3 | K019-testing/performance | Süre bütçesi | 30 s / 5 s / 2500 ms | config Satır 52-55 | mevcut |
-| 4 | K019-testing/regression | Kararlılık | Retry 2 + kanıt | config Satır 20, 30-32 | mevcut |
-| 5 | K019-testing/coverage | Kapsam | JS kapsam adımı ayrı | `test:js:coverage` | ayrık |
+| 1 | K18-testing/unit | Birim yeşili | E2E öncesi ön koşul | CI sırası | mevcut |
+| 2 | K18-testing/integration | Sözleşme yeşili | HTTP kodu seti | 200 assertion | mevcut |
+| 3 | K18-testing/performance | Süre bütçesi | 30 s / 5 s / 2500 ms | config Satır 52-55 | mevcut |
+| 4 | K18-testing/regression | Kararlılık | Retry 2 + kanıt | config Satır 20, 30-32 | mevcut |
+| 5 | K18-testing/coverage | Kapsam | JS kapsam adımı ayrı | `test:js:coverage` | ayrık |
 | 6 | K017-observability/alerting | Kırmızı E2E sinyali | Uyarı | CI işi (soft) | ⚠️ VERIFICATION REQUIRED |
-| 7 | K018-devops/pipeline | Kapı sertliği | `continue-on-error` | ci.yml Satır 183 | açık |
+| 7 | K17-devops/pipeline | Kapı sertliği | `continue-on-error` | ci.yml Satır 183 | açık |
 
 ## §13 Riskler ve açık sorular
 

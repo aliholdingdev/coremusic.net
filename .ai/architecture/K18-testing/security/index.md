@@ -1,12 +1,12 @@
 ---
-title: "K019-testing/security — Subdomain Kaydı"
-node_id: K019-testing/security
+title: "K18-testing/security — Subdomain Kaydı"
+node_id: K18-testing/security
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 bu fazda AÇILMADI (ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
+  - K18-testing    # domain kökü
   - K009-security   # sınanan politika K009'un — kanıtlı (güvenlik middleware yüzeyi)
 evidence:
   - "shared/tests/Security = 2 *Test.php (SessionKeysTest · ReturnUrlPolicyEdgeCaseTest) — glob 2026-10-12"
@@ -30,7 +30,7 @@ Güvenlik **politikasının kendisi** K009'da; burada o politikanın gerçekten 
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing altındadır.
+- Bu düğüm yalnız K18-testing altındadır.
 - Güvenlik politikası/kararı K009-security'nindir; burada yalnız o politikanın **sınanması** (registry §6 ayrımı).
 - Kademe-3 bu üretimde açılmadı; children bilerek boş bırakıldı.
 

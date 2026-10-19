@@ -1,13 +1,13 @@
 ---
-title: "K019-testing/build-verification — Subdomain Kaydı"
-node_id: K019-testing/build-verification
+title: "K18-testing/build-verification — Subdomain Kaydı"
+node_id: K18-testing/build-verification
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 bu fazda AÇILMADI (ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
-  - K018-devops     # lint/coverage kapıları ci.yml'de — kanıtlı (php-lint L25 · js-coverage L160/L167)
+  - K18-testing    # domain kökü
+  - K17-devops     # lint/coverage kapıları ci.yml'de — kanıtlı (php-lint L25 · js-coverage L160/L167)
 evidence:
   - "ci.yml php-lint job (L25, sözdizimi) + js-coverage job (L160, continue-on-error soft/A7) — okuma 2026-10-12"
   - "phpstan ^1.10 + script `stan --level=5` — shared/composer.json L25 · L48; auth/api/home composer.json'larında YOK (grep 2026-10-12)"
@@ -30,8 +30,8 @@ Kodun **derlenip temiz geçtiğini** kanıtlar: sözdizimi (lint), tip/statik an
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing altındadır.
-- Build sisteminin kendisi/kurulumu ve pipeline K018-devops'tur; burada yalnız **doğrulama/kapı sertliği**.
+- Bu düğüm yalnız K18-testing altındadır.
+- Build sisteminin kendisi/kurulumu ve pipeline K17-devops'tur; burada yalnız **doğrulama/kapı sertliği**.
 - Kademe-3 bu üretimde açılmadı; children bilerek boş bırakıldı.
 
 ## 3. Durum

@@ -1,12 +1,12 @@
 ---
-title: "K019-testing/regression — Subdomain Kaydı"
-node_id: K019-testing/regression
+title: "K18-testing/regression — Subdomain Kaydı"
+node_id: K18-testing/regression
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 bu fazda AÇILMADI (ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
+  - K18-testing    # domain kökü
 evidence:
   - "⚠️ VERIFICATION REQUIRED — ayrı regression suite KANITI YOK: `**/{regression}/**` glob = 0 isabet (2026-10-12)"
   - "mevcut unit/integration testlerinin regression niteliği taşıdığına dair master'da yargı var; amaçlı regression senaryosu (baseline + fix eşiği) diskte görünmüyor"
@@ -26,7 +26,7 @@ group: mimari
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing altındadır.
+- Bu düğüm yalnız K18-testing altındadır.
 - Bu turda **kanıt toplanmadı** (A4 payı disk-öncelikli; regression için diskte iz yok) — dolgu/uydurma yasak, boş bırakıldı.
 - Kademe-3 bu üretimde açılmadı; children bilerek boş bırakıldı.
 

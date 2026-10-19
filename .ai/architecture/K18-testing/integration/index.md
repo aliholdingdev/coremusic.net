@@ -1,12 +1,12 @@
 ---
-title: "K019-testing/integration — Subdomain Kaydı"
-node_id: K019-testing/integration
+title: "K18-testing/integration — Subdomain Kaydı"
+node_id: K18-testing/integration
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 bu fazda AÇILMADI (ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
+  - K18-testing    # domain kökü
   - K007-data       # DB/Repository katmanına dokunur — kanıtlı (tests/Repository ×2)
   - K009-security   # middleware entegrasyonu güvenlik yüzeyini yoklar — kanıtlı (tests/Middleware ×9)
 evidence:
@@ -28,7 +28,7 @@ Birimler arası / DB / middleware'in **birlikte** davranışı (tek başına do�
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing altındadır.
+- Bu düğüm yalnız K18-testing altındadır.
 - Repository'nin kendisi K007-data'nın işi; burada yalnız onun **sınanması**.
 - Kademe-3 bu üretimde açılmadı; children bilerek boş bırakıldı.
 

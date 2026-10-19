@@ -1,13 +1,13 @@
 ---
-title: "K019-testing/flaky — Flaky Test Tespiti ve Karantina: Tekrar Oranı, Retry, Determinism"
-node_id: K019-testing/flaky/flaky-test-tespiti-ve-karantina
+title: "K18-testing/flaky — Flaky Test Tespiti ve Karantina: Tekrar Oranı, Retry, Determinism"
+node_id: K18-testing/flaky/flaky-test-tespiti-ve-karantina
 node_type: module
 status: draft
-parent_id: K019-testing/flaky
+parent_id: K18-testing/flaky
 children: []
 depends_on:
-  - K019-testing
-  - K019-testing/flaky    # parent subdomain (sibling deseni ile tutarlı — 2026-10-17)
+  - K18-testing
+  - K18-testing/flaky    # parent subdomain (sibling deseni ile tutarlı — 2026-10-17)
 evidence:
   - "assets.coremusic.net/playwright.config.ts — Satır 19 forbidOnly (CI), Satır 20 retries: process.env.CI ? 2 : 0, Satır 21 workers: process.env.CI ? 1 : undefined (2026-10-13, Select-Object -Index 18/19/20 ile doğrulandı)"
   - "assets.coremusic.net/playwright.config.ts — Satır 30 trace: on-first-retry, Satır 52 timeout: 30 * 1000, Satır 54 timeout: 5 * 1000 (2026-10-13)"
@@ -76,9 +76,9 @@ yanlış güven üretir.
 | Alan | Bu dosyada | Bu dosyada DEĞİL |
 |---|---|---|
 | Flaky tanımı | ✅ Tekrar oranı eşiği | ❌ Test yazımı → `unit/` |
-| Tespit | ✅ Ölçüm yöntemi ve örneklem | ❌ Rapor altyapısı → K017-observability |
+| Tespit | ✅ Ölçüm yöntemi ve örneklem | ❌ Rapor altyapısı → K016-observability |
 | Retry | ✅ Politika, tavan, neyi maskeler | ❌ Süre bütçesi → `performance/` |
-| Karantina | ✅ Liste, giriş, çıkış, sahiplik | ❌ CI job tanımı → K018-devops/pipeline |
+| Karantina | ✅ Liste, giriş, çıkış, sahiplik | ❌ CI job tanımı → K17-devops/pipeline |
 | Determinism | ✅ Kaynak listesi ve denetim | ❌ Assertion kalitesi → `unit/` |
 | Zaman/test bağlantısı | ✅ Saat, timeout, bekleyiş yasağı | ❌ Zaman sunucusu → altyapı |
 | Regresyon etkisi | ✅ Karantinanın seçime etkisi | ❌ Seçim kuralı → `regression/` |
@@ -260,7 +260,7 @@ kavisi, TTL dolması) beklemedir. Sınır testlerinde pay zorunludur.
 | 3 | PHPUnit (shared/auth) | tanımsız | yok | ⚠️ VERIFICATION REQUIRED |
 | 4 | Vitest | yapılandırmada yok | 0 varsayımı | vitest.config.js (retry alanı yok) |
 | 5 | CI job tekrarı | hayır | job başına tek koşum | ci.yml (retry alanı yok) |
-| 6 | GitHub Actions workflow_dispatch tekrarı | el ile | manuel | K018-devops |
+| 6 | GitHub Actions workflow_dispatch tekrarı | el ile | manuel | K17-devops |
 
 ### §7.2 Retry kuralları
 
@@ -657,12 +657,12 @@ void test_ttl_siniri_asmaz(void) {
 
 | # | Komşu düğüm | Ne alır | Ne verir | Arayüz | Durum |
 |---|---|---|---|---|---|
-| 1 | K019-testing/regression | Flaky tanımı | Karantina seçime etkisi | §4-§8 | uyumlu |
-| 2 | K019-testing/e2e | Bekleyiş yasağı | Kararlı E2E kalıbı | §6.2 | uyumlu |
-| 3 | K019-testing/coverage | Skip etkisi | Kapsam dalgalanması | §5.4 | ayrık rapor |
-| 4 | K019-testing/performance | Süre bütçesi | Timeout değerleri | §6.3 | uyumlu |
-| 5 | K019-testing/integration | Ortam bağımlılığı | Çift taraflı stub kuralı | §5.1 | uyumlu |
-| 6 | K018-devops/pipeline | Kapı sertliği | `continue-on-error` kararı | ci.yml Satır 167/183 | açık |
+| 1 | K18-testing/regression | Flaky tanımı | Karantina seçime etkisi | §4-§8 | uyumlu |
+| 2 | K18-testing/e2e | Bekleyiş yasağı | Kararlı E2E kalıbı | §6.2 | uyumlu |
+| 3 | K18-testing/coverage | Skip etkisi | Kapsam dalgalanması | §5.4 | ayrık rapor |
+| 4 | K18-testing/performance | Süre bütçesi | Timeout değerleri | §6.3 | uyumlu |
+| 5 | K18-testing/integration | Ortam bağımlılığı | Çift taraflı stub kuralı | §5.1 | uyumlu |
+| 6 | K17-devops/pipeline | Kapı sertliği | `continue-on-error` kararı | ci.yml Satır 167/183 | açık |
 | 7 | K017-observability/alerting | Karantina/tekrar sinyali | Uyarı | rapor akışı | ⚠️ VERIFICATION REQUIRED |
 | 8 | K013-integraion | Dış kaynaklı flaky (ağ) | Sınıf etiketi (§16) | dış çağrı stub'ı | tasarım iddiası |
 | 9 | K0100-identitiy | Auth testleri | Karantina girdisi | test kimliği | ayrık |

@@ -1,12 +1,12 @@
 ---
-title: "K019-testing/performance — Subdomain Kaydı"
-node_id: K019-testing/performance
+title: "K18-testing/performance — Subdomain Kaydı"
+node_id: K18-testing/performance
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 bu fazda AÇILMADI (ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
+  - K18-testing    # domain kökü
 evidence:
   - "⚠️ VERIFICATION REQUIRED — performans/yük/gecikme ölçüm KANITI YOK: `**/{performance}/**` glob = 0 isabet (2026-10-12)"
   - "k6 / locust / jmeter / autocannon config veya spec diskte görünmüyor (glob 2026-10-12)"
@@ -26,7 +26,7 @@ Yük/gecikme/bellek davranışının ölçülebilir hedeflere uyduğunu kanıtla
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing altındadır.
+- Bu düğüm yalnız K18-testing altındadır.
 - Bu turda **kanıt toplanmadı** — dolgu yok, boş bırakıldı.
 - Kademe-3 bu üretimde açılmadı; children bilerek boş bırakıldı.
 

@@ -1,6 +1,6 @@
 ---
-title: "K019-testing — Bağımlılıklar"
-node_id: K019-testing
+title: "K18-testing — Bağımlılıklar"
+node_id: K18-testing
 node_type: domain-dependencies
 status: draft
 updated: 2026-10-17
@@ -23,7 +23,7 @@ Kanıtsız bağımlılık uydurulmaz — §5/§6'da `⚠️ VERIFICATION REQUIRE
 
 | # | Hedef | Etiket | Gerekçe | Kanıt / dayanak |
 |---|---|---|---|---|
-| 1 | K018-devops | kanıtlı | Testler CI job'larında koşulur; senaryo burada, koşum orada | ci.yml php-test (L66, `--testsuite Unit`) · js-test (L142) · js-e2e (L178) — okundu 2026-10-12 |
+| 1 | K17-devops | kanıtlı | Testler CI job'larında koşulur; senaryo burada, koşum orada | ci.yml php-test (L66, `--testsuite Unit`) · js-test (L142) · js-e2e (L178) — okundu 2026-10-12 |
 | 2 | K009-security | kanıtlı | Security testi auth/middleware yüzeyini yoklar; o yüzey K009'un politikasıdır | shared/tests/Security = 2 · tests/Middleware = 9 · shared/tests/Api/ApiPipelineSecurityTest.php — glob 2026-10-12 |
 | 3 | K007-data | kanıtlı | Integration test DB/Repository katmanına dokunur | shared/tests/Repository = 2 dosya (ApiKeyRepositoryTest · ApiKeyCreateCommandTest) — glob 2026-10-12 |
 | 4 | K003-audio | planlanan | audio-quality/ ölçtüğü ses sisteminin kendisine bağımlı (master §5) | ⚠️ VERIFICATION REQUIRED — ölçüm dosyası/kanıtı bu turda YOK |
@@ -36,7 +36,7 @@ Kanıtsız bağımlılık uydurulmaz — §5/§6'da `⚠️ VERIFICATION REQUIRE
 
 | # | Kullanıcı | Etiket | Gerekçe |
 |---|---|---|---|
-| 1 | K018-devops (CI kapıları) | kanıtlı | ci.yml job'ları bu domainin senaryolarını koşar (php-test/js-test/js-e2e) |
+| 1 | K17-devops (CI kapıları) | kanıtlı | ci.yml job'ları bu domainin senaryolarını koşar (php-test/js-test/js-e2e) |
 | 2 | Tüm üretim domainleri (K003–K015) | kanıtlı | 55 PHP *Test.php (shared 40 + auth 6 + home 6 + api 3) + 10 JS spec bu domainin senaryolarıdır — glob 2026-10-12. ✅ Master §4.1 2026-10-17'de 55'e düzeltildi (testing-dogrulama.md §3-ç1 kapandı) |
 | 3 | K015-AI/agent-testing | planlanan | ajan davranışı testi bu stratejinin kademe-3 uzantısı (master §5) — disk kanıtı YOK |
 | 4 | QA Engineer (agent) | vault beyanı | .ai/AGENTS.md §4/§16: QA sahipliği (coverage ≥80%, flaky %0) — hedef vault beyanıdır, ölçüm YOK |

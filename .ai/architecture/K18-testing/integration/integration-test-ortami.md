@@ -1,13 +1,13 @@
 ---
-title: "K019-testing/integration — Entegrasyon Test Ortamı: Katmanlar, Veritabanı İzolasyonu ve HTTP Sözleşmesi"
-node_id: K019-testing/integration/integration-test-ortami
+title: "K18-testing/integration — Entegrasyon Test Ortamı: Katmanlar, Veritabanı İzolasyonu ve HTTP Sözleşmesi"
+node_id: K18-testing/integration/integration-test-ortami
 node_type: module
 status: draft
-parent_id: K019-testing/integration
+parent_id: K18-testing/integration
 children: []
 depends_on:
-  - K019-testing
-  - K019-testing/integration
+  - K18-testing
+  - K18-testing/integration
 evidence:
   - "shared/phpunit.xml — Satır 8-33 sekiz testsuite (Unit, Api, Repository, Events, Security, Middleware, Component, OAuth) (2026-10-12)"
   - "auth.coremusic.net/phpunit.xml — Satır 6 failOnRisky, Satır 7 failOnWarning, Satır 10-12 Integration suite kaldırma notu (2026-10-12)"
@@ -70,9 +70,9 @@ olmasıdır.
 | Testsuite yapısı | ✅ Sekiz suit + auth tek suit | ❌ Test yazım deseni → `unit/` |
 | Veritabanı izolasyonu | ✅ Transaction ve temizlik stratejisi | ❌ Migration üretimi → veri katmanı |
 | HTTP sözleşmesi | ✅ 405, 422, 429, 403 doğrulaması | ❌ Tarayıcıda çalışma → `e2e/` |
-| Ortam kurulumu | ✅ Yerel ve CI ortam farkı | ❌ Sunucu kurulumu → K018-devops |
+| Ortam kurulumu | ✅ Yerel ve CI ortam farkı | ❌ Sunucu kurulumu → K17-devops |
 | Yük altında davranış | ✅ Yok (sınır) | ❌ Yük testi → `performance/` |
-| Test konteyneri | ✅ Mevcut durum (yok) | ❌ Konteyner üretimi → K018-devops/containers |
+| Test konteyneri | ✅ Mevcut durum (yok) | ❌ Konteyner üretimi → K17-devops/containers |
 
 **Sınır kararı:** entegrasyon testi, **gerçek HTTP ağına çıkmaz**; süreç içi (in-process) çağrı
 ile gateway/middleware zincirini çalıştırır. Gerçek tarayıcı ve gerçek ağ yalnız `e2e/`
@@ -670,12 +670,12 @@ void test_gecersiz_yontem_405_doner(void) {
 
 | # | Komşu düğüm | Ne alır | Ne verir | Arayüz | Durum |
 |---|---|---|---|---|---|
-| 1 | K019-testing/unit | Birim yeşili | Entegrasyon sırası | CI sırası | mevcut (ci.yml needs) |
-| 2 | K019-testing/coverage | Entegrasyon kapsamı | Kapsam girdisi | `source` bloğu | mevcut (phpunit.xml Satır 34) |
-| 3 | K019-testing/performance | Sözleşme sürekliliği | Yük testi öncesi yeşil | CI kapısı | kısmen |
-| 4 | K019-testing/regression | Sözleşme baseline'ı | Regresyon kontrolü | Durum kodu seti | kısmen |
-| 5 | K019-testing/e2e | Gerçek ağ senaryoları | Gerçek E2E | — | ayrık (in-process vs ağ) |
-| 6 | K018-devops/pipeline | Test suiti seçimi | CI matrisi | `--testsuite` | mevcut (Satır 80) |
+| 1 | K18-testing/unit | Birim yeşili | Entegrasyon sırası | CI sırası | mevcut (ci.yml needs) |
+| 2 | K18-testing/coverage | Entegrasyon kapsamı | Kapsam girdisi | `source` bloğu | mevcut (phpunit.xml Satır 34) |
+| 3 | K18-testing/performance | Sözleşme sürekliliği | Yük testi öncesi yeşil | CI kapısı | kısmen |
+| 4 | K18-testing/regression | Sözleşme baseline'ı | Regresyon kontrolü | Durum kodu seti | kısmen |
+| 5 | K18-testing/e2e | Gerçek ağ senaryoları | Gerçek E2E | — | ayrık (in-process vs ağ) |
+| 6 | K17-devops/pipeline | Test suiti seçimi | CI matrisi | `--testsuite` | mevcut (Satır 80) |
 | 7 | K017-observability/logging | Log formatı | Log kayıtlı entegrasyon testi | — | ⚠️ VERIFICATION REQUIRED |
 
 ## §13 Riskler ve açık sorular

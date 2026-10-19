@@ -14,7 +14,7 @@ children:
   - policies-web-arastirma
 depends_on:
   - K009-security/security-master
-  - K018-devops
+  - K17-devops
 evidence:
   - "v2 §2.9 satır 320 (ad) — `.ai/CLAUDE.md` §Security (OWASP Top 10:2025)"
   - ".ai/.decisions/accepted/ADR-010-csrf-protection-strategy.md (accepted)"
@@ -73,7 +73,7 @@ group: mimari
 |---|---|---|
 | Kimlik/parola politikasının kimlik deposu tarafı | `K0100-identitiy` | Yalnız sınır referansı |
 | OS güvenlik politikası (patch, servis, izin) | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
-| Sürüm/deploy politikası ayrı domen | `K018-devops` | Yalnız entegrasyon |
+| Sürüm/deploy politikası ayrı domen | `K17-devops` | Yalnız entegrasyon |
 
 ## §5 BAĞLANTILAR
 
@@ -82,7 +82,7 @@ group: mimari
 | `security-master` (parent) | yukarı | domen anayasası |
 | `encryption` · `secrets` · `session-security` | uygulama | politika → kod |
 | `security-testing` | sonrası | politika uyum testi |
-| `K018-devops` | kardeş | CI gate'leri |
+| `K17-devops` | kardeş | CI gate'leri |
 
 | İddia | URL | 2026-10-13 | Durum |
 |---|---|---|---|

@@ -1,13 +1,13 @@
 ---
-title: "K019-testing/flaky — Subdomain Kaydı"
-node_id: K019-testing/flaky
+title: "K18-testing/flaky — Subdomain Kaydı"
+node_id: K18-testing/flaky
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 modül dokümanı flaky-test-tespiti-ve-karantina.md (ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
-  - K018-devops     # retry/soft-gate davranışının CI ayağı (ci.yml L167, L178–L203) — kanıtlı
+  - K18-testing    # domain kökü
+  - K17-devops     # retry/soft-gate davranışının CI ayağı (ci.yml L167, L178–L203) — kanıtlı
 evidence:
   - "flaky/flaky-test-tespiti-ve-karantina.md = Kademe-3 modül dokümanı (node_id K019-testing/flaky/flaky-test-tespiti-ve-karantina;603 satır, .ai/architecture/index.md §513 tescilli) — okundu 2026-10-17"
   - "playwright.config.ts retry: 2 (Satır 20) — flaky maskelenmesi riskinin repo kanıtı (modül dokümanı §11.1)"
@@ -31,9 +31,9 @@ Kararsız (bazen geçip bazen geçen) testlerin tespiti, ölçümü ve karantina
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing altındadır.
-- Retry/soft-gate CI'da K018-devops; burada tanım, ölçüm, karantina kuralı.
-- Kademe-3 modül dokümanı: [[flaky-test-tespiti-ve-karantina]] (K019-testing/flaky/flaky-test-tespiti-ve-karantina); zincir ADR-097 K4.
+- Bu düğüm yalnız K18-testing altındadır.
+- Retry/soft-gate CI'da K17-devops; burada tanım, ölçüm, karantina kuralı.
+- Kademe-3 modül dokümanı: [[flaky-test-tespiti-ve-karantina]] (K18-testing/flaky/flaky-test-tespiti-ve-karantina); zincir ADR-097 K4.
 
 ## 3. Durum
 

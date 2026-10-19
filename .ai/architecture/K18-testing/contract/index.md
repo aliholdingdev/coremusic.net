@@ -1,12 +1,12 @@
 ---
-title: "K019-testing/contract — Subdomain Kaydı"
-node_id: K019-testing/contract
+title: "K18-testing/contract — Subdomain Kaydı"
+node_id: K18-testing/contract
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 bu fazda AÇILMADI (ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
+  - K18-testing    # domain kökü
 evidence:
   - "shared/tests/Api/ApiResponseTest.php · RouteTableTest.php · VersioningTest.php — glob 2026-10-12 (master §3 satır 3 ile birebir)"
   - "GatewayMethodRoutingTest · RequestValidationMiddlewareTest · ResponseNormalizationMiddlewareTest · DtoTest · ApiPipelineSecurityTest — aynı dizin, 8 dosya toplam"
@@ -26,7 +26,7 @@ API'nin dışa verdiği **sözleşme** (request/response şekli, versiyonlama, r
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing altındadır.
+- Bu düğüm yalnız K18-testing altındadır.
 - API'nin kendisi (endpoint/middleware) K009-security / backend alanıdır; burada yalnız **sözleşme uyumu**.
 - Kademe-3 bu üretimde açılmadı; children bilerek boş bırakıldı.
 

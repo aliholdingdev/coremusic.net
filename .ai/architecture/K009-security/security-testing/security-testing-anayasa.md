@@ -7,7 +7,7 @@ children: []
 depends_on:
   - K009-security/security-testing
   - K009-security/security-test-stratejisi
-  - K018-devops
+  - K17-devops
 evidence:
   - "shared/tests/ — 45 dosya / 41 *Test.php sınıfı (glob ölçümü 2026-10-15)"
   - ".github/workflows/ci.yml:62-64 PHPStan · :104-108 PHPUnit · :123-127 composer audit"
@@ -335,8 +335,8 @@ group: mimari
 | [[authentication/authentication-dogrulama]] | hedef | auth kontrol satırları AD-01..AD-38 |
 | [[secrets/secrets-kapsam]] | hedef | secret-scan kapsamı |
 | [[rate-limiting/rate-limiting-kapsam]] | hedef | 429 kapı testleri |
-| `K019-testing` | dışı | genel QA test kapsamı |
-| `K018-devops` | sonrası | CI job sahipliği |
+| `K18-testing` | dışı | genel QA test kapsamı |
+| `K17-devops` | sonrası | CI job sahipliği |
 
 ## §19 REVİZYON
 

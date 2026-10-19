@@ -1,13 +1,13 @@
 ---
-title: "K019-testing/performance — Performance Test Ölçüm Protokolü: Latency Yüzdelikleri, Yük Aşamaları ve Eşikler"
-node_id: K019-testing/performance/performance-test-olcum-protokolu
+title: "K18-testing/performance — Performance Test Ölçüm Protokolü: Latency Yüzdelikleri, Yük Aşamaları ve Eşikler"
+node_id: K18-testing/performance/performance-test-olcum-protokolu
 node_type: module
 status: draft
-parent_id: K019-testing/performance
+parent_id: K18-testing/performance
 children: []
 depends_on:
-  - K019-testing
-  - K019-testing/performance
+  - K18-testing
+  - K18-testing/performance
 evidence:
   - "assets.coremusic.net/playwright.config.ts — Satır 52 timeout 30*1000, Satır 54 expect timeout 5*1000, Satır 49 webServer timeout 120*1000 (2026-10-12)"
   - "assets.coremusic.net/playwright.config.ts — Satır 18 fullyParallel, Satır 21 workers (CI: 1) (2026-10-12)"
@@ -65,11 +65,11 @@ eşik kararı. Ölçüm protokolüne uymayan sayı, performans kanıtı sayılma
 | Alan | Bu dosyada | Bu dosyada DEĞİL |
 |---|---|---|
 | Latency ölçümü | ✅ Yüzdelik seçimi ve okuma | ❌ Birim test doğruluğu → `unit/` |
-| Yük testi | ✅ Aşama tasarımı ve metrikler | ❌ Dağıtım kapasitesi → K018-devops |
+| Yük testi | ✅ Aşama tasarımı ve metrikler | ❌ Dağıtım kapasitesi → K17-devops |
 | Süre bütçesi | ✅ Test/suite/job üst sınırları | ❌ Kod içi çalışma süresi optimizasyonu |
 | Eşikler | ✅ Eşik belirleme ve kapıya bağlama | ❌ Kapsam yüzdesi eşiği → `coverage/` |
 | Kararsız test | ✅ Performans kaynaklı titreşim | ❌ Yeniden deneme → `regression/` |
-| Ölçüm altyapısı | ✅ CI bütçeleri + Playwright süreleri | ❌ Monitoring → K017-observability |
+| Ölçüm altyapısı | ✅ CI bütçeleri + Playwright süreleri | ❌ Monitoring → K016-observability |
 | Tarayıcı metrikleri | ✅ Yok (sınır) | ❌ Core Web Vitals → web kalite alanı |
 
 **Sınır kararı:** bu dosya yalnızca **test çalıştırmasının ve test edilen sistemin süresini**
@@ -308,7 +308,7 @@ tanımlar, aracı seçmez.
 | 1 | Bütçe aşıldı mı? | §6 karşılaştırması | 2. adıma | Kabul |
 | 2 | Tek sefer mi? | Tekrar koşu (§4.3) | 3. adıma | Kararsız → `regression/` |
 | 3 | Ortam farkı mı? | §4.1 alanları | Ortamı sabitle, tekrarla | 4. adıma |
-| 4 | Kod kaynaklı mı? | Diff incelemesi | Red + kök neden | Altyapı → K018-devops |
+| 4 | Kod kaynaklı mı? | Diff incelemesi | Red + kök neden | Altyapı → K17-devops |
 | 5 | Soft kapı mı? | ci.yml `continue-on-error` | Görünür-kırmızı, yaz | Bloke et |
 
 ### §8.3 Mevcut kapıların durumu (soft gate)
@@ -624,13 +624,13 @@ void test_yanit_butce(void) {
 
 | # | Komşu düğüm | Ne alır | Ne verir | Arayüz | Durum |
 |---|---|---|---|---|---|
-| 1 | K019-testing/unit | Birim yeşili | Ölçüm öncesi ön koşul | CI sırası | mevcut |
-| 2 | K019-testing/integration | Sözleşme sürekliliği | Yük altı davranış | Durum kodu seti | kısmen |
+| 1 | K18-testing/unit | Birim yeşili | Ölçüm öncesi ön koşul | CI sırası | mevcut |
+| 2 | K18-testing/integration | Sözleşme sürekliliği | Yük altı davranış | Durum kodu seti | kısmen |
 | 3 | K019-testing/regression | p95 baseline'ı | Regresyon eşiği | Ölçüm kaydı | ⚠️ VERIFICATION REQUIRED |
-| 4 | K019-testing/e2e | Süre bütçeleri | Tarayıcı testi süresi | config süreleri | mevcut (§6.1) |
-| 5 | K019-testing/coverage | Aşım testinin kapsamı | Kapsam girdisi | Vitest coverage | mevcut (ci.yml Satır 175) |
-| 6 | K018-devops/pipeline | Job bütçeleri | CI kapısı | `timeout-minutes` | mevcut (§6.2) |
-| 7 | K017-observability/metrics | Üretim metriği | Ölçüm referansı | p95 tanımı | üretim kapsamı ayrı |
+| 4 | K18-testing/e2e | Süre bütçeleri | Tarayıcı testi süresi | config süreleri | mevcut (§6.1) |
+| 5 | K18-testing/coverage | Aşım testinin kapsamı | Kapsam girdisi | Vitest coverage | mevcut (ci.yml Satır 175) |
+| 6 | K17-devops/pipeline | Job bütçeleri | CI kapısı | `timeout-minutes` | mevcut (§6.2) |
+| 7 | K016-observability/metrics | Üretim metriği | Ölçüm referansı | p95 tanımı | üretim kapsamı ayrı |
 
 ## §13 Riskler ve açık sorular
 

@@ -1,6 +1,6 @@
 ---
-title: "K019-testing — Doğrulama"
-node_id: K019-testing
+title: "K18-testing — Doğrulama"
+node_id: K18-testing
 node_type: domain-validation
 status: draft
 updated: 2026-10-17

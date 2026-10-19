@@ -1,12 +1,12 @@
 ---
-title: "K019-testing/hardware-validation — Subdomain Kaydı"
-node_id: K019-testing/hardware-validation
+title: "K18-testing/hardware-validation — Subdomain Kaydı"
+node_id: K18-testing/hardware-validation
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 bu fazda AÇILMADI (ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
+  - K18-testing    # domain kökü
   - K003-audio      # donanım ses yüzeyi — planlanan (master §5)
   - K004-dsp        # DSP/firmware yüzeyi (ASIO) — planlanan (master §5)
 evidence:
@@ -28,7 +28,7 @@ Gerçek donanım (DAC/ADC · ASIO) üzerinde çalıştığını kanıtlar — em
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing altındadır.
+- Bu düğüm yalnız K18-testing altındadır.
 - Donanım/DSP/firmware kendisi K003-audio / K004-dsp'ye ait; burada yalnız **fiziksel doğrulama**.
 - Bu turda kanıt toplanmadı — dolgu yok, boş bırakıldı.
 - Kademe-3 bu üretimde açılmadı; children bilerek boş bırakıldı.

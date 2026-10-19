@@ -6,7 +6,7 @@ parent_id: K009-security
 children: []
 depends_on:
   - K009-security/audit/audit-anayasa
-  - K017-observability
+  - K016-observability
 evidence: "FileHandler.php·188-235/248-252 · StructuredLogger.php·55-73 · Redactor.php·65-93 · UserLoggedInEvent.php·26-31 · SecurityHelper.php·42-55"
 validation: "2026-10-15 — sürüş akışları disk kanıtıyla; K017 tüketim kanıtı YOK → ⚠️"
 open_questions: "K017 tüketim akışı ⚠️ · sırra-erişim olay sürüşü ⚠️ (tanım yok) · yazma hatası fail-safe değil ⚠️"
@@ -47,7 +47,7 @@ group: mimari
 | 2 | Alanlar normalize edilir | StructuredLogger JSON alan adları | `StructuredLogger.php·61-67` |
 | 3 | Hassas alan maskelenir | Redactor tek nokta | `StructuredLogger.php·72`, `FileHandler.php·224` |
 | 4 | Kayıt yazılır (append-only, zaman damgalı) | `FILE_APPEND \| LOCK_EX` | `FileHandler.php·251` |
-| 5 | Kayıt tüketilir | K017-observability | ⚠️ KANIT YOK (U-1) |
+| 5 | Kayıt tüketilir | K016-observability | ⚠️ KANIT YOK (U-1) |
 
 | Durum | Sonraki |
 |---|---|
@@ -199,7 +199,7 @@ group: mimari
 | FileHandler | PSR-3 + olay kayıtları + yazım | `FileHandler.php·30` |
 | StructuredLogger | JSON satır + error_log | `StructuredLogger.php·7` |
 | Redactor | tek maskeleme noktası | `Redactor.php·25` |
-| K017-observability | tüketici | ⚠️ (U-1) |
+| K016-observability | tüketici | ⚠️ (U-1) |
 
 ## §14 Tüketim Sürüşü (K017) — BEKLENEN, KANITSIZ
 
@@ -330,7 +330,7 @@ group: mimari
 | [[audit-dogrulama]] | kardeş | AD-xx kanıtları |
 | [[authorization-ornekler]] | öncesi | D-1 reddi üreten katman |
 | [[secrets-kapsam]] | öncesi | sırra erişim kaynağı (⚠️) |
-| K017-observability | sonrası | tüketim hedefi (⚠️ kanıt yok) |
+| K016-observability | sonrası | tüketim hedefi (⚠️ kanıt yok) |
 
 ## §25 Revizyon
 

@@ -7,7 +7,7 @@ children: []
 depends_on:
   - K009-security/audit
   - K009-security/authorization
-  - K017-observability
+  - K016-observability
 evidence: "Redactor.php·28-31/40/65-93 · FileHandler.php·207-235/248-252 · StructuredLogger.php·61-72 · UserLoggedInEvent.php·26-31/55-60 · SecurityHelper.php·42-55"
 validation: "2026-10-15 — 9 repo kanıtı diskten okundu (Dosya·Satır); saklama süresi/imza kanıtı YOK → ⚠️"
 open_questions: "saklama süresi + KVKK silme ilkesi ⚠️ VERIFICATION REQUIRED · kayıt bütünlüğü (imza/zoetluk) ⚠️ VERIFICATION REQUIRED · K017 tüketim akışı ⚠️"
@@ -220,7 +220,7 @@ group: mimari
 | [[authorization-ornekler]] | öncesi | yetki reddi olayını üreten katman |
 | [[secrets-kapsam]] | öncesi | sırra erişim olaylarının kaynağı (⚠️ U-3) |
 | [[security-master]] | üst | K009 ana düğüm |
-| K017-observability | sonrası | tüketici sistem (index §5) |
+| K016-observability | sonrası | tüketici sistem (index §5) |
 
 ## §17 Kayıt Alanları Sözleşmesi (Audit Kaydı)
 
@@ -335,7 +335,7 @@ Kritik olay üretildi mi?
      → Zaman damgası ekle (A-05)
      → Append ile yaz (A-03)
      → security akışı mı? → ikiz stream'e de yaz (§6)
-     → K017-observability tüketir (index §5)
+     → K016-observability tüketir (index §5)
 ```
 
 ## §27 Sözlük (TR ↔ EN ↔ Kod)

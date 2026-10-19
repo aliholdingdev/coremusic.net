@@ -1,12 +1,12 @@
 ---
-title: "K019-testing/unit — Subdomain Kaydı"
-node_id: K019-testing/unit
+title: "K18-testing/unit — Subdomain Kaydı"
+node_id: K18-testing/unit
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 bu fazda AÇILMADI (ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
+  - K18-testing    # domain kökü
 evidence:
   - "shared/tests/Unit = 15 *Test.php — glob 2026-10-12 (Theme 1 · Log 2 · Device 3 · Security 2 · PageRouter 6 · Config 1)"
   - "auth.coremusic.net/tests/Unit = 6 · api.coremusic.net/tests/Unit = 3 · home.coremusic.net/tests/Unit = 6 — glob 2026-10-12 (toplam alt alan Unit 15)"
@@ -27,8 +27,8 @@ Tek bir birimin (sınıf/metot) izole davranışı — dış bağımlılıklar m
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing (neyi nasıl ölçtüğümüz) altındadır.
-- Testlerin CI'da koşumu K018-devops'tur; burada yalnız senaryo/ölçüm konuşulur.
+- Bu düğüm yalnız K18-testing (neyi nasıl ölçtüğümüz) altındadır.
+- Testlerin CI'da koşumu K17-devops'tur; burada yalnız senaryo/ölçüm konuşulur.
 - Kademe-3 bu üretimde açılmadı; children bilerek boş bırakıldı.
 
 ## 3. Durum

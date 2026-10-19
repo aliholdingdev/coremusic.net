@@ -14,7 +14,7 @@ children:
   - secrets-web-arastirma
 depends_on:
   - K009-security/encryption
-  - K018-devops
+  - K17-devops
 evidence:
   - "v2 §2.9 satır 322 (ad) — kod: ApiKeyRepository, ConfigManager, Log/Redactor"
   - ".github/workflows/secret-scan.yml (gitleaks adımı, envanter 2026-10-13)"
@@ -80,7 +80,7 @@ group: mimari
 |---|---|---|
 | `encryption` | sonrası | sır → anahtar → şifreleme |
 | `audit` | sonrası | sır erişimi denetim izine yazılır |
-| `K018-devops` | kardeş | CI/CD sırları, deployment env |
+| `K17-devops` | kardeş | CI/CD sırları, deployment env |
 | `security-testing` | sonrası | sızıntı taraması doğrulaması |
 
 | İddia | URL | 2026-10-13 | Durum |

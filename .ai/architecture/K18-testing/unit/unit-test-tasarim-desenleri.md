@@ -1,13 +1,13 @@
 ---
-title: "K019-testing/unit — Birim Test Tasarım Desenleri: AAA, Double, Fixture ve Determinism"
-node_id: K019-testing/unit/unit-test-tasarim-desenleri
+title: "K18-testing/unit — Birim Test Tasarım Desenleri: AAA, Double, Fixture ve Determinism"
+node_id: K18-testing/unit/unit-test-tasarim-desenleri
 node_type: module
 status: draft
-parent_id: K019-testing/unit
+parent_id: K18-testing/unit
 children: []
 depends_on:
-  - K019-testing
-  - K019-testing/unit
+  - K18-testing
+  - K18-testing/unit
 evidence:
   - "shared/tests — 44 PHP dosyası (2026-10-12 ReadAllLines sayımı)"
   - "shared/tests/Unit/Log/Psr3LoggerTest.php — Satır 44 testImplementsPsr3LoggerInterface, Satır 49 testAllPsr3MethodsAreCallable (2026-10-12)"
@@ -596,12 +596,12 @@ void test_bos_sepet_toplami_sifirdir(void) {
 
 | # | Komşu düğüm | Ne alır | Ne verir | Arayüz | Durum |
 |---|---|---|---|---|---|
-| 1 | K019-testing/integration | Birim test yeşilse | Entegrasyon aşamasına geçiş | `--testsuite` seçicisi | mevcut (phpunit.xml) |
-| 2 | K019-testing/coverage | Assertion yoğunluğu | Kapsam girdisi | `source` bloğu | mevcut (Satır 34-38) |
-| 3 | K019-testing/regression | Yeşil taban (baseline) | Regresyon referansı | CI hattı sonucu | kısmen (ci.yml Satır 67) |
-| 4 | K019-testing/e2e | Birim test kapısı | E2E'ye geçiş | sert kapı | mevcut (ci.yml Satır 143) |
-| 5 | K018-devops/pipeline | Test komutu | CI adımı | `composer test` | mevcut (ci.yml Satır 104) |
-| 6 | K017-observability/logging | Log formatı | Log testinin beklediği format | satır formatı | mevcut (§8.4) |
+| 1 | K18-testing/integration | Birim test yeşilse | Entegrasyon aşamasına geçiş | `--testsuite` seçicisi | mevcut (phpunit.xml) |
+| 2 | K18-testing/coverage | Assertion yoğunluğu | Kapsam girdisi | `source` bloğu | mevcut (Satır 34-38) |
+| 3 | K18-testing/regression | Yeşil taban (baseline) | Regresyon referansı | CI hattı sonucu | kısmen (ci.yml Satır 67) |
+| 4 | K18-testing/e2e | Birim test kapısı | E2E'ye geçiş | sert kapı | mevcut (ci.yml Satır 143) |
+| 5 | K17-devops/pipeline | Test komutu | CI adımı | `composer test` | mevcut (ci.yml Satır 104) |
+| 6 | K016-observability/logging | Log formatı | Log testinin beklediği format | satır formatı | mevcut (§8.4) |
 
 **Sıra:** unit → integration → performance → regression → e2e; her aşamanın yeşili bir sonrakinin
 ön koşuludur.

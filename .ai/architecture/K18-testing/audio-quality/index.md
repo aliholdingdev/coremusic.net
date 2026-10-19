@@ -1,12 +1,12 @@
 ---
-title: "K019-testing/audio-quality — Subdomain Kaydı"
-node_id: K019-testing/audio-quality
+title: "K18-testing/audio-quality — Subdomain Kaydı"
+node_id: K18-testing/audio-quality
 node_type: subdomain
 status: draft
-parent_id: K019-testing
+parent_id: K18-testing
 children: []        # kademe-3 bu fazda AÇILMADI (ADR-097 K4 — sonraki faz)
 depends_on:
-  - K019-testing    # domain kökü
+  - K18-testing    # domain kökü
   - K003-audio      # ölçülen ses sistemi — planlanan (master §5)
   - K004-dsp        # DSP zinciri ölçülen taraf — planlanan (master §5)
 evidence:
@@ -28,7 +28,7 @@ Ses kalitesinin sayısal metriklerle (SNR/THD/latency) hedefe ulaştığını ka
 
 ## 2. Kapsam Sınırı
 
-- Bu düğüm yalnız K019-testing altındadır.
+- Bu düğüm yalnız K18-testing altındadır.
 - Ölçülen ses motoru/DSP'in kendisi K003-audio / K004-dsp'ye ait; burada yalnız **ölçüm**.
 - Bu turda kanıt toplanmadı — dolgu yok, boş bırakıldı.
 - Kademe-3 bu üretimde açılmadı; children bilerek boş bırakıldı.

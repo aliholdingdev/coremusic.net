@@ -1,13 +1,13 @@
 ---
-title: "K019-testing/contract — Contract Test Uyumluluğu: Consumer-Driven, Şema, Breaking Change, Provider Verification"
-node_id: K019-testing/contract/contract-test-uyumlulugu
+title: "K18-testing/contract — Contract Test Uyumluluğu: Consumer-Driven, Şema, Breaking Change, Provider Verification"
+node_id: K18-testing/contract/contract-test-uyumlulugu
 node_type: module
 status: draft
-parent_id: K019-testing/contract
+parent_id: K18-testing/contract
 children: []
 depends_on:
-  - K019-testing
-  - K019-testing/contract    # parent subdomain (sibling deseni ile tutarlı — 2026-10-17)
+  - K18-testing
+  - K18-testing/contract    # parent subdomain (sibling deseni ile tutarlı — 2026-10-17)
 evidence:
   - "api.coremusic.net/config/routes.php — Satır 36 implemented=false kaydı, Satır 42-48 /api/v1/auth/me, Satır 53-60 POST login + validation (2026-10-13, Select-Object -Index ile doğrulandı)"
   - "shared/tests/Api/RouteTableTest.php — Satır 67-76 405 + Allow, Satır 87-96 404, Satır 159-165 sorgu/slash normalizasyonu (2026-10-13)"
@@ -78,7 +78,7 @@ sessizce kırılır; bu dosyanın amacı kırılmayı **entegrasyon öncesinde**
 | Şema doğrulama | ✅ Katman ve kural | ❌ JSON şeması üretimi → API tasarımı |
 | Breaking change | ✅ Sınıflandırma ve sürüm kararı | ❌ Sürümleme stratejisi → K013-integraion |
 | Provider verification | ✅ Sağlayıcı doğrulama koşusu | ❌ CI job tanımı → K018-devops/pipeline |
-| CI kapısı | ✅ Kapı sertliği kuralı | ❌ Workflow YAML → K018-devops |
+| CI kapısı | ✅ Kapı sertliği kuralı | ❌ Workflow YAML → K17-devops |
 | Route/HTTP sözleşmesi | ✅ 200/404/405/422/304 davranışı | ❌ Routing implementasyonu → backend alanı |
 | İç birim testi | ✅ Yalnız sözleşmeye değen kısmı | ❌ Test desenleri → `unit/` |
 | Güvenlik başlıkları | ✅ Sözleşme olarak CORS/fail-closed | ❌ Güvenlik denetimi → K009-security |
@@ -316,7 +316,7 @@ değiştirir; iki taraf birlikte güncellenmeden değişiklik yapılmaz.
 | 2 | Sözleşme testi | `php-test` içinde `Api` suite'i olarak koşulur (mevcut durum) |
 | 3 | Yeni sözleşme işi açılırsa | `needs: php-lint` zinciri korunur |
 | 4 | Soft kapı genişletme | yalnız kapsam/E2E; sözleşme hariç |
-| 5 | Kapı değişikliği | K018-devops + bu dosya §8 kaydı birlikte |
+| 5 | Kapı değişikliği | K17-devops + bu dosya §8 kaydı birlikte |
 | 6 | Kapı sertliği ölçümü | §8.4 |
 
 ### §8.3 Kapı – sınıf eşlemesi
@@ -628,12 +628,12 @@ void test_hata_sekli_sozlesmeye_uyar(void) {
 
 | # | Komşu düğüm | Ne alır | Ne verir | Arayüz | Durum |
 |---|---|---|---|---|---|
-| 1 | K019-testing/integration | HTTP davranışı | Sözleşme yeşili ön koşul | §5.3 | uyumlu |
-| 2 | K019-testing/unit | Assertion gücü | Şekil doğrulama | §5.2 | uyumlu |
-| 3 | K019-testing/regression | Sözleşme regresyonu | Seçim sinyali | §8.3 | uyumlu |
-| 4 | K019-testing/coverage | API suite kapsamı | Eşik etkisi | shared/phpunit.xml Satır 12-14 | ayrık rapor |
+| 1 | K18-testing/integration | HTTP davranışı | Sözleşme yeşili ön koşul | §5.3 | uyumlu |
+| 2 | K18-testing/unit | Assertion gücü | Şekil doğrulama | §5.2 | uyumlu |
+| 3 | K18-testing/regression | Sözleşme regresyonu | Seçim sinyali | §8.3 | uyumlu |
+| 4 | K18-testing/coverage | API suite kapsamı | Eşik etkisi | shared/phpunit.xml Satır 12-14 | ayrık rapor |
 | 5 | K019-testing/flaky | Sözleşme testi kararlılığı | Karantina girdisi | tekrar oranı | ⚠️ VERIFICATION REQUIRED |
-| 6 | K018-devops/pipeline | Kapı sertliği | `needs` + `continue-on-error` | ci.yml Satır 68/167/183 | açık |
+| 6 | K17-devops/pipeline | Kapı sertliği | `needs` + `continue-on-error` | ci.yml Satır 68/167/183 | açık |
 | 7 | K013-integraion | Dış API sözleşmesi | Sürümleme kararı | §6.2 | tasarım iddiası |
 | 8 | K009-security | CORS/fail-closed sözleşmesi | Başlık seti | ApiPipelineSecurityTest | uyumlu |
 | 9 | K0100-identitiy | Auth durum kodları | 401 sözleşmesi | §5.3 satır 3 | ayrık |

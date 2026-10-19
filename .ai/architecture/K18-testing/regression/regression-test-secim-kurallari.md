@@ -1,13 +1,13 @@
 ---
-title: "K019-testing/regression — Regresyon Test Seçim Kuralları: Golden Reference, Flaky ve Karantina"
-node_id: K019-testing/regression/regression-test-secim-kurallari
+title: "K18-testing/regression — Regresyon Test Seçim Kuralları: Golden Reference, Flaky ve Karantina"
+node_id: K18-testing/regression/regression-test-secim-kurallari
 node_type: module
 status: draft
-parent_id: K019-testing/regression
+parent_id: K18-testing/regression
 children: []
 depends_on:
-  - K019-testing
-  - K019-testing/regression
+  - K18-testing
+  - K18-testing/regression
 evidence:
   - "assets.coremusic.net/playwright.config.ts — Satır 19 forbidOnly (CI), Satır 20 retries (CI: 2, yerel: 0), Satır 25 json rapor dosyasi (2026-10-12)"
   - ".github/workflows/ci.yml — Satır 17-19 concurrency + cancel-in-progress, Satır 68 needs php-lint, Satır 162 needs js-test (2026-10-12)"
@@ -66,7 +66,7 @@ kontrolü, birim ve entegrasyon testlerinin **yeşilliğinin sürdürülebilirli
 | Seçim kuralı | ✅ Değişiklik → test eşlemesi | ❌ Test yazımı → `unit/` |
 | Golden reference | ✅ Referans saklama ve karşılaştırma | ❌ Referans üretimi → `coverage/` |
 | Flaky | ✅ Tanım, ölçüm, karar | ❌ Yeniden deneme sayısı → §9 |
-| Karantina | ✅ Karantina kuralı ve çıkışı | ❌ Süreç sahipliği → K018-devops |
+| Karantina | ✅ Karantina kuralı ve çıkışı | ❌ Süreç sahipliği → K17-devops |
 | Retry | ✅ Politika ve sınır | ❌ Performans ölçümü → `performance/` |
 | Shard | ✅ Seçim/parçalama etkisi | ❌ Paralellik hesabı → `performance/` |
 | E2E kararsızlığı | ✅ Tarayıcı kaynaklı flaky | ❌ E2E yazımı → `e2e/` |
@@ -609,12 +609,12 @@ void test_sarki_html_altini_degistirmedi(void) {
 
 | # | Komşu düğüm | Ne alır | Ne verir | Arayüz | Durum |
 |---|---|---|---|---|---|
-| 1 | K019-testing/unit | Determinism | Flaky azaltır | unit §7 | mevcut |
-| 2 | K019-testing/integration | Sözleşme yeşili | Regresyon sinyali | Durum kodu seti | mevcut |
+| 1 | K18-testing/unit | Determinism | Flaky azaltır | unit §7 | mevcut |
+| 2 | K18-testing/integration | Sözleşme yeşili | Regresyon sinyali | Durum kodu seti | mevcut |
 | 3 | K019-testing/performance | p95 baseline'ı | Performans regresyonu | Ölçüm kaydı | ⚠️ VERIFICATION REQUIRED |
-| 4 | K019-testing/e2e | Retry + kanıt | Flaky kaynağı | config Satır 20, 30-32 | mevcut |
-| 5 | K019-testing/coverage | Kapsam düşüşü sinyali | Yeni kod testsize kalır | js-coverage (soft) | mevcut |
-| 6 | K018-devops/pipeline | Soft gate kararı | Kapı sertleştirme | ci.yml Satır 166 | açık |
+| 4 | K18-testing/e2e | Retry + kanıt | Flaky kaynağı | config Satır 20, 30-32 | mevcut |
+| 5 | K18-testing/coverage | Kapsam düşüşü sinyali | Yeni kod testsize kalır | js-coverage (soft) | mevcut |
+| 6 | K17-devops/pipeline | Soft gate kararı | Kapı sertleştirme | ci.yml Satır 166 | açık |
 | 7 | K017-observability/alerting | Kırmızı job uyarısı | Alarm | — | ⚠️ VERIFICATION REQUIRED |
 
 ## §14 Riskler ve açık sorular
