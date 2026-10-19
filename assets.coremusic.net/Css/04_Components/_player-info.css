@@ -3,7 +3,7 @@
  * Katman: 04_Components - yeniden kullanılabilir UI bileşenleri
  * Rol: Player Info / Now Playing kartı - --cm-playerinfo-* token'ları ve glass görünümü
  * Bağımlılık: token üretir: var(--cm-*)
- * Güncelleme: 2026-10-03
+ * Güncelleme: 2026-10-19 (v2.1.0 — cover + embedded art katman yığını: case/badge/cd overlay)
  */
 
 :root {
@@ -88,6 +88,62 @@
 
 /* CD overlay — mini kart: top %9.3 · height %79 · object-fit: fill */
 .player-info__cover-cd {
+  position: absolute;
+  top: 9.3%;
+  left: 0;
+  width: 100%;
+  height: 79%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* ═══════════ Embedded art kutusu (1024 RPi5) ═══════════
+   Bu kutunun ÖNCESİ CSS'i yoktu (yalnız <img>) — dört katman eklendiğinde
+   görseller normal akışta alt alta istiflenip paneli 53px'ten 439px'e
+   şişiriyordu. Kutu: satır yüksekliğine esnetilmiş KARE (satır yüksekliği
+   .now-playing__info metninden gelir → mevcut yerleşim aynen korunur),
+   kolon 1fr olduğu için justify-self: start ile sola yapışır. */
+.now-playing__art {
+  position: relative;
+  justify-self: start;
+  align-self: stretch;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  min-width: 47px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.now-playing__art-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Kılıf frame — mini kart: inset 0 · object-fit: fill */
+.now-playing__art-case {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* Tip rozeti (music/video) — mini kart %20 boyut, %4 inset */
+.now-playing__art-badge {
+  position: absolute;
+  right: 4%;
+  bottom: 4%;
+  width: 20%;
+  height: 20%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* CD overlay — mini kart: top %9.3 · height %79 · object-fit: fill */
+.now-playing__art-cd {
   position: absolute;
   top: 9.3%;
   left: 0;

@@ -5,6 +5,7 @@ namespace CoreMusic\Home\Component;
 use CoreMusic\Home\Class\AbstractComponent;
 use CoreMusic\Home\Class\HomeLayoutVariant;
 use CoreMusic\Home\Interfaces\ComponentInterface;
+use CoreMusic\Security\SessionKeys;
 
 /**
  * PlayerInfoComponent — Player Info / Now Playing Merged Panel
@@ -63,7 +64,7 @@ final class PlayerInfoComponent extends AbstractComponent
         $this->imgOverlay = $this->asset('/Image/res-pink/cd-overlay.png');
         /* Tip rozeti — footer $mediaType ile aynı allowlist (audio|video). */
         $this->imgBadge   = $this->asset(
-            '/Image/res-pink/' . (($_SESSION['GET_MEDIA_TYPE'] ?? 'audio') === 'video' ? 'video.png' : 'music.png')
+            '/Image/res-pink/' . (($_SESSION[SessionKeys::GET_MEDIA_TYPE] ?? 'audio') === 'video' ? 'video.png' : 'music.png')
         );
         $this->imgStar   = $this->asset('/Image/res-pink/star-filled.png');
         $this->iconPlay    = $this->asset('/Image/res-pink/play.png');

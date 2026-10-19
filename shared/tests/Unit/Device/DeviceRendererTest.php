@@ -92,5 +92,16 @@ final class DeviceRendererTest extends TestCase
 
         $auth = DeviceRenderer::fromShell('4k-monitor', true, 'home', 'https://assets.test', '1');
         $this->assertSame('08_Devices/d-auth-4k-monitor.css', $auth->deviceCssPath());
+
+        $admin = DeviceRenderer::fromShell('desktop', false, 'admin', 'https://assets.test', '1');
+        $this->assertSame('08_Devices/d-admin-1920.css', $admin->deviceCssPath());
+        $this->assertSame('09_ViewModes/v-admin.css', $admin->viewCssPath());
+
+        $adminHtml = $admin->headLinks();
+        $this->assertStringContainsString('id="cm-device-css"', $adminHtml);
+        $this->assertStringContainsString('id="cm-view-css"', $adminHtml);
+        $this->assertStringContainsString('08_Devices/d-admin-1920.css', $adminHtml);
+        $this->assertStringContainsString('09_ViewModes/v-admin.css', $adminHtml);
+        $this->assertStringNotContainsString('_sidebar.css', $adminHtml);
     }
 }

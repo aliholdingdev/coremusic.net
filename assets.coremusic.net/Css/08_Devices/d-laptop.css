@@ -25,9 +25,9 @@
 @import url("../02_Base/b-base-core.css?v=2.2.0");
 @import url("../02_Base/l-main-structural.css?v=2.1.0");
 @import url("../03_Layout/_header.css?v=2.0.0");
-@import url("../03_Layout/_footer.css?v=3.2.0");
+@import url("../03_Layout/_footer.css?v=3.3.0");
 @import url("../03_Layout/_widget-grid.css?v=1.0.0");
-@import url("../04_Components/_player-info.css?v=2.0.0");
+@import url("../04_Components/_player-info.css?v=2.1.0");
 @import url("../04_Components/_welcome-banner.css?v=4.0.0");
 @import url("../04_Components/c-scrollbar-accent.css?v=2.4.0");
 @import url("../04_Components/c-footer-seek.css?v=2.2.0");

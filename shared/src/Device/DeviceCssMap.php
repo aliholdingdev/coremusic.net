@@ -43,6 +43,11 @@ final class DeviceCssMap
         return self::AUTH_DEVICE_CSS[$deviceType] ?? self::AUTH_DEVICE_CSS['desktop'];
     }
 
+    public static function adminToCssPath(string $deviceType = 'desktop'): string
+    {
+        return '08_Devices/d-admin-1920.css';
+    }
+
     public static function viewModeToCssPath(string $viewMode): string
     {
         return self::VIEW_MODE_CSS[$viewMode] ?? self::VIEW_MODE_CSS['home'];

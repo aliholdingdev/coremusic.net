@@ -2,7 +2,7 @@
 /**
  * pages/components/player-info.php — Player Info & Now Playing (Merged)
  *
- * HTML contract → assets.coremusic.net/Css/04_Components/_player-info.css (v2.0)
+ * HTML contract → assets.coremusic.net/Css/04_Components/_player-info.css (v2.1)
  *   wide     (isWide ≥1025px) → <section class="player-info player-info--wide">
  *   embedded (≤1024px)        → <section class="now-playing now-playing--embedded">
  *

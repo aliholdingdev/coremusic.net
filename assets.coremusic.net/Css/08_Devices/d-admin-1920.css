@@ -51,24 +51,431 @@
    bu katmanda fallback serbest; 04/05'te yasak).
    ⚠️ VERIFICATION REQUIRED: admin'e özgü 1024 token'ları yok.
    ------------------------------------------------------------ */
+/* ------------------------------------------------------------
+   2) RESPONSIVE DÜZEN — Laptop, Tablet & Mobil Breakpoint'leri
+   (Kullanıcı emri: "responsive olarak kodla")
+   - >= 1920px: Figma 2161:12438 1920x1080 piksel hassasiyeti
+   - 1025px - 1919px: Laptop & Medium Desktop akışkan düzeni
+   - 768px - 1024px: Tablet ortalanmış auth ve esnek sidebar
+   - <= 767px: Mobil tek sütun yığın düzeni (QR gizli, dokunmatik)
+   ------------------------------------------------------------ */
+
+/* === 2.1 — GENEL AKIŞ VE TAŞMA ENGELLEME (< 1920px) === */
 @media (max-width: 1919px) {
-  .adm-page {
-    min-width: var(--adm-canvas-w, 1920px);
-    width: var(--adm-canvas-w, 1920px);
+  html, body {
+    overflow-x: hidden !important;
   }
 
-  html {
-    overflow-x: auto; /* yatay kaydırma — yeniden akış YOK */
+  .adm-page {
+    min-width: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    position: relative !important;
+  }
+
+  .adm-bg {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+/* === 2.2 — LAPTOP & MEDIUM DESKTOP (1025px - 1919px) === */
+@media (max-width: 1919px) and (min-width: 1025px) {
+  /* Auth Ekranları (Login & Register) — Sağ Dock Akış */
+  .adm-page--login,
+  .adm-page--register {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: stretch !important;
+    overflow-y: auto !important;
+  }
+
+  .adm-page--login .adm-auth-panel,
+  .adm-page--register .adm-auth-panel {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    width: min(500px, 42vw) !important;
+    min-height: 100vh !important;
+    height: auto !important;
+    overflow-y: auto !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* Layout Ekranı (Dashboard & Şarkı Yönetimi) — Sabit Sidebar + Akıcı İçerik */
+  .adm-page--layout .adm-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 240px !important;
+    height: 100vh !important;
+    z-index: 10 !important;
+  }
+
+  .adm-page--layout .adm-navbar {
+    position: fixed !important;
+    top: 16px !important;
+    right: 24px !important;
+    z-index: 12 !important;
+  }
+
+  .adm-page--layout .adm-content {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin-left: 264px !important;
+    margin-top: 72px !important;
+    margin-right: 24px !important;
+    width: calc(100% - 288px) !important;
+    height: auto !important;
+    min-height: calc(100vh - 160px) !important;
+  }
+
+  .adm-page--layout .adm-footer {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin-left: 264px !important;
+    margin-top: 24px !important;
+    width: calc(100% - 288px) !important;
+    height: auto !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 24px !important;
+  }
+
+  .adm-page--layout .adm-copyright {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin-left: 264px !important;
+    margin-top: 8px !important;
+    margin-bottom: 24px !important;
+    width: calc(100% - 288px) !important;
+    height: auto !important;
+  }
+}
+
+/* === 2.3 — TABLET & MOBİL GENEL DÜZEN (<= 1024px) === */
+@media (max-width: 1024px) {
+  /* Auth Ekranları — Kart Görünümü & Merkeze Yerleşim */
+  .adm-page--login,
+  .adm-page--register {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 32px 16px !important;
+    overflow-y: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .adm-page--login .adm-auth-panel,
+  .adm-page--register .adm-auth-panel {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    left: auto !important;
+    width: min(500px, 100%) !important;
+    min-height: auto !important;
+    height: auto !important;
+    border-radius: var(--adm-r-panel) !important;
+    padding: 36px 24px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Auth İç Elemanları — Mutlak Konumdan Doğal Akışa Geçiş */
+  .adm-auth__title {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 0 8px 0 !important;
+    text-align: center !important;
+  }
+
+  .adm-auth__subtitle {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 0 20px 0 !important;
+    text-align: center !important;
+  }
+
+  .adm-auth__note {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 0 24px 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .adm-auth__note-icon {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 0 auto 10px auto !important;
+  }
+
+  .adm-auth__note-text {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    min-height: auto !important;
+  }
+
+  .adm-auth__form {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 0 16px 0 !important;
+  }
+
+  .adm-form {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .adm-form__label {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    display: block !important;
+    width: 100% !important;
+    margin-top: 14px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .adm-form__field {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+  }
+
+  .adm-form__actions {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    margin-top: 16px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .adm-btn {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    margin-top: 20px !important;
+  }
+
+  .adm-auth__qr {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin-top: 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .adm-auth__qr-text {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    margin-top: 8px !important;
+  }
+
+  /* Layout Ekranı — Dikey Akış & Yatay Kaydırılabilir Menü */
+  .adm-page--layout {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .adm-page--layout .adm-navbar {
+    position: sticky !important;
+    top: 0 !important;
+    right: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: 56px !important;
+    z-index: 20 !important;
+    padding: 0 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    box-sizing: border-box !important;
+    background: var(--adm-c-navbar-bg) !important;
+  }
+
+  .adm-page--layout .adm-sidebar {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 12px 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  .adm-page--layout .adm-sidebar__title {
+    display: none !important;
+  }
+
+  .adm-page--layout .adm-sidebar__group {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 8px !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 4px !important;
+  }
+
+  .adm-page--layout .adm-sidebar__item {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    padding: 8px 16px !important;
+    height: 38px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 8px !important;
+  }
+
+  .adm-page--layout .adm-content {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 16px !important;
+    width: calc(100% - 32px) !important;
+    height: auto !important;
+    min-height: 320px !important;
+    padding: 24px 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  .adm-page--layout .adm-footer {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 16px !important;
+    width: calc(100% - 32px) !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    font-size: 13px !important;
+  }
+
+  .adm-page--layout .adm-copyright {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 8px 16px 24px !important;
+    width: calc(100% - 32px) !important;
+    height: auto !important;
+    text-align: center !important;
+    font-size: 11px !important;
+  }
+}
+
+/* === 2.4 — MOBİL CİHAZ OPTİMİZASYONU (<= 767px) === */
+@media (max-width: 767px) {
+  .adm-page--login,
+  .adm-page--register {
+    padding: 16px 12px !important;
+  }
+
+  .adm-page--login .adm-auth-panel,
+  .adm-page--register .adm-auth-panel {
+    padding: 24px 16px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Mobilde QR bloğu gizlenir (kullanıcı zaten mobil cihazda) */
+  .adm-auth__qr {
+    display: none !important;
+  }
+
+  .adm-auth__title {
+    font-size: 20px !important;
+  }
+
+  .adm-auth__subtitle {
+    font-size: 14px !important;
+  }
+
+  .adm-auth__note-text {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  .adm-form__input {
+    height: 44px !important;
+    font-size: 14px !important;
+  }
+
+  .adm-btn {
+    height: 46px !important;
+  }
+
+  .adm-page--layout .adm-sidebar__item {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    height: 34px !important;
+  }
+
+  .adm-page--layout .adm-content {
+    margin: 12px !important;
+    width: calc(100% - 24px) !important;
+    padding: 16px !important;
+  }
+
+  .adm-panel__title {
+    font-size: 20px !important;
+  }
+
+  .adm-panel__breadcrumb {
+    font-size: 12px !important;
   }
 }
 
 /* ------------------------------------------------------------
    3) 4K (2160/4K) — 05-responsive §7.4 "No-Center": tam genişlik
-   akış · max-width 100% · ❌ margin-auto ortalama YASAK ·
-   yeni token adı ÜRETİLMEZ (C6) · fixed yükseklik korunur
-   (ADR-006: 4K'e özel yükseklik token'ı yok → CLS riski
-   olmadan yalnız genişlik akar).
-   ⚠️ VERIFICATION REQUIRED: 4K'e özel admin token'ı vault'ta yok.
+   akış · max-width 100% · fixed yükseklik korunur (ADR-006).
    ------------------------------------------------------------ */
 @media (min-width: 3840px) {
   .adm-page {

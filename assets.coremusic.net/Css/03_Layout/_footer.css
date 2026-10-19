@@ -3,7 +3,7 @@
  * Katman: 03_Layout - sayfa iskeleti: header, footer, sidebar, grid
  * Rol: Footer player bar - cover, bilgi, seek, volume ve utility buton yerleşimi
  * Bağımlılık: token üretir: var(--footer-*)
- * Güncelleme: 2026-10-03
+ * Güncelleme: 2026-10-19 (v3.3.0 — cover katman yığını: case/badge/cd overlay)
  *
  * Figma SSOT: node-id=1639-9773 (1024: 1025×90) / 2831-13747 child[1] (1920: 1923×92)
  * BEM: .footer-player, .footer-player__cover, .footer-player__info, etc.

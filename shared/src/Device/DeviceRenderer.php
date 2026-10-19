@@ -101,6 +101,10 @@ final class DeviceRenderer
     /** Aktif cihaz için device CSS yolu (DeviceCssMap SSOT) */
     public function deviceCssPath(): string
     {
+        if ($this->viewMode === 'admin') {
+            return DeviceCssMap::adminToCssPath($this->device);
+        }
+
         return $this->isAuth
             ? DeviceCssMap::authToCssPath($this->device)
             : DeviceCssMap::toCssPath($this->device);
@@ -114,14 +118,20 @@ final class DeviceRenderer
 
     /**
      * Head CSS link'leri (ID'li — client hydrate sözleşmesi):
-     *   auth → cm-auth-bundled (temel) + cm-device-css (override)
-     *   home → cm-device-css + cm-view-css + sidebar (ID'siz — client dokunmaz)
+     *   auth  → cm-auth-bundled (temel) + cm-device-css (override)
+     *   admin → cm-device-css (admin device) + cm-view-css (v-admin.css)
+     *   home  → cm-device-css + cm-view-css + sidebar (ID'siz — client dokunmaz)
      */
     public function headLinks(): string
     {
         if ($this->isAuth) {
             return $this->link('auth-bundled.css', self::LINK_ID_AUTH_BUNDLED)
                  . $this->link($this->deviceCssPath(), self::LINK_ID_DEVICE);
+        }
+
+        if ($this->viewMode === 'admin') {
+            return $this->link($this->deviceCssPath(), self::LINK_ID_DEVICE)
+                 . $this->link($this->viewCssPath(), self::LINK_ID_VIEW);
         }
 
         return $this->link($this->deviceCssPath(), self::LINK_ID_DEVICE)
