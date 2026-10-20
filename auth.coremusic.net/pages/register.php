@@ -61,8 +61,8 @@ if ($csrf === '') {
     </div>
   </div>
   <div class="lgn-panel__inner-mid">
-  <!-- 4-step wizard indicator -->
-  <div class="lgn-wizard"><div class="lgn-wizard__step lgn-wizard__step--active" data-step="1"></div><div class="lgn-wizard__step" data-step="2"></div><div class="lgn-wizard__step" data-step="3"></div><div class="lgn-wizard__step" data-step="4"></div></div>
+  <!-- 3-step wizard indicator -->
+  <div class="lgn-wizard"><div class="lgn-wizard__step lgn-wizard__step--active" data-step="1"></div><div class="lgn-wizard__step" data-step="2"></div><div class="lgn-wizard__step" data-step="3"></div></div>
   <div class="lgn-error" id="lgn-err" role="alert" aria-live="polite"></div>
   <form class="lgn-form" id="lgn-form" method="post" action="/register" novalidate>
     <input type="hidden" name="csrf_token" value="<?=$csrf?>">
@@ -102,34 +102,16 @@ if ($csrf === '') {
       <button type="button" class="lgn-btn" id="step2-next">Devam Et</button>
     </div>
 
-    <!-- STEP 3: Cinsiyet Seçimi -->
+    <!-- STEP 3: Telefon + Koşullar (Figma 2831:10020) -->
     <div class="lgn-form__step" data-step="3" hidden>
-      <input type="hidden" id="reg-gender-input" name="gender" value="">
-      <p class="lgn-form__label" style="text-align:center;margin-bottom:12px;">Cinsiyetini seç</p>
-      <button type="button" class="lgn-gender-btn" data-gender="female" aria-label="Kadın">
-        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/kız-gender-select.png" alt="" width="28" height="28"></span>
-        <span class="lgn-gender-btn__info"><strong>Kadın</strong></span>
-      </button>
-      <button type="button" class="lgn-gender-btn" data-gender="male" aria-label="Erkek">
-        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/erkek-gender-select.png" alt="" width="28" height="28"></span>
-        <span class="lgn-gender-btn__info"><strong>Erkek</strong></span>
-      </button>
-      <button type="button" class="lgn-gender-btn" data-gender="neutral" aria-label="Belirtmek istemiyorum">
-        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/notur-gender-select.png" alt="" width="28" height="28"></span>
-        <span class="lgn-gender-btn__info"><strong>Belirtmek istemiyorum</strong></span>
-      </button>
-      <button type="button" class="lgn-btn" id="step3-next" disabled>Devam Et</button>
-    </div>
-
-    <!-- STEP 4: Telefon + Hizmet Şartları -->
-    <div class="lgn-form__step" data-step="4" hidden>
+      <input type="hidden" id="reg-gender-input" name="gender" value="<?=$genderAttr?>">
       <div class="lgn-form__field">
         <label class="lgn-form__label" for="lgn-phone">Telefon</label>
-        <input class="lgn-form__input" type="tel" id="lgn-phone" name="phone" placeholder="+90 555 123 45 67" autocomplete="tel" required pattern="^\+?[0-9\s\-\(\)]{10,20}$">
+        <input class="lgn-form__input" type="tel" id="lgn-phone" name="phone" placeholder="Equalzier Presents 5" autocomplete="tel" required pattern="^\+?[0-9\s\-\(\)]{10,20}$">
       </div>
       <div class="lgn-terms">
         <input type="checkbox" id="lgn-terms" name="agree_terms" value="1" required>
-        <label for="lgn-terms">Hizmet Şartlarını okudum ve kabul ediyorum</label>
+        <label for="lgn-terms">Kullanım Koşulları'nı okudum ve kabul ediyorum.</label>
       </div>
       <button type="submit" class="lgn-btn" id="lgn-submit">Kayıt Ol</button>
     </div>
@@ -205,17 +187,6 @@ if ($csrf === '') {
         errEl.classList.remove('lgn-error--on');showStep(3);
     });
     var regGenderInput=document.getElementById('reg-gender-input');
-    var regGenderBtns=document.querySelectorAll('[data-step="3"] .lgn-gender-btn');
-    var step3Next=document.getElementById('step3-next');
-    regGenderBtns.forEach(function(b){b.addEventListener('click',function(){
-        regGenderBtns.forEach(function(x){x.classList.remove('selected');});
-        b.classList.add('selected');
-        regGenderInput.value=b.dataset.gender;
-        document.querySelector('.lgn-page').dataset.gender=b.dataset.gender;
-        try{localStorage.setItem('cm_gender',b.dataset.gender);}catch(e){console.error('[auth] register: localStorage gender write failed',e);errEl.textContent='Tema tercihi bu tarayıcıda kaydedilemedi.';errEl.classList.add('lgn-error--on');}
-        step3Next.disabled=false;
-    });});
-    step3Next.addEventListener('click',function(){errEl.classList.remove('lgn-error--on');showStep(4);});
     var form=document.getElementById('lgn-form');
     var submitBtn=document.getElementById('lgn-submit');
     var API_URL='<?=$apiUrlEsc?>';
@@ -223,16 +194,10 @@ if ($csrf === '') {
     function resetSubmit(){submitBtn.disabled=false;submitBtn.classList.remove('lgn-btn--loading');submitBtn.textContent='Kayıt Ol';}
     function showError(msg,focusField){
         errEl.textContent=msg;errEl.classList.add('lgn-error--on');
-        if(focusField==='gender'){
-            showStep(3);
-            var gb=document.querySelector('[data-step="3"] .lgn-gender-btn');
-            if(gb)gb.focus();
-            return;
-        }
         // Alan hatası hangi adımdaysa o adıma dön, sonra ilk hatalı alana odaklan.
         if(focusField==='username'||focusField==='email'){showStep(1);}
         else if(focusField==='password'){showStep(2);}
-        else if(focusField==='phone'||focusField==='agree_terms'){showStep(4);}
+        else if(focusField==='phone'||focusField==='agree_terms'){showStep(3);}
         if(focusField&&FIELD_FOCUS[focusField]){var el=document.getElementById(FIELD_FOCUS[focusField]);if(el)el.focus();}
     }
     /* HTTP koduna göre Türkçe mesaj — API sözleşmesi (Faz 3a) */
@@ -257,18 +222,17 @@ if ($csrf === '') {
     form.addEventListener('submit',function(e){
         e.preventDefault();
         e.stopImmediatePropagation();
-        // Cinsiyet zorunlu (UX kontrolü — asıl güvenlik backend'de)
-        var chosenGender=regGenderInput.value;
-        if(chosenGender!=='female'&&chosenGender!=='male'&&chosenGender!=='neutral'){
-            showStep(3);
-            errEl.textContent='Lütfen cinsiyet seçin.';errEl.classList.add('lgn-error--on');
-            var firstGenderBtn=document.querySelector('[data-step="3"] .lgn-gender-btn');
-            if(firstGenderBtn)firstGenderBtn.focus();
-            return;
+        var chosenGender=regGenderInput ? regGenderInput.value : '';
+        if(!chosenGender||(chosenGender!=='female'&&chosenGender!=='male'&&chosenGender!=='neutral')){
+            try{chosenGender=localStorage.getItem('cm_gender');}catch(e){}
+            if(!chosenGender){
+                var pg=document.querySelector('.lgn-page');
+                chosenGender=(pg&&pg.dataset.gender)||'neutral';
+            }
         }
         var phone=document.getElementById('lgn-phone').value.trim();
         if(!/^\+?[0-9\s\-\(\)]{10,20}$/.test(phone)){errEl.textContent='Geçerli bir telefon numarası girin.';errEl.classList.add('lgn-error--on');document.getElementById('lgn-phone').focus();return;}
-        if(!document.getElementById('lgn-terms').checked){errEl.textContent='Hizmet Şartları\u0027nı kabul etmelisiniz.';errEl.classList.add('lgn-error--on');document.getElementById('lgn-terms').focus();return;}
+        if(!document.getElementById('lgn-terms').checked){errEl.textContent='Kullanım Koşulları\u0027nı kabul etmelisiniz.';errEl.classList.add('lgn-error--on');document.getElementById('lgn-terms').focus();return;}
         submitBtn.disabled=true;submitBtn.classList.add('lgn-btn--loading');submitBtn.textContent='Kayıt olunuyor...';errEl.classList.remove('lgn-error--on');
         fetch(API_URL+'/v1/auth/register',{
             method:'POST',
