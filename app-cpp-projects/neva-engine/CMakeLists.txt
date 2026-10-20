@@ -54,4 +54,22 @@ if(NEVA_BUILD_TESTS)
         target_compile_options(neva_tests PRIVATE /W4 /permissive- /Zc:__cplusplus /utf-8)
     endif()
     add_test(NAME biquad_eq_ring COMMAND neva_tests)
+
+    add_executable(eq_grids_tests tests/test_eq_grids.cpp)
+    target_include_directories(eq_grids_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    if(MSVC)
+        target_compile_options(eq_grids_tests PRIVATE /W4 /permissive- /Zc:__cplusplus /utf-8)
+    endif()
+    add_test(NAME eq_grids_gates COMMAND eq_grids_tests)
+
+    add_executable(icy_parser_tests tests/test_icy_parser.cpp)
+    target_include_directories(icy_parser_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    if(MSVC)
+        target_compile_options(icy_parser_tests PRIVATE /W4 /permissive- /Zc:__cplusplus /utf-8)
+    endif()
+    add_test(NAME icy_parser_gates COMMAND icy_parser_tests)
 endif()

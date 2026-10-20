@@ -46,6 +46,7 @@ desktop.ini
 # ─── Build Artifacts ───
 dist/
 build/
+*.obj
 *.phar
 
 # ─── Reference Project ───
