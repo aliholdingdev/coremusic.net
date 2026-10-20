@@ -178,3 +178,14 @@
     --wb-tagline-fs: 11px;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   WELCOME MODAL — EMBEDDED 1024 (home.php #welcomeModalOverlay · _welcome.css)
+   PNG ölçümü (home-1024 "Welcome Popup", 2026-10-20):
+   --wm-overlay: canlı/baseline oranı PNG'de ≈ 0.60 → karartma alpha 0.40 (SSOT 0.35 PNG'ye uymadı)
+   --wm-photo-scrim: PNG ≈ 0.83·asset + [16.8, 12.1, 11.7] → tek katman rgba(99,71,69,.17)
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  --wm-overlay: rgba(0, 0, 0, 0.40);
+  --wm-photo-scrim: rgba(99, 71, 69, 0.17);
+}

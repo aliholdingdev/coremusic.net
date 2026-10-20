@@ -9,7 +9,7 @@
   position: fixed;
   inset: 0;
   z-index: 1050;
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--wm-overlay);  /* PNG ölçümü: karartma alpha 0.40 (SSOT 0.35 canlı PNG ile uyuşmadı) */
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   display: flex;
@@ -28,7 +28,7 @@
   position: relative;
   width: 100%;
   max-width: 600px;
-  min-height: 308px;
+  height: 308px;  /* PNG: kutu 600×308 (kenar dahil), y146–453 */
   background-color: rgba(255, 255, 255, 0.12);
   background-image: url('//assets.coremusic.net/Image/background/welcome-popup-girl.png'), url('/Image/background/welcome-popup-girl.png');
   background-size: cover;
@@ -37,7 +37,7 @@
   border: 1px solid rgba(255, 255, 255, 0.21);  /* Figma: opacity 0.21 */
   border-radius: 8px;  /* Figma: rounded-[8px] */
   box-shadow: var(--modal-shadow);
-  padding: 13px 0 35px;  /* Figma: wordmark y13, Başla bitişi y273 → alt boşluk 35 */
+  padding: 12px 0 0;  /* kenar 1px + üst 12 = logo kutusu y159 (PNG) */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,7 +51,7 @@
   position: absolute;
   inset: 0;
   /* Figma: bg-white opacity 0.10 */
-  background: rgba(255, 255, 255, 0.10);
+  background: var(--wm-photo-scrim);  /* PNG ölçümü: fotoğraf üstü perde (Figma beyaz %10 canlı PNG ile uyuşmadı) */
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
@@ -84,29 +84,33 @@
   width: 195px;
   height: 130px;
   object-fit: contain;
+  top: 2px;  /* PNG ölçümü: wordmark görünür kutusu +2px (mock y195–237 ↔ canlı y193–235) */
 }
 
 /* PNG: "Hoş geldin" — Figma: fs14 Arima 400, lh 22.86, y93
    (margin-top -50: wordmark 13+130 ile üst üste binen Figma düzeni) */
 .welcome-modal__title {
-  font-family: var(--font-body, 'Arima', sans-serif);
-  font-size: 14px;  /* Figma: 14px */
+  font-family: 'Arima', sans-serif;
+  font-size: 14px;  /* Figma: 14px — PNG ink ~64 px ile uyumlu (ölçüm: Arima 14px = 63 px) */
   font-weight: 400;  /* Figma: Arima 400 */
   line-height: 22.86px;  /* Figma: lh 22.86 */
   color: var(--cm-white);
-  margin: -50px 0 0;
+  align-self: flex-start;  /* PNG ölçümü: başlık kutusu sol kenarı ≈ x490 → modal içi 277.5 (merkezden kayık) */
+  width: 66px;
+  margin: -50px 0 0 273px;
+  top: 1px;  /* PNG ölçümü: başlık glyph'i +1px (mock strict y244–253 ↔ canlı y243–252) */
   text-shadow: var(--ts-md);
 }
 
-/* Figma: "Prenses Işıl Peri" — fs20 Plus Jakarta Sans 600, lh 25.2, y136 */
+/* PNG: "Prenses Işıl Peri" — tek çizgi script (Figma Plus Jakarta 20/600 PNG ile uyuşmadı); ink ~117×22 px → Geraldine 21.5px; lh 25.2, y136 */
 .welcome-modal__sub {
-  font-family: 'Plus Jakarta Sans', 'DM Sans', sans-serif;
-  font-size: 20px;
-  font-weight: 600;
+  font-family: 'GERALDINE PERSONAL USE', 'Geraldine', cursive;
+  font-size: 21.5px;  /* PNG ölçümü: ink oranı 5.4 (= PNG) */
+  font-weight: 300;
   line-height: 25.2px;
   color: var(--cm-white);
   margin: 20px 0 0;
-  text-shadow: var(--ts-md);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Figma: desc — fs10 DM Sans 300, lh 13.02, y194, w365, 2 satır */
@@ -154,9 +158,9 @@
   transform: translateY(0);
 }
 
+.welcome-modal__btn:focus,
 .welcome-modal__btn:focus-visible {
-  outline: 3px solid var(--cm-white);
-  outline-offset: 3px;
+  outline: none;
 }
 
 /* ── Mobile (≤767px) — Compact modal ── */
