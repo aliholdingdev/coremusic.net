@@ -20,31 +20,199 @@
 }
 
 /* ============================================================
-   PAGE-SPECIFIC OVERRIDES
+   PAGE-SPECIFIC OVERRIDES (Select Gender Figma Spec)
    ============================================================ */
 
-/* Gender form specific top padding */
+/* Top Avatar Graphic (100×100 @ 836, 15) */
+.lgn-panel__avatar {
+  margin: 0 auto 4px auto;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lgn-panel__avatar img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+/* Panel Headings */
+.lgn-panel__head {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.lgn-panel__title {
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  color: #FFFFFF;
+  margin: 0 0 4px 0;
+}
+
+.lgn-panel__sub {
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 13px;
+  color: #DCDCDC;
+  margin: 0;
+}
+
+/* Gender form container */
 .lgn-gender-form {
-  padding-top: clamp(0.5rem, 1vh, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 220px;
+  margin: 0 auto;
+  padding: 0;
 }
 
-/* Gender button icon — per-gender gradient backgrounds */
-[data-gender="female"] .lgn-gender-btn__icon {
-  background: linear-gradient(135deg, rgba(232,180,184,0.25) 0%, rgba(184,169,201,0.2) 100%);
-}
-[data-gender="male"] .lgn-gender-btn__icon {
-  background: linear-gradient(135deg, rgba(91,143,185,0.25) 0%, rgba(137,196,217,0.2) 100%);
-}
-[data-gender="neutral"] .lgn-gender-btn__icon {
-  background: linear-gradient(135deg, rgba(184,169,201,0.25) 0%, rgba(139,107,174,0.2) 100%);
+/* Gender Buttons (220×40 r5) */
+.lgn-gender-btn {
+  width: 220px;
+  height: 40px;
+  min-height: 40px;
+  border-radius: 5px;
+  padding: 0 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  cursor: pointer;
+  box-sizing: border-box;
+  text-decoration: none;
+  transition: all 0.25s ease;
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-
-@media (max-width: 900px) {
-  .lgn-gender-form {
-    padding-top: 0;
-  }
+.lgn-gender-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
 }
+
+/* Selected state (Ü09 / selected) */
+.lgn-gender-btn.selected,
+.lgn-gender-btn[data-selected="true"] {
+  background: rgba(255, 105, 223, 0.35);
+  border-color: rgba(255, 105, 223, 0.6);
+}
+
+.lgn-gender-btn__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.lgn-gender-btn__icon img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.lgn-gender-btn__info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  flex: 1;
+  min-width: 0;
+}
+
+.lgn-gender-btn__info strong {
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.lgn-gender-btn__info small {
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+  font-size: 8px;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.lgn-gender-btn__check {
+  display: none !important;
+}
+
+/* Devam Et Button (220×25 r5) */
+.lgn-gender-form .lgn-btn {
+  width: 220px;
+  height: 25px;
+  min-height: 25px;
+  border-radius: 5px;
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  margin-top: 5px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.lgn-gender-form .lgn-btn:not(:disabled) {
+  background: linear-gradient(135deg, rgba(255, 0, 200, 0.55), rgba(255, 0, 200, 0.6), rgba(255, 0, 200, 0.35));
+  color: #FFFFFF;
+  border-color: rgba(255, 0, 200, 0.6);
+  box-shadow: 0 2px 10px rgba(255, 0, 200, 0.4);
+}
+
+/* Hero Poem Art inside panel (196×130 @ 788, 414) */
+.lgn-panel__art {
+  width: 196px;
+  height: 130px;
+  margin: 10px auto 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.lgn-panel__poem-img {
+  width: 196px;
+  height: 130px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.25));
+}
+
+/* Panel Footer */
+.lgn-panel__inner-bot {
+  margin-top: auto;
+  text-align: center;
+  padding-bottom: 6px;
+}
+
+.lgn-panel__inner-bot .lgn-foot-link {
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+  font-size: 8px;
+  line-height: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.lgn-panel__inner-bot .lgn-foot-link a {
+  color: #FFFFFF;
+  font-weight: 500;
+  text-decoration: underline;
+}
+

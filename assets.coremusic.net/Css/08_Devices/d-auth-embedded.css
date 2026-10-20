@@ -1,8 +1,411 @@
 /**
  * Dosya: d-auth-embedded.css
  * Katman: 08_Devices - cihaz/breakpoint override
- * Rol: Auth RPi5 1024x600 (touch-first) yığın layout override'ları
+ * Rol: Auth RPi5 1024x600 (touch-first) landscape 2-kolon split layout
  * Bağımlılık: token tüketir: var(--lgn-*)
- * Güncelleme: 2026-10-03
+ * Güncelleme: 2026-10-20 (Figma Linux 1024 SSOT uyumu)
  */
-:root {  --lgn-panel-w: 300px;  --lgn-font-size: 14px;  --touch-min: 48px;}html { font-size: 14px; }/* ═══ LAYOUT — Column-reverse stack ═══ */.lgn-page {  flex-direction: column-reverse !important;  min-height: 100vh;  min-height: 100dvh;}/* ═══ HERO — Centered, no decorations ═══ */.lgn-hero {  flex: none !important;  padding: clamp(12px, 2vw, 20px) 5vw !important;  padding-right: calc(var(--lgn-panel-w) + 4vw) !important;  text-align: center !important;  align-items: center !important;}.lgn-hero__poem,.lgn-hero__bottom {  display: none !important;}/* ═══ PANEL — Stacked, not fixed ═══ */.lgn-panel {  position: relative !important;  width: 100% !important;  max-width: var(--lgn-panel-w, 300px) !important;  height: auto !important;  margin: 0 auto !important;  order: -1 !important;}.lgn-panel__glass {  padding: clamp(14px, 2vw, 22px) clamp(12px, 1.8vw, 20px);  border-radius: clamp(12px, 1.5vw, 16px) clamp(12px, 1.5vw, 16px) 0 0 !important;  border: 1px solid rgba(255, 255, 255, .15) !important;  border-bottom: 0 !important;}/* ═══ FORM ELEMENTS ═══ */.lgn-form__input {  height: clamp(32px, 2vw, 40px);}.lgn-btn {  height: clamp(34px, 2.5vw, 42px);}.lgn-social__btn {  height: clamp(26px, 2.5vw, 32px);}/* Background image is controlled by auth-gender-bg.js for crossfade animation *//* ═══ OVERFLOW FIX ═══ */html, body {  overflow-x: hidden !important;}
+:root {
+  --lgn-panel-w: 275px;
+  --lgn-font-size: 14px;
+  --touch-min: 44px;
+}
+
+html {
+  font-size: 14px;
+  overflow: hidden !important;
+}
+
+body {
+  overflow: hidden !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* ═══ LAYOUT — Horizontal 2-column split (1024×600 landscape) ═══ */
+.lgn-page {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 1024px !important;
+  height: 600px !important;
+  min-height: 600px !important;
+  max-height: 600px !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+/* ═══ HERO (Left 749px) ═══ */
+.lgn-hero {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 749px !important;
+  height: 600px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+  text-align: left !important;
+  align-items: flex-start !important;
+  z-index: 3 !important;
+  /* Arka plandan ayırma: sol metin alanı arkasında yumuşak karartıcı degrade scrim */
+  background: linear-gradient(90deg, rgba(10, 5, 18, 0.55) 0%, rgba(20, 10, 25, 0.38) 32%, rgba(0, 0, 0, 0.12) 55%, transparent 75%) !important;
+}
+
+.lgn-hero__brand {
+  position: absolute !important;
+  left: 64px !important;
+  top: 249px !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+}
+
+.lgn-hero__brand img:first-child {
+  width: 30px !important;
+  height: 30px !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.85)) !important;
+}
+
+.lgn-hero__brand .logo-text-png {
+  width: 58px !important;
+  height: 25px !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.85)) !important;
+}
+
+.lgn-hero__title {
+  position: absolute !important;
+  left: 64px !important;
+  top: 301px !important;
+  margin: 0 !important;
+  text-align: left !important;
+  line-height: 1.0 !important;
+  font-size: 16px !important;
+  max-width: 200px !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.95) !important;
+}
+
+.lgn-hero__title br {
+  display: none !important;
+}
+
+.lgn-hero__title .hero-title--sm {
+  font-family: var(--font-handwriting, 'Bickham Script Pro', cursive, serif) !important;
+  font-size: 15px !important;
+  line-height: 15px !important;
+  font-style: italic !important;
+  display: block !important;
+  margin-bottom: 2px !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1) !important;
+}
+
+.lgn-hero__title em:not(.hero-title--sm) {
+  font-family: var(--font-hero, 'Playfair Display', Georgia, serif) !important;
+  font-size: 19px !important;
+  line-height: 19px !important;
+  font-style: italic !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1) !important;
+}
+
+.lgn-hero__text {
+  position: absolute !important;
+  left: 62px !important;
+  top: 338px !important;
+  margin: 0 !important;
+  text-align: left !important;
+  max-width: 320px !important;
+  font-size: 10.5px !important;
+  line-height: 14px !important;
+  font-weight: 400 !important;
+  color: #F5F5F5 !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1) !important;
+}
+
+.lgn-hero__foot {
+  position: absolute !important;
+  left: 16px !important;
+  top: 583px !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 8.5px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 1) !important;
+}
+
+.lgn-hero__foot a {
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-decoration: none !important;
+}
+
+.lgn-hero__foot a:hover {
+  color: #FFFFFF !important;
+}
+
+.lgn-hero__foot .dot {
+  width: 3px !important;
+  height: 3px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+
+.lgn-hero__poem {
+  display: none !important;
+}
+
+/* ═══ PANEL (Right 275px Fixed Glass Dock) ═══ */
+.lgn-panel {
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: auto !important;
+  width: 275px !important;
+  max-width: 275px !important;
+  height: 600px !important;
+  margin: 0 !important;
+  order: 1 !important;
+  z-index: 10 !important;
+  display: flex !important;
+}
+
+.lgn-panel__glass {
+  width: 275px !important;
+  height: 600px !important;
+  padding: 15px 27px 15px 27px !important;
+  border-radius: 0 !important;
+  border: none !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.18) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(35, 18, 42, 0.38) 100%) !important;
+  backdrop-filter: blur(8px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(130%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+  overflow-y: hidden !important;
+  justify-content: flex-start !important;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.25) !important;
+}
+
+.lgn-panel__inner-top {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Avatar Graphic (100×100 @ 836, 15) */
+.lgn-panel__avatar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100px !important;
+  height: 100px !important;
+  margin: 0 auto 5px auto !important;
+  border-radius: 0 !important;
+  background: none !important;
+  border: none !important;
+}
+
+.lgn-panel__avatar img,
+.lgn-panel__avatar svg {
+  width: 100px !important;
+  height: 100px !important;
+  object-fit: contain !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.35)) !important;
+}
+
+.lgn-panel__head {
+  text-align: center !important;
+  margin-bottom: 0 !important;
+}
+
+.lgn-panel__title {
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 16px !important;
+  color: #FFFFFF !important;
+  margin: 0 0 5px 0 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75) !important;
+}
+
+.lgn-panel__sub {
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif) !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  line-height: 13px !important;
+  color: #E8E8E8 !important;
+  margin: 0 !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75) !important;
+}
+
+/* ═══ GENDER BUTTONS (220×40 r5 @ 776, 213 / 263 / 313) ═══ */
+.lgn-gender-form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  width: 220px !important;
+  margin: 44px auto 0 auto !important;
+  padding: 0 !important;
+}
+
+.lgn-gender-btn {
+  width: 220px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  border-radius: 5px !important;
+  padding: 0 11px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  text-decoration: none !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.lgn-gender-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.lgn-gender-btn.selected,
+.lgn-gender-btn[data-selected="true"] {
+  background: rgba(255, 105, 223, 0.4) !important;
+  border-color: rgba(255, 105, 223, 0.75) !important;
+  box-shadow: 0 0 16px rgba(255, 105, 223, 0.45) !important;
+}
+
+.lgn-gender-btn__icon {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 4px !important;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4)) !important;
+}
+
+.lgn-gender-btn__icon img {
+  width: 20px !important;
+  height: 20px !important;
+  object-fit: contain !important;
+}
+
+.lgn-gender-btn__info {
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: left !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.lgn-gender-btn__info strong {
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif) !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7) !important;
+}
+
+.lgn-gender-btn__info small {
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif) !important;
+  font-size: 8px !important;
+  line-height: 1.2 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+}
+
+.lgn-gender-btn__check {
+  display: none !important;
+}
+
+/* ═══ DEVAM ET BUTTON (220×25 r5 @ 776, 363) ═══ */
+.lgn-gender-form .lgn-btn {
+  width: 220px !important;
+  height: 25px !important;
+  min-height: 25px !important;
+  border-radius: 5px !important;
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif) !important;
+  font-size: 8.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  margin-top: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+}
+
+.lgn-gender-form .lgn-btn:not(:disabled) {
+  background: linear-gradient(135deg, rgba(255, 0, 200, 0.65), rgba(255, 0, 200, 0.7), rgba(255, 0, 200, 0.45)) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 0, 200, 0.8) !important;
+  box-shadow: 0 2px 14px rgba(255, 0, 200, 0.5) !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* ═══ HERO POEM ART (196×130 @ 788, 414) ═══ */
+.lgn-panel__art {
+  width: 196px !important;
+  height: 130px !important;
+  margin: 26px auto 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none !important;
+}
+
+.lgn-panel__poem-img {
+  width: 196px !important;
+  height: 130px !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35)) !important;
+}
+
+/* ═══ PANEL FOOTER (y: 567) ═══ */
+.lgn-panel__inner-bot {
+  margin-top: auto !important;
+  text-align: center !important;
+  padding-bottom: 4px !important;
+}
+
+.lgn-panel__inner-bot .lgn-foot-link {
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif) !important;
+  font-size: 8px !important;
+  line-height: 10px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  margin: 0 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7) !important;
+}
+
+.lgn-panel__inner-bot .lgn-foot-link a {
+  color: #FF7BD8 !important;
+  font-weight: 600 !important;
+  text-decoration: underline !important;
+  text-shadow: 0 0 10px rgba(255, 100, 200, 0.5) !important;
+}
