@@ -5,8 +5,8 @@ category: neva-player
 status: active
 date: 2026-10-19
 updated: 2026-10-20
-version: 0.2.0
-authority: "ADR-019 (accepted) + ADR-0105 (accepted v1.1) + ADR-0106 (accepted v1.1) + architecture/neva-player/index.md"
+version: 0.2.2
+authority: "ADR-019 (accepted) + ADR-0105 (accepted v1.3.0) + ADR-0106 (accepted v1.1.1) + architecture/neva-player/index.md (v1.1.5)"
 ---
 
 # Neva Player — Proje Kapsamı (01)
@@ -36,8 +36,8 @@ Aynı müziğin her yerde, kayıpsız ve kesintisiz: 32b/192kHz bit-perfect hi-r
 |---|---|---|---|
 | AK-1 | Bit-perfect | WASAPI exclusive null-test: bit-eşitlik (yalnız yerel dosya — radyo hariç) | zorunlu |
 | AK-2 | EQ kalitesi | THD+N <%0.005 @1kHz · SNR >105dB | ADR-006 |
-| AK-3 | Gecikme | <20ms WASAPI exclusive (ASIO <10ms hedef, teyit sonrası) | ADR-006/019 |
-| AK-4 | Video | 4K60 HDR10, 1 saat stres, drop=0, xrun=0 | zorunlu |
+| AK-3 | Gecikme | <20ms WASAPI exclusive (ASIO <10ms hedef, teyit sonrası) · bütçe + ölçüm: ADR-0105 §2.10 (2×period+blok, blok ≥1024@48k yasak) | ADR-006/019 · **ADR-0105 §5.10** (DAC loopback + CI alt sınırı) |
+| AK-4 | Video | 4K60 HDR10, 1 saat stres, drop=0, xrun=0 · **A/V sync: P95 \|A−V\| ≤20ms, kilit ≤100ms, drift ≤5ms/10dk (düzeltme-kapalı)** · **VRAM peak ≤600 MB** (ADR-0105 §2.8 bütçesi; rapor zorunlu alan: GPU model + toplam VRAM + sürücü — §5.6) | zorunlu · ADR-0105 §5.7 + **§5.11** + **§5.6** |
 | AK-5 | Format | FLAC/ALAC/WAV/DSF/DFF/DoP/MP3/Opus gapless | zorunlu |
 | AK-6 | Lisans | LGPL dinamik link + MIT/BSD çekirdek; AGPL/BASS yasağı denetimi | compliance |
 | AK-7 | FFI | C ABI üzerinden Python + C# smoke test | zorunlu |
@@ -59,7 +59,7 @@ Aynı müziğin her yerde, kayıpsız ve kesintisiz: 32b/192kHz bit-perfect hi-r
 
 ## 5. Bağımlılıklar
 
-- ADR-0105 → 3-tur debate → **accepted v1.1 ✓ (2026-10-19)**
+- ADR-0105 → 3-tur debate → **accepted v1.3.0 ✓ (2026-10-19 kabul; 2026-10-20 v1.2.x-v1.3.0 revizyonları: VRAM/RAM/gecikme/A-V bütçeleri + kapı 5.6-5.11)**
 - ADR-106 (radyo + seçilebilir bant) → 4 persona debate → **accepted v1.1 ✓ (2026-10-20)**
 - ASIO SDK lisans teyidi (Steinberg) — Aşama 2'ye kadar bekler
 - libplacebo D3D11 olgunluk doğrulaması (mpv gpu-next referans)
@@ -67,4 +67,4 @@ Aynı müziğin her yerde, kayıpsız ve kesintisiz: 32b/192kHz bit-perfect hi-r
 
 ## 6. Durum
 
-RE dump (AIMP 20-band EQ + radyo kataloğu ✓ · VLC dump ⏳) · Araştırma 69+112 kaynak ✓ · Dil matrisi 25 dil ✓ · Mimari v1.1.0 ✓ · ADR-0105 accepted ✓ · **ADR-106 accepted ✓ (2026-10-20)** · **KOD: 0 (PLANNED)**
+RE dump (AIMP 20-band EQ + radyo kataloğu ✓ · VLC dump ✓) · Araştırma 69+112 kaynak ✓ · Dil matrisi 25 dil ✓ · Mimari v1.1.5 ✓ · ADR-0105 accepted ✓ · **ADR-0106 accepted ✓ (2026-10-20)** · **KOD: 0 (PLANNED)**
