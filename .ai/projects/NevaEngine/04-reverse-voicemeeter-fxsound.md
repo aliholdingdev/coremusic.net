@@ -2,7 +2,7 @@
 title: "Neva Engine — Reverse-Engineering: VoiceMeeter Potato & FxSound"
 type: doc
 category: audio-engine
-version: 1.4.4
+version: 1.5.0
 status: analiz
 authority: "REA shipped-artifact evidence · zero-hallucination (string kanıtları diskte)"
 updated: 2026-10-20
@@ -460,6 +460,8 @@ Uninstall kaydı: `FxSound | 1.2.13.0 | C:\Program Files\FxSound LLC\FxSound\`.
 | 1.4.2 | 2026-10-20 | **Tur 5c: Per-sample ses katmanı haritası** - §14.9 yeni · `FUN_0048e990` = ana per-sample strip ses fonksiyonu (strip ×5 döngüsü, ×4-unroll FPU örnek döngüleri) · `FUN_00488ae0` = modüle gecikmeli spatial/IntelliPan efekti (ring buffer + faz akümülatör + 2 LFO tablosu + denormal flush, ev_b441f2b3) · `FUN_00488790` 0x2064/0x2c bloğu = spatial param (kompresör DEĞİL - düzeltme) · `FUN_00487800` = 3 bantlı biquad katsayı üreteci · `FUN_0048cc20` = 6 bantlı 5-tap FIR bankası · `FUN_005206c0` = CRT ftol (92 çağıracı) · kompresör coeffBlock hedefi stripParams+0x34 (assembly LEA 0x4892db) · block-step 8/8 kapandı · envelope döngüsü AÇIK daraltıldı (bus/fiziksel çıkış yolu veya 0x49xxxx) |
 | 1.4.3 | 2026-10-20 | **Tur 5d: Kompresör envelope + limiter bulundu — §14.8 AÇIK kapandı** - §14.10 yeni · `FUN_004869e0` = per-sample envelope uygulayıcı + hard limiter (attack `[0x8]` eşik aşıldığında, release `[0x4]` her blok + 1.0 kısma, `|out|>0.99999` → `env=1/tepe` anında kısma + işaret biti koruma, ev_94808216) · çağrı yuvalaması assembly ile kanıtlandı: 8 grup tablosu DAT_00554548 (5 strip + 3 bus, *inferred*) × kanal iç döngüsü, durum stride 0x14, ctx+0xcf4 · `FUN_00487aa0` = biquad uygulayıcı (487800 üretici çifti kapandı, ev_6b1faf1d) · `FUN_00487230` = yan-zincir seviye izleyici (tepe/`max(|L|,|R|)` veya ağırlıklı fark+yumuşatma, denormal flush, ev_786d2276; tüketici VERIFICATION REQUIRED) · bus yolu elemine: `FUN_0048b750` sarmalayıcı, `FUN_0048bb00` engine INIT (crossover varsayılan 80/800/13000 Hz) · `FUN_0048e990` 42 CALL tam haritandı |
 | 1.4.4 | 2026-10-20 | **Tur 5e: Kalan 11 çağrı adayı kapatıldı — §14.9 haritası tamamlandı** - §14.11 yeni · `FUN_0048c960` = 4-durumlu/4-double-katsayılı IIR benzeri süzgeç (durum stride 0x18, paralel-double deseni 487800 ailesi, fark terimli tekrar, denormal flush, ev_93e9c0d5) · `FUN_0048cf20` = 8-şeritli param smoothing + gain/karışım (stride 0x48, ev_97a40176; ana döngü matematiği VR) · `FUN_0048d700` = scratch buffer sıfırlama + `FUN_00473de0` ile yeniden düzenleme/bus staging (ev_259b1bf9; 473de0 kimliği VR) · `FUN_0048e600` = sabit-egrimli lineer gain ramp (click-free, ev_2b055d0a) · `FUN_0048e850` = sessizlik dedektörü (3 buffer, her 8. örnek, eşik 0.0001, ret 0/1, ev_9cb50028) · `FUN_00487230` tüketici zinciri asm ile kısmen kanıtlandı (FCOM DAT_005361a0 + floor DAT_00536198 → EBP-0x34/0x3c; nihai kullanım 0x48f345 sonrası VR) · düzeltme: §14.10'da Çince karakter sızıntısı  (U+53E6 U+4E00 U+4E2A olarak kodlandi) temizlendi · CJK/mojibake taraması 0 · REA restart nedeniyle 3 ince boşluk açık |
+| 1.4.5 | 2026-10-20 | **Tur 6: 3 ince boşluk kapandı → yeni doküman `[[12-re-tur6-bosluk-kapanis-dil-runtime]]`** - `FUN_0048cf20` ana döngü matematiği KAPANDI (8-slot mix: `out[k] += in·strip_gain·slot_gain[k]`, lineer ramp stride 0x48, abs-peak, blok sonu snap, ev_97a40176) · `FUN_00473de0` kimliği KAPANDI (2 SPSC ring komut/olay drain, 8 event, blok-hizalı crossfade ramp `−(değer/uzunluk)`, stride 0x918 → `FUN_004729e0` dispatch, ev_1430a39c) · `FUN_0048e990` tracker zinciri sabitleri bayt-bayt okundu: **K=[0x536358]=6.0206 = 20·log10(2)** (ev_169963cd; eski "6.0256" yazım hatası — vault'a hiç girmemişti) · LUT `0x56e378` = 20·log10(1+k/128) **±1e-8** (ev_3d1dfb36) · clamp'ler [0x536198]=100.0f (ev_4f1f1388) · [0x5361a0]=100.0 (ev_8d90267d) · [0x535ff8]=−60.0f (ev_a7cb6789) · [0x5366e0]=0.001f (ev_24f7d930) · jump table `0x498eac` → `0x48f41f/0x48f503/0x48f7af/0x48f8fc` teyitli · **§14.11 düzeltmesi: `DAT_00536198`=100.0f üst CLAMP'tir, "floor" etiketi yanlıştır — gerçek floor −60.0f @ `0x535ff8` (metin satırları değiştirilmedi, düzeltme burada ve doc 12 §4.2'de)** · JustVerb/C5 render çekirdeği çözülmedi (VR) · dil paleti "20+ dil" iddiası RET (native C/C++ + repo 12/19 uzantı) · FxSound `.fptable` = tamamı 0x00 PE section (UNKNOWN) · runtime 3 faz (pasif PID 12052/13148 + PrintWindow PNG) |
+| 1.5.0 | 2026-10-20 | **Tur 9 (FxSound x64 image-base düzeltme + kaynak-adli analiz) — §14.12 yeni · eski `FUN_*` (0x400000-RVA) anlatımı bu sürümde geçersizleşti.** REA taze oturum image base `0x140000000` → eski üç 32-bit RVA (`0x48cf20`/`0x487230`/`0x473de0`) hiçbir düzlemde yok (`SizeOfImage 0x400000` bu RVA'ları kapsayamaz — fiziksel imkânsızlık; byte tarama 4.182.372 bayt, `matches: []`). İki boşluğun x64 karşılığı **kaynak-adli** olarak çözüldü (assert satır-no + kaynak-yolu string'i birebir): **`FUN_1401c7000` @ `0x1401c7000` = `sosProcessBuffer()`** (`SosProcess.cpp` 540/544) — her örnek aktif SOS bölümü (bölüm stride `0x6c`, DF2T: `y=z1+b0·x+1e-30` · `z1=(x−y)·b1+z2` · `z2=b2·x−a2·y`, `1e-30`=`SOS_FLOAT_BIAS`) → `master_gain(0x7a0)×balance(0x610/0x614)` → opsiyonel RMS normalize (`rms=√(Σx²/(N·2))`, `target_gain=clamp(target_rms/rms,0.01,1.0)`, adaptif smoothing attack `0.0005+|Δ|·0.001` / release `1.0`) → `applyVolumeLeveling` (ev YUKSEK) · **`FUN_1401c5d00` @ `0x1401c5d00` = `applyVolumeLeveling()`** (anonim-namespace `static`, `0xffffffff` argümanıyla eşleşme; `kVolumeLeveling*`) — 120 Hz transponen HPF sidechain (`α=0.0013262912/(dt+0.0013262912)`, `1/(2π·120)`), 180/1200/4500 Hz LP bant enerjisi → `tonality=10·log10((pres+0.75·air)/(1.15·body+0.85·low))` (0.08 smoothing), 6-buffer ring ortalaması + gradient tahmin (`+0.35·Δ`, ±%15 clamp), attack 0.10 / release gap>0.15→0.02:0.05, ±ceiling + 0.985 near-ceiling + 30 sn quiet-peak + 60 sn headroom geri besleme (ev YUKSEK). Çağrı zinciri: `dfxpUniversalModifySamples → dfxpModifyRealtypeSamples → GraphicEqProcess → sosProcessBuffer → applyVolumeLeveling`. **ÇELİŞKİ ÇÖZÜMÜ (Tur 6→9):** eski "8-şerit / 8-slot" EQ anlatımı (§14.11 · doc 12) **bu sürümde geçersiz** — bölüm sayısı runtime dinamik (`num_active_sections`) ve kaynak `DfxDspEq.cpp`'de `DFXP_GRAPHIC_EQ_NUM_BANDS = 31`; `1.99526` (Peq8/Maxi32) sabiti binary'de YOK. `DFXP_GRAPHIC_EQ_NUM_BANDS=31` Neva 31-band kararıyla (ADR-0105) **kaynak-kanıtlı örtüşme**. **⚠️ YENİ AÇIK:** `kVolumeLevelingMinRatioPerBuffer`=0.8912509381337456 binary'de YOK (byte tarama 0 eşleşme) → FxSound 1.2.13 GitHub `main` kaynağından farklı sürüm olabilir. `FUN_00473de0` işlevsel karşılığı belirlenmedi (uydurulmadı, VR). §14.9 "8-slot mix" / §14.11 "8-şerit" satırları sürüm-tarihsel (kod adları korundu), doğru/aktif model §14.12'dedir. |
 
 **Authority:** Embedded Engineer (L1) · Statü: ANALİZ TUR 2+3+**Ghidra** (string/resource
 + decompile katmanı tam — Banana+Potato+FxSound+GEQ15+**ASIO sürücü ×5** · EQ band=31
@@ -927,10 +929,51 @@ nihai kullanım yeri `0x48f345` sonrasındadır; REA restart'ında sayfa
 kaçırıldı — **⚠️ VERIFICATION REQUIRED**. İki sabidin sayısal değerleri de
 okunmadı — `UNKNOWN`.
 
-**Sonuç:** §14.9'un "kalan aday" listesi (11 sites) kapandı — 5/5 fonksiyon
-sınıflandırıldı; `FUN_0048e990`'ın DSP callee'leri artık tam haritalı
-(spatial 488ae0 · FIR 48cc20 · biquad 487aa0 · kompresör 4869e0 · izleyici
-487230 · IIR-blok 48c960 · smoothing+karışım 48cf20 · staging 48d700 ·
-ramp 48e600 · aktivite 48e850 · kopya 48e7a0). Kalan 3 ince boşluk
-(cf20 ana döngü · FUN_00473de0 · dedektör nihai kullanım) REA oturumu
-yeniden bağlandığında kapatılacak.
+### §14.12 Tur 9 (v1.5.0, 2026-10-20) — FxSound x64 image-base düzeltme + kaynak-adli kapanış
+
+> **Neden bu tur:** REA taze oturumu image base **`0x140000000`** ile FxSound.exe'yi yeniden import etti
+> (eski oturum 0x400000 tabanlı `FUN_*` adları üretmişti). Eski üç 32-bit RVA (`FUN_0048cf20`,
+> `FUN_00487230`, `FUN_00473de0`) bu VA düzleminde **fiziksel olarak mevcut değil** (byte tarama
+> 4.182.372 bayt, `matches: []`, `complete: true`). İki boşluk **kaynak-adli** (assert satır-no +
+> kaynak-yolu string'i birebir) olarak x64 karşılıklarıyla kapatıldı; üçüncüsü belirlenmedi.
+
+**Çağrı zinciri (kanıt — her adımda assert satır no + kaynak string eşleşmesi):**
+`dfxpUniversalModifySamples` (174/186/198/210/249/356/365/375) → `dfxpModifyRealtypeSamples` (90-190) → `GraphicEqProcess` (46/53/60/65/68) → **`sosProcessBuffer`** (540/544) → **`applyVolumeLeveling`**.
+
+| Boşluk | x64 adres | Kimlik | Güven |
+|---|---|---|---|
+| #1 (eski 48cf20) | `FUN_1401c7000` @ `0x1401c7000` | **`sosProcessBuffer()`** — SOS (biquad) + master/balance + RMS normalize | YÜKSEK |
+| #3 (eski 487230) | `FUN_1401c5d00` @ `0x1401c5d00` | **`applyVolumeLeveling()`** — tonality-güdümlü adaptif loudness/leveling | YÜKSEK |
+| #2 (eski 473de0) | — | **belirlenemedi** (uydurulmadı) — Tur 6'daki "2 SPSC ring drain" modeli `0x400000` düzleminden gelir, bu sürümde eşleşmedi | VR |
+
+**Boşluk #1 — `sosProcessBuffer()` matematiği:** her örnek, aktif SOS bölümleri (bölüm stride `0x6c`)
+boyunca DF2T biquad'dan geçer: `y = z1 + b0·x + 1e-30` · `z1 = (x−y)·b1 + z2` · `z2 = b2·x − a2·y`
+(`1e-30` = `SOS_FLOAT_BIAS`). Çıktı `master_gain (0x7a0) × balance_L/R (0x610/0x614)` ile çarpılır.
+`target_rms (0x618) ≠ 1` ise güç toplanır: `rms = √(Σx²/(N·2))`, `target_gain = clamp(target_rms/rms, 0.01, 1.0)`;
+normalization_gain (`0x61c`) adaptif smoothing ile: attack `0.0005+|Δ|·0.001`, release `1.0`,
+`norm_gain += (target−norm_gain)·smooth`, tüm buffer `*= norm_gain`. Son çağrı `applyVolumeLeveling(…, -1)`.
+
+**Boşluk #3 — `applyVolumeLeveling()` matematiği:** 120 Hz transponen HPF sidechain
+(`α = 0.0013262912/(dt+0.0013262912)`, `1/(2π·120)`) ile güç toplanır; 180/1200/4500 Hz LP'lerden bant
+enerjileri → `tonality = 10·log10((pres+0.75·air)/(1.15·body+0.85·low))` (0.08 smoothing). Hedef eğilimi:
+`hedef = target·(1 + 0.12·muffled − 0.18·clear + 0.08·boost − 0.14·reduce)`. 6-buffer ring ortalaması +
+gradient tahmin (`+0.35·Δ`, ±%15 clamp, yön hatasında iptal) ile `desired = hedef/predicted`; α attack 0.10,
+release `gap>0.15→0.02 : 0.05`, tonalite modülatörü `clamp(1+0.2·muffled−0.35·clear, 0.55, 1.2)`,
+`gain' = gain·(1−α) + desired·α`. Kazanç buffer boyunca lineer interp; `±ceiling` clamp + 0.985 near-ceiling
+sayaç + 30 sn quiet-peak window + 60 sn headroom skoru (`α=clamp(dt/60, 0.0005, 0.05)`) geri besleme.
+
+**⚠️ YENİ AÇIK (zero-hallucination):** `kVolumeLevelingMinRatioPerBuffer` = `0.8912509381337456`
+("buffer başına min −1dB") binary'de **YOK** (4.182.372 bayt byte taraması 0 eşleşme + decompile'da yok)
+→ **FxSound 1.2.13, GitHub `main` kaynağından farklı bir sürüm** olabilir. `FUN_00473de0` işlevsel
+karşılığı belirlenmedi (uydurulmadı).
+
+**Neva etkisi:** `DFXP_GRAPHIC_EQ_NUM_BANDS = 31` (kaynak `DfxDspEq.cpp`) Neva'nın 31-band EQ kararıyla
+(ADR-0105 §2.1) **kaynak-kanıtlı örtüşür** — FxSound'un volume-leveling/tonality deseni clean-room hedef olarak
+§14.12'ye eklendi. §14.9 "8-slot mix" ve §14.11 "8-şerit" satırları **sürüm-tarihsel** (kod adları korunur);
+doğru/aktif model burada (§14.12).
+
+**§14.11 kapanış notu (sürüm-tarihsel):** §14.9'un "kalan aday" listesi (11 sites) kapatılmış, `FUN_0048e990`'ın
+DSP callee'leri haritalanmıştı (spatial 488ae0 · FIR 48cc20 · biquad 487aa0 · kompresör 4869e0 · izleyici 487230 ·
+IIR-blok 48c960 · smoothing+karışım 48cf20 · staging 48d700 · ramp 48e600 · aktivite 48e850 · kopya 48e7a0).
+O tarihte açık kalan 3 ince boşluk (cf20 ana döngü · `FUN_00473de0` · dedektör nihai kullanım) **§14.12'de**
+image-base düzeltmesiyle kapatıldı — `FUN_00473de0`'in işlevsel karşılığı hariç (bkz. §14.12 VR).

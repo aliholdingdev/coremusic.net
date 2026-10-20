@@ -5,8 +5,8 @@ category: neva-player
 status: active
 date: 2026-10-19
 updated: 2026-10-20
-version: 1.1.6
-authority: "SSOT: ADR-0105 (accepted, v1.3.0 — 3 tur / 20 persona debate 2026-10-19 + libmpv-hibrit red notu + VRAM/RAM/gecikme/A-V bütçeleri 2026-10-20) + ADR-106 (accepted, v1.1.1 — 4 persona debate 2026-10-20: internet radio + seçilebilir bant EQ; VLC frekans teyidi işlendi) + ADR-019 (Per-OS Player, IAudioBackend)"
+version: 1.1.7
+authority: "SSOT: ADR-0105 (accepted, v1.4.0 — 3 tur / 20 persona debate 2026-10-19 + libmpv-hibrit red notu + VRAM/RAM/gecikme/A-V bütçeleri + gapless 5.12/fuzzing 5.13 kapıları 2026-10-20) + ADR-106 (accepted, v1.1.1 — 4 persona debate 2026-10-20: internet radio + seçilebilir bant EQ; VLC frekans teyidi işlendi) + ADR-019 (Per-OS Player, IAudioBackend)"
 related:
   - "reports/neva-re-dump-aimp-vlc.md"
   - "research/neva-player-media-stack.md"
@@ -129,5 +129,5 @@ Ticari serbest: ffmpeg **LGPL build** (--enable-gpl YOK) · libplacebo **LGPLv2.
 10. WASAPI render döngüsü AIMP.Shared.dll'de YOK (yalnız cihaz tescili §5) → gerçek render sınıfı `AIMP.Runtime.dll` içinde beklenir, decompile EDİLMEDİ
 11. `AIMP.exe` (7.1MB Delphi) full decompile → YAPILMADI (kullanıcı hedefi, sonraki oturum)
 12. ~~Video motoru "hibrit (libmpv fallback)" seçeneği~~ → **KAPANDI (2026-10-20): REDDEDİLDİ** (ADR-0105 v1.1.1 §3 — mpv GPL-2.0 copyleft + black-box + çift-motor tutarsızlığı; fallback ihtiyacı ADR-019 `IAudioBackend` zinciriyle karşılanır)
-13. **VRAM peak ölçümü gerçek GPU'da YAPILMADI** → ADR-0105 §2.8 bütçesi (~400-700 MB) birinci-ilkellerden **türetilmiş (derived)**, §5.6 `QueryVideoMemoryInfo` kapısı henüz çalıştırılmadı; ölçüm bu tabloyu doğrular/revize eder → ⚠️ VERIFICATION REQUIRED (self-hosted GPU bekleniyor) · **v1.3.1 eklentileri:** gerçek test **bench adı `UNKNOWN`** (GPU model + VRAM + sürücü sabitlenmeden ölçüm geçersiz — §2.8 "ölçüm ortamı") · merdiven V0-V5 doğrulama testi §5.6'ya eklendi · AK-4'e VRAM ≤600 MB ölçütü işlendi (kapsam v0.2.2)
+13. **VRAM peak ölçümü gerçek GPU'da YAPILMADI** → ADR-0105 §2.8 bütçesi (~400-700 MB) birinci-ilkellerden **türetilmiş (derived)**, §5.6 `QueryVideoMemoryInfo` kapısı henüz çalıştırılmadı; ölçüm bu tabloyu doğrular/revize eder → ⚠️ VERIFICATION REQUIRED (**daraltıldı 2026-10-20 — üçüncü denetim:** artakalan tek eksik **ölçümün kendisi**; ortam artık sabit) · **v1.3.1:** merdiven V0-V5 doğrulama testi §5.6'ya eklendi · AK-4'e VRAM ≤600 MB ölçütü işlendi (kapsam v0.2.2) · **v1.3.2:** **bench atandı** — `coremusic-dev` = GTX 1660 · 6144 MB · sürücü 610.62 (PnP 32.0.16.1062) · Win10 19045 (3 kaynak teyitli: `nvidia-smi` + `qwMemorySize` + PnP) + masaüstü **baseline** (1511 MiB / 1706 MB) + bench≠hedef-sınıf notu (1060 3 GB'ta 600 MB = %19,5) → §2.8/§5.6; NevaPlayer derlenince §5.6 ölçümü bu sabit ortamda yapılır
 14. **Gecikme / A-V sync / RAM ölçümü gerçek cihazda YAPILMADI** → ADR-0105 v1.3.0 §2.9 (≤400 MB), §2.10 (≤20 ms), kapı 5.10/5.11 sayıları **derived**; WASAPI sürücü min period (§2.10 UNKNOWN) + standart sync eşik atıfları (ITU-R BT.1359 / EBU R37) doğrulanmadı → ⚠️ VERIFICATION REQUIRED (gerçek DAC + sürücü ölçümü bekleniyor) · ayrıca: gapless kapı 5.4 ↔ AK-5 format boşluğu (DoP/DSF vektörü yok) + hostile-file fuzzing kapısı yok → sonraki tur

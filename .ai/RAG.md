@@ -91,7 +91,7 @@ değildir**; kural koymaz, yalnız yönlendirir ve durum raporlar.
 | 18 | AI stratejisi, RAG/embedding kararı | [[.decisions/accepted/ADR-030-ai-strategy-core]] | rag, embedding, ai-stratejisi, llm | PLANNED |
 | 19 | Güvenlik: CSRF/CSP/JWT/session | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] · ADR-011 · ADR-022 · skill `security-hardening` | csrf, csp, jwt, auth, güvenlik | IMPLEMENTED |
 | 20 | Class AB donanım, PCB, güç, termal | ADR-089 | class-ab, amf, pcb, ±35v, termal | IMPLEMENTED |
-| 21 | Ses motoru, mixer, EQ/DSP, reverse-engineering, OS ses I/O, mobile DSP | `projects/NevaEngine/` (59 md: 00-11 + 11-examples/ 20 + os/01-04 + legacy-2026-07/ 23 — 2026-10-19) · [[brain]] §7.4 | neva, mixer, juce, asio, wasapi, eq, dsp, voicemeeter, banana, potato, fxsound, ghidra, pcm, routing-matrix, spatial, vst3, midi, mobile, android, ios, xp | IMPLEMENTED |
+| 21 | Ses motoru, mixer, EQ/DSP, reverse-engineering, OS ses I/O, mobile DSP | `projects/NevaEngine/` (60 md: 00-12 + 11-examples/ 20 + os/01-04 + legacy-2026-07/ 23 — 2026-10-20) · [[brain]] §7.4 | neva, mixer, juce, asio, wasapi, eq, dsp, voicemeeter, banana, potato, fxsound, ghidra, pcm, routing-matrix, spatial, vst3, midi, mobile, android, ios, xp | IMPLEMENTED |
 
 **Kapsam notu (olmayanlar — uydurulmaz):** `.ai/wiki/` (kök `AGENTS.md` §7'de anılır, diskte **0 dosya** → VERIFICATION REQUIRED) · `.ai/.rules/error-recovery.md` (diskte YOK — bkz. [[CONTEXT]] §3.5).
 
