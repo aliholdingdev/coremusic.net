@@ -2,10 +2,10 @@
 title: "Neva Engine — Reverse-Engineering: VoiceMeeter Potato & FxSound"
 type: doc
 category: audio-engine
-version: 1.4.2
+version: 1.4.3
 status: analiz
 authority: "REA shipped-artifact evidence · zero-hallucination (string kanıtları diskte)"
-updated: 2026-10-19
+updated: 2026-10-20
 ---
 
 # RE Raporu — VoiceMeeter Potato + FxSound (Özellik Envanteri)
@@ -456,8 +456,9 @@ Uninstall kaydı: `FxSound | 1.2.13.0 | C:\Program Files\FxSound LLC\FxSound\`.
 | 1.2.0 | 2026-10-15 | Tur 3: Ghidra decompile + ASIO sürücü RE (`vbvm*_asiodriver64.dll` ×5) |
 | 1.3.0 | 2026-10-15 | **Tur 4: OS & sürücü matrisi** — VB 29-sürücü dosya matrisi (5 OS × 6 aile, PE resource envanteri + INF DriverVer) · FxSound fxvad.sys PE resource + oem39.inf (DFX mirası + `$CHICAGO$`) · fxmcp.exe Go build-info (go1.26.5 + resmi MCP SDK v1.6.1 + oauth2) · §9-§12 yeni · kurulu sistem registry durumu |
 | 1.4.0 | 2026-10-19 | **Tur 5: Potato 32-bit (`voicemeeter8.exe`) + FxSound hash teyidi** — §14 yeni · PE32/PE32+ hash kaydı · StripComp parser Ghidra decompile (strip struct 0x430) · dil paleti envanteri (C++ VS2010 / Go YOK / Rust YOK / CLR YOK) · FxSound 73 kaynak-dosya modül envanteri · §14.7 ses motoru zinciri (mix matrisi 5 strip × 4 bus, crossover √2 Q, kompresör envelope AÇIK madde) |
-| 1.4.2 | 2026-10-20 | **Tur 5c: Per-sample ses katmanı haritası** - §14.9 yeni · `FUN_0048e990` = ana per-sample strip ses fonksiyonu (strip ×5 döngüsü, ×4-unroll FPU örnek döngüleri) · `FUN_00488ae0` = modüle gecikmeli spatial/IntelliPan efekti (ring buffer + faz akümülatör + 2 LFO tablosu + denormal flush, ev_b441f2b3) · `FUN_00488790` 0x2064/0x2c bloğu = spatial param (kompresör DEĞİL - düzeltme) · `FUN_00487800` = 3 bantlı biquad katsayı üreteci · `FUN_0048cc20` = 6 bantlı 5-tap FIR bankası · `FUN_005206c0` = CRT ftol (92 çağıracı) · kompresör coeffBlock hedefi stripParams+0x34 (assembly LEA 0x4892db) · block-step 8/8 kapandı · envelope döngüsü AÇIK daraltıldı (bus/fiziksel çıkış yolu veya 0x49xxxx) |
 | 1.4.1 | 2026-10-19 | **Tur 5b: Kompresör katsayı hesaplayıcı pinlendi** — §14.8 yeni · `FUN_00486dc0` (629 B, ev_a4668e62) = attack/release `pow` katsayıları + soft-knee katsayısı + ratio eğimi + 18-bit limiter ölçeği (2^-18) + varsayılan eşik −35 dB · tek çağırıcı `0x4892de` (per-blok recompute) · "Compressor Details" dialog xref `0x4d7167` · §14.7 AÇIK maddesi daraltıldı (katsayılar TAMAM, per-sample uygulama döngüsü AÇIK) |
+| 1.4.2 | 2026-10-20 | **Tur 5c: Per-sample ses katmanı haritası** - §14.9 yeni · `FUN_0048e990` = ana per-sample strip ses fonksiyonu (strip ×5 döngüsü, ×4-unroll FPU örnek döngüleri) · `FUN_00488ae0` = modüle gecikmeli spatial/IntelliPan efekti (ring buffer + faz akümülatör + 2 LFO tablosu + denormal flush, ev_b441f2b3) · `FUN_00488790` 0x2064/0x2c bloğu = spatial param (kompresör DEĞİL - düzeltme) · `FUN_00487800` = 3 bantlı biquad katsayı üreteci · `FUN_0048cc20` = 6 bantlı 5-tap FIR bankası · `FUN_005206c0` = CRT ftol (92 çağıracı) · kompresör coeffBlock hedefi stripParams+0x34 (assembly LEA 0x4892db) · block-step 8/8 kapandı · envelope döngüsü AÇIK daraltıldı (bus/fiziksel çıkış yolu veya 0x49xxxx) |
+| 1.4.3 | 2026-10-20 | **Tur 5d: Kompresör envelope + limiter bulundu — §14.8 AÇIK kapandı** - §14.10 yeni · `FUN_004869e0` = per-sample envelope uygulayıcı + hard limiter (attack `[0x8]` eşik aşıldığında, release `[0x4]` her blok + 1.0 kısma, `|out|>0.99999` → `env=1/tepe` anında kısma + işaret biti koruma, ev_94808216) · çağrı yuvalaması assembly ile kanıtlandı: 8 grup tablosu DAT_00554548 (5 strip + 3 bus, *inferred*) × kanal iç döngüsü, durum stride 0x14, ctx+0xcf4 · `FUN_00487aa0` = biquad uygulayıcı (487800 üretici çifti kapandı, ev_6b1faf1d) · `FUN_00487230` = yan-zincir seviye izleyici (tepe/`max(|L|,|R|)` veya ağırlıklı fark+yumuşatma, denormal flush, ev_786d2276; tüketici VERIFICATION REQUIRED) · bus yolu elemine: `FUN_0048b750` sarmalayıcı, `FUN_0048bb00` engine INIT (crossover varsayılan 80/800/13000 Hz) · `FUN_0048e990` 42 CALL tam haritandı |
 
 **Authority:** Embedded Engineer (L1) · Statü: ANALİZ TUR 2+3+**Ghidra** (string/resource
 + decompile katmanı tam — Banana+Potato+FxSound+GEQ15+**ASIO sürücü ×5** · EQ band=31
@@ -617,7 +618,8 @@ gain-computer** (attack/release `exp` katsayı, ratio, knee) bu turda **pinlenme
 (§7.7) örnek-seviyesi biquad döngüsü gösteriyor; Potato'da karşılığı henüz pinlenmedi.
 **Güncelleme (§14.8, v1.4.1):** bu açık daraltıldı — katsayı hesaplayıcı `FUN_00486dc0`
 olarak pinlendi (bkz. §14.8); kalan tek açık: katsayıların örnekler üzerinde uygulandığı
-per-sample döngü.
+per-sample döngü. **→ KAPANDI (§14.10, v1.4.3):** uygulayıcı `FUN_004869e0`
+(envelope + hard limiter) olarak pinlendi.
 
 ### §14.8 Kompresör katsayı hesaplayıcı — `FUN_00486dc0` (Tur 5b, v1.4.1)
 
@@ -666,6 +668,8 @@ envelope döngüsü** (threshold karşılaştırma + attack/release uygulaması 
 eğimi) henüz pinlenmedi — aday: `FUN_00489230`'un diğer callee'leri (`FUN_004885d0`,
 `FUN_00488790`) veya strip DSP'si. Bir sonraki tur: `search_bytes` ile coeffBlock
 alan okumalarının (stride 0x2c/0x60/0x10c) DSP bölgesinde taranması.
+**→ KAPANDI (§14.10, v1.4.3):** uygulayıcı `FUN_004869e0` pinlendi — threshold
+karşılaştırma + attack/release uygulaması + hard limiter pseudocode kanıtlı.
 
 
 ### §14.9 Per-sample ses katmanı haritası + kompresör uygulayıcı arayışı (Tur 5c, v1.4.2)
@@ -762,4 +766,94 @@ Sonraki tur yöntemi: stripParams+`0x34` displacement'ı okumaları byte-search 
 uygunsuz (0x34 çok yaygın) — bunun yerine `FUN_0048b750`/`FUN_0048bb00` ve komşu
 ses fonksiyonlarının callee listelerinde `FUN_00486dc0` bloğunu (strip·0x34 offset
 hesabı) taşıyan fonksiyonların taranması.
+**→ KAPANDI (§14.10, v1.4.3):** hipotez testi + assembly taramasıyla bu tur
+çözüldü — bus yolu elemine (`FUN_0048b750` sarmalayıcı, `FUN_0048bb00` init),
+`FUN_004869e0` bulundu; §14.7'den beri taşınan tek kalan madde kapandı.
 
+
+
+
+### §14.10 Kompresör per-sample envelope + limiter uygulayıcısı — `FUN_004869e0` (Tur 5d, v1.4.3)
+
+**§14.8'deki AÇIK madde bu turda KAPANDI.** Yöntem: (1) hipotez testi — bus/fiziksel
+çıkış yolu tarandı ve **elemine** edildi; (2) `FUN_0048e990` assembly tam taraması
+(retained Evidence `ev_eb43a557…8ad2`, 10.617 satır, 42 CALL); (3) adayların
+decompile'u.
+
+**1. Bus yolu elemine edildi:**
+- `FUN_0048b750` (133 B, ev_f0dbb656…d00f) = ince sarmalayıcı → `FUN_0048b5b0`
+  (39 çağıracı; UI/event tarafı).
+- `FUN_0048bb00` (3.127 B, ev_3cf17462…70a1) = **engine INIT**, per-sample DEĞİL:
+  SR/buffer kurulumu, `FUN_00488950` (ev_50afed8b…2434) ve `FUN_00488a50`
+  (ev_2f6040df…8145) ile malloc tabanlı ring-buffer tahsisi, crossover varsayılan
+  tabloları `{80, 800, 13000 Hz; 2.8, 3.0, 1.5}` ×8 grup + 9. grup
+  `{200, 3000, 13000, …}`. Tek çağıracı `0x4d3c20`.
+
+**2. `FUN_004869e0` = kompresör envelope + hard limiter (989 B, ev_94808216…2e24;
+tek çağıracı `0x491241` = `FUN_0048e990` içi).** Tam pseudocode kanıtlı yapı:
+
+```text
+param bloğu (5 float, stride 0x14/kanal, ctx+0xcf4 bölgesi):
+  [0x4] = release çarpanı (>1.0; her blokta uygulanır, 1.0'a kısılır)
+  [0x8] = attack çarpanı (<1.0; YALNIZCA eşik aşıldığında)
+  [0xc] = eşik (threshold)
+  [0x10]= env durumu (çıkışta geri yazılır)
+in_ECX[0x4] = giriş kazancı · in_ECX[0x8] = çıkış (makeup) kazancı
+
+×4 unroll döngü (blok = 4 örnek):
+  1. 4 örneği giriş kazancıyla ölçekle, blok tepe = max|y|
+  2. if (eşik < tepe) env = attack · env          ← attack yolu
+  3. env = release · env; if (1.0 < env) env = 1.0 ← recovery + kısma
+  4. örnekleme-başı: out = x · girişKazancı · env
+  5. if (|out| > 0.99999)  ← HARD LIMITER
+        env = 1.0 / blokTepe   (anında tam ölçekli kısma — lookahead'siz)
+        |out| = 0.99999; işaret biti 0x80000000 ile korunur
+  6. write-back: out · çıkışKazancı; env state persist
++ scalar tail (blok & 3)
+```
+
+§14.8'in katsayı üreteci (`FUN_00486dc0` → stripParams+0x34) ile uygulayıcı
+arasındaki zincir tamamlandı: attack/release katsayıları buradaki `[0x8]`/`[0x4]`
+alanlarına akar. Not: §14.8'in 18-bit limiter ölçeği (262143, 2⁻¹⁸) katsayı
+hesap içindir; uygulayıcının hard-limit eşiği ayrı sabittir `0.99999`
+(≈ −0,000087 dBFS, float32 guard band'i).
+
+**3. Çağrı yuvalaması (assembly, ev_eb43a557):**
+- Dış döngü `0x4911f3…0x49127a`: tablo `DAT_00554548…DAT_00554568` = **8 grup**
+  (kanal-sayıları; LFO şekil tablosu `DAT_00554568`'in hemen öncesi — muhtemel
+  5 strip + 3 bus, *inferred*), `EBX += 0xc` (grup başına 3-float {?, girişK,
+  çıkışK} bloğu, ctx2+0x30e0).
+- İç döngü `0x491236…0x491255`: grup içindeki kanallar; `ESI += 4` (buffer ptr
+  dizisi), `EDI += 0x14` (kanal başına kompresör durum bloğu), `CALL 0x4869e0`.
+- Hemen öncesinde `0x4911d4: CALL FUN_00487aa0` (biquad uygulayıcı, aşağıda) —
+  yani sıralama: crossover/EQ biquad uygula → kompresör.
+
+**4. `FUN_00487aa0` = biquad uygulayıcı (836 B, ev_6b1faf1d…d75f).** `FUN_00487800`'ün
+(§14.9) double katsayı dizilerini tüketir: bant başına `b0=in_EAX[0], b1=in_EAX[3],
+b2=in_EAX[6], a1=in_EAX[9]` (stride 3 double), kanal başına 12-float durum
+(stride 0xc, L/R iki takım: +0x24/+0x30/+0x3c/+0x54/+0x60/+0x6c ve
++0x28/+0x34/+0x40/+0x58/+0x64/+0x70), `state[+0xc]=1.0` başlangıç. Üretici–
+tüketici çifti kapandı.
+
+**5. `FUN_00487230` = yan-zincir seviye izleyici (1.273 B, ev_786d2276…21dd;
+tek çağıracı `0x48f30a`).** Mod seçimi `ctx+0x18`:
+- `==0`: klasik tepe dedektörü — `max(|L|,|R|)`, ×4-unroll + scalar tail.
+- `!=0`: ağırlıklı izleyici — `y = c·y₁ + b·(x − x₁) + a·y₂` (fark + tek-kutuplu
+  yumuşatma benzeri, L/R çapraz terimli), 12 katsayı float'ı coeffBlock
+  `[+0x10…+0x2c]`, durum `in_ECX[+0x1c…+0x24]`, her örnekte denormal flush
+  `((x & 0x7f800000) < 0xf800000) → 0.0`. Dönüş değeri neye yazılıyor —
+  **VERIFICATION REQUIRED** (tek çağrıcı; tüketici register-geçişli, izlenmedi).
+
+**6. Ek yapı kanıtı:** `0x490ce0…0x4911b0` = ESI stride **0x2c** (coeffBlock
+stride!) ikinci per-strip döngü + inner `JNZ 0x491073` — 11-float blokları
+okuyan另一个 per-strip aşama; tam rolü **VERIFICATION REQUIRED**. Ayrıca
+`FUN_0048e990`'un tüm CALL listesi (42) çıkarıldı: bilinen tüm DSP callee'leri
+artık sınıflandı (488ae0 spatial, 48cc20 FIR, 487aa0 biquad, 4869e0 kompresör,
+487230 dedektör, 48e7a0 kopya/fade, 487230+48c960×3+48cf20×3+48d700+48e600+
+48e850×3 kalan adaylar — sonraki turlar için liste).
+
+**Sonuç:** Voicemeeter Potato 32-bit kompresör zinciri uçtan uca kanıtlandı:
+UI param → `FUN_00486dc0` katsayı üreteci (§14.8) → per-kanal runtime blok
+(ctx+0xcf4, stride 0x14) → **`FUN_004869e0` per-sample envelope + hard limiter**
+(§14.10) · algılayıcı `FUN_00487230` (tepe / ağırlıklı izleyici) · komşu biquad
+EQ `FUN_00487aa0` ← `FUN_00487800` (§14.9).
