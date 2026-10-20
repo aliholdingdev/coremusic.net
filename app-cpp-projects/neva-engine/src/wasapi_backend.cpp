@@ -69,7 +69,7 @@ private:
 class WasapiBackend final : public IAudioBackend {
 public:
   WasapiBackend() {
-    CoInitializeEx(nullptr, COMINIT_MULTITHREADED);
+    CoInitializeEx(nullptr, COINIT_MULTITHREADED);
     // WRL ComPtr out-param idiomu: IID_PPV_ARGS ham T** ister (ComPtrRef ile derlenmez).
     ::IMMDeviceEnumerator* raw = nullptr;
     HRESULT hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL,
