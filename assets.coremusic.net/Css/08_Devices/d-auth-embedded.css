@@ -409,3 +409,261 @@ body {
   text-decoration: underline !important;
   text-shadow: 0 0 10px rgba(255, 100, 200, 0.5) !important;
 }
+
+/* ═══ LOGIN FORM (Embedded 1024×600 Figma 2831:9826) ═══ */
+.lgn-hero__cards {
+  display: none !important;
+}
+
+.lgn-panel__sub {
+  font-family: var(--font-body, 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif) !important;
+  font-size: 10px !important;
+  font-weight: 300 !important;
+  line-height: 13px !important;
+  color: #DCDCDC !important;
+  margin: 0 !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75) !important;
+}
+
+.lgn-form {
+  width: 220px !important;
+  margin: -5px auto 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+.lgn-form__field {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px !important;
+  width: 220px !important;
+  margin-bottom: 10px !important;
+}
+
+.lgn-form__label {
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif) !important;
+  font-size: 8px !important;
+  font-weight: 500 !important;
+  line-height: 10px !important;
+  color: #FFFFFF !important;
+  text-align: left !important;
+  margin: 0 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+}
+
+.lgn-form__input {
+  width: 220px !important;
+  height: 19px !important;
+  min-height: 19px !important;
+  border-radius: 3px !important;
+  border: 0.8px solid #F200D0 !important;
+  background: rgba(255, 105, 223, 0.45) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  color: #FFFFFF !important;
+  font-size: 8px !important;
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif) !important;
+  padding: 0 7px !important;
+  box-sizing: border-box !important;
+  outline: none !important;
+  transition: border-color 0.2s, background 0.2s !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15) !important;
+}
+
+.lgn-form__input::placeholder {
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-size: 8px !important;
+}
+
+.lgn-form__input:focus {
+  border-color: #FF3CE3 !important;
+  background: rgba(255, 105, 223, 0.55) !important;
+  box-shadow: 0 0 8px rgba(255, 60, 227, 0.5) !important;
+}
+
+.lgn-form__pw-wrap {
+  position: relative !important;
+  width: 220px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.lgn-form__pw-eye {
+  display: none !important;
+}
+
+.lgn-form__row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 220px !important;
+  margin: 0 0 13px 0 !important;
+  height: 12px !important;
+}
+
+.lgn-form__check {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  font-size: 8px !important;
+  color: #FFFFFF !important;
+  cursor: pointer !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+  margin: 0 !important;
+}
+
+.lgn-form__check input {
+  width: 9px !important;
+  height: 9px !important;
+  accent-color: #FF3CE3 !important;
+  margin: 0 !important;
+}
+
+.lgn-form__link {
+  font-size: 8px !important;
+  font-weight: 500 !important;
+  color: #FF3CE3 !important;
+  text-decoration: none !important;
+  text-shadow: 0 0 6px rgba(255, 60, 227, 0.4) !important;
+}
+
+.lgn-form__link:hover {
+  text-decoration: underline !important;
+}
+
+.lgn-btn#lgn-submit,
+.lgn-form .lgn-btn {
+  width: 220px !important;
+  height: 25px !important;
+  min-height: 25px !important;
+  border-radius: 5px !important;
+  background: linear-gradient(135deg, rgba(255, 0, 200, 0.8), rgba(255, 60, 227, 0.85), rgba(255, 0, 180, 0.75)) !important;
+  border: 1px solid rgba(255, 60, 227, 0.9) !important;
+  color: #FFFFFF !important;
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif) !important;
+  font-size: 8.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  box-shadow: 0 2px 14px rgba(255, 0, 200, 0.45) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.25s ease !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+}
+
+.lgn-btn#lgn-submit:hover,
+.lgn-form .lgn-btn:hover {
+  filter: brightness(1.1) !important;
+  box-shadow: 0 4px 18px rgba(255, 0, 200, 0.6) !important;
+}
+
+/* ═══ DIVIDER & SOCIAL (Figma 3×3 Grid) ═══ */
+.lgn-panel__inner-social {
+  width: 220px !important;
+  margin: -5px auto 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.lgn-divider {
+  width: 220px !important;
+  height: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  margin: 0 0 4px 0 !important;
+}
+
+.lgn-divider::before,
+.lgn-divider::after {
+  content: "" !important;
+  flex: 1 !important;
+  height: 1px !important;
+  background: rgba(255, 255, 255, 0.25) !important;
+}
+
+.lgn-divider span {
+  font-size: 7.5px !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+  padding: 0 6px !important;
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+}
+
+.lgn-social {
+  display: grid !important;
+  grid-template-columns: repeat(3, 65px) !important;
+  gap: 10px 12.5px !important;
+  justify-content: center !important;
+  width: 220px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.lgn-social__btn {
+  width: 65px !important;
+  height: 25px !important;
+  min-height: 25px !important;
+  border-radius: 5px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  transition: transform 0.2s, box-shadow 0.2s !important;
+}
+
+.lgn-social__btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35) !important;
+}
+
+.lgn-social__btn img {
+  width: 14px !important;
+  height: 14px !important;
+  object-fit: contain !important;
+}
+
+.lgn-social__btn--apple {
+  background: #111111 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.lgn-social__btn--google {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+.lgn-social__btn--facebook {
+  background: #1877F2 !important;
+  border: none !important;
+}
+
+.lgn-social__btn--spotify {
+  background: #1DB954 !important;
+  border: none !important;
+}
+
+.lgn-social__btn--instagram {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+  border: none !important;
+}
+
+.lgn-social__btn--tiktok {
+  background: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.lgn-social__btn--github {
+  background: #24292e !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
