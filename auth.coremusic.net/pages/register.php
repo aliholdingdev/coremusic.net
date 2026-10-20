@@ -90,14 +90,14 @@ if ($csrf === '') {
       <div class="lgn-form__field">
         <label class="lgn-form__label" for="lgn-pw1">Şifre</label>
         <div class="lgn-form__pw-wrap">
-          <input class="lgn-form__input" type="password" id="lgn-pw1" name="password" placeholder="En az 8 karakter" autocomplete="new-password" required minlength="8">
+          <input class="lgn-form__input" type="password" id="lgn-pw1" name="password" placeholder="Equalzier Presents 5" autocomplete="new-password" required minlength="8">
           <button type="button" class="lgn-form__pw-eye" aria-label="Şifreyi göster"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11 7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></button>
         </div>
       </div>
       <div class="lgn-strength" id="pw-strength" hidden><div class="lgn-strength__bar"><div class="lgn-strength__fill" id="pw-strength-fill"></div></div><span class="lgn-strength__text" id="pw-strength-text"></span></div>
       <div class="lgn-form__field">
         <label class="lgn-form__label" for="lgn-pw2">Şifre Tekrar</label>
-        <input class="lgn-form__input" type="password" id="lgn-pw2" name="password_confirm" placeholder="Şifreni tekrar gir" autocomplete="new-password" required minlength="8">
+        <input class="lgn-form__input" type="password" id="lgn-pw2" name="password_confirm" placeholder="Equalzier Presents 5" autocomplete="new-password" required minlength="8">
       </div>
       <button type="button" class="lgn-btn" id="step2-next">Devam Et</button>
     </div>

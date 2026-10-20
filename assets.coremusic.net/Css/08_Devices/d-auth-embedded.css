@@ -431,21 +431,29 @@ body {
   display: none !important;
 }
 
-/* Register Step 1 Specific Layout (Figma 2831:9894) */
-.lgn-form__step[data-step="1"] {
+/* Register Steps 1 & 2 Specific Layout (Figma 2831:9894 / 2831:9957) */
+.lgn-form__step[data-step="1"],
+.lgn-form__step[data-step="2"] {
   margin-top: 2.5px !important;
 }
 
-.lgn-form__step[data-step="1"] .lgn-form__field:nth-child(1) {
+.lgn-form__step[data-step="1"] .lgn-form__field:first-of-type,
+.lgn-form__step[data-step="2"] .lgn-form__field:first-of-type {
   margin-bottom: 10px !important;
 }
 
-.lgn-form__step[data-step="1"] .lgn-form__field:nth-child(2) {
+.lgn-form__step[data-step="1"] .lgn-form__field:last-of-type,
+.lgn-form__step[data-step="2"] .lgn-form__field:last-of-type {
   margin-bottom: 19px !important;
 }
 
-.lgn-form__step[data-step="1"] .lgn-btn {
+.lgn-form__step[data-step="1"] .lgn-btn,
+.lgn-form__step[data-step="2"] .lgn-btn {
   margin-top: 0 !important;
+}
+
+.lgn-strength {
+  display: none !important;
 }
 
 .lgn-page:has(.lgn-form__step) .lgn-panel__inner-social {
