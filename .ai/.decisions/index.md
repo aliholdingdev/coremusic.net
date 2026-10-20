@@ -3,9 +3,9 @@ type: index
 category: decisions
 title: "CoreMusic — Decisions Index"
 date: 2026-08-15
-updated: 2026-10-12
+updated: 2026-10-20
 status: active
-version: 1.5.0
+version: 1.5.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 total-accepted: 80
@@ -142,6 +142,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[accepted/ADR-100-cross-db-outbox-cqrss-semi]] | Cross-DB Yazmada Outbox Zorunlu; CQRS Yalnız Okuma Sorgusu Düzeyinde | Database |
 | [[accepted/ADR-101-guvenlik-kanonik-sirasi-uzak-cagri]] | Güvenlik Kanonik Sırası + Uzak Çağrı Sınırları (Timeout/Retry/Fallback) | Security |
 | [[accepted/ADR-0105-neva-player-media-stack]] | Neva Player Media Stack: Açık Kaynak Decode (dr_libs+libdsd+ffmpeg-gateway) + WASAPI Exclusive Bit-Perfect + libplacebo 4K/HDR + 31-Band Parametrik EQ; 3-tur debate 4/4 koşullu-kabul → v1.1 kabul (2026-10-19) | Audio |
+| [[accepted/ADR-106-internet-radio-and-selectable-band-eq]] | Neva Player Internet Radio (ICY/Shoutcast özel tuner + HLS FFmpeg gateway) + Kullanıcı-Ayarlanabilir Bant EQ (10/15/20/31, maks 31); 4 persona debate 4/4 koşullu-kabul → 27 şart → v1.1 kabul (2026-10-20); v1.1.1: VLC dump 62.5/`63`=0 teyidi işlendi | Audio |
 
 ## 4A. Draft ADR'ler
 
@@ -170,7 +171,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 ## 6. Kategori Haritası
 
-> **Yeniden ölçüm (2026-10-12 — dosya sayımı, §6 eski 78 satırı geçersizdir).** Yalnız **diskte dosyası olan** ADR'ler sayıldı (`accepted/` 80 + kökteki ADR-091 = 81); `<!-- NO FILE -->` işaretli ADR-083/087/088 bu tabloya **alınmadı**. Rejected (10) §5'tedir, bu tabloda değildir.
+> **Yeniden ölçüm (2026-10-12 — dosya sayımı, §6 eski 78 satırı geçersizdir).** Yalnız **diskte dosyası olan** ADR'ler sayıldı (`accepted/` 80 + kökteki ADR-091 = 81); `<!-- NO FILE -->` işaretli ADR-083/087/088 bu tabloya **alınmadı**. Rejected (10) §5'tedir, bu tabloda değildir. **Artış (2026-10-20):** ADR-106 accepted'a eklendi → `accepted/` 81 + ADR-091 = **82** (Audio Active 2→3).
 
 | Kategori | Frozen | Active | Toplam |
 |----------|--------|--------|--------|
@@ -179,7 +180,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Architecture | 6 | 6 | 12 |
 | Frontend | 2 | 5 | 7 |
 | Electronics | 0 | 5 | 5 |
-| Audio | 3 | 2 | 5 |
+| Audio | 3 | 3 | 6 |
 | AI | 3 | 1 | 4 |
 | Infrastructure | 2 | 2 | 4 |
 | Routing | 3 | 0 | 3 |
@@ -189,11 +190,11 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Social | 1 | 0 | 1 |
 | Testing | 1 | 0 | 1 |
 | Vault | 0 | 1 | 1 |
-| **TOPLAM** | **36** | **45** | **81** |
+| **TOPLAM** | **36** | **46** | **82** |
 
 ---
 
 *Decisions Index v1.5.0 — CoreMusic Vault*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-10-12*
+*Last Updated: 2026-10-20*
 *Mode: Red Team · Human Mode · Truth Mode*
