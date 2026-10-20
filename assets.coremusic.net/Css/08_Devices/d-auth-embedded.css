@@ -415,6 +415,48 @@ body {
   display: none !important;
 }
 
+.lgn-wizard {
+  display: none !important;
+}
+
+.lgn-form__step {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  width: 220px !important;
+  animation: none !important;
+}
+
+.lgn-form__step[hidden] {
+  display: none !important;
+}
+
+/* Register Step 1 Specific Layout (Figma 2831:9894) */
+.lgn-form__step[data-step="1"] {
+  margin-top: 2.5px !important;
+}
+
+.lgn-form__step[data-step="1"] .lgn-form__field:nth-child(1) {
+  margin-bottom: 10px !important;
+}
+
+.lgn-form__step[data-step="1"] .lgn-form__field:nth-child(2) {
+  margin-bottom: 19px !important;
+}
+
+.lgn-form__step[data-step="1"] .lgn-btn {
+  margin-top: 0 !important;
+}
+
+.lgn-page:has(.lgn-form__step) .lgn-panel__inner-social {
+  margin: 0 auto !important;
+  padding-top: 66px !important;
+}
+
+.lgn-page:has(.lgn-form__step) .lgn-divider {
+  margin-bottom: 5px !important;
+}
+
 .lgn-panel__sub {
   font-family: var(--font-body, 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif) !important;
   font-size: 10px !important;

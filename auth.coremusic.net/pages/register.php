@@ -29,36 +29,23 @@ if ($csrf === '') {
 }
 ?>
 <section class="lgn-page" data-gender="<?=$genderAttr?>">
+<script nonce="<?=$nonce?>">(function(){var s=document.currentScript.parentElement;if(s.dataset.gender==='neutral'){try{var g=localStorage.getItem('cm_gender');if(g&&['female','male','neutral'].indexOf(g)!==-1)s.dataset.gender=g;}catch(e){console.error('[auth] register: localStorage gender read failed',e);document.addEventListener('DOMContentLoaded',function(){const el=document.getElementById('lgn-err');if(el){el.textContent='Tema tercihi yüklenemedi, varsayılan tema kullanılıyor.';el.classList.add('lgn-error--on');}});}}})();</script>
 <div class="lgn-bg" aria-hidden="true"></div>
 <div class="lgn-particles" aria-hidden="true"><?php for($i=0;$i<8;$i++)echo'<div class="lgn-particle"></div>'; ?></div>
 
-<!-- HERO (left 78%) -->
+<!-- HERO (left 749px) -->
 <div class="lgn-hero">
   <div class="lgn-hero__brand">
-    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-img.png" alt="" width="40" height="40">
+    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-img.png" alt="" width="30" height="30">
     <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-text.png" alt="CoreMusic" class="logo-text-png">
   </div>
-  <h1 class="lgn-hero__title">Hayatın<br><em>milyonlarca</em></h1>
-  <p class="lgn-hero__text">Sistem, Milyarlarca şarkı, özel seçilmiş playlistler, sonsuz müzik keyfi. Senin için.</p>
-  <div class="lgn-hero__cards">
-    <div class="lgn-hero__card">
-      <div class="lgn-hero__card-icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/music.png" alt="Ücretsiz" width="22" height="22"></div>
-      <span class="lgn-hero__card-text">Ücretsiz Başla</span>
-    </div>
-    <div class="lgn-hero__card">
-      <div class="lgn-hero__card-icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/cd-ico.png" alt="Sınırsız" width="22" height="22"></div>
-      <span class="lgn-hero__card-text">Sınırsız Müzik</span>
-    </div>
-    <div class="lgn-hero__card">
-      <div class="lgn-hero__card-icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/music-2.png" alt="Hızlı" width="22" height="22"></div>
-      <span class="lgn-hero__card-text">30 Saniyede Kayıt</span>
-    </div>
-  </div>
+  <h1 class="lgn-hero__title"><em class="hero-title--sm">Duygu için</em><br><em>mükemmel</em></h1>
+  <p class="lgn-hero__text">sistem. Milyonlarca şarkı, özel seçilmiş playlist'ler, sonsuz müzik keşfi. Senin için.</p>
   <div class="lgn-hero__foot">
     <a href="/privacy" data-no-spa>Gizlilik</a><span class="dot"></span>
-    <a href="/about" data-no-spa>Hakkımızda</a><span class="dot"></span>
-    <a href="/help" data-no-spa>Yardım</a><span class="dot"></span>
-    <a href="/faq" data-no-spa>SSS</a>
+    <a href="/terms" data-no-spa>Kullanım Koşulları</a><span class="dot"></span>
+    <a href="/support" data-no-spa>Destek</a><span class="dot"></span>
+    <span>&copy; 2026 Coremusic</span>
   </div>
 </div>
 
@@ -66,11 +53,11 @@ if ($csrf === '') {
 <div class="lgn-panel"><div class="lgn-panel__glass">
   <div class="lgn-panel__inner-top">
     <div class="lgn-panel__avatar" aria-hidden="true">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/kız-gender-select.png" alt="" width="64" height="64">
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/girl-1.png" alt="" width="100" height="100">
     </div>
     <div class="lgn-panel__head">
       <h2 class="lgn-panel__title">Hesap Oluştur</h2>
-      <p class="lgn-panel__sub">CoreMusic dünyasına katıl, müziğin keyfini çıkar</p>
+      <p class="lgn-panel__sub">CoreMusic ailesine katıl, müziğin keyfini çıkar</p>
     </div>
   </div>
   <div class="lgn-panel__inner-mid">
@@ -89,11 +76,11 @@ if ($csrf === '') {
     <div class="lgn-form__step" data-step="1">
       <div class="lgn-form__field">
         <label class="lgn-form__label" for="lgn-usr">Kullanıcı Adı</label>
-        <input class="lgn-form__input" type="text" id="lgn-usr" name="username" placeholder="kullanici_adin" autocomplete="username" required minlength="3" maxlength="32">
+        <input class="lgn-form__input" type="text" id="lgn-usr" name="username" placeholder="Equalzier Presents 5" autocomplete="username" required minlength="3" maxlength="32">
       </div>
       <div class="lgn-form__field">
-        <label class="lgn-form__label" for="lgn-email">E-posta</label>
-        <input class="lgn-form__input" type="email" id="lgn-email" name="email" placeholder="ornek@email.com" autocomplete="email" required>
+        <label class="lgn-form__label" for="lgn-email">Eposta</label>
+        <input class="lgn-form__input" type="email" id="lgn-email" name="email" placeholder="Equalzier Presents 5" autocomplete="email" required>
       </div>
       <button type="button" class="lgn-btn" id="step1-next">Devam Et</button>
     </div>
@@ -149,34 +136,31 @@ if ($csrf === '') {
   </form>
   </div>
   <div class="lgn-panel__inner-social">
-  <div class="lgn-divider"><span>veya alternatif ile devam et</span></div>
+  <div class="lgn-divider"><span>veya şununla devam et</span></div>
   <div class="lgn-social">
+    <!-- PNG mockup social buttons (3x3 grid) -->
     <button type="button" class="lgn-social__btn lgn-social__btn--apple" data-provider="apple" aria-label="Apple ile kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/apple.png" alt="" width="18" height="18" aria-hidden="true">
-      <span>Apple</span>
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/apple.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
     <button type="button" class="lgn-social__btn lgn-social__btn--google" data-provider="google" aria-label="Google ile kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/google.png" alt="" width="18" height="18" aria-hidden="true">
-      <span>Google</span>
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/google.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
     <button type="button" class="lgn-social__btn lgn-social__btn--facebook" data-provider="facebook" aria-label="Facebook ile kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/facebook.png" alt="" width="18" height="18" aria-hidden="true">
-      <span>Facebook</span>
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/facebook.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
-    <button type="button" class="lgn-social__btn lgn-social__btn--whatsapp" data-provider="whatsapp" aria-label="WhatsApp ile kayıt">
-      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.12 1.52 5.855L0 24l6.335-1.652A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.82c-1.96 0-3.82-.52-5.42-1.44l-.387-.23-4.008 1.046 1.068-3.912-.254-.402A9.786 9.786 0 012.18 12c0-5.42 4.4-9.82 9.82-9.82S21.82 6.58 21.82 12s-4.4 9.82-9.82 9.82z" fill="currentColor"/></svg>
-      <span>WhatsApp</span>
+    <!-- Row 2 -->
+    <button type="button" class="lgn-social__btn lgn-social__btn--spotify" data-provider="spotify" aria-label="Spotify ile kayıt">
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/spotify.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
     <button type="button" class="lgn-social__btn lgn-social__btn--instagram" data-provider="instagram" aria-label="Instagram ile kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/instagram.png" alt="" width="18" height="18" aria-hidden="true">
-      <span>Instagram</span>
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/instagram.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
     <button type="button" class="lgn-social__btn lgn-social__btn--tiktok" data-provider="tiktok" aria-label="TikTok ile kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/tik-tok.png" alt="" width="18" height="18" aria-hidden="true">
-      <span>TikTok</span>
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/tik-tok.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
-    <button type="button" class="lgn-social__btn lgn-social__btn--mic" data-provider="microphone" aria-label="Sesli kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/mic-1.png" alt="" width="18" height="18" aria-hidden="true">
+    <!-- Row 3 -->
+    <button type="button" class="lgn-social__btn lgn-social__btn--github" data-provider="github" aria-label="GitHub ile kayıt">
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/github.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
   </div>
   </div>
