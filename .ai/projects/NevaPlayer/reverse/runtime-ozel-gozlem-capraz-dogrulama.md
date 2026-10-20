@@ -5,7 +5,7 @@ target: "C:\Program Files\AIMP\AIMP.exe · C:\Program Files\VideoLAN\VLC\vlc.exe
 method: "pefile 2024.8.26 (statik PE import/delay-import/reloc) + PowerShell Get-Process.Modules (canlı modül çekimi) + disk envanteri (os.walk) + uygulama yapılandırma dosyaları (aimp.ini / EQPresetsLibrary.ini / vlcrc)"
 date: 2026-10-20
 status: evidence-backed
-version: 1.1.0
+version: 1.1.1
 evidence:
   - "pefile 2024.8.26 / Python 3.14 — 5 PE imgesi import tablosu, delay-import, BaseReloc, DllCharacteristics"
   - "canlı modül çekimi: AIMP PID 31968 (139), VLC boşta PID 36608 (103), VLC erken oynatma PID 30948 (114), VLC kararlı oynatma PID 27408 (165)"
@@ -516,7 +516,7 @@ libWavPack.dll  WindowsCodecs.dll
 **→ AIMP tüm codec eklentilerini başlangıçta yükler (§7.2 "aceleci yükleme" ile tutarlı).
 Oynatma, sesle ilgili modül setini DEĞİŞTİRMEZ.**
 
-### 14.4 O anki oynatma durumu
+### 14.4 O anki oynatma durumu (v1.1.1 — PyAIMP kanıtıyla güncellendi)
 
 `Get-Process -Id 31968` → `MainWindowTitle`:
 
@@ -530,9 +530,17 @@ yt1s.com - Murat Kurşun  Sevdana Gönül Verdim
 |---|---|
 | Pencere başlığında yüklü parça var | **GERÇEK** |
 | `PlayerState=1`, `TrackPosition` atanmış | **GERÇEK** |
-| `PlayerState=1` = oynatıyor (duraklatma/durdurma değil) | **UNKNOWN** — AIMP kayıt formatı belgelenmedi |
-| `TrackPosition` birimi ms (178,6 sn) | **UNKNOWN** |
-| 139'luk görüntünün alındığı anda oynatma açık mıydı | **UNKNOWN** |
+| `PlayerState=1` = oynatıyor (duraklatma/durdurma değil) | **KISMEN** — PyAIMP `PlayBackState` enum'u `Stopped=0 / Paused=1 / Playing=2` → **1 = Duraklatılmış** (oynatıyor DEĞİL); ama INI alanının remote API ile aynı enum'u kullandığı **VERIFICATION REQUIRED** |
+| `TrackPosition` birimi ms (178,6 sn) | **KISMEN** — PyAIMP `get_player_position()`: "elapsed **milliseconds** since the beginning of the track" → 178610 ms ≈ 2:58 (parça ortası, makul); INI eşdeğerliği **VERIFICATION REQUIRED** |
+| 139'luk görüntünün alındığı anda oynatma açık mıydı | **AÇIK** — INI yalnızca son (çıkış anı) durumu saklar; ilk görüntü anına ait kayıt yok. Modül farkının `[ServiceLyrics]` açıklaması DERIVED olarak kalır |
+
+Kaynak: PyAIMP dokümantasyonu (AIMP Remote API sarmalayıcısı),
+`epocdotfr.github.io/pyaimp` — erişim 2026-10-20.
+
+> Tam kapanış için deneysel tur (≈2 dk): AIMP'i parça ortasında kapat →
+> çıkışta INI'da `PlayerState`/`TrackPosition` değerlerini PyAIMP enum'u
+> ile karşılaştır. Bu oturumda yapılmadı (maliyet > değer; §14 kanıtının
+> omurgası modül farkı zaten sağlam).
 
 ### 14.5 §12-L2 için sonuç
 
