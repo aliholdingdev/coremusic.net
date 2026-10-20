@@ -78,8 +78,12 @@ $headerTierClass = $dm->shouldRender4kLayout()
         </a>
 
         <nav class="site-header__nav" aria-label="Ana navigasyon">
-<?php foreach ($dm->navLinks() as $link): ?>
-            <a href="<?= $h((string)$link['href']) ?>" class="nav-link<?= $link['active'] ? ' active' : '' ?>"<?= $link['active'] ? ' aria-current="page"' : '' ?> data-no-spa><?= $h((string)$link['label']) ?></a>
+<?php
+$currentPath = parse_url((string)($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH) ?: '/home';
+foreach ($dm->navLinks() as $link):
+    $isActive = ($link['href'] === $currentPath);
+?>
+            <a href="<?= $h((string)$link['href']) ?>" class="nav-link<?= $isActive ? ' active' : '' ?>"<?= $isActive ? ' aria-current="page"' : '' ?> data-no-spa><?= $h((string)$link['label']) ?></a>
 <?php endforeach; ?>
         </nav>
 

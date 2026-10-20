@@ -307,7 +307,8 @@
             a.className = 'nav-link';
             a.textContent = linkDef.label; // textContent güvenli (HTML injection yok)
 
-            if (index === 0) {
+            const currentPath = window.location.pathname;
+            if (href === currentPath) {
                 a.classList.add('active');
                 a.setAttribute('aria-current', 'page');
             }
