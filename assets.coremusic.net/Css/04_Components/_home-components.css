@@ -642,6 +642,39 @@
   width: 100%;
 }
 
+/* EMBEDDED 1024 — Playlist link kartı + Sıradaki paneli (PNG home-1024: kart 169×43 · panel 186×109, içerik dikey ortalı).
+   Değerler 01_Abstracts/a-layout-tokens-1024.css içinden. */
+.home-layout--embedded .playlist-list-card {
+  height: var(--home-embedded-card-h);
+  min-height: 0;
+}
+
+.home-layout--embedded .up-next-panel {
+  height: var(--home-embedded-up-next-h);
+  min-height: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home-layout--embedded .up-next-panel .mini-card {
+  width: 100%;
+  padding: 0 0 0 var(--home-embedded-up-next-pad-x);
+  gap: var(--home-embedded-up-next-text-gap);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.home-layout--embedded .up-next-panel .mini-card__art {
+  width: var(--home-embedded-up-next-art);
+  height: var(--home-embedded-up-next-art);
+}
+
 /* ============================================================
    SOCIAL ROW (Sağ panel altında — widget'ların altında)
    PNG: Widget'ların altında renkli ikon satırı (YouTube, Instagram, ♥, ♫, ♥)
