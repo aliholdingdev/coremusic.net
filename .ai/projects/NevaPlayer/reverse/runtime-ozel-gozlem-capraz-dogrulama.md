@@ -5,10 +5,11 @@ target: "C:\Program Files\AIMP\AIMP.exe · C:\Program Files\VideoLAN\VLC\vlc.exe
 method: "pefile 2024.8.26 (statik PE import/delay-import/reloc) + PowerShell Get-Process.Modules (canlı modül çekimi) + disk envanteri (os.walk) + uygulama yapılandırma dosyaları (aimp.ini / EQPresetsLibrary.ini / vlcrc)"
 date: 2026-10-20
 status: evidence-backed
-version: 1.0.0
+version: 1.1.0
 evidence:
   - "pefile 2024.8.26 / Python 3.14 — 5 PE imgesi import tablosu, delay-import, BaseReloc, DllCharacteristics"
   - "canlı modül çekimi: AIMP PID 31968 (139), VLC boşta PID 36608 (103), VLC erken oynatma PID 30948 (114), VLC kararlı oynatma PID 27408 (165)"
+  - "aynı süreç iki anlık görüntü: AIMP PID 31968 139 → 151 modül (+12, 12/12 C:\Windows\system32 ağ DLL, codec eklenmedi, çıkan 0) — §14"
   - "disk envanteri: AIMP 49 DLL, VLC plugins/ 363 DLL, FxSound 0 harici DSP DLL"
   - "uygulama config: %APPDATA%\AIMP\aimp.ini (25.314 B), EQPresetsLibrary.ini (20.978 B), %APPDATA%\vlc\vlcrc (96.647 B)"
   - "PE VersionInfo: AIMP 5.4.0.2722 (Artem Izmaylov), VLC 3.0.23 (VideoLAN), FxSound 1.2.13.0 (FxSound LLC)"
@@ -462,7 +463,94 @@ Türkçe sistemde `AUDIOSES.DLL` → `audıoses.dll`, `ADVAPI32.dll` → `advap�
 karşılaştırmalar **sahte fark** üretir. Ham isim saklanıp küçük-büyük dönüşümü
 **kültürden bağımsız** (Python `str.lower()`) yapılmalıdır.
 
+## §14 Eklenti: Aynı Süreçte 139 → 151 Modül Farkı (L2 Boşluğu Kanıtı)
+
+> **Tarih:** 2026-10-20 · **Süreç:** `AIMP.exe` **PID 31968** (19:33:00 başladı, ~48 dk kesintisiz)
+> **Neden:** §12-L2 kaydındaki "AIMP oynatma anında modül seti çekilmemişti → UNKNOWN"
+> kaydı, sürecin hâlâ ayakta olması nedeniyle **aynı PID'in iki anlık görüntüsü**
+> karşılaştırılarak kapatıldı.
+
+### 14.1 Ölçüm
+
+| Anlık görüntü | Kaynak | Modül |
+|---|---|---|
+| 1. | `runtime_modules.json[2]` (§7.1 kaynağı) | **139** |
+| 2. (+~40 dk) | `aimp_modules_now.json` | **151** |
+
+- **Aynı PID 31968** → süreç yeniden başlamadı; fark **gerçek yükleme**dir.
+- **Çıkan modül: 0.** Hiçbir DLL boşaltılmadı (AIMP çalışma boyunca unload etmez).
+
+### 14.2 Eklenen 12 modülün tamamı sistem ağ DLL'i
+
+| Modül | Klasör |
+|---|---|
+| `DNSAPI.dll` | `C:\Windows\system32` |
+| `fwpuclnt.dll` | `C:\Windows\system32` |
+| `iertutil.dll` | `C:\Windows\system32` |
+| `IPHLPAPI.DLL` | `C:\Windows\system32` |
+| `mswsock.dll` | `C:\Windows\system32` |
+| `netutils.dll` | `C:\Windows\system32` |
+| `NSI.dll` | `C:\Windows\system32` |
+| `ondemandconnroutehelper.dll` | `C:\Windows\system32` |
+| `rasadhlp.dll` | `C:\Windows\system32` |
+| `urlmon.dll` | `C:\Windows\system32` |
+| `winhttp.dll` | `C:\Windows\system32` |
+| `WINNSI.DLL` | `C:\Windows\system32` |
+
+- **12/12 `C:\Windows\system32`.** AIMP kurulum klasöründen (vendor) eklenen **0**.
+- Hepsi WinINet / WinHTTP / IP yardımcı programı → **çevrimiçi servis trafiği**.
+- `aimp.ini` içinde `[ServiceLyrics]` bölümü mevcut → olası tetikleyici (**DERIVED**).
+
+### 14.3 Codec seti: iki görüntüde de aynı (kritik sonuç)
+
+Aşağıdakilerin **tamamı 139 listesinde de vardı**; eklenen 12 içinde **hiçbiri yok**:
+
+```
+bass.dll  bass_aac.dll  bass_ac3.dll  bass_alac.dll  bass_ape.dll  bass_flac.dll
+bass_hls.dll  bass_midi.dll  bass_mpc.dll  bass_opus.dll  bass_spx.dll
+bass_tta.dll  bass_wma.dll  bass_wv.dll  aimp_cdda_basscd.dll
+avcodec-aimp-58.dll  aimp_inputFFmpeg.dll  libFLAC.dll  libVorbisEn.dll
+libWavPack.dll  WindowsCodecs.dll
+```
+
+**→ AIMP tüm codec eklentilerini başlangıçta yükler (§7.2 "aceleci yükleme" ile tutarlı).
+Oynatma, sesle ilgili modül setini DEĞİŞTİRMEZ.**
+
+### 14.4 O anki oynatma durumu
+
+`Get-Process -Id 31968` → `MainWindowTitle`:
+
+```
+yt1s.com - Murat Kurşun  Sevdana Gönül Verdim
+```
+
+`aimp.ini` (25.314 B): `PlayerState=1` · `TrackPosition=178610`
+
+| İddia | Durum |
+|---|---|
+| Pencere başlığında yüklü parça var | **GERÇEK** |
+| `PlayerState=1`, `TrackPosition` atanmış | **GERÇEK** |
+| `PlayerState=1` = oynatıyor (duraklatma/durdurma değil) | **UNKNOWN** — AIMP kayıt formatı belgelenmedi |
+| `TrackPosition` birimi ms (178,6 sn) | **UNKNOWN** |
+| 139'luk görüntünün alındığı anda oynatma açık mıydı | **UNKNOWN** |
+
+### 14.5 §12-L2 için sonuç
+
+| Soru | Cevap | Dayanak |
+|---|---|---|
+| Oynatma codec modülü ekler mi? | **HAYIR** | +12 içinde codec = 0; codec'ler ikisinde de var (§14.3) |
+| Oynatma hiçbir şey ekler mi? | **HAYIR** | +12 ağ DLL'i |
+| Vendor DLL eklenir mi? | **HAYIR** | 12/12 `system32` |
+| Modül boşaltılır mı? | **HAYIR** | çıkan = 0 |
+| VLC'de de aynı mı? | Hayır — ayrı ölçüldü | VLC **tembel** yükleme: 31 → 75 (§6) |
+
+**§12'deki "AIMP oynatma modül seti çekilmemişti" kaydı bu eklentiyle kapatıldı:
+ses yüzeyi için cevap "değişmez", ağ yüzeyi için "değişir".**
+
+> **Yeniden üretim:** aynı PID üzerinde iki ölçüm alıp farkı **Python `str.lower()`**
+> ile çıkarmak (§13 kültür tuzağı nedeniyle PowerShell `.ToLower()` ile değil).
+
 ---
 
 *Statik: `pefile` 2024.8.26 · Runtime: `Get-Process.Modules` · Sürüm: PE VersionInfo ·
-2026-10-20 · v1.0.0*
+2026-10-20 · v1.1.0*
