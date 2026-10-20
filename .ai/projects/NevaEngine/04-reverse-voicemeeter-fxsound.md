@@ -2,7 +2,7 @@
 title: "Neva Engine — Reverse-Engineering: VoiceMeeter Potato & FxSound"
 type: doc
 category: audio-engine
-version: 1.4.0
+version: 1.4.1
 status: analiz
 authority: "REA shipped-artifact evidence · zero-hallucination (string kanıtları diskte)"
 updated: 2026-10-19
@@ -456,6 +456,7 @@ Uninstall kaydı: `FxSound | 1.2.13.0 | C:\Program Files\FxSound LLC\FxSound\`.
 | 1.2.0 | 2026-10-15 | Tur 3: Ghidra decompile + ASIO sürücü RE (`vbvm*_asiodriver64.dll` ×5) |
 | 1.3.0 | 2026-10-15 | **Tur 4: OS & sürücü matrisi** — VB 29-sürücü dosya matrisi (5 OS × 6 aile, PE resource envanteri + INF DriverVer) · FxSound fxvad.sys PE resource + oem39.inf (DFX mirası + `$CHICAGO$`) · fxmcp.exe Go build-info (go1.26.5 + resmi MCP SDK v1.6.1 + oauth2) · §9-§12 yeni · kurulu sistem registry durumu |
 | 1.4.0 | 2026-10-19 | **Tur 5: Potato 32-bit (`voicemeeter8.exe`) + FxSound hash teyidi** — §14 yeni · PE32/PE32+ hash kaydı · StripComp parser Ghidra decompile (strip struct 0x430) · dil paleti envanteri (C++ VS2010 / Go YOK / Rust YOK / CLR YOK) · FxSound 73 kaynak-dosya modül envanteri · §14.7 ses motoru zinciri (mix matrisi 5 strip × 4 bus, crossover √2 Q, kompresör envelope AÇIK madde) |
+| 1.4.1 | 2026-10-19 | **Tur 5b: Kompresör katsayı hesaplayıcı pinlendi** — §14.8 yeni · `FUN_00486dc0` (629 B, ev_a4668e62) = attack/release `pow` katsayıları + soft-knee katsayısı + ratio eğimi + 18-bit limiter ölçeği (2^-18) + varsayılan eşik −35 dB · tek çağırıcı `0x4892de` (per-blok recompute) · "Compressor Details" dialog xref `0x4d7167` · §14.7 AÇIK maddesi daraltıldı (katsayılar TAMAM, per-sample uygulama döngüsü AÇIK) |
 
 **Authority:** Embedded Engineer (L1) · Statü: ANALİZ TUR 2+3+**Ghidra** (string/resource
 + decompile katmanı tam — Banana+Potato+FxSound+GEQ15+**ASIO sürücü ×5** · EQ band=31
@@ -613,4 +614,55 @@ gain-computer** (attack/release `exp` katsayı, ratio, knee) bu turda **pinlenme
 `FUN_00489230` (2.5 KB) decompile + `xrefs("Compressor Details" / "Reset Compressor 0x25c")`
 üzerinden WM_COMMAND handler zinciri. Karşılaştırma için: FxSound GraphicEqNew decompile'u
 (§7.7) örnek-seviyesi biquad döngüsü gösteriyor; Potato'da karşılığı henüz pinlenmedi.
+**Güncelleme (§14.8, v1.4.1):** bu açık daraltıldı — katsayı hesaplayıcı `FUN_00486dc0`
+olarak pinlendi (bkz. §14.8); kalan tek açık: katsayıların örnekler üzerinde uygulandığı
+per-sample döngü.
+
+### §14.8 Kompresör katsayı hesaplayıcı — `FUN_00486dc0` (Tur 5b, v1.4.1)
+
+§14.7'deki AÇIK maddeyi kapatan tur. Kanıt: tam pseudocode **Evidence
+`ev_a4668e62…e8960db`** (özet görünüm `ev_ffbbc4d2…6ef6df`) · Ghidra 12.1.4 ·
+629 B gövde · tek çağırıcı xrefs `0x4892de` (Evidence `ev_738bd990…fbe4263` =
+`FUN_00489230` içinde, §14.7 dispatcher'ın bant döngüsü).
+
+**Yapı (pseudocode kanıtlı, ≠ orijinal kaynak):**
+
+```text
+FUN_00486dc0(ctx, stripCompParams, coeffBlock)   — blok-başı / param-değişim recompute
+├─ attack katsayısı : pow(...)  ← guard: 1.0 ≤ t_attack[+4] × SR × 0.5 × 0.001  → coeff[1]
+├─ release katsayısı: pow(...)  ← guard: 1.0 ≤ t_release[+8] × SR × 0.5 × 0.001 → coeff[2]
+│    (guard false → 0.0; yani süre < ~2 blokta coef=0 = anında tepki — compiler deseni)
+├─ eğim/knee dalı:
+│    ├─ ratio[+0xc] ≥ 1 → SABİT VARSAYILANLAR {0.5, 1.7, −35.0}   ← knee 0.5 · ratio 1.7 · eşik −35 dB
+│    └─ ratio[+0xc] < 1 → hesaplanmış: slope = fVar8/fVar10; quadratic knee katsayısı:
+│         local_8 = (fVar10 × (slope − fVar8)²) / ((local_14 − fVar9) × 4.0 × (fVar8 − fVar10))
+│         (standart soft-knee parabolik interpolasyon ailesi — *inferred* klasik formül)
+├─ bypass: [+0x18] == 0 → coeff[6]/[3] doğrudan kopya (eğri devre dışı)
+├─ limiter yolu: [+0x1c] == 1 → coeff[5] = 262143.0 / pow(...)   ← 262143 = 0x3FFFF (18-bit tam ölçek)
+└─ çıkış: coeffBlock[0..10] = 11 float katsayı
+     [10] = fVar8 × fVar6 × 3.8146973e-06    ← 3.8146973e-06 = 2^-18 = 1/262144 (18-bit fixed-point ölçek)
+```
+
+**Sınıflandırma (gerekçeli, *inferred* etiketli):**
+
+1. **Bu fonksiyon = kompresör/limiter gain-computer'ın katsayı üreticisi.** Kanıtlar:
+   attack/release süre→katsayı `pow` dönüşümü (blok-periyodu `SR × ms × 0.001 × 0.5`),
+   ratio-eğimi + **parabolik soft-knee**, varsayılan eşik **−35 dB**, limiter tavanı
+   **18-bit fixed-point** (262143 / 2^-18 ölçeği) — hepsi klasik kompresör parametre
+   ailesi. Per-sample envelope döngüsü ayrı fonksiyonda (aşağıdaki açık).
+2. **Çağrı sıklığı:** tek çağırıcı `FUN_00489230` bant döngüsü içinde (`0x4892de`) →
+   **blok-başı yeniden hesap** (katsayılar blok başına tazelenir; envelope uygulaması
+   örnekte). §14.7'deki `FUN_004893a0` ile aynı PoT/blok deseni ailesi.
+3. **UI bağı:** "Compressor Details" string `0x52f3b0` → tek xref `0x4d7167` (Evidence
+   `ev_662a3cc7…e0ad6e3`) = dialog handler bölgesi (0x4d6000–0x4d7600, §14.3). Yani
+   UI ayrı bölge, DSP katsayıları 0x486xxx — katman ayrımı kanıtlandı.
+4. **`FUN_004870b0` (372 B, ev_f05765d8) ≠ kompresör:** sabitler `6.2831855` (=2π),
+   `1000.0`, `−60/−61` clamp → **seviye/metre hesabı** (*inferred*; frekans→radyan +
+   dB floor). Kompresör zinciriyle karıştırılmamalı.
+
+**⚠️ KALAN AÇIK (VERIFICATION REQUIRED):** katsayıların uygulandığı **per-sample
+envelope döngüsü** (threshold karşılaştırma + attack/release uygulaması + ratio
+eğimi) henüz pinlenmedi — aday: `FUN_00489230`'un diğer callee'leri (`FUN_004885d0`,
+`FUN_00488790`) veya strip DSP'si. Bir sonraki tur: `search_bytes` ile coeffBlock
+alan okumalarının (stride 0x2c/0x60/0x10c) DSP bölgesinde taranması.
 
