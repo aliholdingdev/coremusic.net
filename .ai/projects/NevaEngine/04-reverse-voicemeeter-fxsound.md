@@ -2,7 +2,7 @@
 title: "Neva Engine — Reverse-Engineering: VoiceMeeter Potato & FxSound"
 type: doc
 category: audio-engine
-version: 1.4.3
+version: 1.4.4
 status: analiz
 authority: "REA shipped-artifact evidence · zero-hallucination (string kanıtları diskte)"
 updated: 2026-10-20
@@ -459,6 +459,7 @@ Uninstall kaydı: `FxSound | 1.2.13.0 | C:\Program Files\FxSound LLC\FxSound\`.
 | 1.4.1 | 2026-10-19 | **Tur 5b: Kompresör katsayı hesaplayıcı pinlendi** — §14.8 yeni · `FUN_00486dc0` (629 B, ev_a4668e62) = attack/release `pow` katsayıları + soft-knee katsayısı + ratio eğimi + 18-bit limiter ölçeği (2^-18) + varsayılan eşik −35 dB · tek çağırıcı `0x4892de` (per-blok recompute) · "Compressor Details" dialog xref `0x4d7167` · §14.7 AÇIK maddesi daraltıldı (katsayılar TAMAM, per-sample uygulama döngüsü AÇIK) |
 | 1.4.2 | 2026-10-20 | **Tur 5c: Per-sample ses katmanı haritası** - §14.9 yeni · `FUN_0048e990` = ana per-sample strip ses fonksiyonu (strip ×5 döngüsü, ×4-unroll FPU örnek döngüleri) · `FUN_00488ae0` = modüle gecikmeli spatial/IntelliPan efekti (ring buffer + faz akümülatör + 2 LFO tablosu + denormal flush, ev_b441f2b3) · `FUN_00488790` 0x2064/0x2c bloğu = spatial param (kompresör DEĞİL - düzeltme) · `FUN_00487800` = 3 bantlı biquad katsayı üreteci · `FUN_0048cc20` = 6 bantlı 5-tap FIR bankası · `FUN_005206c0` = CRT ftol (92 çağıracı) · kompresör coeffBlock hedefi stripParams+0x34 (assembly LEA 0x4892db) · block-step 8/8 kapandı · envelope döngüsü AÇIK daraltıldı (bus/fiziksel çıkış yolu veya 0x49xxxx) |
 | 1.4.3 | 2026-10-20 | **Tur 5d: Kompresör envelope + limiter bulundu — §14.8 AÇIK kapandı** - §14.10 yeni · `FUN_004869e0` = per-sample envelope uygulayıcı + hard limiter (attack `[0x8]` eşik aşıldığında, release `[0x4]` her blok + 1.0 kısma, `|out|>0.99999` → `env=1/tepe` anında kısma + işaret biti koruma, ev_94808216) · çağrı yuvalaması assembly ile kanıtlandı: 8 grup tablosu DAT_00554548 (5 strip + 3 bus, *inferred*) × kanal iç döngüsü, durum stride 0x14, ctx+0xcf4 · `FUN_00487aa0` = biquad uygulayıcı (487800 üretici çifti kapandı, ev_6b1faf1d) · `FUN_00487230` = yan-zincir seviye izleyici (tepe/`max(|L|,|R|)` veya ağırlıklı fark+yumuşatma, denormal flush, ev_786d2276; tüketici VERIFICATION REQUIRED) · bus yolu elemine: `FUN_0048b750` sarmalayıcı, `FUN_0048bb00` engine INIT (crossover varsayılan 80/800/13000 Hz) · `FUN_0048e990` 42 CALL tam haritandı |
+| 1.4.4 | 2026-10-20 | **Tur 5e: Kalan 11 çağrı adayı kapatıldı — §14.9 haritası tamamlandı** - §14.11 yeni · `FUN_0048c960` = 4-durumlu/4-double-katsayılı IIR benzeri süzgeç (durum stride 0x18, paralel-double deseni 487800 ailesi, fark terimli tekrar, denormal flush, ev_93e9c0d5) · `FUN_0048cf20` = 8-şeritli param smoothing + gain/karışım (stride 0x48, ev_97a40176; ana döngü matematiği VR) · `FUN_0048d700` = scratch buffer sıfırlama + `FUN_00473de0` ile yeniden düzenleme/bus staging (ev_259b1bf9; 473de0 kimliği VR) · `FUN_0048e600` = sabit-egrimli lineer gain ramp (click-free, ev_2b055d0a) · `FUN_0048e850` = sessizlik dedektörü (3 buffer, her 8. örnek, eşik 0.0001, ret 0/1, ev_9cb50028) · `FUN_00487230` tüketici zinciri asm ile kısmen kanıtlandı (FCOM DAT_005361a0 + floor DAT_00536198 → EBP-0x34/0x3c; nihai kullanım 0x48f345 sonrası VR) · düzeltme: §14.10'da Çince karakter sızıntısı  (U+53E6 U+4E00 U+4E2A olarak kodlandi) temizlendi · CJK/mojibake taraması 0 · REA restart nedeniyle 3 ince boşluk açık |
 
 **Authority:** Embedded Engineer (L1) · Statü: ANALİZ TUR 2+3+**Ghidra** (string/resource
 + decompile katmanı tam — Banana+Potato+FxSound+GEQ15+**ASIO sürücü ×5** · EQ band=31
@@ -846,7 +847,7 @@ tek çağıracı `0x48f30a`).** Mod seçimi `ctx+0x18`:
 
 **6. Ek yapı kanıtı:** `0x490ce0…0x4911b0` = ESI stride **0x2c** (coeffBlock
 stride!) ikinci per-strip döngü + inner `JNZ 0x491073` — 11-float blokları
-okuyan另一个 per-strip aşama; tam rolü **VERIFICATION REQUIRED**. Ayrıca
+okuyan başka per-strip aşama; tam rolü **VERIFICATION REQUIRED**. Ayrıca
 `FUN_0048e990`'un tüm CALL listesi (42) çıkarıldı: bilinen tüm DSP callee'leri
 artık sınıflandı (488ae0 spatial, 48cc20 FIR, 487aa0 biquad, 4869e0 kompresör,
 487230 dedektör, 48e7a0 kopya/fade, 487230+48c960×3+48cf20×3+48d700+48e600+
@@ -857,3 +858,79 @@ UI param → `FUN_00486dc0` katsayı üreteci (§14.8) → per-kanal runtime blo
 (ctx+0xcf4, stride 0x14) → **`FUN_004869e0` per-sample envelope + hard limiter**
 (§14.10) · algılayıcı `FUN_00487230` (tepe / ağırlıklı izleyici) · komşu biquad
 EQ `FUN_00487aa0` ← `FUN_00487800` (§14.9).
+
+### §14.11 FUN_0048e990'ın kalan 11 çağrı sitesi + dedektör tüketici zinciri (Tur 5e, v1.4.4)
+
+**Yöntem:** §14.9–§14.10'da sınıflandırılmayan son adaylar `analyze_function`
+ile çözüldü (5 fonksiyon / 11 çağrı sitesi). Tur ortasında REA MCP sunucusu
+yeniden başlatıldı — retained-evidence oturumu koptu; 3 ince ayrıntı yarım
+kaldı ve aşağıda `VERIFICATION REQUIRED` olarak işaretlendi. Kanıtlar restart
+öncesi Evidence ID'leridir.
+
+**1. `FUN_0048c960` = 4-durumlu, 4-double-katsayılı IIR benzeri süzgeç**
+(ev_93e9c0d5…c926fe2 · ×3 çağrı · tek çağıracı `0x48e990`):
+- Guard: `DAT_006ca230` sıfırsa erken çıkış (global bypass/enable).
+- Durum `param_1+0x78` bloğunda, 4 tap × stride `0x18` (24 float).
+- Katsayılar `in_ECX+0x30` kökenli **4 paralel double dizi** (stride 3 double:
+  `[-6],[-3],[0],[3]`) — `FUN_00487800`'ün paralel-double deseninin akrabası.
+- Örnek-güncelleme: `y = c3·s₂ + c1·y_prev + c0·x + (x_prev − y_prev)·c2`
+  biçiminde fark terimli tekrar; ×4 unroll, dış 8 × iç 3 döngü, her örnekte
+  denormal flush `((x & 0x7f800000) < 0xf800000) → 0.0`.
+- Tam transfer fonksiyonu okunmadı — **⚠️ VERIFICATION REQUIRED** (*inferred*:
+  fark terimi + 4 durum = bilinear integratör/allpass ailesi).
+
+**2. `FUN_0048cf20` = 8-şeritli param smoothing + gain/karışım uygulayıcı**
+(ev_97a40176…3336fec · ×3 çağrı (ilki `0x495143`; diğer ikisi adresleri
+`UNKNOWN` — çağrı sayısı §14.9 haritasından) · tek çağıracı `0x48e990`):
+- `param_2 == 1` → 8 şeritte (stride `0x48`) `(hedef − durum) · param_3`
+  ramp-akümülatör yazımı (tek kareli delta smoothing).
+- Ana döngü `local_5c = 8`: şerit durumları `param_10`'dan
+  (`+4, +0x28, +0x4c, +0x70, +0x94, +0xb8, +0xdc, +0x100`), buffer ptr'leri
+  `in_EDX+0x130` ptr tablosundan yüklenir (`puVar21[-0x28]…[0]`, stride 8).
+- Ana döngü matematiği (yükleme sonrası) okunmadı — **⚠️ VERIFICATION REQUIRED**.
+
+**3. `FUN_0048d700` = scratch buffer temizle + yeniden düzenle (bus staging)**
+(ev_259b1bf9…64e91f5 · ×1 çağrı `0x4951fb` · tek çağıracı `0x48e990`):
+- Sayaç `param_1+0xe6a4`, boyut `+0xe6a8`, ptr listesi `+0xe6ac`; listedeki her
+  buffer tamamen zero-fill (4-byte adım, bayt-kuyruklu).
+- Ardından `FUN_00473de0(param_1+0xe688, sayaç, {1..8}, param_1+0xe68c)` →
+  dönüş `1` ise `+0xe6ac`/`+0xe6b0` ptr'leri arası kopya.
+- `FUN_00473de0`'in kimliği çözülmedi — **⚠️ VERIFICATION REQUIRED**.
+
+**4. `FUN_0048e600` = sabit-egrimli lineer gain ramp uygulayıcı (tıklama önleyici)**
+(ev_2b055d0a…c03229b4 · ×1 çağrı `0x495861` · tek çağıracı `0x48e990`):
+- `param_2 == 1` → yeni hedefte `(hedef − durum) · param_3` ramp-adım yazımı
+  (eleman başına stride `0x22` = 34 float).
+- ×4 unroll: `out[i] = (g + i·adım) · in[i]`; `g` her örnekte `+adım` — yani
+  blok boyunca **lineer interpolasyon** (klasik click-free volume ramp).
+
+**5. `FUN_0048e850` = sessizlik/aktivite dedektörü**
+(ev_9cb50028…eec912b8 · ×3 çağrı (ilki `0x495928`) · tek çağıracı `0x48e990`):
+- 3 buffer (`in_EAX`, `unaff_EDI`, `unaff_EBX`) taranır, **her 8. örnek**
+  (adım 8), eşik `0.0001`; herhangi biri aşıyorsa `return 1`.
+- Üç tarama da eşik altındaysa `return 0` (**kuyruk pseudocode ile doğrulandı**).
+- Kullanım amacı: sessizse işleyişi atlama bayrağı (*inferred*).
+
+**6. `FUN_00487230` (yan-zincir izleyici) dönüş tüketici zinciri**
+(assembly, ev_eb93cd09…d8f7e4, `FUN_0048e990` içinde `0x48f30a` CALL):
+```text
+0x48f30a  CALL FUN_00487230        ; döner uç = seviye (float10)
+0x48f30f  FSTP [EBP-0x34]          ; seviye depolandı
+0x48f31e  FCOM [DAT_005361a0]      ; sabit double ile karşılaştır
+0x48f326  TEST AH,0x41 / JNZ 0x48f395  ; üstünde ise atla
+0x48f32d  FLD [DAT_00536198]       ; aksi halde taban (floor) değer yaz
+0x48f33f  FST [EBP-0x3c]
+```
+Yani izleyici çıktısı iki sabit (`DAT_005361a0`/`DAT_00536198`) ile
+klampanır/tabana çekilir ve `[EBP-0x34]/[EBP-0x3c]`'ye yazılır. Değerlerin
+nihai kullanım yeri `0x48f345` sonrasındadır; REA restart'ında sayfa
+kaçırıldı — **⚠️ VERIFICATION REQUIRED**. İki sabidin sayısal değerleri de
+okunmadı — `UNKNOWN`.
+
+**Sonuç:** §14.9'un "kalan aday" listesi (11 sites) kapandı — 5/5 fonksiyon
+sınıflandırıldı; `FUN_0048e990`'ın DSP callee'leri artık tam haritalı
+(spatial 488ae0 · FIR 48cc20 · biquad 487aa0 · kompresör 4869e0 · izleyici
+487230 · IIR-blok 48c960 · smoothing+karışım 48cf20 · staging 48d700 ·
+ramp 48e600 · aktivite 48e850 · kopya 48e7a0). Kalan 3 ince boşluk
+(cf20 ana döngü · FUN_00473de0 · dedektör nihai kullanım) REA oturumu
+yeniden bağlandığında kapatılacak.

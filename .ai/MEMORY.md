@@ -740,3 +740,5 @@ Bu revizyonda her dÃƒ¼zeltme ÃƒÂ¼Ãƒ§ kaynakla desteklendi: (1) Test-Pa
 
 <!-- vault-sync:auto-end -->
 2026-10-20 | tur5d commit: fac17c1 (4 dosya, +102/-5, pathspec)
+2026-10-20 | tur5e: FUN_0048e990 kalan 11 cagri adayi kapandi (doc 04 v1.4.4 §14.11) - FUN_0048c960 = 4-durumlu/4-double-katsayili IIR benzeri suzgec, FUN_0048cf20 = 8-seritli smoothing+gain (ana dongu VR), FUN_0048d700 = scratch sifirla+staging (FUN_00473de0 VR), FUN_0048e600 = lineer gain ramp, FUN_0048e850 = sessizlik dedektoru (ret 0/1 dogrulandi); FUN_00487230 tuketici zinciri asm ile kismen kanit (FCOM DAT_005361a0 + floor DAT_00536198, nihai kullanim VR). REA restart nedeniyle 3 ince bosluk acik. Duzeltme: §14.10 Cince sizintisi (CJK U+53E6U+4E00U+4E2A) temizlendi, CJK/mojibake 0.
+2026-10-20 | tur5e commit: PLACEHOLDER (4 dosya, pathspec)
