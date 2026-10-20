@@ -739,3 +739,4 @@ Bu revizyonda her dÃƒ¼zeltme ÃƒÂ¼Ãƒ§ kaynakla desteklendi: (1) Test-Pa
 | Sonraki | Q1-Q3 KAPANDI ve vault'a islendi (01/05/06/07 guncel). **Ghidra 12.1.4 AKTIF** (opencode.jsonc rea environment enjeksiyonu - 2026-10-15): FxSound EQ 31 bant KAPANDI (04 §7.7 - 3 katmanli kanit, "10 bant DFX" duzeltildi) · Banana serializer/parser decompile. OPSIYONEL: DSP gain-computer matematiği (StripComp/JustVerb/C5 ic matematik - Faz 6+). Onay kapisi: Faz 0 vendor clone + CMake (cmake YOK, ASIO SDK indirilmedi) veya F6.1 spike. Legacy rules/ 4 C++ kural dosyasi Faz 0 oncesi okunacak. Web mixer UI icin mockup gate (.ai/ui-design) ZORUNLU. Toplam NevaEngine: 36 md |
 
 <!-- vault-sync:auto-end -->
+2026-10-20 | tur5d commit: fac17c1 (4 dosya, +102/-5, pathspec)
