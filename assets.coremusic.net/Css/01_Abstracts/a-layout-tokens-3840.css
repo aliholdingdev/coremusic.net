@@ -12,7 +12,8 @@
  *   (device-loader.js "4k-tv 2561-3840px") — iki kaynak çelişiyor; §2.1 uygulandı.
  * Kaynak: 08_Devices/d-4k-tv.css → :root bloğu (uydurma YOK; seçici kuralları taşınmadı). */
 
-@media (min-width: 3840px) {
+/* Band onayı 2026-10-20: 4K ailesi min 2561px (3840 Figma tasarımı). 3540–3839 override: a-layout-tokens-3540.css */
+@media (min-width: 2561px) {
   :root {
     /* --- Header: larger for 10ft --- */
     --header-h: 80px;
