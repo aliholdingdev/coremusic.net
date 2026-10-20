@@ -43,6 +43,7 @@
    Header/footer fixed — document scroll'u kilitlenir (çift scroll önlenir).
    Not: :has() desteklenmeyen tarayıcıda davranış bugünkü gibi kalır (zararsız fallback). */
 body:has(.page-home) {
+  display: flow-root;
   overflow: hidden;
   height: 100vh;
 }
