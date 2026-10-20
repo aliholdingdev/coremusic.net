@@ -2,7 +2,7 @@
 title: "Neva Engine — Reverse-Engineering: VoiceMeeter Potato & FxSound"
 type: doc
 category: audio-engine
-version: 1.4.1
+version: 1.4.2
 status: analiz
 authority: "REA shipped-artifact evidence · zero-hallucination (string kanıtları diskte)"
 updated: 2026-10-19
@@ -456,6 +456,7 @@ Uninstall kaydı: `FxSound | 1.2.13.0 | C:\Program Files\FxSound LLC\FxSound\`.
 | 1.2.0 | 2026-10-15 | Tur 3: Ghidra decompile + ASIO sürücü RE (`vbvm*_asiodriver64.dll` ×5) |
 | 1.3.0 | 2026-10-15 | **Tur 4: OS & sürücü matrisi** — VB 29-sürücü dosya matrisi (5 OS × 6 aile, PE resource envanteri + INF DriverVer) · FxSound fxvad.sys PE resource + oem39.inf (DFX mirası + `$CHICAGO$`) · fxmcp.exe Go build-info (go1.26.5 + resmi MCP SDK v1.6.1 + oauth2) · §9-§12 yeni · kurulu sistem registry durumu |
 | 1.4.0 | 2026-10-19 | **Tur 5: Potato 32-bit (`voicemeeter8.exe`) + FxSound hash teyidi** — §14 yeni · PE32/PE32+ hash kaydı · StripComp parser Ghidra decompile (strip struct 0x430) · dil paleti envanteri (C++ VS2010 / Go YOK / Rust YOK / CLR YOK) · FxSound 73 kaynak-dosya modül envanteri · §14.7 ses motoru zinciri (mix matrisi 5 strip × 4 bus, crossover √2 Q, kompresör envelope AÇIK madde) |
+| 1.4.2 | 2026-10-20 | **Tur 5c: Per-sample ses katmanı haritası** - §14.9 yeni · `FUN_0048e990` = ana per-sample strip ses fonksiyonu (strip ×5 döngüsü, ×4-unroll FPU örnek döngüleri) · `FUN_00488ae0` = modüle gecikmeli spatial/IntelliPan efekti (ring buffer + faz akümülatör + 2 LFO tablosu + denormal flush, ev_b441f2b3) · `FUN_00488790` 0x2064/0x2c bloğu = spatial param (kompresör DEĞİL - düzeltme) · `FUN_00487800` = 3 bantlı biquad katsayı üreteci · `FUN_0048cc20` = 6 bantlı 5-tap FIR bankası · `FUN_005206c0` = CRT ftol (92 çağıracı) · kompresör coeffBlock hedefi stripParams+0x34 (assembly LEA 0x4892db) · block-step 8/8 kapandı · envelope döngüsü AÇIK daraltıldı (bus/fiziksel çıkış yolu veya 0x49xxxx) |
 | 1.4.1 | 2026-10-19 | **Tur 5b: Kompresör katsayı hesaplayıcı pinlendi** — §14.8 yeni · `FUN_00486dc0` (629 B, ev_a4668e62) = attack/release `pow` katsayıları + soft-knee katsayısı + ratio eğimi + 18-bit limiter ölçeği (2^-18) + varsayılan eşik −35 dB · tek çağırıcı `0x4892de` (per-blok recompute) · "Compressor Details" dialog xref `0x4d7167` · §14.7 AÇIK maddesi daraltıldı (katsayılar TAMAM, per-sample uygulama döngüsü AÇIK) |
 
 **Authority:** Embedded Engineer (L1) · Statü: ANALİZ TUR 2+3+**Ghidra** (string/resource
@@ -665,4 +666,100 @@ envelope döngüsü** (threshold karşılaştırma + attack/release uygulaması 
 eğimi) henüz pinlenmedi — aday: `FUN_00489230`'un diğer callee'leri (`FUN_004885d0`,
 `FUN_00488790`) veya strip DSP'si. Bir sonraki tur: `search_bytes` ile coeffBlock
 alan okumalarının (stride 0x2c/0x60/0x10c) DSP bölgesinde taranması.
+
+
+### §14.9 Per-sample ses katmanı haritası + kompresör uygulayıcı arayışı (Tur 5c, v1.4.2)
+
+§14.8'deki AÇIK maddeyi kapatmak için başlatılan tur. Yöntem: `search_bytes` ile
+`FUN_00488790`'un yazdığı 0x2c-stride bloğun (disp `0x2064`) okuyucularının aranması
+(Evidence `ev_0595ffff…a1a68e`, 2 isabet) → ardından `FUN_0048e990` assembly'sinin
+sayfalı okuması (retained Evidence `ev_eb93cd09…8f7e4`, 10.617 satır asm / 241.668
+kod birimi pseudocode — tek yanıt bütçesi aşıldığı için `inspect_analysis_view` ile
+sayfa sayfa incelendi).
+
+**1. `FUN_0048e990` = per-sample strip ses işleme fonksiyonu (ana audio gövdesi).**
+Kanıtlar (assembly, ev_eb93cd09):
+- thiscall `ECX=this`, `[EBP+8]` = örnek sayısı; `[this+0x8]==0` → erken return;
+  ilk çağrılar arası `FINIT` (`[this+0xe214]` sayaç < 0x28).
+- **Strip döngüsü ×5**: `0x48ec5f…0x48f0a3` (`CMP EAX,5 / JL 0x48ec5f`), sayaç/pointer
+  adımları `+4` / `+8`.
+- Strip başına: (a) iki ×4-unroll FPU örnek döngüsü (`0x48ecc3…0x48eecf` ve
+  `0x48ef11…0x48f053` — çalışan-katsayı cross-mix/smoothing: `src[i]+=dst[i]·B`,
+  `dst[i]+=dst[i]+src[i]·A` benzeri birikimli yapı + scalar tail); (b) bayrak-gated
+  `CALL FUN_0048e7a0` (`0x48f077`); (c) `CALL FUN_00488ae0` (`0x48f0d0`, aşağıdaki
+  dispatch).
+- Strip döngüsü SONRASI: `FUN_0048cc20` FIR dispatch ×5 (`0x48f10c…0x48f19b`, EDI
+  stride `0x3e8`, EBX stride `0x344`, disable'da 0x344 B state `memset` sıfırlama) +
+  metre toplama döngüsü (ctx+`0xe60c`, 20 float, stride 0x28).
+
+**2. Spatial-delay dispatch (`0x48f0b9…0x48f0e4`).** `EDI=ctx+0x2064` (stride `0x2c`),
+`EBX=ctx+0x450c` (stride `0x78`), örnek sayısı push, `ESI=0,2,4,6,8` (5 strip) →
+`CALL FUN_00488ae0`. Yani `FUN_00488790`'un 11-float bloğu = **ses tarafı spatial-delay
+param bloğu** (kompresör bloğu DEĞİL — düzeltme).
+
+**3. `FUN_00488ae0` = per-sample modüle gecikmeli spatial/IntelliPan efekti** (699 B,
+tek çağıracı `FUN_0048e990`, tam pseudocode Evidence `ev_b441f2b3…44d4599`):
+- Ring buffer: base/end/write-ptr = state+`0x48`/`0x4c`/`0x50` (yazma imleci +4 float
+  adımlı, sarmalama).
+- **Faz akümülatörü** state+`0x54`: her örnekte `+= coeff[7]`, `>=1.0 → -=1.0` (0..1
+  sarılması; coeff[7] = oran/SR — Tur5c `FUN_00488790`).
+- Şekil tabloları `DAT_00554568` / `DAT_0055e1b8` — `coeff[8]!=0` ile seçim; ftol
+  (yvarlama) ile indekslenir.
+- Gecikme örnek sayısı = `ROUND(coeff[5]·tablo[i]) + (int)coeff[2]`; coeff[5] =
+  tutar·0.025·SR·4 (SR-ölçekli!), coeff[2] = taban gecikme (yuvarlanmış·4).
+- Çıkış zinciri: giriş one-pole (coeff[3]) → ring-buffer okuma (sarmalı) → okunan
+  değerde ikinci one-pole (coeff[4]) → denormal flush (`(x&0x7f800000)<0xf800000 → 0`)
+  → çıktı `x·coeff[0] ± yumuşatılmış·sabit çift` (Ghidra kısmi: `fVar20=-10000.0` +
+  extraout ST — *inferred* karşılıklı çift, kesin değer doğrulanmadı).
+- State persist: +0x54/+0x58/+0x5c/+0x60/+0x50 return'de yazılır (çapraz saçılma
+  korumalı örnekleme yapısı).
+
+**4. Param mapper'lar (dispatcher callee'leri) — tam sınıflandırma:**
+- `FUN_00488790` (434 B, ev_f94b7ca5…4785ad): spatial-delay param başlatıcı —
+  ctx+`0x2064`+strip·`0x2c` üzerine 11 float: [2]=yuvarla·4, [5]=tutar·0.025·SR·4,
+  [7]=oran/SR, [6]=knob·25+0.2 (negatif: ×−0.1), [3]/[4]=smoothing, [8]=tablo
+  seçimi, [9]=0.3, [10]=0; knob kısma ±0.5 / |x|≤1.
+- `FUN_004885d0` (448 B, ev_0ca91099…82381): strip FX mapper — state+`0xd80c`+
+  strip·`0x78` üzerine `1000.0` (0x447a0000) ve `10000.0` (0x461c4000) sabitleri;
+  `FUN_00487800` biquad üreteci çağırır; knob haritası: |x|>0.5 → `w1=x·0.04`,
+  `w2=(x−0.5)·0.9`.
+- `FUN_004882f0` (732 B, ev_ed42ad55…8c7dc): balance/pan mapper — ctx+`0x2cb4`+
+  strip·`0x18` üzerine 6 float: ±1.9 crossfade kazançları, işaret-çiftli ±0.2
+  crossfeed; matematik yardımcıları `FUN_00520b70/520b5a/520900` (CRT benzeri,
+  kesin kimlik VERIFICATION REQUIRED).
+- `FUN_00487800` (232 B, ev_c76ddc57…43aee6): **3 bantlı biquad katsayı üreteci** —
+  3× döngü, bant başına 4 double çıktı (b0,b1,b2,a1) `base−0x30/−0x18/0/+0x18`
+  (paralel double diziler, eleman stride 8 B); normalizasyon paydası ile A≥1 dalı
+  (RBJ-benzeri tepe normalizasyonu — *inferred*).
+- `FUN_005206c0` (28 B, ev_a70a097f…47551d): **CRT ftol/yuvarlama** (92 çağıracı) —
+  tüm kullanımlar float→int yuvarlama.
+
+**5. `FUN_0048cc20` = 6 bantlı 5-tap FIR filtre bankası** (753 B, ev_c3d8a441…cfdf6):
+bant başına 5 katsayı (coeff dizileri stride 0x30 float), kanal başına transversal
+döngü (`out = Σ c_k·x[n−k]`, ×4-unroll), her örnekte denormal flush; kanal buffer
+pointerları state+`0x8`+kanal·4; disable → 0x344 B state memset.
+
+**6. `FUN_0048e7a0` = buffer kopya + fade** (163 B, ev_8c5dcca1…e42e54): buffer copy
++ `FUN_00461330` / `FUN_00463da0` (bayrak 0/1 — kazanç/kısma benzeri, *inferred*).
+
+**7. Kompresör blok koordinatı pinlendi (assembly):** dispatcher `FUN_00489230`'ta
+`0x4892db: LEA EDI,[EBX+0x34]` → `FUN_00486dc0` coeffBlock hedefi =
+**stripParams+0x34**; hemen ardından `0x4892e6: LEA EDI,[EBX+0x58]` → sonraki blok
+(metre `FUN_004870b0` — *inferred*, Tur5b callee sırası). Evidence `ev_c96fb853…e809333`.
+
+**8. Block-step kapanışı:** `FUN_0048b5b0` 8/8 callee sınıflandı — `FUN_0048b520`
+(121 B, ev_ddcacd51…b1a906) = saf flag/param aynalama (0x22 B + 8 word kopya, DSP
+yok). Block-step ağacında per-sample döngü YOK.
+
+**⚠️ KALAN AÇIK (VERIFICATION REQUIRED, daraltıldı):** kompresörün per-sample
+envelope uygulama döngüsü (attack/release coeff[1]/[2] tüketimi, threshold karşılaştırma,
+ratio eğimi) hâlâ pinlenmedi. Tur 5c kanıtıyla **nerede OLMADIĞI** ispatlandı:
+(a) `FUN_0048e990` strip döngüsünde kompresör çağrısı yok (tam assembly taraması:
+3 CALL — 48e7a0 / 488ae0 + bayrak-gated; iki örnek döngüsü cross-mix/smoothing);
+(b) block-step ağacı 8/8 sınıflandı, per-sample yok. Kalan adaylar: bus/fiziksel
+çıkış yolu (`FUN_0048b750` / `FUN_0048bb00` alt ağacı) veya 0x49xxxx bölgesi.
+Sonraki tur yöntemi: stripParams+`0x34` displacement'ı okumaları byte-search ile
+uygunsuz (0x34 çok yaygın) — bunun yerine `FUN_0048b750`/`FUN_0048bb00` ve komşu
+ses fonksiyonlarının callee listelerinde `FUN_00486dc0` bloğunu (strip·0x34 offset
+hesabı) taşıyan fonksiyonların taranması.
 
