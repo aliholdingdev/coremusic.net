@@ -2,7 +2,7 @@
 title: "AIMP.Shared.dll + AIMP.Runtime.dll — Tam Full Decompile (Ghidra Headless)"
 type: reverse-engineering
 project: NevaPlayer
-version: 1.3.0
+version: 1.4.0
 status: active
 date: 2026-10-20
 authority: "Zero-hallucination: her iddia asagida kaynakli. Isim-eslesme sayimlari yalnizca orneklenmis terimler icin gecerli (bolum 6 kirlilik notu)."
@@ -273,8 +273,8 @@ codec ne Runtime.dll'de ne Shared'de statik; plugin DLL'lerinde.
    kontrol katmani eslendi (Load/transport/seek/cihaz yasam dongusu +
    gapless sonraki-parca zinciri + tempo/pitch). Olcum: `TASOPlayer` =
    **101** isimli prosedur (tur8'deki "183" dogrulanamadi), `Aso::Player`
-   namespace toplami = 438. Kalan: loader thread ic yapisi + WndProc
-   detaylari (KISMEN) — Radio/Decoder turlari madde 4'te ayrI.
+   namespace toplami = 438. Loader thread ic yapisi + WndProc
+   detaylari kapandi (tur20, bolum 13.8) — Radio/Decoder turlari madde 4'te ayrI.
 4. Radio 198 / Decoder 185 isimli prosedur (Shared) — ADR-0106 radyo decode
    kenari icin ayri tur.
 5. ~~Sabit bolumleri: `_DAT_005b1a68` (ms→saniye)~~ — **KAPANDI (tur18):
@@ -323,6 +323,16 @@ Arama ornegi: `Select-String -Path aimp-runtime-proc-index.txt -Pattern "TASOASI
   uzun-pause geri sarma 10.0 sn, seek min 0.0, yon/state tablolari.
   §8 madde 3 kapandi (olcum: TASOPlayer=101, Aso::Player=438 — tur8 "183"
   dogrulanamadi).
+- **v1.4.0 (2026-10-21, tur20):** bolum 13.8 eklendi — loader thread
+  mesaisi (ExecuteTask dispatcher + FileLoad/FilePreload/Reconnect +
+  LoadFile radio akisi + PrepareNextFile skip-listesi guard'i) + WndProc
+  mesaj tablosu (0x956/0x957/0x95a/0x95e) + WndProcEvent olay kodlari
+  (1-6) + TASOPlayerLoadingParams offset haritasi + GetStateForTrackStart
+  @0x5DEFA0. §8 madde 3'teki "Kalan" satiri kapandi. Yeni bulgu:
+  `Basstypes::TBASSDecoder` (170 sembol satiri) — Shared.dll'de BASS
+  tabanli decoder katmani; DLL literal adi dump'ta YOK (dolayli yukleme).
+  Decoder turu (185 prosedur) icin isaret; §6 "BASS plugin modeli" ile
+  uyumlu.
 
 ## 11. WASAPI istemci eslemesi (tur17 — kapi 5.6 kapandi)
 
@@ -540,7 +550,7 @@ desende swap-able DSP stage slotlari (ADR-017 lock-free hedef uyumlu).
 5. ~~KONTROL katmani (Load/Play/SetDeviceParams, tempo-pitch) hala acik~~
    — **KAPANDI (tur19, bolum 13).**
 
-## 13. Kontrol katmani — TASOPlayer (tur19)
+## 13. Kontrol katmani — TASOPlayer (tur19-20)
 
 Yontem: proc-index (`_ZN3Aso6Player10TASOPlayer` = **101** isimli prosedur;
 `Aso::Player` namespace toplami **438**) + 25 govde cikarimi
@@ -692,6 +702,111 @@ DoFilterChanged -> ApplySettings.
 5. **UX detaylari (teyitli)**: uzun-pause'da 10 sn geri sarma; play/pause/
    stop fade (GetFadingOnPlayPauseTime); smooth seeking; baslangic sesi
    0.0 + ApplySettings — Neva'da ayni veya farkli tercih ADR konusu.
-6. Kalan acik (KISMEN): loader thread ic yapisi, WndProcEvent dispatch
-   tablosu, GetStateForTrackStart (0x5DEFA0) — ufak bir sonraki tur.
+6. ~~Kalan acik (KISMEN): loader thread ic yapisi, WndProcEvent dispatch
+   tablosu, GetStateForTrackStart (0x5DEFA0)~~ — **KAPANDI (tur20,
+   bolum 13.8):** loader mesaisi, WndProc mesaj tablosu, WndProcEvent
+   olay kodlari, params offset haritasi cekildi; BASS decoder katmani
+   kesfedildi.
+
+### 13.8 Loader thread mesaisi + WndProc dispatch (tur20 eki)
+
+Yontem: 17 loader proseduru + WndProc/GetStateForTrackStart blok cikarimi
+(player-ctrl-blocks3.txt 13 blok + blocks5.txt 4 blok) + sembol taramasi
+(TASOPlayerLoader = 17, WndProc* = 3). Tum adresler index ile teyitli.
+
+**Loader sinif zinciri (LoaderCtor @0x5DB710):**
+`TACLPauseableThread` taban (Acl::Threading) + back-ref'ler: +0x78 =
+TASOPlayer*, +0x70 = TASOPlayerLoadingParams, +0x68 = TACLSortedStrings
+(skip listesi). Task API'leri TASOMultipleTaskThread'den gelir
+(GetAborting cagrilari; zincir TACLPauseableThread <-
+TASOMultipleTaskThread <- TASOPlayerLoader — INFERENCE: ctor +
+GetAborting kanitlarindan).
+
+**TASOPlayerLoadingParams offset haritasi (tamamlandi):**
+
+| Offset | Alan | Kanit |
+|---|---|---|
+| +0x20 | dosya adi (UnicodeString) | WndProcSync DoFileLoading |
+| +0x28 | start offset (double) | PrepareNextFile (obj+0x18 -> float) |
+| +0x30 | on-tanimli bilgi (intf) | PrepareNextFile |
+| +0x40 | olusturulmus decoder/stream intf | LoadFile IntfCopy hedefi |
+| +0x60 | preload flag (char) | ExecuteTask dispatch + GetStateForTrackStart |
+| +0x61 | hedef state (char) | GetStateForTrackStart |
+
+**ExecuteTask @0x5DBA30 (dispatcher):** params(0x70) varsa:
+NotifyLoadingState(2=LOADING) -> params+0x40==0 iken (params+0x60==0 ?
+ExecuteTaskFileLoad : ExecuteTaskFilePreload), !=0 iken
+ExecuteTaskReconnect -> NotifyLoadingState(0=IDLE) -> SetParams(0)
+(params temizle + skip listesi Clear).
+
+**ExecuteTaskFileLoad @0x5DBB90:** dongu: NotifyFileLoading -> LoadFile
+-> NotifyFileLoaded (**0x95a mesaji**, main-thread senkron) -> abort
+kontrolu -> basarisizsa dosyayi skip listesine ekle + PrepareNextFile
+(sonuksuz dongu korumasi) -> devam; basarili decode -> RunInMainThread
+(SyncOpenStream). **Decode + dosya secimi loader thread'inde; stream
+acilisi main thread'ine marshal edilir.**
+
+**ExecuteTaskFilePreload @0x5DBAF0:** LoadFile -> params+0x40'a IntfCopy
+(reconnect icin hazir kaynak) -> NotifyFileLoaded -> RunInMainThread
+(SyncPreloadStream).
+
+**ExecuteTaskReconnect @0x5DBCD0:** params+0x40 -> GetActualLink ->
+TASORemoteStream::Connect(link, NotifyBufferingExi) -> basarili:
+ReconnectHelper.Reset (+0xC8 teyitli); basarisiz: StartWaiting ->
+false ise TBASSDecoder::SetFinished.
+
+**LoadFile @0x5DBFC0:** PreloadedTrack(+0xb0).Match -> hazir decoder
+(gapless on-acma); degilse SoundOutDecoderManager().CreateDecoderForParams
+(hata kodlari: -0x7FFFBFFC, -0x7FFFFFF6). URL dosyalarda
+(acIsUrlFileName) GetActualLink -> hala URL ise **TASORemoteStream
+olustur + Connect(link, ...)** — internet radyo akisi loader
+thread'inde dogar (ADR-0106 radyo kenari icin dogrudan girdi).
+
+**SyncOpenStream @0x5DBE10 (main thread):** TASOPlayer.OpenStream
+(params); basarisiz: "Player.LoadFailed(%s)" + error dump +
+InternalStop(false) + DoError.
+
+**PrepareNextFile @0x5DC480:** skip listesi guard (Contains(nextfile) ->
+false — sonsuz dongu korumasi) -> main-thread closure (DoGetNextFile)
+-> bulunan dosya: SetFileName + params+0x30 = next info + params+0x28 =
+offset. **DoGetNextFile loader thread'inden main thread'ine RunInMainThread
+ile marshal edilir (loader beklemede kalir).**
+
+**SyncPreloadStream @0x5DBF60:** PreloadedTrack(+0xb0).Initialize(params)
+— preload decoder'i onbelleğe alir.
+
+**WndProc @0x5E04A0 mesaj tablosu:**
+
+| Mesaj | Handler | Icerik |
+|---|---|---|
+| 0x956 | WndProcDevice @0x5E05D0 | 1=TACLTimer.Restart (timer +0x28), 2=UpdateState, 3=status bit guard (+0x20 bayt & 8, LoaderLock) -> DeviceStopped |
+| 0x957 | Eventener.Reset -> WndProcEvent | TACLEventener tetik kanali (ctor'daki 0x957 ile ayni) |
+| 0x95a | WndProcSync @0x5E0690 | wParam 1=DoFileLoading(+0x20 dosya, +0x30 intf), 2=DoFileLoaded(+0x20,+0x30,+0x40), 3=DoLoadingState(state | flags<<8); **guard: player+0x78 !=0 && loader+0x70 == lParam — stale mesajlar drop edilir** |
+| 0x95e | player+0x170 callback | harici callback slot (obj=+0x178, lParam) |
+| default | DefWindowProc | |
+
+**WndProcEvent @0x5E0710 olay kodlari (Eventener tetikleri):**
+
+| Kod | Aksiyon |
+|---|---|
+| 1 | player+0x18==1 -> DoSelectNextPotentialPlayingItem; degilse HasPauseBetweenTrack/PauseAfterTheTrack kontrolu -> Reset(5) + StartNextFilePlayback(0) veya pause isareti (+0xA0+0x18=1); sonra SetActionOnTrackEnd(0) — **gapless sonraki-parca tetikleyicisi** |
+| 2 | HasAudioStream && PartRepeatState==2 -> Stream.SetPosition((double)float +0x98) + CustomTrigger.SetActive — A-B repeat geri sarma |
+| 3 | settings+0x91 -> PreloadNextFile — **gapless preload tetikleyicisi** |
+| 4 | StreamChanged |
+| 5 | StreamInfo.Update + CheckStreamFinished + StreamChanged |
+| 6 | StreamInfo.Update (yalnizca) |
+
+**GetStateForTrackStart @0x5DEFA0:** LoaderLock: loader(0x78) yok /
+params yok / params+0x60 (preload) -> PauseBetweenTracksHelper aktifse
+state=1, degilse GetRealState; params varsa **params+0x61 (hedef state)
+baskin** — yukleme sirasinda "nereye gidilecek" hedefi gecerli durumu
+ezer (preload istisna: hedef state uygulanmaz).
+
+**BASS decoder katmani (yeni kesif):** `Basstypes` namespace'inde **170**
+isimli BASS sembolu (TBASSDecoder vtable @0x51CA98, TBASSDecoderC3,
+BASSUserStreamingCreate(IAIMPStream), TBASSUserData.Wrap, ...). Dump'ta
+b-string DLL literal adi YOK (dolayli yukleme — INFERENCE: module
+handle + dinamik binding; yontem §6'daki BASS plugin modeli ile ayni).
+Neva sonucu: AIMP decoder katmaninin bir kismi BASS tabanli — Decoder
+turu (185 prosedur) disaridan bakista bu siniftan baslar.
 
