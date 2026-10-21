@@ -3,9 +3,9 @@ type: index
 category: decisions
 title: "CoreMusic — Decisions Index"
 date: 2026-08-15
-updated: 2026-10-12
+updated: 2026-10-20
 status: active
-version: 1.5.0
+version: 1.5.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 total-accepted: 80
@@ -142,6 +142,8 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[accepted/ADR-100-cross-db-outbox-cqrss-semi]] | Cross-DB Yazmada Outbox Zorunlu; CQRS Yalnız Okuma Sorgusu Düzeyinde | Database |
 | [[accepted/ADR-101-guvenlik-kanonik-sirasi-uzak-cagri]] | Güvenlik Kanonik Sırası + Uzak Çağrı Sınırları (Timeout/Retry/Fallback) | Security |
 | [[accepted/ADR-102-admin-theme-manager-architecture]] | Admin Theme Manager Mimarisi & Pembe Işıl-Peri Token Adaptasyonu | Frontend |
+| [[accepted/ADR-0105-neva-player-media-stack]] | Neva Player Media Stack: Açık Kaynak Decode (dr_libs+libdsd+ffmpeg-gateway) + WASAPI Exclusive Bit-Perfect + libplacebo 4K/HDR + 31-Band Parametrik EQ; 3-tur debate 4/4 koşullu-kabul → v1.1 kabul (2026-10-19) · **v1.1.1 (2026-10-20): libmpv "hibrit fallback" seçeneği REDDEDİLDİ (mpv GPL-2.0 copyleft + black-box — gerekçe §3); Ghidra decompile dump referansı eklendi** · **v1.2.0 (2026-10-20): 112 kaynaklı web doğrulama — soxr LGPL-2.1 düzeltmesi, ASIO dual-license, libdsd UNKNOWN, miniaudio distortion riski** · **v1.2.1 (2026-10-20): VRAM boşluğu kapatıldı — P010 12,4→24,9 MB/kare düzeltmesi + §2.8 bütçe dökümü (~400-700 MB, derived) + V0-V5 tükenme merdiveni + §5.6 VRAM peak ölçüm kapısı** · **v1.3.0 (2026-10-20): kriter↔kapı boşlukları — §2.9 sistem RAM bütçesi (≤400 MB) + §2.10 gecikme bütçesi (<20 ms, blok ≥1024@48k yasak, L1-L4 merdiven) + kapı 5.10 gecikme ölçümü + kapı 5.11 A/V sync eşiği (P95 ≤20 ms)** · **v1.3.1 (2026-10-20): VRAM ikinci denetim — ölçüm ortamı zorunlu alanları (GPU/sürücü, bench `UNKNOWN`) + merdiven V0-V5 doğrulama testi (§5.6) + AK-4 VRAM ölçütü (kapsam v0.2.2)** · **v1.3.2 (2026-10-20): VRAM üçüncü denetim — bench atandı `coremusic-dev` (GTX 1660 · 6144 MB · sürücü 610.62 · Win10 19045, 3 kaynak teyitli) + masaüstü baseline (1511 MiB / 1706 MB) + bench≠hedef-sınıf notu (1060 3 GB'ta 600 MB = %19,5); §7.5 — NevaPlayer henüz derlenmediği için peak ölçümü açık kalır** · **v1.4.0 (2026-10-20): kalan boşluklar 4-5 — kapı 5.12 gapless format vektörü (AK-5 8 format: MP3 LAME/Xing delay+padding, FLAC seektable, Opus granule, DoP/DSF marker continuity; dosya→dosya + radyo akış→akış; DAC loopback ±5 ms korelasyon, >20 ms FAIL — derived) + kapı 5.13 hostile input fuzzing (format başına ≥1000 sentetik corpus — ≥8000 derived; 0 ASan/UBSan crash, 0 OOB, CI 10 dk; OSS-Fuzz atfı VERIFICATION REQUIRED); kapsam v0.2.3: AK-5 vektör genişletmesi + AK-11 hostile corpus** | Audio |
+| [[accepted/ADR-106-internet-radio-and-selectable-band-eq]] | Neva Player Internet Radio (ICY/Shoutcast özel tuner + HLS FFmpeg gateway) + Kullanıcı-Ayarlanabilir Bant EQ (10/15/20/31, maks 31); 4 persona debate 4/4 koşullu-kabul → 27 şart → v1.1 kabul (2026-10-20); v1.1.1: VLC dump 62.5/`63`=0 teyidi işlendi | Audio |
 
 ## 4A. Draft ADR'ler
 
@@ -170,7 +172,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 ## 6. Kategori Haritası
 
-> **Yeniden ölçüm (2026-10-12 — dosya sayımı, §6 eski 78 satırı geçersizdir).** Yalnız **diskte dosyası olan** ADR'ler sayıldı (`accepted/` 80 + kökteki ADR-091 = 81); `<!-- NO FILE -->` işaretli ADR-083/087/088 bu tabloya **alınmadı**. Rejected (10) §5'tedir, bu tabloda değildir.
+> **Yeniden ölçüm (2026-10-12 — dosya sayımı, §6 eski 78 satırı geçersizdir).** Yalnız **diskte dosyası olan** ADR'ler sayıldı (`accepted/` 80 + kökteki ADR-091 = 81); `<!-- NO FILE -->` işaretli ADR-083/087/088 bu tabloya **alınmadı**. Rejected (10) §5'tedir, bu tabloda değildir. **Artış (2026-10-20):** ADR-106 accepted'a eklendi → `accepted/` 81 + ADR-091 = **82** (Audio Active 2→3).
 
 | Kategori | Frozen | Active | Toplam |
 |----------|--------|--------|--------|
@@ -179,7 +181,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Architecture | 6 | 6 | 12 |
 | Frontend | 2 | 5 | 7 |
 | Electronics | 0 | 5 | 5 |
-| Audio | 3 | 2 | 5 |
+| Audio | 3 | 3 | 6 |
 | AI | 3 | 1 | 4 |
 | Infrastructure | 2 | 2 | 4 |
 | Routing | 3 | 0 | 3 |
@@ -189,11 +191,11 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Social | 1 | 0 | 1 |
 | Testing | 1 | 0 | 1 |
 | Vault | 0 | 1 | 1 |
-| **TOPLAM** | **36** | **45** | **81** |
+| **TOPLAM** | **36** | **46** | **82** |
 
 ---
 
 *Decisions Index v1.5.0 — CoreMusic Vault*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-10-12*
+*Last Updated: 2026-10-20*
 *Mode: Red Team · Human Mode · Truth Mode*
