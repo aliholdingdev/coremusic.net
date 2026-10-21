@@ -107,6 +107,39 @@ if ($requestUri === '/health') {
     ]);
 }
 
+/* --- 1.1 Audio & Video Stream (/stream/{id} veya /api/v1/stream/{id}) --- */
+if (preg_match('#^(?:/api/v1)?/stream/([a-f0-9]{32})$#i', $requestUri, $matches) === 1) {
+    // Auth (Faz 4b kararı): home MusicStreamHandler paritesi — stream GİRİŞE ZORUNLU
+    // (fail-closed). home 302 /login verirdi; API JSON-only Gateway olduğu için
+    // sözleşmeye uygun karşılık 401 JSON'dur. Hybrid auth tek kaynaktan
+    // (AuthenticationMiddleware): session cookie (auth.coremusic.net ile paylaşımlı
+    // save path — Faz 1b) → RS256 Bearer + jti revocation. GET state-changing
+    // olmadığı için CSRF tabi değildir (ADR-010 / B-F-02).
+    \CoreMusic\Session\SessionBootstrapper::ensureStarted();
+
+    $streamAuth = (new \CoreMusic\Api\Middleware\AuthenticationMiddleware(
+        new ApiSessionManager(),
+        \CoreMusic\Api\Container\ApiAuthContainer::jwtService(),
+        static fn (string $jti): bool =>
+            \CoreMusic\Api\Container\ApiAuthContainer::userRepository()->isValidAccessToken($jti),
+    ))(
+        ['uri' => $requestUri, 'method' => $method],
+        static fn (array $req): array => $req,
+    );
+
+    if (isset($streamAuth['error'])) {
+        $jsonResponse($streamAuth, 401);
+    }
+
+    // Uzun dosya akışında session kilidi tutulmasın (home parite: writeClose).
+    \CoreMusic\Session\SessionBootstrapper::writeClose();
+
+    $streamController = new \CoreMusic\Api\Controller\StreamController(
+        \CoreMusic\Api\Container\ApiContainer::musicRepository()
+    );
+    $streamController->stream($matches[1]);
+}
+
 /* --- 2. API Gateway (/api/v1/*) --- */
 if (str_starts_with($requestUri, '/api/')) {
     // Auth uçları SSOT AuthService ile çalışır → $_SESSION şart (Faz 1b).

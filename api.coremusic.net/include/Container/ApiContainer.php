@@ -2,15 +2,20 @@
 
 namespace CoreMusic\Api\Container;
 
+use CoreMusic\Api\Controller\HistoryController;
 use CoreMusic\Api\Controller\MusicController;
 use CoreMusic\Api\Controller\PlaylistController;
 use CoreMusic\Api\Controller\UserController;
+use CoreMusic\Api\Controller\UserHeaderController;
+use CoreMusic\Api\Repository\HistoryRepository;
+use CoreMusic\Api\Repository\IHistoryRepository;
 use CoreMusic\Api\Repository\IMusicRepository;
 use CoreMusic\Api\Repository\IPlaylistRepository;
 use CoreMusic\Api\Repository\IUserProfileRepository;
 use CoreMusic\Api\Repository\MusicRepository;
 use CoreMusic\Api\Repository\PlaylistRepository;
 use CoreMusic\Api\Repository\UserProfileRepository;
+use CoreMusic\Api\Service\HistoryService;
 use CoreMusic\Api\Service\MusicService;
 use CoreMusic\Api\Service\PlaylistService;
 use CoreMusic\Api\Service\UserService;
@@ -42,6 +47,12 @@ final class ApiContainer
 
     private static ?UserController $userController = null;
 
+    private static ?HistoryController $historyController = null;
+
+    private static ?UserHeaderController $userHeaderController = null;
+
+    private static ?IHistoryRepository $historyRepository = null;
+
     /**
      * Gateway handlerResolver girişi — route'daki handler adına göre controller.
      *
@@ -51,14 +62,40 @@ final class ApiContainer
     public static function handle(array $route, array $request): array
     {
         return match ((string) ($route['handler'] ?? '')) {
-            'authController'     => ApiAuthContainer::controller()->handle($route, $request),
-            'musicController'    => self::musicController()->handle($route, $request),
-            'playlistController' => self::playlistController()->handle($route, $request),
-            'userController'     => self::userController()->handle($route, $request),
-            default              => throw new \RuntimeException(
+            'authController'       => ApiAuthContainer::controller()->handle($route, $request),
+            'musicController'      => self::musicController()->handle($route, $request),
+            'playlistController'   => self::playlistController()->handle($route, $request),
+            'userController'       => self::userController()->handle($route, $request),
+            'historyController'    => self::historyController()->handle($route, $request),
+            'userHeaderController' => self::userHeaderController()->handle($route, $request),
+            default                => throw new \RuntimeException(
                 'Bilinmeyen handler: ' . (string) ($route['handler'] ?? '(bos)')
             ),
         };
+    }
+
+    public static function historyController(): HistoryController
+    {
+        if (self::$historyController === null) {
+            self::$historyController = new HistoryController(
+                new \CoreMusic\Api\Service\HistoryService(self::historyRepository())
+            );
+        }
+
+        return self::$historyController;
+    }
+
+    public static function userHeaderController(): UserHeaderController
+    {
+        if (self::$userHeaderController === null) {
+            self::$userHeaderController = new UserHeaderController(
+                self::userProfileRepository(),
+                self::playlistRepository(),
+                self::musicRepository()
+            );
+        }
+
+        return self::$userHeaderController;
     }
 
     public static function musicController(): MusicController
@@ -90,7 +127,7 @@ final class ApiContainer
 
     /* ─────────────── Repositories + Registry'ler (DB başına tek bağlantı) ─────────────── */
 
-    private static function musicRepository(): IMusicRepository
+    public static function musicRepository(): IMusicRepository
     {
         if (self::$musicRepository === null) {
             if (self::$musicRegistry === null) {
@@ -144,5 +181,31 @@ final class ApiContainer
         }
 
         return self::$userProfileRepository;
+    }
+
+    private static function historyRepository(): IHistoryRepository
+    {
+        if (self::$historyRepository === null) {
+            // self::$musicRegistry'nin register edilmiş olmasını garanti et
+            self::musicRepository();
+
+            $userRegistry = new DatabaseRegistry();
+            $userRegistry->registerMySql(
+                'user',
+                DB_HOST,
+                (string) ($_ENV['DB_USER_NAME'] ?? 'coremusic_user'),
+                DB_USER,
+                DB_PASSWORD,
+                DB_PORT,
+                DB_CHARSET,
+            );
+
+            self::$historyRepository = new HistoryRepository(
+                $userRegistry,
+                self::$musicRegistry
+            );
+        }
+
+        return self::$historyRepository;
     }
 }

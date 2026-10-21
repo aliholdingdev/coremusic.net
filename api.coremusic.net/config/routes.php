@@ -87,6 +87,29 @@ return [
             'public'      => false,
             'implemented' => true,
         ],
+
+        // ─── Backend Yeniden Yapılandırma Uçları ───
+        '/api/v1/music/recent' => [
+            'service'     => 'music',
+            'handler'     => 'historyController',
+            'action'      => 'recent',
+            'public'      => false,
+            'implemented' => true,
+        ],
+        '/api/v1/music/history' => [
+            'service'     => 'music',
+            'handler'     => 'historyController',
+            'action'      => 'list',
+            'public'      => false,
+            'implemented' => true,
+        ],
+        '/api/v1/user/header-data' => [
+            'service'     => 'user',
+            'handler'     => 'userHeaderController',
+            'action'      => 'headerData',
+            'public'      => true,
+            'implemented' => true,
+        ],
     ],
 
     'POST' => [
@@ -178,6 +201,17 @@ return [
             'validation'  => [
                 'playlist_id' => ['required' => true, 'type' => 'string'],
                 'track_id'    => ['required' => true, 'type' => 'string'],
+            ],
+        ],
+
+        '/api/v1/music/history' => [
+            'service'     => 'music',
+            'handler'     => 'historyController',
+            'action'      => 'record',
+            'public'      => false,
+            'implemented' => true,
+            'validation'  => [
+                'music_id' => ['required' => true, 'type' => 'string'],
             ],
         ],
     ],
