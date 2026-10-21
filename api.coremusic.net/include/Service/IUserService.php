@@ -15,9 +15,11 @@ interface IUserService
 
     /**
      * Profil günceller (yalnız sahibi — middleware/controller doğrular).
+     * Mass-assignment koruması serviste: yalnız {display_name?, avatar_url?} uygulanır
+     * (users şeması: USER_COLUMNS — bio kolonu YOK).
      *
-     * @param array<string, mixed> $data {display_name?, bio?, avatar_url?}
-     * @return array<string, mixed> Güncellenmiş profil
+     * @param array<string, mixed> $data {display_name?, avatar_url?}
+     * @return array<string, mixed>|null Güncellenmiş profil; kullanıcı yoksa null
      */
-    public function updateProfile(string $userId, array $data): array;
+    public function updateProfile(string $userId, array $data): ?array;
 }

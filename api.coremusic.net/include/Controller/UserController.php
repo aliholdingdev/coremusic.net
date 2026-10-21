@@ -51,10 +51,15 @@ final class UserController extends AbstractController
         return $this->success(['profile' => $profile]);
     }
 
-    /** PUT /v1/user/profile — {display_name?, bio?, avatar_url?}. */
+    /** PUT /v1/user/profile — {display_name?, avatar_url?} (whitelist serviste). */
     private function updateProfile(string $userId, array $body): array
     {
-        return $this->success(['profile' => $this->service->updateProfile($userId, $body)]);
+        $profile = $this->service->updateProfile($userId, $body);
+        if ($profile === null) {
+            return $this->error('NOT_FOUND', 'Profil bulunamadı.', 404);
+        }
+
+        return $this->success(['profile' => $profile]);
     }
 
     // ─── Identity (defansif — middleware zaten 401 döndürür) ───

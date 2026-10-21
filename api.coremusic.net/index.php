@@ -175,9 +175,10 @@ if (str_starts_with($requestUri, '/api/')) {
             new ServiceRegistry(),
             $pipeline,
             $routeTable,
-            // Faz 1b: route['action'] → AuthController (SSOT auth.coremusic.net/include)
+            // Faz 4: handler route'tan çözülür (auth/müzik/playlist/user) —
+            // middleware sırası ADR-020 ile DEĞİŞMEZ, yalnız dispatch genelleşir.
             static fn (array $route, array $request): array =>
-                \CoreMusic\Api\Container\ApiAuthContainer::controller()->handle($route, $request),
+                \CoreMusic\Api\Container\ApiContainer::handle($route, $request),
         );
         $result = $gateway->dispatch($pipelineRequest);
 

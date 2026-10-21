@@ -11,9 +11,16 @@ namespace CoreMusic\Api\Repository;
  */
 interface IUserProfileRepository
 {
-    /** @return array<string, mixed>|null */
+    /**
+     * Aktif kullanıcının profil satırı (users: is_active=1 AND is_deleted=0).
+     *
+     * @return array{user_id_hex: string, username: string, display_name: string|null, gender: string|null, avatar_url: string|null, created_at: mixed}|null
+     */
     public function findByUserId(string $userId): ?array;
 
-    /** Profili upsert eder. */
-    public function upsertProfile(string $userId, array $data): bool;
+    /**
+     * Profil alanlarını günceller (UPDATE — kullanıcı middleware'den gelir, INSERT yok).
+     * display_name boş string ise NULL YAZILMAZ (DB NOT NULL riskine karşı korunur).
+     */
+    public function updateProfile(string $userId, string $displayName, ?string $avatarUrl): bool;
 }

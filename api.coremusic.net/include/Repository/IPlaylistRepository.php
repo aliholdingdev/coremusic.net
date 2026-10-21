@@ -29,9 +29,16 @@ interface IPlaylistRepository
     /** Şarkıyı listeye ekler (position: sona). */
     public function insertTrack(string $playlistId, string $trackId, int $position): bool;
 
-    /** Şarkıyı listeden çıkarır. */
+    /** Şarkıyı listeden çıkarır (soft delete + track_count decrement). */
     public function deleteTrack(string $playlistId, string $trackId): bool;
 
-    /** Bir listedeki en yüksek position (ekleme için). */
+    /** Bir listedeki en yüksek position; boş liste → -1 (ekleme position=0). */
     public function maxPosition(string $playlistId): int;
+
+    /**
+     * Bir listedeki şarkılar (position ASC; silinmiş satırlar hariç).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function findTracks(string $playlistId, int $limit): array;
 }

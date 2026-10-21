@@ -206,39 +206,40 @@ final class RouteConfigTest extends TestCase
         $this->assertArrayNotHasKey('validation', $this->routes['POST']['/api/v1/auth/logout']);
     }
 
-    // ─── Faz 3: controller iskeleti route kayıtları (Faz 4 yuvası) ───
+    // ─── Faz 4: route kayıtları implemented:true (handler dispatch hazır) ───
 
     /**
-     * Yeni uçlar implemented:false → 405 korunur (Faz 4 öncesi controller yok);
-     * action anahtarları Faz 4'te implemented:true yapılınca dispatch'e hazır.
+     * Yeni uçlar implemented:true — handler dispatch'e hazır (Faz 4);
+     * action anahtarları ApiContainer match'ine bağlanır.
      */
-    public function testPhase3NewRoutesAreDeclaredButNotImplemented(): void
+    public function testPhase3NewRoutesAreNowImplementedWithActions(): void
     {
         $getExpectations = [
             '/api/v1/music/tracks' => 'tracks',
             '/api/v1/music/search' => 'search',
             '/api/v1/music/track'  => 'show',
+            '/api/v1/playlist'     => 'index',
             '/api/v1/user/profile' => 'profile',
         ];
         foreach ($getExpectations as $path => $action) {
             $result = $this->table->match($path, 'GET');
             $this->assertSame(
-                RouteTable::STATUS_METHOD_NOT_ALLOWED,
+                RouteTable::STATUS_OK,
                 $result['status'],
-                "{$path} Faz 4 öncesi 405 korunmalı (implemented:false)"
+                "{$path} Faz 4 implemented:true — STATUS_OK beklenir"
             );
-            $this->assertSame($action, $result['route']['action'] ?? null, "{$path} action Faz 4 dispatch'ine hazır");
-            $this->assertFalse((bool) ($result['route']['implemented'] ?? true));
+            $this->assertSame($action, $result['route']['action'] ?? null, "{$path} action dispatch'e hazır");
+            $this->assertTrue((bool) ($result['route']['implemented'] ?? false));
         }
 
         foreach (['/api/v1/playlist' => 'create', '/api/v1/playlist/tracks' => 'addTrack'] as $path => $action) {
             $result = $this->table->match($path, 'POST');
-            $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $result['status'], "{$path} POST Faz 4 öncesi 405");
+            $this->assertSame(RouteTable::STATUS_OK, $result['status'], "{$path} POST implemented:true");
             $this->assertSame($action, $result['route']['action'] ?? null);
         }
 
         $put = $this->table->match('/api/v1/user/profile', 'PUT');
-        $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $put['status']);
+        $this->assertSame(RouteTable::STATUS_OK, $put['status']);
         $this->assertSame('updateProfile', $put['route']['action'] ?? null);
     }
 

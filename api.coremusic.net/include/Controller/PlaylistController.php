@@ -84,7 +84,13 @@ final class PlaylistController extends AbstractController
             ]);
         }
 
-        return $this->success($this->service->addTrack($playlistId, $trackId, $userId));
+        // Service null döndürür: liste yok veya sahiplik ihlali → 404 (enumerate koruma).
+        $relation = $this->service->addTrack($playlistId, $trackId, $userId);
+        if ($relation === null) {
+            return $this->error('NOT_FOUND', 'Oynatma listesi bulunamadı veya erişim yok.', 404);
+        }
+
+        return $this->success($relation);
     }
 
     // ─── Identity (defansif — middleware zaten 401 döndürür) ───

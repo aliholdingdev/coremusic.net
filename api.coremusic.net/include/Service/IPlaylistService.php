@@ -21,16 +21,17 @@ interface IPlaylistService
      */
     public function create(string $userId, array $data): array;
 
-    /** Liste + şarkıları; sahibi değilse ve public değilse null. */
+    /** Liste + şarkıları; sahibi değilse ve private ise null. */
     public function getWithTracks(string $playlistId, string $userId): ?array;
 
     /**
      * Listeye şarkı ekler (position otomatik sona).
      *
-     * @return array<string, mixed> Eklenen ilişki (playlist_id, track_id, position)
+     * @return array<string, mixed>|null Eklenen ilişki {playlist_id, track_id, position};
+     *         liste yoksa veya sahiplik ihlalinde null
      */
-    public function addTrack(string $playlistId, string $trackId, string $userId): array;
+    public function addTrack(string $playlistId, string $trackId, string $userId): ?array;
 
-    /** Listeden şarkı çıkarır; sahiplik ihlalinde false. */
+    /** Listeden şarkı çıkarır; liste yok veya sahiplik ihlali → false. */
     public function removeTrack(string $playlistId, string $trackId, string $userId): bool;
 }

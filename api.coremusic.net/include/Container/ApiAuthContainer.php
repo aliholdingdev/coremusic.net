@@ -36,6 +36,8 @@ final class ApiAuthContainer
 
     private static ?JwtService $jwtService = null;
 
+    private static ?\CoreMusic\Contracts\Database\IDatabaseRegistry $authRegistry = null;
+
     public static function session(): ISessionManager
     {
         if (self::$session === null) {
@@ -49,11 +51,12 @@ final class ApiAuthContainer
     }
 
     /**
-     * UserRepository tekil — authService ile PAYLAŞILIR (iki registry = iki bağlantı).
+     * auth DB registry — Faz 4: UserProfileRepository ile PAYLAŞILIR
+     * (iki registry = iki bağlantı — tekil bağlantı kuralı).
      */
-    public static function userRepository(): IUserRepository
+    public static function authRegistry(): \CoreMusic\Contracts\Database\IDatabaseRegistry
     {
-        if (self::$userRepository === null) {
+        if (self::$authRegistry === null) {
             $registry = new DatabaseRegistry();
             $registry->registerMySql(
                 'auth',
@@ -65,7 +68,19 @@ final class ApiAuthContainer
                 DB_CHARSET,
             );
 
-            self::$userRepository = new UserRepository($registry);
+            self::$authRegistry = $registry;
+        }
+
+        return self::$authRegistry;
+    }
+
+    /**
+     * UserRepository tekil — authService ile PAYLAŞILIR (iki registry = iki bağlantı).
+     */
+    public static function userRepository(): IUserRepository
+    {
+        if (self::$userRepository === null) {
+            self::$userRepository = new UserRepository(self::authRegistry());
         }
 
         return self::$userRepository;
