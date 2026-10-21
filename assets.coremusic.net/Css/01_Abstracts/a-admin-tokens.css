@@ -137,6 +137,50 @@
   --adm-c-success-border: rgba(16, 185, 129, 0.30); /* master L85 */
 
   /* ---------------------------------------------------------------------------
+   * 4.1) THEME MANAGER & IŞIL-PERİ ADAPTATION TOKENS (--adm-theme-*)
+   * ADR-102 (accepted 2026-10-21) — Home Işıl-Peri (#FF00C8) SSOT & ThemeManager
+   * ------------------------------------------------------------------------ */
+  /* Renk & Vurgu */
+  --adm-theme-primary: #FF00C8;                  /* Figma L2656 ışıl-peri ANA RENK */
+  --adm-theme-primary-hover: #ff38e3;            /* Buton/link hover durum rengi */
+  --adm-theme-primary-pressed: #d63cb8;          /* Buton basılı durum rengi */
+  --adm-theme-primary-glow: rgba(255, 0, 200, 0.55);      /* 1. derece neon ışıma */
+  --adm-theme-primary-glow-soft: rgba(255, 0, 200, 0.35); /* Yumuşak arka plan halo ışıması */
+  --adm-theme-accent: #ff2a85;                   /* Aktif kenarlık ve neon çizgi vurgusu */
+  --adm-theme-accent-subtle: rgba(255, 42, 133, 0.18);   /* Hafif pembe zemin vurgusu */
+
+  /* Cam Kart Yüzeyleri (Glassmorphic Plum/Pink — Yüksek Kontrast & Okunabilirlik) */
+  --adm-theme-card-bg: rgba(18, 5, 24, 0.84);   /* Derin koyu pembe/erik cam zemin — arka plandan net ayrışım */
+  --adm-theme-card-bg-hover: rgba(26, 7, 34, 0.92); /* Kart hover zemin */
+  --adm-theme-card-border: rgba(255, 130, 225, 0.28); /* Luminous pembe cam kenarlık */
+  --adm-theme-card-border-hover: rgba(255, 170, 240, 0.45); /* Kart hover kenarlık parlaması */
+  --adm-theme-card-inner: rgba(255, 210, 245, 0.16); /* Üst kenar iç ışık yansıması (inset reflection) */
+  --adm-theme-card-shadow: 0 14px 40px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.40); /* Derinlik gölgesi */
+  --adm-theme-card-shadow-hover: 0 18px 48px rgba(0, 0, 0, 0.75), 0 0 24px rgba(255, 0, 200, 0.25); /* Kart hover ışıltılı gölgesi */
+
+  /* Menü Aktif Kartı & Kenarlık */
+  --adm-theme-active-card-bg: linear-gradient(90deg, rgba(255, 0, 200, 0.45) 0%, rgba(188, 4, 163, 0.38) 100%);
+  --adm-theme-active-card-border: rgba(255, 150, 240, 0.55);
+  --adm-theme-active-indicator: linear-gradient(180deg, #ff00c8 0%, #ff2a85 100%);
+
+  /* Header & Navbar Kapsülü */
+  --adm-theme-navbar-bg: rgba(20, 6, 26, 0.88);
+  --adm-theme-navbar-border: rgba(255, 130, 225, 0.26);
+  --adm-theme-navbar-shadow: -4px 4px 20px rgba(0, 0, 0, 0.50);
+
+  /* Sidebar Zemin & Kenarlık */
+  --adm-theme-sidebar-bg: linear-gradient(180deg, rgba(18, 5, 24, 0.90) 0%, rgba(12, 3, 16, 0.96) 100%);
+  --adm-theme-sidebar-border: rgba(255, 130, 225, 0.20);
+
+  /* Buton Gradyanı */
+  --adm-theme-btn-gradient: linear-gradient(135deg, #FF00C8 0%, #d63cb8 100%);
+  --adm-theme-btn-gradient-hover: linear-gradient(135deg, #ff38e3 0%, #FF00C8 100%);
+
+  /* Footer Kapsülü */
+  --adm-theme-footer-bg: rgba(18, 5, 24, 0.88);
+  --adm-theme-footer-border: rgba(255, 130, 225, 0.22);
+
+  /* ---------------------------------------------------------------------------
    * 5) YARIÇAPI (corner radius — figma)
    * ------------------------------------------------------------------------ */
   --adm-r-input: 3px;       /* input/CTA r=3 · 2161:12515 / 2161:12510 */
@@ -399,4 +443,71 @@
   --adm-bg-image: url('../../Image/background/admin-login-bg.png');
   --adm-bg-size: cover;
   --adm-bg-pos: center;
+}
+
+/* ---------------------------------------------------------------------------
+ * 17) THEME MANAGER ADAPTATION OVERRIDES (ThemeManager Entegrasyonu)
+ * ADR-102: Gelecekte ThemeManager tarafından data-mode veya data-theme
+ * set edildiğinde otomatik olarak devreye girecek dinamik sözleşme.
+ * ------------------------------------------------------------------------ */
+html[data-mode="ışıl-peri"],
+html[data-theme="isil-peri"],
+html[data-gender="female"] {
+  --adm-theme-primary: #FF00C8;
+  --adm-theme-primary-hover: #ff38e3;
+  --adm-theme-primary-pressed: #d63cb8;
+  --adm-theme-primary-glow: rgba(255, 0, 200, 0.55);
+  --adm-theme-primary-glow-soft: rgba(255, 0, 200, 0.35);
+  --adm-theme-accent: #ff2a85;
+  --adm-theme-accent-subtle: rgba(255, 42, 133, 0.18);
+  --adm-theme-card-bg: rgba(18, 5, 24, 0.84);
+  --adm-theme-card-bg-hover: rgba(26, 7, 34, 0.92);
+  --adm-theme-card-border: rgba(255, 130, 225, 0.28);
+  --adm-theme-card-border-hover: rgba(255, 170, 240, 0.45);
+  --adm-theme-card-inner: rgba(255, 210, 245, 0.16);
+  --adm-theme-card-shadow: 0 14px 40px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.40);
+  --adm-theme-card-shadow-hover: 0 18px 48px rgba(0, 0, 0, 0.75), 0 0 24px rgba(255, 0, 200, 0.25);
+  --adm-theme-active-card-bg: linear-gradient(90deg, rgba(255, 0, 200, 0.45) 0%, rgba(188, 4, 163, 0.38) 100%);
+  --adm-theme-active-card-border: rgba(255, 150, 240, 0.55);
+  --adm-theme-active-indicator: linear-gradient(180deg, #ff00c8 0%, #ff2a85 100%);
+  --adm-theme-navbar-bg: rgba(20, 6, 26, 0.88);
+  --adm-theme-navbar-border: rgba(255, 130, 225, 0.26);
+  --adm-theme-navbar-shadow: -4px 4px 20px rgba(0, 0, 0, 0.50);
+  --adm-theme-sidebar-bg: linear-gradient(180deg, rgba(18, 5, 24, 0.90) 0%, rgba(12, 3, 16, 0.96) 100%);
+  --adm-theme-sidebar-border: rgba(255, 130, 225, 0.20);
+  --adm-theme-btn-gradient: linear-gradient(135deg, #FF00C8 0%, #d63cb8 100%);
+  --adm-theme-btn-gradient-hover: linear-gradient(135deg, #ff38e3 0%, #FF00C8 100%);
+  --adm-theme-footer-bg: rgba(18, 5, 24, 0.88);
+  --adm-theme-footer-border: rgba(255, 130, 225, 0.22);
+}
+
+/* Gece / Koyu Tema Geri Çekilme (Dark Fallback) */
+html[data-mode="dark"],
+html[data-theme="dark"] {
+  --adm-theme-primary: #8b5cf6;
+  --adm-theme-primary-hover: #a78bfa;
+  --adm-theme-primary-pressed: #7c3aed;
+  --adm-theme-primary-glow: rgba(139, 92, 246, 0.45);
+  --adm-theme-primary-glow-soft: rgba(139, 92, 246, 0.25);
+  --adm-theme-accent: #6366f1;
+  --adm-theme-accent-subtle: rgba(99, 102, 241, 0.15);
+  --adm-theme-card-bg: rgba(16, 20, 42, 0.52);
+  --adm-theme-card-bg-hover: rgba(24, 28, 56, 0.62);
+  --adm-theme-card-border: rgba(255, 255, 255, 0.14);
+  --adm-theme-card-border-hover: rgba(255, 255, 255, 0.24);
+  --adm-theme-card-inner: rgba(255, 255, 255, 0.20);
+  --adm-theme-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  --adm-theme-card-shadow-hover: 0 14px 36px rgba(0, 0, 0, 0.35);
+  --adm-theme-active-card-bg: linear-gradient(90deg, rgba(65, 75, 220, 0.72) 0%, rgba(40, 95, 225, 0.62) 100%);
+  --adm-theme-active-card-border: rgba(135, 175, 255, 0.42);
+  --adm-theme-active-indicator: linear-gradient(180deg, #ff409a 0%, #ff1475 100%);
+  --adm-theme-navbar-bg: rgba(16, 20, 38, 0.48);
+  --adm-theme-navbar-border: rgba(255, 255, 255, 0.16);
+  --adm-theme-navbar-shadow: -4px 4px 20px rgba(0, 0, 0, 0.35);
+  --adm-theme-sidebar-bg: linear-gradient(180deg, rgba(12, 15, 28, 0.35) 0%, rgba(8, 10, 20, 0.45) 100%);
+  --adm-theme-sidebar-border: rgba(255, 255, 255, 0.12);
+  --adm-theme-btn-gradient: linear-gradient(135deg, #ff38e3 0%, #d63cb8 100%);
+  --adm-theme-btn-gradient-hover: linear-gradient(135deg, #ff7ee4 0%, #ff38e3 100%);
+  --adm-theme-footer-bg: rgba(14, 16, 30, 0.45);
+  --adm-theme-footer-border: rgba(255, 255, 255, 0.14);
 }

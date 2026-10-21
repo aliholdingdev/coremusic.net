@@ -141,6 +141,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[accepted/ADR-099-tek-deploy-modular-monolith]] | Tek Deploy + Zorlanabilir Modül Sınırları (Modular Monolith) | Architecture |
 | [[accepted/ADR-100-cross-db-outbox-cqrss-semi]] | Cross-DB Yazmada Outbox Zorunlu; CQRS Yalnız Okuma Sorgusu Düzeyinde | Database |
 | [[accepted/ADR-101-guvenlik-kanonik-sirasi-uzak-cagri]] | Güvenlik Kanonik Sırası + Uzak Çağrı Sınırları (Timeout/Retry/Fallback) | Security |
+| [[accepted/ADR-102-admin-theme-manager-architecture]] | Admin Theme Manager Mimarisi & Pembe Işıl-Peri Token Adaptasyonu | Frontend |
 
 ## 4A. Draft ADR'ler
 
