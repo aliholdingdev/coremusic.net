@@ -90,29 +90,33 @@
   position: absolute;
   top: var(--adm-auth-qr-top);
   left: var(--adm-auth-qr-x);
-  /* genişlik: frame sağ kenarı (307+100) — token bileşimi */
-  width: calc(var(--adm-qr-frame-x) + var(--adm-qr-frame));
-  height: var(--adm-auth-qr-h);
-}
-
-.adm-auth__qr-card {
-  position: absolute;
-  top: var(--adm-qr-card-y);
-  left: var(--adm-qr-card-x);
-  width: var(--adm-qr-card-w);
-  height: var(--adm-qr-card-h);
+  width: var(--adm-qr-card-w, 390px);
+  height: var(--adm-auth-qr-h, 100px);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  box-sizing: border-box;
   background-color: var(--adm-c-qr-bg);
   border-radius: var(--adm-r-panel);
   box-shadow: var(--adm-shadow-1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 2;
+}
+
+.adm-auth__qr-card {
+  display: none;
 }
 
 .adm-auth__qr-phone {
-  position: absolute;
-  top: var(--adm-qr-phone-y);
-  left: var(--adm-qr-phone-x);
-  width: var(--adm-qr-phone-w);
-  height: var(--adm-qr-phone-h);
+  position: relative;
+  width: var(--adm-qr-phone-w, 28px);
+  height: var(--adm-qr-phone-h, 56px);
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .adm-auth__qr-code {
@@ -126,26 +130,38 @@
 
 /* QR alt metni — login 16/500 (w311) · register 15 (w298) */
 .adm-auth__qr-text {
-  position: absolute;
-  top: var(--adm-qr-text-y);
-  left: var(--adm-qr-text-x);
-  width: var(--adm-qr-text-w-login);
+  position: relative;
+  top: auto;
+  left: auto;
+  width: auto;
+  flex: 1;
   margin: 0;
   font-family: var(--adm-font-ui);
   font-size: var(--adm-fs-note);
   font-weight: var(--adm-fw-med);
   line-height: var(--adm-lh-note);
   color: var(--adm-c-text);
+  text-align: left;
 }
 
-/* Frame 1 — 100×100 @1786,941 → block-rel 307,0 (büyük QR çerçevesi) */
+/* Frame — telefon SVG mock-up taşıyıcısı */
 .adm-auth__qr-frame {
-  position: absolute;
-  top: 0;
-  left: var(--adm-qr-frame-x);
-  width: var(--adm-qr-frame);
-  height: var(--adm-qr-frame);
-  object-fit: contain;
-  background-color: var(--adm-c-placeholder);
-  border-radius: var(--adm-r-input);
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 28px;
+  height: 56px;
+  flex-shrink: 0;
+  background-color: transparent;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.adm-auth__qr-phone-svg {
+  display: block;
+  width: 28px;
+  height: 56px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
 }

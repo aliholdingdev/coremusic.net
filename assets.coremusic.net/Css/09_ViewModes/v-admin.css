@@ -51,6 +51,7 @@
 @import url("../05_Pages/p-admin-register.css?v=1.0.0");
 @import url("../05_Pages/p-admin-layout.css?v=1.0.0");
 @import url("../05_Pages/p-admin-dashboard.css?v=1.0.0");
+@import url("../05_Pages/p-admin-crud-light.css?v=1.0.0");
 
 /* === ADMIN DEVICES === */
 /* d-admin-1920.css burada @import EDİLMEZ (yukarıdaki Bağımlılık notu).

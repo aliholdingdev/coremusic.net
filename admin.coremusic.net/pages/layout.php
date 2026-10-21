@@ -55,7 +55,7 @@ $userRole   = (string)($_SESSION['MM_UserRole'] ?? 'Administartor');
 $copyright  = 'Copyright © 2024-2025 Core Music for Ali Admin . All rights reserved.  Core Music';
 $userInitials = mb_strtoupper(mb_substr($userLabel, 0, 2));
 ?>
-<div class="adm-page adm-page--layout<?= $activeNav !== '' ? ' adm-page--' . $h(str_replace('admin-', '', $activeNav)) : '' ?>">
+<div class="adm-page adm-page--layout<?= $activeNav !== '' ? ' adm-page--' . $h(str_replace('admin-', '', $activeNav)) : '' ?>" data-mode="light">
     <div class="adm-bg" aria-hidden="true">
         <div class="adm-bg__image"></div>
         <div class="adm-bg__scrim"></div>
@@ -130,7 +130,7 @@ $userInitials = mb_strtoupper(mb_substr($userLabel, 0, 2));
                 <span class="adm-navbar__battery">100%</span>
             </span>
         </div>
-        <a class="adm-navbar__logout" href="<?= $h($authUrl) ?>/logout" data-no-spa aria-label="Çıkış" title="Güvenli Çıkış">
+        <a class="adm-navbar__logout" href="<?= $h($authUrl) ?>/admin/logout" data-no-spa aria-label="Çıkış" title="Güvenli Çıkış">
             <img class="adm-navbar__icon--logout" src="<?= $h($assetsUrl) ?>/Image/res-pink/session-logout.png" alt="" aria-hidden="true" width="15" height="16">
             <span class="adm-u-sr-only">Çıkış</span>
         </a>

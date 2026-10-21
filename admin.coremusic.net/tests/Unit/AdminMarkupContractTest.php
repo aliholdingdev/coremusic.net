@@ -195,22 +195,32 @@ final class AdminMarkupContractTest extends TestCase
         self::assertStringContainsString('bayramali - admin', $out);
         self::assertStringContainsString('IP : 203.0.113.7', $out);
 
-        // Logout auth domainine gider (admin'de local logout rotası YOK)
-        self::assertStringContainsString('https://auth.coremusic.net/logout', $out);
+        // Logout auth domainine gider (admin/logout rotası)
+        self::assertStringContainsString('https://auth.coremusic.net/admin/logout', $out);
 
         // Çift landmark YOK
         self::assertStringNotContainsString('<main', $out);
         self::assertStringNotContainsString('TODO UI', $out);
     }
 
-    public function testPlaceholderPagesShowYapimAsamasindaEmptyState(): void
+    public function testCrudPagesRenderWithLightThemeComponents(): void
     {
-        foreach (['admin-songs', 'admin-song-add', 'admin-playlist', 'admin-settings'] as $page) {
-            $out = $this->render($page);
-            self::assertStringContainsString('is-empty', $out, $page . ' boş-durum işaretçisi taşımalı');
-            self::assertStringContainsString('yapım aşamasındadır', $out, $page . ' yapım aşamasında metni taşımalı');
-            self::assertStringNotContainsString('TODO UI', $out, $page . ' "TODO UI" sızdırmamalı');
-        }
+        $songsOut = $this->render('admin-songs');
+        self::assertStringContainsString('adm-songs-page', $songsOut);
+        self::assertStringContainsString('adm-table-card--light', $songsOut);
+        self::assertStringContainsString('adm-table', $songsOut);
+
+        $songAddOut = $this->render('admin-song-add');
+        self::assertStringContainsString('adm-song-add-page', $songAddOut);
+        self::assertStringContainsString('adm-dropzone--light', $songAddOut);
+
+        $playlistOut = $this->render('admin-playlist');
+        self::assertStringContainsString('adm-playlist-page', $playlistOut);
+        self::assertStringContainsString('adm-playlist-grid', $playlistOut);
+
+        $settingsOut = $this->render('admin-settings');
+        self::assertStringContainsString('adm-settings-page', $settingsOut);
+        self::assertStringContainsString('adm-settings-grid', $settingsOut);
     }
 
     public function testDashboardWithoutDatabaseCredentialsShowsVerificationRequired(): void

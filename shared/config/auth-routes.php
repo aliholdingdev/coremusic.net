@@ -59,4 +59,55 @@ return [
         handler: 'auth_post',
         meta: ['auth_page' => true],
     ),
+
+    // --- Admin Auth Rotaları (Light Theme SSOT) ---
+    'admin/login' => new SpaRoute(
+        page: 'admin/login',
+        requiresAuth: false,
+        title: 'Yönetici Girişi',
+        handler: 'auth_post',
+        meta: ['auth_page' => true, 'admin' => true, 'theme' => 'light'],
+    ),
+    'admin/register' => new SpaRoute(
+        page: 'admin/register',
+        requiresAuth: false,
+        title: 'Yönetici Kaydı',
+        handler: 'auth_post',
+        meta: ['auth_page' => true, 'admin' => true, 'theme' => 'light'],
+    ),
+    'admin/forgot-password' => new SpaRoute(
+        page: 'admin/forgot-password',
+        requiresAuth: false,
+        title: 'Yönetici Şifre Sıfırlama',
+        handler: 'auth_post',
+        meta: ['auth_page' => true, 'admin' => true, 'theme' => 'light'],
+    ),
+    'admin/reset-password' => new SpaRoute(
+        page: 'admin/reset-password',
+        requiresAuth: false,
+        title: 'Yönetici Yeni Şifre',
+        handler: 'auth_post',
+        meta: ['auth_page' => true, 'admin' => true, 'theme' => 'light'],
+    ),
+    'admin/select-gender' => new SpaRoute(
+        page: 'admin/select-gender',
+        requiresAuth: false,
+        title: 'Yönetici Profil Seçimi',
+        handler: 'auth_post',
+        meta: ['auth_page' => true, 'admin' => true, 'theme' => 'light'],
+    ),
+    'admin/set-gender' => new SpaRoute(
+        page: 'admin/set-gender',
+        requiresAuth: false,
+        title: 'Yönetici Profil Ayarla',
+        handler: 'auth_post',
+        meta: ['auth_page' => true, 'admin' => true, 'theme' => 'light'],
+    ),
+    'admin/logout' => new SpaRoute(
+        page: 'admin/logout',
+        requiresAuth: false,
+        title: 'Yönetici Çıkış',
+        handler: 'auth_post',
+        meta: ['auth_page' => true, 'admin' => true, 'theme' => 'light'],
+    ),
 ];
