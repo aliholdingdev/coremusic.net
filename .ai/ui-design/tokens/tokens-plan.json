@@ -1,6 +1,6 @@
 {
     "_meta":  {
-                  "generated":  "2026-10-18",
+                  "generated":  "2026-10-20",
                   "breakpoint":  "plan",
                   "source":  "Figma NFpX9bq58oApWJPgBK5Heo (API, taze cekim)",
                   "files":  [
@@ -11,19 +11,20 @@
                                  "nodes":  2619,
                                  "imageFills":  451,
                                  "autoLayout":  76,
-                                 "layoutGrids":  0
+                                 "layoutGrids":  1
                              },
                   "sections":  {
-                                   "colors":  1212,
+                                   "colors":  1213,
                                    "typography":  172,
                                    "shadows":  304,
-                                   "radii":  234,
+                                   "radii":  235,
                                    "spacing":  10,
                                    "sizes":  1982
                                },
-                  "legacy_keys_kept":  0
+                  "legacy_keys_kept":  1
               },
     "colors":  {
+                   "Linux  1024 - Home Page / stroke":  "#000000",
                    "Siyah Arkaplan Evekt / gradient stop 0":  "#000000 @0.120",
                    "Siyah Arkaplan Evekt / gradient stop 1":  "#120C14 @0.040",
                    "Siyah Arkaplan Evekt / fill":  "#000000 @0.550",
@@ -957,7 +958,6 @@
                    "Siyah Arkaplan Evekt / gradient stop 0 [2003:21433]":  "#120C14 @0.520",
                    "Siyah Arkaplan Evekt / gradient stop 1 [2003:21433]":  "#120C14 @0.240",
                    "Siyah Arkaplan Evekt / fill [2003:21436]":  "#000000 @0.150",
-                   "Stroke Effect / fill [I2003:21437;1175:19752]":  "#373737 @0.350",
                    "Stroke Effect / stroke [I2003:21437;1175:19752]":  "#FFFFFF",
                    "Stroke Effect / fill [I2003:21438;175:837]":  "#373737 @0.350",
                    "Stroke Effect / stroke [I2003:21438;175:837]":  "#FFFFFF",
@@ -1235,7 +1235,8 @@
                    "Vector 807 / stroke":  "#370CB5",
                    "Vector 808 / stroke":  "#370CB5",
                    "Vector 809 / stroke":  "#370CB5",
-                   "Vector 810 / stroke":  "#370CB5"
+                   "Vector 810 / stroke":  "#370CB5",
+                   "Stroke Effect / fill [I2003:21437;1175:19752]":  "#373737 @0.350"
                },
     "typography":  {
                        "Avalon 12.699999809265137px w500":  {
@@ -5902,8 +5903,9 @@
                   "Rectangle 16 radius [2003:21114]":  4.0,
                   "search radius [2003:21115]":  4.0,
                   "search radius [2003:21117]":  50.0,
+                  "NowPlayingContainer radius":  "0,0,0,0,0,0,0,0",
                   "Image Albums radius":  5.0,
-                  "NowPlayingContainer radius":  5.0,
+                  "NowPlayingContainer radius [I2003:21439;175:864]":  5.0,
                   "LoginContainer radius":  5.0,
                   "Color Overlay radius [I2003:21439;175:866]":  5.0,
                   "Stroke Effect radius [I2003:21439;175:867]":  5.0,

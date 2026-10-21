@@ -28,6 +28,7 @@
 /* 05_Pages — Auth page styles (component değil, sayfa CSS'i) */
 @import url("./05_Pages/p-select-gender.css?v=2.1.1");
 @import url("./05_Pages/p-login-view.css?v=2.1.1");
+@import url("./05_Pages/p-admin-auth-light.css?v=2.1.1");
 
 /* === AUTH DEVICES === */
 /* d-auth-*.css burada @import EDİLMEZ: ayrı <link id="cm-device-css"> olarak
@@ -78,6 +79,12 @@ body.auth-page {
   background: none !important;
   background-color: #120d1a !important;
   overflow: hidden !important;
+}
+
+html[data-mode="light"] body.auth-page,
+body.auth-page:has(.adm-auth-wrapper) {
+  background-color: #f8f7fc !important;
+  overflow-y: auto !important;
 }
 
 body.auth-page .site-header,

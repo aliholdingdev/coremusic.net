@@ -43,6 +43,7 @@
    Header/footer fixed — document scroll'u kilitlenir (çift scroll önlenir).
    Not: :has() desteklenmeyen tarayıcıda davranış bugünkü gibi kalır (zararsız fallback). */
 body:has(.page-home) {
+  display: flow-root;
   overflow: hidden;
   height: 100vh;
 }
@@ -375,10 +376,13 @@ html:not(.sidebar-collapsed) .home-layout {
 }
 .layout--embedded .home-layout__top {
   grid-template-columns: var(--home-embedded-top-split);
+  gap: 0;
+  justify-content: space-between;
+  min-height: var(--home-embedded-row1-min-h);
 }
 .layout--embedded .home-layout__bottom {
   grid-template-columns: var(--home-embedded-bottom-split);
-  gap: var(--home-embedded-gap);
+  gap: var(--home-embedded-bottom-gap);
 }
 .layout--embedded .home-widget-grid {
   grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr);
@@ -506,7 +510,8 @@ html:not(.sidebar-collapsed) .home-layout {
 .home-layout__top--embedded {
   display: grid;
   grid-template-columns: var(--home-embedded-top-split);
-  gap: var(--home-embedded-gap);
+  gap: 0;
+  justify-content: space-between;
   min-height: var(--home-embedded-row1-min-h);
   align-items: stretch;
 }
@@ -514,8 +519,84 @@ html:not(.sidebar-collapsed) .home-layout {
 .home-layout__bottom--embedded {
   display: grid;
   grid-template-columns: var(--home-embedded-bottom-split);
-  gap: var(--home-embedded-gap);
+  gap: var(--home-embedded-bottom-gap);
   align-items: start;
+}
+
+/* EMBEDDED 1024 — Now Playing kartı iç yerleşimi (PNG home-1024: x32 y84 w392 h131).
+   1. satır: kapak 72 + bilgi (başlık/albüm/sanatçı) · 2. satır: süre | ilerleme (246) | süre.
+   İç boşluk 13 üst · 16 yan · 14 alt → 13 + 72 + 16 + 16 + 14 = 131. Değerler token'dan. */
+.home-layout--embedded .now-playing.now-playing--embedded {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--home-embedded-np-h);
+  padding: var(--home-embedded-np-pad-top) var(--home-embedded-np-pad-x) var(--home-embedded-np-pad-bottom);
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: var(--home-embedded-np-art) minmax(0, 1fr);
+  grid-template-rows: var(--home-embedded-np-art) var(--home-embedded-np-progress-row-h);
+  row-gap: var(--home-embedded-np-row-gap);
+  column-gap: var(--home-embedded-np-col-gap);
+  align-content: start;
+}
+
+.home-layout--embedded .now-playing__art--embedded {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  align-self: start;
+  width: var(--home-embedded-np-art);
+  height: var(--home-embedded-np-art);
+  aspect-ratio: auto;
+  min-width: 0;
+}
+
+.home-layout--embedded .now-playing__info--embedded {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  min-width: 0;
+  padding-top: var(--home-embedded-np-info-pad-top);
+}
+
+.home-layout--embedded .now-playing__info--embedded .now-playing__title,
+.home-layout--embedded .now-playing__info--embedded .now-playing__subtitle,
+.home-layout--embedded .now-playing__info--embedded .now-playing__artist {
+  line-height: var(--home-embedded-np-line-h);
+}
+
+.home-layout--embedded .now-playing.now-playing--embedded .media-progress {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--home-embedded-np-time-gap);
+  width: 100%;
+  height: var(--home-embedded-np-progress-row-h);
+  min-width: 0;
+}
+
+.home-layout--embedded .media-progress__time {
+  flex: 0 0 var(--home-embedded-np-time-w);
+  width: var(--home-embedded-np-time-w);
+}
+
+.home-layout--embedded .media-progress__time--total {
+  text-align: right;
+}
+
+.home-layout--embedded .media-progress__bar {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: var(--home-embedded-np-track-h);
+  background: var(--cm-player-progress-bg);
+  border-radius: var(--cm-player-progress-radius);
+}
+
+.home-layout--embedded .media-progress__fill {
+  height: 100%;
+  background: var(--cm-player-progress-fill);
+  border-radius: var(--cm-player-progress-radius);
 }
 
 .embedded-card-grid-2x2 {

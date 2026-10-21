@@ -969,6 +969,10 @@
     overflow: hidden;
 }
 
+.page-history--wide .history-col:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
 /* Başlık bandı — Figma "label text" (24,171) 1612×25 · #383838 @ .35
    2026-10-17: etiketler artık satırlarla AYNI grid'i kullanır (kullanıcı "bu textleri eşitle").
    padding 0 40px 0 7px → içerik alanı = items(pad-l 7) + row(100%-40) ile birebir aynı;
@@ -1015,6 +1019,11 @@
     border: 0;
     height: calc(100% - 33px);
     overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.page-history--wide .history-col__items::-webkit-scrollbar {
+    display: none;
 }
 
 .page-history--wide .history-list__item {

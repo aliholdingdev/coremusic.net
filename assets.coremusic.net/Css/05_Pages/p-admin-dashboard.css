@@ -1,20 +1,1372 @@
 /* ============================================================
-   p-admin-dashboard.css — Admin (05_Pages · P04)
-   Ekran: dashboard (admin-layout içindeki içerik görünümü)
-   Başlık "Admin Panelim" + breadcrumb "Home / Dashboard"
-   zaten 04_Components/c-adm-panel.css içinde konumlandırıldı
-   (panel-rel 29,24 / 1481,24).
-   Scope: .adm-page--dashboard (Görev A HTML contract)
-   KAPI: ham hex/px YOK · var fallback YOK · @media YOK
+   p-admin-dashboard.css — CoreMusic Admin Dashboard (Senior Edition)
+   05_Pages · P04 · Light Işıl-Peri Pearl Glass & Cyberpunk Audiophile Workstation
+   Scope: .adm-page--dashboard
    ============================================================ */
 
+/* Shell ayarlamaları */
 .adm-page--dashboard .adm-auth-panel {
   display: none;
 }
 
-/* Dashboard kart gövdesi — yuva: .adm-content altı.
-   ⚠️ VERIFICATION REQUIRED: dashboard kartları (istatistik/
-   liste) için PNG/mockup ve ASCII spec'i BU VAULT'TA YOK
-   (yalnız title/breadcrumb çizili) → kart bileşeni/sınıfı
-   UYDURULMADI; spec gelince 04_Components + bu dosya'ya
-   genişletilecek. */
+/* Arka planı hafif aydınlatan, pembe-inci ışıltısı veren açık ambiyans tülü */
+.adm-page--dashboard::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 55% 35%, rgba(255, 255, 255, 0.65) 0%, rgba(255, 240, 248, 0.82) 100%), rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.adm-page--dashboard .adm-panel__title {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  font-family: Arial, "Helvetica Neue", -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--adm-theme-text-primary, #1a1025);
+  letter-spacing: 0.4px;
+  padding: 4px 14px;
+  margin: 0 0 8px 0;
+  background: var(--adm-theme-card-bg, rgba(255, 255, 255, 0.88));
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 0, 200, 0.18));
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 2px 10px rgba(180, 40, 140, 0.08);
+  text-shadow: none;
+  flex-shrink: 0;
+}
+
+.adm-page--dashboard .adm-panel__breadcrumb {
+  display: none;
+}
+
+/* ============================================================
+   1. Ana İçerik Konteyneri (Background Olmayan Düzenleyici Div)
+   ============================================================ */
+.adm-page--dashboard .adm-content {
+  position: absolute;
+  top: 72px;
+  left: 268px;
+  width: 1628px;
+  height: 940px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0 6px 12px 0;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.adm-page--dashboard .adm-content::-webkit-scrollbar {
+  width: 5px;
+}
+.adm-page--dashboard .adm-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 4px;
+}
+.adm-page--dashboard .adm-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 0, 200, 0.28);
+  border-radius: 4px;
+}
+.adm-page--dashboard .adm-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 0, 200, 0.45);
+}
+
+/* ============================================================
+   2. Üst Header / Navbar Glassmorphism Yükseltmesi (.adm-navbar)
+   Figma 2161:12505 (Admin - layout.png) — Sağa tam bitişik, sol 20px kavisli
+   ============================================================ */
+.adm-page--layout .adm-navbar {
+  position: absolute;
+  top: 18px;
+  right: 0;
+  width: auto;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 14px 0 12px;
+  box-sizing: border-box;
+  background: var(--adm-theme-navbar-bg, rgba(255, 255, 255, 0.88));
+  border: 1px solid var(--adm-theme-navbar-border, rgba(255, 0, 200, 0.18));
+  border-right: none;
+  border-radius: 20px 0 0 20px;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: var(--adm-theme-navbar-shadow, -4px 4px 20px rgba(180, 40, 140, 0.08)), inset 0 1px 0 var(--adm-theme-card-inner, rgba(255, 255, 255, 0.95));
+  z-index: 10;
+}
+
+.adm-page--layout .adm-navbar__avatar,
+.adm-page--layout .adm-navbar__name,
+.adm-page--layout .adm-navbar__icon,
+.adm-page--layout .adm-navbar__battery,
+.adm-page--layout .adm-navbar__logout {
+  position: static;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+}
+
+.adm-navbar__user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-right: 14px;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.adm-page--layout .adm-navbar__avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--adm-theme-btn-gradient, linear-gradient(135deg, #FF00C8 0%, #d63cb8 100%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 10px;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 6px var(--adm-theme-primary-glow-soft, rgba(255, 0, 200, 0.25));
+  flex-shrink: 0;
+}
+
+.adm-page--layout .adm-navbar__name {
+  width: auto;
+  max-width: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--adm-theme-text-primary, #1a1025);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  text-shadow: none;
+}
+
+.adm-navbar__telemetry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 14px;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.adm-page--layout .adm-navbar__icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  opacity: 0.75;
+  filter: brightness(0.2);
+  flex-shrink: 0;
+}
+
+.adm-navbar__battery-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.adm-page--layout .adm-navbar__icon--battery {
+  width: 16px;
+  height: 15px;
+}
+
+.adm-page--layout .adm-navbar__battery {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--adm-theme-text-primary, #1a1025);
+  font-family: monospace;
+}
+
+.adm-page--layout .adm-navbar__logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--adm-theme-accent-subtle, rgba(255, 0, 200, 0.10));
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 0, 200, 0.20));
+  cursor: pointer;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.adm-page--layout .adm-navbar__logout:hover {
+  background: var(--adm-theme-primary, #FF00C8);
+  border-color: var(--adm-theme-primary, #FF00C8);
+  transform: scale(1.08);
+  box-shadow: 0 0 14px var(--adm-theme-primary-glow, rgba(255, 0, 200, 0.45));
+}
+
+.adm-page--layout .adm-navbar__logout:hover .adm-navbar__icon--logout {
+  filter: brightness(1) invert(1);
+}
+
+.adm-page--layout .adm-navbar__icon--logout {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  filter: brightness(0.2);
+}
+
+/* ============================================================
+   3. Sol Panel (Sidebar) Glassmorphism & Modern Navigasyon
+   ============================================================ */
+.adm-page--layout .adm-sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 1080px;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 14px 20px 14px;
+  box-sizing: border-box;
+  background: var(--adm-theme-sidebar-bg, linear-gradient(180deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 245, 252, 0.95) 100%));
+  border-right: 1px solid var(--adm-theme-sidebar-border, rgba(255, 0, 200, 0.14));
+  backdrop-filter: blur(28px) saturate(210%);
+  -webkit-backdrop-filter: blur(28px) saturate(210%);
+  box-shadow: 6px 0 28px rgba(180, 40, 140, 0.06);
+  z-index: 2;
+}
+
+.adm-page--layout .adm-sidebar__title,
+.adm-page--layout .adm-sidebar__subtitle,
+.adm-page--layout .adm-sidebar__group {
+  position: static;
+  top: auto;
+  left: auto;
+  width: 100%;
+}
+
+.adm-sidebar__section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.adm-page--layout .adm-sidebar__title,
+.adm-page--layout .adm-sidebar__subtitle {
+  color: #d6009a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  margin: 6px 10px 8px 10px;
+  text-shadow: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+}
+
+.adm-sidebar__group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.adm-page--layout .adm-sidebar__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #2b1035;
+  font-size: 13px;
+  font-weight: 600;
+  text-shadow: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  text-decoration: none;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.adm-page--layout .adm-sidebar__item:hover {
+  background: var(--adm-theme-accent-subtle, rgba(255, 0, 200, 0.08));
+  border-color: var(--adm-theme-card-border, rgba(255, 0, 200, 0.20));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--adm-theme-primary, #FF00C8);
+  transform: translateX(3px);
+  box-shadow: 0 2px 10px rgba(180, 40, 140, 0.06);
+  text-shadow: none;
+}
+
+.adm-page--layout .adm-sidebar__item.is-active {
+  background: var(--adm-theme-active-card-bg, linear-gradient(90deg, rgba(255, 0, 200, 0.14) 0%, rgba(255, 56, 227, 0.06) 100%));
+  border: 1px solid var(--adm-theme-active-card-border, rgba(255, 0, 200, 0.35));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 16px rgba(180, 40, 140, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  color: #c9008f;
+  font-weight: 700;
+  text-shadow: none;
+}
+
+.adm-page--layout .adm-sidebar__item.is-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 12px 0 0 12px;
+  background: var(--adm-theme-active-indicator, linear-gradient(180deg, #ff00c8 0%, #ff2a85 100%));
+  box-shadow: 0 0 10px var(--adm-theme-primary-glow, rgba(255, 0, 200, 0.45));
+}
+
+.adm-sidebar__icon-frame {
+  width: 18px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  box-shadow: none;
+}
+
+.adm-page--layout .adm-sidebar__item:hover .adm-sidebar__icon-frame,
+.adm-page--layout .adm-sidebar__item.is-active .adm-sidebar__icon-frame {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.adm-page--layout .adm-sidebar__icon {
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+  opacity: 0.85;
+  filter: brightness(0.2);
+  transition: all 0.2s;
+}
+
+.adm-page--layout .adm-sidebar__item:hover .adm-sidebar__icon {
+  opacity: 1;
+  transform: scale(1.05);
+  filter: none;
+}
+
+.adm-page--layout .adm-sidebar__item.is-active .adm-sidebar__icon {
+  opacity: 1;
+  filter: none;
+}
+
+.adm-sidebar__label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.2px;
+}
+
+.adm-sidebar__chevron {
+  font-size: 15px;
+  color: rgba(43, 16, 53, 0.35);
+  transition: all 0.2s;
+  margin-left: auto;
+  font-weight: 400;
+}
+
+.adm-page--layout .adm-sidebar__item:hover .adm-sidebar__chevron {
+  color: var(--adm-theme-primary, #FF00C8);
+  transform: translateX(2px);
+}
+
+.adm-page--layout .adm-sidebar__item.is-active .adm-sidebar__chevron {
+  color: #c9008f;
+}
+
+/* Sol Panel Alt Donanım Telemetri Kartı */
+.adm-sidebar__sys-card {
+  margin-top: auto;
+  padding: 12px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 180, 216, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.adm-sidebar__sys-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.adm-sidebar__sys-led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00e599;
+  box-shadow: 0 0 6px #00e599;
+  animation: pulseGreen 2s infinite ease-in-out;
+}
+
+@keyframes pulseGreen {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.adm-sidebar__sys-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #0284c7;
+}
+
+.adm-sidebar__sys-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  margin-top: 3px;
+}
+
+.adm-sidebar__sys-dim {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.adm-sidebar__sys-hi {
+  color: #1e293b;
+  font-weight: 700;
+  text-shadow: none;
+}
+
+.adm-sidebar__sys-hi--green {
+  color: #059669;
+}
+
+/* ============================================================
+   Dashboard Ana Taşıyıcı & Kompakt Kaydırma Düzeni
+   ============================================================ */
+.adm-dash {
+  flex: 1;
+  min-height: 0;
+  overflow: visible;
+  padding: 0 2px 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  box-sizing: border-box;
+  color: var(--adm-theme-text-primary, #1a1025);
+  font-family: var(--adm-font-ui, "Avalon Medium", "Segoe UI", sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ─── 1. Üst Başlık & Telemetri Çubuğu (Bireysel Cam Kart) ─── */
+.adm-dash__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: var(--adm-theme-card-bg, rgba(255, 255, 255, 0.88));
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 0, 200, 0.18));
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  box-shadow: var(--adm-theme-card-shadow, 0 10px 30px rgba(180, 40, 140, 0.08)), inset 0 1px 0 var(--adm-theme-card-inner, rgba(255, 255, 255, 0.95));
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.adm-dash__head:hover {
+  border-color: var(--adm-theme-card-border-hover, rgba(255, 0, 200, 0.38));
+  box-shadow: var(--adm-theme-card-shadow-hover, 0 14px 38px rgba(255, 0, 200, 0.18)), inset 0 1px 0 var(--adm-theme-card-inner, rgba(255, 255, 255, 0.95));
+}
+
+.adm-dash__welcome {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.adm-dash__avatar-wrap {
+  position: relative;
+}
+
+.adm-dash__avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--adm-theme-btn-gradient, linear-gradient(135deg, #FF00C8 0%, #d63cb8 100%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 10px var(--adm-theme-primary-glow-soft, rgba(255, 0, 200, 0.25));
+}
+
+.adm-dash__pulse-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 9px;
+  height: 9px;
+  background-color: #10b981;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #10b981;
+  animation: admPulse 2s infinite;
+}
+
+@keyframes admPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.adm-dash__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  color: var(--adm-theme-text-primary, #1a1025);
+  text-shadow: none;
+}
+
+.adm-dash__subtitle {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.72));
+  text-shadow: none;
+}
+
+.adm-dash__telemetry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.adm-dash__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 16px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(8px);
+}
+
+.adm-dash__badge--live {
+  background: rgba(16, 185, 129, 0.10);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  color: #059669;
+  font-weight: 700;
+}
+
+.adm-dash__badge--tech {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.75));
+}
+
+.adm-dash__dot {
+  width: 6px;
+  height: 6px;
+  background: #059669;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #059669;
+}
+
+.adm-dash__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 0;
+}
+
+.adm-dash__btn--primary {
+  background: var(--adm-theme-btn-gradient, linear-gradient(135deg, #FF00C8 0%, #d63cb8 100%));
+  color: #ffffff;
+  box-shadow: 0 3px 12px var(--adm-theme-primary-glow-soft, rgba(255, 0, 200, 0.25));
+}
+
+.adm-dash__btn--primary:hover {
+  transform: translateY(-1px);
+  background: var(--adm-theme-btn-gradient-hover, linear-gradient(135deg, #ff38e3 0%, #FF00C8 100%));
+  box-shadow: 0 4px 16px var(--adm-theme-primary-glow, rgba(255, 0, 200, 0.45));
+  opacity: 0.95;
+}
+
+/* ─── 2. 4'lü Temel Metrik Kartları ─── */
+.adm-dash__kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.adm-dash__kpi {
+  background: var(--adm-theme-card-bg, rgba(255, 255, 255, 0.88));
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 0, 200, 0.18));
+  border-radius: 12px;
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  box-shadow: var(--adm-theme-card-shadow, 0 10px 30px rgba(180, 40, 140, 0.08)), inset 0 1px 0 var(--adm-theme-card-inner, rgba(255, 255, 255, 0.95));
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.adm-dash__kpi::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+
+.adm-dash__kpi--pink::before { background: linear-gradient(90deg, var(--adm-theme-primary, #FF00C8), transparent); }
+.adm-dash__kpi--cyan::before { background: linear-gradient(90deg, #0284c7, transparent); }
+.adm-dash__kpi--emerald::before { background: linear-gradient(90deg, #10b981, transparent); }
+.adm-dash__kpi--purple::before { background: linear-gradient(90deg, #a855f7, transparent); }
+
+.adm-dash__kpi:hover {
+  transform: translateY(-2px);
+  background: var(--adm-theme-card-bg-hover, rgba(255, 255, 255, 0.96));
+  border-color: var(--adm-theme-card-border-hover, rgba(255, 0, 200, 0.38));
+  box-shadow: var(--adm-theme-card-shadow-hover, 0 14px 38px rgba(255, 0, 200, 0.18)), inset 0 1px 0 var(--adm-theme-card-inner, rgba(255, 255, 255, 0.95));
+}
+
+.adm-dash__kpi:hover::before {
+  opacity: 1;
+}
+
+.adm-dash__kpi-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.adm-dash__kpi-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.75));
+  text-shadow: none;
+  letter-spacing: 0.2px;
+}
+
+.adm-dash__kpi-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.adm-dash__kpi--pink .adm-dash__kpi-icon { color: var(--adm-theme-primary, #FF00C8); background: var(--adm-theme-accent-subtle, rgba(255, 0, 200, 0.10)); }
+.adm-dash__kpi--cyan .adm-dash__kpi-icon { color: #0284c7; background: rgba(0, 180, 216, 0.12); }
+.adm-dash__kpi--emerald .adm-dash__kpi-icon { color: #059669; background: rgba(16, 185, 129, 0.12); }
+.adm-dash__kpi--purple .adm-dash__kpi-icon { color: #9333ea; background: rgba(168, 85, 247, 0.12); }
+
+.adm-dash__kpi-val {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--adm-theme-text-primary, #1a1025);
+  text-shadow: none;
+}
+
+.adm-dash__kpi-unit {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.65));
+}
+
+.adm-dash__kpi-sub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10.5px;
+}
+
+.adm-dash__trend--up,
+.adm-dash__trend--good {
+  color: #059669;
+  font-weight: 700;
+  text-shadow: none;
+}
+
+.adm-dash__trend--neutral {
+  color: #0284c7;
+  font-weight: 700;
+}
+
+.adm-dash__kpi-extra {
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.65));
+  font-weight: 500;
+}
+
+/* ─── 3. Grid ve Kart Katmanları ─── */
+.adm-dash__grid {
+  display: grid;
+  gap: 10px;
+}
+
+.adm-dash__grid--2col {
+  grid-template-columns: 1.65fr 1fr;
+}
+
+.adm-dash__grid--bottom {
+  grid-template-columns: 1.55fr 1.05fr;
+}
+
+.adm-dash__card {
+  background: var(--adm-theme-card-bg, rgba(255, 255, 255, 0.88));
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 0, 200, 0.18));
+  border-radius: 12px;
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  box-shadow: var(--adm-theme-card-shadow, 0 10px 30px rgba(180, 40, 140, 0.08)), inset 0 1px 0 var(--adm-theme-card-inner, rgba(255, 255, 255, 0.95));
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.adm-dash__card:hover {
+  border-color: var(--adm-theme-card-border-hover, rgba(255, 0, 200, 0.38));
+  box-shadow: var(--adm-theme-card-shadow-hover, 0 14px 38px rgba(255, 0, 200, 0.18)), inset 0 1px 0 var(--adm-theme-card-inner, rgba(255, 255, 255, 0.95));
+}
+
+.adm-dash__card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.adm-dash__card-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--adm-theme-text-primary, #1a1025);
+  letter-spacing: -0.2px;
+  text-shadow: none;
+}
+
+.adm-dash__card-sub {
+  margin: 2px 0 0;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.68));
+  text-shadow: none;
+}
+
+.adm-dash__pills {
+  display: flex;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 2px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.adm-dash__pill {
+  border: 0;
+  background: transparent;
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.70));
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.adm-dash__pill.is-active,
+.adm-dash__pill:hover {
+  background: var(--adm-theme-primary, #FF00C8);
+  color: #ffffff;
+  border: none;
+  text-shadow: none;
+  box-shadow: 0 2px 6px rgba(255, 0, 200, 0.35);
+}
+
+/* ─── 4. SVG Akış Grafiği ─── */
+.adm-dash__chart-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.adm-dash__svg {
+  width: 100%;
+  height: 90px;
+  overflow: visible;
+}
+
+.adm-dash__svg line {
+  stroke: rgba(0, 0, 0, 0.08) !important;
+}
+
+.adm-dash__svg text {
+  fill: rgba(26, 16, 37, 0.55) !important;
+  font-weight: 600;
+}
+
+.adm-dash__chart-axis {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 40px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.65));
+}
+
+.adm-dash__chart-axis .is-now {
+  color: var(--adm-theme-primary, #FF00C8);
+  font-weight: 700;
+  text-shadow: none;
+}
+
+/* ─── 5. Audio DSP & VU Metre ─── */
+.adm-dash__chip {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.adm-dash__chip--green {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  color: #059669;
+}
+
+.adm-dash__vu-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 5px 8px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.adm-dash__vu-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.adm-dash__vu-ch {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: rgba(26, 16, 37, 0.55);
+  width: 28px;
+}
+
+.adm-dash__vu-meter {
+  flex: 1;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.adm-dash__vu-bar {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #10b981 0%, #eab308 70%, #FF00C8 100%);
+  transition: width 0.15s ease-out;
+}
+
+.adm-dash__vu-bar--l {
+  width: 78%;
+  animation: vuFluctuateL 1.8s infinite alternate ease-in-out;
+}
+
+.adm-dash__vu-bar--r {
+  width: 82%;
+  animation: vuFluctuateR 2.1s infinite alternate ease-in-out;
+}
+
+@keyframes vuFluctuateL {
+  0% { width: 68%; }
+  30% { width: 84%; }
+  60% { width: 72%; }
+  100% { width: 89%; }
+}
+
+@keyframes vuFluctuateR {
+  0% { width: 72%; }
+  40% { width: 88%; }
+  70% { width: 76%; }
+  100% { width: 92%; }
+}
+
+.adm-dash__vu-db {
+  font-size: 9.5px;
+  font-family: monospace;
+  color: var(--adm-theme-text-primary, #1a1025);
+  font-weight: 700;
+  width: 44px;
+  text-align: right;
+  text-shadow: none;
+}
+
+.adm-dash__spec-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.adm-dash__spec-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10.5px;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.adm-dash__spec-list li:last-child {
+  border-bottom: 0;
+}
+
+.adm-dash__spec-key {
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.70));
+  font-weight: 500;
+}
+
+.adm-dash__spec-val {
+  color: var(--adm-theme-text-primary, #1a1025);
+  font-weight: 600;
+  text-shadow: none;
+}
+
+.adm-dash__spec-val--green {
+  color: #059669;
+  font-weight: 700;
+  text-shadow: none;
+}
+
+/* ─── 5.1 16-Bant Canlı Spektrum Analizörü ─── */
+.adm-dash__spec-analyzer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 5px 8px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.adm-dash__spec-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--adm-theme-text-primary, #1a1025);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.adm-dash__spec-rate {
+  color: #0284c7;
+  font-family: monospace;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.adm-dash__eq-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 3px;
+  height: 28px;
+  padding: 2px 4px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+}
+
+.adm-dash__eq-bar {
+  flex: 1;
+  min-width: 3px;
+  height: 20%;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, #FF00C8 0%, #a855f7 60%, #00f0ff 100%);
+  box-shadow: 0 0 6px rgba(255, 0, 200, 0.25);
+  transition: height 0.1s ease;
+}
+
+.adm-dash__eq-bar:nth-child(1)  { animation: eqDance 0.75s infinite ease-in-out alternate; }
+.adm-dash__eq-bar:nth-child(2)  { animation: eqDance 0.52s infinite ease-in-out alternate 0.1s; }
+.adm-dash__eq-bar:nth-child(3)  { animation: eqDance 0.68s infinite ease-in-out alternate 0.2s; }
+.adm-dash__eq-bar:nth-child(4)  { animation: eqDance 0.44s infinite ease-in-out alternate 0.15s; }
+.adm-dash__eq-bar:nth-child(5)  { animation: eqDance 0.82s infinite ease-in-out alternate 0.05s; }
+.adm-dash__eq-bar:nth-child(6)  { animation: eqDance 0.60s infinite ease-in-out alternate 0.25s; }
+.adm-dash__eq-bar:nth-child(7)  { animation: eqDance 0.48s infinite ease-in-out alternate 0.3s; }
+.adm-dash__eq-bar:nth-child(8)  { animation: eqDance 0.70s infinite ease-in-out alternate 0.12s; }
+.adm-dash__eq-bar:nth-child(9)  { animation: eqDance 0.55s infinite ease-in-out alternate 0.18s; }
+.adm-dash__eq-bar:nth-child(10) { animation: eqDance 0.65s infinite ease-in-out alternate 0.08s; }
+.adm-dash__eq-bar:nth-child(11) { animation: eqDance 0.42s infinite ease-in-out alternate 0.22s; }
+.adm-dash__eq-bar:nth-child(12) { animation: eqDance 0.78s infinite ease-in-out alternate 0.14s; }
+.adm-dash__eq-bar:nth-child(13) { animation: eqDance 0.50s infinite ease-in-out alternate 0.32s; }
+.adm-dash__eq-bar:nth-child(14) { animation: eqDance 0.62s infinite ease-in-out alternate 0.16s; }
+.adm-dash__eq-bar:nth-child(15) { animation: eqDance 0.46s infinite ease-in-out alternate 0.28s; }
+.adm-dash__eq-bar:nth-child(16) { animation: eqDance 0.72s infinite ease-in-out alternate 0.1s; }
+
+@keyframes eqDance {
+  0% { height: 18%; }
+  30% { height: 75%; }
+  60% { height: 40%; }
+  100% { height: 95%; }
+}
+
+/* ─── 6. Parça Tablosu ─── */
+.adm-dash__link {
+  font-size: 10.5px;
+  color: var(--adm-theme-primary, #FF00C8);
+  text-decoration: none;
+  font-weight: 700;
+  transition: opacity 0.15s;
+}
+
+.adm-dash__link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.adm-dash__table-wrap {
+  overflow-x: auto;
+}
+
+.adm-dash__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  text-align: left;
+}
+
+.adm-dash__table th {
+  padding: 5px 8px;
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.65));
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.adm-dash__table td {
+  padding: 4px 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  color: var(--adm-theme-text-primary, #1a1025);
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+.adm-dash__table tr:hover td {
+  background: rgba(255, 0, 200, 0.04);
+}
+
+.adm-dash__track-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.adm-dash__cover {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  object-fit: cover;
+  background: #f0eef5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.adm-dash__track-name {
+  font-weight: 700;
+  color: var(--adm-theme-text-primary, #1a1025);
+  font-size: 11.5px;
+  text-shadow: none;
+}
+
+.adm-dash__track-artist {
+  font-size: 10px;
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.65));
+  font-weight: 500;
+}
+
+.adm-dash__pill-fmt {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.adm-dash__pill-fmt--flac {
+  background: rgba(0, 180, 216, 0.10);
+  border: 1px solid rgba(0, 180, 216, 0.25);
+  color: #0284c7;
+  font-weight: 700;
+}
+
+.adm-dash__pill-fmt--master {
+  background: var(--adm-theme-accent-subtle, rgba(255, 0, 200, 0.10));
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 0, 200, 0.25));
+  color: var(--adm-theme-primary, #FF00C8);
+  font-weight: 700;
+  text-shadow: none;
+}
+
+.adm-dash__pill-fmt--mp3 {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.70));
+  font-weight: 600;
+}
+
+.adm-dash__num {
+  font-family: monospace;
+  font-weight: 700;
+  color: var(--adm-theme-text-primary, #1a1025);
+  font-size: 11px;
+  text-shadow: none;
+}
+
+.adm-dash__time {
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.70));
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.adm-dash__status-tag {
+  color: #059669;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-shadow: none;
+}
+.adm-dash__status-tag::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #059669;
+}
+
+.adm-dash__actions {
+  display: flex;
+  gap: 4px;
+}
+
+.adm-dash__act-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.70));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.adm-dash__act-btn:hover {
+  background: var(--adm-theme-accent-subtle, rgba(255, 0, 200, 0.12));
+  border-color: var(--adm-theme-primary, #FF00C8);
+  color: var(--adm-theme-primary, #FF00C8);
+  box-shadow: 0 0 8px var(--adm-theme-primary-glow-soft, rgba(255, 0, 200, 0.25));
+}
+
+/* ─── 7. Canlı Log Günlüğü ─── */
+.adm-dash__log-badge {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--adm-theme-accent-subtle, rgba(255, 0, 200, 0.10));
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 0, 200, 0.22));
+  color: var(--adm-theme-primary, #FF00C8);
+}
+
+.adm-dash__logs-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 10px;
+}
+
+.adm-dash__log-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.adm-dash__log-item:last-child {
+  border-bottom: 0;
+}
+
+.adm-dash__log-time {
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.60));
+  font-size: 9.5px;
+  font-weight: 500;
+}
+
+.adm-dash__log-tag {
+  font-size: 8.5px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+}
+
+.adm-dash__log-tag--info {
+  background: rgba(0, 180, 216, 0.12);
+  color: #0284c7;
+  font-weight: 700;
+}
+
+.adm-dash__log-tag--success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  font-weight: 700;
+}
+
+.adm-dash__log-tag--warn {
+  background: rgba(234, 179, 8, 0.12);
+  color: #b45309;
+  font-weight: 700;
+}
+
+.adm-dash__log-text {
+  color: var(--adm-theme-text-primary, #1a1025);
+  font-size: 10.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: none;
+}
+
+/* ============================================================
+   8. Footer & Copyright Glassmorphism
+   ============================================================ */
+.adm-page--dashboard .adm-footer {
+  position: absolute;
+  top: 1032px;
+  left: 268px;
+  width: auto;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 18px;
+  background: var(--adm-theme-footer-bg, rgba(255, 255, 255, 0.88));
+  border: 1px solid var(--adm-theme-footer-border, rgba(255, 0, 200, 0.18));
+  border-radius: 18px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 2px 10px rgba(180, 40, 140, 0.08);
+  z-index: 5;
+}
+
+.adm-page--dashboard .adm-footer__meta {
+  position: static;
+  top: auto;
+  left: auto;
+  font-size: 11.5px;
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.75));
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  letter-spacing: 0.2px;
+  font-weight: 500;
+  text-shadow: none;
+}
+
+.adm-page--dashboard .adm-footer__meta--user {
+  font-weight: 700;
+  color: var(--adm-theme-text-primary, #1a1025);
+}
+
+.adm-page--dashboard .adm-footer__meta--role {
+  color: var(--adm-theme-primary, #FF00C8);
+  font-weight: 700;
+  text-shadow: none;
+}
+
+.adm-page--dashboard .adm-copyright {
+  position: absolute;
+  top: 1040px;
+  right: 22px;
+  font-size: 11.5px;
+  color: var(--adm-theme-text-secondary, rgba(26, 16, 37, 0.70));
+  letter-spacing: 0.3px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  font-weight: 500;
+  text-shadow: none;
+  z-index: 5;
+}

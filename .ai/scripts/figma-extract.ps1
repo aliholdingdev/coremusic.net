@@ -31,7 +31,7 @@ if (-not $T)   { throw 'FIGMA_TOKEN bos' }
 if (-not $KEY) { throw 'FIGMA_FILE_KEY bos' }
 $H = @{ 'X-Figma-Token' = $T }
 
-# --- 15 sayfa (dogrulanmis, 2026-09-29) ---
+# --- 16 sayfa (dogrulanmis 2026-09-29 + 3175:13501 eklendi 2026-10-20) ---
 $PAGES = @(
     @{ id='1991:12056'; name='Plan';                   bp='-'      },
     @{ id='1047:15802'; name='Linux-Pi';               bp='1024'   },
@@ -47,7 +47,8 @@ $PAGES = @(
     @{ id='1801:12472'; name='Windows-CPP-App';        bp='1920'   },
     @{ id='1801:12473'; name='Windows-CPP-Fullscreen'; bp='1920'   },
     @{ id='15:403';     name='Web-Design-Eski';        bp='1920'   },
-    @{ id='18:2907';    name='Design-System-XD';       bp='system' }
+    @{ id='18:2907';    name='Design-System-XD';       bp='system' },
+    @{ id='3175:13501'; name='Linux-3840';             bp='3840'   }
 )
 
 # --- 12 kullanici node + design system ---

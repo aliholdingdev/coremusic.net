@@ -12,8 +12,23 @@
   display: none;
 }
 
-/* İçerik içeriği — layout ekranı ASCII'de panel içi boş
-   (başlık + breadcrumb hariç): içerik yuvaları Görev A /
-   dashboard spesifikasyonundan gelecek.
-   ⚠️ VERIFICATION REQUIRED: layout içerik blokları (liste/
-   tablo/grid) için ekran spec'i yok — sınıflar uydurulmadı. */
+/* Figma 2161:12499 / PNG layout: içerik paneli arka planı şeffaf (Golden Gate köprüsü görünür),
+   breadcrumb ve boş-durum placeholder'ı gizli (Figma'da [HIDDEN]). */
+.adm-page--layout .adm-content {
+  background-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.adm-page--layout .adm-bg__scrim {
+  display: none;
+}
+
+.adm-page--layout .adm-panel__breadcrumb {
+  display: none;
+}
+
+.adm-page--layout .is-empty {
+  display: none;
+}

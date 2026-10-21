@@ -48,3 +48,11 @@ img {
 /* T6 — reduced-motion kill (ADR-018; 2 kural) → 08_Devices/
    d-admin-1920.css içinde uygulanir (kural: her @media SADECE
    08'de — Görev B kapisi). */
+
+/* Kalıcı medya hedef elemanları (HtmlShellRenderer: <audio>/<video class="vdisplay">).
+   Admin ortamında layout akışında yer kaplamaz — 300×150 boyutu tüm sayfayı 156px aşağı itiyordu. */
+audio.vdisplay,
+video.vdisplay {
+  display: none !important;
+}
+

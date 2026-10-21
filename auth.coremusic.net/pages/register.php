@@ -29,36 +29,23 @@ if ($csrf === '') {
 }
 ?>
 <section class="lgn-page" data-gender="<?=$genderAttr?>">
+<script nonce="<?=$nonce?>">(function(){var s=document.currentScript.parentElement;if(s.dataset.gender==='neutral'){try{var g=localStorage.getItem('cm_gender');if(g&&['female','male','neutral'].indexOf(g)!==-1)s.dataset.gender=g;}catch(e){console.error('[auth] register: localStorage gender read failed',e);document.addEventListener('DOMContentLoaded',function(){const el=document.getElementById('lgn-err');if(el){el.textContent='Tema tercihi yüklenemedi, varsayılan tema kullanılıyor.';el.classList.add('lgn-error--on');}});}}})();</script>
 <div class="lgn-bg" aria-hidden="true"></div>
 <div class="lgn-particles" aria-hidden="true"><?php for($i=0;$i<8;$i++)echo'<div class="lgn-particle"></div>'; ?></div>
 
-<!-- HERO (left 78%) -->
+<!-- HERO (left 749px) -->
 <div class="lgn-hero">
   <div class="lgn-hero__brand">
-    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-img.png" alt="" width="40" height="40">
+    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-img.png" alt="" width="30" height="30">
     <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-text.png" alt="CoreMusic" class="logo-text-png">
   </div>
-  <h1 class="lgn-hero__title">Hayatın<br><em>milyonlarca</em></h1>
-  <p class="lgn-hero__text">Sistem, Milyarlarca şarkı, özel seçilmiş playlistler, sonsuz müzik keyfi. Senin için.</p>
-  <div class="lgn-hero__cards">
-    <div class="lgn-hero__card">
-      <div class="lgn-hero__card-icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/music.png" alt="Ücretsiz" width="22" height="22"></div>
-      <span class="lgn-hero__card-text">Ücretsiz Başla</span>
-    </div>
-    <div class="lgn-hero__card">
-      <div class="lgn-hero__card-icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/cd-ico.png" alt="Sınırsız" width="22" height="22"></div>
-      <span class="lgn-hero__card-text">Sınırsız Müzik</span>
-    </div>
-    <div class="lgn-hero__card">
-      <div class="lgn-hero__card-icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/music-2.png" alt="Hızlı" width="22" height="22"></div>
-      <span class="lgn-hero__card-text">30 Saniyede Kayıt</span>
-    </div>
-  </div>
+  <h1 class="lgn-hero__title"><em class="hero-title--sm">Duygu için</em><br><em>mükemmel</em></h1>
+  <p class="lgn-hero__text">sistem. Milyonlarca şarkı, özel seçilmiş playlist'ler, sonsuz müzik keşfi. Senin için.</p>
   <div class="lgn-hero__foot">
     <a href="/privacy" data-no-spa>Gizlilik</a><span class="dot"></span>
-    <a href="/about" data-no-spa>Hakkımızda</a><span class="dot"></span>
-    <a href="/help" data-no-spa>Yardım</a><span class="dot"></span>
-    <a href="/faq" data-no-spa>SSS</a>
+    <a href="/terms" data-no-spa>Kullanım Koşulları</a><span class="dot"></span>
+    <a href="/support" data-no-spa>Destek</a><span class="dot"></span>
+    <span>&copy; 2026 Coremusic</span>
   </div>
 </div>
 
@@ -66,16 +53,16 @@ if ($csrf === '') {
 <div class="lgn-panel"><div class="lgn-panel__glass">
   <div class="lgn-panel__inner-top">
     <div class="lgn-panel__avatar" aria-hidden="true">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/kız-gender-select.png" alt="" width="64" height="64">
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/girl-1.png" alt="" width="100" height="100">
     </div>
     <div class="lgn-panel__head">
       <h2 class="lgn-panel__title">Hesap Oluştur</h2>
-      <p class="lgn-panel__sub">CoreMusic dünyasına katıl, müziğin keyfini çıkar</p>
+      <p class="lgn-panel__sub">CoreMusic ailesine katıl, müziğin keyfini çıkar</p>
     </div>
   </div>
   <div class="lgn-panel__inner-mid">
-  <!-- 4-step wizard indicator -->
-  <div class="lgn-wizard"><div class="lgn-wizard__step lgn-wizard__step--active" data-step="1"></div><div class="lgn-wizard__step" data-step="2"></div><div class="lgn-wizard__step" data-step="3"></div><div class="lgn-wizard__step" data-step="4"></div></div>
+  <!-- 3-step wizard indicator -->
+  <div class="lgn-wizard"><div class="lgn-wizard__step lgn-wizard__step--active" data-step="1"></div><div class="lgn-wizard__step" data-step="2"></div><div class="lgn-wizard__step" data-step="3"></div></div>
   <div class="lgn-error" id="lgn-err" role="alert" aria-live="polite"></div>
   <form class="lgn-form" id="lgn-form" method="post" action="/register" novalidate>
     <input type="hidden" name="csrf_token" value="<?=$csrf?>">
@@ -89,11 +76,11 @@ if ($csrf === '') {
     <div class="lgn-form__step" data-step="1">
       <div class="lgn-form__field">
         <label class="lgn-form__label" for="lgn-usr">Kullanıcı Adı</label>
-        <input class="lgn-form__input" type="text" id="lgn-usr" name="username" placeholder="kullanici_adin" autocomplete="username" required minlength="3" maxlength="32">
+        <input class="lgn-form__input" type="text" id="lgn-usr" name="username" placeholder="Equalzier Presents 5" autocomplete="username" required minlength="3" maxlength="32">
       </div>
       <div class="lgn-form__field">
-        <label class="lgn-form__label" for="lgn-email">E-posta</label>
-        <input class="lgn-form__input" type="email" id="lgn-email" name="email" placeholder="ornek@email.com" autocomplete="email" required>
+        <label class="lgn-form__label" for="lgn-email">Eposta</label>
+        <input class="lgn-form__input" type="email" id="lgn-email" name="email" placeholder="Equalzier Presents 5" autocomplete="email" required>
       </div>
       <button type="button" class="lgn-btn" id="step1-next">Devam Et</button>
     </div>
@@ -103,80 +90,59 @@ if ($csrf === '') {
       <div class="lgn-form__field">
         <label class="lgn-form__label" for="lgn-pw1">Şifre</label>
         <div class="lgn-form__pw-wrap">
-          <input class="lgn-form__input" type="password" id="lgn-pw1" name="password" placeholder="En az 8 karakter" autocomplete="new-password" required minlength="8">
+          <input class="lgn-form__input" type="password" id="lgn-pw1" name="password" placeholder="Equalzier Presents 5" autocomplete="new-password" required minlength="8">
           <button type="button" class="lgn-form__pw-eye" aria-label="Şifreyi göster"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11 7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></button>
         </div>
       </div>
       <div class="lgn-strength" id="pw-strength" hidden><div class="lgn-strength__bar"><div class="lgn-strength__fill" id="pw-strength-fill"></div></div><span class="lgn-strength__text" id="pw-strength-text"></span></div>
       <div class="lgn-form__field">
         <label class="lgn-form__label" for="lgn-pw2">Şifre Tekrar</label>
-        <input class="lgn-form__input" type="password" id="lgn-pw2" name="password_confirm" placeholder="Şifreni tekrar gir" autocomplete="new-password" required minlength="8">
+        <input class="lgn-form__input" type="password" id="lgn-pw2" name="password_confirm" placeholder="Equalzier Presents 5" autocomplete="new-password" required minlength="8">
       </div>
       <button type="button" class="lgn-btn" id="step2-next">Devam Et</button>
     </div>
 
-    <!-- STEP 3: Cinsiyet Seçimi -->
+    <!-- STEP 3: Telefon + Koşullar (Figma 2831:10020) -->
     <div class="lgn-form__step" data-step="3" hidden>
-      <input type="hidden" id="reg-gender-input" name="gender" value="">
-      <p class="lgn-form__label" style="text-align:center;margin-bottom:12px;">Cinsiyetini seç</p>
-      <button type="button" class="lgn-gender-btn" data-gender="female" aria-label="Kadın">
-        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/kız-gender-select.png" alt="" width="28" height="28"></span>
-        <span class="lgn-gender-btn__info"><strong>Kadın</strong></span>
-      </button>
-      <button type="button" class="lgn-gender-btn" data-gender="male" aria-label="Erkek">
-        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/erkek-gender-select.png" alt="" width="28" height="28"></span>
-        <span class="lgn-gender-btn__info"><strong>Erkek</strong></span>
-      </button>
-      <button type="button" class="lgn-gender-btn" data-gender="neutral" aria-label="Belirtmek istemiyorum">
-        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/notur-gender-select.png" alt="" width="28" height="28"></span>
-        <span class="lgn-gender-btn__info"><strong>Belirtmek istemiyorum</strong></span>
-      </button>
-      <button type="button" class="lgn-btn" id="step3-next" disabled>Devam Et</button>
-    </div>
-
-    <!-- STEP 4: Telefon + Hizmet Şartları -->
-    <div class="lgn-form__step" data-step="4" hidden>
+      <input type="hidden" id="reg-gender-input" name="gender" value="<?=$genderAttr?>">
       <div class="lgn-form__field">
         <label class="lgn-form__label" for="lgn-phone">Telefon</label>
-        <input class="lgn-form__input" type="tel" id="lgn-phone" name="phone" placeholder="+90 555 123 45 67" autocomplete="tel" required pattern="^\+?[0-9\s\-\(\)]{10,20}$">
+        <input class="lgn-form__input" type="tel" id="lgn-phone" name="phone" placeholder="Equalzier Presents 5" autocomplete="tel" required pattern="^\+?[0-9\s\-\(\)]{10,20}$">
       </div>
       <div class="lgn-terms">
         <input type="checkbox" id="lgn-terms" name="agree_terms" value="1" required>
-        <label for="lgn-terms">Hizmet Şartlarını okudum ve kabul ediyorum</label>
+        <label for="lgn-terms">Kullanım Koşulları'nı okudum ve kabul ediyorum.</label>
       </div>
       <button type="submit" class="lgn-btn" id="lgn-submit">Kayıt Ol</button>
     </div>
   </form>
   </div>
   <div class="lgn-panel__inner-social">
-  <div class="lgn-divider"><span>veya alternatif ile devam et</span></div>
+  <div class="lgn-divider"><span>veya şununla devam et</span></div>
   <div class="lgn-social">
+    <!-- PNG mockup social buttons (3x3 grid) -->
     <button type="button" class="lgn-social__btn lgn-social__btn--apple" data-provider="apple" aria-label="Apple ile kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/apple.png" alt="" width="18" height="18" aria-hidden="true">
-      <span>Apple</span>
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/apple.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
     <button type="button" class="lgn-social__btn lgn-social__btn--google" data-provider="google" aria-label="Google ile kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/google.png" alt="" width="18" height="18" aria-hidden="true">
-      <span>Google</span>
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/google.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
     <button type="button" class="lgn-social__btn lgn-social__btn--facebook" data-provider="facebook" aria-label="Facebook ile kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/facebook.png" alt="" width="18" height="18" aria-hidden="true">
-      <span>Facebook</span>
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/facebook.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
-    <button type="button" class="lgn-social__btn lgn-social__btn--whatsapp" data-provider="whatsapp" aria-label="WhatsApp ile kayıt">
-      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.12 1.52 5.855L0 24l6.335-1.652A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.82c-1.96 0-3.82-.52-5.42-1.44l-.387-.23-4.008 1.046 1.068-3.912-.254-.402A9.786 9.786 0 012.18 12c0-5.42 4.4-9.82 9.82-9.82S21.82 6.58 21.82 12s-4.4 9.82-9.82 9.82z" fill="currentColor"/></svg>
-      <span>WhatsApp</span>
+    <!-- Row 2 -->
+    <button type="button" class="lgn-social__btn lgn-social__btn--spotify" data-provider="spotify" aria-label="Spotify ile kayıt">
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/spotify.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
     <button type="button" class="lgn-social__btn lgn-social__btn--instagram" data-provider="instagram" aria-label="Instagram ile kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/instagram.png" alt="" width="18" height="18" aria-hidden="true">
-      <span>Instagram</span>
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/instagram.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
     <button type="button" class="lgn-social__btn lgn-social__btn--tiktok" data-provider="tiktok" aria-label="TikTok ile kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/tik-tok.png" alt="" width="18" height="18" aria-hidden="true">
-      <span>TikTok</span>
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/tik-tok.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
-    <button type="button" class="lgn-social__btn lgn-social__btn--mic" data-provider="microphone" aria-label="Sesli kayıt">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/mic-1.png" alt="" width="18" height="18" aria-hidden="true">
+    <!-- Row 3 -->
+    <button type="button" class="lgn-social__btn lgn-social__btn--github" data-provider="github" aria-label="GitHub ile kayıt">
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/app/github.png" alt="" width="16" height="16" aria-hidden="true">
     </button>
   </div>
   </div>
@@ -221,17 +187,6 @@ if ($csrf === '') {
         errEl.classList.remove('lgn-error--on');showStep(3);
     });
     var regGenderInput=document.getElementById('reg-gender-input');
-    var regGenderBtns=document.querySelectorAll('[data-step="3"] .lgn-gender-btn');
-    var step3Next=document.getElementById('step3-next');
-    regGenderBtns.forEach(function(b){b.addEventListener('click',function(){
-        regGenderBtns.forEach(function(x){x.classList.remove('selected');});
-        b.classList.add('selected');
-        regGenderInput.value=b.dataset.gender;
-        document.querySelector('.lgn-page').dataset.gender=b.dataset.gender;
-        try{localStorage.setItem('cm_gender',b.dataset.gender);}catch(e){console.error('[auth] register: localStorage gender write failed',e);errEl.textContent='Tema tercihi bu tarayıcıda kaydedilemedi.';errEl.classList.add('lgn-error--on');}
-        step3Next.disabled=false;
-    });});
-    step3Next.addEventListener('click',function(){errEl.classList.remove('lgn-error--on');showStep(4);});
     var form=document.getElementById('lgn-form');
     var submitBtn=document.getElementById('lgn-submit');
     var API_URL='<?=$apiUrlEsc?>';
@@ -239,16 +194,10 @@ if ($csrf === '') {
     function resetSubmit(){submitBtn.disabled=false;submitBtn.classList.remove('lgn-btn--loading');submitBtn.textContent='Kayıt Ol';}
     function showError(msg,focusField){
         errEl.textContent=msg;errEl.classList.add('lgn-error--on');
-        if(focusField==='gender'){
-            showStep(3);
-            var gb=document.querySelector('[data-step="3"] .lgn-gender-btn');
-            if(gb)gb.focus();
-            return;
-        }
         // Alan hatası hangi adımdaysa o adıma dön, sonra ilk hatalı alana odaklan.
         if(focusField==='username'||focusField==='email'){showStep(1);}
         else if(focusField==='password'){showStep(2);}
-        else if(focusField==='phone'||focusField==='agree_terms'){showStep(4);}
+        else if(focusField==='phone'||focusField==='agree_terms'){showStep(3);}
         if(focusField&&FIELD_FOCUS[focusField]){var el=document.getElementById(FIELD_FOCUS[focusField]);if(el)el.focus();}
     }
     /* HTTP koduna göre Türkçe mesaj — API sözleşmesi (Faz 3a) */
@@ -273,18 +222,17 @@ if ($csrf === '') {
     form.addEventListener('submit',function(e){
         e.preventDefault();
         e.stopImmediatePropagation();
-        // Cinsiyet zorunlu (UX kontrolü — asıl güvenlik backend'de)
-        var chosenGender=regGenderInput.value;
-        if(chosenGender!=='female'&&chosenGender!=='male'&&chosenGender!=='neutral'){
-            showStep(3);
-            errEl.textContent='Lütfen cinsiyet seçin.';errEl.classList.add('lgn-error--on');
-            var firstGenderBtn=document.querySelector('[data-step="3"] .lgn-gender-btn');
-            if(firstGenderBtn)firstGenderBtn.focus();
-            return;
+        var chosenGender=regGenderInput ? regGenderInput.value : '';
+        if(!chosenGender||(chosenGender!=='female'&&chosenGender!=='male'&&chosenGender!=='neutral')){
+            try{chosenGender=localStorage.getItem('cm_gender');}catch(e){}
+            if(!chosenGender){
+                var pg=document.querySelector('.lgn-page');
+                chosenGender=(pg&&pg.dataset.gender)||'neutral';
+            }
         }
         var phone=document.getElementById('lgn-phone').value.trim();
         if(!/^\+?[0-9\s\-\(\)]{10,20}$/.test(phone)){errEl.textContent='Geçerli bir telefon numarası girin.';errEl.classList.add('lgn-error--on');document.getElementById('lgn-phone').focus();return;}
-        if(!document.getElementById('lgn-terms').checked){errEl.textContent='Hizmet Şartları\u0027nı kabul etmelisiniz.';errEl.classList.add('lgn-error--on');document.getElementById('lgn-terms').focus();return;}
+        if(!document.getElementById('lgn-terms').checked){errEl.textContent='Kullanım Koşulları\u0027nı kabul etmelisiniz.';errEl.classList.add('lgn-error--on');document.getElementById('lgn-terms').focus();return;}
         submitBtn.disabled=true;submitBtn.classList.add('lgn-btn--loading');submitBtn.textContent='Kayıt olunuyor...';errEl.classList.remove('lgn-error--on');
         fetch(API_URL+'/v1/auth/register',{
             method:'POST',

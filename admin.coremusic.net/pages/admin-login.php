@@ -69,19 +69,25 @@ $figmaQr    = 'Telefon ile mobil uygulamamız yada qr kodu tarayarak da web den 
 
                 <label class="adm-form__label adm-form__label--l1" for="adm-login-id">Kullanıcı adı yada Email</label>
                 <div class="adm-form__field adm-form__field--i1 adm-form__field--icon">
+                    <span class="adm-form__icon" aria-hidden="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </span>
                     <input class="adm-form__input" type="text" id="adm-login-id" name="email"
                            placeholder="Bayram Ali" autocomplete="username" required>
                 </div>
 
                 <label class="adm-form__label adm-form__label--l2" for="adm-login-pw">Parola</label>
                 <div class="adm-form__field adm-form__field--i2 adm-form__field--icon adm-form__field--pill adm-form__field--password">
+                    <span class="adm-form__icon" aria-hidden="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </span>
                     <input class="adm-form__input" type="password" id="adm-login-pw" name="password"
                            placeholder="**********" autocomplete="current-password" required>
                 </div>
 
                 <div class="adm-form__actions">
                     <label class="adm-form__remember">
-                        <input class="adm-form__check" type="checkbox" name="remember" value="1">
+                        <input class="adm-form__check" type="checkbox" name="remember" value="1" checked>
                         <span>Beni Hatırla</span>
                     </label>
                     <a class="adm-form__link" href="<?= $h($authUrl) ?>/forgot-password" data-no-spa>Şifremi Unuttum</a>
@@ -97,7 +103,28 @@ $figmaQr    = 'Telefon ile mobil uygulamamız yada qr kodu tarayarak da web den 
 
         <div class="adm-auth__qr">
             <div class="adm-auth__qr-card"></div>
-            <div class="adm-auth__qr-frame"></div>
+            <div class="adm-auth__qr-frame">
+                <svg class="adm-auth__qr-phone-svg" viewBox="0 0 28 56" width="28" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5" y="0.5" width="27" height="55" rx="5.5" stroke="#B0B5C4" stroke-width="1.2" fill="rgba(35, 25, 45, 0.75)"/>
+                    <rect x="2.5" y="4.5" width="23" height="45" rx="2" fill="#FFFFFF"/>
+                    <rect x="11" y="2" width="6" height="1" rx="0.5" fill="#888C9B"/>
+                    <g transform="translate(4, 15) scale(0.65)">
+                        <rect x="0" y="0" width="8" height="8" fill="#120D1A"/>
+                        <rect x="2" y="2" width="4" height="4" fill="#FFFFFF"/>
+                        <rect x="18" y="0" width="8" height="8" fill="#120D1A"/>
+                        <rect x="20" y="2" width="4" height="4" fill="#FFFFFF"/>
+                        <rect x="0" y="18" width="8" height="8" fill="#120D1A"/>
+                        <rect x="2" y="20" width="4" height="4" fill="#FFFFFF"/>
+                        <rect x="10" y="2" width="4" height="4" fill="#120D1A"/>
+                        <rect x="10" y="10" width="6" height="6" fill="#120D1A"/>
+                        <rect x="2" y="10" width="4" height="4" fill="#120D1A"/>
+                        <rect x="18" y="12" width="4" height="6" fill="#120D1A"/>
+                        <rect x="12" y="20" width="8" height="4" fill="#120D1A"/>
+                        <rect x="22" y="20" width="4" height="4" fill="#120D1A"/>
+                    </g>
+                    <rect x="10" y="52" width="8" height="1" rx="0.5" fill="#888C9B"/>
+                </svg>
+            </div>
             <p class="adm-auth__qr-text"><?= $h($figmaQr) ?></p>
         </div>
     </div>

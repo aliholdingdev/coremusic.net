@@ -32,7 +32,7 @@
 
   /* ═══ Footer ═══ */
   --footer-w: 100%;
-  --footer-h: 72px;
+  --footer-h: 90px; /* PNG home-1024 ölçümü (2026-10-20; önceki 72px, 1920/d-embedded fallback ile hizalı) */
   --z-footer: 100;
 
   /* ═══ Home Layout — EMBEDDED (1024×600) — Figma node 1639:10160 ═══
@@ -46,6 +46,49 @@
   --home-embedded-pad-inline: 32px;
   --home-embedded-pad-bottom: 24px;
   --home-embedded-gap: 32px;
+
+  /* ═══ Home Embedded 1024 — PNG home-1024 kutu ölçüleri (PNG overlay doğrulaması 2026-10-20) ═══
+     Üst satır (y84→284.5): Now Playing x32 w392 h131 · Widget kolonu x627 w365 (arası space-between)
+     Alt satır (y316.5→455): En Son x32 w354 · Playlist x419 w353 · Sıradaki x805 w186 (kolon gap 33)
+     Kart 169×43 · kolon gap 16 · satır gap 25 · başlık 16 + 11.5 → kart y344 */
+  --home-embedded-top-split: 392px 365px;
+  --home-embedded-row1-min-h: 200.5px;
+  --home-embedded-bottom-split: 354px 353px 186px;
+  --home-embedded-bottom-gap: 33px;
+  --home-embedded-title-h: 16px;
+  --home-embedded-title-gap: 11.5px;
+  --home-embedded-card-h: 43px;
+  --home-embedded-card-col-gap: 16px;
+  --home-embedded-card-row-gap: 25px;
+  --home-embedded-card-art-w: 48px;
+  --home-embedded-card-text-gap: 8px;
+  --home-embedded-card-info-pad-top: 2px;
+  --home-embedded-card-subtitle-mt: 2px;
+  --home-embedded-card-time-right: 8px;
+  --home-embedded-card-time-bottom: 2px;
+  --home-embedded-np-h: 131px;
+  --home-embedded-np-pad-top: 13px;
+  --home-embedded-np-pad-x: 16px;
+  --home-embedded-np-pad-bottom: 14px;
+  --home-embedded-np-art: 72px;
+  --home-embedded-np-col-gap: 16px;
+  --home-embedded-np-row-gap: 16px;
+  --home-embedded-np-progress-row-h: 16px;
+  --home-embedded-np-track-h: 9px;
+  --home-embedded-np-time-w: 43px;
+  --home-embedded-np-time-gap: 14px;
+  --home-embedded-np-info-pad-top: 2px;
+  --home-embedded-np-line-h: 21.5px;
+  --home-embedded-up-next-h: 109px;
+  --home-embedded-up-next-art: 46px;
+  --home-embedded-up-next-pad-x: 14px; /* panel border 1px → art x = 805 + 1 + 14 = 820 */
+  --home-embedded-up-next-text-gap: 9px;
+  /* v3 kalibrasyon (PNG ölçümü): kart düz cam tonu — B + (T−B)/a, a=0.4 (B=canlı arka plan, T=PNG patch) */
+  --home-embedded-np-bg: rgba(163, 131, 140, 0.4);
+  /* v3 kalibrasyon: footer seek bandı PNG y510–513 (4px); top -1px = footer 1px border telafisi */
+  --home-embedded-seek-h: 4px;
+  --home-embedded-seek-top: -1px;
+  --home-embedded-seek-fill: #ff55e7;
 
   /* ═══ Player Info: Figma 392×131 (1024) / 469×184 (1920) ═══ */
   --player-w: 392px;

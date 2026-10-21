@@ -219,3 +219,74 @@ span.home-song__mini-card__subtitle {
   right: 3px;
   margin-top: 0;
 }
+
+/* EMBEDDED 1024 — şarkı kartları (PNG home-1024): 2×2 · kart 169×43 · kolon gap 16 · satır gap 25 · başlık 16 + 11.5.
+   Kart: art 48 (tam yükseklik) + metin (gap 8) · süre sağ-alt. Değerler 01_Abstracts/a-layout-tokens-1024.css. */
+.home-layout--embedded .home_song__btn-dashboard {
+  margin: 0;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+}
+
+.home-layout--embedded .home_song__btn-title {
+  height: var(--home-embedded-title-h);
+  line-height: var(--home-embedded-title-h);
+  margin: 0 0 var(--home-embedded-title-gap);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-layout--embedded .home_song__btn-card-grid--embedded {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--home-embedded-card-col-gap);
+  row-gap: var(--home-embedded-card-row-gap);
+  height: auto;
+  margin: 0;
+  overflow: visible;
+}
+
+.home-layout--embedded .home-song__mini-card {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  gap: var(--home-embedded-card-text-gap);
+  width: auto;
+  min-width: 0;
+  height: var(--home-embedded-card-h);
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.home-layout--embedded .home-song__mini-card__art {
+  width: var(--home-embedded-card-art-w);
+  height: 100%;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.home-layout--embedded .home-song__mini-card__info {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-top: var(--home-embedded-card-info-pad-top);
+}
+
+.home-layout--embedded .home-song__mini-card__title {
+  margin: 0;
+}
+
+.home-layout--embedded .home-song__mini-card__subtitle {
+  margin: var(--home-embedded-card-subtitle-mt) 0 0;
+}
+
+.home-layout--embedded span.home-song__mini-card__subtitle {
+  position: absolute;
+  top: auto;
+  right: var(--home-embedded-card-time-right);
+  bottom: var(--home-embedded-card-time-bottom);
+  margin: 0;
+}

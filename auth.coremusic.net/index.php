@@ -174,7 +174,7 @@ if ($method !== 'POST' && $pageName === 'login') {
     }
 }
 
-/* â”€â”€â”€ 4. Default OAuth Redirect (GET only, missing params) â”€â”€â”€ */
+/* ─── 4. Default OAuth Redirect (GET only, missing params) ─── */
 $authPages = ['login', 'register', 'forgot-password', 'reset-password'];
 if ($method !== 'POST' && in_array($pageName, $authPages, true) && empty($_GET['client_id'])) {
     $defaultRedirectUri = MUSIC_URL . '/auth/callback';
@@ -187,17 +187,33 @@ if ($method !== 'POST' && in_array($pageName, $authPages, true) && empty($_GET['
     exit;
 }
 
-/* â”€â”€â”€ 5. Authenticated User Auto-Redirect â”€â”€â”€ */
+$adminAuthPages = ['admin/login', 'admin/register', 'admin/forgot-password', 'admin/reset-password'];
+if ($method !== 'POST' && in_array($pageName, $adminAuthPages, true) && empty($_GET['client_id'])) {
+    $defaultRedirectUri = (defined('ADMIN_URL') ? ADMIN_URL : 'http://admin.coremusic.net:83') . '/auth/callback';
+    $params = http_build_query([
+        'client_id'     => 'coremusic-admin',
+        'response_type' => 'session',
+        'redirect_uri'  => $defaultRedirectUri,
+    ]);
+    header('Location: /' . $pageName . '?' . $params, true, 302);
+    exit;
+}
+
+/* ─── 5. Authenticated User Auto-Redirect ─── */
 $autoHandler = new AutoRedirectHandler($config, $domainConfig);
 $autoHandler->handle($pageName, $method);
 
-/* â”€â”€â”€ 6. PageRouterKernel (normal sayfa akÄ±ÅŸÄ±) â”€â”€â”€ */
+/* ─── 6. PageRouterKernel (normal sayfa akışı) ─── */
 $container  = AuthContainer::getInstance($config, $domainConfig);
 $controller = $container->get(AuthController::class);
 $authHandler = new AuthPostHandler($controller);
 
 $handlers = [];
-foreach (['login', 'register', 'select-gender', 'forgot-password', 'reset-password', 'logout', 'set-gender'] as $uri) {
+$allRoutes = [
+    'login', 'register', 'select-gender', 'forgot-password', 'reset-password', 'logout', 'set-gender',
+    'admin/login', 'admin/register', 'admin/select-gender', 'admin/forgot-password', 'admin/reset-password', 'admin/logout', 'admin/set-gender',
+];
+foreach ($allRoutes as $uri) {
     $handlers[$uri] = $authHandler;
 }
 

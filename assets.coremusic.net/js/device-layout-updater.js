@@ -17,7 +17,7 @@
        ============================================================ */
     const DEVICE_LAYOUT = {
         embedded: {
-            navLinks: 4,        // PHP DeviceManager::NAV_LINKS: Ana Sayfa, Kütüphane, Radyo, Ayarlar
+            navLinks: 6,        // PHP DeviceManager::NAV_LINKS: Ana Sayfa, Keşfet, Albümler, Sanatçılar, Geçmiş, Ayarlar (routes.php SSOT)
             widgets: 4,         // 2×2 grid
             recentCards: 3,     // PHP: recentCardCount() = 3
             playlists: 3,       // PHP: playlistCount() = 3
@@ -111,20 +111,21 @@
         // PHP DeviceManager::NAV_LINKS ile birebir aynı
         embedded: [
             { href: '/home', label: 'Ana Sayfa' },
-            { href: '/kutuphane', label: 'Kütüphane' },
-            { href: '/radyo', label: 'Radyo' },
+            { href: '/kesfet', label: 'Keşfet' },
+            { href: '/albumler', label: 'Albümler' },
+            { href: '/sanatcilar', label: 'Sanatçılar' },
+            { href: '/history', label: 'Geçmiş' },
             { href: '/ayarlar', label: 'Ayarlar' },
         ],
         phone: [
             { href: '/home', label: 'Ana Sayfa' },
-            { href: '/kutuphane', label: 'Kütüphane' },
+            { href: '/kesfet', label: 'Keşfet' },
             { href: '/ayarlar', label: 'Ayarlar' },
         ],
         tablet: [
             { href: '/home', label: 'Ana Sayfa' },
             { href: '/kesfet', label: 'Keşfet' },
             { href: '/albumler', label: 'Albümler' },
-            { href: '/kutuphane', label: 'Kütüphane' },
             { href: '/ayarlar', label: 'Ayarlar' },
         ],
         laptop: [
@@ -132,27 +133,22 @@
             { href: '/kesfet', label: 'Keşfet' },
             { href: '/albumler', label: 'Albümler' },
             { href: '/sanatcilar', label: 'Sanatçılar' },
-            { href: '/goz-at', label: 'Göz At' },
             { href: '/history', label: 'Geçmiş' },
             { href: '/ayarlar', label: 'Ayarlar' },
-            { href: '/hakkimizda', label: 'Hakkımızda' },
         ],
         desktop: [
             { href: '/home', label: 'Ana Sayfa' },
             { href: '/kesfet', label: 'Keşfet' },
             { href: '/albumler', label: 'Albümler' },
             { href: '/sanatcilar', label: 'Sanatçılar' },
-            { href: '/goz-at', label: 'Göz At' },
             { href: '/history', label: 'Geçmiş' },
             { href: '/ayarlar', label: 'Ayarlar' },
-            { href: '/hakkimizda', label: 'Hakkımızda' },
         ],
         '4k-tv': [
             { href: '/home', label: 'Ana Sayfa' },
             { href: '/kesfet', label: 'Keşfet' },
             { href: '/albumler', label: 'Albümler' },
             { href: '/sanatcilar', label: 'Sanatçılar' },
-            { href: '/goz-at', label: 'Göz At' },
             { href: '/history', label: 'Geçmiş' },
             { href: '/ayarlar', label: 'Ayarlar' },
         ],
@@ -161,10 +157,8 @@
             { href: '/kesfet', label: 'Keşfet' },
             { href: '/albumler', label: 'Albümler' },
             { href: '/sanatcilar', label: 'Sanatçılar' },
-            { href: '/goz-at', label: 'Göz At' },
             { href: '/history', label: 'Geçmiş' },
             { href: '/ayarlar', label: 'Ayarlar' },
-            { href: '/hakkimizda', label: 'Hakkımızda' },
         ],
     };
 
@@ -313,7 +307,8 @@
             a.className = 'nav-link';
             a.textContent = linkDef.label; // textContent güvenli (HTML injection yok)
 
-            if (index === 0) {
+            const currentPath = window.location.pathname;
+            if (href === currentPath) {
                 a.classList.add('active');
                 a.setAttribute('aria-current', 'page');
             }

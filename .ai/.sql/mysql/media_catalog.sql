@@ -4,8 +4,8 @@
 -- Veritabanı: media_catalog
 -- Görev: ADR-092 §5.2 adım 6 — "MySQL türetilmiş indeks"
 -- Author: CoreMusic Data Engineer
--- Date: 2026-09-29
--- Version: 1.0.0 (forward-only — rollback yok)
+-- Date: 2026-10-21 (v1.0.0: 2026-09-29)
+-- Version: 1.0.1 (forward-only — rollback yok) · `mod` reserved-word backtick düzeltmesi
 --
 -- SSOT (Tek Doğruluk Kaynağı) = yan JSON dosyalarıdır:
 --   media.coremusic.net/config/media.schema.json  (schema: 2)
@@ -22,8 +22,8 @@
 -- Isimlendirme: idx_{tablo}_{sutun} · fk_{tablo}_{referans_tablo}
 --               uk_{tablo}_{sutun} (unique) · ftx_{tablo}_{sutun} (fulltext)
 --
--- ⚠️ VERIFICATION REQUIRED: MySQL bu makinede yok — DDL çalıştırılıp
---    doğrulanamadı (faz 2 ortamı).
+-- Doğrulama: 2026-10-21 localhost MySQL 8.4.7 — migration 29/29 uygulandı
+--    (shared/database/migrations/media_catalog_migration.php): 9 tablo + 1 view + 98 seed doğrulandı.
 -- ============================================================================
 
 CREATE DATABASE IF NOT EXISTS media_catalog
@@ -406,7 +406,7 @@ COMMENT='Dosya yolu değişiklik izi (rename audit) — append-only';
 CREATE TABLE ingest_batch (
   id             BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Parti kimliği (sayaç)',
   kaynak         VARCHAR(500)   NOT NULL COMMENT 'Tarama kaynağı (repo-göreli dizin/yol)',
-  mod            ENUM('dry-run','commit') NOT NULL COMMENT 'dry-run = yalnız rapor, commit = yaz',
+  `mod`          ENUM('dry-run','commit') NOT NULL COMMENT 'dry-run = yalnız rapor, commit = yaz',
   dosya_sayisi   INT UNSIGNED   NOT NULL DEFAULT 0 COMMENT 'İşlenen dosya sayısı',
   byte           BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'İşlenen toplam bayt',
   baslangic      DATETIME       NOT NULL COMMENT 'Parti başlangıcı (+03:00)',
@@ -416,7 +416,7 @@ CREATE TABLE ingest_batch (
   PRIMARY KEY (id),
   INDEX idx_ingest_batch_durum (durum),
   INDEX idx_ingest_batch_baslangic (baslangic),
-  INDEX idx_ingest_batch_mod (mod)
+  INDEX idx_ingest_batch_mod (`mod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_tr_0900_ai_ci
 COMMENT='Ingest/tarama parti kaydi — ADR-092 §5.2 adımlarının denetlenebilir izi';
 
@@ -473,6 +473,6 @@ WHERE a.is_deleted = 0;
 --
 -- Beklenen seed: taxonomy 17 anahtar → 98 INSERT satırı (fark = 0).
 -- ============================================================================
--- ⚠️ VERIFICATION REQUIRED: MySQL bu makinede yok — DDL çalıştırılıp
---    doğrulanamadı (faz 2 ortamı).
+-- Doğrulama: 2026-10-21 localhost MySQL 8.4.7 — 29/29 ifade uygulandı, seed 98/98,
+--    9 tablo + v_asset_search view sorgulanabilir (migration: media_catalog_migration.php).
 -- ============================================================================
