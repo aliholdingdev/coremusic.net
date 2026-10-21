@@ -23,6 +23,7 @@
             this.bindContextMenu();
             this.observeDomChanges();
             this.injectStyles();
+            this.loadInitialData();
         }
 
         bindTrackClicks() {
@@ -253,6 +254,214 @@
                 `;
                 firstCol.insertBefore(li, firstCol.firstChild);
             }
+        }
+
+        /* ─── Adım 8/9 — İlk yükleme: API'den canlı veri (progressive enhancement) ───
+         * Migration'lar henüz uygulanmadıysa / API kapalıysa fetch başarısız olur ve
+         * PHP sunucu-render'ı sessizce korunur (fallback). */
+
+        async loadInitialData() {
+            await Promise.allSettled([
+                this.loadRecentTracksFromApi(),
+                this.loadHistoryFromApi(),
+            ]);
+        }
+
+        /** GET /api/v1/music/recent — home "En Son Dinlenen Şarkılar" grid'ini tazeler */
+        async loadRecentTracksFromApi() {
+            const grid = document.querySelector('section[aria-label="En Son Dinlenen Şarkılar"] .home_song__btn-card-grid');
+            if (!grid) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${this.apiUrl}/api/v1/music/recent?limit=10`, {
+                    headers: { 'Accept': 'application/json' },
+                    credentials: 'include',
+                });
+                if (!response.ok) {
+                    return;
+                }
+
+                const payload = await response.json();
+                const items = payload?.data?.items;
+                if (!Array.isArray(items) || items.length === 0) {
+                    return;
+                }
+
+                grid.replaceChildren(...items.map((item) => this.buildRecentCard(item)));
+            } catch (err) {
+                console.debug('[MusicSpa] Recent tracks API yok — PHP render korunuyor:', err);
+            }
+        }
+
+        /** GET /api/v1/music/history — history sayfası listelerini tazeler */
+        async loadHistoryFromApi() {
+            const embeddedList = document.querySelector('.history-list__items');
+            const wideList = document.querySelector('.history-cols .history-col .history-col__items');
+            if (!embeddedList && !wideList) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${this.apiUrl}/api/v1/music/history?page=1&per_page=20`, {
+                    headers: { 'Accept': 'application/json' },
+                    credentials: 'include',
+                });
+                if (!response.ok) {
+                    return;
+                }
+
+                const payload = await response.json();
+                const items = payload?.data?.items;
+                if (!Array.isArray(items) || items.length === 0) {
+                    return;
+                }
+
+                if (embeddedList) {
+                    embeddedList.replaceChildren(...items.map((item) => this.buildHistoryItem(item)));
+                }
+                if (wideList) {
+                    wideList.replaceChildren(...items.map((item) => this.buildHistoryRowMini(item)));
+                }
+            } catch (err) {
+                console.debug('[MusicSpa] History API yok — PHP render korunuyor:', err);
+            }
+        }
+
+        /** DOM API ile recent kartı üretir (innerHTML yasağına uygun — textContent) */
+        buildRecentCard(item) {
+            const hex = item.music_hex || '';
+            const card = document.createElement('a');
+            card.href = '/playlist';
+            card.className = 'home-song__mini-card';
+            card.setAttribute('data-no-spa', '');
+            card.setAttribute('data-stream', `/stream/${hex}`);
+            card.setAttribute('data-title', item.title || '');
+            card.setAttribute('data-artist', item.artist_name || '');
+
+            const art = document.createElement('div');
+            art.className = 'home-song__mini-card__art';
+            [
+                ['home-song__mini-card__art-img', 'http://assets.coremusic.net/Image/res-pink/album-goksel.png', 50, 50],
+                ['home-song__mini-card__art-case', 'http://assets.coremusic.net/Image/res-pink/cd-case.png', 0, 0],
+                ['home-song__mini-card__art-badge', 'http://assets.coremusic.net/Image/res-pink/music.png', 0, 0],
+                ['home-song__mini-card__art-cd', 'http://assets.coremusic.net/Image/res-pink/cd-overlay.png', 0, 0],
+            ].forEach(([cls, src, w, h]) => {
+                const img = document.createElement('img');
+                img.className = cls;
+                img.src = src;
+                img.alt = '';
+                img.loading = 'lazy';
+                if (w) { img.width = w; img.height = h; }
+                if (cls !== 'home-song__mini-card__art-img') { img.setAttribute('aria-hidden', 'true'); }
+                art.appendChild(img);
+            });
+            card.appendChild(art);
+
+            const info = document.createElement('div');
+            info.className = 'home-song__mini-card__info';
+
+            const title = document.createElement('h3');
+            title.className = 'home-song__mini-card__title';
+            title.textContent = item.title || 'Bilinmeyen Parça';
+
+            const artist = document.createElement('p');
+            artist.className = 'home-song__mini-card__subtitle';
+            artist.textContent = item.artist_name || 'Bilinmeyen Sanatçı';
+
+            const duration = document.createElement('span');
+            duration.className = 'home-song__mini-card__subtitle';
+            duration.textContent = this.formatDuration(item.duration_sec);
+
+            info.append(title, artist, duration);
+            card.appendChild(info);
+
+            return card;
+        }
+
+        /** DOM API ile embedded history satırı üretir */
+        buildHistoryItem(item) {
+            const li = document.createElement('li');
+            li.className = 'history-list__item';
+
+            const row = document.createElement('a');
+            row.className = 'history-row';
+            row.href = '/playlist';
+            row.setAttribute('data-no-spa', '');
+            row.setAttribute('data-stream', `/stream/${item.music_hex || ''}`);
+            row.setAttribute('aria-label', `Oynat: ${item.title || ''} — ${item.artist_name || ''}`);
+
+            const play = document.createElement('span');
+            play.className = 'history-row__play';
+            play.setAttribute('aria-hidden', 'true');
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'history-row__icon');
+            svg.setAttribute('viewBox', '0 0 24 24');
+            svg.setAttribute('focusable', 'false');
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', 'M8 5v14l11-7z');
+            path.setAttribute('fill', 'currentColor');
+            svg.appendChild(path);
+            play.appendChild(svg);
+
+            const title = document.createElement('span');
+            title.className = 'history-row__title';
+            title.textContent = item.title || 'Bilinmeyen Parça';
+
+            const artist = document.createElement('span');
+            artist.className = 'history-row__artist';
+            artist.textContent = item.artist_name || 'Bilinmeyen Sanatçı';
+
+            const duration = document.createElement('span');
+            duration.className = 'history-row__duration';
+            duration.textContent = this.formatDuration(item.duration_sec);
+
+            row.append(play, title, artist, duration);
+            li.appendChild(row);
+
+            return li;
+        }
+
+        /** DOM API ile wide (çok kolonlu) history mini satırı üretir */
+        buildHistoryRowMini(item) {
+            const li = document.createElement('li');
+            li.className = 'history-list__item';
+
+            const row = document.createElement('a');
+            row.className = 'history-row history-row--mini';
+            row.href = '/playlist';
+            row.setAttribute('data-no-spa', '');
+            row.setAttribute('data-stream', `/stream/${item.music_hex || ''}`);
+            row.setAttribute('aria-label', `Oynat: ${item.title || ''} — ${item.artist_name || ''}`);
+
+            const disc = document.createElement('img');
+            disc.className = 'history-row__disc';
+            disc.src = 'http://assets.coremusic.net/Image/figma-1920/disc-history.png';
+            disc.width = 24;
+            disc.height = 21;
+            disc.alt = '';
+            disc.loading = 'lazy';
+
+            const title = document.createElement('span');
+            title.className = 'history-row__title';
+            title.textContent = item.title || 'Bilinmeyen Parça';
+
+            const duration = document.createElement('span');
+            duration.className = 'history-row__duration';
+            duration.textContent = this.formatDuration(item.duration_sec);
+
+            row.append(disc, title, duration);
+            li.appendChild(row);
+
+            return li;
+        }
+
+        /** API duration_sec (int) → "HH:MM:SS" (PHP render paritesi) */
+        formatDuration(sec) {
+            const total = Number(sec) || 0;
+            const pad = (n) => String(n).padStart(2, '0');
+            return `${pad(Math.floor(total / 3600))}:${pad(Math.floor((total % 3600) / 60))}:${pad(total % 60)}`;
         }
 
         updateNowPlayingPageLive(trackInfo) {
