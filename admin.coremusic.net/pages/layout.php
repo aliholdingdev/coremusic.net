@@ -116,14 +116,20 @@ $userInitials = mb_strtoupper(mb_substr($userLabel, 0, 2));
     </nav>
 
     <header class="adm-navbar" role="banner">
-        <div class="adm-navbar__avatar" aria-hidden="true">
-            <span><?= $h($userInitials) ?></span>
+        <div class="adm-navbar__user">
+            <div class="adm-navbar__avatar" aria-hidden="true">
+                <span><?= $h($userInitials) ?></span>
+            </div>
+            <span class="adm-navbar__name"><?= $h($userLabel) ?> - admin</span>
         </div>
-        <span class="adm-navbar__name"><?= $h($userLabel) ?> - admin</span>
-        <img class="adm-navbar__icon adm-navbar__icon--wifi" src="<?= $h($assetsUrl) ?>/Image/res-pink/wifi-1-on.png" alt="Wi-Fi" width="11" height="12">
-        <img class="adm-navbar__icon adm-navbar__icon--bt" src="<?= $h($assetsUrl) ?>/Image/res-pink/bluethoot-1-connected.png" alt="Bluetooth" width="11" height="12">
-        <img class="adm-navbar__icon adm-navbar__icon--battery" src="<?= $h($assetsUrl) ?>/Image/res-pink/power-system/battery-100.png" alt="Pil" width="17" height="16">
-        <span class="adm-navbar__battery">100%</span>
+        <div class="adm-navbar__telemetry">
+            <img class="adm-navbar__icon adm-navbar__icon--wifi" src="<?= $h($assetsUrl) ?>/Image/res-pink/wifi-1-on.png" alt="Wi-Fi" width="11" height="12">
+            <img class="adm-navbar__icon adm-navbar__icon--bt" src="<?= $h($assetsUrl) ?>/Image/res-pink/bluethoot-1-connected.png" alt="Bluetooth" width="11" height="12">
+            <span class="adm-navbar__battery-wrap">
+                <img class="adm-navbar__icon adm-navbar__icon--battery" src="<?= $h($assetsUrl) ?>/Image/res-pink/power-system/battery-100.png" alt="Pil" width="17" height="16">
+                <span class="adm-navbar__battery">100%</span>
+            </span>
+        </div>
         <a class="adm-navbar__logout" href="<?= $h($authUrl) ?>/logout" data-no-spa aria-label="Çıkış" title="Güvenli Çıkış">
             <img class="adm-navbar__icon--logout" src="<?= $h($assetsUrl) ?>/Image/res-pink/session-logout.png" alt="" aria-hidden="true" width="15" height="16">
             <span class="adm-u-sr-only">Çıkış</span>
