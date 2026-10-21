@@ -1,138 +1,76 @@
-# Örnek — Yeni Reverb Modu Ekleme (girdi → çıktı tam döngü)
+# Örnek: Reverb Modu Ekleme — DUR + Onay Akışı
 
-> **Senaryo:** Neva Engine reverb aşamasına 5. bir mod (`Stage` / "Sahne") eklemek.
-> 4 mevcut mod (Geniş Konser, Düğün Salonu, Oda, Stüdyo) korunur ve regresyonla doğrulanır.
-> Sıra: param struct → enum → DSP insertion point → Google Test → doğrulama.
-> ⚠️ Bu örnek **iskelet**tir: Neva Engine gerçek kaynak dosyaları bu skill kapsamında
-> okunmadı → mevcut struct/enum adları diskteki engine koduyla birebir teyit edilmelidir
-> (`⚠️ VERIFICATION REQUIRED`).
+> **Bu örneğin amacı:** reverb'ün gerçek tasarım durumunu göstermektir. Depoda
+> reverb kodu/enum'u YOKTUR (SKILL.md §10.1.2) — bu yüzden doğrudan kod yazmak
+> değil, **onaylı tasarım akışı** örneklenir. Yanlışlıkla "kod yazılabilir"
+> izlenimi veren her adım DUR ile işaretlenir.
 
-## ADIM 1 — Parametre struct'ı (hot-path hazır, önceden tahsisli)
+## 1. İstek (tipik)
+
+> "Reverb ekle — hall/plate/room modları olsun, wet kontrolüyle."
+
+## 2. Önce Dur — Disk Kontrolü
+
+```bash
+# reverb izi var mı? (disk kanıtı)
+grep -ri "reverb" app-cpp-projects/neva-engine/   # → sonuç yok (2026-10-21)
+```
+
+**Beklenen:** sonuç yok. **Bulunan:** reverb dosyası/enum'u yok → tasarım onayı gerekir.
+
+## 3. Tasarım Kararları (onaya sunulur)
+
+| Karar | Öneri | Onay bekler |
+|---|---|---|
+| Mod enum'u | `ReverbMode { Hall, Plate, Room }` | Evet (isim/üye) |
+| Pipeline yeri | EQ sonrası, crossover öncesi (dsp-chain-map.md §1) | Evet |
+| Algoritma | RT-güvenli delay-line (FDN/Freeverb sınıfı) — lisans: Comtus-reverb referansı **lisans metni okunmalı** (§VERIFICATION) | Evet |
+| Parametreler | `wet, room-size, damping, predelay` | Evet |
+| Yayılım | R5: wet gain rampası (blok sınırında), blok-içi anlık geçiş YOK | Hayır (kural) |
+
+## 4. Sözleşme (onay SONRASI — taslak)
 
 ```cpp
-// engine/reverb_types.h — prepare() dışında tahsis YOK; alanlar POD/sabit dizi (R1)
-#pragma once
-#include <array>
-#include <cstdint>
+// neva_reverb.h — onay sonrası yazılacak (şu an diskte YOK)
+enum class ReverbMode : std::uint8_t { Hall, Plate, Room };
 
-inline constexpr std::size_t kNumReverbDelays = 8;   // ⚠️ VERIFICATION REQUIRED —
-                                                     // gerçek engine değerini oku
-
-struct ReverbParams {
-    float roomSize      = 0.5f;   // 0..1
-    float damping       = 0.5f;   // 0..1
-    float wetGainDb     = -12.0f;
-    float dryGainDb     = 0.0f;
-    float width         = 1.0f;   // 0..1 stereo genişlik
-    std::array<float, kNumReverbDelays> delayTimesMs{};  // sabit boyut — tahsis yok
+struct ReverbParams {           // RT-olmayan thread doldurur
+    float wet       = 0.0f;     // 0..1
+    float roomSize  = 0.5f;     // 0..1
+    float damping   = 0.5f;     // 0..1
+    ReverbMode mode = ReverbMode::Hall;
 };
 ```
 
-## ADIM 2 — Mode enum'ına değer ekle
+## 5. RT Kuralları (bağlayıcı — realtime-rules.md)
+
+| Kural | Uygulama |
+|---|---|
+| R1 (zero-alloc) | Delay-line buffer'ları `prepare(sampleRate, maxBlock)` içinde baştan allocate; RT'de `new` YOK |
+| R2 (noexcept) | Tüm `process()` noexcept |
+| R3 (lock-free) | Parametre geçişi atomik publish (contracts.md §5) |
+| R5 (ramp) | Wet/room-size değişimi blok sınırında + kısa rampa (pop önleme) |
+| R7 | Ağır iş (preset yükleme vs.) RT thread DIŞINDA |
+
+## 6. Test (ctest + `<cassert>` — Google Test DEĞİL, §10.1.1)
 
 ```cpp
-// ⚠️ Contradiction Gate: mod ADLARI vault içinde çelişebilir
-// (CLAUDE §19: Geniş Konser/Düğün Salonu/Oda/Stüdyo vs PROJECTS §2 farklı adlar).
-// Enum adını sabitlemeden önce DUR + kullanıcı onayı (Guardrail #12/#14).
-enum class ReverbMode : std::uint8_t {
-    kConcert,   // Geniş Konser
-    kWedding,   // Düğün Salonu
-    kRoom,      // Oda
-    kStudio,    // Stüdyo
-    kStage      // YENİ: Sahne — varsayılan preset aşağıda
-};
-
-inline ReverbParams stagePreset() noexcept {
-    ReverbParams p{};
-    p.roomSize   = 0.75f;
-    p.damping    = 0.35f;
-    p.wetGainDb  = -10.0f;
-    p.dryGainDb  = -1.0f;
-    p.width      = 0.9f;
-    p.delayTimesMs = {13.7f, 17.9f, 21.3f, 24.7f,
-                      29.1f, 33.7f, 37.9f, 41.3f};  // preset — algoritma teyidi gerekir
-    return p;                                        // ⚠️ VERIFICATION REQUIRED (değerler)
-}
+// tests/reverb_gates.cpp — onay sonrası
+#include <cassert>
+// 1) passthrough: wet=0 → giriş≡çıkış (DoD: bypass doğrulama)
+// 2) mod değiştir → NaN yok
+// 3) wet=1, roomSize=1 → çıkış enerjisi > 0
 ```
 
-## ADIM 3 — DSP insertion point (pipeline: EQ → Reverb → Crossover → Limiter)
-
-```cpp
-// engine/dsp_chain.cpp — reverb, EQ'dan SONRA, crossover'dan ÖNCE çağrılır.
-// Parametre güncellemesi blok SINIRINDA atomik snapshot'lanır; mid-callback mutation yok (R2).
-void DspChain::processBlock(float* const* channels, int numCh, int numSamples) noexcept {
-    eq_.process(channels, numCh, numSamples);          // 1) EQ 31-band
-
-    ReverbParams snap = paramSnapshot_.load(std::memory_order_acquire);  // blok başı oku
-    reverb_.setParams(snap);                                        // stateful ama tahsisiz
-    reverb_.process(channels, numCh, numSamples);                  // 2) Reverb (yeni mod dahil)
-
-    crossover_.process(channels, numCh, numSamples);               // 3) Crossover (+LFE)
-    limiter_.process(channels, numCh, numSamples);                 // 4) True Peak Brickwall
-}
-
-// UI thread → callback sınırı (lock-free, örnek: references/realtime-rules.md §2)
-void DspChain::setMode(ReverbMode m) noexcept {
-    ReverbParams p = (m == ReverbMode::kStage) ? stagePreset()
-                                               : presetFor(m);
-    paramSnapshot_.store(p, std::memory_order_release);   // ⚠️ atomik struct tümü —
-}                                                         // gerçek engine'de ring/slot
-                                                          // mekanizması teyit edilmeli
+```powershell
+# app-cpp-projects/neva-engine/ altından
+cmake -S . -B build && cmake --build build && ctest --test-dir build --output-on-failure
 ```
 
-## ADIM 4 — Google Test (coverage hedefi ≥80% min / ≥90%)
+## 7. Yasaklar Özeti (bu örnekte)
 
-```cpp
-// tests/reverb_stage_test.cpp
-#include <gtest/gtest.h>
-#include <cmath>
-#include "engine/dsp_chain.h"
-
-TEST(ReverbStage, NewModeProducesFiniteOutput) {
-    DspChain chain;
-    chain.setMode(ReverbMode::kStage);
-
-    constexpr int kN = 256;
-    std::array<float, kN> left{};                         // önceden tahsisli (R1)
-    std::array<float, kN> right{};
-    float* chans[] = {left.data(), right.data()};
-
-    left[0] = 1.0f;                                       // impulse girdisi
-    chain.processBlock(chans, 2, kN);                     // noexcept — throw yok (R3)
-
-    for (int i = 0; i < kN; ++i) {
-        ASSERT_TRUE(std::isfinite(left[i]))   << "i=" << i;   // NaN/Inf yok
-        ASSERT_TRUE(std::isfinite(right[i]))  << "i=" << i;
-        ASSERT_LE(std::fabs(left[i]), 4.0f)   << "gain patlaması (limiter aşımı)";  // ⚠️ eşik
-    }
-}
-
-TEST(ReverbStage, OriginalFourModesUnaffected) {          // regresyon: 4 eski mod
-    for (auto m : {ReverbMode::kConcert, ReverbMode::kWedding,
-                   ReverbMode::kRoom,    ReverbMode::kStudio}) {
-        DspChain chain; chain.setMode(m);
-        std::array<float, 64> l{}, r{}; float* c[] = {l.data(), r.data()};
-        l[0] = 1.0f;
-        chain.processBlock(c, 2, 64);
-        for (float v : l) ASSERT_TRUE(std::isfinite(v));
-    }
-}
-```
-
-## ADIM 5 — Doğrulama adımları (teslim öncesi)
-
-1. **Derle:** C++20 derleyici ile temiz derleme; uyarı yok sayılır mı → hayır, yorumla.
-2. **Test çalıştır:** `google-test` hedefini çalıştır (komut/vitesti vault'ta tanımlı değil →
-   `⚠️ VERIFICATION REQUIRED`; projedeki mevcut test komutunu kullan).
-3. **Coverage:** ≥80% min / ≥90% hedef — yeni testler bu dosyayı kapsar (PROJECTS §7.1.1).
-4. **Zero-allocation denetimi:** `processBlock` yolu tahsis içermemeli (heap allocation
-   sayacı ile hot-path testi — teknik seçimi vault'ta yok → `⚠️ VERIFICATION REQUIRED`).
-5. **Latency regresyonu:** Callback süresi buffer deadline'ını aşmamalı, xrun = 0
-   (`references/latency-targets.md` §4).
-6. **Kulak testi:** 4 özgün mod + yeni mod A/B dinlenir; bit-perfect/mikser bypass bozulmaz.
-7. **Zincir bütünlüğü:** Değişiklik yalnız Reverb aşamasında; EQ → Reverb → Crossover →
-   Limiter sırası korunur (`references/dsp-chain-map.md` §2/§5).
-8. **Rapor:** Değişen dosyalar, test sonucu, coverage, açık `⚠️` maddeleri kullanıcıya
-   sıfır-halüsinasyon ile listelenir.
-
-*CoreMusic Skill v3.0 — examples/add-reverb-mode.md — Updated: 2026-10-07*
+1. **Enum yokken kod yazmak** (DUR — §10.1.2)
+2. RT thread'de `new` / `delete` (R1)
+3. Parametre değişikliğinde anlık geçiş — rampa olmadan (R5)
+4. Google Test API'si kullanmak (depoda ctest + `<cassert>` var, §10.1.1)
+5. Lisansı doğrulanmamış reverb kodunu kopyalayıp gömmek (§VERIFICATION)

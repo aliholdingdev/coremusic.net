@@ -43,8 +43,10 @@ metadata:
   gövdeye taşınır (tetikleyiciler → description; geçmiş → `references/changelog.md`).
 - **N2 — description:** `"Use when …"` ile başlar, ≤1024 karakter, tetikleyici Türkçe
   kelimeleri içerir.
-- **N3 — Boyut:** SKILL.md ≤~250 satır hedef, 2000 satır sert üst sınır; monolit YASAK;
-  SKILL.md = Katman-2 orkestrasyon dosyası, derinlik `references/`/`examples/`e dağılır.
+- **N3 — Boyut (revize 2026-10-21):** SKILL.md **min 500 / maks 2000 satır**;
+  skill dizini toplamı **min 1000 satır** (SKILL.md ≥500 + yan dosyalar ≥500);
+  monolit YASAK; SKILL.md = Katman-2 orkestrasyon dosyası, derinlik
+  `references/`/`examples/`e dağılır. (Eski ≤~250 hedefi kaldırıldı.)
 - **N4 — Link zorunluluğu:** HER `references/*.md` ve `examples/*.md` SKILL.md'den linkli
   olmalıdır. **Orphan dosya = hata.**
 - **N5 — `examples/` zorunlu:** ≥1 çalışmış örnek (girdi → çıktı tam döngü).

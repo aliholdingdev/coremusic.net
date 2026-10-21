@@ -14,6 +14,8 @@
 [ ] name alanı sadece lowercase-hyphen formatında mı? (Max 64 karakter)
 [ ] description alanı otonom tetiklemeye uygun, açık ve net mi? (Max 1024 karakter)
 [ ] Kiro YAML frontmatter kurallarına (metadata vb.) %100 uyuldu mu?
+[ ] SKILL.md en az 500 satır mı? (min taban — 2026-10-21)
+[ ] SKILL dizini toplamı en az 1000 satır mı? (SKILL.md + references/examples)
 [ ] Dosya 2000 satır kısıtını aşıyor mu? (Aşmamalıdır)
 ```
 
