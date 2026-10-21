@@ -65,19 +65,6 @@ $userInitials = mb_strtoupper(mb_substr($userLabel, 0, 2));
     <div class="adm-auth-panel"></div>
 
     <nav class="adm-sidebar" aria-label="Yönetim menüsü">
-        <div class="adm-sidebar__brand">
-            <div class="adm-sidebar__logo-box" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polygon points="10 8 16 12 10 16 10 8" fill="#ff38e3" stroke="none"></polygon>
-                </svg>
-            </div>
-            <div class="adm-sidebar__brand-meta">
-                <span class="adm-sidebar__brand-name">COREMUSIC</span>
-                <span class="adm-sidebar__brand-tag">STUDIO PRO</span>
-            </div>
-        </div>
-
         <div class="adm-sidebar__section">
             <p class="adm-sidebar__title">Menu</p>
             <div class="adm-sidebar__group">
@@ -128,57 +115,20 @@ $userInitials = mb_strtoupper(mb_substr($userLabel, 0, 2));
         </div>
     </nav>
 
-    <div class="adm-navbar">
-        <div class="adm-navbar__left">
-            <div class="adm-navbar__context">
-                <span class="adm-navbar__context-badge">STUDIO WORKSTATION</span>
-                <h2 class="adm-navbar__page-title"><?= $h($pageTitle) ?></h2>
-            </div>
-            <div class="adm-navbar__search" role="search">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" id="adm-search-input" name="q" class="adm-navbar__search-input" placeholder="Parça, albüm, sanatçı veya log ara..." readonly>
-                <kbd class="adm-navbar__kbd">⌘K</kbd>
-            </div>
+    <header class="adm-navbar" role="banner">
+        <div class="adm-navbar__avatar" aria-hidden="true">
+            <span><?= $h($userInitials) ?></span>
         </div>
-
-        <div class="adm-navbar__center">
-            <div class="adm-navbar__status-pill">
-                <span class="adm-navbar__status-dot"></span>
-                <span class="adm-navbar__status-text">WASAPI Exclusive &bull; 192 kHz / 32-bit &bull; Lock-Free</span>
-            </div>
-        </div>
-
-        <div class="adm-navbar__right">
-            <div class="adm-navbar__telemetry-pill">
-                <span class="adm-navbar__tel-item" title="Wi-Fi 5 GHz: 866 Mbps">
-                    <img class="adm-navbar__icon adm-navbar__icon--wifi" src="<?= $h($assetsUrl) ?>/Image/res-pink/wifi-1-on.png" alt="Wi-Fi" width="11" height="12">
-                    <span class="adm-navbar__tel-val">5G</span>
-                </span>
-                <span class="adm-navbar__tel-item" title="Bluetooth 5.3: CoreAudio DAC">
-                    <img class="adm-navbar__icon adm-navbar__icon--bt" src="<?= $h($assetsUrl) ?>/Image/res-pink/bluethoot-1-connected.png" alt="Bluetooth" width="11" height="12">
-                    <span class="adm-navbar__tel-val">DAC</span>
-                </span>
-                <span class="adm-navbar__tel-item" title="Pil Durumu">
-                    <img class="adm-navbar__icon adm-navbar__icon--battery" src="<?= $h($assetsUrl) ?>/Image/res-pink/power-system/battery-100.png" alt="Pil" width="17" height="16">
-                    <span class="adm-navbar__battery">100%</span>
-                </span>
-            </div>
-
-            <div class="adm-navbar__user-pill">
-                <div class="adm-navbar__avatar" aria-hidden="true">
-                    <span><?= $h($userInitials) ?></span>
-                </div>
-                <div class="adm-navbar__user-meta">
-                    <span class="adm-navbar__name"><?= $h($userLabel) ?> - admin</span>
-                    <span class="adm-navbar__role-badge">SUPER ADMIN</span>
-                </div>
-                <a class="adm-navbar__logout" href="<?= $h($authUrl) ?>/logout" data-no-spa aria-label="Çıkış" title="Güvenli Çıkış">
-                    <img class="adm-navbar__icon--logout" src="<?= $h($assetsUrl) ?>/Image/res-pink/session-logout.png" alt="" aria-hidden="true" width="15" height="16">
-                    <span class="adm-u-sr-only">Çıkış</span>
-                </a>
-            </div>
-        </div>
-    </div>
+        <span class="adm-navbar__name"><?= $h($userLabel) ?> - admin</span>
+        <img class="adm-navbar__icon adm-navbar__icon--wifi" src="<?= $h($assetsUrl) ?>/Image/res-pink/wifi-1-on.png" alt="Wi-Fi" width="11" height="12">
+        <img class="adm-navbar__icon adm-navbar__icon--bt" src="<?= $h($assetsUrl) ?>/Image/res-pink/bluethoot-1-connected.png" alt="Bluetooth" width="11" height="12">
+        <img class="adm-navbar__icon adm-navbar__icon--battery" src="<?= $h($assetsUrl) ?>/Image/res-pink/power-system/battery-100.png" alt="Pil" width="17" height="16">
+        <span class="adm-navbar__battery">100%</span>
+        <a class="adm-navbar__logout" href="<?= $h($authUrl) ?>/logout" data-no-spa aria-label="Çıkış" title="Güvenli Çıkış">
+            <img class="adm-navbar__icon--logout" src="<?= $h($assetsUrl) ?>/Image/res-pink/session-logout.png" alt="" aria-hidden="true" width="15" height="16">
+            <span class="adm-u-sr-only">Çıkış</span>
+        </a>
+    </header>
 
     <div class="adm-content">
         <h1 class="adm-panel__title">Admin Panelim</h1>
