@@ -401,6 +401,7 @@ Backend (home.coremusic.net):
 ---
 
 ### Ã‚§20 Current Session State
+- 2026-10-21: 13 skill v3.0 sıfırdan yeniden yazım — completed (agent: MO + subagent'lar) · dosyalar: .claude/skills/** 13 dizin/134 dosya + .claude/CONTEXT.md · commit 391a330 (+5.407/−38.051) · sonraki: composer-sync 2 VERIFICATION REQUIRED kapanışı
 
 | Ozellik | Deger |
 |---------|-------|
@@ -701,7 +702,7 @@ Bu revizyonda her dÃƒ¼zeltme ÃƒÂ¼Ãƒ§ kaynakla desteklendi: (1) Test-Pa
 <!-- vault-sync:auto-begin -->
 ## Session State (auto)
 
-- Last update: 2026-09-28 18:18:43
+- Last update: 2026-10-21 18:33
 - Last session: ses_f22fd22d4ffeN6omnhdTZGGTNy
 - Next: kaldigin yerden devam etmek icin vault_sync continue-last kullan
 - Last operation: Faz 2 persona uretimi TAMAMLANDI (7 dalga A-G): .ai/.personas/ 68/68 dosya / 35.026 satir / >=500 %100 / BOM-mojibake-CJK 0 / FM 7/7 / persona_id 68 benzersiz / veli-yas 0 celiski / wiki-link 0 kirik. 4 rename (genc-erkek) + 13 self-ref fix; index.md 20 satir yas/mood sayac hizasi; .ai/index.md 28.4.0 (L7/L8/s18/footer) + toplam ADR alani 0'a geri alindi (baska oturumun); mapping Download kanonu 39 + turetilmis hucreler; log.md +20 satir append (0 silme).
@@ -737,6 +738,8 @@ Bu revizyonda her dÃƒ¼zeltme ÃƒÂ¼Ãƒ§ kaynakla desteklendi: (1) Test-Pa
 | Uretim | .ai/projects/NevaEngine/ **34 md** (00-envanter, 01-plan [Faz 0 durum notu], 02-dsp-mimari, 03-ozet, 04-reverse-voice-fxsound, 05-neva-mixer-web-pcm, 06-gereksinimler-ve-farkliliklar, os/01-04 + **legacy-2026-07/ 23 dosya**: desktop eski evrak ice aktarma - routing-matrix/spatial/vst3/midi/overview/audio-core/ai-models/EQ set + rules/ 4 C++ kural) + brain.md [7.4 + RE/urun/06/legacy notu] + .ai/index.md [7 = 34 md] + RAG.md 3.1 satir 21 (34 md) + keys.md (10+4 ghost fix + **6 legacy satiri**) + AGENTS.md [24.3 = 34 md] + mimari kayit: K000-K004 + K005 + K015 + architecture/index.md [9.10] + log.md |
 | Durum | Neva Engine **tur 2+3 tamam**: R10 compressor+limiter · R11 web control=PHP (Control 81 -> Audio C++ 9741/9742) · R12 C# masaustu · R13 mobil native (Xcode/Android Studio, cross-plat YOK) · **R16 EQ CIFT FORM** (parametrik+grafik, ayni biquad motoru, canli gecis, tam kontrol) · **R17 MOBILE DSP** (Android NDK + iOS CoreAudio, ayni C++ cekirdek - yerel isleme). 07-diyagram v3 YAZILDI (3 kontrol yuzeyi + mobile DSP kutusu). Q3 KAPANDI (mobil = yerel DSP, kumanda degil). Q1-Q3 tur1 cevaplari islendi (10 fiziksel cikis, hop+lkulak konser efekti, hot-plug+profil). J7-ozel efekt kaniti hala VERIFICATION REQUIRED. Planlama modu: kod/clone YOK. **RE tur 2+3 (2026-10-15):** 04 v1.1.0 - Duzeltme: kurulu IKİ urun (Banana=voicemeeterpro_x64 2.1.2.2 + Potato=voicemeeter8x64 3.1.2.2, Get-Process+VersionInfo kaniti) + §7 (VBVMR API export, StripComp XML semasi, bus modlari, VBAN, GEQ15, FxSound Ambience/mono kisiti, RTTI) + **§7.6 Potato string (65.555)**: insert FX (JustVerb III, MultiTap BPM delay, C5-Limiter multiband, StripPitch, Denoiser) + Banana delta. Ghidra 12.1.4 KURULU (C:\ghidra) + JDK21; GHIDRA_INSTALL_DIR set edildi ama MCP env stale (install_dir=null, java 8) -> **temiz terminalden OpenCode restart** gerekli. 08-freelancer doc yazildi (36 md; mekan presetleri R6'ya islendi). Q1-Q3 KAPANDI (Win7+XP-legacy / yerel PHP / mobil DSP) vault'a islendi. R6'ya mekan presetleri (Dugun Salonu, Konser-Alani-Arena, Canli Stadyo, Kulup) eklendi |
 | Sonraki | Q1-Q3 KAPANDI ve vault'a islendi (01/05/06/07 guncel). **Ghidra 12.1.4 AKTIF** (opencode.jsonc rea environment enjeksiyonu - 2026-10-15): FxSound EQ 31 bant KAPANDI (04 §7.7 - 3 katmanli kanit, "10 bant DFX" duzeltildi) · Banana serializer/parser decompile. OPSIYONEL: DSP gain-computer matematiği (StripComp/JustVerb/C5 ic matematik - Faz 6+). Onay kapisi: Faz 0 vendor clone + CMake (cmake YOK, ASIO SDK indirilmedi) veya F6.1 spike. Legacy rules/ 4 C++ kural dosyasi Faz 0 oncesi okunacak. Web mixer UI icin mockup gate (.ai/ui-design) ZORUNLU. Toplam NevaEngine: 36 md |
+
+2026-10-21 | session | 13 skill v3.0 SIFIRDAN YENIDEN YAZIM TAMAMLANDI (commit 391a330, 117 dosya, +5407/-38051) - .claude/skills/ 13 dizin/134 dosya, 23.565 satir, N1-N10 13/13 PASS (name=klasör 1:1, "Use when..." 13/13, footer 2026-10-21, BOM/sidecar/fmExtra 0, orphan 0), SKILL min 501 / dizin min 1010; sources.md 2-3 resmi kaynak x13 + checklist.md PASS/BLOCK x13; database-normalize-maker subagent (SKILL 407->501 + 13 reference + 3 PHP script) + schema-to-diagram splitTopLevel fix; PHP kaniti C:\Php858\php.exe (php -l 3/3 + normalize-checker 2 BCNF ihlal exit=1 / security-audit PASS exit=0 / schema-to-diagram mermaid exit=0); CONTEXT.md envanter 13/134 + recursive 287/50. Session: .ai/SESSIONS/2026-10-21-13-skill-v3-rewrite.md
 
 <!-- vault-sync:auto-end -->
 2026-10-20 | tur5d commit: fac17c1 (4 dosya, +102/-5, pathspec)

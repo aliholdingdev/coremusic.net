@@ -2,17 +2,24 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.3.4
+version: 27.5.0
 status: active
 authority: SSOT
-updated: 2026-10-01
+updated: 2026-10-12
+# Control Plane v2 (Q7 geniş şema — 2026-10-07):
+tier: 1
+domain: governance
+ssot: true
+risk: high
+owner: "Vault Steward"
+depends-on: []
 ---
 
 # CoreMusic — AI Constitution & Master Vault Mandate
 
 **Zorunlu Bağlantılar:** [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[engine.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
+**Skills:** `.claude/skills/` (13 proje skill'i, 0 global — Guardrail #16 zorunlu)
 
 ---
 
@@ -90,9 +97,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ---
 
-### §5 Architecture — K0-K20 (21-Layer System — 1,095 bileşen · K20 BOM: 1,775 satır)
-
-*Detaylı metadata için bakınız: [[architecture/index]] §2*
+### §5 Architecture
 
 | Katman | Kapsam | Bileşen | Katı Kısıtlamalar (Hard Guardrails) |
 |--------|--------|:-------:|-------------------------------------|
@@ -106,7 +111,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **K8** Servis | Control, Media, Audio, Device, Network, AI, Download + Infra (11) | 55 | Servisler arası doğrudan çağrı yasaktır, Event Bus kullanılır |
 | **K7** Middleware | OriginCheck, CORS, RateLimit, SecurityHeaders, Session, CSRF, PSR-15 | 35 | K6 güvenlik doğrulamasını atlayamaz |
 | **K6** Güvenlik | JWT, RBAC, CSRF, CSP, RateLimit, AES-256, Vault, Audit | 40 | Hard Guardrail: Asla bypass edilemez |
-| **K5** Veri Yönetimi | MySQL 9 (18 BCNF, 112 tablo), Redis, APCu, SQLite, Restic | 55 | 18 Veritabanı kesinlikle BCNF kurallarına uymalıdır |
+| **K5** Veri Yönetimi | MySQL 9 (18 BCNF, 156 tablo), Redis, APCu, SQLite, Restic | 55 | 18 Veritabanı kesinlikle BCNF kurallarına uymalıdır |
 | **K4** Yapay Zeka | Music Analysis (10), Recommendation (5), Voice (5), Edge AI, ML Infra | 50 | K5 harici veriye erişemez |
 | **K3** Ses İşleme Motoru | Neva Engine, DSP Chain (31-band EQ, 4 Reverb), Dolby Atmos, DTS:X | 50 | Sıfır gecikme, K2 donanım sürücüsüne sıkı bağımlı |
 | **K2** Sürücü | ASIO, WASAPI, ALSA, PipeWire, CoreAudio, I2S, USB, BT, DLNA | 40 | Donanım-yazılım köprüsü |
@@ -369,7 +374,7 @@ shared/
 - **Gender-based:** female→pink, male→blue, neutral→default
 - **PHP:** `ThemeEngine.php` — DB + user gender çözümleme
 - **JS:** `ThemeManager.js` — CSS custom properties ile anında geçiş (sayfa yenileme yok)
-- **DB:** `user_preferences` tablosu — `user_id`, `device_type`, `theme_gender`
+- **DB:** `user_preferences` (`user_id`, `device_type`, `theme`) + `user_profiles.theme_gender` (A-F08: kolonlar 2026-10-07'de canlı/​şema dosyası ile hizalandı — eski satır yanlış tabloyu gösteriyordu)
 - **Admin:** Bağımsız tema sistemi (kullanıcı temalarından ayrı)
 
 ---
@@ -388,8 +393,6 @@ shared/
 
 
 ### §18 18 BCNF Databases (ADR-040)
-
-*Detaylı metadata için bakınız: [[architecture/index]] §3*
 
 | # | Veritabanı | Amaç |
 |---|------------|------|
@@ -414,6 +417,15 @@ shared/
 
 **Toplam:** 18 BCNF veritabanı, 156 tablo.  
 **Kurallar:** ORM yasak (ADR-002), SELECT * yasak, prepared statement zorunlu, BCNF zorunlu.
+
+> **Ek sistemler (envanter düzeltmesi 2026-10-07 — A-F03/A-F04, canlı DB doğrulaması):**
+>
+> | DB | Tablo | Durum |
+> |----|:-----:|-------|
+> | `media_catalog` | 9 | `.sql` dosyası VAR (`media_catalog.sql`) · canlıya **deploy edilmedi** → PLANNED |
+> | `novasearch` | 7 | canlıda VAR · **knex** ile yönetiliyor (ADR-014 runner dışı) · şema SSOT'a alındı: `.sql/mysql/novasearch.sql` (salt-okunur dump 2026-10-07) · sahiplik kararı = ADR-040 takibi |
+>
+> Bu iki DB 18'lik BCNF sayımının (156 tablo) İÇİNDE DEĞİLDİR. `.sql/mysql/` dosya sayısı = 20 (18 + media_catalog + novasearch).
 
 ---
 
@@ -496,7 +508,6 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 - [[VISION]] — CoreMusic vizyonu
 - [[PROJECTS]] — Proje tanımı
 - [[WORKFLOW]] — Sistem çalışma şekli
-- [[architecture/index]] — 21 katmanlı mimari
 
 ---
 
@@ -532,8 +543,9 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 | 1 | `.ai/ui-design/01-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak — hangi ekranlar var? |
 | 2 | `.ai/ui-design/02-component-inventory.md` | C01-C16 BEM sınıfları, pixel ölçümleri, token referansları | Bileşen kodlarken |
 | 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi, cam token'ları | CSS yazarken |
-| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: screens/B-home/dashboard-1920) ⚠️ DEAD (faz6-D): screens/B-home/dashboard-1920 — B-home dizini yok (screens/ = shared + T01-T31) | Layout hizalamada |
+| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: `ui-design/screens/T17-monitor-22fhd/home-dashboard.md` — 20 spec + 1 indeks, Faz 7 sayımı) | Layout hizalamada |
 | 5 | `.ai/ui-design/05-responsive-architecture.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
+| 6 | `.ai/.templates/frontend/css-template.md` (v4.0.0) + kök `notes.md` | 11 katman sırası (01→11) · token yalnız `01_Abstracts` ve cihaz dosyasına göre ayrılır (`a-layout-tokens-{mobile,tablet,1024,1920,3540,3840}.css`) · BEM · `07_Vendors` dokunulmaz · taşıma/silme YOK · import zinciri `08_Devices/d-*.css` + `auth-bundled.css` (`main.css` YOK) | **Her `.css` dosyası yazılırken** (Guardrail #16 — kök `AGENTS.md` §10) |
 
 **Referans Sıralaması (çelişki durumunda):** PNG > ASCII art > Component Inventory > Tokens > Implementation Plan.
 
@@ -561,10 +573,27 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 | Flow dosyası | `ui-design/flow/<kategori>/NN-*.md` | `[[.templates/ui-design/flow-template]]` | B |
 | Kod üretim promptu | `ui-design/prompt/{component,page,screen,layout}/*.md` | `[[.templates/ui-design/prompt-template]]` | C |
 | Ekran spesifikasyonu | `ui-design/screens/<tier>/*.md` | `[[.templates/ui-design/screen-spec-template]]` | D |
+| **CSS katman dosyası** | `assets.coremusic.net/Css/**/*.css` (11 katman + `auth-bundled.css`) | **`[[.templates/frontend/css-template]]`** (v4.0.0 §3 şablonları + §4.1 10 guardrail) + kök `notes.md` | CSS |
 
 **İhlal Prosedürü:** şablonsuz ui-design dosyası → dosya geçersiz (Guardrail #16) → düzelt veya sil + `log.md` CRITICAL girişi.
 
 **Boot bağlantısı:** `session-init.md` boot listesine bu iş için 2 kayıt eklendi — `[[ui-design/01-mockup-index]]` (19 PNG mockup indeksi) ve `[[ui-design/00-device-matrix]]` (45-tier cihaz matrisi).
+
+---
+
+#### §7.4 Veri Bütünlüğü — Faz 6–7 Eksik-İçerik İşaretleri (2026-09-29)
+
+**Sonuç:** Faz 6'da **içerik kaybı 0** (silinen kume eklenen kumenin alt kümesi; `title`/`date`/`version`/`status` **51/51 byte-birebir**). Ancak **işaretli eksik içerik** var — bunlar "tamamlandı" diye kullanılmaz, Faz 8 QA'da sahip atanır:
+
+| Yüzey | Ölçüm | Kural |
+|-------|-------|-------|
+| `ui-design/flow/**` | **44 `⚠️ VERIFICATION REQUIRED` stub'u** (21 dosyanın 19'unda) | İlgili alan eksik sayılır |
+| `ui-design/prompt/**` | **92 ana işaret** — Prompt Template **41** · Validation **26** · ASCII Reference **13** · Required Inputs **12** (+1 voice-control satırı = 93 toplam / 51 dosyanın 41'inde) | **Uydurma ölç/token/JSON yazılmaz**; eksik girdi kullanıcıya sorulur |
+| `screens/T17-monitor-22fhd/welcome-popup.md` | `status: draft` + `source_of_truth: ⚠️ VERIFICATION REQUIRED — PNG bekleniyor` | Uydurma PNG yok; draft frontend kanıtı değildir |
+| `tokens/tokens-3840.json` · `tokens-tv.json` | **boş** (tasarım yok) → mobile/tablet/TV/4K katmanları `status: planlanmış` + `⚠️ VERIFICATION REQUIRED` | Token asla uydurulmaz |
+| `reference/figma/png` | **151 hedef · 136 indirilen · 15 gizli node (`visible: false`) → API NULL, indirilemez · 13 legacy · dizin 149** (Faz 8b ölçümü — önceki "eksik" okuması geçersizdir) | "151 var" denmez; `figma-extract.ps1 -ImagesOnly` yeniden denemesi 15/15 NULL verir. Ayrıntı: [[AGENTS.md]] §24.3 · `ui-design/reference/04-verification` §7.1 |
+
+*Ayrıntı:* [[AGENTS.md]] §24.3 · kapı betikleri [[AGENTS.md]] §13.6-§13.7 · faz/commit kanıtı [[AGENTS.md]] §13.8.
 
 ---
 
@@ -620,6 +649,18 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
+#### §16A Session Checklist — Baş / Orta / Kapanış (2026-09-29)
+
+**Session başında:** [[CHECKLIST.md]] §A (🔴 Başlama, 5 madde) uygulanır — §16 boot protokolü + `git status`/`git log -10` + [[TODO.md]] P0 taraması + hedefin tek cümlede yazılması (Guardrail #1 ve #2).
+**Session ortasında:** iş bloğu değişiminde, en az 1 kez [[CHECKLIST.md]] §B (🟡 Orta, 5 madde) — yarım iş kontrolü, kalite kontrolü, Guardrail taraması, mockup gate, çelişki çözümü.
+**Session kapanışında:** [[CHECKLIST.md]] §C (🟢 Kapanış, 5 madde) — kanıtla doğrulama + [[WORKFLOW.md]] §8.7 Bitiş + `.workflows/vault-sync.md` Aşama 8 + [[TODO.md]] güncellemesi + sonraki adım satırı.
+
+**Sürekli güçlendirme döngüsü (her session sonu):** Kapanışta hedef seti = kök `CLAUDE.md` · `README.md` · `WORKFLOW.md` + `.ai/` kök 17 md (**20 dosya**; sınıflandırma [[CHECKLIST.md]] §A: CRITICAL 16 / ON-DEMAND 3 / LOG 1) gözden geçirilir → bu session'da değişenler **2-4 satırla güçlendirilir**, değişmeyenlere dokunulmaz (in-place, dosya adı sabit).
+**Bağlantılar:** başta `.workflows/session-init.md` §1 (set tanımı) · ortada [[CHECKLIST.md]] §B (3 dosya tazelenir) · sonda [[CHECKLIST.md]] §C-Güçlendirme + `.workflows/vault-sync.md` Aşama 8 satır 5 → kayıt [[log.md]] 1 satır.
+
+*İlgili:* [[CHECKLIST.md]] · [[TODO.md]] · [[WORKFLOW.md]] §8.7B · [[MEMORY.md]] §6-§7 · [[log.md]]
+
+---
 ### §18A Template System (Mandatory)
 
 **⚠️ ZORUNLULUK:** Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU. Template olmadan dosya oluşturulamaz (Guardrail #16).
@@ -630,7 +671,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 **Detay:** [[.templates/index]]
 
-> ✅ GİDERİLDİ (ölçüm 2026-09-24): disk glob = 28 template dosyası (+2 yeni şablon: claude-md + docs-md, 2026-09-24); [[.templates/index]] üzerinden doğrulandı. (Eski kayıtlar: 26 — 2026-09-24 sabah, 19 — 2026-09-23 sahip doğrulaması.)
+> ✅ GİDERİLDİ (ölçüm 2026-09-29): disk glob = 41 template dosyası (`.ai/.templates` recursive; `index.md` ve `CLAUDE.md` hariç); [[.templates/index]] üzerinden doğrulandı. Faz 6 tamamlanması: +5 yeni şablon (2026-09-29: arduino-template, avr-template, pic-template eklendi). (Eski kayıtlar: 36 — 2026-09-27; 28 — 2026-09-24, +2 yeni şablon: claude-md + docs-md; 26 — 2026-09-24 sabah; 19 — 2026-09-23 sahip doğrulaması.)
 
 ---
 
@@ -649,6 +690,9 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | `sessionStorage` for auth | Session-based auth (HTTPOnly cookie) |
 | `var` | `const` / `let` |
 | PCM5122 (8.1 surround) | PCM3168A / AK4458 |
+| **Bayat sayım iddiaları** (screens/prompt dosya sayısı, prompt alt kırılımı, "sayfa" ve "kategori" adedi — eski rakamlar bilerek yazılmaz; sağ sütun tek kaynaktır) | **Faz 7 disk ölçümü (2026-09-29):** screens **21 md** (1 indeks + 20 spec: T07-embedded 12 · T17-monitor-22fhd 2 · shared 6) · prompt **51 md** (48 içerik + `prompt/00-prompt-index` + `screen/00-prompt-index` + `web-research`) · page prompt **12 dosya** · 4 kategori: component **16** · page **12** · layout **10** · screen **10** |
+| **"Figma'da grid tasarımı yok" iddiasını tek alt küme ölçümüne genellemek** | O ölçüm yalnız `nodes-1024-1920.json` **alt kümesi** için geçerlidir. layoutGrids gerçek sayımları: **1024 → 1** · **1920 → 2** · **system → 21** (bağlayıcı kanıt: [[ui-design/05-responsive-architecture]] §13). İlgili gerçekler: **CatID = 11 kategori öneki** (T07 çakışması Faz 3'te çözüldü) · **token FAIL = 0 / 7 breakpoint** |
+| **Yanlış dosya adları:** `artists` · `file-browser` · `now-playing` · `wifi-modal` | Doğruları: `singer` · `browse` · `playlist` · `wifi-quick` (`ui-design/screens/T07-embedded/`) |
 
 ---
 
@@ -706,7 +750,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Modül | Minimum | Hedef | Framework |
 |-------|---------|-------|-----------|
-| Backend (PHP) | ≥80% | ≥90% | PHPUnit 11 |
+| Backend (PHP) | ≥80% | ≥90% | PHPUnit ^10.5 (composer.json kanıtı — 3/3 proje) |
 | Frontend (JS) | ≥80% | ≥90% | Vitest |
 | Audio Engine (C++) | ≥80% | ≥90% | Google Test |
 | Download Service | ≥80% | ≥90% | Vitest |
@@ -717,7 +761,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 27.3.2 |
+| Version | 27.3.9 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 34 |
 | Hard Guardrails | 16 |
@@ -728,10 +772,10 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | Platform Tiers | 5 |
 | Deployment Modes | 5 |
 | Audio Divisions | 5 |
-| ADR Coverage | 001-089 (80 karar: 37 Frozen + 31 Active + 12 Rejected) (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) |
+| ADR Coverage | 46 fiziksel ADR dosyası (001-043, 081, 089, 090 — `.ai/.decisions/accepted/`, ölçüm 2026-09-27) + brain.md metin kararları; ADR-090 mevcut → sonraki yeni numara **091**; 044-080 ve 082-088 arası kararlar yalnız brain.md metnindedir (081 hariç — faz 5 karar appendix'i) · *(eski kayıt: 001-089 — 80 karar: 37 Frozen + 31 Active + 12 Rejected; 89 numaradan 80 dolu, 9 numara boşluk — DOĞRULAMA GEREKLİ)* |
 | Cross References | 11 |
-| Glossary Terms | 75 (SSOT: [[glossary]]) |
-| Forbidden Patterns | 11 |
+| Glossary Terms | 94 (ölçüm 2026-10-06: §2 32 kanonik + §2.1 11 ekosistem + §3 51 teknoloji; SSOT: [[glossary]]) |
+| Forbidden Patterns | 14 |
 | Edge Cases | 9 |
 | Skills | 10 |
 | Agent Profiles | 11 |
@@ -791,6 +835,15 @@ Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
 
 ---
 
+## Master Engineering System (Pointer — 2026-10-01)
+
+Bu dosya ikinci kaynak değildir; gömülü Master Engineering System bağlamı kök boot dosyasındadır:
+
+| İçerik | Konum |
+|:---|:---|
+| 16 adımlık yaşam döngüsü · 10 yasak · Zero-Hallucination (§7 Guardrail #3) · final rule | [[../CLAUDE.md]] § Master Engineering System |
+| Diyagramlar D1/D2/D3 · Prompt Maker akışı · boot akışı (START → END) | [[WORKFLOW.md]] §8.9-§8.10 |
+
 ## References
 
 ### §3 Terminology (Stub)
@@ -823,6 +876,7 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault restructuring, PHP 8.4, port 81 | Active |
 | [[brain.md]] ADR-044-dynamic-user-theme-engine | Dynamic theme engine | Active |
 | [[.decisions/accepted/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Accepted |
+| [[.decisions/accepted/ADR-090-channel-variant-product-family]] | Kanal varyant ürün ailesi (mono → 8+1 SKU), maliyet kademesi, SKU politikası — Accepted 2026-09-26 | Accepted |
 
 ---
 
@@ -834,7 +888,8 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 | [[WORKFLOW.md]] | Süreçler, fazlar, workflow'lar |
 | [[index.md]] | Master katalog, tüm vault yapısı |
 | [[keys.md]] | Keyword haritası, yönlendirme |
-| [[brain.md]] | Mimari kararlar, ADR 001-089 |
+| [[RAG]] | Retrieval indeksi (konu→dosya, §3) + pipeline tasarımı (§4, PLANNED — ADR-030) — AI'ın ilk okuma hedefini seçmesi için (2026-10-07) |
+| [[brain.md]] | Mimari kararlar — metin kararları ADR 001-089 (ADR-090 yalnız fiziksel dosyadadır; brain.md'de yok — ölçüm 2026-09-27) |
 | [[MEMORY.md]] | Session hafızası, persistent state |
 | [[log.md]] | Audit trail, append-only günlük |
 | [[engine.md]] | Orkestrasyon motoru, task dispatch |
@@ -878,15 +933,12 @@ Her oturum başlangıcında sırayla okunur:
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 5 Mimari | [[architecture/k0-isletim-sistemi]] | L0-L6 katmanları |
 | § 6 Middleware | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] | Middleware sırası |
 | § 9 Paneller | [[brain.md]] ADR-043-auth-subdomain-consolidation | Auth konsolidasyonu |
 | § 12 Teknoloji | [[brain.md]] | Tech stack detayları |
 | § 15 Tema | [[brain.md]] ADR-044-dynamic-user-theme-engine | Theme engine |
-| § 18 DB | architecture/k0-k5-software/k5-data-layer/database_master ⚠️ DEAD (faz6-D): architecture/k0-k5-software/k5-data-layer/database_master — k0-k5-software dizini yok; eşdeğer kanıtlanamadı | 18 BCNF şemaları |
-| § 19 Audio | [[architecture/k3-ses-motoru]] | Audio engine |
+| § 18 DB | [[.sql/mysql]] | 18 BCNF şemaları |
 | § 20 ADR | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault standardı |
-| § 20A Master Plan | architecture/03-contracts/master-implementation-plan ⚠️ DEAD (faz6-D): architecture/03-contracts/master-implementation-plan — 03-contracts dizini yok; ADR-087 dosyası da yok | 5 faz, 40 gün implementasyon |
 | § 20B ADR-087 | [[brain.md]] ADR-087-master-implementation-plan | Master plan ADR |
 | § 12A UI Design | [[ui-design/01-mockup-index]] | 19 PNG Mockup, C01-C16, 1024x600 SSOT |
 
@@ -931,5 +983,5 @@ Agent listesi ve profil tablosu (11 agent): [[AGENTS.md]] §4 (Agent Overview) v
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode

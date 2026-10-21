@@ -178,7 +178,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | `index/` | 5 md | Master katalog hub alt sayfaları (01-05) |
 | `.png/` | 19 PNG + 4 md | Görsel SSOT (salt okunur) |
 | `servers/` | 3 md | Sunucu/kurulum notları |
-| `SESSIONS/` | 3 md | Session kayıtları (2026-10-14 runtime-os-gruplar eklendi) |
+| `SESSIONS/` | 11 md | Session kayıtları (ölçüm 2026-10-21; son eklenen: 2026-10-21-13-skill-v3-rewrite) |
 | `.obsidian/` | 5 dosya | Obsidian yapılandırması |
 | `.rules/` | 1 md | `senior-mode.md` (error-recovery.md YOK) |
 | `prompts/` | — | **DİZİN YOK** (2026-10-15 `Test-Path=False`; 2026-10-12 "boş dizin" iddiası geçersiz — dizin hiç var olmamış/taşınmış) |
