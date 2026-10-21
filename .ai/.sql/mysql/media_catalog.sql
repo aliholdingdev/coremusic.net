@@ -5,7 +5,9 @@
 -- Görev: ADR-092 §5.2 adım 6 — "MySQL türetilmiş indeks"
 -- Author: CoreMusic Data Engineer
 -- Date: 2026-10-21 (v1.0.0: 2026-09-29)
--- Version: 1.0.1 (forward-only — rollback yok) · `mod` reserved-word backtick düzeltmesi
+-- Version: 1.0.2 (forward-only — rollback yok) · asset UK gömme (uq_asset_album_sira
+--   + uk_asset_slug — fix_constraints_20261021 D-7 takibi; slug tekilliği ODKU
+--   sessiz birleşmesini engeller, scan.php MySQL yazarı UK bilinçli guard'a sahiptir)
 --
 -- SSOT (Tek Doğruluk Kaynağı) = yan JSON dosyalarıdır:
 --   media.coremusic.net/config/media.schema.json  (schema: 2)
@@ -192,12 +194,13 @@ CREATE TABLE asset (
   PRIMARY KEY (id),
   UNIQUE KEY uk_asset_dosya_yolu (dosya_yolu),
   UNIQUE KEY uk_asset_sha256 (sha256),
+  UNIQUE KEY uk_asset_slug (slug),
   INDEX idx_asset_album_id (album_id),
   INDEX idx_asset_sanatci_id (sanatci_id),
   INDEX idx_asset_koleksiyon_id (koleksiyon_id),
   INDEX idx_asset_tip (tip),
   INDEX idx_asset_durum (durum),
-  INDEX idx_asset_album_sira (album_id, sira),
+  UNIQUE KEY uq_asset_album_sira (album_id, sira),
   FULLTEXT INDEX ftx_asset_baslik (baslik),
   CONSTRAINT fk_asset_album FOREIGN KEY (album_id)
     REFERENCES album(id) ON DELETE SET NULL ON UPDATE CASCADE,

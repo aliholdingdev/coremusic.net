@@ -154,7 +154,9 @@ final class CatalogWriter
      *
      * ADR-002: yalnız PDO prepared statement · `SELECT *` YOK · ORM YOK.
      * Herhangi bir satır hatası (FK, teklik) o satırı atlar ve uyarı döner —
-     * tarama JSONL ile zaten başarılı sayılır.
+     * tarama JSONL ile zaten başarılı sayılır. `asset` tablosunda D-7 UK'ları
+     * (uq_asset_album_sira · uk_asset_slug) için "ilk kazanır" guard'ı çalışır:
+     * çakışan hücre yazılmaz, `slug-tekillik`/`sira-tekillik` uyarısı döner.
      *
      * @param list<array{tip: string, veri: array<string, mixed>, yol: string}> $hucreler
      * @param bool                                                                $rebuild true → varlık tablolarını boşaltıp baştan doldurur
@@ -188,6 +190,20 @@ final class CatalogWriter
                 }
             }
 
+            // D-7 UK guard tabanı: asset tablosundaki mevcut anahtarlar (rebuild'de
+            // DELETE sonrası boş → yalnız toplu-içi çakışma; incremental'de mevcut
+            // satırlar da haritada → eski kaydın üzerine yazma (takeover) engellenir).
+            $slugHarita = [];
+            $siraHarita = [];
+            if (!$rebuild) {
+                foreach ($pdo->query('SELECT slug, dosya_yolu, album_id, sira FROM asset') as $mevcut) {
+                    $slugHarita[(string) $mevcut['slug']] = (string) $mevcut['dosya_yolu'];
+                    if ($mevcut['album_id'] !== null) {
+                        $siraHarita[$mevcut['album_id'] . '|' . $mevcut['sira']] = (string) $mevcut['dosya_yolu'];
+                    }
+                }
+            }
+
             foreach ($hucreler as $hucre) {
                 $tip = (string) ($hucre['tip'] ?? '');
                 $veri = is_array($hucre['veri'] ?? null) ? $hucre['veri'] : [];
@@ -205,10 +221,36 @@ final class CatalogWriter
                     continue;
                 }
 
+                // D-7 guard: slug / (album_id, sira) tekilliği — ilk kazanır, çakışan
+                // hücre yazılmaz (ODKU sessiz birleştirme yapmasın diye).
+                if ($tablo === 'asset') {
+                    $slugDeger = (string) ($sutunlar['slug'] ?? '');
+                    if (isset($slugHarita[$slugDeger]) && $slugHarita[$slugDeger] !== $yol) {
+                        $uyari[] = 'slug-tekillik: "' . $slugDeger . '" zaten "'
+                            . $slugHarita[$slugDeger] . '" kaydinda, atlandi';
+                        continue;
+                    }
+                    $albumDeger = $sutunlar['album_id'] ?? null;
+                    if ($albumDeger !== null && $albumDeger !== '') {
+                        $siraAnahtar = $albumDeger . '|' . ($sutunlar['sira'] ?? '');
+                        if (isset($siraHarita[$siraAnahtar]) && $siraHarita[$siraAnahtar] !== $yol) {
+                            $uyari[] = 'sira-tekillik: "' . $siraAnahtar . '" zaten "'
+                                . $siraHarita[$siraAnahtar] . '" kaydinda, atlandi';
+                            continue;
+                        }
+                    }
+                }
+
                 try {
                     $st = $pdo->prepare(self::upsertSql($tablo, array_keys($sutunlar), $pk));
                     $st->execute($sutunlar);
                     $yazildi++;
+                    if ($tablo === 'asset') {
+                        $slugHarita[(string) ($sutunlar['slug'] ?? '')] = $yol;
+                        if (($sutunlar['album_id'] ?? null) !== null && $sutunlar['album_id'] !== '') {
+                            $siraHarita[$sutunlar['album_id'] . '|' . ($sutunlar['sira'] ?? '')] = $yol;
+                        }
+                    }
                 } catch (\Throwable $e) {
                     $uyari[] = $yol . ' => MySQL satir hatasi: ' . $e->getMessage();
                 }
