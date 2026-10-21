@@ -87,6 +87,23 @@ if ($requestUri === '/health') {
     exit;
 }
 
+// Geliştirme/test ortamında Figma ekranlarını doğrulamak için güvenli dev-login
+if (defined('DEBUG_MODE') && DEBUG_MODE && $requestUri === '/dev-login') {
+    SessionBootstrapper::ensureStarted();
+    $authBridge = new AdminAuthBridge();
+    $authBridge->establishSession([
+        'id'           => 'adm-uuid-001',
+        'username'     => 'Bayram Ali',
+        'email'        => 'admin@coremusic.net',
+        'display_name' => 'Bayram Ali',
+        'account_type' => 'admin',
+        'avatar_url'   => '',
+        'gender'       => 'female',
+    ]);
+    header('Location: /admin-dashboard', true, 302);
+    exit;
+}
+
 // G2 (2026-10-19): admin host'ta /login ve /register → lokal Figma formları.
 // Kernel'e taşınsa AuthGuard::checkAuthRedirectRoute (shared AuthRouteConfig)
 // bu URI'leri auth.coremusic.net'e yönlendirirdi — admin host'ta auth redirect

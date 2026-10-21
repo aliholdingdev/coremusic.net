@@ -28,3 +28,9 @@
   height: var(--adm-canvas-h);
   overflow: hidden;
 }
+
+/* Genel gizleme yardımcısı (inline style yerine CSP uyumlu) */
+.adm-u-hidden {
+  display: none !important;
+}
+

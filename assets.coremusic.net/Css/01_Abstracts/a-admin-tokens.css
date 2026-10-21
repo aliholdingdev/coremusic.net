@@ -394,10 +394,9 @@
 
   /* ---------------------------------------------------------------------------
    * 16) ARKA PLAN (2161:12500 / 12507 / 12530 — IMAGE FILL 1920×1080)
-   * ⚠️ Romantic_Background_03 dosya yolu bilinmiyor → uydurulmadı (Görev A /
-   * asset tarafı setlemeli; HTML inline style veya class ile bağlanır).
+   * Doğrulandı: Golden Gate Bridge arka planı Image/background/admin-login-bg.png
    * ------------------------------------------------------------------------ */
-  --adm-bg-image: none;
+  --adm-bg-image: url('../../Image/background/admin-login-bg.png');
   --adm-bg-size: cover;
   --adm-bg-pos: center;
 }
