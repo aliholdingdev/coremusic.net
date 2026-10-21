@@ -24,7 +24,7 @@ use CoreMusic\Security\JwtService;
  *   başarı → {success:true, data:{...}}   (forgot/reset → {success:true, message})
  *   hata   → {error:{code,message}}       (422 → + error.fields)
  */
-final class AuthController
+final class AuthController extends AbstractController
 {
     private const FORGOT_MESSAGE = 'Sıfırlama bağlantısı gönderildi.';
     private const RESET_MESSAGE  = 'Şifreniz sıfırlandı.';
@@ -161,7 +161,10 @@ final class AuthController
             return $this->error('UNAUTHORIZED', 'Authentication required', 401);
         }
 
-        return $this->success(['user' => $this->shapeUser($user)]);
+        return $this->success([
+            'user'       => $this->shapeUser($user),
+            'csrf_token' => $this->csrfToken(),
+        ]);
     }
 
     // ─── Contract shaping ───
@@ -178,9 +181,12 @@ final class AuthController
         $authKey = (string) ($result['auth_key'] ?? '');
 
         $payload = [
-            'auth_key' => $authKey,
-            'redirect' => $this->resolveRedirect($body, $authKey),
-            'user'     => $this->shapeUser(is_array($result['user'] ?? null) ? $result['user'] : []),
+            'auth_key'   => $authKey,
+            'redirect'   => $this->resolveRedirect($body, $authKey),
+            'user'       => $this->shapeUser(is_array($result['user'] ?? null) ? $result['user'] : []),
+            // Faz 3: hibrit CSRF dağıtımı — login sonrası istemci x-csrf-token
+            // başlığını bu değerle gönderir (SessionLifecycle üretir; middleware okur).
+            'csrf_token' => $this->csrfToken(),
         ];
 
         // P1-9 (B-F-01): hybrid auth — API istemcisine RS256 access token üret.
@@ -219,6 +225,14 @@ final class AuthController
             'email'    => (string) ($user['email'] ?? ''),
             'gender'   => $gender !== '' ? $gender : 'neutral',
         ];
+    }
+
+    /** Session'daki CSRF token (SessionLifecycle üretir; boşsa boş döner). */
+    private function csrfToken(): string
+    {
+        $token = $this->session->get('csrf_token');
+
+        return is_string($token) ? $token : '';
     }
 
     /**
@@ -292,64 +306,5 @@ final class AuthController
 
         return $this->error('VALIDATION_ERROR', 'Validation failed', 422, ['fields' => $fields]);
     }
-
-    // ─── Primitives ───
-
-    /** @param array<string, mixed> $data */
-    private function success(array $data): array
-    {
-        http_response_code(200);
-
-        return ['success' => true, 'data' => $data];
-    }
-
-    /** @param array<string, mixed> $extra */
-    private function error(string $code, string $message, int $status, array $extra = []): array
-    {
-        http_response_code($status);
-
-        return ['error' => ['code' => $code, 'message' => $message] + $extra];
-    }
-
-    /**
-     * Gövde çözümleme: test/önceden çözülmüş gövde yoksa php://input (JSON).
-     *
-     * @param array<string, mixed> $request
-     * @return array<string, mixed>
-     */
-    private function body(array $request): array
-    {
-        if (array_key_exists('body', $request)) {
-            $body = $request['body'];
-            if (is_array($body)) {
-                return $body;
-            }
-            if (is_string($body)) {
-                $decoded = json_decode($body, true);
-
-                return is_array($decoded) ? $decoded : [];
-            }
-
-            return [];
-        }
-
-        $contentType = strtolower((string) ($request['server']['CONTENT_TYPE'] ?? $_SERVER['CONTENT_TYPE'] ?? ''));
-        if (str_contains($contentType, 'application/x-www-form-urlencoded')) {
-            return $_POST;
-        }
-
-        $raw = file_get_contents('php://input');
-        if ($raw === false || trim($raw) === '') {
-            return [];
-        }
-        $decoded = json_decode($raw, true);
-
-        return is_array($decoded) ? $decoded : [];
-    }
-
-    /** @param array<string, mixed> $request */
-    private function clientIp(array $request): string
-    {
-        return (string) ($request['server']['REMOTE_ADDR'] ?? $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1');
-    }
+    // Primitives (success/error/body/clientIp) — AbstractController'a taşındı (Faz 3).
 }

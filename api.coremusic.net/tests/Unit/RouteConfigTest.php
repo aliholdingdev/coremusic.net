@@ -205,4 +205,60 @@ final class RouteConfigTest extends TestCase
     {
         $this->assertArrayNotHasKey('validation', $this->routes['POST']['/api/v1/auth/logout']);
     }
+
+    // ─── Faz 3: controller iskeleti route kayıtları (Faz 4 yuvası) ───
+
+    /**
+     * Yeni uçlar implemented:false → 405 korunur (Faz 4 öncesi controller yok);
+     * action anahtarları Faz 4'te implemented:true yapılınca dispatch'e hazır.
+     */
+    public function testPhase3NewRoutesAreDeclaredButNotImplemented(): void
+    {
+        $getExpectations = [
+            '/api/v1/music/tracks' => 'tracks',
+            '/api/v1/music/search' => 'search',
+            '/api/v1/music/track'  => 'show',
+            '/api/v1/user/profile' => 'profile',
+        ];
+        foreach ($getExpectations as $path => $action) {
+            $result = $this->table->match($path, 'GET');
+            $this->assertSame(
+                RouteTable::STATUS_METHOD_NOT_ALLOWED,
+                $result['status'],
+                "{$path} Faz 4 öncesi 405 korunmalı (implemented:false)"
+            );
+            $this->assertSame($action, $result['route']['action'] ?? null, "{$path} action Faz 4 dispatch'ine hazır");
+            $this->assertFalse((bool) ($result['route']['implemented'] ?? true));
+        }
+
+        foreach (['/api/v1/playlist' => 'create', '/api/v1/playlist/tracks' => 'addTrack'] as $path => $action) {
+            $result = $this->table->match($path, 'POST');
+            $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $result['status'], "{$path} POST Faz 4 öncesi 405");
+            $this->assertSame($action, $result['route']['action'] ?? null);
+        }
+
+        $put = $this->table->match('/api/v1/user/profile', 'PUT');
+        $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $put['status']);
+        $this->assertSame('updateProfile', $put['route']['action'] ?? null);
+    }
+
+    public function testPhase3PlaylistRoutesCarryValidationRules(): void
+    {
+        $create = $this->routes['POST']['/api/v1/playlist']['validation'] ?? null;
+        $this->assertIsArray($create, 'POST /api/v1/playlist validation kural seti (Faz 4 422 kapısı)');
+        $this->assertTrue((bool) ($create['name']['required'] ?? false));
+
+        $addTrack = $this->routes['POST']['/api/v1/playlist/tracks']['validation'] ?? null;
+        $this->assertIsArray($addTrack);
+        $this->assertTrue((bool) ($addTrack['playlist_id']['required'] ?? false));
+        $this->assertTrue((bool) ($addTrack['track_id']['required'] ?? false));
+    }
+
+    public function testPhase3PrivateRoutesAreNotPublic(): void
+    {
+        $this->assertFalse((bool) ($this->routes['GET']['/api/v1/user/profile']['public'] ?? true));
+        $this->assertFalse((bool) ($this->routes['POST']['/api/v1/playlist']['public'] ?? true));
+        $this->assertFalse((bool) ($this->routes['PUT']['/api/v1/user/profile']['public'] ?? true));
+        $this->assertTrue((bool) ($this->routes['GET']['/api/v1/music/tracks']['public'] ?? false));
+    }
 }

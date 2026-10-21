@@ -46,6 +46,38 @@ return [
             'public'      => false,
             'implemented' => true,
         ],
+
+        // ─── Faz 3: müzik uçları (Faz 4 yuvası — implemented:false → 405 korunur) ───
+        '/api/v1/music/tracks' => [
+            'service'     => 'music',
+            'handler'     => 'musicController',
+            'action'      => 'tracks',
+            'public'      => true,
+            'implemented' => false,
+        ],
+        '/api/v1/music/search' => [
+            'service'     => 'music',
+            'handler'     => 'musicController',
+            'action'      => 'search',
+            'public'      => true,
+            'implemented' => false,
+        ],
+        '/api/v1/music/track' => [
+            'service'     => 'music',
+            'handler'     => 'musicController',
+            'action'      => 'show',
+            'public'      => true,
+            'implemented' => false,
+        ],
+
+        // ─── Faz 3: kullanıcı profili (Faz 4 yuvası) ───
+        '/api/v1/user/profile' => [
+            'service'     => 'user',
+            'handler'     => 'userController',
+            'action'      => 'profile',
+            'public'      => false,
+            'implemented' => false,
+        ],
     ],
 
     'POST' => [
@@ -115,6 +147,40 @@ return [
             'action'      => 'logout',
             'public'      => false,
             'implemented' => true,
+        ],
+
+        // ─── Faz 3: oynatma listesi (Faz 4 yuvası — implemented:false → 405 korunur) ───
+        '/api/v1/playlist' => [
+            'service'     => 'playlist',
+            'handler'     => 'playlistController',
+            'action'      => 'create',
+            'public'      => false,
+            'implemented' => false,
+            'validation'  => [
+                'name' => ['required' => true, 'type' => 'string', 'min' => 1, 'max' => 100],
+            ],
+        ],
+        '/api/v1/playlist/tracks' => [
+            'service'     => 'playlist',
+            'handler'     => 'playlistController',
+            'action'      => 'addTrack',
+            'public'      => false,
+            'implemented' => false,
+            'validation'  => [
+                'playlist_id' => ['required' => true, 'type' => 'string'],
+                'track_id'    => ['required' => true, 'type' => 'string'],
+            ],
+        ],
+    ],
+
+    // ─── Faz 3: profil güncelleme (Faz 4 yuvası — implemented:false → 405 korunur) ───
+    'PUT' => [
+        '/api/v1/user/profile' => [
+            'service'     => 'user',
+            'handler'     => 'userController',
+            'action'      => 'updateProfile',
+            'public'      => false,
+            'implemented' => false,
         ],
     ],
 ];

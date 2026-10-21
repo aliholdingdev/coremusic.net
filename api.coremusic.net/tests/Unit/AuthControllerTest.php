@@ -327,4 +327,42 @@ final class AuthControllerTest extends TestCase
         $this->assertSame('female', $session->getGender(), 'cm_gender session\'e yazılmalı (gender gate)');
         $this->assertSame('/login', $result['data']['redirect']);
     }
+
+    /** Faz 3: hibrit CSRF dağıtımı — login/me data.csrf_token. */
+    public function testLoginAndMeExposeCsrfTokenFromSession(): void
+    {
+        $session = new ApiSessionManager();
+        $session->set('csrf_token', 'csrf-test-token');
+
+        $login = $this->handle(
+            $this->controller([], $session),
+            'login',
+            ['email' => 'demo@example.com', 'password' => 'uzun-sifre-123'],
+        );
+        $this->assertSame(
+            'csrf-test-token',
+            $login['data']['csrf_token'] ?? null,
+            'Faz 3: login data.csrf_token dağıtılır (SessionLifecycle kaynağı)'
+        );
+
+        $me = $this->handle($this->controller([], $session), 'me');
+        $this->assertSame(
+            'csrf-test-token',
+            $me['data']['csrf_token'] ?? null,
+            'Faz 3: me data.csrf_token dağıtılır'
+        );
+    }
+
+    /** Faz 3: token yoksa csrf_token boş string (sözleşme alanı yine mevcut). */
+    public function testLoginExposesEmptyCsrfTokenWhenSessionHasNone(): void
+    {
+        $result = $this->handle(
+            $this->controller([], new ApiSessionManager()),
+            'login',
+            ['email' => 'demo@example.com', 'password' => 'uzun-sifre-123'],
+        );
+
+        $this->assertArrayHasKey('csrf_token', $result['data']);
+        $this->assertSame('', $result['data']['csrf_token']);
+    }
 }
