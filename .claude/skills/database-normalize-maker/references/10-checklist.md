@@ -1,64 +1,54 @@
-# 10. QA Kontrol Listesi (25 Madde)
+# 10 — QA Kontrol Listesi
 
-## Genel Bakış
+> Teslim öncesi detaylı denetim. Kalite kapısı ile birlikte çalışır:
+> [checklist.md](checklist.md) (PASS/BLOCK) buradaki maddelerin hızlı sürümüdür.
 
-SQL çıktısı üretilmeden önce bu kontrol listesi çalıştırılır. Herhangi bir madde başarısız olursa çıktı üretilmez.
+## Tablo yapısı
 
-## Tablo Yapısı (5 madde)
+- [ ] Her tablonun PRIMARY KEY'i var.
+- [ ] PK `BIGINT UNSIGNED AUTO_INCREMENT` (veya gerekçeli natural key).
+- [ ] Engine `InnoDB`, charset `utf8mb4`, collation tutarlı.
+- [ ] `created_at`, `updated_at`, `deleted_at` var (varlık tabloları).
+- [ ] Kolon tipleri doğru: `DECIMAL` para, `DATE/DATETIME/TIMESTAMP` tarih.
 
-- [ ] Her tablonun PRIMARY KEY'i var mı? (`id BIGINT UNSIGNED AUTO_INCREMENT`)
-- [ ] Tüm BIGINT UNSIGNED mi? (INT, SMALLINT yerine)
-- [ ] Charset ve Collation tanımlı mı? (`utf8mb4_unicode_ci`)
-- [ ] Engine InnoDB mi? (`ENGINE=InnoDB`)
-- [ ] Timestamp kolonları var mı? (`created_at`, `updated_at`, `deleted_at`)
+## İlişkiler
 
-## İlişkiler (4 madde)
+- [ ] Her ilişki için `FOREIGN KEY` + `ON DELETE/UPDATE` stratejisi seçili.
+- [ ] Her FK'ya karşılık index var (`idx_{tablo}_{col}`).
+- [ ] Circular dependency yok (veya fazlandırılmış).
+- [ ] Junction'da `UNIQUE(a,b)` tekrarı engelliyor.
 
-- [ ] Tüm Foreign Key'ler doğru tanımlı mı? (`REFERENCES tablo(id)`)
-- [ ] ON DELETE stratejisi seçilmiş mi? (`CASCADE`, `RESTRICT`, `SET NULL`)
-- [ ] FK'lara index eklendi mi? (`INDEX idx_{tablo}_id ({tablo}_id)`)
-- [ ] Circular dependency yok mu? (FK zinciri döngüde olmamalı)
+## Normalizasyon
 
-## Normalizasyon (3 madde)
+- [ ] 1NF: kolonlar atomik (liste/array yok).
+- [ ] 2NF: composite PK'da kısmi bağımlılık yok.
+- [ ] 3NF: transitive bağımlılık yok.
+- [ ] BCNF: her determinant superkey.
+- [ ] Denormalizasyon varsa ADR gerekçeli + source-of-truth belli.
 
-- [ ] Tüm tablolar BCNF uyumlu mu? (1NF → 2NF → 3NF → BCNF)
-- [ ] `SELECT *` kullanılmamış mı? (açık kolon listesi)
-- [ ] Denormalizasyon varsa ADR ile gerekçelendirilmiş mi?
+## Güvenlik
 
-## Güvenlik (3 madde)
+- [ ] PII şifreli/AEAD; anahtar şemada değil.
+- [ ] Kritik tablo için `_audit` + trigger.
+- [ ] Hard delete yok (soft delete).
+- [ ] `SELECT *` yok, sabit secret yok.
 
-- [ ] PII alanları şifreli mi? (`ssn`, `credit_card` → AES-256-GCM)
-- [ ] Audit tabloları var mı? (kritik tablolar için `_audit` tablosu)
-- [ ] Hard delete yerine soft delete kullanılıyor mu? (`deleted_at`)
+## Performans
 
-## Performans (3 madde)
+- [ ] Sık WHERE/ORDER kolonları index'li.
+- [ ] Composite index sıralaması equality → range/sort.
+- [ ] `EXPLAIN`/`EXPLAIN ANALYZE` (8.0.18+) ile kanıtlanmış.
+- [ ] Over-indexing yok; N+1 yok.
 
-- [ ] Sık sorgulanan kolonlara index eklendi mi?
-- [ ] Composite index sıralaması doğru mu? (equality primero)
-- [ ] Over-indexing yok mu? (her index yazma yavaşlatır)
+## Migration
 
-## Migration (3 madde)
+- [ ] Tehlikeli değişiklik expand-contract.
+- [ ] Backfill batch (lock kısa).
+- [ ] Forward-only; geri dönüş planı yazılı.
+- [ ] Prod DDL için root onayı.
 
-- [ ] Geri dönüş (down) migration var mı?
-- [ ] Expand-contract pattern uygulandı mı? (tehlikeli değişikliklerde)
-- [ ] Veri kaybı riski yok mu?
+## Genel
 
-## Genel (4 madde)
-
-- [ ] Tüm tabloların adı doğru mu? (snake_case, çoğul)
-- [ ] Tüm kolonların adı doğru mu? (snake_case)
-- [ ] Constraint adlandırma tutarlı mı? (`uk_`, `idx_`, `fk_`)
-- [ ] Tüm SQL komutları MySQL 9 uyumlu mu?
-
-## Toplam: 25 Madde
-
-| Kategori | Madde Sayısı |
-|----------|-------------|
-| Tablo Yapısı | 5 |
-| İlişkiler | 4 |
-| Normalizasyon | 3 |
-| Güvenlik | 3 |
-| Performans | 3 |
-| Migration | 3 |
-| Genel | 4 |
-| **Toplam** | **25** |
+- [ ] Tablo/kolon `snake_case`; constraint adları tutarlı (`uk_`, `idx_`, `fk_`).
+- [ ] Seed veri gerçek PII içermiyor.
+- [ ] ER diyagramı + veri sözlüğü güncel.

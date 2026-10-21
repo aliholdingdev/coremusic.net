@@ -3,6 +3,27 @@
 Format: [Keep a Changelog](https://keepachangelog.com/) mantığı; sürüm alanı
 `metadata.version` (frontmatter) ile senkron.
 
+## [4.1.0] — 2026-10-21
+
+**Dalga 2 kalite derinliği (tamamlama — komple yeniden yazım DEĞİL).** 4.0.0
+içeriği korundu; yalnız derinlik eklendi.
+
+### Added
+- `references/checklist.md` (yeni, N4 linkli) — biçim kapıları (N1-N10) + RT/ölçüm
+  kapıları; **doldurulmuş PASS/BLOCK sonuçlarıyla**
+- §15 "Senaryo Reçeteleri" — 3 sık vaka: gecikme düşürme (A), cihaz hot-swap
+  kurtarma (B), parametre click/pop (C); her biri adım → DUR → ölçüm kapanışı
+- §16 "Bütçe Matematiği" — sampleRate × buffer → deadline ms tablosu
+  (44.1/48/96/192 kHz × 128/256/512/1024) + 5 karar kuralı
+- §17 "Senior Perspektif — Sessiz Kapanan Hatalar" — 10 satır denetim masası +
+  4 kırmızı çizgi
+- §9.3 "Soak (süreklilik) testi" — kapı 9: 30 dk kesintisiz render + bellek/CPU
+  izleme + cihaz aç/kapa ×3 + parametre stresi
+
+### Changed
+- `SKILL.md` §4 tablosuna `references/checklist.md` satırı (orphan = 0)
+- `metadata.version` 4.0.0 → 4.1.0 (yeni ek dosya + yeni bölümler → minor +1, skill-maker §11)
+
 ## [4.0.0] — 2026-10-21
 
 **Sıfırdan yeniden yazım (onaylı reset).** 3.0.0 (98 satır iskelet + 5 ek dosya)

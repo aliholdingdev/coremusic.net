@@ -134,6 +134,7 @@ Bu skill'in bağladığı sık istisna talepler; ❌ satır asla üretilmez:
 | 4 | `references/owasp-mapping.md` | **OWASP Top 10:2025** ↔ CoreMusic kontrol eşlemesi · 2021→2025 farkları · header matrisi · saldırı senaryoları · denetim derinliği | Denetim/rapor üretirken, threat check'te |
 | 5 | `references/sources.md` | Dış kaynak doğrulaması (ad · URL · erişim tarihi · ne doğrulandı) — Truth Mode kanıtı | Kaynaklı iddia yazılırken / raporlanırken |
 | 6 | `references/changelog.md` | Sürüm geçmişi **3.0.0 → 4.0.0** (git kanıtlı; 1.0.0/2.0.0 izi yok → UNKNOWN) — N10: kök `changelog[]` yok | Sürüm davranışı sorgulandığında |
+| 7 | `references/checklist.md` | Kalite kapısı: N1-N10 + kripto/auth/CSRF/CSP/PDO/middleware kapıları (PASS/BLOCK) | **Teslim öncesi son kapı** |
 
 ### §4.1 Okuma Sırası (token ekonomisi — "tümünü oku" yasak)
 

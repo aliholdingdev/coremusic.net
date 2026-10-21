@@ -1,124 +1,71 @@
-# 05. Performans Optimizasyonu
+# 05 — Performans Optimizasyonu (Index, EXPLAIN, N+1)
 
-## Genel Bakış
+> Optimizasyon tahminle değil, `EXPLAIN`/`EXPLAIN ANALYZE` (8.0.18+) ile ölçülür.
+> Kanıtsız “yavaş” iddiası yasak.
 
-Veritabanı performansı, doğru index seçimi, sorgu optimizasyonu ve kaynak kullanımı ile sağlanır.
+## Index tasarım ilkeleri
 
-## 1. İndeks Tasarım Stratejisi
+| Kural | Gerekçe |
+|-------|---------|
+| Her FK'ya index | InnoDB JOIN/DELETE/FK kontrolü index ister |
+| Covering index | SELECT kolonları index'te → `Using index`, table access yok |
+| Equality → equality → range/sort | Composite index soldan sağa okunur; range sonrası kolon verimsiz |
+| Over-indexing kaçın | Her index INSERT/UPDATE/DELETE maliyeti + disk |
+| Prefix index yalnız uzun string | `KEY (name(30))` — tam unique değil |
+| Sorgu sırasını index'e uydur | ORDER BY/GROUP BY index sırasıyla eşleşirse filesort önlenir |
 
-### Hangi Sorgu Kalıbı Hangi Index'i Gerektirir?
-
-| Sorgu Kalıbı | Index Tipi | Örnek |
-|---------------|------------|-------|
-| Eşleşme (equality) | B-tree | `WHERE status = 'active'` |
-| Aralık (range) | B-tree | `WHERE created_at > '2024-01-01'` |
-| Sıralama (sort) | B-tree | `ORDER BY created_at DESC` |
-| Full-text arama | FULLTEXT | `WHERE name MATCH 'keyword'` |
-| JSON alanı | Virtual column + index | `JSON_EXTRACT(metadata, '$.key')` |
-| Çoklu sütun WHERE | Composite index | `WHERE user_id = 1 AND status = 'active'` |
-
-### Composite Index Sıralama Kuralı
-
-```
-Composite index: (equality_first, equality_second, range_or_sort)
-```
+## Composite index sıralama
 
 ```sql
--- Sorgu: WHERE user_id = ? AND status = ? ORDER BY created_at DESC
--- Doğru index:
-CREATE INDEX idx_user_status_date ON orders(user_id, status, created_at);
+-- Sorgu: WHERE user_id=? AND status=? ORDER BY created_at DESC
+CREATE INDEX idx_orders_user_status_created ON orders (user_id, status, created_at);
 ```
 
-### İndeks Kuralları
+Eşitlik kolonları önce, range/ORDER kolonu en son.
 
-| Kural | Açıklama |
-|-------|----------|
-| Her FK'ya index | `FOREIGN KEY (user_id)` → `INDEX idx_user_id (user_id)` |
-| Sık sorgulanan kolonlara | `WHERE email = ?` → `INDEX idx_email (email)` |
-| ORDER BY kolonlarına | `ORDER BY created_at` → `INDEX idx_created_at (created_at)` |
-| Composite: equality primero | `WHERE a = ? AND b > ?` → `INDEX (a, b)` |
-| Over-indexing kaçın | Her index yazma işlemini yavaşlatır |
-| Prefix index | Uzun string için: `INDEX idx_name (name(20))` |
+## EXPLAIN okuma tablosu
 
-### İndeks Takibi
+| Alan | Tehlikeli değer | Aksiyon |
+|------|-----------------|---------|
+| `type` | `ALL` (full scan) | İlgili kolona/composite index |
+| `key` | `NULL` | Index eşleşmedi; predicate/index sırası |
+| `Extra` | `Using filesort` | ORDER BY'ı index sırasına uydur |
+| `Extra` | `Using temporary` | GROUP BY/JOIN için composite index |
+| `Extra` | `Using index` | Covering — iyi |
+| `rows` | Çok yüksek | Kapsamı daralt |
 
 ```sql
--- Kullanılmayan index'leri bul
-SELECT * FROM performance_schema.table_io_waits_summary_by_index_usage
-WHERE INDEX_NAME IS NOT NULL AND COUNT_READ = 0;
+EXPLAIN SELECT u.id, u.email, o.total
+FROM users u JOIN orders o ON o.user_id = u.id
+WHERE u.deleted_at IS NULL AND o.status = 'paid';
 
--- Kullanılmayan index'i sil
-DROP INDEX idx_unused ON users;
+EXPLAIN ANALYZE SELECT ... ;  -- 8.0.18+: gerçek süre + actual rows
 ```
 
-## 2. Aşırı İndeksleme Tuzağı
+## N+1 tespiti ve çözümü
 
-| Durum | Öneri |
-|-------|-------|
-| Write-Heavy tablo | Minimum index (sadece PK + FK) |
-| Read-Heavy tablo | Kapsayıcı index'ler ekle |
-| Hybrid tablo | Sorgu kalıplarına göre optimize et |
-
-## 3. JSON İndeksleme
-
-MySQL'de JSON kolonlarına doğrudan indeks atılamaz. Virtual Column oluşturulmalı:
+Belirti: döngü içinde tekrarlanan tekil SELECT (N satır → N+1 sorgu).
 
 ```sql
--- Doğru yaklaşım
-ALTER TABLE products
-    ADD COLUMN metadata_genre VARCHAR(50)
-    GENERATED ALWAYS AS (JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.genre'))) VIRTUAL,
-    ADD INDEX idx_metadata_genre (metadata_genre);
+-- KÖTÜ (N+1): her kullanıcı için ayrı SELECT
+--   SELECT ... FROM users WHERE id=?;  (N kez)
+
+-- İYİ (toplu): tek sorgu
+SELECT u.id, u.email, o.total
+FROM users u LEFT JOIN orders o ON o.user_id = u.id
+WHERE u.id IN (?, ?, ?) AND u.deleted_at IS NULL;
 ```
 
-## 4. Bölümleme (Partitioning)
+Alternatif: JOIN ile eager load; veya `WHERE EXISTS` (bazen daha hızlı).
 
->100M satır veri varsa, log tabloları tarihe göre partition'lara bölünmeli.
+## Denormalizasyon vs index
 
-```sql
--- Zaman bazlı partition (log tabloları için)
-CREATE TABLE system_logs (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    level ENUM('INFO', 'WARNING', 'ERROR') NOT NULL,
-    message TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-PARTITION BY RANGE (TO_DAYS(created_at)) (
-    PARTITION p2026_01 VALUES LESS THAN (TO_DAYS('2026-02-01')),
-    PARTITION p2026_02 VALUES LESS THAN (TO_DAYS('2026-03-01')),
-    PARTITION p_future VALUES LESS THAN MAXVALUE
-);
-```
+Önce index/covering dene; denormalizasyon son çare ve ADR'li (SKILL.md §3.4).
+Raporlama için materialized özet/`_summary` tablosu, `updated_at` ile senkron.
 
-## 5. Sorgu Optimizasyonu
+## Ölçüm disiplini
 
-| Sorun | Çözüm |
-|-------|-------|
-| `SELECT *` | Açık kolon listesi |
-| OFFSET tabanlı sayfalama | Cursor-based pagination (`WHERE id > ?`) |
-| Fonksiyonlu WHERE | SARGable sorgular |
-| N+1 sorgusu | JOIN veya batch loading |
-| `UNION` gereksiz | `UNION ALL` tercih (dedup yoksa) |
-
-```sql
--- YANLIŞ: OFFSET tabanlı (yavaş)
-SELECT id, username FROM users ORDER BY id LIMIT 20 OFFSET 10000;
-
--- DOĞRU: Cursor-based (hızlı)
-SELECT id, username FROM users WHERE id > 10000 ORDER BY id LIMIT 20;
-
--- YANLIŞ: Fonksiyonlu WHERE (index kullanmaz)
-SELECT * FROM users WHERE YEAR(created_at) = 2026;
-
--- DOĞRU: SARGable (index kullanır)
-SELECT id, username FROM users WHERE created_at >= '2026-01-01' AND created_at < '2027-01-01';
-```
-
-## 6. Transaction Performansı
-
-| Kural | Açıklama |
-|-------|----------|
-| I/O işlemi transaction dışında | Dosya okuma/yazma transaction dışında |
-| `SELECT ... FOR UPDATE` dikkatli | Sadece gerekirse |
-| Deadlock önleme | Tutarlı satır erişim sırası |
-| Batch insert | 500-5000 satır arası |
+1. `EXPLAIN` ile planı göster.
+2. `EXPLAIN ANALYZE` ile gerçek metrik al (8.0.18+).
+3. Değişiklik öncesi/sonrası karşılaştır.
+4. Index'i üretimde `online` ekle (InnoDB `ALGORITHM=INPLACE` mümkünse).

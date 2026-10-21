@@ -20,18 +20,18 @@ docType: context
 
 ## 1. Amaç
 
-`.claude/`, Claude Code'ın bu projedeki davranışını ayarlayan dosyaları tutar: boot/izin/MCP ayarları (`settings.json`, `settings.local.json`, `mcp.json`), kural-rol-süreç-envanter belgeleri (`CLAUDE.md`, `AGENTS.md`, `WORKFLOW.md`, `CONTEXT.md`), hook betikleri (`hooks/`), kural notu (`rules/`), geçici plan dizini (`plans/`), yetenek kopyaları (`skills/`), subagent tanımları (`agent/`) ve slash komutları (`command/`). Bu doküman klasörün disk envanterini (ölçüm 2026-10-12: 13 kök girdi = 7 dosya + 6 dizin; recursive 315 dosya / 47 dizin), boot sırasını ve vault ile disk arasındaki çelişkileri tanımlar; kod üretmez, yalnız okunur ve ölçümle güncellenir.
+`.claude/`, Claude Code'ın bu projedeki davranışını ayarlayan dosyaları tutar: boot/izin/MCP ayarları (`settings.json`, `settings.local.json`, `mcp.json`), kural-rol-süreç-envanter belgeleri (`CLAUDE.md`, `AGENTS.md`, `WORKFLOW.md`, `CONTEXT.md`), hook betikleri (`hooks/`), kural notu (`rules/`), geçici plan dizini (`plans/`), yetenek kopyaları (`skills/`), subagent tanımları (`agent/`) ve slash komutları (`command/`). Bu doküman klasörün disk envanterini (ölçüm 2026-10-21: 12 kök girdi = 6 dosya + 6 dizin; recursive 287 dosya / 50 dizin), boot sırasını ve vault ile disk arasındaki çelişkileri tanımlar; kod üretmez, yalnız okunur ve ölçümle güncellenir.
 
 Not: Önceki sürümün mimari katman atıfları bu revizyonda kaldırıldı; yerine yenisi üretilmedi.
 
 | Karar | Kaynak (disk) |
 |-------|---------------|
-| Kök envanter: 13 girdi (7 dosya + 6 dizin); recursive 315 dosya / 47 dizin | `list_directory` + `search_files` ölçümü (2026-10-12) |
+| Kök envanter: 12 girdi (6 dosya + 6 dizin); recursive 287 dosya / 50 dizin | PowerShell recursive ölçüm (2026-10-21) — `settings.local.json` diskte YOK |
 | Boot listesi: `instructions` 6 kayıt — 5 hedef diskte mevcut, 1 hedef diskte yok | `settings.json` okuma (2026-10-12) |
 | Hook: 3 olay (UserPromptSubmit, PreToolUse, PostToolUse) → `hooks/` 3 betik | `settings.json` `hooks` + `hooks/` sayımı |
 | MCP: `settings.json` 6 kayıt (3 tanımlı, 3 `disabled: true`) · `mcp.json` 1 kayıt | iki dosya okuma (2026-10-12) |
 | İzin allow-list: 7 satır (1 WebSearch + 6 Bash kalıbı) | `settings.local.json` okuma (2026-10-12) |
-| Sayılar: `agent/` 118 · `command/` 24 · `skills/` 13 dizin / 161 dosya | `list_directory` + recursive sayım (2026-10-12) |
+| Sayılar: `agent/` 118 · `command/` 24 · `skills/` 13 dizin / 134 dosya | recursive sayım (2026-10-21 — 13 skill Claude Skill v3.0'a sıfırdan yazıldı) |
 | Gizli anahtar değeri bu dosyada yazılmaz | REDACTED — kök `AGENTS.md` §3 |
 
 > **eli10 (basit):** Bu klasör, Claude'un bu depoda nasıl davranacağını ve hangi ek yeteneklere sahip olduğunu ayarlar; içindeki dosyalar kod değil, araç ayarı ve tanım dosyalarıdır.
@@ -59,7 +59,7 @@ Not: Önceki sürümün mimari katman atıfları bu revizyonda kaldırıldı; ye
 
 ## 3. Mimari
 
-### 3.1 Kök Envanter (13 girdi — `list_directory` ölçümü 2026-10-12)
+### 3.1 Kök Envanter (12 girdi — disk ölçümü 2026-10-21)
 
 | Katman/Dosya | Ne için | Neyden | Neden var | Ne zaman düzenlenir |
 |--------------|---------|--------|-----------|---------------------|
@@ -72,7 +72,7 @@ Not: Önceki sürümün mimari katman atıfları bu revizyonda kaldırıldı; ye
 | `mcp.json` (9 satır) | 1 MCP sunucu tanımı (`exa-mcp-server`) | `type` + `command` + `environment` — API anahtarı içerir (REDACTED) | MCP tanımı ayrı dosyada dursun | MCP tanımı değişince (onaylı) |
 | `agent/` (118 dosya) | Subagent tanımları — `Agent` tool ile çağrılan roller | 118 `.md`: frontmatter (`description`, `mode`, `model`) + rol talimatı | Görevler uzman alt-ajanlara dağıtılsın | Yeni subagent ekleme (onaylı) |
 | `command/` (24 dosya) | Slash komut tanımları — `/komut` ile tetiklenir | 24 `.md`: frontmatter + komut gövdesi | Sık işler tek tuşla yapılsın | Yeni slash komutu (onaylı) |
-| `skills/` (13 dizin, 161 dosya) | Yetenek (skill) kopyaları — Claude Skill v3.0 | 13 `SKILL.md` + references/scripts/templates/examples (yalnız sayımdır, içerik sayılmadı) | Yetenekler aracın yanında taşınsın | Skill kuralı/şablonu değişince (Guardrail #16) |
+| `skills/` (13 dizin, 134 dosya — 13 skill v3.0 reset 2026-10-21) | Yetenek (skill) kopyaları — Claude Skill v3.0 | 13 `SKILL.md` (her biri 500–2000 satır) + references/scripts/templates/examples; 13 `references/checklist.md` kalite kapısı | Yetenekler aracın yanında taşınsın | Skill kuralı/şablonu değişince (Guardrail #16) |
 | `hooks/` (3 dosya) | 3 hook betiği (çalışır kod, `.md` değil) | `skill-mandate.cjs`, `ai-risk-gate.cjs`, `ai-validate-post.cjs` | Kural hatırlatması ve kapılar her prompt/araç çağrısında çalışsın | Mandate/kapı kuralı değişince |
 | `rules/` (1 dosya) | Skill kullanım kuralının okunabilir yüzeyi | `skill-usage.md` | Mandate metni tek yerde dursun | Kök mandate değişince |
 | `plans/` (1 dosya) | Geçici plan dizini kuralı | `README.md` (6 satır) | Geçici dosya vault'a karışmasın | Kural değişince |
@@ -172,11 +172,12 @@ settings.json instructions (6 kayıt — 5 mevcut, 1 diskte yok):
 |---|------------------------------------------|---------------------------|-------|
 | 1 | Eski `CONTEXT.md` (2026-10-07): "settings.json 64 satır, instructions 4" | 126 satır; `instructions` 6 kayıt | **Disk kazanır** — bu dosya yeniden yazıldı |
 | 2 | Eski `CONTEXT.md`: "settings.local.json 10 satır, allow 3" | 13 satır; `allow` 7 satır | **Disk kazanır** |
-| 3 | Eski `CONTEXT.md`: "skills 12 dizin / 153 dosya" | 13 dizin / 161 dosya | **Disk kazanır** |
-| 4 | Eski `CONTEXT.md`: ".claude/ toplam 304 dosya" | 315 dosya / 47 dizin (recursive) | **Disk kazanır** |
+| 3 | Eski `CONTEXT.md`: "skills 12 dizin / 153 dosya" | 13 dizin / 134 dosya (2026-10-21 reset sonrası) | **Disk kazanır** |
+| 4 | Eski `CONTEXT.md`: ".claude/ toplam 304 dosya" | 287 dosya / 50 dizin (recursive, 2026-10-21) | **Disk kazanır** |
 | 5 | `WORKFLOW.md` §1 karar tablosu: "instructions[] (4 kayıt)" | 6 kayıt | **Disk kazanır** — WORKFLOW.md bu görevde değiştirilmez, yalnız işaretlenir |
 | 6 | `settings.json` `instructions` 6. kaydının hedefi | Hedef diskte YOK (0 glob isabeti) | **İşaretli kalır** — boot'ta eksik hedef; ayar değişikliği kullanıcı onayı ister |
 | 7 | `mcp.json` (1 sunucu tanımlı) ↔ `settings.json` `mcpServers` (exa `disabled: true`) | İki ayrı tanımlama yüzeyi | **Çelişki değil, iki dosya** — runtime çalışma durumu diskte değil → UNKNOWN |
+| 8 | `settings.local.json` (bu dosyanın 2026-10-12 ölçümünde 13 satır / allow 7 iddiası) | Dosya diskte YOK (2026-10-21, git status temiz — track edilmiyor) | **Disk kazanır** — allow-list iddiaları artık geçersiz; yeniden oluşturulması kullanıcı onayı ister |
 
 > **eli10 (basit):** Eski dosyadaki sayım ve boot kaydı bilgileri eskimiş; gerçeği disk söylüyor ve kazanan disk.
 > **eli15 (detay):** Çelişki tablosu ayrı tutulur çünkü dokunulmaz dosyalar düzeltilemez, yalnız işaretlenir. Okunması, hangi bilginin eski veya kanıtsız olduğunu gösterir. Yazılması, ölçüm kanıtıyla olur. Tablo olmazsa eski "4 kayıt / 12 skill" bilgisi yeni oturumları yanlış yönlendirir.
@@ -245,8 +246,8 @@ settings.json instructions (6 kayıt — 5 mevcut, 1 diskte yok):
 | 1 | Frontmatter | Şablon alan seti + `docType: context` |
 | 2 | Bölüm yapısı | §1–§7 aynı sıra, ≤3 başlık seviyesi |
 | 3 | Placeholder | Değişken yer tutucusu (çift süslü parantezli desen) kalmadı |
-| 4 | Envanter | 13 kök girdi (7 dosya + 6 dizin) + 315 dosya / 47 dizin iddiası bu oturum ölçümüyle uyumlu |
-| 5 | Sayılar | `agent/` 118 · `command/` 24 · `hooks/` 3 · `plans/` 1 · `rules/` 1 · `skills/` 13 dizin / 161 dosya · settings 126/13 satır · allow 7 |
+| 4 | Envanter | 12 kök girdi (6 dosya + 6 dizin) + 287 dosya / 50 dizin iddiası bu oturum ölçümüyle uyumlu (2026-10-21) |
+| 5 | Sayılar | `agent/` 118 · `command/` 24 · `hooks/` 3 · `plans/` 1 · `rules/` 1 · `skills/` 13 dizin / 134 dosya · settings 126 satır · `settings.local.json` diskte YOK (bkz. §3.4 satır 8) |
 | 6 | REDACTED | EXA_API_KEY değeri dosyada yok; yalnız "REDACTED" yazıldı |
 | 7 | Wiki-link | `[[...]]` formatı; §7 hedefleri diskte mevcut |
 | 8 | eli10 + eli15 | §1, §2, §3.1 (özet + her 13 madde), §3.2–§3.5, §4, §5 bloklarında çift var; eli10 en fazla 2 cümle, eli15 3-4 cümle |

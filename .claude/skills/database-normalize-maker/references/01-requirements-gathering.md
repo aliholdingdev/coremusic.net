@@ -1,58 +1,48 @@
-# 01. Requirements Gathering (Gereksinim Toplama)
+# 01 — Gereksinim Toplama
 
-## Genel Bakış
+> Şema tasarımı, doğru sorular sorulmadan başlamaz. Tahminle şema üretmek yasak.
+> Eksik bilgi varsa DUR ve sor. Bu adım SKILL.md §8 "Adım 1: MODEL" karşılığıdır.
 
-Veritabanı motoru, şema oluşturmadan önce katı bir gereksinim toplama sürecinden geçer. Eksik veya belirsiz kullanıcı taleplerine tahmin yürütülmez.
+## Zorunlu soru seti
 
-## Adım 1: Etkileşimli Protokol
+| # | Soru | Neden | Örnek cevap |
+|---|------|-------|-------------|
+| 1 | Hangi varlıklar (tablolar) gerekli? | Varlık listesi | users, orders, products |
+| 2 | İlişkiler nasıl (1:M, M:M, 1:1)? | FK tasarımı | user 1:M order |
+| 3 | Her varlığın doğal anahtarı ne? | Aday anahtar | email, (playlist_id,track_id) |
+| 4 | Hangi alanlar PII/sensitive? | Şifreleme + audit | email, ip, payment |
+| 5 | Beklenen veri miktarı/ Büyüme? | Tip + index ölçeği | 1M satır/yıl |
+| 6 | Ana sorgu kalıpları hangileri? | Index stratejisi | WHERE user_id+status ORDER BY created_at |
+| 7 | Soft delete gerekli mi? | deleted_at kolonu | evet (yasak: hard delete) |
+| 8 | Audit trail gerekli mi? | _audit tablosu | evet (kullanıcı/ödeme) |
+| 9 | Silme stratejisi (ON DELETE)? | Veri bütünlüğü | RESTRICT / CASCADE / SET NULL |
+| 10 | Hedef MySQL sürümü? | Feature kullanılabilirliği | 8.0.x (LTS) — kesin patch VERIFICATION REQUIRED |
 
-Kullanıcı talebi çok kısa veya belirsiz ise (Örn: "Bana bir e-ticaret veritabanı yap"), motor derhal kodu yazmayı durdurur ve aşağıdaki soruları sorar:
+## Gereksinim → Şema izdüşümü
 
-| Soru | Amaç | Örnek |
-|------|------|-------|
-| Domain (İş Alanı) | Uygulamanın temel iş mantığı | Müzik platformu, e-ticaret |
-| Tablolar | Hangi varlıklar gerekli? | users, products, orders |
-| İlişkiler | Tablolar arası bağlantı | One-to-many, many-to-many |
-| Ölçek | Beklenen veri büyüklüğü | <1M, 1M-100M, >100M satır |
-| Motor | Hangi veritabanı motoru? | MySQL 9 (varsayılan) |
-| Güvenlik | Şifrelenmesi gereken PII? | TC Kimlik, kredi kartı |
-| Sorgu Kalıpları | Ana sorgular hangileri? | JOIN, aggregate, filtreleme |
-| Mevcut Durum | Sıfırdan mı, taşıma mı? | Yeni proje, migration |
+| Gereksinim | Şema karşılığı |
+|-----------|----------------|
+| “Aynı kullanıcı birden fazla e-posta tutabilir” | 1:M → `user_email` tablosu (1NF) |
+| “Sipariş satırında ürün adı da görünsün” | Join mi, denormalize mi? → JOIN tercih, ADR ile değilse |
+| “Ödeme değişiklikleri denetlenmeli” | `payments_audit` + trigger |
+| “Arama metni içinde geçsin” | FULLTEXT index |
 
-## Adım 2: Eksik Bilgi Şablonu
-
-Eksik bilgi varsa kullanıcıya şu şablonu göster:
+## Eksik bilgi bildirim şablonu
 
 ```markdown
-Veritabanını tasarlayabilmem için şu bilgilere ihtiyacım var:
+Şemayı doğru tasarlamak için şu bilgilere ihtiyacım var:
 
-1. **Tablolar:** Hangi tabloları oluşturmak istiyorsunuz?
-2. **İlişkiler:** Tablolar arası nasıl ilişkiler var?
-3. **Alanlar:** Her tabloda hangi alanlar olacak?
-4. **Güvenlik:** Şifrelenmesi gereken alanlar var mı?
-5. **Ölçek:** Yaklaşık ne kadar veri bekleniyor?
-6. **Sorgular:** En sık çalıştırılacak sorgular hangileri?
+1. **Varlıklar:** Hangi tablolar? (anahtar alanlarla)
+2. **İlişkiler:** Tablolar arası nasıl bağ var?
+3. **Doğal anahtar:** Hangi alan tekliği garanti eder?
+4. **Güvenlik:** Şifrelenmesi/audit edilmesi gereken alan?
+5. **Ölçek:** Yaklaşık satır sayısı ve büyüme?
+6. **Sorgular:** En sık WHERE/ORDER BY kalıpları?
+7. **Silme:** Hangi ilişkiler CASCADE, hangileri RESTRICT?
 ```
 
-## Adım 3: Kanıt Tabanlı Çıktı
+## Çıktı
 
-Talepler alındıktan sonra oluşturulacak şemadaki kritik kararlar kanıtlarla desteklenmelidir.
-
-```sql
--- ADR-XXX: TIMESTAMP kullanıldı çünkü timezone çakışmalarını önlemek için en iyi yol bu.
--- ADR-XXX: total_price denormalize edildi çünkü raporlama ekranında çok ağır Join işlemlerini engellemek.
-```
-
-## Adım 4: CoreMusic Özel Gereksinimler
-
-CoreMusic projesi için ek gereksinimler:
-
-| Gereksinim | Detay |
-|------------|-------|
-| 11 BCNF DB | auth, users, musics, albums, playlist, catalog, logs, media, system, social, wireless |
-| MySQL 9 | `utf8mb4_unicode_ci`, `ENGINE=InnoDB` |
-| BIGINT UNSIGNED | Her PK `id BIGINT UNSIGNED AUTO_INCREMENT` |
-| Audit Trail | Kritik tablolar için `_audit` tablosu |
-| Soft Delete | `deleted_at TIMESTAMP NULL DEFAULT NULL` |
-| PDO Only | ORM yasak, sadece PDO prepared statements |
-| Snake Case | Tablo ve kolon isimleri snake_case |
+- Net varlık + ilişki listesi (gerekirse ASCII ER taslağı).
+- Aday anahtar hipotezleri (SKILL.md §3'te doğrulanır).
+- PII/audit gereksinim listesi → [04-security-audit.md](04-security-audit.md).

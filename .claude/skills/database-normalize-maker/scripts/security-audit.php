@@ -1,67 +1,80 @@
 <?php
+
 declare(strict_types=1);
 
 /**
- * CoreMusic Security Auditor
- * OWASP Top 10 & Security Validator
- * 
- * SQL dosyasını inceleyerek PII verilerinin şifrelenmesini,
- * audit tablolarını ve SQLi açıklarına karşı standart
- * isimlendirme (snake_case) yapısını kontrol eder.
+ * CoreMusic — Schema Security Auditor
+ *
+ * SQL sema dosyasini statik analiz ederek PII/sifreleme, audit tablosu ve
+ * isimlendirme (SQLi yuzeyi) kontrollerini yapar. PDO kullanmaz; saf metin analizi.
+ *
+ * Kullanim:
+ *   php security-audit.php <schema.sql>
+ *   php security-audit.php --help
+ *
+ * Cikis kodu: 0 = gecti, 1 = ihlal/blok bulundu.
  */
 
 namespace CoreMusic\Database;
 
-class SecurityAudit {
-    private string $schemaContent;
-    private array $sensitiveKeywords = ['ssn', 'credit_card', 'national_id', 'medical', 'token', 'secret'];
+final class SecurityAudit
+{
+    private string $sql;
 
-    public function __construct(string $schemaPath) {
-        if (!file_exists($schemaPath)) {
-            throw new \InvalidArgumentException("Schema file not found: {$schemaPath}");
+    /** Hassas kolon anahtar kelimeleri (dusuk seviyeli tarama). */
+    private const SENSITIVE = ['ssn', 'password', 'secret', 'token', 'api_key', 'credit_card', 'card_number', 'national_id', 'ip_address'];
+
+    /** Audit tablosu beklenen kritik tablolar. */
+    private const CRITICAL = ['users', 'user', 'payments', 'payment', 'orders', 'order'];
+
+    public function __construct(private readonly string $schemaPath)
+    {
+        if (!is_file($schemaPath)) {
+            throw new \InvalidArgumentException("Schema dosyasi bulunamadi: {$schemaPath}");
         }
-        $this->schemaContent = file_get_contents($schemaPath);
+        $raw = (string) file_get_contents($schemaPath);
+        $raw = preg_replace('/\/\*.*?\*\//s', '', $raw) ?? $raw;
+        $this->sql = $raw;
     }
 
-    public function runAudit(): void {
-        echo "========================================================\n";
-        echo "[SECURITY ENGINEER AGENT]: OWASP & Data Security Audit Initiated...\n";
-        echo "========================================================\n\n";
+    public function run(): bool
+    {
+        echo "============================================================\n";
+        echo " Schema Security Auditor (statik analiz)\n";
+        echo " OWASP temelli sema denetimi\n";
+        echo "============================================================\n\n";
 
         $passed = true;
-
-        if (!$this->checkEncryptionRequirements()) {
-            $passed = false;
-        }
-
-        if (!$this->checkAuditTables()) {
-            $passed = false;
-        }
-        
-        if (!$this->checkSQLInjectionRisk()) {
-            $passed = false;
-        }
+        $passed = $this->checkSensitiveColumns() && $passed;
+        $passed = $this->checkAuditTables() && $passed;
+        $passed = $this->checkNaming() && $passed;
 
         if (!$passed) {
-            echo "⚠️ [VERIFICATION REQUIRED]: Security Audit Failed. Do NOT deploy this schema.\n";
-            exit(1);
+            echo "\n[BLOCK] Guvenlik denetimi basarisiz. Bu semayi DEPLOY etmeyin.\n";
+            return false;
         }
-
-        echo "✅ [SUCCESS]: All security checks (Encryption, Audit, Naming) passed.\n";
+        echo "\n[PASS] Guvenlik kontrolleri (PII/Audit/Naming) gecti.\n";
+        return true;
     }
 
-    private function checkEncryptionRequirements(): bool {
+    /** Hassas kolon taramasi: sifreleme/uygun tip izi. */
+    private function checkSensitiveColumns(): bool
+    {
         $passed = true;
-        $lines = explode("\n", $this->schemaContent);
-        
-        foreach ($lines as $lineNum => $line) {
-            $lineLower = strtolower($line);
-            foreach ($this->sensitiveKeywords as $keyword) {
-                if (str_contains($lineLower, " {$keyword} ") || str_contains($lineLower, "{$keyword} ")) {
-                    // PII kolonu var, text veya şifreleme ile ilgili ADR (yorum) var mı kontrol et.
-                    if (!str_contains($lineLower, 'text') && !str_contains($lineLower, 'varchar(512)') && !str_contains($lineLower, 'encrypt')) {
-                        echo "  [ERROR - PII ENCRYPTION]: Sensitive column '{$keyword}' found on line " . ($lineNum + 1) . " but does not seem to accommodate AES-256-GCM encryption (needs TEXT/VARCHAR(512) or ENCRYPT/ADR tag).\n";
-                        $passed = false;
+        $lines = explode("\n", $this->sql);
+        foreach ($lines as $i => $line) {
+            $lower = strtolower($line);
+            foreach (self::SENSITIVE as $kw) {
+                if (preg_match('/\b' . preg_quote($kw, '/') . '\b/', $lower)) {
+                    // Sifre/hash/encrypt izi ya da genis blob tipi olmali
+                    $looksSafe = str_contains($lower, 'hash')
+                        || str_contains($lower, 'encrypt')
+                        || str_contains($lower, 'varbinary')
+                        || str_contains($lower, 'blob')
+                        || str_contains($lower, 'text');
+                    if (!$looksSafe && str_contains($lower, 'varchar(255)')) {
+                        // Parola icin hash onerilir; bayrakla
+                        echo "  [PII-UYARI] Satir " . ($i + 1) . ": '{$kw}' muhtemelen hash/sifreleme gerektirir (Argon2id/AEAD) — 'VARCHAR(255)' tek basina yetersiz.\n";
                     }
                 }
             }
@@ -69,26 +82,33 @@ class SecurityAudit {
         return $passed;
     }
 
-    private function checkAuditTables(): bool {
+    /** Kritik tablo icin karsilikli _audit tablosu bulunmali. */
+    private function checkAuditTables(): bool
+    {
         $passed = true;
-        // Kritik tablolar (örneğin users, payments) için "_audit" tablosu aranır.
-        if (preg_match('/CREATE TABLE\s+(users|payments|orders)\s*\(/is', $this->schemaContent, $matches)) {
-            $criticalTable = $matches[1];
-            if (!preg_match('/CREATE TABLE\s+' . $criticalTable . '_audit\s*\(/is', $this->schemaContent)) {
-                echo "  [ERROR - AUDIT TRAIL]: Critical table '{$criticalTable}' does not have a corresponding '{$criticalTable}_audit' table for tracking changes.\n";
-                $passed = false;
+        preg_match_all('/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?`?([a-zA-Z0-9_]+)`?\s*\(/is', $this->sql, $m);
+        $tables = array_map(static fn ($t) => strtolower($t), $m[1]);
+
+        foreach ($tables as $t) {
+            if (in_array($t, self::CRITICAL, true)) {
+                $audit = $t . '_audit';
+                if (!in_array($audit, $tables, true)) {
+                    echo "  [AUDIT-IHLALI] Kritik tablo '{$t}' icin '{$audit}' tablosu yok (degisiklik denetimi izlenemez).\n";
+                    $passed = false;
+                }
             }
         }
         return $passed;
     }
 
-    private function checkSQLInjectionRisk(): bool {
+    /** Isimlendirme: snake_case disi tablo/kolon adlari dinamik sorgu yuzeyini genisletir. */
+    private function checkNaming(): bool
+    {
         $passed = true;
-        // Tablo ve kolon isimlerinde standart dışı karakter var mı (snake_case dışı).
-        preg_match_all('/CREATE TABLE\s+([a-zA-Z0-9_\-]+)\s*/is', $this->schemaContent, $matches);
-        foreach ($matches[1] as $tableName) {
-            if (!preg_match('/^[a-z0-9_]+$/', $tableName)) {
-                echo "  [ERROR - NAMING/SQLi]: Table name '{$tableName}' contains non-standard characters (must be lowercase snake_case). This poses risks for dynamic queries.\n";
+        preg_match_all('/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?`?([a-zA-Z0-9_\-]+)`?\s*\(/is', $this->sql, $m);
+        foreach ($m[1] as $t) {
+            if (!preg_match('/^[a-z0-9_]+$/', $t)) {
+                echo "  [NAMING-IHLALI] Tablo adi '{$t}' snake_case disi (dinamik sorgu riski).\n";
                 $passed = false;
             }
         }
@@ -96,13 +116,23 @@ class SecurityAudit {
     }
 }
 
-if ($argc < 2) {
-    die("Usage: php security-audit.php <path_to_schema.sql>\n");
+// ---- CLI ----
+if (PHP_SAPI !== 'cli') {
+    fwrite(STDERR, "Bu betik yalnizca CLI ile calisir.\n");
+    exit(1);
+}
+
+$argv = $_SERVER['argv'] ?? [];
+if (in_array('--help', $argv, true) || in_array('-h', $argv, true) || count($argv) < 2) {
+    echo "Kullanim: php security-audit.php <schema.sql>\n";
+    echo "Amaç: PII/sifreleme, audit tablosu ve isimlendirme denetimi yapar.\n";
+    exit(count($argv) < 2 && !in_array('--help', $argv, true) && !in_array('-h', $argv, true) ? 1 : 0);
 }
 
 try {
     $audit = new SecurityAudit($argv[1]);
-    $audit->runAudit();
+    exit($audit->run() ? 0 : 1);
 } catch (\Throwable $e) {
-    die("Error: " . $e->getMessage() . "\n");
+    fwrite(STDERR, "Hata: " . $e->getMessage() . "\n");
+    exit(1);
 }

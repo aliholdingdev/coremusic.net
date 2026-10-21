@@ -1,102 +1,59 @@
-# DB Engine Notları — 18 BCNF Envanteri & Hızlı Kontrol
+# Motor & Versiyon Notları
 
-> **Kaynak:** `.opencode/skills/db-engine/SKILL.md` (v1.1, 2026-09-29) benzersiz içeriği
-> bu dosyaya birleştirildi (2026-10-07, db-engine merge). Ana skill:
-> [SKILL.md](../SKILL.md).
+> MySQL sürüm gerçeğini tek yerde toplar. Zero-hallucination: doğrulanamayan sürüm iddiası
+> `VERIFICATION REQUIRED`.
 
-## 1. 18 BCNF Veritabanı (ADR-040 — Güncel Envanter)
+## Hedef
 
-> SSOT: `.ai/.sql/mysql/*.sql` = 18 dosya (disk kanıtı) · `.ai/CLAUDE.md` DB tablosu ·
-> [[.ai/.decisions/accepted/ADR-040-database-authority]]. SKILL.md §2.1'deki 11 satırlık
-> liste bayattır (orada uyarı ile işaretli); **tam envanter aşağıdaki 18 satırdır.**
+Bu skill **MySQL 8.0 (LTS)** hedefler. 8.0, uzun dönem destek (LTS) hattıdır ve üretim için
+yaygın tercihtir.
 
-| # | Veritabanı | Amaç |
-|---|-----------|------|
-| 1 | `coremusic_auth` | Kimlik doğrulama, session, token |
-| 2 | `coremusic_user` | Profiller, tercihler |
-| 3 | `coremusic_musics` | Şarkılar, sanatçılar, dosyalar |
-| 4 | `coremusic_albums` | Albüm koleksiyonları |
-| 5 | `coremusic_playlist` | Çalma listeleri |
-| 6 | `coremusic_catalog` | Referans verileri |
-| 7 | `coremusic_logs` | Audit trail, analitik |
-| 8 | `coremusic_media` | Cihaz senkronizasyonu |
-| 9 | `coremusic_system` | Ayarlar, config |
-| 10 | `coremusic_social` | Yorumlar, paylaşımlar |
-| 11 | `coremusic_wireless` | WiFi + Bluetooth |
-| 12 | `coremusic_ai` | Öneri profilleri |
-| 13 | `coremusic_api` | API anahtarları |
-| 14 | `coremusic_cms` | Sayfalar, blog |
-| 15 | `coremusic_download` | İndirme kuyruğu |
-| 16 | `coremusic_neva` | EQ, DSP ayarları |
-| 17 | `coremusic_studio` | Stüdyo oturumları |
-| 18 | `coremusic_patch` | Schema versiyonları |
+## LTS (8.0) vs Innovation (9.x) farkı
 
-**Kurallar:** ORM yasak (ADR-002) · SELECT * yasak · prepared statement zorunlu ·
-BCNF zorunlu · çapraz-DB foreign key yasak (ADR-040 izolasyonu).
+| | 8.0 (LTS) | 9.x (Innovation) |
+|--|-----------|------------------|
+| Karakter | Uzun dönem destek | Yeni feature akışı |
+| Bu skill | Hedef | Vault metinlerinde geçebilir |
 
-## 2. Normalizasyon Hızlı Kontrol Soruları
+CoreMusic vault'unda (`.ai/` ve eski skill metinlerinde) “MySQL 9” ifadesi geçebilir.
+**Deploy edilen tam sürüm (major.minor.patch) `VERIFICATION REQUIRED`** — `.ai/.sql/mysql/`
+veya ortam üzerinden doğrulanmalı.
 
-| Form | Kural | Kontrol |
-|------|-------|---------|
-| **1NF** | Atomik değer, liste yok | Her kolonda tek değer var mı? |
-| **2NF** | Kısmi bağımlılık yok | Composite PK'da tüm non-key kolonlar tam bağımlı mı? |
-| **3NF** | Geçici bağımlılık yok | A→B→C zinciri varsa ayrı tabloya taşı |
-| **BCNF** | Her determinant key | Belirleyici candidate key mi? |
+## 8.0 feature min-sürüm tablosu (dikkat)
 
-## 3. MySQL 9 Zorunlu Kurallar (Özet)
+| Feature | Min 8.0 sürümü |
+|---------|----------------|
+| CHECK constraint enforce | 8.0.16+ |
+| Çok-değerli (multi-valued) JSON index | 8.0.17+ |
+| `EXPLAIN ANALYZE` | 8.0.18+ |
+| DESC index | 8.0.0+ |
+| Functional index | 8.0.0+ |
+| CTE, window functions | 8.0.0+ |
+| Invisible index | 8.0.0+ |
+| `utf8mb4_0900_ai_ci` collation | 8.0.1+ |
 
-| Kural | Değer |
-|-------|-------|
-| Motor | `ENGINE=InnoDB` |
-| Charset | `utf8mb4_unicode_ci` |
-| PK | `id BIGINT UNSIGNED AUTO_INCREMENT` |
-| Timestamp | `created_at`, `updated_at`, `deleted_at` (her tabloda) |
-| Para | `DECIMAL(10,2)` — FLOAT yasak |
-| İsimlendirme | snake_case, çoğul tablolar |
+> Production'a feature eklemeden önce patch sürümünü doğrula; “8.0” yetmez, 8.0.16/17/18+
+> şart olanlar var.
 
-### Zorunlu Kolon Şablonu
+## Collation notu
 
-```sql
-id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-deleted_at TIMESTAMP NULL DEFAULT NULL
-```
+- 8.0 varsayılan collation `utf8mb4_0900_ai_ci` (8.0.1+); `utf8mb4_unicode_ci` da geçerli.
+- Join/unique kolonlar **aynı** collation olmalı; karışık collation → implicit conversion
+  ve index kullanımı kaybı.
+- CoreMusic'in kullandığı tek collation vault'ta; karışık ise `VERIFICATION REQUIRED`.
 
-## 4. Workflow: Model → Design → Validate (Hızlı)
+## Partial index gerçeği
 
-1. **Model:** tablolar, ilişkiler, sensitive alanlar, veri miktarı, sorgu kalıpları topla.
-2. **Design:** kolonlar, tipler, PK/FK/Constraint/Index tanımla.
-3. **Normalize:** 1NF → 2NF → 3NF → BCNF kontrolü.
-4. **Generate:** `schema.sql`, `seed_data.sql`, `er_diagram.md`, `migration/`.
-5. **Validate:** aşağıdaki 10 madde.
+MySQL, PostgreSQL tarzı partial/filtered index (`CREATE INDEX ... WHERE`) **desteklemez**.
+Yerine: composite index + predicate eşleme, generated kolon + index, veya covering index.
+Bu, eski skill içeriğindeki bir hatanın düzeltilmiş halidir (bkz. 03-provider-dialects.md).
 
-### 10 Maddelik Hızlı Doğrulama
+## TIMESTAMP 2038
 
-- [ ] PK var mı? BIGINT UNSIGNED mi?
-- [ ] Charset utf8mb4_unicode_ci mi?
-- [ ] Engine InnoDB mi?
-- [ ] Timestamp kolonları var mı?
-- [ ] FK'lar doğru tanımlı mı? ON DELETE stratejisi seçilmiş mi?
-- [ ] FK'lara index eklendi mi?
-- [ ] BCNF uyumlu mu?
-- [ ] SELECT * kullanılmamış mı?
-- [ ] Soft delete kullanılıyor mu?
-- [ ] Para kolonları DECIMAL mi (FLOAT değil)?
+TIMESTAMP 2038-01-19'da taşar. Uzun vadeli/kritik tarihler için DATETIME. Kesin proje
+tercihi `VERIFICATION REQUIRED`.
 
-> Tam 25 maddelik checklist: [SKILL.md](../SKILL.md) §11 Adım 6.
+## InnoDB
 
-## 5. Yasaklar (Özet)
-
-| Yasaklı | Neden |
-|---------|-------|
-| ORM kullanımı | ADR-002 — PDO prepared only |
-| SELECT * | Açık kolon listesi zorunlu |
-| FLOAT para birimi | DECIMAL(10,2) |
-| Cross-database FK | 18 DB BCNF izolasyonu (ADR-040) |
-| Hard delete | Soft delete (deleted_at) |
-| Stored procedure (iş mantığı) | PHP'de yapılmalı |
-| ENUM sabitleri | Lookup tablosu kullan |
-
----
-*CoreMusic reference v3.0 — database-normalize-maker/references/db-engine-notes.md — Updated: 2026-10-07*
+Varsayılan ve tek hedef engine. FK, crash recovery ve MVCC (REPEATABLE READ) sağlar.
+Row-level locking; uzun transaction yasak (lock wait).

@@ -554,6 +554,7 @@ Tam kaynak kaydı, kaynak→bölüm eşlemesi ve doğrulanmayanlar listesi:
 | [references/sync-touchpoints.md](references/sync-touchpoints.md) | 26 dosyalık hedef set · üç kapı (A/B/C) · C1-C5 · olay→dosya matrisi · tazelik · eşitleme |
 | [references/log-append-rules.md](references/log-append-rules.md) | log.md append protokolü: formatlar · dedup · yazma prosedürü · hata modları · rollback |
 | [references/changelog.md](references/changelog.md) | Sürüm geçmişi 1.0.0 → 4.0.0 (N10) |
+| [references/checklist.md](references/checklist.md) | Kalite kapısı: N1-N10 + eşitleme/log/olay-matrisi/denetim kapıları (PASS/BLOCK) — kapanış öncesi son kapı |
 | [examples/session-close-sync.md](examples/session-close-sync.md) | Çalışmış örnek: footer responsive kapanışı — girdi→çıktı tam döngü (N5) |
 
 **Vault süreç SSOT'ları (dış):** `.ai/SYNC.md` · `.workflows/vault-sync.md` ·

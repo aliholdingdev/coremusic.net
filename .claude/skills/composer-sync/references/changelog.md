@@ -1,13 +1,20 @@
-# composer-sync — Sürüm Geçmişi
+# Changelog — composer-sync skill
 
-> Kök `changelog:` alanı v3.0 formatında yasaktır (skill-maker N10) — geçmiş burada tutulur.
-> 3.1 kayıtları `.opencode/skills/composer-sync/SKILL.md`'den (silinmeden önce) birleştirildi (2026-10-07).
+> Sürüm geçmişi. Aktif sürüm: **4.0.0** (SKILL.md `metadata.version` ile eşleşir).
 
-| Sürüm | Tarih | Değişiklik |
-|-------|-------|-----------|
-| 3.0.0 (format) | 2026-10-07 | claude-skill-v3 frontmatter'e yükseltildi (previous-version: 3.1); `.opencode` kopyasının benzersiz içeriği birleştirildi: `name`+`description`, `.ai/ADR/` → `.ai/.decisions/` (2 yer), project_structure disk uyarısı, changelog 3.1 kayıtları; `references/changelog.md` eklendi; anti-overthink tek satıra indirildi; CLAUDE.md sidecar kaldırıldı |
-| 3.1 | 2026-09-29 | Faz2 içerik kalite denetimi — ".ai/ADR/ → .ai/.decisions/; ADR-042 yolu tam dosya adıyla düzeltildi"; Dup-ID notu eklendi (kaynak .opencode kopyasıydı — 2026-10-07 birleştirmeyle çözümldü); project_structure: diskte olmayan 8 subdomain klasörü uyarı işareti aldı |
-| 3.0 | 2026-08-15 | Complete rewrite — shared folder as source; Composer dependency for shared library kaldırıldı; path-based junction resolution; PowerShell scripts; file count validation (83 PHP); critical file checksums; rollback procedure; multi-subdomain orchestration |
+## 4.0.0 — 2026-10-21
 
-> Not: metadata.version = 3.0.0 format sürümüdür; içerik soyu `previous-version: 3.1`
-> metadata alanında korunur. Dup-ID durumu çözüldü: tek kanonik kopya = `.claude/skills/composer-sync/`.
+- SKILL.md tam yeniden yazım (sıfırdan, 861 satır): 500–2000 satır aralığına taşındı.
+- Truth Mode: 3 resmi kaynak doğrulandı (getcomposer.org config + CLI, Microsoft Learn junction) → `references/sources.md`.
+- skill-maker N1–N10 denetimi → `references/checklist.md` (PASS, BLOCK yok).
+- Yeni ekler: `references/diagnostics.md` (kanıtlı çıktılar), `references/windows-junction.md` (derinlemesine), `examples/vendor-sync-loop.md` (tam döngü).
+- Disk kanıtı düzeltmeleri: subdomain sayısı 8 → **5** (assets composer.json içermiyor); media'da junction yok.
+- auth.coremusic.net composer.lock anomalisi (gitignore) `VERIFICATION REQUIRED` olarak kaydedildi.
+
+## 3.0.0 — 2026-10-07
+
+| Değişiklik | Ayrıntı |
+|------------|---------|
+| Claude Skill v3.0 formatına geçiş | Frontmatter name/description/license/metadata; CLAUDE.md sidecar kaldırıldı |
+| Tetikleyiciler | 'composer', 'vendor', 'autoload', 'junction', 'class not found', 'bağımlılık senkron' |
+| Kapsam | shared/ vs subdomain composer.json drift, vendor junction senkronu, PSR-4 çakışması, lock disiplini |

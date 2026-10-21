@@ -3,8 +3,8 @@ name: audio-engine-cpp
 description: "Use when touching Neva Engine, JUCE 9, ASIO, DSP chain, or realtime C++ audio code — Tetikleyiciler: 'C++ ses motoru', 'DSP kodla', 'ASIO gecikme', 'EQ/reverb ekle'."
 license: MIT
 metadata:
-  version: 4.0.0
-  previous-version: 3.0.0
+  version: 4.1.0
+  previous-version: 4.0.0
   format: claude-skill-v3
   author: Bayram Ali (ULTRATHINK Engineering)
   category: audio-engine
@@ -110,7 +110,8 @@ ADIM 6 TEST     → ctest + ölçüm kapıları (§9); kanıtsız "bitti" YASAK 
 | [references/latency-targets.md](references/latency-targets.md) | ASIO <10ms / WASAPI <20ms, buffer matematiği (512@48k=10.67ms), exclusive mod, MMCSS "Pro Audio", ölçüm yaklaşımı | Buffer/sürücü/gecikme konfigürasyonunda ('ASIO gecikme') |
 | [references/dsp-chain-map.md](references/dsp-chain-map.md) | Uçtan uca sinyal zinciri, pipeline aşamaları (EQ→Reverb→Crossover→Limiter), 1.0→8.1 matris, kalite hedefleri, reverb mod adı çelişkisi | DSP zincirine müdahale / kanal matrisi işinde |
 | [references/sources.md](references/sources.md) | Web kaynakları: ad · URL · erişim tarihi · ne doğrulandı (Truth Mode kanıtı) | Sürüm/API iddiası yazılacak her seferinde (ADIM 3) |
-| [references/changelog.md](references/changelog.md) | Sürüm geçmişi (3.0.0 → 4.0.0 reset kaydı, N10) | Sürüm davranışı sorgulandığında |
+| [references/changelog.md](references/changelog.md) | Sürüm geçmişi (3.0.0 → 4.0.0 reset kaydı, 4.1.0 derinlik eki, N10) | Sürüm davranışı sorgulandığında |
+| [references/checklist.md](references/checklist.md) | Kalite kontrol listesi — biçim kapıları (N1-N10) + bu skill'in RT/ölçüm kapıları; **doldurulmuş PASS/BLOCK sonuçlarıyla** | §9 teslim kapısından önce (ADIM 6 öncesi) |
 
 ### §4.1 Dosya Ağacı (disk kanıtı — 2026-10-21 ölçüm)
 
@@ -391,6 +392,23 @@ ctest --test-dir app-cpp-projects/neva-engine/build -C Release --output-on-failu
 planı "Yüksek Performans"; (4) en düşük bant (256 örnek) test edilmeden gecikme
 iddiası yazılmaz (latency-targets §6).
 
+### §9.3 Soak (süreklilik) testi — kapı 9
+
+Tek seferlik test, sızıntıyı ve sıcaklık kaymasını yakalamaz; süreklilik testi
+ayrı kapı olarak raporlanır.
+
+| # | Adım | Koşul | Kabul |
+|---|------|-------|-------|
+| 1 | Ortam sabitleme | Release + `Pro Audio` + "Yüksek Performans" güç planı (§9.2) | ortam rapora yazılır |
+| 2 | 30 dk kesintisiz render | ekran koruyucu/uyku kapalı, tek süreç | xrun sayacı ≈ 0 |
+| 3 | Bellek izleme | başlangıç / 15. dk / 30. dk işareti | artış yok (R1 ihlali emaresi) |
+| 4 | CPU izleme | 5 dk aralıkla örnekleme | sıçrama yok → FTZ/DAZ etkin (§6.4) |
+| 5 | Cihaz aç/kapa × 3 | yalnız tek süreç (§11.3) | fallback zinciri her seferinde döner (§15.2) |
+| 6 | Parametre stresi | 30 dk boyunca aralıklı `set_gain` (rampa açık) | click yok (§9 kapı 8) |
+
+Soak raporu §9 tablosuna **kapı 9** satırı olarak eklenir; 30 dk altında çalıştırıldıysa
+"stabilite kanıtı yok" açıkça yazılır — ölçülmemiş süre "geçti" diye yazılmaz.
+
 ---
 
 ## §10 Çelişki Kapıları (Contradiction Gates — DUR + rapor)
@@ -502,4 +520,105 @@ bu skillin §6/§8/§9 içerikleriyle uyumlu; skill **iskeleti** kanonik olarak 
 
 ---
 
-*CoreMusic Skill v3.0 — metadata.version: 4.0.0 — Updated: 2026-10-21*
+---
+
+## §15 Senaryo Reçeteleri (3 sık vaka — adım adım, sonuç ölçümle kapanır)
+
+> Her reçete §3 protokolünün daraltılmış halidir; adım atlanmaz, DUR koşulları
+> (§3) aynen geçerlidir. Çıktı = §9 raporu (kanıtsız "bitti" YASAK).
+
+### §15.1 Vaka A — "Gecikmeyi düşür" (WASAPI <20 ms → ASIO <10 ms hedefi)
+
+| # | Adım | Çıktı | Bu adımda DUR koşulu |
+|---|------|-------|----------------------|
+| 1 | Mevcut roundtrip'i ölç (loopback, latency-targets §6) | baz ms değeri | ölçüm yoksa hiçbir gecikme iddiası yazılmaz |
+| 2 | Bütçeyi hesapla: `bufferSize/sampleRate` (§16 tablo) | mevcut bandın ms değeri | — |
+| 3 | §6.2 on maddelik RT denetimi | ihlal listesi | ihlal varsa banda dokunulmaz; önce ihlal kapatılır |
+| 4 | Bant 512 → 256 dene (48 kHz: 10.67 → 5.33 ms) | yeni roundtrip | CPU bütçesi tutmuyorsa geri alınır |
+| 5 | Exclusive/ASIO moduna geç — **yalnız tek süreç** (brain #910) | hedef ms | ikinci süreçle denenmez (sürücü çökme riski) |
+| 6 | xrun ≈ 0 + §6.2 tekrarı + 3 koşul dinleme | §9 kapı 4/8 raporu | xrun > 0 ise 4. adıma dönülür |
+
+**Senior notu:** bant küçültmek çare değil, **bütçeyi aşan ihlalin adıdır**. Önce R1/R2
+ihlali aranır, sonra bant küçültülür. "Küçülttüm çünkü küçük mü uygun" gerekçesi
+kabul edilmez; geri alma kararı da ölçümle verilir.
+
+### §15.2 Vaka B — Cihaz kaybı / hot-swap kurtarma
+
+| # | Adım | Beklenen davranış |
+|---|------|-------------------|
+| 1 | Backend `DeviceLost` bildirir (contracts §4) | callback durur, ses susar — panik yok, throw yok (R3) |
+| 2 | Backend kapatılır → cihazlar yeniden enumerate edilir | liste sabit boyut + sahiplik kuralları (contracts §4) |
+| 3 | Fallback zinciri: retry → shared → NULL backend | her basamağın sonucu SPSC kuyrukla arka plana yazılır (R7) |
+| 4 | Yeni cihazda SR müzakeresi | `RateUnsupported` → 48 kHz fallback (§8 satır 2) |
+| 5 | Kullanıcıya bildirim + shared fallback seçeneği sunulur | sürpriz exclusive yok (Microsoft dokümanı S5) |
+
+**Kural:** kurtarma kodu da RT değildir; kurtarma adımları arka plan iş parçacığında
+çalışır, callback içinde değil (R7). Kurtarma sonrası §9 kapı 4 (xrun ≈ 0) tekrarlanır.
+
+### §15.3 Vaka C — Parametre değişiminde click/pop
+
+| Teşhis | Kök neden | Reçete |
+|--------|-----------|--------|
+| Yalnız EQ bandı değişiminde tıklama | rampa yok / `ramp_ms = 0` (§14.4) | `ramp_ms` 5-20 (EqChain varsayılanı 10) |
+| Maske (aktif bant) değişiminde tıklama | maske publish'i pending bump'ından sonra | §6.3 maske kuralı: **publish önce** |
+| Reverb/crossover değişiminde tıklama | geçiş anlık | blok başı snapshot + rampa/crossfade (§6.3 deseni) |
+| Hızlı ardışık değişimlerde cızırtı | rampa bitmeden yeni publish → rampa başa sıfırlanır | rampa hedefi birleştirilir (ramp_from korunur) |
+
+Doğrulama: bypass bit-tutarlılığı (§9.2) + 3 koşul dinleme (§9 kapı 8) + soak
+parametre stresi (§9.3 adım 6).
+
+---
+
+## §16 Bütçe Matematiği (deadline = bufferSize / sampleRate — karar bu sayıya göre)
+
+| sampleRate | 128 örnek | 256 | 512 | 1024 |
+|------------|-----------|-----|-----|------|
+| 44.1 kHz | 2.90 ms | 5.80 ms | 11.61 ms | 23.22 ms |
+| 48 kHz (standart) | 2.67 ms | 5.33 ms | 10.67 ms | 21.33 ms |
+| 96 kHz | 1.33 ms | 2.67 ms | 5.33 ms | 10.67 ms |
+| 192 kHz | 0.67 ms | 1.33 ms | 2.67 ms | 5.33 ms |
+
+(Kesir ms = örnek/srate × 1000; yuvarlama 2 hane. Değerler tablodan okunur, hafızadan yazılmaz.)
+
+**Kurallar:**
+
+1. **Callback süresi ≤ deadline** — aşımda xrun (§8). Ölçümü §9.2'de (steady_clock).
+2. **Gecikme = buffer gecikmesi DEĞİL**: roundtrip = buffer + sürücü + donanım
+   gecikmesi → loopback ölçmeden "8 ms" yazılmaz (latency-targets §6).
+3. 48 kHz'te 512 örnek = 10.67 ms → **ASIO <10 ms hedefi 512 bandıyla tutmaz**;
+   256 bandı (5.33 ms) denenir, ama CPU bütçesi §6.2'ye bağlı kalır (§15.1).
+4. 96/192 kHz'te bütçe yarıya iner — yüksek SR'de aynı zincir daha sık tetiklenir;
+   kalite testi (§9 kapı 6) ≠ gecikme testi (§9 kapı 5); ikisi aynı ortamda karıştırılmaz.
+5. Headroom eşiği vault'ta tanımlı değil → **teşhis kılavuzu olarak %80 önerilir;
+   kabul eşiği §9 kapı 4'tür (xrun ≈ 0)**. Bu satır hedef iddiası değildir.
+
+---
+
+## §17 Senior Perspektif — Sessiz Kapanan Hatalar (50 yılın hediyesi)
+
+> Bu hatalar **hata vermez**; yalnız yanlış sonuç üretir. Denetimde önce bunlar taranır,
+> sonra §14 listesi.
+
+| # | Sessiz hata | Neden sessiz | Yakalama yolu |
+|---|-------------|--------------|----------------|
+| 1 | "Gecikme 8 ms" (buffer hesabıyla) | roundtrip ≠ buffer; sürücü + donanım ekler | loopback ölçüm (§16.2, latency-targets §6) |
+| 2 | Exclusive modda "ikinci test penceresi" | sürücü çökmezse uygulama sadece tuhaflaşır | brain #910: tek süreç kuralı (§11.3) |
+| 3 | Yalnız 48 kHz test | 96/192 hedef kapsam dışı kalır | SR matrisi testi (§16.4) |
+| 4 | Debug derlemede CPU profili | optimizasyonsuz zincir şişer, yanlış bileşen suçlanır | Release derleme (§9.1) |
+| 5 | Yalnız kulakla onay | kulağı küçük bozulmalar kaçırır; alışkanlık maskeler | bypass bit-tutarlılığı (§9.2) |
+| 6 | Tek blok boyutuyla test | R6 ihlali yalnız değişken `n`'de görünür | farklı `n` değerleri (§6.2) |
+| 7 | fail-silent'i "hata yutma" sanma | hata sessiz ama xrun sayacı artar | atomik xrun sayacı (§9 kapı 4) |
+| 8 | Null backend'de "her şey geçti" | gerçek cihaz/sürücü hiç denenmedi | cihazla roundtrip (§9 kapı 5) |
+| 9 | FTZ/DAZ unutulması | yalnız sabit küçük sinyallerde CPU gizemli artar | §6.4 assert + CPU izleme (§9.3 adım 4) |
+| 10 | Fallback denenmeden "dayanıklı" diye yazma | ilk arızada zincirin kendisi kırılır | contracts §4 fallback senaryoları |
+
+**Dört kırmızı çizgi (her görevde tekrar okunur):**
+
+1. Ölçülmemiş metrik yazılmaz; "gibi görünüyor" kanıt değildir (§9).
+2. RT ihlali (R1-R7) sessiz geçilmez — sessizliğin kendisi xrun'dur (§6.2).
+3. Depoda olmayan teknoloji "kullanıldı" diye anlatılmaz (§1.2 honest scope).
+4. Çelişki (§10) kapatılmadan teslim "GEÇTİ" olmaz — `VERIFICATION REQUIRED` açık kalır.
+
+---
+
+*CoreMusic Skill v3.0 — metadata.version: 4.1.0 — Updated: 2026-10-21*

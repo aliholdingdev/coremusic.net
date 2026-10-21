@@ -1,82 +1,57 @@
-# 07. CoreMusic Entegrasyonu
+# 07 — CoreMusic Entegrasyonu
 
-## Genel Bakış
+> Bu skill bağımsız üretebilir, ama CoreMusic bağlamında vault/ADR/agent yönlendirmesine uyar.
+> SSOT: `.ai/.sql/mysql/*.sql` + ADR-040. Bu dosya sayı uydurmaz — envanter vault'tadır.
 
-Bu dosya, `database-normalize-maker` skill'inin CoreMusic projesiyle nasıl entegre olduğunu tanımlar.
+## Mimari bağlam
 
-## PHP PDO Uyumluluğu
+- **Stack:** PHP 8.x (PDO, `strict_types`) + Vanilla JS + MySQL (InnoDB, utf8mb4).
+- **Yasaklar (ADR):** ORM yok (ADR-002), framework yok (ADR-001), `SELECT *` yok (ADR-014),
+  hard delete yok (soft delete zorunlu), `FLOAT` para yok (DECIMAL).
+- **Katman:** SQL yalnız repository/Infrastructure katmanında; iş mantığı PHP'de, SP minimum.
 
-Veritabanı şeması, PHP 8.x katı tipleri (`declare(strict_types=1)`) ile uyumlu olmalıdır.
+## Vault & ADR referansları
 
-### PHP ↔ MySQL Veri Tipi Eşleştirmesi
+| İhtiyaç | Kaynak |
+|---------|--------|
+| DB authority / envanter | ADR-040 · `.ai/.sql/mysql/*.sql` |
+| No ORM | ADR-002 (`pdo-mandatory-no-orm`) |
+| No SELECT * | ADR-014 |
+| Brain / mimari kararlar | `.ai/brain.md` |
+| ADR indeksi | `.ai/.decisions/` |
 
-| MySQL Tipi | PHP Tipi | Kullanım |
-|------------|----------|----------|
-| `BIGINT UNSIGNED` | `int` | ID, counter |
-| `INT UNSIGNED` | `int` | Sayı |
-| `TINYINT(1)` | `bool` | Boolean |
-| `VARCHAR` | `string` | Metin |
-| `TEXT` | `string` | Uzun metin |
-| `DECIMAL(10,2)` | `string` (PDO) | Para birimi |
-| `TIMESTAMP` | `string` (PDO) | Tarih/saat |
-| `JSON` | `string` (PDO) | Esnek veri |
+> **Envanter notu (zero-hallucination):** Eski skill sürümünde “11 BCNF veritabanı / 68 tablo”
+> listesi vardı ve bayat olarak işaretlenmişti (gerçek sayı vault'ta farklı olabilir). Bu sürüm
+> **sayı iddia etmez**; güncel tablo/DB sayısı için `.ai/.sql/mysql/` sayımı esastır ve
+> gerektiğinde `VERIFICATION REQUIRED` ile doğrulanır.
 
-### PDO Kullanım Kuralları
+## Agent routing
 
-```php
-// DOĞRU: Prepared statement
-$stmt = $pdo->prepare('SELECT id, username, email FROM users WHERE id = :id');
-$stmt->execute(['id' => $userId]);
-$user = $stmt->fetch(\PDO::FETCH_ASSOC);
+| Görev | Rol |
+|-------|-----|
+| Şema/normalizasyon/BCNF | `data-engineer` (Expert #3) |
+| OWASP/PII/audit veto | `security-engineer` |
+| Gelişmiş sorgu/EXPLAIN | `sql-pro` / `postgres-pro` |
+| Repository/PDO katmanı | `backend-developer` / `php-pro` |
 
-// YASAK: Dinamik SQL
-// $pdo->query("SELECT * FROM users WHERE id = $userId");
-```
+## CoreMusic tip/standart tercihleri
 
-## İsimlendirme Standartları
+| Konu | Tercih |
+|------|--------|
+| PK | `id BIGINT UNSIGNED AUTO_INCREMENT` |
+| Charset | `utf8mb4` + tutarlı collation (vault'taki ile aynı — karıştırma yasak) |
+| Zaman | `created_at`, `updated_at`, `deleted_at` her varlık tablosunda |
+| Para | `DECIMAL(10,2)` |
+| Audit | Kritik tablo için `{tablo}_audit` + trigger |
 
-| Öğe | Format | Örnek |
-|-----|--------|-------|
-| Tablolar | Çoğul, snake_case | `users`, `order_items` |
-| Kolonlar | snake_case | `first_name`, `created_at` |
-| Primary Key | `id` | `id BIGINT UNSIGNED` |
-| Foreign Key | `{tablo}_id` | `user_id`, `product_id` |
-| Index | `idx_{kolon}` | `idx_email` |
-| Unique Index | `uk_{kolon}` | `uk_username` |
-| FK Constraint | `fk_{çocuk}_{ana}` | `fk_orders_users` |
-| Pivot Tablolar | Alfabetik sıra | `role_user`, `product_tag` |
+## Uygulama notu (repository)
 
-## CoreMusic 11 BCNF Veritabanı
+- Tüm sorgular **prepared statement** (PDO); ad/şema sabitleri bile parametre disiplininde.
+- `SELECT *` yerine açık kolon listesi (ADR-014).
+- Soft delete filtresi her sorguda (`deleted_at IS NULL`); view/base query ile merkezileştir.
 
-| # | Veritabanı | Amaç | Ana Tablolar |
-|---|-----------|------|--------------|
-| 1 | `coremusic_auth` | Kimlik doğrulama | users, sessions, tokens, roles, permissions |
-| 2 | `coremusic_users` | Kullanıcı yönetimi | users, profiles, addresses, preferences |
-| 3 | `coremusic_musics` | Müzik kataloğu | musics, artists, genres, tags |
-| 4 | `coremusic_albums` | Albüm yönetimi | albums, album_tracks, album_artists |
-| 5 | `coremusic_playlist` | Çalma listeleri | playlists, playlist_tracks |
-| 6 | `coremusic_catalog` | Kataloglama | categories, collections, catalog_items |
-| 7 | `coremusic_logs` | Log yönetimi | system_logs, error_logs, audit_logs |
-| 8 | `coremusic_media` | Medya dosyaları | media_files, media_metadata, thumbnails |
-| 9 | `coremusic_system` | Sistem ayarları | settings, configs, cache |
-| 10 | `coremusic_social` | Sosyal özellikler | follows, likes, comments, reviews |
-| 11 | `coremusic_wireless` | Kablosuz bağlantı | devices, connections, streams |
+## Çapraz referans
 
-## Vault Entegrasyonu
-
-| Kaynak | Kullanım |
-|--------|----------|
-| `.ai/brain.md` | Veritabanı mimarisi kararları |
-| `.ai/ADR/` | İlgili ADR'ler |
-| `.ai/.sql/` | Mevcut şema dosyaları |
-| `.ai/index.md` | Ana katalog |
-
-## Deployment Hedefleri
-
-| Tier | Platform | Veritabanı |
-|------|----------|------------|
-| Tier1 | Windows | MySQL 9 |
-| Tier2 | Linux | MySQL 9 |
-| Tier3 | macOS | MySQL 9 |
-| Tier4 | RPi5 | MySQL 9 |
-| Tier5 | ReactOS | MySQL 9 (deneysel) |
+- Kalite kapısı: [checklist.md](checklist.md).
+- QA listesi: [10-checklist.md](10-checklist.md).
+- Örnek çıktı: [08-examples.md](08-examples.md).

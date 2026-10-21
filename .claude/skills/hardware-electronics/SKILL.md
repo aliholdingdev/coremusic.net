@@ -3,8 +3,8 @@ name: hardware-electronics
 description: "Use when editing Class AB amplifier, power supply, thermal, PCB, or BOM documentation and hardware decisions — Tetikleyiciler: 'amfi tasarımı', 'güç kaynağı', 'termal tasarım', 'PCB/BOM'."
 license: Proprietary (CoreMusic internal)
 metadata:
-  version: 2.0.0
-  previous-version: 1.0.0
+  version: 2.1.0
+  previous-version: 2.0.0
   format: claude-skill-v3
   author: "Bayram Ali (ULTRATHINK Engineering)"
   category: hardware
@@ -423,6 +423,33 @@ A_dB = 20·log10(A)      A = 10^(A_dB/20)
 
 Gate `gain ±0.5 dB` → mutlak değil **sapma** ölçülür (ör. 26.02 ± 0.5 → 25.52…26.52).
 
+### 13.8 Hat direnci, güç düşümü ve ön şarj (tamamlayıcı hesaplar)
+
+```
+V_drop = I × R_hat        P_hat = I² × R_hat        V_ilk_an = V / R_pre ,  I_ilk_an = V / R_pre
+```
+
+| Hat direnci R̂ | V_drop @ 43.9 A (§13.4 worst-case) | P_hat @ 43.9 A | Yorum |
+|---|---|---|---|
+| 1 mΩ (sağlam cıvata) | 43.9 mV | 1.93 W | kabul edilebilir başlangıç |
+| 5 mΩ (zayıf temas) | 219.5 mV | 9.64 W | ısınma kaynağı — temas kontrolü |
+| 10 mΩ (klemens/kablo ucu) | 439.5 mV | 19.3 W | sıcak nokta → kablo/ iz genişliği (§13.5) |
+
+**Ön şarj (pre-charge) kontrolü** — `standard-circuits.md` §3'teki 47 Ω / 5 W
+sınırlayıcı için (gerilim düğümü şemadan okunur; aşağıda **örnek** olarak boost
+çıkışının 35 V'u alınmıştır — düğüm şemada farklıysa formüle V_bus ile girilir):
+
+```
+I_ilk_an = 35 V / 47 Ω ≈ 0.74 A        P_ilk_an = 35² / 47 ≈ 26 W (kısa süreli, sönmekte)
+```
+
+- 26 W **anlık** bir güçtür; 5 W'lık direncin kısa süreli **pulse dayanımı**
+  datasheet'inden doğrulanır → `⚠️ VERIFICATION REQUIRED` (tek taraflı "yeter" yazılmaz).
+- Ön şarj tamamlandıktan sonra röle kapanır (§3.3); kapanış anı da DC koruma
+  gecikmesiyle (§3.3) çakışmamalıdır.
+- Hat düşümü payı vault'ta tanımlı değil → başlangıç kılavuzu: **mV mertebesinde
+  kalınır, W mertebesine çıkan her düşüm PCB/temas gözden geçirmesi ister** (rapor satırı).
+
 ---
 
 ## 14. ÖLÇÜM PROTOKOLÜ (§5 kapıları — 3 koşul zorunlu)
@@ -461,6 +488,21 @@ Gate ihlali → cihaz powered-off · kök neden (troubleshooting.md) → düzelt
 
 Tek koşul geçerli değildir; ortalama + sapma yayınlanır. Hesap/ölçümsüz iddia
 → `VERIFICATION REQUIRED` (kural 5).
+
+### 14.4 Ölçümü Bozan Etkiler (sonuç neden yanlıştır — ölçmeden önce taranır)
+
+| # | Etki | Belirti | Kontrol / düzeltme |
+|---|------|---------|--------------------|
+| 1 | Analyzer gürültü tabanı DUT'tan kötü | THD+N yerinde sayar (floor) | analyzer DUT'tan iyi olmalı (S11); floor ölçülüp rapora yazılır |
+| 2 | Yük henüzısınmadan ölçüm | ilk dakika değerleri kayar | 10 dk ısıtma koşulu zorunlu (§14.1 koşul-2) || 3 | Yük sıcaklığı direnci değiştirir | güç/kazanç koşuldan sapar | 3 koşul ortalaması + sapma (§14.3); dirençli yük sıcaklık notu |
+| 4 | Temas/klemens direnci | değerler titreşir, tekrar edilemez | bağlantı noktaları sıkılır, ölçüm tekrarlanır; ±tolerans aşılırsa ENGELLENDİ |
+| 5 | Masa/toprak döngüsü | 50/100 Hz hum eklendi | izolasyon/toprak düzeni (§7.4), tek nokta bağ kontrolü |
+| 6 | Yanlış drive seviyesi | THD+N belirsizleşir | dBFS seviyesi rapora zorunlu yazılır (S10) |
+| 7 | Bit-perfect doğrulanmadan dinleme | "temiz" yanıltması | bilinen PCM girişi + hattasızlık (§14.2) |
+| 8 | Tek koşul tek sefer ölçüm | tesadüfi iyi/kötü değer | 3 koşul zorunlu; tekrarlanmayan sonuç sayılmaz (§14.3) |
+
+**Kural:** bu etkilerden biri açıkken ölçüm sonucu **tek başına kabul edilmez**;
+ölçüm koşulları raporda eksiksiz yazılır (§14.1 kurulum tablosu).
 
 ---
 
@@ -517,6 +559,7 @@ Yönlendirme: firmware → dsp-firmware-engineer · üretim → embedded-systems
 | [`references/troubleshooting.md`](references/troubleshooting.md) | arıza tanısı ölçüm→neden→çözüm | Evet |
 | [`references/pcb-bom-rules.md`](references/pcb-bom-rules.md) | katman/EMI/iz/BOM kural seti | Evet |
 | [`references/changelog.md`](references/changelog.md) | sürüm günlüğü (N10) | Evet |
+| [`references/checklist.md`](references/checklist.md) | kalite kapısı: PASS/BLOCK maddeleri (N1-N10 + devre/hesap/BOM kapıları) | **Teslim öncesi son kapı** |
 | [`examples/bom-extraction.md`](examples/bom-extraction.md) | analiz→hesap→ölçüm→BOM tam döngü | **Evet (N5)** |
 
 **Yetki zinciri:** proje `AGENTS.md` → `.ai/CLAUDE.md` (SSOT) → K16-K20

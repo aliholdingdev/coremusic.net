@@ -31,6 +31,7 @@ değişiklikleri (→ Guardrail #16: `data-engineer`), güvenlik politikası de�
 | `references/pdo-rules.md` | PDO derinlemesine: prepare, transaction, dynamic SQL, CI gate'leri |
 | `references/middleware-pipeline.md` | Donmuş pipeline kapıları + API pipeline gerçeği (disk kanıtlı) |
 | `references/api-contract-flow.md` | Contract-first akış, route contract, DTO envanteri, Contract Drift raporu |
+| `references/checklist.md` | Kalite kapısı: N1-N10 + standart/middleware/PDO/hata kapıları (PASS/BLOCK) — teslim öncesi son kapı |
 | `examples/add-endpoint.md` | Ham HTTP isteği → production kod → hata matrisi (tam döngü) |
 
 ---

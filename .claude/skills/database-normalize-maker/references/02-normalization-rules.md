@@ -1,157 +1,74 @@
-# 02. Normalizasyon Kuralları
+# 02 — Normalizasyon Kuralları (Derin)
 
-## Genel Bakış
+> 1NF → 2NF → 3NF → BCNF (→ 4NF/5NF). Aday anahtar ve fonksiyonel bağımlılık
+> çıkarımı deterministik olmalıdır. Uydurma FD yasak.
 
-Veritabanı motoru, oluşturulan tabloları BCNF (Boyce-Codd Normal Form) seviyesine kadar denetler. **Normalizasyon ihlalleri sessizce geçiştirilemez.** Denormalizasyon yapılacaksa, bu mutlaka ADR ile gerekçelendirilmelidir.
+## Fonksiyonel bağımlılık (FD) & Armstrong
 
-## 1NF (First Normal Form) — Atomik Veri
+- `X → Y`: X belirliysen Y de belirlidir.
+- Aksiyomlar: reflexivity (`X→X`), augmentation (`X→Y ⟹ XZ→YZ`), transitivity (`X→Y, Y→Z ⟹ X→Z`).
+- Türetilmiş: union (`X→Y, X→Z ⟹ X→YZ`), decomposition (`X→YZ ⟹ X→Y, X→Z`).
+- **Kapanım `X+`:** X'ten bu aksiyomlarla türetilebilir tüm attribute'lar.
 
-**Kural:** Her kolon bölünemez tek bir (atomik) değer tutmalıdır. Virgülle ayrılmış değerler YASAKTIR.
+## Aday anahtar algoritması
 
-```sql
--- YANLIŞ (1NF ihlali)
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    hobbies TEXT  -- "yüzme, koşu, bisiklet"
-);
+1. Attribute kümesi `U`.
+2. Her `X ⊆ U` için `X+` hesapla.
+3. `X+ = U` olan ve minimal olan (hiç alt kümesi superkey olmayan) X → aday anahtar.
+4. Bir aday anahtar `PRIMARY KEY`; diğerleri `UNIQUE` olarak korunur.
 
--- DOĞRU (1NF uyumlu)
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE user_hobbies (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    hobby VARCHAR(100) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```text
+FD: A→B, B→C, D→C ; U={A,B,C,D}
+A+ = {A,B,C}  (A→B→C) ≠ U → anahtar değil
+AD+ = {A,B,C,D} = U ; A+≠U, D+={C,D}≠U → (A,D) minimal superkey = aday anahtar
+Prime: A,D ; Non-prime: B,C
 ```
 
-**Kontrol Sorusu:** `phone1, phone2, phone3` gibi tekrarlayan gruplar var mı? JSON kolonu kullanılıyorsa, ilişkisel veri mi yoksa esnek meta-veri mi tuttuğu kontrol edilir.
+## Form tanımları (sıkı)
 
-## 2NF (Second Normal Form) — Kısmi Bağımlılık
+| NF | Koşul | İhlal | Örnek çözüm |
+|----|-------|-------|-------------|
+| 1NF | Atomik değer, tekrar grup yok, PK var | `tags` kolonunda virgülle liste; `phone1,phone2` | pivot/junction tablo |
+| 2NF | 1NF + non-prime tam bağımlı | Composite PK'da `product_name` yalnız `product_id`'ye bağlı | ürünü ayrı tabloya |
+| 3NF | 2NF + non-prime yalnız aday anahtara bağımlı | `dept_id→dept_name` transitive | dept'i ayrı tabloya |
+| BCNF | Her non-trivial FD `X→Y` için X superkey | determinant (instructor_id) superkey değil | determinant'ı tabloya ayır |
+| 4NF | BCNF + non-trivial multivalued dep. yok | bir tabloda hem `X↠Y` hem `X↠Z` | her ↠ için ayrı tablo |
 
-**Kural:** 1NF + Kompozit Primary Key varsa, non-key kolonlar tam bağımlı olmalı.
+## BCNF ayrıştırma (decomposition) kuralları
 
-```sql
--- YANLIŞ (2NF ihlali)
-CREATE TABLE order_items (
-    order_id BIGINT UNSIGNED NOT NULL,
-    product_id BIGINT UNSIGNED NOT NULL,
-    product_name VARCHAR(100),  -- sadece product_id'ye bağlı
-    quantity INT NOT NULL,
-    PRIMARY KEY (order_id, product_id)
-);
-
--- DOĞRU (2NF uyumlu)
-CREATE TABLE products (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE order_items (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    order_id BIGINT UNSIGNED NOT NULL,
-    product_id BIGINT UNSIGNED NOT NULL,
-    quantity INT NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-**Kontrol Sorusu:** Composite PK varsa, her non-key kolon her iki key'e de bağımlı mı? Her tablonun tekil bir PK'sı varsa bu sorun temelden çözülür.
-
-## 3NF (Third Normal Form) — Geçici Bağımlılık
-
-**Kural:** 2NF + Non-key kolonlar sadece primary key'e bağlı olmalı.
+- **Bozulmasız (lossless) ayrıştırma:** Birleştirme orijinal veriyi korumalı. `X` aday anahtarlardan biri değilse `X`'i parçalara ayırırken kayıp olabilir — her zaman `X+` ile doğrula.
+- **Bağımlılığı koru (dependency preserving):** Ayrıştırma sonrası her FD en az bir parçada korunmalı; yoksa uygulama katmanında ek sorgu gerekir.
 
 ```sql
--- YANLIŞ (3NF ihlali)
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    city_id BIGINT UNSIGNED NOT NULL,
-    city_name VARCHAR(100),   -- transitive dependency
-    city_country VARCHAR(100) -- transitive dependency
-);
-
--- DOĞRU (3NF uyumlu)
-CREATE TABLE cities (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    country VARCHAR(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    city_id BIGINT UNSIGNED NOT NULL,
-    FOREIGN KEY (city_id) REFERENCES cities(id) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-**Kontrol Sorusu:** `A → B → C` gibi zincirleme bağımlılık var mı? `department_name` gibi veriler kendi tablolarına çıkarılmalı.
-
-## BCNF (Boyce-Codd Normal Form)
-
-**Kural:** 3NF + Her determinant (belirleyici) bir candidate key olmalı.
-
-```sql
--- YANLIŞ (BCNF ihlali)
-CREATE TABLE course_enrollments (
-    student_id BIGINT UNSIGNED NOT NULL,
-    course_id BIGINT UNSIGNED NOT NULL,
-    instructor_id BIGINT UNSIGNED NOT NULL,
-    instructor_name VARCHAR(100),
-    PRIMARY KEY (student_id, course_id)
-);
-
--- DOĞRU (BCNF uyumlu)
+-- BCNF İHLALİ: determinants superkey değil
+-- FD: (student_id, course_id) → instructor_id ; instructor_id → room, instructor_name
+-- Çözüm: instructor_id'yi kendi tablosuna taşı (lossless, dependency-preserving)
 CREATE TABLE instructors (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE courses (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    instructor_id BIGINT UNSIGNED NOT NULL,
-    FOREIGN KEY (instructor_id) REFERENCES instructors(id) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    room VARCHAR(20) NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE course_enrollments (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE enrollments (
     student_id BIGINT UNSIGNED NOT NULL,
-    course_id BIGINT UNSIGNED NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
-    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    course_id  BIGINT UNSIGNED NOT NULL,
+    instructor_id BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (student_id, course_id),
+    KEY idx_enrollments_instructor (instructor_id),
+    CONSTRAINT fk_enrollments_instructors FOREIGN KEY (instructor_id) REFERENCES instructors (id) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
 
-## Denormalizasyon Ne Zaman Kabul Edilir?
+## Denormalizasyon kapısı
 
-Denormalizasyon SADECE şu şartlarda kabul edilir:
+Yalnız üç şartta (SKILL.md §3.4): tarihsel dondurma / ölçülmüş ağır okuma / raporlama önbelleği.
+Her denormalize kolon **ADR ile gerekçelendirilir** ve tek source-of-truth normalize tablo kalır.
 
-| Şart | Gerekçe |
-|------|---------|
-| Verinin tarihsel olarak dondurulması | Audit trail, log snapshot |
-| Yoğun okunma senaryosu | Join maliyeti ölçülmüş ve çok yüksek |
-| ADR ile gerekçelendirilmiş | `ADR-XXX: total_price denormalize edildi, çünkü...` |
+## Kontrol soruları (hızlı)
 
-```sql
--- Denormalizasyon örneği (ADR gerekçeli)
--- ADR-XXX: 'total_price' kolonu denormalize edildi
--- Gerekçe: Raporlama ekranında çok ağır Join işlemlerini engellemek
-CREATE TABLE orders (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    total_price DECIMAL(10,2) NOT NULL,
-    item_count INT UNSIGNED NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-**Kural:** Denormalizasyon her zaman `updated_at` trigger ile senkronize edilmeli.
+- Her kolon atomik mi? (1NF)
+- Composite PK var mı → kısmi bağımlılık var mı? (2NF)
+- `A → B → C` zinciri, B non-prime mı? (3NF)
+- Her determinant superkey mi? (BCNF)
+- Çok-değerli bağımsız attribute tek tabloda mı? (4NF)

@@ -8,7 +8,7 @@ metadata:
   author: Bayram Ali (ULTRATHINK Engineering)
   category: agentic-orchestration
   tags: [orchestration, routing, handover, dispatch, hitl]
-  updated: 2026-10-07
+  updated: 2026-10-21
   previous-version: "4.1"
 ---
 
@@ -641,7 +641,9 @@ A task is NOT complete when:
 | Dosya | İçerik | Ne zaman okunur |
 |-------|--------|-----------------|
 | [references/workflow-dispatch.md](references/workflow-dispatch.md) | Risk L0-L4, R.A.I.L. matrisi, HITL 4 kontrol noktası, escalation matrisi, skill oluşturma protokolü (orchestration merge 2026-10-07) | Dispatch öncesi onay/escalation kararında |
+| [references/sources.md](references/sources.md) | Truth Mode kaynak kaydı (URL + erişim tarihi) — dış iddiaların kanıtı | Kaynaklı iddia yazılırken |
 | [references/changelog.md](references/changelog.md) | Sürüm geçmişi (kök `changelog` yerine; N10) | Sürüm davranışı sorgulandığında |
+| [examples/full-dispatch-loop.md](examples/full-dispatch-loop.md) | Tam döngü örnek: görev → risk/izin belirleme → handover → doğrulama → kapanış (N5 kanıtı) | İlk dispatch öncesi |
 
 ---
 
@@ -659,4 +661,4 @@ USER → ORCHESTRATOR → ARCHITECT | DEVELOPER | RESEARCHER
 - **VERIFY başarısızsa** görev, çıktısıyla birlikte **ORCHESTRATOR üzerinden** ilgili role (ARCHITECT/DEVELOPER/RESEARCHER) geri döner; döngü VERIFY pass edene kadar sürer.
 - Durum etiketleri: kanıtlanmamış fazlar **PLANNED** olarak etiketlenir — kanıtsız "IMPLEMENTED" yazılmaz.
 
-*CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*
+*CoreMusic Skill v3.0 - metadata.version: 3.0.0 - Updated: 2026-10-21*

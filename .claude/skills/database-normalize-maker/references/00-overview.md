@@ -1,64 +1,52 @@
-# 00. Overview: Veritabanı Oluşturma & Normalizasyon Motoru
+# 00 — Genel Bakış & Navigasyon
 
-## Genel Bakış
+> Bu referans `database-normalize-maker` skill'inin haritasıdır. Her konu için doğru
+> alt dosyaya yönlendirir. Ana akış: SKILL.md §8 (Model → Design → Normalize → Migrate → Validate → Document).
 
-`database-normalize-maker`, CoreMusic projesinde veritabanı şeması tasarlayan, normalizasyon yapan ve MySQL 9 uyumlu SQL komutları üreten bir skill'dir.
+## Amaç
 
-## Bu Skill Ne Yapar?
+CoreMusic veritabanı işlerinde tek doğrulanmış akışı sağlamak: gereksinimden
+BCNF uyumlu şemaya, güvenli migration'a ve doğrulanmış çıktıya kadar. Zero-hallucination
+ilkesi bağlayıcıdır — doğrulanamayan iddia `VERIFICATION REQUIRED` ile işaretlenir.
 
-1. **Veritabanı Oluşturma:** `CREATE DATABASE` ve `CREATE TABLE` komutlarını üretir.
-2. **Tablo Tasarımı:** BCNF kurallarına uygun tablolar tasarlar.
-3. **SQL Üretimi:** CREATE, ALTER, INSERT, UPDATE, DELETE, SELECT, JOIN, TRANSACTION, VIEW, TRIGGER komutlarını üretir.
-4. **Normalizasyon:** 1NF → 2NF → 3NF → BCNF kontrollerini yapar.
-5. **İndeks Stratejisi:** Sorgu kalıplarına göre index tasarlar.
-6. **Migration:** Expand-contract zero-downtime migration scriptleri oluşturur.
-7. **Güvenlik:** PII şifreleme, audit trail ve soft delete uygular.
-8. **ER Diyagramı:** Mermaid.js formatında entity-relationship diyagramı üretir.
+## Hedef kitle & rol
 
-## Kullanmaz
+- **Birincil:** Data Engineer (Expert #3) — şema, BCNF, migration, MySQL/PDO.
+- **İkincil:** security-engineer (OWASP/PII veto), sql-pro/postgres-pro (gelişmiş sorgu), backend-architect (repository katmanı).
 
-- ORM (ADR-021: ORM yasak — sadece PDO prepared statements)
-- Framework (ADR-001: Framework yasak)
-- `SELECT *` (yasak — açık kolon listesi)
-- `FLOAT` para birimi (yasak — `DECIMAL(10,2)`)
+## Konu → Dosya indeksi
 
-## 6 Adımlı İş Akışı (Model → Migrate → Validate)
+| İhtiyaç | Aç |
+|---------|-----|
+| Gereksinimleri nasıl toplarım? | [01-requirements-gathering.md](01-requirements-gathering.md) |
+| 1NF/2NF/3NF/BCNF kuralı, aday anahtar, bağımlılık | [02-normalization-rules.md](02-normalization-rules.md) |
+| Farklı motor/MySQL 8.0 diyalekt notları | [03-provider-dialects.md](03-provider-dialects.md) |
+| PII, şifreleme, audit trail, OWASP | [04-security-audit.md](04-security-audit.md) |
+| Index, EXPLAIN, N+1, sorgu planı | [05-performance-optimization.md](05-performance-optimization.md) |
+| Şema + migration üretim kalıpları | [06-schema-generation.md](06-schema-generation.md) |
+| CoreMusic entegrasyonu, vault/ADR/agent routing | [07-coremusic-integration.md](07-coremusic-integration.md) |
+| Uçtan uca örnek çıktılar | [08-examples.md](08-examples.md) |
+| Anti-pattern kataloğu (tam) | [09-anti-patterns.md](09-anti-patterns.md) |
+| QA kontrol listesi | [10-checklist.md](10-checklist.md) |
+| Sürüm geçmişi | [changelog.md](changelog.md) |
+| Motor/versiyon notları | [db-engine-notes.md](db-engine-notes.md) |
+| Resmi kaynaklar (URL + tarih) | [sources.md](sources.md) |
+| Kalite kapısı (PASS/BLOCK) | [checklist.md](checklist.md) |
 
-```
-1. MODEL    — Gereksinimleri anla, şemayı tasarla
-2. DESIGN   — Kolonları, tipleri, ilişkileri belirle
-3. NORMALIZE — 1NF/2NF/3NF/BCNF kontrolü yap
-4. MIGRATE  — SQL komutlarını üret (up + down)
-5. DOCUMENT — schema.sql, seed.sql, ER diyagramı oluştur
-6. VALIDATE — 25 maddelik kontrol listesinden geçir
-```
+## Script'ler
 
-## Beklenen Davranış
+| Script | Amaç |
+|--------|------|
+| `scripts/normalize-checker.php` | 1NF/BCNF proxy denetimi |
+| `scripts/security-audit.php` | PII/audit/naming denetimi |
+| `scripts/schema-to-diagram.php` | CREATE TABLE → Mermaid ER |
 
-Sistemi çağırdığınızda:
-1. Önce gereksinimleri sorar (tablo, ilişki, ölçek, sorgu kalıpları)
-2. Şemayı tasarlar ve normalizasyon kontrolünden geçirir
-3. Tüm SQL komutlarını üretir (CREATE, ALTER, INDEX, FK, INSERT, SELECT, vb.)
-4. Seed verisi, ER diyagramı ve migration dosyaları oluşturur
-5. 25 maddelik validation checklist'ten geçirir
+## Şablonlar
 
-## MySQL 9 Zorunlu Kuralları
+- `templates/schema-template.sql` — BCNF uyumlu tablo + audit iskeleti.
+- `templates/migration-template.sql` — expand-contract migration iskeleti.
+- `templates/seed-template.sql` — gerçekçi PII içermeyen seed veri.
 
-| Kural | Detay |
-|-------|-------|
-| Motor | `ENGINE=InnoDB` |
-| Charset | `utf8mb4_unicode_ci` |
-| Primary Key | `id BIGINT UNSIGNED AUTO_INCREMENT` |
-| Para | `DECIMAL(10,2)` — asla `FLOAT` |
-| ORM | Yasak — PDO prepared statements only |
-| SELECT * | Yasak — açık kolon listesi |
-| Timestamp | `created_at`, `updated_at`, `deleted_at` (her tabloda) |
+## Temel yasaklar (özet)
 
-## CoreMusic Veritabanı Sayısı
-
-11 BCNF veritabanı: auth, users, musics, albums, playlist, catalog, logs, media, system, social, wireless.
-
-## Referans
-
-- Ana dosya: `SKILL.md` (v5.0)
-- Alt dosyalar: `references/`, `scripts/`, `templates/`
+`SELECT *` · ORM · hard delete · `FLOAT` para · onaysız prod DDL · kaynaksız iddia.

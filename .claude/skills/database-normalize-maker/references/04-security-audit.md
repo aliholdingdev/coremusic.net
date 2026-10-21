@@ -1,105 +1,59 @@
-# 04. Güvenlik Denetimi
+# 04 — Güvenlik Denetimi (OWASP / PII / Audit)
 
-## Genel Bakış
+> Bu alan **security-engineer** ile ortaktır; güvenlik veto yetkisi vardır.
+> Bu referans şema-güvenliği denetimini tanımlar. Kod-uzmanı: `security-audit.php`.
 
-Veritabanı şeması tasarlanırken güvenlik kontrolleri zorunludur. PII verileri, audit trail ve SQL injection koruması göz ardı edilemez.
+## Şema-güvenliği kontrolleri
 
-## 1. PII Şifrelemesi
+| # | Kontrol | Kriter |
+|---|---------|--------|
+| 1 | PII kolonları şifreli mi? | Hassas alan (email, ip, token, ödeme) AES-256-GCM / uygun şifreleme veya ADR etiketi |
+| 2 | Audit tablo var mı? | Kritik tablo (`users`, `payments`, `orders`) için `{tablo}_audit` |
+| 3 | Soft delete | Hard delete yasak; `deleted_at` |
+| 4 | Naming (SQLi yüzeyi) | Tablo/kolon `snake_case`; dinamik sorgu yüzeyini daralt |
+| 5 | Secret yok | Şemada/API'de sabit anahtar/token yok; `.env`/vault |
+| 6 | Rol/izin | Hassas tabloya erişim ayrı yetki |
+| 7 | Para tipi | `DECIMAL`, `FLOAT` yasak (yuvarlama → tutarsızlık) |
 
-TC Kimlik No, Kredi Kartı, Sağlık Verisi gibi hassas veriler düz metin olarak saklanamaz.
+## PII şifreleme notu
 
-| Hassas Kolon | Şifreleme | Kolon Tipi |
-|--------------|-----------|------------|
-| `ssn` | AES-256-GCM | `TEXT` |
-| `national_id` | AES-256-GCM | `TEXT` |
-| `credit_card` | AES-256-GCM | `TEXT` |
-| `medical_data` | AES-256-GCM | `TEXT` |
-| `token` | SHA-256 hash | `VARCHAR(255)` |
-| `secret` | AES-256-GCM | `TEXT` |
+- Hassas kolon, şifreli blob için yeterli alan sağlamalı (ör. `TEXT`/`VARBINARY` + AEAD).
+- Anahtar yönetimi şemanın dışında (`.env`/vault); şemada asla sabit anahtar yok.
+- Hash (parola) ≠ şifreleme (geri alınabilir PII). Parola: Argon2id; PII: AEAD.
 
-```sql
--- ADR: 'ssn' kolonu AES-256-GCM ile şifrelenacağı için TEXT yapılmıştır.
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL,
-    ssn TEXT NULL, -- ⚠️ Şifrelenmeli (AES-256-GCM)
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-## 2. Audit Trail (Denetim İzi)
-
-Kritik tablolar için `_audit` tablosu zorunludur:
-
-| Tablo | Audit Tablosu | Zorunlu mu? |
-|-------|---------------|-------------|
-| `users` | `users_audit` | Evet (PII) |
-| `payments` | `payments_audit` | Evet (finansal) |
-| `orders` | `orders_audit` | Evet (işlem) |
-| `settings` | `settings_audit` | Hayır (düşük risk) |
+## Audit trail deseni
 
 ```sql
-CREATE TABLE users_audit (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    action ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
+CREATE TABLE payments_audit (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    payment_id BIGINT UNSIGNED NOT NULL,
+    action ENUM('INSERT','UPDATE','DELETE') NOT NULL,
     old_values JSON NULL,
     new_values JSON NULL,
     acted_by BIGINT UNSIGNED NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_user_id (user_id),
-    INDEX idx_action (action),
-    INDEX idx_created_at (created_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY idx_payments_audit_payment (payment_id),
+    KEY idx_payments_audit_action (action),
+    KEY idx_payments_audit_created (created_at),
+    CONSTRAINT fk_payments_audit_payments FOREIGN KEY (payment_id) REFERENCES payments (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
 
-## 3. SQL Injection Koruması
+> Trigger ile `old_values`/`new_values` JSON olarak doldurulur (bkz. SKILL.md §4.4 / 06).
+> `ENUM` burada sabit ve değişmez bir aksiyon kümesi olduğu için kabul edilir (lookup'a gerek yok).
 
-| Kural | Uygulama |
-|-------|----------|
-| Dinamik SQL birleştirme | YASAK |
-| Parametrik sorgular | Zorunlu (PDO prepared statements) |
-| Tablo/kolon isimleri | Snake_case (büyük harf yok) |
-| Kullanıcı girdisi | Asla doğrudan SQL'e eklenmez |
+## OWASP eşlemesi (şema düzeyi)
 
-## 4. Soft Delete Politikası
+| OWASP teması | Şema karşılığı |
+|--------------|----------------|
+| A01 Broken Access Control | Rol bazlı yetki, sahiplik kolonu (`user_id`) |
+| A02 Cryptographic Failure | PII AES-256-GCM; parola Argon2id; `FLOAT` para yasak |
+| A04 Insecure Design | Soft delete + audit; polymorphic FK yasak |
+| A05 Security Misconfig | Collation/engine tutarlılığı; gizli bilgi şemada yok |
+| A08 Software/Data Integrity | Migration checksum + forward-only |
 
-| Tablo Tipi | Soft Delete | Hard Delete |
-|------------|-------------|-------------|
-| Varlık tabloları (users, products) | `deleted_at` zorunlu | Yasak |
-| Pivot/junction tabloları (user_groups) | `deleted_at` YOK | İlişki koptuğunda |
-| Log tabloları (audit) | `deleted_at` YOK | Zaman bazlı partition |
-| Geçici tablolar (sessions) | `deleted_at` YOK | Süre dolduğunda |
+## Denetim script'i
 
-```sql
--- Soft delete (varlık tablolarında)
-UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = 1;
-
--- Sorgularken her zaman deleted_at filtresi
-SELECT id, username, email FROM users WHERE deleted_at IS NULL;
-
--- Pivot tablolarında hard delete
-DELETE FROM user_groups WHERE user_id = 1 AND group_id = 5;
-```
-
-## 5. Foreign Key Güvenliği
-
-| Kural | Açıklama |
-|-------|----------|
-| ON DELETE stratejisi | Her FK'da seçilmeli |
-| CASCADE dikkatli | Zincirleme silmeyi tetikleyebilir |
-| RESTRICT tercih | Varsayılan olarak güvenli |
-| Circular FK | Yasak — dependency analizi required |
-
-```sql
--- Güvenli FK tanımı
-CREATE TABLE orders (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-        ON DELETE RESTRICT    -- Kullanıcı silinemez, önce siparişler silinmeli
-        ON UPDATE CASCADE     -- ID değişirse senkronize ol
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
+`scripts/security-audit.php` — PII/encrypt, audit tablo ve naming kontrollerini tarar.
+Canlı çalıştırma bu ortamda `VERIFICATION REQUIRED` (PHP yok; bkz. SKILL.md §11).

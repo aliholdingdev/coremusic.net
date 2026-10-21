@@ -1,1021 +1,501 @@
 ---
 name: database-normalize-maker
-description: "Use when normalizing a table to BCNF, deriving candidate keys, or writing migration SQL for CoreMusic databases — Tetikleyiciler: 'normalize', 'bcnf', 'tablo oluştur', 'schema', 'migration', 'sql yaz', 'index oluştur'."
+description: "Use when normalizing a table to BCNF, deriving candidate keys, detecting functional dependencies, auditing a schema, or writing migration SQL for MySQL 8.0 / CoreMusic databases — Tetikleyiciler: 'normalize', 'bcnf', 'tablo oluştur', 'schema', 'migration', 'sql yaz', 'index oluştur', 'normalizasyon', 'aday anahtar', 'fonksiyonel bagimlilik'."
 license: MIT
 metadata:
-  version: 3.0.0
+  version: 4.0.0
   format: claude-skill-v3
   author: Bayram Ali (ULTRATHINK Engineering)
   category: database
-  tags: [bcnf, mysql, schema, migration, normalization]
-  updated: 2026-10-07
-  previous-version: "5.1"
+  tags: [bcnf, 3nf, normalization, mysql, innodb, schema, migration, index, explain]
+  updated: 2026-10-21
+  previous-version: "3.0.0"
 ---
 
-# Veritabanı Oluşturma & Normalizasyon Motoru
+# Veritabanı Normalizasyon & Şema Üretim Motoru
 
-## 1. Bu Skill Ne Yapar?
-
-Bu skill, CoreMusic projesinde:
-- **Veritabanı şeması** tasarlar ve oluşturur
-- **Tabloları** normalizasyon kurallarına göre (1NF → 2NF → 3NF → BCNF) düzenler
-- **SQL komutlarını** üretir: CREATE, ALTER, INSERT, UPDATE, DELETE, SELECT, JOIN, TRANSACTION, VIEW, TRIGGER
-- **Index stratejisi** belirler ve uygular
-- **Migration scriptleri** oluşturur (expand-contract zero-downtime)
-- **ER diyagramı** üretir (Mermaid.js)
-- **Sorgu optimizasyonu** yapar
-- **Güvenlik kontrolleri** uygular (PII, şifreleme, audit)
-
-**Kullanmaz:**
-- ORM (ADR-002: ORM yasak - sadece PDO prepared statements)  <!-- ⚠️ 2026-09-29: ADR-021 idi, doğru karar ADR-002-pdo-mandatory-no-orm (ADR-021 = SPA router contract) -->
-- Framework (ADR-001: Framework yasak)
-- `SELECT *` (yasak — tüm kolonları açıkla)
-- `FLOAT` para birimi (yasak — `DECIMAL(10,2)` kullan)
-
-**Temel Prensip:** Her SQL komutunu bu belgedeki §6 referansına göre üret. Komutların MySQL 9 uyumlu, BCNF uyumlu ve güvenli olmalıdır.
+> **Hedef motor:** MySQL 8.0 (InnoDB, utf8mb4).
+> **Domain sahibi:** Data Engineer (Expert #3). Şema/normalizasyon kararları bu skill'den üretilir.
+> **SSOT:** `.ai/.sql/mysql/*.sql` + ADR-040 (database authority). Bu skill şablon/jenerik üretim yapar; gerçek envanter sayıları vault'tadır.
 
 ---
 
-## 2. CoreMusic Veritabanı Mimarisi
+## §1. Bu Skill Ne Yapar (Kapsam)
 
-### 2.1 11 BCNF Veritabanı
+Girdi: bir gereksinim, ham bir tablo tanımı veya mevcut bir `CREATE TABLE` bloğu.
+Çıktı: BCNF uyumlu şema + index stratejisi + güvenli migration + doğrulama raporu.
 
-> ⚠️ **2026-09-29 (faz2 kalite denetimi) — BAYAT ENVANTER / VERIFICATION REQUIRED:**
-> Aşağıdaki 11 satır **ilk sürümün kısmi listesidir, tam envanter DEĞİLDİR.**
-> Vault SSOT: `.ai/.sql/mysql/*.sql` = **18 dosya** → CoreMusic **18 BCNF veritabanı**
-> (kaynak: [[.ai/.decisions/accepted/ADR-040-database-authority]], `.ai/CLAUDE.md` DB tablosu,
-> `.ai/.agents/data-engineer.md` §4.4 "18 Veritabanı Envanteri").
-> Eksik 7 DB: `coremusic_ai`, `coremusic_api`, `coremusic_cms`, `coremusic_download`,
-> `coremusic_neva`, `coremusic_studio`, `coremusic_patch`.
-> Tablo adı düzeltildi: `coremusic_users` → **`coremusic_user`** (disk kanıtı: `.ai/.sql/mysql/coremusic_user.sql`).
-> Tablo sayıları da bayattır (toplam 68 vs. gerçek 156 tablo — ADR-033/ADR-040).
-> **ADR-042 gereği satırlar SİLİNMEDİ; tam kaynak yukarıdaki SSOT dosyalarıdır.**
+**Yapar:**
+- Fonksiyonel bağımlılık çıkarımı ve **aday anahtar (candidate key)** tespiti.
+- 1NF → 2NF → 3NF → BCNF (gerekiyorsa 4NF) normalizasyonu.
+- MySQL 8.0 uyumlu `CREATE TABLE` / `ALTER TABLE` / index üretimi.
+- **Expand-and-contract** (zero-downtime) migration planı.
+- Sorgu planı denetimi: `EXPLAIN`, `EXPLAIN ANALYZE`, N+1 tespiti.
+- Soft-delete (paranoid) ve audit-trail desenleri.
+- Şema → Mermaid ER diyagramı dönüşümü.
 
-| # | Veritabanı | Amaç | Tablo Sayısı |
-|---|-----------|------|--------------|
-| 1 | `coremusic_auth` | Kimlik doğrulama | 5 |
-| 2 | `coremusic_user` | Kullanıcı yönetimi | 8 |
-| 3 | `coremusic_musics` | Müzik kataloğu | 12 |
-| 4 | `coremusic_albums` | Albüm yönetimi | 6 |
-| 5 | `coremusic_playlist` | Çalma listeleri | 5 |
-| 6 | `coremusic_catalog` | Kataloglama | 8 |
-| 7 | `coremusic_logs` | Log yönetimi | 4 |
-| 8 | `coremusic_media` | Medya dosyaları | 6 |
-| 9 | `coremusic_system` | Sistem ayarları | 3 |
-| 10 | `coremusic_social` | Sosyal özellikler | 7 |
-| 11 | `coremusic_wireless` | Kablosuz bağlantı | 4 |
+**Yapmaz (domain yasakları — ADR):**
+- ORM üretmez (ADR-002: ORM yasak — yalnız PDO prepared statements).
+- Framework şablonu üretmez (ADR-001).
+- `SELECT *` üretmez (ADR-014: açık kolon listesi zorunlu).
+- Hard delete üretmez (soft delete zorunlu).
+- `FLOAT` para birimi üretmez (`DECIMAL` zorunlu).
+- Kritik prod DDL'yi onaysız uygulamaz (root onayı gerekir).
 
-### 2.2 MySQL 9 Zorunlu Kuralları
+**Temel zihniyet (50 yıllık senior):** Kod yazmak en ucuz adımdır. Önce doğru problemi bul — hangi tablo fazlalığı, hangi bağımlılık bozuk, hangi sorgu yavaş. Varsayımını yaz, kanıtla, sonra SQL üret. Tahmin = hata.
 
-| Kural | Detay |
+---
+
+## §2. Zero-Hallucination & Versiyon Disiplini
+
+1. Doğrulanamayan iddia → `VERIFICATION REQUIRED`. Uydurulan kolon/tablo/ADR/sürüm yasak.
+2. **Sürüm netliği:** Bu skill **MySQL 8.0 (LTS)** hedefler. CoreMusic vault'ta bazı metinler "MySQL 9" (Innovation hattı) geçebilir — **deploy edilen tam sürüm `VERIFICATION REQUIRED`**. 8.0 feature'ları için min sürüm notu: `EXPLAIN ANALYZE` = 8.0.18+, çok-değerli JSON index = 8.0.17+, CHECK enforce = 8.0.16+, descending index = 8.0.0+.
+3. **Bilinen yanlış inanış (bu skill düzeltir):** MySQL'de PostgreSQL tarzı **partial/filtered index (`CREATE INDEX ... WHERE`) YOKTUR**. Yerine: composite index + sorgu sıralaması, veya `GENERATED` kolon + index, veya `INDEX` ile `WHERE` sargısını eşleme. Eklerken sürüm feature'ını doğrula.
+4. Her üretim, §11 kalite kapısından (`references/checklist.md`) geçmeden "tamam" sayılmaz.
+
+---
+
+## §3. Fonksiyonel Bağımlılık & Aday Anahtar
+
+### 3.1 Temel tanımlar
+
+| Terim | Tanım |
 |-------|-------|
-| Motor | `ENGINE=InnoDB` |
-| Charset | `DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci` |
-| Primary Key | `id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY` |
-| Timestamp | `created_at`, `updated_at`, `deleted_at` (her tabloda) |
-| Para | `DECIMAL(10,2)` — asla `FLOAT` |
-| ORM | Yasak — PDO prepared statements only |
-| SELECT * | Yasak — açık kolon listesi |
-| Stored Procedure | İş mantığı PHP'de, SP minimum |
-| Trigger | Sadece audit trail için |
+| Fonksiyonel bağımlılık (FD) | `X → Y`: X değeri belirlendiğinde Y tek değer alır. |
+| Armstrong aksiomları | reflexivity, augmentation, transitivity (+ türetilen: union, decomposition). |
+| Kapanım (closure) `X+` | X'ten türetilebilir tüm attribute kümesi. |
+| Superkey | Kapanımı tüm attribute'ları içeren attribute kümesi. |
+| Aday anahtar | **Minimal** superkey — alt kümesi superkey olmayan. Birden fazla olabilir. |
+| Prime attribute | Bir aday anahtarın üyesi olan attribute. Non-prime: hiçbir aday anahtarın üyesi değil. |
 
-### 2.3 İsimlendirme Standartları
+### 3.2 Aday anahtar bulma yöntemi (deterministik)
 
-| Öğe | Format | Örnek |
-|-----|--------|-------|
-| Tablolar | Çoğul, snake_case | `users`, `order_items` |
-| Kolonlar | snake_case | `first_name`, `created_at` |
-| Primary Key | `id` | `id BIGINT UNSIGNED` |
-| Foreign Key | `{tablo}_id` | `user_id`, `product_id` |
-| Index | `idx_{kolon}` | `idx_email` |
-| Unique Index | `uk_{kolon}` | `uk_username` |
-| FK Constraint | `fk_{çocuk}_{ana}` | `fk_orders_users` |
-| View | `v_{amaç}` | `v_active_users` |
-| Trigger | `trg_{tablo}_{olay}` | `trg_users_audit` |
+1. Tüm attribute kümesini `U` al.
+2. Her aday `X ⊆ U` için `X+` hesapla (Armstrong ile).
+3. `X+ = U` ve hiçbir alt kümesinin `X+ = U` olmadığı `X`'leri aday anahtar say.
+4. `PRIMARY KEY` bir aday anahtar seçilir; kalanlar `UNIQUE` constraint olarak korunur (bilgi kaybını önler).
 
-### 2.4 Zorunlu Kolon Şablonu
-
-Her varlık tablosunda bu kolonlar olmalıdır:
-
-```sql
-id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-deleted_at TIMESTAMP NULL DEFAULT NULL
+```text
+Örnek FD: {student_id, course_id} → instructor_id, instructor_name, room
+          instructor_id → instructor_name, room   (transitive / BCNF ihlali)
+Aday anahtar: (student_id, course_id)   — minimal superkey
+instructor_id determinant ama superkey DEĞİL → BCNF ihlali → instructors tablosuna ayır.
 ```
 
----
+### 3.3 Normal formlar (sıkı tanımlar)
 
-## 3. Normalizasyon Kuralları
+| NF | Koşul | İhlal tipi | Çözüm |
+|----|-------|-----------|-------|
+| 1NF | Attribute'lar atomik; tekrarlayan grup yok; PK var | Array/virgülle liste, `phone1,phone2,...` | Ayırıcı tablo (pivot) |
+| 2NF | 1NF + non-prime attribute'lar **tamamen** PK'ya bağımlı | Kısmi bağımlılık (composite PK'da bir key parçasına bağımlı) | Parça + tümünü ayrı tabloya |
+| 3NF | 2NF + non-prime attribute'lar **yalnız** aday anahtara bağımlı | Transitive bağımlılık (`A → B → C`, B non-prime) | `B → C`'yi ayrı tabloya |
+| BCNF | Her non-trivial FD `X → Y` için **X superkey** | Determinant superkey değil | Determinant'ı aday anahtar yap veya bö |
+| 4NF | BCNF + non-trivial multivalued dependency `X ↠ Y` yok | Bağımsız çok-değerli attribute tek tabloda | Her `X ↠ Y` için ayrı tablo |
 
-### 3.1 Birinci Normal Form (1NF)
+#### 3.3.1 Denetim sırası (pratik — tabloyu yukarıdan aşağı uygula)
 
-**Kural:** Her kolon atomik değer tutar. Liste, dizi veya çoklu değer yoktur.
+1. PK var mı? → yoksa **1NF ihlali**.
+2. Composite PK'da non-prime bir attribute yalnız bir key parçasına mı bağımlı? → **2NF ihlali**.
+3. Non-prime attribute, PK **dışı** bir determinant'a mı bağımlı (`A → B → C`)? → **3NF ihlali**.
+4. Determinant superkey değil mi? → **BCNF ihlali**.
+5. Birbirinden bağımsız çok-değerli attribute tek tabloda mı? → **4NF ihlali**.
 
-```sql
--- YANLIŞ (1NF ihlali — virgülle ayrılmış liste)
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    hobbies TEXT  -- "yüzme, koşu, bisiklet"
-);
-
--- DOĞRU (1NF uyumlu — ayrı tablo)
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE user_hobbies (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    hobby VARCHAR(100) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-**Kontrol Sorusu:** Her kolonda sadece bir değer mi var? `phone1, phone2, phone3` gibi tekrarlayan gruplar var mı?
-
-### 3.2 İkinci Normal Form (2NF)
-
-**Kural:** 1NF + Kısmi bağımlılık yok. Composite PK'da tüm non-key kolonlar tam bağımlı olmalı.
+Sıra önemlidir: 3NF ihlali BCNF'yi de ihlal eder; önce 3NF'yi düzelt, BCNF'yi sonra doğrula.
 
 ```sql
--- YANLIŞ (2NF ihlali — product_name sadece product_id'ye bağlı)
-CREATE TABLE order_items (
-    order_id BIGINT UNSIGNED NOT NULL,
-    product_id BIGINT UNSIGNED NOT NULL,
-    product_name VARCHAR(100),  -- order_id'ye bağlı değil
-    quantity INT NOT NULL,
-    PRIMARY KEY (order_id, product_id)
-);
+-- BCNF İHLALİ (transitive): department_id → department_name, department_head
+-- Aday anahtar: (emp_id) ; FD: emp_id → dept_id → dept_name
+CREATE TABLE employees_bcnf_violation (
+    emp_id       BIGINT UNSIGNED NOT NULL,
+    dept_id      BIGINT UNSIGNED NOT NULL,
+    dept_name    VARCHAR(100) NOT NULL,   -- non-prime, dept_id'ye bağımlı (transitive)
+    dept_head    VARCHAR(100) NOT NULL,   -- non-prime, dept_id'ye bağımlı (transitive)
+    PRIMARY KEY (emp_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- DOĞRU (2NF uyumlu)
-CREATE TABLE products (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- BCNF UYUMLU: dept_id → dept_name, dept_head bağımsız tabloya taşındı
+CREATE TABLE departments (
+    id      BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name    VARCHAR(100) NOT NULL,
+    head    VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_departments_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE order_items (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    order_id BIGINT UNSIGNED NOT NULL,
-    product_id BIGINT UNSIGNED NOT NULL,
-    quantity INT NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-**Kontrol Sorusu:** Composite PK var mı? Varsa, her non-key kolon her iki key'e de bağımlı mı?
-
-### 3.3 Üçüncü Normal Form (3NF)
-
-**Kural:** 2NF + Geçici bağımlılık yok. Non-key kolonlar sadece primary key'e bağlı olmalı.
-
-```sql
--- YANLIŞ (3NF ihlali — city_name city_id'ye bağlı, id'ye değil)
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    city_id BIGINT UNSIGNED NOT NULL,
-    city_name VARCHAR(100),   -- transitive dependency
-    city_country VARCHAR(100) -- transitive dependency
-);
-
--- DOĞRU (3NF uyumlu)
-CREATE TABLE cities (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    country VARCHAR(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    city_id BIGINT UNSIGNED NOT NULL,
-    FOREIGN KEY (city_id) REFERENCES cities(id) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-**Kontrol Sorusu:** `A → B → C` gibi zincirleme bağımlılık var mı? Varsa, ayrı tabloya taşı.
-
-### 3.4 Boyce-Codd Normal Form (BCNF)
-
-**Kural:** 3NF + Her determinant (belirleyici) bir candidate key olmalı.
-
-```sql
--- YANLIŞ (BCNF ihlali — instructor_id belirleyici ama key değil)
-CREATE TABLE course_enrollments (
-    student_id BIGINT UNSIGNED NOT NULL,
-    course_id BIGINT UNSIGNED NOT NULL,
-    instructor_id BIGINT UNSIGNED NOT NULL,
-    instructor_name VARCHAR(100),
-    PRIMARY KEY (student_id, course_id)
-);
-
--- DOĞRU (BCNF uyumlu)
-CREATE TABLE instructors (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE courses (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    instructor_id BIGINT UNSIGNED NOT NULL,
-    FOREIGN KEY (instructor_id) REFERENCES instructors(id) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE course_enrollments (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    student_id BIGINT UNSIGNED NOT NULL,
-    course_id BIGINT UNSIGNED NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
-    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-### 3.5 Denormalizasyon Ne Zaman Kabul Edilir?
-
-Denormalizasyon SADECE şu şartlarda kabul edilir:
-
-| Şart | Gerekçe |
-|------|---------|
-| Verinin tarihsel olarak dondurulması | Audit trail, log snapshot |
-| Yoğun okunma senaryosu | Join maliyeti ölçülmüş ve çok yüksek |
-| ADR ile gerekçelendirilmiş | `ADR-XXX: total_price denormalize edildi, çünkü...` |
-
-```sql
--- Denormalizasyon örneği (ADR gerekçeli)
--- ADR-XXX: 'total_price' kolonu denormalize edildi
--- Gerekçe: Raporlama ekranında çok ağır Join işlemlerini engellemek
-CREATE TABLE orders (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    total_price DECIMAL(10,2) NOT NULL,
-    item_count INT UNSIGNED NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-**Kural:** Denormalizasyon her zaman `updated_at` trigger ile senkronize edilmeli.
-
----
-
-## 4. İlişki Türleri ve Şablonlar
-
-### 4.1 One-to-Many (Bire Çok)
-
-```sql
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL,
-    UNIQUE KEY uk_username (username)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE comments (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    content TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-### 4.2 Many-to-Many (Çoktan Çoğa — Junction Table)
-
-```sql
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL,
-    UNIQUE KEY uk_username (username)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE groups (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL,
-    UNIQUE KEY uk_name (name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE user_groups (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    group_id BIGINT UNSIGNED NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
-    UNIQUE KEY uk_user_group (user_id, group_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-### 4.3 One-to-One (Bire Bir)
-
-```sql
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL,
-    UNIQUE KEY uk_username (username)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE user_profiles (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL UNIQUE,
-    bio TEXT,
-    avatar_url VARCHAR(500),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-### 4.4 Self-Referencing (Kendi Kendine)
-
-```sql
-CREATE TABLE categories (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    parent_id BIGINT UNSIGNED NULL DEFAULT NULL,
-    name VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL,
-    FOREIGN KEY (parent_id) REFERENCES categories(id) ON DELETE SET NULL,
-    INDEX idx_parent_id (parent_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
----
-
-## 5. Yaygın Şema Kalıpları (Common Patterns)
-
-### 5.1 Soft Delete
-
-```sql
--- Her tabloda deleted_at kolonu olmalı
--- Hard delete ASLA yapılmaz (ADR kuralı)
-UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = 1;
-
--- Sorgularken:
-SELECT id, username, email
-FROM users
-WHERE deleted_at IS NULL AND is_active = 1;
-```
-
-### 5.2 Audit Trail
-
-```sql
-CREATE TABLE users_audit (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    action ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
-    old_values JSON NULL,
-    new_values JSON NULL,
-    acted_by BIGINT UNSIGNED NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_user_id (user_id),
-    INDEX idx_action (action),
-    INDEX idx_created_at (created_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-### 5.3 Metadata (JSON Kolon)
-
-```sql
--- Esnek veri için JSON kolon (MySQL 9 native JSON desteği)
-ALTER TABLE products
-    ADD COLUMN metadata JSON NULL DEFAULT NULL;
-
--- JSON index (virtual column ile)
-ALTER TABLE products
-    ADD COLUMN metadata_genre VARCHAR(50) GENERATED ALWAYS AS (JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.genre'))) VIRTUAL,
-    ADD INDEX idx_metadata_genre (metadata_genre);
-```
-
-### 5.4 Enum Yerine Lookup Tablosu
-
-```sql
--- YANLIŞ (MySQL ENUM sabit, değişiklik zor)
-status ENUM('active', 'inactive', 'banned')
-
--- DOĞRU (lookup tablosu — esnek, normalize)
-CREATE TABLE statuses (
-    id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    code VARCHAR(20) NOT NULL UNIQUE,
-    label VARCHAR(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO statuses (code, label) VALUES ('active', 'Active'), ('inactive', 'Inactive');
-```
-
----
-
-## 6. SQL Komut Referansı
-
-### 6.1 Veritabanı Oluşturma
-
-```sql
-CREATE DATABASE IF NOT EXISTS coremusic
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
-
-USE coremusic;
-```
-
-### 6.2 Tablo Oluşturma (CREATE TABLE)
-
-```sql
-CREATE TABLE users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
+CREATE TABLE employees (
+    id        BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    dept_id   BIGINT UNSIGNED NOT NULL,
     first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    is_active TINYINT(1) DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_name  VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP NULL DEFAULT NULL,
-    UNIQUE KEY uk_username (username),
-    UNIQUE KEY uk_email (email),
-    INDEX idx_is_active (is_active),
-    INDEX idx_created_at (created_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    PRIMARY KEY (id),
+    KEY idx_employees_dept_id (dept_id),
+    CONSTRAINT fk_employees_departments FOREIGN KEY (dept_id) REFERENCES departments (id) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
 
-### 6.3 Tablo Değiştirme (ALTER TABLE)
+> **Collation notu:** MySQL 8.0 varsayılan collation `utf8mb4_0900_ai_ci`'dir (8.0.1+). `utf8mb4_unicode_ci` da geçerlidir. CoreMusic'te hangisinin kullanıldığı vault'ta — **tutarlılık tek collation'da olmalı, karıştırma `VERIFICATION REQUIRED`.**
 
-```sql
--- Kolon ekleme
-ALTER TABLE users
-    ADD COLUMN phone VARCHAR(20) NULL AFTER email;
+### 3.4 Ne zaman bilinçli denormalizasyon?
 
--- Kolon silme
-ALTER TABLE users
-    DROP COLUMN phone;
+Yalnız üç şartta ve **ADR ile gerekçelendirilerek**:
 
--- Kolon değiştirme
-ALTER TABLE users
-    MODIFY COLUMN username VARCHAR(100) NOT NULL;
+| Şart | Gerekçe | Zorunlu eşlik |
+|------|---------|---------------|
+| Tarihsel dondurma | Audit snapshot, log bütünlüğü | `_audit` tablosu |
+| Ölçülmüş ağır okuma | Join maliyeti `EXPLAIN` ile kanıtlanmış | Covering index veya materialized özet |
+| Raporlama önbelleği | Okuma/yazma oranı çok yüksek | `updated_at` ile senkron trigger/job |
 
--- Kolon adını değiştirme (3 faz expand-contract)
--- Faz 1: Yeni kolon ekle
-ALTER TABLE users ADD COLUMN user_name VARCHAR(100) NOT NULL DEFAULT '';
--- Faz 2: Veriyi kopyala
-UPDATE users SET user_name = username;
--- Faz 3: Eski kolonu sil (onay sonrası)
-ALTER TABLE users DROP COLUMN username;
-```
-
-### 6.4 Index Oluşturma
-
-```sql
--- Basit index
-CREATE INDEX idx_email ON users(email);
-
--- Benzersiz index
-CREATE UNIQUE INDEX uk_username ON users(username);
-
--- Kapsayıcı (composite) index — equality primero, sonra range
-CREATE INDEX idx_user_status ON orders(user_id, status, created_at);
-
--- Partial index (MySQL 8+)
-CREATE INDEX idx_active_users ON users(email) WHERE is_active = 1;
-
--- MySQL 9 full-text index
-CREATE FULLTEXT INDEX ft_search ON products(name, description);
-```
-
-### 6.5 Foreign Key Oluşturma
-
-```sql
--- Tablo içi foreign key
-CREATE TABLE orders (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    total_price DECIMAL(10,2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL,
-    INDEX idx_user_id (user_id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Sonradan foreign key ekleme
-ALTER TABLE orders
-    ADD CONSTRAINT fk_orders_users
-    FOREIGN KEY (user_id) REFERENCES users(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
-```
-
-### 6.6 Tablo Silme (DROP TABLE)
-
-```sql
--- Foreign key kontrolü ile güvenli silme
-SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS orders;
-SET FOREIGN_KEY_CHECKS = 1;
-```
-
-### 6.7 Veri Ekleme (INSERT)
-
-```sql
--- Tek satır
-INSERT INTO users (username, email, password_hash, first_name, last_name)
-VALUES ('bayram', 'bayram@example.com', '$2y$10$...', 'Bayram', 'Ali');
-
--- Toplu ekleme
-INSERT INTO users (username, email, password_hash, first_name, last_name)
-VALUES
-    ('user1', 'user1@example.com', '$2y$10$...', 'User', 'One'),
-    ('user2', 'user2@example.com', '$2y$10$...', 'User', 'Two'),
-    ('user3', 'user3@example.com', '$2y$10$...', 'User', 'Three');
-
--- Upsert (INSERT OR UPDATE)
-INSERT INTO settings (key_name, value)
-VALUES ('theme', 'dark')
-ON DUPLICATE KEY UPDATE value = VALUES(value);
-```
-
-### 6.8 Veri Güncelleme (UPDATE)
-
-```sql
--- Tek satır
-UPDATE users
-    SET first_name = 'Bayram Ali',
-        updated_at = CURRENT_TIMESTAMP
-    WHERE id = 1;
-
--- Koşullu güncelleme
-UPDATE users
-    SET is_active = 0
-    WHERE last_login < DATE_SUB(NOW(), INTERVAL 1 YEAR);
-
--- Join ile güncelleme
-UPDATE orders o
-    INNER JOIN users u ON o.user_id = u.id
-    SET o.status = 'cancelled'
-    WHERE u.is_active = 0;
-```
-
-### 6.9 Veri Silme (DELETE)
-
-```sql
--- Soft delete (tercih edilen)
-UPDATE users
-    SET deleted_at = CURRENT_TIMESTAMP
-    WHERE id = 1;
-
--- Hard delete (dikkatli kullanılmalı, onay gerektirir)
-DELETE FROM users WHERE id = 1;
-```
-
-### 6.10 Sorgu Komutları (SELECT)
-
-```sql
--- Temel sorgu (SELECT * YASAK — açık kolon listesi)
-SELECT id, username, email, created_at
-FROM users
-WHERE is_active = 1 AND deleted_at IS NULL
-ORDER BY created_at DESC
-LIMIT 20;
-
--- JOIN sorgusu
-SELECT
-    u.id,
-    u.username,
-    u.email,
-    o.id AS order_id,
-    o.total_price,
-    o.created_at AS order_date
-FROM users u
-INNER JOIN orders o ON o.user_id = u.id
-WHERE u.is_active = 1 AND u.deleted_at IS NULL
-ORDER BY o.created_at DESC;
-
--- LEFT JOIN (sol taraftaki tüm kayıtlar)
-SELECT
-    u.id,
-    u.username,
-    COUNT(o.id) AS total_orders
-FROM users u
-LEFT JOIN orders o ON o.user_id = u.id AND o.deleted_at IS NULL
-WHERE u.deleted_at IS NULL
-GROUP BY u.id, u.username;
-
--- Aggregate sorgu
-SELECT
-    u.id,
-    u.username,
-    COUNT(o.id) AS total_orders,
-    SUM(o.total_price) AS total_spent,
-    AVG(o.total_price) AS avg_order
-FROM users u
-LEFT JOIN orders o ON o.user_id = u.id AND o.deleted_at IS NULL
-WHERE u.deleted_at IS NULL
-GROUP BY u.id, u.username
-HAVING total_orders > 0
-ORDER BY total_spent DESC;
-
--- Subquery
-SELECT id, username, email
-FROM users
-WHERE id IN (
-    SELECT user_id
-    FROM orders
-    WHERE total_price > 100 AND deleted_at IS NULL
-);
-
--- EXISTS (subquery'den hızlı olabilir)
-SELECT u.id, u.username
-FROM users u
-WHERE EXISTS (
-    SELECT 1 FROM orders o WHERE o.user_id = u.id AND o.deleted_at IS NULL
-);
-```
-
-### 6.11 Transaction Komutları
-
-```sql
-START TRANSACTION;
-
-UPDATE accounts SET balance = balance - 100 WHERE id = 1;
-UPDATE accounts SET balance = balance + 100 WHERE id = 2;
-
--- Hata olursa:
--- ROLLBACK;
-
--- Hata yoksa:
-COMMIT;
-```
-
-### 6.12 View Oluşturma
-
-```sql
-CREATE VIEW v_active_users AS
-SELECT id, username, email, created_at
-FROM users
-WHERE is_active = 1 AND deleted_at IS NULL;
-```
-
-### 6.13 Trigger (Audit Trail)
-
-```sql
-DELIMITER //
-
-CREATE TRIGGER trg_users_audit
-AFTER UPDATE ON users
-FOR EACH ROW
-BEGIN
-    INSERT INTO users_audit (user_id, action, old_values, new_values, acted_by)
-    VALUES (
-        OLD.id,
-        'UPDATE',
-        JSON_OBJECT(
-            'username', OLD.username,
-            'email', OLD.email,
-            'is_active', OLD.is_active
-        ),
-        JSON_OBJECT(
-            'username', NEW.username,
-            'email', NEW.email,
-            'is_active', NEW.is_active
-        ),
-        @current_user_id
-    );
-END //
-
-DELIMITER ;
-```
+Denormalize kolon eklenirken `CHECK` veya uygulama katmanı ile tutarlılık zorlanır; tek gerçek kaynak (source of truth) normalize tablo kalır.
 
 ---
 
-## 7. Veri Tipi Seçim Tablosu
+## §4. MySQL 8.0 Şema Standartları (CoreMusic)
 
-| Veri Tipi | Kullanım Alanı | Örnek | Boyut |
-|-----------|---------------|-------|-------|
-| `BIGINT UNSIGNED` | ID, counter | `id BIGINT UNSIGNED AUTO_INCREMENT` | 8 byte |
-| `INT UNSIGNED` | Sayı | `quantity INT UNSIGNED` | 4 byte |
-| `SMALLINT UNSIGNED` | Kısa sayı | `status SMALLINT UNSIGNED` | 2 byte |
-| `TINYINT UNSIGNED` | Bayt | `is_active TINYINT(1)` | 1 byte |
-| `VARCHAR(50)` | Kısa metin | `username VARCHAR(50)` | Değişken |
-| `VARCHAR(100)` | Orta metin | `name VARCHAR(100)` | Değişken |
-| `VARCHAR(255)` | E-posta, URL | `email VARCHAR(255)` | Değişken |
-| `TEXT` | Uzun metin | `description TEXT` | Değişken |
-| `MEDIUMTEXT` | Çok uzun metin | `content MEDIUMTEXT` | Değişken |
-| `LONGTEXT` | Dev metin | `raw_data LONGTEXT` | Değişken |
-| `DECIMAL(10,2)` | Para birimi | `price DECIMAL(10,2)` | Sabit |
-| `DECIMAL(10,4)` | Hassas sayı | `exchange_rate DECIMAL(10,4)` | Sabit |
-| `BOOLEAN` | Evet/Hayır | `is_active BOOLEAN DEFAULT TRUE` | 1 byte |
-| `TIMESTAMP` | Tarih/saat | `created_at TIMESTAMP` | 4 byte |
-| `DATETIME` | Tarih/saat (timezone yok) | `birth_date DATETIME` | 8 byte |
-| `DATE` | Sadece tarih | `order_date DATE` | 3 byte |
-| `ENUM` | Sabit seçenekler | `status ENUM('aktif','pasif')` | Değişken |
-| `JSON` | Esnek veri | `metadata JSON` | Değişken |
-| `BINARY(16)` | UUID | `uuid BINARY(16)` | 16 byte |
+### 4.1 Zorunlu tablo iskeleti
+
+```sql
+CREATE TABLE example_entity (
+    id         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    -- ... iş kolonları (snake_case, atomic) ...
+    created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_example_entity_natural (natural_key_col),
+    KEY idx_example_entity_lookup (lookup_col),
+    CONSTRAINT fk_example_child_parent FOREIGN KEY (parent_id) REFERENCES example_parent (id) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='...';
+```
+
+### 4.2 İsimlendirme (snake_case, tutarlı)
+
+| Öğe | Kalıp | Örnek |
+|-----|-------|-------|
+| Tablo | çoğul / varlık, snake_case | `users`, `order_items` |
+| Kolon | snake_case | `first_name`, `created_at` |
+| PK | `id` | `id BIGINT UNSIGNED` |
+| FK | `{tablo}_id` | `user_id` |
+| Unique | `uk_{tablo}_{kolon}` | `uk_users_email` |
+| Index | `idx_{tablo}_{kolon}` | `idx_orders_created_at` |
+| FK constraint | `fk_{çocuk}_{ana}` | `fk_orders_users` |
+| View | `v_{amaç}` | `v_active_users` |
+| Audit | `{tablo}_audit` | `users_audit` |
+
+### 4.3 Veri tipi seçimi (ölçülmüş, tahminsiz)
+
+| Amaç | Tip | Not (8.0) |
+|------|-----|-----------|
+| Surrogate PK | `BIGINT UNSIGNED AUTO_INCREMENT` | 8 byte; UUID istenirse `BINARY(16)` (ama PK olarak değil, natural key destek) |
+| Sayı / sayaç | `INT UNSIGNED` (4B), `SMALLINT` (2B), `TINYINT` (1B) | Aralık hesabıyla seç |
+| Boolean | `TINYINT(1)` | MySQL `BOOLEAN` = `TINYINT(1)` alias'ı |
+| Para | `DECIMAL(p,s)` | **Kesin** numeric. FLOAT/DOUBLE yasak (yuvarlama hatası) |
+| Kısa metin | `VARCHAR(n)` | `n` karakter (utf8mb4'te 4 byte/char'e kadar) — gerçek ihtiyaca göre |
+| Uzun metin | `TEXT` / `MEDIUMTEXT` / `LONGTEXT` | Satır boyunu şişirir; büyük blob'lar ayrı tablo |
+| Tarih-saat (tz) | `TIMESTAMP` | 1970–2038 arası, UTC saklar, session tz ile gösterir |
+| Tarih-saat (geniş) | `DATETIME` | 1000–9999, tz yok, daha geniş aralık |
+| Sadece tarih | `DATE` | Doğum tarihi, sipariş günü |
+| Esnek/JSON | `JSON` | 5.7+; `JSON_EXTRACT`, 8.0.17+ çok-değerli index |
+| Sabit-küme | Lookup tablosu | ENUM yerine (ALTER kolaylığı) |
+
+**TIMESTAMP vs DATETIME kararı:** “Oluşturuldu/anında” için `TIMESTAMP` (tz-duyarlı, 4B); “iş tarihi/gelecek tarih” için `DATETIME` (2038 sorunu yok). 2038 sonrası oluşum kayıtları gerekiyorsa `DATETIME` tercih edilir — bu proje kararına bağlı, **`VERIFICATION REQUIRED`.**
+
+#### VARCHAR uzunluk kılavuzu (keyfi `255` yasak)
+
+Uzunluk **gereksinimden** türetilir; “her yere 255” niyeti gizler ve utf8mb4'te satır/içindekiler index'ini şişirir.
+
+| Alan | Önerilen uzunluk | Gerekçe |
+|------|------------------|---------|
+| `email` | `VARCHAR(255)` | Tek yerel-part sınırı; 254 giriş + güvenlik payı |
+| `username` | `VARCHAR(32)` | Uygulama kuralı (min 3 / max 32) ile eşleşmeli |
+| `slug` | `VARCHAR(80)` | URL parçası; uzun slug SEO'ya zararlı |
+| Başlık (`title`) | `VARCHAR(160)` | Türkçe karakter + arama motoru snippet sınırı |
+| ISO kod (ISRC, ülke) | `CHAR(n)` | Sabit uzunluk — VARCHAR israfı |
+| `password_hash` | `VARCHAR(255)` | Argon2id/bcrypt hash şişmesi için pay bırak |
+
+**Karar akışı:** gerçek gereksinim var mı? → evet: ölçüyü yaz (kural, standart, DB limiti). yok → tahmin etme, **soru sor**.
+
+### 4.4 Soft delete (paranoid) & audit
+
+```sql
+-- Soft delete: hard delete YASAK. Tüm sorgular deleted_at IS NULL filtresi taşır.
+UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = 1;
+SELECT id, email FROM users WHERE deleted_at IS NULL AND is_active = 1;
+
+-- Unique dikkati: soft delete + UNIQUE çakışır. Çözüm: composite unique (deleted_at NULL).
+-- MySQL'de NULL'lar unique'de çakışmaz → (email, deleted_at) unique iki "silinmiş" aynı email'e izin verir.
+```
+
+Audit deseni ve trigger örneği: [references/04-security-audit.md](references/04-security-audit.md).
 
 ---
 
-## 8. İndeks Tasarım Stratejisi
+## §5. İlişki Kalıpları
 
-### 8.1 Hangi Sorgu Kalıbı Hangi Index'i Gerektirir?
+| Kalıp | SQL deseni | Not |
+|-------|-----------|-----|
+| One-to-Many | Çocukta `parent_id` + FK + `idx` | `ON DELETE` stratejisi seç (RESTRICT/CASCADE/SET NULL) |
+| Many-to-Many | Junction tablo + iki FK + composite unique | `UNIQUE(child_a, child_b)` tekrarı engeller |
+| One-to-One | Çocukta `parent_id UNIQUE` | Genelde profil/ayar genişletme |
+| Self-referencing | `parent_id NULL` + `ON DELETE SET NULL` | Kategori ağacı, comment thread |
+| Polymorphic | **ÖNERİLMEZ** — FK bütünlüğü yok | Ayrı tablalar veya `type + id` + uygulama katmanı denetimi |
 
-| Sorgu Kalıbı | Index Tipi | Örnek |
-|---------------|------------|-------|
-| Eşleşme (equality) | B-tree | `WHERE status = 'active'` |
-| Aralık (range) | B-tree | `WHERE created_at > '2024-01-01'` |
-| Sıralama (sort) | B-tree | `ORDER BY created_at DESC` |
-| Full-text arama | FULLTEXT | `WHERE name MATCH 'keyword'` |
-| JSON alanı | Virtual column + index | `JSON_EXTRACT(metadata, '$.key')` |
-| Çoklu sütun WHERE | Composite index | `WHERE user_id = 1 AND status = 'active'` |
-
-### 8.2 Composite Index Sıralama Kuralı
-
+```sql
+-- Many-to-Many (junction) — tekrarsız
+CREATE TABLE playlist_track (
+    playlist_id BIGINT UNSIGNED NOT NULL,
+    track_id    BIGINT UNSIGNED NOT NULL,
+    position    INT UNSIGNED NOT NULL DEFAULT 0,
+    added_at    TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (playlist_id, track_id),
+    KEY idx_playlist_track_track (track_id),
+    CONSTRAINT fk_playlist_track_playlist FOREIGN KEY (playlist_id) REFERENCES playlists (id) ON DELETE CASCADE,
+    CONSTRAINT fk_playlist_track_track    FOREIGN KEY (track_id)    REFERENCES tracks (id)    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
-Composite index: (equality_first, equality_second, range_or_sort)
+
+Detay: [references/06-schema-generation.md](references/06-schema-generation.md).
+
+### 5.1 ON DELETE strateji seçimi (karar tablosu)
+
+FK `ON DELETE` davranışı **bilinçli seçilir; varsayılan (RESTRICT) sessiz uygulanmaz.**
+
+| Durum | Strateji | Gerekçe | Uygulama etkisi |
+|-------|----------|---------|-----------------|
+| Silme yasak, kayıt referanslı (sipariş→kullanıcı) | `RESTRICT` | Veri bütünlüğü | Sorgularda `deleted_at IS NULL` şart |
+| Tam hiyerarşi birlikte yaşar (kategori altları) | `CASCADE` | Yetim kayıt kalmasın | Sorgu yazan taraf cascade'i bilmeli |
+| Silinince değer “boş” kalmalı (yorum→ebeveyn) | `SET NULL` | Referans korunur | Kolon `NULL` olabilmeli + `idx` şart |
+| Sayaç/denetim kolonu | `CASCADE` (FK) + uygulama adımı | Sayacın düşmesi gerekmez | Trigger yerine uygulama katmanı |
+
+```sql
+-- RESTRICT (varsayılan niyetli seçim): silinen kullanıcıyı sipariş bağımlı kılar
+CONSTRAINT fk_orders_users FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT ON UPDATE CASCADE;
 ```
+
+> MySQL'de `ON UPDATE CASCADE` yalnız PK/unique kolon değişince tetiklenir; `AUTO_INCREMENT` id'lerde pratikte tetiklenmez.
+
+---
+
+## §6. İndeks Stratejisi & Sorgu Planı
+
+### 6.1 Composite index sıralama kuralı
+
+`EQUALITY → EQUALITY → RANGE/SORT` (soldan sağa):
 
 ```sql
 -- Sorgu: WHERE user_id = ? AND status = ? ORDER BY created_at DESC
--- Doğru index:
-CREATE INDEX idx_user_status_date ON orders(user_id, status, created_at);
+CREATE INDEX idx_orders_user_status_created ON orders (user_id, status, created_at);
 ```
 
-### 8.3 Index Kuralları
+### 6.2 Temel kurallar
 
-| Kural | Açıklama |
-|-------|----------|
-| Her FK'ya index | `FOREIGN KEY (user_id)` → `INDEX idx_user_id (user_id)` |
-| Sık sorgulanan kolonlara index | `WHERE email = ?` → `INDEX idx_email (email)` |
-| ORDER BY kolonlarına index | `ORDER BY created_at` → `INDEX idx_created_at (created_at)` |
-| Composite index: equality primero | `WHERE a = ? AND b > ?` → `INDEX (a, b)` |
-| Over-indexing kaçın | Her index写写'ı yavaşlatır |
-| Prefix index uzun string için | `INDEX idx_name (name(20))` |
+| Kural | Gerekçe |
+|-------|---------|
+| Her FK'ya index | InnoDB JOIN/DELETE için index ister; yetim sorgu yavaşlar |
+| Covering index | `SELECT` kolonları index'te ise table access yok (Using index) |
+| Eşitlik önce, aralık sonra | Range sonrası kolonlar index'de verimli kullanılmaz |
+| Over-indexing kaçın | Her index yazma (INSERT/UPDATE) maliyetini artırır |
+| Prefix index yalnız uzun string'de | `KEY idx_name (name(30))` — tam unique için değil |
+| Sorgu sırasını index'e uydur | `ORDER BY`/`GROUP BY` index sırasıyla eşleşirse filesort önlenir |
 
----
-
-## 9. Migration Stratejisi
-
-### 9.1 Expand-Contract (Zero-Downtime) Pattern
-
-Tehlikeli değişiklikler için 3 fazlı süreç:
+### 6.3 EXPLAIN & N+1
 
 ```sql
--- =====================================================
--- FAZ 1: EXPAND (yeni yapı ekle, eski yapıyı koru)
--- =====================================================
--- Yeni kolon ekle
-ALTER TABLE users ADD COLUMN user_name VARCHAR(100) NOT NULL DEFAULT '';
+EXPLAIN SELECT u.id, u.email, o.total
+FROM users u JOIN orders o ON o.user_id = u.id
+WHERE u.deleted_at IS NULL AND o.status = 'paid';
 
--- Her iki_WRITE_TRUE: hem eski hem yeni yaz
--- Trigger ile senkronize et
-DELIMITER //
-CREATE TRIGGER trg_users_sync_name
-BEFORE UPDATE ON users
-FOR EACH ROW
-BEGIN
-    IF NEW.username != OLD.username THEN
-        SET NEW.user_name = NEW.username;
-    END IF;
-END //
-DELIMITER ;
-
--- =====================================================
--- FAZ 2: MIGRATE (veriyi kopyala)
--- =====================================================
-UPDATE users SET user_name = username WHERE user_name = '';
-
--- =====================================================
--- FAZ 3: CONTRACT (eski yapıyı kaldır)
--- =====================================================
--- Onay sonrası:
-ALTER TABLE users DROP COLUMN username;
-DROP TRIGGER IF EXISTS trg_users_sync_name;
+-- 8.0.18+: gerçek metrik (execution time, actual rows)
+EXPLAIN ANALYZE SELECT ... ;
 ```
 
-### 9.2 Geri Dönüşü Olan Migration
+| İşaret | Anlamı | Aksiyon |
+|-------|--------|---------|
+| `type: ALL` | Full table scan | İlgili kolona/composite index ekle |
+| `Using filesort` | Sıralama index dışı | ORDER BY'ı index sırasına uydur |
+| `Using temporary` | Geçici tablo (GROUP BY/UNJOIN) | Composite index ile group'u önle |
+| `rows` çok yüksek | Tahmini tarama genişliği | Index kapsamını daralt |
+| `Using index` | Covering index | İyi |
+
+N+1: döngü içinde tekrarlanan tekil SELECT → `WHERE id IN (...)` veya JOIN ile toplu çek. Ayrıntı: [references/05-performance-optimization.md](references/05-performance-optimization.md).
+
+### 6.4 N+1 tespit ve çözüm (somut)
 
 ```sql
--- UP (ileri)
-CREATE TABLE products (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- N+1 HATALI: döngü başına 1 sorgu (N şarkı → N+1 SELECT)
+--   foreach ($trackIds as $id) { $stmt = $pdo->prepare('SELECT title, duration_ms FROM tracks WHERE id = ?'); ... }
 
--- DOWN (geri)
-DROP TABLE IF EXISTS products;
+-- DOĞRU: tek prepared statement (IN listesi placeholder sayısı kadar)
+SELECT id, title, duration_ms FROM tracks WHERE id IN (?, ?, ..., ?) AND deleted_at IS NULL;
 ```
 
----
-
-## 10. Hata Durumları
-
-| Hata | Kök Neden | Çözüm |
-|------|-----------|-------|
-| `Duplicate entry` | UNIQUE constraint ihlali | Veriyi kontrol et |
-| `Cannot add foreign key` | Tip uyumsuzluğu | BIGINT UNSIGNED olduğundan emin ol |
-| `Table doesn't exist` | Sıra hatası | Tabloları doğru sırada oluştur (FK bağımlılıkları) |
-| `Column count doesn't match` | Eksik kolon | Tüm kolonları listele |
-| `Data too long` | VARCHAR limiti aşımı | Kolon boyutunu artır veya TEXT kullan |
-| `Unknown column` | Yazım hatası | Kolon adını kontrol et |
-| `Incorrect table definition` | Yanlış syntax | MySQL 9 syntax kontrolü yap |
-| `Lock wait timeout exceeded` | Kilit hatası | Transaction süresini kısalt |
-| `Row size too large` | Kolon toplamı çok büyük | TEXT/BLOB'ları ayrı tabloya taşı |
-| `Key column doesn't exist` | FK referans eksik | Önce ana tabloyu oluştur |
+| İşaret | Anlamı |
+|--------|--------|
+| Ayrıntı yükü ayrı sorgu (track → artist) | `JOIN artists` ile tek sorguda çek |
+| N+1'de `id IN (...)` | Placeholder sayısını batch'e böl (ör. 500) |
+| Uzun IN listesi | `IN (SELECT ... FROM temp)` veya junction JOIN |
 
 ---
 
-## 11. Workflow: Model → Migrate → Validate
+## §7. Migration Güvenliği (Expand-and-Contract)
 
-### Adım 1: MODEL — Gereksinimleri Anla ve Şemayı Tasarla
+Tehlikeli değişiklik (kolon drop/rename, tip değişimi, NOT NULL ekleme, backfill) **3 faz**:
 
-Kullanıcıdan şu bilgileri topla:
+```sql
+-- FAZ 1 EXPAND: yeni yapı ekle, eskiyi koru (uyumluluk)
+ALTER TABLE users ADD COLUMN email_canonical VARCHAR(255) NULL;
+-- uygulama artık hem eski hem yeni kolona yazar (dual-write), backfill job'ı hazırla.
 
-| Soru | Amaç |
-|------|------|
-| Hangi tablolar gerekli? | Varlık listesi |
-| İlişkiler nasıl? | One-to-many, many-to-many |
-| Hangi alanlar sensitive? | PII, şifreleme gerekli mi? |
-| Beklenen veri miktarı? | Performans planlaması |
-| Ana sorgu kalıpları hangileri? | Index stratejisi |
-| Soft delete gerekli mi? | deleted_at kolonu |
-| Audit trail gerekli mi? | Audit tablosu |
+-- FAZ 2 MIGRATE: chunk'lı backfill (lock kısa tutulur)
+-- UPDATE users SET email_canonical = LOWER(email) WHERE id BETWEEN ? AND ? ... (batch)
 
-Eksik bilgi varsa sor:
-
-```markdown
-Veritabanını tasarlayabilmem için şu bilgilere ihtiyacım var:
-
-1. **Tablolar:** Hangi tabloları oluşturmak istiyorsunuz?
-2. **İlişkiler:** Tablolar arası nasıl ilişkiler var?
-3. **Alanlar:** Her tabloda hangi alanlar olacak?
-4. **Güvenlik:** Şifrelenmesi gereken alanlar var mı?
-5. **Ölçek:** Yaklaşık ne kadar veri bekleniyor?
-6. **Sorgular:** En sık çalıştırılacak sorgular hangileri?
+-- FAZ 3 CONTRACT: doğrulama + onay SONRASI eskiyi kaldır
+-- root onayı ile: ALTER TABLE users DROP COLUMN email, CHANGE email_canonical email ...
 ```
 
-### Adım 2: DESIGN — Şema Tasarımı
+| Kural | Ayrıntı |
+|-------|---------|
+| Forward-only | Prod'da down migration riskli; geri dönüş yeni bir forward migration'dır. SSOT down() çelişkisi varsa `VERIFICATION REQUIRED` |
+| Backfill batch | Tek büyük UPDATE lock üretir; `id` aralığıyla parçala |
+| Lock süresi | `LOCK_WAIT_TIMEOUT` kısa; uzun transaction yasak |
+| Prod DDL | root onayı şart (bu skill onaysız prod DDL uygulamaz) |
+| Rollback planı | Her fazın geri alması yazılı olmalı |
 
-Her tablo için:
-1. Kolonları listele
-2. Veri tiplerini seç (MySQL 9 uyumlu)
-3. Primary key belirle (`id BIGINT UNSIGNED AUTO_INCREMENT`)
-4. Foreign key'leri tanımla (`ON DELETE` stratejisi seç)
-5. Constraint'leri ekle (UNIQUE, CHECK, NOT NULL)
-6. Index'leri planla (FK'lar + sık sorgulanan kolonlar)
-7. Audit kolonlarını ekle (created_at, updated_at, deleted_at)
+Detay: [references/06-schema-generation.md](references/06-schema-generation.md) + [references/10-checklist.md](references/10-checklist.md).
 
-### Adım 3: NORMALIZE — Normalizasyon Kontrolü
+### 7.1 Backfill chunk kalıbı (somut)
 
-Her tabloyu kontrol et:
+```sql
+-- Chunk'lı backfill — tek büyük UPDATE YASAK (lock üretir, replication geciktirir)
+-- Her batch kısa transaction; id aralığıyla ilerle; hedef: saniyede <500ms lock
+UPDATE users
+SET email_canonical = LOWER(email)
+WHERE id > @last_id AND id <= @last_id + 1000
+  AND email_canonical IS NULL;
+SET @last_id = @last_id + 1000;   -- döngü; @last_id persist edilir (kesintiye dayanıklı)
+```
 
-| Kontrol | Soru |
-|---------|------|
-| 1NF | Kolonlar atomik mi? Liste var mı? |
-| 2NF | Composite PK varsa, kısmi bağımlılık var mı? |
-| 3NF | Geçici bağımlılık var mı? (A → B → C) |
-| BCNF | Her determinant key mi? |
-
-### Adım 4: MIGRATE — SQL Komutlarını Üret
-
-Oluşturulan şemaya göre SQL komutlarını yaz. Tüm SQL komutlarını bu belgedeki §6 referansına göre üret.
-
-Migration dosyaları oluştur:
-- `up.sql` — İleri migration
-- `down.sql` — Geri dönüş migration
-
-### Adım 5: DOCUMENT — Çıktıları Oluştur
-
-| Dosya | İçerik |
-|-------|--------|
-| `schema.sql` | CREATE TABLE komutları |
-| `seed_data.sql` | Test verisi (gerçek PII yok) |
-| `er_diagram.md` | Mermaid.js ER diyagramı |
-| `dictionary.md` | Tablo ve kolon açıklamaları |
-| `migration/up.sql` | İleri migration |
-| `migration/down.sql` | Geri dönüş migration |
-
-### Adım 6: VALIDATE — Doğrulama
-
-Kontrol listesi (25 madde):
-
-**Tablo Yapısı:**
-- [ ] Her tablonun PRIMARY KEY'i var mı?
-- [ ] Tüm BIGINT UNSIGNED mi?
-- [ ] Charset ve Collation tanımlı mı? (`utf8mb4_unicode_ci`)
-- [ ] Engine InnoDB mi?
-- [ ] Timestamp kolonları var mı? (created_at, updated_at, deleted_at)
-
-**İlişkiler:**
-- [ ] Tüm Foreign Key'ler doğru tanımlı mı?
-- [ ] ON DELETE stratejisi seçilmiş mi?
-- [ ] FK'lara index eklendi mi?
-- [ ] Circular dependency yok mu?
-
-**Normalizasyon:**
-- [ ] Tüm tablolar BCNF uyumlu mu?
-- [ ] `SELECT *` kullanılmamış mı?
-- [ ] Denormalizasyon varsa ADR ile gerekçelendirilmiş mi?
-
-**Güvenlik:**
-- [ ] PII alanları şifreli mi?
-- [ ] Audit tabloları var mı?
-- [ ] Hard delete yerine soft delete kullanılıyor mu?
-
-**Performans:**
-- [ ] Sık sorgulanan kolonlara index eklendi mi?
-- [ ] Composite index sıralaması doğru mu? (equality primero)
-- [ ] Over-indexing yok mu?
-
-**Migration:**
-- [ ] Geri dönüş (down) migration var mı?
-- [ ] Expand-contract pattern uygulandı mı? (tehlikeli değişikliklerde)
-- [ ] Veri kaybı riski yok mu?
-
-**Genel:**
-- [ ] Tüm tabloların adı doğru mu? (snake_case, çoğul)
-- [ ] Tüm kolonların adı doğru mu? (snake_case)
-- [ ] Constraint adlandırma tutarlı mı? (uk_, idx_, fk_)
+| Faz | Geri alması |
+|-----|-------------|
+| 1 EXPAND | `ALTER TABLE ... DROP COLUMN email_canonical` — veri kaybı yok (eski kolon duruyor) |
+| 2 MIGRATE | Backfill durdur + yeni kolonu sıfırla (`SET email_canonical = NULL`) |
+| 3 CONTRACT | En riskli — yalnız doğrulama + root onayı sonrası |
 
 ---
 
-## 12. Anti-Pattern Kataloğu
+## §8. Workflow: Model → Design → Normalize → Migrate → Validate → Document
 
-| Anti-Pattern | Sorun | Çözüm |
+| Adım | Eylem | Referans |
+|------|-------|----------|
+| 1 MODEL | Gereksinim topla: varlıklar, ilişkiler, sensitive alan, ölçek, sorgu kalıpları | [references/01-requirements-gathering.md](references/01-requirements-gathering.md) |
+| 2 DESIGN | Kolon + tip + PK/FK + constraint + index planla | [references/06-schema-generation.md](references/06-schema-generation.md) |
+| 3 NORMALIZE | Aday anahtar çıkar → 1NF/2NF/3NF/BCNF denetle → gerekirse böl | [references/02-normalization-rules.md](references/02-normalization-rules.md) |
+| 4 MIGRATE | Expand-contract + backfill + forward-only plan | §7 |
+| 5 VALIDATE | Checklist + script'lerle denetim (normalize-checker, security-audit) | [references/checklist.md](references/checklist.md) |
+| 6 DOCUMENT | `schema.sql`, ER diyagramı, veri sözlüğü, migration | [references/08-examples.md](references/08-examples.md) |
+
+Eksik gereksinimde **soru sor**; tahminle şema üretme.
+
+### 8.1 Kapı kuralları (her adımın çıkışı)
+
+| Kapı | Koşul | İhlalde |
+|------|-------|---------|
+| MODEL → DESIGN | Varlıklar, ilişkiler ve sorgu kalıpları yazılı | Eksikse DUR, soru sor |
+| DESIGN → NORMALIZE | Aday anahtar (birden fazla dahil) açıkça listelendi | Yoksa tahmin yasak |
+| NORMALIZE → MIGRATE | Her tablo NF denetiminden geçti; ihlal varsa bölündü | İhlalle geçiş yasak |
+| MIGRATE → VALIDATE | 3 faz planı + chunk'lı backfill + rollback yazıldı | Tek büyük UPDATE yasak |
+| VALIDATE → DOCUMENT | §11 checklist `PASS` | `BLOCK` varsa teslim yok |
+
+Kapı mantığı: her adım bir öncekinin **çıktısını** doğrular; zincirde zayıf halka varsa ilerlemez.
+
+---
+
+## §9. Anti-Pattern Kataloğu (özet)
+
+| Anti-pattern | Sorun | Çözüm |
 |--------------|-------|-------|
-| `VARCHAR(255)` her yerde | Gereksiz yer kaplar, niyet gizlenir | Gerçek boyuta göre seç: `VARCHAR(50)`, `VARCHAR(100)` |
-| `FLOAT` para birimi | Yuvarlama hataları | `DECIMAL(10,2)` |
-| FK constraint yok | Yetim kayıtlar, veri bozulması | Her ilişkiye `FOREIGN KEY` + `ON DELETE` |
-| FK'lara index yok | Çok yavaş JOIN'ler | `INDEX idx_{tablo}_id ({tablo}_id)` |
-| Tarihler VARCHAR olarak | Sıralama/ karşılaştırma bozulur | `DATE`, `TIMESTAMP`, `DATETIME` |
-| `SELECT *` kullanımı | Performans kaybı, API sözleşme kırılması | Açık kolon listesi |
-| EAV (Entity-Attribute-Value) | Sorgu karmaşıklığı, tip güvenliği yok | Structured schema + JSON |
-| Polymorphic association | FK bütünlüğü yok, karmaşık sorgular | Ayrı tablolar veya `type` + `id` |
-| Circular dependency | Populate edilemez, CASCADE kırılır | Dependency analizi |
-| `ENUM` sabitleri | Değişiklik zor, ALTER TABLE gerektirir | Lookup tablosu |
-| Audit trail yok | Değişiklik takibi yapılamaz | `_audit` tablosu + trigger |
-| Soft delete yok | Hard delete geri alınamaz | `deleted_at TIMESTAMP NULL` |
-| Composite PK'da eksik index | Kısmi sorgular yavaş | Composite index ekle |
-| Gereksiz stored procedure | Bakım zor, PHP'de yapılabilir | İş mantığı PHP'de |
+| `FLOAT` para | Yuvarlama kaybı | `DECIMAL(p,s)` |
+| `VARCHAR(255)` her yerde | Niyet gizlenir | Gerçek boyut |
+| Partial index (`... WHERE`) | MySQL'de **desteklenmez** | Composite index / generated kolon |
+| Polymorphic FK | Bütümlülük yok | Ayrı tablalar |
+| ENUM sabit | Değişiklik zor | Lookup tablosu |
+| FK'ya index yok | Yavaş JOIN/DELETE | `idx_{tablo}_id` |
+| `SELECT *` | Performans + sözleşme kırılır | Açık kolon listesi |
+| Hard delete | Geri alınamaz | `deleted_at` (soft delete) |
+| Tarih VARCHAR | Sıralama/karşılaştırma bozuk | `DATE/DATETIME/TIMESTAMP` |
+| Tek büyük backfill | Lock | Batch chunk |
+
+Detay: [references/09-anti-patterns.md](references/09-anti-patterns.md).
 
 ---
 
-## 13. Referans Dosyaları
+## §10. Hata Tablosu
 
-Alt dizindeki detaylı referans dosyaları:
+| Hata | Kök neden | Çözüm |
+|------|-----------|-------|
+| `Duplicate entry` | UNIQUE ihlali | Veri çakışmasını çöz |
+| `Cannot add foreign key` | Tip/kolon uyuşmazlığı | BIGINT UNSIGNED eşleşmesi + önce ana tablo |
+| `Row size too large` | Satır limiti | TEXT/BLOB ayrı tabloya |
+| `Lock wait timeout` | Uzun transaction | Transaction'ı kısalt, batch |
+| `Incorrect table definition` | Syntax/sürüm | 8.0 syntax + sürüm feature kontrolü |
+| `Key column doesn't exist` | FK sırası | Önce ana tablo, sonra çocuk |
+| `Data too long for column` | VARCHAR/DECIMAL sınırı | Gerçek gereksinimle eşleşen uzunluk |
+| `Incorrect string value` | UTF8MB4 olmayan bağlantı | `SET NAMES utf8mb4` (PDO charset) |
+| `BLOB/TEXT column used in key without length` | TEXT'te index prefix yok | `col(191)` prefix veya ayrı kısa kolon |
+| `Deadlock found` | Çapraz transaction | Aynı tablo/kolon sırası + kısa transaction |
+| `Check constraint violates` | 8.0.16+ CHECK veri uymadı | Veriyi düzelt, constraint'i gevşetme |
+
+---
+
+## §11. Kalite Kapısı & Script'ler
+
+Çıktı bu kapıdan geçmeden teslim EDİLMEZ: [references/checklist.md](references/checklist.md) (PASS/BLOCK maddeleri).
+
+| Script | Amaç |
+|--------|------|
+| `scripts/normalize-checker.php` | 1NF/BCNF proxy denetimi (id/uuid PK, transitive `_name`, array/list tespiti) |
+| `scripts/security-audit.php` | PII/encryption, audit tablo, naming (SQLi yüzeyi) denetimi |
+| `scripts/schema-to-diagram.php` | `CREATE TABLE` → Mermaid ER diyagramı |
+
+> **Çalıştırma durumu (2026-10-21):** Bu ortamda `php` binary'si PATH'te ve yaygın kurulum yollarında YOK (`php -v` → CommandNotFoundException). Script'ler yazıldı ancak **canlı çalıştırma kanıtı `VERIFICATION REQUIRED`** — PHP kurulu bir ortamda `php scripts/<script>.sql <schema.sql>` ile doğrulanmalı.
+
+---
+
+## §12. Referans Dosyaları (orphan=0 — hepsi bu SKILL.md'den linkli)
 
 | Dosya | Amaç |
 |-------|------|
-| [references/db-engine-notes.md](references/db-engine-notes.md) | **18 BCNF tam envanteri** + hızlı normalizasyon/yasak kontrolleri (db-engine merge 2026-10-07) |
-| [references/changelog.md](references/changelog.md) | Sürüm geçmişi (kök `changelog` yerine; N10) |
-| [references/00-overview.md](references/00-overview.md) | Genel bakış |
-| [references/01-requirements-gathering.md](references/01-requirements-gathering.md) | Gereksinim toplama |
-| [references/02-normalization-rules.md](references/02-normalization-rules.md) | Normalizasyon kuralları |
-| [references/03-provider-dialects.md](references/03-provider-dialects.md) | Motor diyalektleri |
-| [references/04-security-audit.md](references/04-security-audit.md) | Güvenlik denetimi |
-| [references/05-performance-optimization.md](references/05-performance-optimization.md) | Performans optimizasyonu |
-| [references/06-schema-generation.md](references/06-schema-generation.md) | Şema üretimi |
-| [references/07-coremusic-integration.md](references/07-coremusic-integration.md) | CoreMusic entegrasyonu |
-| [references/08-examples.md](references/08-examples.md) | Örnek çıktılar |
-| [references/09-anti-patterns.md](references/09-anti-patterns.md) | Anti-pattern'ler |
+| [references/00-overview.md](references/00-overview.md) | Genel bakış & navigasyon |
+| [references/01-requirements-gathering.md](references/01-requirements-gathering.md) | Gereksinim toplama soruları |
+| [references/02-normalization-rules.md](references/02-normalization-rules.md) | 1NF→BCNF derin kurallar + aday anahtar |
+| [references/03-provider-dialects.md](references/03-provider-dialects.md) | Motor diyalektleri (MySQL 8.0 odaklı) |
+| [references/04-security-audit.md](references/04-security-audit.md) | PII, şifreleme, audit trail, OWASP |
+| [references/05-performance-optimization.md](references/05-performance-optimization.md) | Index, EXPLAIN, N+1, sorgu planı |
+| [references/06-schema-generation.md](references/06-schema-generation.md) | Şema + migration üretim kalıpları |
+| [references/07-coremusic-integration.md](references/07-coremusic-integration.md) | CoreMusic entegrasyon & routing |
+| [references/08-examples.md](references/08-examples.md) | Uçtan uca örnek çıktılar |
+| [references/09-anti-patterns.md](references/09-anti-patterns.md) | Anti-pattern kataloğu (tam) |
 | [references/10-checklist.md](references/10-checklist.md) | QA kontrol listesi |
-| `scripts/normalize-checker.php` | Normalizasyon kontrol scripti |
-| `scripts/schema-to-diagram.php` | Şema → ER diyagramı |
-| `scripts/security-audit.php` | Güvenlik denetim scripti |
-| `templates/schema-template.sql` | Şema şablonu |
-| `templates/seed-template.sql` | Seed veri şablonu |
-| `templates/migration-template.sql` | Migration şablonu |
+| [references/changelog.md](references/changelog.md) | Sürüm geçmişi |
+| [references/db-engine-notes.md](references/db-engine-notes.md) | Motor/versiyon notları |
+| [references/sources.md](references/sources.md) | Resmi kaynaklar (URL + erişim tarihi) |
+| [references/checklist.md](references/checklist.md) | Kalite kapısı (PASS/BLOCK) |
+| [templates/schema-template.sql](templates/schema-template.sql) | Şema şablonu |
+| [templates/migration-template.sql](templates/migration-template.sql) | Migration şablonu |
+| [templates/seed-template.sql](templates/seed-template.sql) | Seed veri şablonu |
 
 ---
 
-## 14. Bağlantılar
+## §13. Bağlantılar & Routing
 
-- **Vault:** `.ai/brain.md` — Veritabanı mimarisi kararları
-- **ADR:** `.ai/.decisions/` - Veritabanı ile ilgili ADR'ler
-- **SQL:** `.ai/.sql/` — Mevcut şema dosyaları
-- **Routing:** `agent-orchestrator` — database keyword yönlendirmesi
-- **Agent:** `data-engineer` — Veritabanı uzmanı
-- **Agent:** `security-engineer` — Güvenlik kontrolleri
+- **Vault:** `.ai/brain.md` — veritabanı mimarisi kararları.
+- **ADR:** `.ai/.decisions/` — ADR-002 (no ORM), ADR-014 (no SELECT *), ADR-040 (database authority).
+- **SQL SSOT:** `.ai/.sql/mysql/*.sql` — gerçek şema dosyaları.
+- **Agent:** `data-engineer` (Expert, şema/BCNF) · `security-engineer` (veto, OWASP) · `sql-pro`/`postgres-pro` (gelişmiş sorgu).
+- **Yönlendirme:** `agent-orchestrator` — “database/normalize/bcnf” keyword eşleşmesi.
 
 ---
-*CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*
+
+*CoreMusic Skill v3.0 (format: claude-skill-v3) — metadata.version: 4.0.0 — Updated 2026-10-21*
