@@ -144,3 +144,5 @@ foreach ($dm->navLinks() as $link):
     <div class="sidebar__resize-handle" role="separator" tabindex="0" aria-label="Sidebar genişletme tutamacı"></div>
 </aside>
 <div class="sidebar-overlay" aria-hidden="true"></div>
+<script src="<?= $assetsUrl ?>/js/header-manager.js" defer></script>
+<script src="<?= $assetsUrl ?>/js/music-spa-manager.js" defer></script>
