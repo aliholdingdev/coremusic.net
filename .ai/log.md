@@ -92,6 +92,15 @@ updated: 2026-10-02
 - **Doc 03 → v1.1.0:** §8 cross-ref eklendi.
 - **Doğrulama:** 11 yeni dosya · BOM 0 · U+FFFD 0 · CRLF tutarlı · git commit YOK (orkestratöre ait).
 
+## 2026-10-16 — NovaSearchEngine ana vault'a devir + OpenRouter canlı doğrulama
+
+- **İstek:** ".ai'ya kayıt at, ana .ai'yi kullan, PRD oluştur, devam et" + konum düzeltmesi: proje kökü **`C:\www\coremusic.net\app-nodejs-projects\nova-search-engine`** (eski `C:\www\nova-search-engine` 2026-09-03'te kalmış, terk edilmiş referans — 2 bağımsız kopya, junction yok).
+- **Vault üretimi:** `projects/NovaSearchEngine/01-kurulum-mimari-ve-acik-konular.md` (yeni — konum kararı, mimari, ADR-001..007 + debate D1-D7, canlı OpenRouter kanıtları, coverage tablosu, 4 açık madde).
+- **Konum kanıtı:** yeni kopya CreationTime 2026-10-16 13:27 · 5 commit bugün (a3430e3→df62629) · working tree temiz · eski kopya son commit 2026-09-01 (f267b86) + 12 dirty satır.
+- **OpenRouter canlı doğrulama (zero-hallucination):** `.env` anahtarı (73 karakter) kullanıcı anahtarıyla birebir eşleşti ✓ · chat completion HTTP 200/cost 0: `nvidia/nemotron-3-super-120b-a12b:free` ✓, `nvidia/nemotron-3.5-lightning:free` ✓, `thinkingmachines/inkling:free` ✓ · `google/gemma-4-*-it:free` → 429 (kota) · `deepseek/deepseek-chat-v3-0324:free` → 404 (artık paid) · /models: 465 model / 15 `:free` (havuz günlük değişir — aylık tarama kuralı).
+- **Kalite kapısı ölçümü:** `bun test` 40 pass/0 fail · 169 expect · 634ms · `tsc --noEmit` 0 hata · coverage **funcs %52.21 / lines %60.30** → %75 kapısının ALTINDA (mysql.ts %6, search/engine %7, youtube/* %0-9, workers/* %0-14).
+- **Karar bağlayıcılık:** web (D4) TAMAM · wizard (D1) TAMAM · kalan: MySQL canlı test → coverage %75 → likeCount/publishedAt (V2) · toolchain=Bun (vitest/esbuild/tsx yasak, proje MEMORY.md ile uyumlu).
+- **KOD YOK** (vault kaydı) — commit'siz (orkestratöre ait).
 ## 2026-10-16 — Figma `2161:12438` Music Admin: çıkarım + 3 T17 ekran spec'i + indeks senkronu
 
 - **İstek:** Figma API node `2161:12438` (page "Core Music - Music Admin") verisi `.ai/ui-design/` altına kaydedilsin (frames/effects/colors/text), 3 admin PNG'den ASCII/unicode-art ekran spec'leri üretilsin — kullanıcı admin paneli bunlardan kodlayacak.
