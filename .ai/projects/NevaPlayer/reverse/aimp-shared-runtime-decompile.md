@@ -2,7 +2,7 @@
 title: "AIMP.Shared.dll + AIMP.Runtime.dll — Tam Full Decompile (Ghidra Headless)"
 type: reverse-engineering
 project: NevaPlayer
-version: 1.1.0
+version: 1.2.0
 status: active
 date: 2026-10-20
 authority: "Zero-hallucination: her iddia asagida kaynakli. Isim-eslesme sayimlari yalnizca orneklenmis terimler icin gecerli (bolum 6 kirlilik notu)."
@@ -269,16 +269,18 @@ codec ne Runtime.dll'de ne Shared'de statik; plugin DLL'lerinde.
    BULUNMADI (kontrol: IID_IAudioClient @0x665318, IID_IAudioRenderClient
    @0x665338, IID_IMMDeviceEnumerator @0x665348 mevcut) + arayuz RTTI
    listesinde adi yok → AIMP yalnizca `IAudioClient` (v1) kullanir.
-3. `TASOPlayer` 183 isimli prosedur — Shared dump'inda MEVCUT (Load/Play/
-   SetDeviceParams/tempo-pitch icin ayri tur; tur8'deki 12-prosedur ozeti
-   artik tam dump ile genisletilebilir).
+3. `TASOPlayer` 183 isimli prosedur — **KISMEN KAPANDI (tur18, bolum 12):**
+   oynatma boru hatti eslendi (DataSource -> Transmitter -> DSP -> Mixer ->
+   Device + SourceStreamList crossfade). KONTROL katmani (Load/Play/
+   SetDeviceParams/tempo-pitch, AIMP.exe baglayici) hala ayri tur bekliyor.
 4. Radio 198 / Decoder 185 isimli prosedur (Shared) — ADR-0106 radyo decode
    kenari icin ayri tur.
-5. Sabit bolumleri: `_DAT_005b1a68` (ms→saniye) ve `_DAT_0057f078` (Hz→kHz
-   esigi) — degerleri dump'da tanimsiz (data sembolu); kesin deger icin veri
-   okuma (ReadEqBands kalibi) gerekir. *(Kismen kapanan: WASAPI bolgesindeki
-   DAT_0060a788 = float 0.2 (sn, min buffer suresi) ve DAT_0060a790 = double
-   250.0 tur17'de okundu — bolum 11.7.)*
+5. ~~Sabit bolumleri: `_DAT_005b1a68` (ms→saniye)~~ — **KAPANDI (tur18):
+   double 1000.0** (raw 0x408F400000000000, `ReadPlayerConsts.java` ile
+   okundu — bolum 12.6); `GetActualCrossMixingTime` = cross-mix (ms, short
+   @ fading+0x3A) / 1000 = saniye. Kalan acik: `_DAT_0057f078` (Hz→kHz
+   esigi) — veri okuma bekliyor. *(Onceki kismen-kapanan: DAT_0060a788 =
+   float 0.2 (sn) ve DAT_0060a790 = double 250.0 — tur17, bolum 11.7.)*
 6. Runtime "Render" ×141 ve Shared "Tag" ×645 sayimlari orneklenmedi (bolum 6
    kirlilik notu nedeniyle raporlanmiyor).
 
@@ -305,6 +307,12 @@ Arama ornegi: `Select-String -Path aimp-runtime-proc-index.txt -Pattern "TASOASI
   duzeltildi; 3 iddia REFUTED (TASODeviceBuffer, TAclEnum*,
   TASOSettingsDevicelistHelper); IAudioClient3 REFUTED (IID bayt taramasi);
   §8 madde 1/2 kapandi, madde 5 kismen kapanan olarak isaretlendi.
+- **v1.2.0 (2026-10-20, tur18):** bolum 12 eklendi — oynatma boru hatti
+  (TASOMixer::GetData pull-model cekirdek + swap-able DSP slotlari +
+  SourceStreamList crossfade/gapless). `_DAT_005b1a68` = double 1000.0
+  teyitli (ReadPlayerConsts.java, exit=0); `DAT_005b2540` = 0.0 (terminate
+  fade hedefi). §8 madde 3 kismen kapandi, madde 5'ten ms→saniye kismi
+  kapandi.
 
 ## 11. WASAPI istemci eslemesi (tur17 — kapi 5.6 kapandi)
 
@@ -426,3 +434,98 @@ ASO.DataStream). Duzeltildi: `TWASAP.*` → `TWASAPI*`, `TASOWASAP.*` →
 4. Render dongusu `GetData` = cihaz ring buffer'indan kopya; AIMP'de ek event
    Wait slot'u istemci sinfinda — Neva Engine'deki lock-free ring buffer
    tasarimiyla (ADR-017) dogrudan karsilastirilabilir.
+
+## 12. Oynatma boru hatti (tur18 — SourceStream / Transmitter / Mixer)
+
+Yontem: proc-index sembol taramasi (`Aso::Player::Stream`, `Aso::Mixer`,
+`Aso::Data`) + dump'dan 10 govde cikarimi (`player-blocks.txt`) + Ghidra
+`ReadPlayerConsts.java` (exit=0) ile sabit okuma. Adresler `aimp-shared-
+proc-index.txt` ile teyitli.
+
+### 12.1 Zincir (pull model — cihaz thread'i asagidan ceker)
+
+```
+Device render thread (bolum 3/11 — TASODeviceClient*)
+  -> TASOMixer::GetData(buf, frames)                  [0x5A2470]
+       CS(this+0x38); dongu: transmitter (this+0x78) bos
+       (ornek sayisi +0x2C == 0) ise TASODataTransmitter::GetData
+       **3 kez** denenir (underrun koruma / dolum denemesi)
+       -> Visualizer tap: TASOVisualizer::Mixed (this+0xA0, varsa)
+       -> vtable DSP slotlari (bolum 12.2)
+       -> TASOSamples::Remove(transmitter, n)         [0x53C030]
+  -> TASODataTransmitter::GetData(TASOSamples*)       [0x53C3D0]
+       CS(this+0x38) -> kaynak(this+0x40)->vtable[0x30] GetData
+       (kaynak = DSP manager / SourceStream akisi / decoder cikisi)
+```
+
+### 12.2 Mixer DSP slot mimarisi (Neva icin dogrudan kalip)
+
+`TASOMixer::GetData` ornek boyutlu dongu icinde sample buffer uzerinde
+sira ile calisan `(ctx, buf, channels, frames)` imzali slotlar:
+
+| Slot (this+) | Null-check | Rol (INFERENCE, isim ailesinden) |
+|---|---|---|
+| +0xE0 / +0xE8 | YOK (zorunlu) | Volume proc — `SafeUpdateVolumeProc` @0x5A28A0 |
+| +0xB8 / +0xC0 | var | Opsiyonel DSP 1 — `SafeUpdatePreprocessors` @0x5A2920 ailesi (anticlipping/dither) |
+| +0xC8 / +0xD0 | var | Opsiyonel DSP 2 (loudness/EQ bilesimi — ⚠️ VERIFICATION REQUIRED, govde-disi) |
+| +0xD8 | YOK (cikis) | Cikis asamasi — hedef buffer'a kopya/mix; bayt = frames * blocksize(this+0x19) |
+
+Slotlar `SafeFlush` @0x5A2740 / `SafeFormatChanged` @0x5A27A0 /
+`SafeUpdateSourceFormat` @0x5A29F0 ile yonetilir — Neva Engine icin ayni
+desende swap-able DSP stage slotlari (ADR-017 lock-free hedef uyumlu).
+
+### 12.3 TASODataTransmitter (thread-safe kaynak passthrough)
+
+- `GetData @0x53C3D0`: CS(this+0x38) -> kaynak(this+0x40)->vtable[0x30].
+- `SetSource @0x53C530`: double-check idiom (disarda + kilit icinde tekrar)
+  -> this[8] = kaynak -> vtable[0x40] bildirim (kaynak degisti: flush/notify).
+- `TASOMixer` BIR transmitter'dir: ctor @0x5A2330 default ctor ->
+  `DataSource::SetFormat` -> vtable[0x48] SetSource — mixer, kaynagi
+  sarmalayan katmandir, ayri bir miks cekirdegi degil.
+
+### 12.4 TASOSourceStreamList (crossfade / gapless kuyruk)
+
+- `MainStream @0x5B2930`: Lock -> liste bos ise null, degilse **GetLast**
+  (AKTIF stream = listenin SON ogesi) -> Unlock.
+- `Prebuffer @0x5B29B0`: Lock -> tum ogeler uzerinde vtable[0x20]->[0x38]
+  bool sonuclarinin OR'u = **herhangi bir stream hala prebuffer'da mi**
+  (gapless baslama kapisi) -> Unlock.
+- Crossfade mekaniği: yeni stream sona eklenir; eski stream'ler fade +
+  drain sonunda listeden dusulur (MainStream=last kurali).
+
+### 12.5 TASOSourceStream (per-stream fade + drain)
+
+- `Fade @0x5B2340`: clamp = `Min(time, Duration - Position)` — fade suresi
+  **track sonuna sigdirilir**; hedef `TASOVolume::Fade(Efdid) @0x53A450`
+  (vol, clamped, sampleRate@stream+0x25, delay) — stream'in TASOVolume'u
+  this+0x20.
+- `Finished @0x5B2460`: drain predicate = (terminateFlag@+0x38 || volume
+  bitti) && buffer bos (+0x28->+0x2C==0) && !HasData -> bitis dogrulamasi.
+- `TerminateAfterDelay @0x5B24F0`: `Max(DAT_005b2540, delay - fade)` ->
+  `Fade(DAT_005b2540, delay, clamped)` -> terminateFlag@+0x38 = 1
+  (fade-to-silence + gecikmeli son).
+
+### 12.6 Teyitli sabitler (ReadPlayerConsts.java, exit=0)
+
+- `_DAT_005b1a68` = **double 1000.0** (raw 0x408F400000000000) —
+  `GetActualCrossMixingTime @0x5B1A20`: cross-mix suresi (ms, short @
+  fading+0x3A) / 1000 = **saniye**; sart zinciri: options+0x50 &&
+  fading+0x3C && fading+0x38 (§8 madde 5'ten ms→saniye kismi kapandi).
+- `DAT_005b2540` = **0.0** (raw 0x0000000000000000; float 0.0 + double 0.0
+  ayni 8 bayt) — TerminateAfterDelay fade hedefi = sifir (silinmeye fade).
+
+### 12.7 Neva sonuclari (tur18)
+
+1. **Pull-model + slot DSP** (12.2): cihaz thread'i mixer'den ceker; DSP
+   asamalari swap-able (ctx,fn) slotlaridir — volume zorunlu + 2 opsiyonel
+   slot. Neva Engine ayni kalibi lock-free uygulayabilir (ADR-017).
+2. **Crossfade = liste + per-stream volume fade** (12.4/12.5): gapless icin
+   "son og = aktif", prebuffer OR-kapisi, drain predicate — Neva crossfade
+   tasarimi icin dogrudan referans (ADR-0105 kapi 5.12).
+3. Fade clamp (track sonuna sigdirma) ve fade-to-silence (0.0 hedef)
+   AIMP'in edge davranisidir — Neva'da ayni kalip veya bilincli fark
+   tercih edilebilir (ADR'de karar).
+4. Underrun korumada 3 kesintisiz dolum denemesi (12.1) — Neva ring buffer
+   tasariminda karsiligi: boslukta tekrarli pull, yoksa break.
+5. KONTROL katmani (Load/Play/SetDeviceParams, tempo-pitch) hala acik
+   (§8 madde 3) — AIMP.exe tarafindaki baglayici ile ayri tur.
