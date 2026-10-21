@@ -2,7 +2,7 @@
 title: "AIMP.Shared.dll + AIMP.Runtime.dll — Tam Full Decompile (Ghidra Headless)"
 type: reverse-engineering
 project: NevaPlayer
-version: 1.2.0
+version: 1.3.0
 status: active
 date: 2026-10-20
 authority: "Zero-hallucination: her iddia asagida kaynakli. Isim-eslesme sayimlari yalnizca orneklenmis terimler icin gecerli (bolum 6 kirlilik notu)."
@@ -269,10 +269,12 @@ codec ne Runtime.dll'de ne Shared'de statik; plugin DLL'lerinde.
    BULUNMADI (kontrol: IID_IAudioClient @0x665318, IID_IAudioRenderClient
    @0x665338, IID_IMMDeviceEnumerator @0x665348 mevcut) + arayuz RTTI
    listesinde adi yok → AIMP yalnizca `IAudioClient` (v1) kullanir.
-3. `TASOPlayer` 183 isimli prosedur — **KISMEN KAPANDI (tur18, bolum 12):**
-   oynatma boru hatti eslendi (DataSource -> Transmitter -> DSP -> Mixer ->
-   Device + SourceStreamList crossfade). KONTROL katmani (Load/Play/
-   SetDeviceParams/tempo-pitch, AIMP.exe baglayici) hala ayri tur bekliyor.
+3. ~~`TASOPlayer` 183 isimli prosedur~~ — **KAPANDI (tur19, bolum 13):**
+   kontrol katmani eslendi (Load/transport/seek/cihaz yasam dongusu +
+   gapless sonraki-parca zinciri + tempo/pitch). Olcum: `TASOPlayer` =
+   **101** isimli prosedur (tur8'deki "183" dogrulanamadi), `Aso::Player`
+   namespace toplami = 438. Kalan: loader thread ic yapisi + WndProc
+   detaylari (KISMEN) — Radio/Decoder turlari madde 4'te ayrI.
 4. Radio 198 / Decoder 185 isimli prosedur (Shared) — ADR-0106 radyo decode
    kenari icin ayri tur.
 5. ~~Sabit bolumleri: `_DAT_005b1a68` (ms→saniye)~~ — **KAPANDI (tur18):
@@ -313,6 +315,14 @@ Arama ornegi: `Select-String -Path aimp-runtime-proc-index.txt -Pattern "TASOASI
   teyitli (ReadPlayerConsts.java, exit=0); `DAT_005b2540` = 0.0 (terminate
   fade hedefi). §8 madde 3 kismen kapandi, madde 5'ten ms→saniye kismi
   kapandi.
+- **v1.3.0 (2026-10-20, tur19):** bolum 13 eklendi — kontrol katmani
+  (TASOPlayer: uye haritasi, async yukleme, cihaz hot-swap, transport,
+  seek, gapless sonraki-parca, tempo/pitch). **Tam zincir adlari
+  kilitlendi** (AfterConstruction @0x5DEF10): TASOStream ->
+  SpeedControlFilter -> DSPManager -> Mixer -> Device. Teyitli sabitler:
+  uzun-pause geri sarma 10.0 sn, seek min 0.0, yon/state tablolari.
+  §8 madde 3 kapandi (olcum: TASOPlayer=101, Aso::Player=438 — tur8 "183"
+  dogrulanamadi).
 
 ## 11. WASAPI istemci eslemesi (tur17 — kapi 5.6 kapandi)
 
@@ -527,5 +537,161 @@ desende swap-able DSP stage slotlari (ADR-017 lock-free hedef uyumlu).
    tercih edilebilir (ADR'de karar).
 4. Underrun korumada 3 kesintisiz dolum denemesi (12.1) — Neva ring buffer
    tasariminda karsiligi: boslukta tekrarli pull, yoksa break.
-5. KONTROL katmani (Load/Play/SetDeviceParams, tempo-pitch) hala acik
-   (§8 madde 3) — AIMP.exe tarafindaki baglayici ile ayri tur.
+5. ~~KONTROL katmani (Load/Play/SetDeviceParams, tempo-pitch) hala acik~~
+   — **KAPANDI (tur19, bolum 13).**
+
+## 13. Kontrol katmani — TASOPlayer (tur19)
+
+Yontem: proc-index (`_ZN3Aso6Player10TASOPlayer` = **101** isimli prosedur;
+`Aso::Player` namespace toplami **438**) + 25 govde cikarimi
+(player-ctrl-blocks.txt / blocks2.txt) + Ghidra `ReadPlayerConsts2.java` +
+`ReadVolConst.java` (exit=0). Tum adresler index ile teyitli.
+
+### 13.0 Tam zincir (AfterConstruction @0x5DEF10 — tur18'in bosluklari doldu)
+
+```
+TASOStream(+0xE8) --SetSource--> TASOSpeedControlFilter(+0xE0)   [tempo/pitch]
+             --SetSource--> TASODSPManager(+0x48)               [custom DSP/EQ]
+             --SetSource--> TASOMixer(+0x90)                    [ses/balance, bolum 12]
+             --SetSource--> TASODevice(+0x20)                   [WASAPI/ASIO, bolum 3/11]
+```
+
+Her halka `vtable[0x48] SetSource` ile baglanir (tur18'de adlari bilinmeyen
+"source" hoplarinin gercek siniflari: **Stream -> SpeedControl ->
+DSPManager -> Mixer**). Ayrica AfterConstruction: Mixer.SetVolume(0.0)
+(DAT_005def90 = inline 0x00000000 — **baslangicta sessiz, ApplySettings
+kayitli sesi uygular**; INFERENCE) + Mixer.SetVisualizer(+0x100).
+
+### 13.1 Uye haritasi (ctor @0x5DE8E0, this+X)
+
+| Offset | Uye | Not |
+|---|---|---|
+| +0x20 | TASODevice* | DeviceInitialize'da kurulur |
+| +0x28 | TACLTimer 250 ms (0xFA) | closure = DeviceReinitialize |
+| +0x30/+0x70/+0x88 | CS "DeviceLock"/"LoaderLock"/"PlayerLock" | |
+| +0x38..0x43 | TASODeviceParams kaydi | +0x39 cihaz adi "Windows Default", +0x41 format=5, +0x42 rate=44100 |
+| +0x48 | TASODSPManager | cb DoFilterChanged |
+| +0x50 | TASOErrorLog | |
+| +0x58/+0x60 | TACLEventener(0x957) + gizli mesaj penceresi | WndProc/WndProcDevice/WndProcSync/WndProcEvent |
+| +0x68 | durum bit bayti | bit0=guard(play/pause/stop), bit1=seek guard, bit2=next-file guard, bit3=reinit guard |
+| +0x78 | TASOPlayerLoader (lazy, async thread) | |
+| +0x90 | TASOMixer | bolum 12 zincirinin sahibi |
+| +0x98 | TASOPartRepeatInfo | |
+| +0xA0 | TASOPlayerPersistent/PauseBetweenTracksHelper | |
+| +0xB0 | TASOPlayerPreloadedTrack | gapless preload onbelleği |
+| +0xB8 | onbellegi alinmis durum | UpdateState change-detect |
+| +0xC0 | TASORadioRecorder | cb DoRipperStateChanged |
+| +0xC8 | TASOPlayerReconnectHelper | |
+| +0xD0 | yon byte'i (0=ileri, 1=geri) | |
+| +0xD8 | TASOPlayerSettings | cb DoSettingsChanged |
+| +0xE0 | TASOSpeedControlFilter | tempo/pitch; cb DoFilterChanged |
+| +0xE8 | TASOStream (buffering yoneticisi) | +0x70 params, +0x78 options, +0xa8 custom trigger |
+| +0xF0 | TASOPlayerStreamInfo | |
+| +0x108 | TASOPlayerVolumeSettings | |
+| +0x1A0/1A8 | pozisyon degisim bildirim callback'i | |
+| +0x1F0 | durum degisim bildirim event'i | CallNotifyEvent |
+| +0x280 | TASODeviceManager.ListenerAdd | cihaz tak/cock kaydi |
+
+### 13.2 Durumlar ve yukleme yolu (async)
+
+Durumlar (GetState @0x5E2940 / GetRealState @0x5E2900): **0=durdu,
+1=duraklatildi, 2=oynatiliyor** (GetState: !device.IsPaused -> 2;
+GetRealState: !device.IsPlaying -> 1; ikisi de HasAudioStream degilse 0 —
+HasAudioStream = device acik && Stream bos degil). `InternalRestoreState
+@0x5E2700`: state 1 -> InternalPause(false), 2 -> InternalPlay(false).
+
+Yukleme: `Load(ucstring,...) @0x5DF050` -> TASOPlayerLoadingParams (state,
+yon, start-pos, on-tanimli bilgi; state==0 -> BreakLoading) ->
+`Load(params) @0x5E09B0`: LoaderLock + BreakLoading + lazy
+TASOPlayerLoader + SetParams + vtable[0x28] Start -> "Player.LoaderStarted".
+**Decode/yukleme asla UI thread'inde calismaz.**
+`OpenStream @0x5DFB10` (loader thread): DeviceLock -> lazy DeviceOpen ->
+"Player.Stream.Add" -> **immediate = (durum==DURAKLATILDI || hedef
+state==DURAKLATILDI)** -> Stream.LockBuffering -> `AddStream(params,
+immediate)`; immediate=false -> **gapless kuyruga ekle (crossfade),
+true -> aninda gecis**; immediate ise FlushPauseTimestamp + mixer.Flush +
+InternalRestoreState -> "Player.Stream.Ready".
+
+### 13.3 Cihaz yasam dongusu (hot-swap kalibi)
+
+- `DeviceOpen @0x5E13B0`: mevcut cihaz hazir ise (vtable[0x70]) koru;
+  degilse PopulateDevices -> FindDeviceForPlayback(+0x39 ad) ->
+  DeviceInitialize -> **listeden Extract = sahiplik transferi** ->
+  TASODevice::Open(rate@+0x42, format@+0x41, channelsMode@+0x38); hata:
+  "Device not found".
+- `DeviceInitialize @0x5E18D0`: Finalize(eski) -> device@+0x20 = dev;
+  dev+0x60/68 = DeviceError, dev+0x70/78 = DeviceNotify geri cagrilari;
+  **SetSource(mixer@+0x90)** — bolum 12 zinciri burada baglanir.
+- `DeviceFinalize @0x5E1740`: atomik swap (dev=null) -> "Device.Close" ->
+  Close -> geri cagrilari sifirla -> SetSource(0) -> Free.
+- `DeviceReinitialize @0x5E1A20`: timer kapat; bit3 guard; durum/pos/
+  partRepeat kaydet; LockBuffering; Finalize; Open; **basarili ise
+  SetPosition(kayitli pos) + InternalRestoreState + partRepeat geri
+  yukleme**; basarisiz ise "Failed to reinit device" + Stop(true).
+  -> cihaz degisimi/kaybi sirasinda **konum korunur**.
+- `SetDeviceParams @0x5E29A0`: DeviceLock -> DeviceCanChange -> CopyRecord
+  (+0x38 kayit, RTTI: TASODeviceParams) -> DeviceReinitialize.
+
+### 13.4 Transport (Play/Pause/Stop/Seek)
+
+- `InternalPlay @0x5E2340`: bit0 guard; GetRealState==1 gerekli; radio/
+  intf check (Supports GUID -> Flush + Reconnect); **uzun-pause geri
+  sarma: ayar biti acik ise SetPosition(pos - 10.0)** (_DAT_005e2528 =
+  **double 10.0**, teyitli) + mixer.Flush; ses = VolumeSettings.
+  ConvertVolume(+0x108); fade = IfThen(param2, GetFadingOnPlayPauseTime,
+  0) -> TASODevice::Play(vol, fade).
+- `InternalPause @0x5E2200`: durum==2; SetPauseTimestamp; realtime (radyo)
+  stream'lerde ozel intf cagrisi; Device::Pause(fade).
+- `InternalStop @0x5E2650`: HasAudioStream; FlushPauseTimestamp;
+  Device::Stop(fade).
+- `SetPosition @0x5E2C10`: bit1 guard; EnsureRange(pos, **0.0**, Duration)
+  (DAT_005e2d68 = float 0.0, teyitli); PartRepeat kontrolu; oynatiliyor &&
+  ayar biti -> **SetSmoothSeeking(true)** (stream options+0x78);
+  Stream.SetPosition; oynatilmiyor ise mixer.Flush; pozisyon bildirim
+  callback (+0x1A0).
+
+### 13.5 Gapless sonraki-parca zinciri (uc katman)
+
+- `PreloadNextFile @0x5E00D0`: DoGetNextFile(**dir=2 = ileri**); uzak dosya
+  -> preload yok; stream'te zaten varsa (IsNextFilePart) atla;
+  PreloadedTrack.Match -> degilse Preload(next) — **on-acma**.
+- `StartNextFilePlayback @0x5E0240`: bit2 guard; DoGetNextFile(yon@+0xD0)
+  -> uygulama ogesi secimi (DoSelectNextPotentialPlayingItem); bulunan
+  dosya icin FileManager.GetVirtualFile -> **TASOStream::SetNextFilePart
+  (gapless sonraki-parca enjeksiyonu)** -> DoFileLoading/DoFileLoaded
+  olaylari; offset > **0.0** (_DAT_005e0408 = 0.0, teyitli) ise
+  SetPosition; pause-after-track ise Pause; SetNextFilePart basarisiz ise
+  Load yoluna dus (state tablosu DAT_006605a3 = [**2,1**]: pauseAfter
+  false -> state 2 oynat, true -> state 1 duraklat).
+- `CheckStreamFinished @0x5DFE30`: device var && Stream.IsEmpty &&
+  !LoaderActive (loader+0x70 != 0, LoaderLock) -> custom trigger ->
+  WndProcEvent; **ara-duraklama (PauseBetweenTracks) aktifse
+  StartWaitTimer, degilse (trigger yoksa) TASODevice::
+  WaitForDataEndAndStop** — drain-then-stop.
+- Yon tablosu DAT_006605a1 = [**2,3**] (yon byte 0=ileri->2, 1=geri->3;
+  ileri atfi PreloadNextFile'nin sabit 2 kullanimi ile INFERENCE).
+
+### 13.6 Tempo/pitch
+
+`SetPlaybackTempo @0x5E2BD0` / `SetPlaybackPitch @0x5E2BB0` = ince
+passthrough -> `TASOSpeedControlFilter(+0xE0).SetTempo/SetPitch`
+(index'de: TempoIncrease/Decrease @0x5CDB70/0x5CDD30, SetPitch/SetTempo
+@0x5CE070/0x5CE110). Filtre zincirde 2. halka (13.0); degisiklik
+DoFilterChanged -> ApplySettings.
+
+### 13.7 Neva sonuclari (tur19)
+
+1. **Tam boru hatti adlandirildi** (13.0): Neva Engine zinciri icin tek
+   referans diyagram — Stream -> SpeedControl -> DSP -> Mixer -> Device,
+   her halka SetSource ile (ADR-0105 kapi 5.9/5.12 icin dogrudan girdi).
+2. **Async yukleme + gizli pencere event marshalling** (13.2): decode loader
+   thread'inde; olaylar WndProc ile tasinir — Neva icin ayni kalip.
+3. **Hot-swap + konum koruma** (13.3): device reinit sirasinda pozisyon/
+   durum/partRepeat kaydedilip geri yuklenir — Neva cihaz degisimi kalibi.
+4. **Gapless uc katman** (13.5): preload + enjeksiyon + drain-then-stop.
+5. **UX detaylari (teyitli)**: uzun-pause'da 10 sn geri sarma; play/pause/
+   stop fade (GetFadingOnPlayPauseTime); smooth seeking; baslangic sesi
+   0.0 + ApplySettings — Neva'da ayni veya farkli tercih ADR konusu.
+6. Kalan acik (KISMEN): loader thread ic yapisi, WndProcEvent dispatch
+   tablosu, GetStateForTrackStart (0x5DEFA0) — ufak bir sonraki tur.
+
