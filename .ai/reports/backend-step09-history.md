@@ -127,7 +127,7 @@ gelecek → bugün kırpma · IDOR (`user_id` yok sayılır, total aynı) · 401
 
 | Adım | Konu | Hash |
 |---|---|---|
-| 1 | `adim 09: history from/to + gun gruplu sozlesme + hibrit JS fetch` | `<commit-a>` |
+| 1 | `adim 09: history from/to + gun gruplu sozlesme + hibrit JS fetch` | `1f60449` |
 
 ## 8. ⚠️ VERIFICATION REQUIRED
 
