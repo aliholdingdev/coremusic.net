@@ -123,25 +123,12 @@
                 this.nameEl.textContent = `${username} (${role.toUpperCase()})`;
             }
 
-            // Playlist Kısayolları Ekleme
-            if (data.playlist_shortcuts && Array.isArray(data.playlist_shortcuts) && data.playlist_shortcuts.length > 0) {
+            // Playlist Kısayolları Ekleme (Adım 10: idempotent + inline style YOK — CSP)
+            if (Array.isArray(data.playlist_shortcuts) && data.playlist_shortcuts.length > 0) {
                 let playlistContainer = this.dropdown.querySelector('.header-dropdown-playlists');
                 if (!playlistContainer) {
                     playlistContainer = document.createElement('div');
                     playlistContainer.className = 'header-dropdown-playlists';
-                    playlistContainer.style.borderTop = '1px solid rgba(255, 255, 255, 0.1)';
-                    playlistContainer.style.paddingTop = '6px';
-                    playlistContainer.style.marginTop = '4px';
-
-                    const title = document.createElement('span');
-                    title.textContent = 'Çalma Listelerim';
-                    title.style.fontSize = '11px';
-                    title.style.color = 'rgba(255, 255, 255, 0.5)';
-                    title.style.padding = '0 8px 4px 8px';
-                    title.style.display = 'block';
-                    title.style.textTransform = 'uppercase';
-                    title.style.letterSpacing = '0.5px';
-                    playlistContainer.appendChild(title);
 
                     // Çıkış yap butonundan hemen önce ekle
                     const logoutBtn = this.dropdown.querySelector('.logout-btn');
@@ -152,49 +139,43 @@
                     }
                 }
 
+                // Yeniden render'da önceki içeriği temizle (çoğalma yok)
+                playlistContainer.replaceChildren();
+
+                const title = document.createElement('span');
+                title.className = 'header-dropdown-playlists__title';
+                title.textContent = 'Çalma Listelerim';
+                playlistContainer.appendChild(title);
+
                 data.playlist_shortcuts.forEach(pl => {
                     const link = document.createElement('a');
                     link.href = `/playlist?id=${pl.playlist_id}`;
                     link.setAttribute('role', 'menuitem');
                     link.textContent = `🎵 ${pl.name}`;
-                    link.style.fontSize = '12px';
-                    link.style.padding = '6px 8px';
                     playlistContainer.appendChild(link);
                 });
             }
 
-            // Okunmamış Bildirim Rozeti (Adım 10)
+            // Okunmamış Bildirim Rozeti (Adım 10: inline style YOK — stil Css/03_Layout/_header.css)
             if (typeof data.unread_notifications === 'number') {
                 let badge = document.querySelector('.header-notification-badge');
                 const notifBtn = document.querySelector('.header-action--notifications') || document.querySelector('[data-action="notifications"]');
-                if (data.unread_notifications > 0) {
-                    if (!badge && notifBtn) {
+                if (data.unread_notifications > 0 && notifBtn) {
+                    if (!badge) {
                         badge = document.createElement('span');
                         badge.className = 'header-notification-badge';
-                        badge.style.position = 'absolute';
-                        badge.style.top = '2px';
-                        badge.style.right = '2px';
-                        badge.style.background = '#ff3366';
-                        badge.style.color = '#fff';
-                        badge.style.fontSize = '10px';
-                        badge.style.fontWeight = 'bold';
-                        badge.style.borderRadius = '10px';
-                        badge.style.padding = '1px 5px';
-                        badge.style.lineHeight = '1';
-                        notifBtn.style.position = 'relative';
+                        badge.setAttribute('aria-hidden', 'true');
                         notifBtn.appendChild(badge);
                     }
-                    if (badge) {
-                        badge.textContent = String(data.unread_notifications);
-                        badge.style.display = 'inline-block';
-                    }
+                    badge.textContent = String(data.unread_notifications);
+                    badge.hidden = false;
                 } else if (badge) {
-                    badge.style.display = 'none';
+                    badge.hidden = true;
                 }
             }
 
-            // Arama Önerileri Datalist (Adım 10)
-            if (data.search_suggestions && Array.isArray(data.search_suggestions) && data.search_suggestions.length > 0) {
+            // Arama Önerileri Datalist (Adım 10: innerHTML YOK — replaceChildren)
+            if (Array.isArray(data.search_suggestions) && data.search_suggestions.length > 0) {
                 const searchInput = document.querySelector('.header-search__input') || document.querySelector('input[type="search"]');
                 if (searchInput) {
                     let datalist = document.getElementById('header-search-suggestions');
@@ -204,7 +185,7 @@
                         document.body.appendChild(datalist);
                         searchInput.setAttribute('list', 'header-search-suggestions');
                     }
-                    datalist.innerHTML = '';
+                    datalist.replaceChildren();
                     data.search_suggestions.forEach(item => {
                         const opt = document.createElement('option');
                         opt.value = item.title;
