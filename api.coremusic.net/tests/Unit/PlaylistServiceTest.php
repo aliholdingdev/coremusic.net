@@ -13,6 +13,9 @@ use PHPUnit\Framework\TestCase;
  *   - sahibi değil → null/false, DEĞİŞTİRİCİ repo çağrısı YOK (IDOR koruma)
  *   - reorder → bilinmeyen/tekrar eden id yok sayılır, eksikler mevcut sırayla sona (idempotent)
  *   - delete → softDeleteWithTracks çağrılır (hard DELETE yok)
+ *
+ * Not: service önce findById (sahiplik okuma) çağırır; "yazım yok" güvencesi
+ * yalnız DEĞİŞTİRİCİ metodların (appendTrack/updateMeta/...) çağrılmadığını ölçer.
  */
 final class PlaylistServiceTest extends TestCase
 {
@@ -55,7 +58,7 @@ final class PlaylistServiceTest extends TestCase
         $this->seedPlaylist();
 
         $this->assertNull($this->service->getWithTracks(self::LIST, self::OTHER));
-        $this->assertSame([], $this->repo->calls, 'Gizli liste için track okunmamalı');
+        $this->assertSame(['findById'], $this->repo->methods(), 'Gizli listede findTracks hiç çağrılmaz');
     }
 
     public function testGetWithTracksReturnsPublicPlaylistToNonOwner(): void
@@ -88,7 +91,7 @@ final class PlaylistServiceTest extends TestCase
         $result = $this->service->addTrack(self::LIST, self::T1, self::OTHER);
 
         $this->assertNull($result);
-        $this->assertSame([], $this->repo->calls, 'Sahiplik ihlalinde appendTrack çağrılmaz');
+        $this->assertSame([], $this->repo->writes(), 'Sahiplik ihlalinde appendTrack çağrılmaz');
     }
 
     public function testAddTrackAppendsAndReturnsPosition(): void
@@ -99,7 +102,7 @@ final class PlaylistServiceTest extends TestCase
         $result = $this->service->addTrack(self::LIST, self::T1, self::OWNER);
 
         $this->assertSame(5, $result['position']);
-        $this->assertSame(['appendTrack', self::LIST, self::T1], $this->repo->calls);
+        $this->assertSame([['appendTrack', self::LIST, self::T1]], $this->repo->writes());
     }
 
     // ─── removeTrack ───
@@ -109,7 +112,7 @@ final class PlaylistServiceTest extends TestCase
         $this->seedPlaylist();
 
         $this->assertFalse($this->service->removeTrack(self::LIST, self::T1, self::OTHER));
-        $this->assertSame([], $this->repo->calls);
+        $this->assertSame([], $this->repo->writes(), 'Sahiplik ihlalinde deleteTrack çağrılmaz');
     }
 
     public function testRemoveTrackDeletesForOwner(): void
@@ -118,7 +121,7 @@ final class PlaylistServiceTest extends TestCase
         $this->repo->deleteTrackResult = true;
 
         $this->assertTrue($this->service->removeTrack(self::LIST, self::T1, self::OWNER));
-        $this->assertSame(['deleteTrack', self::LIST, self::T1], $this->repo->calls);
+        $this->assertSame([['deleteTrack', self::LIST, self::T1]], $this->repo->writes());
     }
 
     // ─── update (updateMeta) ───
@@ -128,7 +131,7 @@ final class PlaylistServiceTest extends TestCase
         $this->seedPlaylist();
 
         $this->assertNull($this->service->update(self::LIST, ['name' => 'X'], self::OTHER));
-        $this->assertSame([], $this->repo->calls);
+        $this->assertSame([], $this->repo->writes(), 'Sahiplik ihlalinde updateMeta çağrılmaz');
     }
 
     public function testUpdateWithNoMutableFieldReturnsNullWithoutWrite(): void
@@ -136,28 +139,36 @@ final class PlaylistServiceTest extends TestCase
         $this->seedPlaylist();
 
         $this->assertNull($this->service->update(self::LIST, [], self::OWNER));
-        $this->assertSame([], $this->repo->calls, 'Boş alan setinde updateMeta çağrılmaz');
+        $this->assertSame([], $this->repo->writes(), 'Boş alan setinde updateMeta çağrılmaz');
     }
 
     public function testUpdateWritesOnlyProvidedTrimmedFields(): void
     {
         $this->seedPlaylist();
-        $this->repo->findByIdResult = ['playlist_id' => self::LIST, 'name' => '  Yeni  '];
+        $this->repo->findByIdResult = [
+            'playlist_id' => self::LIST, 'owner_id_hex' => self::OWNER, 'name' => 'Yeni',
+        ];
 
         $result = $this->service->update(self::LIST, ['name' => '  Yeni  '], self::OWNER);
 
-        $this->assertSame(['updateMeta', self::LIST, ['name' => 'Yeni']], $this->repo->calls);
+        $this->assertSame([['updateMeta', self::LIST, ['name' => 'Yeni']]], $this->repo->writes());
         $this->assertSame('Yeni', $result['name']);
     }
 
     public function testUpdateAllowsExplicitNullDescription(): void
     {
         $this->seedPlaylist();
-        $this->repo->findByIdResult = ['playlist_id' => self::LIST];
+        $this->repo->findByIdResult = [
+            'playlist_id' => self::LIST, 'owner_id_hex' => self::OWNER,
+        ];
 
         $this->service->update(self::LIST, ['description' => null], self::OWNER);
 
-        $this->assertSame(['updateMeta', self::LIST, ['description' => null]], $this->repo->calls);
+        $this->assertSame(
+            [['updateMeta', self::LIST, ['description' => null]]],
+            $this->repo->writes(),
+            'null description bilinçli olarak yazılır (alan temizleme)'
+        );
     }
 
     // ─── delete (soft delete tx) ───
@@ -167,7 +178,7 @@ final class PlaylistServiceTest extends TestCase
         $this->seedPlaylist();
 
         $this->assertFalse($this->service->delete(self::LIST, self::OTHER));
-        $this->assertSame([], $this->repo->calls);
+        $this->assertSame([], $this->repo->writes(), 'Sahiplik ihlalinde softDeleteWithTracks çağrılmaz');
     }
 
     public function testDeleteSoftDeletesPlaylistWithTracks(): void
@@ -176,7 +187,7 @@ final class PlaylistServiceTest extends TestCase
         $this->repo->softDeleteResult = true;
 
         $this->assertTrue($this->service->delete(self::LIST, self::OWNER));
-        $this->assertSame(['softDeleteWithTracks', self::LIST], $this->repo->calls);
+        $this->assertSame([['softDeleteWithTracks', self::LIST]], $this->repo->writes());
     }
 
     // ─── reorder (normalizasyon + kalıcı yazım) ───
@@ -186,7 +197,7 @@ final class PlaylistServiceTest extends TestCase
         $this->seedPlaylist();
 
         $this->assertNull($this->service->reorder(self::LIST, [self::T1], self::OTHER));
-        $this->assertSame([], $this->repo->calls);
+        $this->assertSame([], $this->repo->writes(), 'Sahiplik ihlalinde replacePositions çağrılmaz');
     }
 
     public function testReorderNormalizesUnknownDuplicateAndOmittedIds(): void
@@ -201,20 +212,19 @@ final class PlaylistServiceTest extends TestCase
 
         $expected = [self::T3, self::T1, self::T2];
         $this->assertSame($expected, $result['order']);
-        $this->assertSame(['replacePositions', self::LIST, $expected], $this->repo->calls);
+        $this->assertSame([['replacePositions', self::LIST, $expected]], $this->repo->writes());
     }
 
     public function testReorderWithLowercaseNormalizationIsIdempotent(): void
     {
         $this->seedPlaylist();
-        $upperT1  = strtoupper(self::T1);
         $this->repo->trackIds[self::LIST] = [self::T1, self::T2];
 
-        $first = $this->service->reorder(self::LIST, [strtoupper(self::T2), $upperT1], self::OWNER);
+        $first = $this->service->reorder(self::LIST, [strtoupper(self::T2), strtoupper(self::T1)], self::OWNER);
 
         $expected = [self::T2, self::T1];
         $this->assertSame($expected, $first['order'], 'Büyük harf id küçük harfe normalleştirilir');
-        $this->assertSame(['replacePositions', self::LIST, $expected], $this->repo->calls);
+        $this->assertSame([['replacePositions', self::LIST, $expected]], $this->repo->writes());
     }
 
     public function testReorderWithEmptyRequestKeepsCurrentOrder(): void
@@ -225,7 +235,7 @@ final class PlaylistServiceTest extends TestCase
         $result = $this->service->reorder(self::LIST, [], self::OWNER);
 
         $this->assertSame([self::T1, self::T2], $result['order']);
-        $this->assertSame(['replacePositions', self::LIST, [self::T1, self::T2]], $this->repo->calls);
+        $this->assertSame([['replacePositions', self::LIST, [self::T1, self::T2]]], $this->repo->writes());
     }
 
     // ─── create ───
@@ -238,15 +248,16 @@ final class PlaylistServiceTest extends TestCase
         $result = $this->service->create(self::OWNER, ['name' => '  Yeni Liste  ']);
 
         $this->assertSame(
-            ['insert', ['user_id' => self::OWNER, 'name' => 'Yeni Liste', 'description' => null]],
-            $this->repo->calls
+            [['insert', ['user_id' => self::OWNER, 'name' => 'Yeni Liste', 'description' => null]]],
+            $this->repo->writes()
         );
         $this->assertSame(self::LIST, $result['playlist_id']);
     }
 }
 
 /**
- * Fake IPlaylistRepository — her çağrıyı tek satır olarak kaydeder.
+ * Fake IPlaylistRepository — her çağrıyı kaydeder; writes() yalnız
+ * DEĞİŞTİRİCİ metodların [method, ...args] kaydını döner.
  *
  * @internal test doubles — yalnız bu dosyada kullanılır
  */
@@ -261,8 +272,8 @@ final class FakePlaylistRepository implements IPlaylistRepository
     /** @var array<string, list<array<string, mixed>>> */
     public array $tracks = [];
 
-    /** @var list<mixed> son çağrının [method, ...args] kaydı */
-    public array $calls = [];
+    /** @var list<list<mixed>> tüm çağrılar [method, ...args] sırasıyla */
+    private array $log = [];
 
     public ?string $insertResult = null;
     public int $appendTrackResult = 0;
@@ -270,9 +281,36 @@ final class FakePlaylistRepository implements IPlaylistRepository
     public bool $softDeleteResult = false;
     public ?array $findByIdResult = null;
 
+    /** @return list<string> çağrılan tüm metodlar (okuma + yazma, sırayla) */
+    public function methods(): array
+    {
+        return array_map(static fn (array $call): string => (string) $call[0], $this->log);
+    }
+
+    /**
+     * Yalnız DEĞİŞTİRİCİ metodların kayıtları.
+     *
+     * @return list<list<mixed>>
+     */
+    public function writes(): array
+    {
+        $writes = ['insert', 'appendTrack', 'deleteTrack', 'updateMeta', 'softDeleteWithTracks', 'replacePositions'];
+
+        return array_values(array_filter(
+            $this->log,
+            static fn (array $call): bool => in_array($call[0], $writes, true)
+        ));
+    }
+
+    /** @param list<mixed> $call */
+    private function record(array $call): void
+    {
+        $this->log[] = $call;
+    }
+
     public function findByUserId(string $userId): array
     {
-        $this->calls = ['findByUserId', $userId];
+        $this->record(['findByUserId', $userId]);
 
         return array_values(array_filter(
             $this->playlists,
@@ -282,63 +320,63 @@ final class FakePlaylistRepository implements IPlaylistRepository
 
     public function findById(string $playlistId): ?array
     {
-        $this->calls = ['findById', $playlistId];
+        $this->record(['findById', $playlistId]);
 
         return $this->findByIdResult ?? $this->playlists[$playlistId] ?? null;
     }
 
     public function insert(array $data): string
     {
-        $this->calls = ['insert', $data];
+        $this->record(['insert', $data]);
 
         return $this->insertResult ?? 'new-id';
     }
 
     public function appendTrack(string $playlistId, string $trackId): int
     {
-        $this->calls = ['appendTrack', $playlistId, $trackId];
+        $this->record(['appendTrack', $playlistId, $trackId]);
 
         return $this->appendTrackResult;
     }
 
     public function deleteTrack(string $playlistId, string $trackId): bool
     {
-        $this->calls = ['deleteTrack', $playlistId, $trackId];
+        $this->record(['deleteTrack', $playlistId, $trackId]);
 
         return $this->deleteTrackResult;
     }
 
     public function updateMeta(string $playlistId, array $fields): bool
     {
-        $this->calls = ['updateMeta', $playlistId, $fields];
+        $this->record(['updateMeta', $playlistId, $fields]);
 
         return true;
     }
 
     public function softDeleteWithTracks(string $playlistId): bool
     {
-        $this->calls = ['softDeleteWithTracks', $playlistId];
+        $this->record(['softDeleteWithTracks', $playlistId]);
 
         return $this->softDeleteResult;
     }
 
     public function findTrackIds(string $playlistId): array
     {
-        $this->calls = ['findTrackIds', $playlistId];
+        $this->record(['findTrackIds', $playlistId]);
 
         return $this->trackIds[$playlistId] ?? [];
     }
 
     public function replacePositions(string $playlistId, array $musicIds): bool
     {
-        $this->calls = ['replacePositions', $playlistId, $musicIds];
+        $this->record(['replacePositions', $playlistId, $musicIds]);
 
         return true;
     }
 
     public function findTracks(string $playlistId, int $limit): array
     {
-        $this->calls = ['findTracks', $playlistId, $limit];
+        $this->record(['findTracks', $playlistId, $limit]);
 
         return $this->tracks[$playlistId] ?? [];
     }
