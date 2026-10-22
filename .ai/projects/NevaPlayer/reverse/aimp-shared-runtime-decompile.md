@@ -2,7 +2,7 @@
 title: "AIMP.Shared.dll + AIMP.Runtime.dll — Tam Full Decompile (Ghidra Headless)"
 type: reverse-engineering
 project: NevaPlayer
-version: 1.5.0
+version: 1.6.0
 status: active
 date: 2026-10-22
 authority: "Zero-hallucination: her iddia asagida kaynakli. Isim-eslesme sayimlari yalnizca orneklenmis terimler icin gecerli (bolum 6 kirlilik notu)."
@@ -276,9 +276,11 @@ codec ne Runtime.dll'de ne Shared'de statik; plugin DLL'lerinde.
    namespace toplami = 438. Loader thread ic yapisi + WndProc
    detaylari kapandi (tur20, bolum 13.8) — Radio/Decoder turlari madde 4'te ayrI.
 4. ~~Radio 198 / Decoder 185 isimli prosedur~~ — **Decoder KAPANDI (tur21,
-   bolum 14):** decoder katmani tam eslesti (185 proc = factory + TBASSDecoder + 7
-   plugin literal). Kalan acik: **Radio 198** proseduru — ADR-0106 radyo decode
-   kenari icin ayri tur.
+   bolum 14), Radio 198 KAPANDI (tur22, bolum 15):** decoder katmani tam eslesti
+   (185 proc = factory + TBASSDecoder + 7 plugin literal); radyo katmani 198 proc
+   = 191 anlamli + 7 VCL/init — ana bulgu: radyo decode kendi HTTP client'i
+   degil, `BASS_StreamCreateURL` (bolum 15.2). Bu tur ile §8'de kalan tek acik
+   kapandi.
 5. ~~Sabit bolumleri: `_DAT_005b1a68` (ms→saniye)~~ — **KAPANDI (tur18):
    double 1000.0** (raw 0x408F400000000000, `ReadPlayerConsts.java` ile
    okundu — bolum 12.6); `GetActualCrossMixingTime` = cross-mix (ms, short
