@@ -35,7 +35,6 @@ $cmConfig = htmlspecialchars(
         <img class="player-info__cover-img" src="<?= $this->h($this->imgCover) ?>" alt="Çalan şarkının albüm kapağı" loading="lazy">
 <?php if ($this->hasCoverArt): ?>
         <img class="player-info__cover-case" src="<?= $this->h($this->imgCase) ?>" alt="" aria-hidden="true" loading="lazy">
-        <img class="player-info__cover-badge" src="<?= $this->h($this->imgBadge) ?>" alt="" aria-hidden="true" loading="lazy">
         <img class="player-info__cover-cd" src="<?= $this->h($this->imgOverlay) ?>" alt="" aria-hidden="true" loading="lazy">
 <?php endif; ?>
     </div>
@@ -44,7 +43,7 @@ $cmConfig = htmlspecialchars(
         <p class="player-info__row player-info__album"><span class="player-info__label"><span class="player-info__label-icon"><img src="<?= $this->h($this->iconCd) ?>" class="player-info__label-icon-img player-info__label-icon-img--cd" alt="" loading="lazy"></span>Albüm :</span> <span class="now-playing__meta-value"><?= $this->album ?></span></p>
         <p class="player-info__row player-info__singer"><span class="player-info__label"><span class="player-info__label-icon"><img src="<?= $this->h($this->iconMic) ?>" class="player-info__label-icon-img player-info__label-icon-img--mic" alt="" loading="lazy"></span>Sanatçı :</span> <span class="now-playing__meta-value"><?= $this->artist ?></span></p>
         <p class="player-info__row player-info__star"><span class="player-info__label"><span class="player-info__label-icon"><img src="<?= $this->h($this->iconStar) ?>" class="player-info__label-icon-img player-info__label-icon-img--star" alt="" loading="lazy"></span>Yıldız :</span> <span class="player-info__stars" role="img" aria-label="Değerlendirme: 5 üzerinden 5 yıldız"><img src="<?= $this->h($this->imgStar) ?>" alt="" loading="lazy"><img src="<?= $this->h($this->imgStar) ?>" alt="" loading="lazy"><img src="<?= $this->h($this->imgStar) ?>" alt="" loading="lazy"><img src="<?= $this->h($this->imgStar) ?>" alt="" loading="lazy"><img src="<?= $this->h($this->imgStar) ?>" alt="" loading="lazy"></span></p>
-        <p class="player-info__row player-info__bitrate"><span class="player-info__label"><span class="player-info__label-icon"><img src="<?= $this->h($this->iconBitrate) ?>" class="player-info__label-icon-img player-info__label-icon-img--bitrate" alt="" loading="lazy"></span>Bit rate :</span> <span class="now-playing__meta-value"><?= $this->bitrate ?></span><span class="player-info__badges"><img src="<?= $this->h($this->iconMp3) ?>" class="player-info__badge player-info__badge--mp3" alt="MP3" loading="lazy"><img src="<?= $this->h($this->iconMp4) ?>" class="player-info__badge player-info__badge--mp4" alt="MP4" loading="lazy"><img src="<?= $this->h($this->iconVlc) ?>" class="player-info__badge player-info__badge--vlc" alt="VLC" loading="lazy"></span></p>
+        <p class="player-info__row player-info__bitrate"><span class="player-info__label"><span class="player-info__label-icon"><img src="<?= $this->h($this->iconBitrate) ?>" class="player-info__label-icon-img player-info__label-icon-img--bitrate" alt="" loading="lazy"></span>Bit rate :</span> <span class="now-playing__meta-value"><?= $this->bitrate ?></span></p>
         <p class="player-info__row player-info__duration"><span class="player-info__label"><span class="player-info__label-icon"><img src="<?= $this->h($this->iconTimer) ?>" class="player-info__label-icon-img player-info__label-icon-img--timer" alt="" loading="lazy"></span>Süre :</span> <span class="now-playing__meta-value"><?= $this->elapsed ?> / <?= $this->duration ?></span></p>
         <div class="player-info__transport">
             <img src="<?= $this->h($this->iconPlay) ?>" class="player-info__text-img player-info__play" alt="Oynat" loading="lazy">
@@ -61,7 +60,6 @@ $cmConfig = htmlspecialchars(
         <img class="now-playing__art-img" src="<?= $this->h($this->imgCover) ?>" alt="Çalan şarkının albüm kapağı" loading="lazy">
 <?php if ($this->hasCoverArt): ?>
         <img class="now-playing__art-case" src="<?= $this->h($this->imgCase) ?>" alt="" aria-hidden="true" loading="lazy">
-        <img class="now-playing__art-badge" src="<?= $this->h($this->imgBadge) ?>" alt="" aria-hidden="true" loading="lazy">
         <img class="now-playing__art-cd" src="<?= $this->h($this->imgOverlay) ?>" alt="" aria-hidden="true" loading="lazy">
 <?php endif; ?>
     </div>

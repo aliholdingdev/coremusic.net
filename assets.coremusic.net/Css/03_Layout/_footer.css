@@ -175,36 +175,71 @@
   margin: 0;
 }
 
-/* Kılıf frame (cd-case.png) — mini kart: inset 0 · object-fit: fill */
+/* Kılıf frame (cd-case.png) — görselin üzerine tam oturur (-6.52% top / 113.04% height) */
 .footer-player__cover-case {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  pointer-events: none;
-}
-
-/* Tip rozeti (music/video) — mini kart 10/50 ≈ %20, inset 2/50 ≈ %4 (tier bağımsız) */
-.footer-player__cover-badge {
-  position: absolute;
-  right: 4%;
-  bottom: 4%;
-  width: 20%;
-  height: 20%;
-  object-fit: contain;
-  pointer-events: none;
-}
-
-/* CD overlay ("Show CD") — mini kart: top %9.3 · height %79 · object-fit: fill */
-.footer-player__cover-cd {
-  position: absolute;
-  top: 9.3%;
+  top: -6.52%;
   left: 0;
   width: 100%;
-  height: 79%;
+  height: 113.04%;
   object-fit: fill;
   pointer-events: none;
+}
+
+/* Tip rozeti (music/video) — kaldırıldı */
+.footer-player__cover-badge {
+  display: none;
+}
+
+/* CD overlay ("Show CD") — CD diski 1:1 dairesel oran ve dikey ortalama */
+.footer-player__cover-cd {
+  position: absolute;
+  top: 16.67%;
+  left: 0;
+  width: 100%;
+  height: 66.67%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* ═══ Responsive — Embedded (≤1024px RPi5) ═══ */
+@media (max-width: 1024px) {
+  .footer {
+    height: var(--footer-h, 90px);
+  }
+
+  .player-btn {
+    min-width: var(--touch-min, 48px);
+    min-height: var(--touch-min, 48px);
+  }
+
+  .footer__utility-icon {
+    min-width: var(--touch-min, 48px);
+    min-height: var(--touch-min, 48px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* 1024 Embedded footer: utility icons hidden (Mockup Image 2) */
+.layout--embedded .footer__utility-icons,
+.device--embedded .footer__utility-icons {
+  display: none !important;
+}
+
+/* 1024 Embedded seek bandı (PNG home-1024 v3 kalibrasyon) */
+.footer-player--embedded .footer-player__progress {
+  position: absolute;
+  top: var(--home-embedded-seek-top);
+  left: 0;
+  width: 100%;
+  height: var(--home-embedded-seek-h);
+}
+
+.footer-player--embedded .footer-player__progress-bar {
+  height: 100%;
+  background: var(--home-embedded-seek-fill);
 }
 
 /* ═══ Responsive — Laptop/Desktop (utility icons görünür) ═══ */
@@ -297,8 +332,95 @@
   }
 }
 
+/* ═══ Responsive — 4K TV (2561–3840px) ═══ */
+@media (min-width: 2561px) and (max-width: 3840px) {
+  .footer {
+    height: 160px;
+    padding: var(--sp-3) var(--sp-6);
+  }
+
+  .footer__album-art {
+    width: 96px;
+    height: 96px;
+  }
+
+  .player-btn {
+    width: 64px;
+    height: 64px;
+  }
+
+  .footer__song-name {
+    font-size: 1.25rem;
+  }
+
+  .footer__text {
+    font-size: 1rem;
+  }
+}
+
+/* ═══ Responsive — 4K Monitor (≥3841px) ═══ */
+@media (min-width: 3841px) {
+  .footer {
+    height: 180px;
+    padding: var(--sp-4) var(--sp-8);
+  }
+
+  .footer__album-art {
+    width: 120px;
+    height: 120px;
+  }
+
+  .player-btn {
+    width: 72px;
+    height: 72px;
+  }
+
+  .footer__song-name {
+    font-size: 1.5rem;
+  }
+
+  .footer__text {
+    font-size: 1.25rem;
+  }
+}
+
 /* ═══ Responsive — Phone (≤767px) ═══ */
 @media (max-width: 767px) {
+  .footer {
+    height: 72px;
+    padding: var(--space-1, 4px) var(--space-2, 8px);
+  }
+
+  .footer__album-art {
+    width: 48px;
+    height: 48px;
+  }
+
+  .footer__controls {
+    gap: var(--space-1, 4px);
+  }
+
+  .player-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .player-btn--play {
+    width: 50px;
+    height: 50px;
+  }
+
+  .footer__meta-stack {
+    display: none;
+  }
+
+  .footer__utility-section {
+    display: none;
+  }
+
   .footer-player__btn {
     width: 36px;
     height: 36px;

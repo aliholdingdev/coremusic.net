@@ -133,7 +133,6 @@ $mediaStatus = $homeSession->getMediaStatus();
                 <img class="footer-player__cover" id="footer_songimages" src="<?= $h($currentArt) ?>" alt="<?= $currentSong ?> albüm kapağı" loading="lazy">
 <?php if ($hasCoverArt): ?>
                 <img class="footer-player__cover-case" src="<?= $h($assetsUrl . '/Image/res-pink/cd-case.png') ?>" alt="" aria-hidden="true" loading="lazy">
-                <img class="footer-player__cover-badge" src="<?= $h($assetsUrl . '/Image/res-pink/' . ($mediaType === 'video' ? 'video.png' : 'music.png')) ?>" alt="" aria-hidden="true" loading="lazy">
                 <img class="footer-player__cover-cd" src="<?= $h($assetsUrl . '/Image/res-pink/cd-overlay.png') ?>" alt="" aria-hidden="true" loading="lazy">
 <?php endif; ?>
             </div>

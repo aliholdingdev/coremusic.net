@@ -44,6 +44,14 @@
   gap: 15px;
 }
 
+/* ═══ EMBEDDED 1024 — v3 kalibrasyon (PNG home-1024 ölçümü, 2026-10-20) ═══
+   Now Playing kartı: PNG kart patch'i açık cam → backdrop blur/saturate kaldırıldı, düz cam tonu token'dan. */
+.home-layout--embedded .now-playing.now-playing--embedded {
+  background: var(--home-embedded-np-bg, var(--cm-playerinfo-bg));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 /* ═══════════════ Album Cover ═══════════════
    Katman yığını mini kart (c-home-song-btn.css) ile birebir:
    kapak → cd-case çerçeve → tip rozeti → CD overlay (overlay markup'ta en üstte).
@@ -62,37 +70,32 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: inherit;
 }
 
-/* Kılıf frame (cd-case.png) — mini kart: inset 0 · object-fit: fill */
+/* Kılıf frame (cd-case.png) — görselin üzerine tam oturur (-6.52% top / 113.04% height) */
 .player-info__cover-case {
   position: absolute;
-  inset: 0;
+  top: -6.52%;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 113.04%;
   object-fit: fill;
   pointer-events: none;
 }
 
-/* Tip rozeti (music/video) — mini kart 10/50 ≈ %20, inset 2/50 ≈ %4 */
+/* Tip rozeti (music/video) — kaldırıldı */
 .player-info__cover-badge {
-  position: absolute;
-  right: 4%;
-  bottom: 4%;
-  width: 20%;
-  height: 20%;
-  object-fit: contain;
-  pointer-events: none;
+  display: none;
 }
 
-/* CD overlay — mini kart: top %9.3 · height %79 · object-fit: fill */
+/* CD overlay — CD diski 1:1 dairesel oran ve dikey ortalama */
 .player-info__cover-cd {
   position: absolute;
-  top: 9.3%;
+  top: 16.67%;
   left: 0;
   width: 100%;
-  height: 79%;
+  height: 66.67%;
   object-fit: fill;
   pointer-events: none;
 }
@@ -119,36 +122,32 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: inherit;
 }
 
-/* Kılıf frame — mini kart: inset 0 · object-fit: fill */
+/* Kılıf frame — görselin üzerine tam oturur */
 .now-playing__art-case {
   position: absolute;
-  inset: 0;
+  top: -6.52%;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 113.04%;
   object-fit: fill;
   pointer-events: none;
 }
 
-/* Tip rozeti (music/video) — mini kart %20 boyut, %4 inset */
+/* Tip rozeti (music/video) — kaldırıldı */
 .now-playing__art-badge {
-  position: absolute;
-  right: 4%;
-  bottom: 4%;
-  width: 20%;
-  height: 20%;
-  object-fit: contain;
-  pointer-events: none;
+  display: none;
 }
 
-/* CD overlay — mini kart: top %9.3 · height %79 · object-fit: fill */
+/* CD overlay — CD diski 1:1 dairesel oran ve dikey ortalama */
 .now-playing__art-cd {
   position: absolute;
-  top: 9.3%;
+  top: 16.67%;
   left: 0;
   width: 100%;
-  height: 79%;
+  height: 66.67%;
   object-fit: fill;
   pointer-events: none;
 }
@@ -244,13 +243,9 @@
   filter: drop-shadow(var(--cm-player-info-badge-shadow));
 }
 
-/* ─── Format rozetleri — Figma mp3(307.734,107.789) mp4(329,105) vlc(353,107) ─── */
+/* ─── Format rozetleri — kaldırıldı ─── */
 .player-info__badges {
-  position: absolute;
-  left: 125.734px;
-  top: 2.577px;
-  display: flex;
-  align-items: flex-start;
+  display: none;
 }
 .player-info__badge {
   display: block;
