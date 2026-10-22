@@ -18,7 +18,7 @@ depends-on: [".ai/research/sanal-audio-cihaz-arastirmasi-2026-10-22.md", ".ai/re
 
 **Tarih:** 2026-10-22 · **Mod:** Red Team · Human Mode · Truth Mode
 **Yöntem:** REA (`rea-pe-resources` provider) + dosya envanteri (PowerShell) + ASCII string taraması + kurulum INF/`.sys`/DLL envanteri + FxSound kaynak kod incelemesi (AGPL repo clone).
-**Kapsam:** Kurulu binary'ler (statik analiz). Dinamik analiz (çalışan process trace) **bu oturumda YAPILMADI** → §9'da açık madde.
+**Kapsam:** Kurulu binary'ler (statik analiz) + **dinamik izleme (§23 — Frida, 2026-10-22, salt okunur Interceptor)**. Etkileşimli çağrı akışları (kullanıcı hamlesi gerektiren `SetParameter*`) gözlem penceresinde **görülmedi** → §9'da açık madde.
 
 > **Zero-Hallucination:** Bu rapordaki her iddia ya disk kanıtıyla (dosya yolu/boyut/strings eşleşmesi) ya da `⚠️ VERIFICATION REQUIRED` etiketiyle işaretlenmiştir. Tahmin olarak sunulan hiçbir ifade "kanıt" değildir.
 >
@@ -294,7 +294,7 @@ Get-ChildItem "C:\Program Files\FxSound LLC\FxSound\Drivers" -Recurse
 |---|---|---|
 | U1 | VoiceMeeter'in gerçek **exclusive mod** kullanımı ve pin formatları | Pin formatları ✅ **KAPANDI** (`multi-os-audio-stack-veri-toplama-2026-10-22.md` §2: 8 render + 8 capture pin, VAIO2023; .sys rate taraması 44.1k–192k, 192k en sık=36; EXTENSIBLE 709/FLOAT 244). Exclusive mod kullanımı hâlâ `⚠️ VERIFICATION REQUIRED` (dinamik analiz gerekli) |
 | U2 | `fxvad.sys` pin formatları (max rate/bit) | ✅ **KAPANDI** (`multi-os-audio-stack-veri-toplama-2026-10-22.md` §3: 88.2/96/176.4/192 kHz sabitleri .sys'te **0**; default INF blob'u 48 kHz/16-bit/stereo EXTENSIBLE → FxSound sanal cihazı 44.1/48 kHz ile sınırlı) |
-| U3 | Dinamik analiz (çalışan process: hangi API çağrılıyor) | YAPILMADI — Rizin/REA debug oturumu gerekli |
+| U3 | Dinamik analiz (çalışan process: hangi API çağrılıyor) | ✅ **KISMI KAPANDI** (2026-10-22 Frida — §23): GUI Remote DLL'i hiç yüklemiyor; uydu BUSGEQ15 = 1 Hz `IsParametersDirty` polling. Etkileşimli `Set*` akışları ⚠️ gözlem penceresinde YOK (kullanıcı hamlesi gerekir) |
 | U4 | `.fac` dosyalarının içeriği (preset mi, FIR katsayı mı) | ✅ **KAPANDI** — **preset** (düz metin, `Factsoft/` 13 dosya, şema §9: `fxsound-app-source-analizi-2026-10-22.md` §19.2; FIR katsayı YOK) |
 | U5 | VoiceMeeterRemote API export listesi | ✅ **KAPANDI** (`multi-os-audio-stack-veri-toplama-2026-10-22.md` §4: ASCII string taraması — `VBVMR_Login/Get/SetParameter(Float/StringA/W)/SetParameters(W)/GetLevel/GetMidiMessage/Input_GetDevice*/AudioCallback*`; 3 COM callback kanalı `VBVMCClientV2`; derleme VC2010, PDB path kanıtı) |
 
@@ -495,7 +495,7 @@ Kılavuzda yer alan **VB-Audio Voicemeeter VAIO Control Panel (Version 3.3.1.6)*
 | 2 | `FxSound\Drivers\win10\x64\*.inf` | `fxvad` pin descriptor'ları | U2 |
 | 3 | `VoicemeeterRemote64.dll` | `dumpbin /exports` | U5 (remote API) |
 | 4 | `.fac` dosyaları (68) | hex header okuması | U4 |
-| 5 | Dinamik: `voicemeeter8.exe` + `FxSound.exe` running | REA/Rizin API trafiği | U3 |
+| 5 | Dinamik: `voicemeeter8.exe` + `FxSound.exe` running | ✅ Frida oturumu yapıldı (§23) — `voicemeeter8` + `BUSGEQ15` izlendi; `FxSound.exe` statik tercih edildi | U3 |
 
 ---
 
@@ -555,7 +555,7 @@ Kılavuzda yer alan **VB-Audio Voicemeeter VAIO Control Panel (Version 3.3.1.6)*
 | C12 | VoiceMeeter tek-process değil, modüler süreç | **KANITLI** | 6 yardımcı exe + 2 DLL (§12) |
 | C13 | VoiceMeeter `.sys` pin formatları | ✅ **ÇÖZÜLDÜ** (2026-10-22 derin tur) | `.sys` bayt taraması: 6 rate DWORD (192k=36 isabet) + EXTENSIBLE/FLOAT tag'leri — `multi-os-...md` §2.3 |
 | C14 | `fxvad.sys` pin formatları | ✅ **ÇÖZÜLDÜ** (2026-10-22 derin tur) | 44.1/48 kHz-only (diğerleri 0 isabet) + INF default blob 48k/16bit — `multi-os-...md` §3 |
-| C15 | Dinamik API davranışı (çalışırken hangi çağrı) | **`⚠️` YAPILMADI** | U3 |
+| C15 | Dinamik API davranışı (çalışırken hangi çağrı) | **KANITLI (kısmi)** | Frida 2026-10-22: `IsParametersDirty` 15/15 sn polling + GUI'de Remote DLL 0 yükleme (§23) · etkileşimli `Set*` ⚠️ gözlemlenmedi |
 
 ---
 
@@ -568,8 +568,37 @@ Kılavuzda yer alan **VB-Audio Voicemeeter VAIO Control Panel (Version 3.3.1.6)*
 | Web çapraz doğrulama (§16, 6 kaynak) | ✅ |
 | FxSound kaynak analizi (başka dosya) | ✅ `fxsound-app-source-analizi-2026-10-22.md` |
 | Neva kabul matrisi (§14) + test senaryoları (§20) | ✅ ADR-107'ye bağlandı |
-| Açık konular (§9) | 5 madde → sonraki tur INF/dinamik analiz |
+| Açık konular (§9) | U3 kısmi kapandı (§23 Frida) → kalan: etkileşimli `Set*` akışı + INF iç okuma |
 | Kod kopyalama | ❌ **YAPILMADI** (AGPL/kapalı kaynak yasağı korundu) |
+
+---
+
+## §23 Dinamik Analiz (U3) — Frida Canlı İzleme (2026-10-22)
+
+**Yöntem:** REA Frida `attach` + `Interceptor.attach` (**salt okunur** — hafıza yazımı/hook değiştirme yok), 3 oturum × 15–20 sn pencere, süreçlere kullanıcı onayıyla ("devam et") erişildi. Hedef: çalışan process'lerin VB-Remote API trafik deseni.
+
+### §23.1 Süreç bulguları
+
+| Süreç | PID | Durum | Bulgu |
+|---|---|---|---|
+| `voicemeeter8.exe` (Potato 3.1.2.2) | 13148 | Çalışıyor | **`VoicemeeterRemote64.dll` YÜKLÜ DEĞİL** (Frida `Process.findModuleByName` → null); exe binary'de ASCII **0** + UTF-16LE **0** `VBVMR_` / `Remote64` referansı (bölüm taraması) → **GUI motoru tamamen içsel; Remote API'yi hiç kullanmıyor** |
+| `VoicemeeterBUSGEQ15.exe` (uydu) | 11372 | Çalışıyor | **32-bit** süreç; `VoicemeeterRemote.dll` @`0x10000000` yüklü; **30 export canlı enumerate** (U5 ASCII listesiyle birebir teyit); 15 sn'de **yalnız** `VBVMR_IsParametersDirty` = **15 çağrı (1 Hz polling)**, diğer 29 export = 0 |
+| `FxSound.exe` | 12052 | Çalışıyor | Hook yapılmadı — kod AGPL ile açık olduğu için statik kanıt (§4, kaynak analizi) dinamiğe tercih edildi |
+
+### §23.2 Polling deseni (canlı kanıt örneği)
+
+`counts` örneklemeleri (6 sn aralıkla): `IsParametersDirty` 6 → 12 → **final 15**; `GetParameterFloat` 0, `GetLevel` 0, `Login` 0 (bağlantı önceden kurulmuş), `SetParameter*` 0. Desen: **tembel dirty-polling** — dirty değilse parametre okunmuyor bile.
+
+### §23.3 Neva Engine'e mimari sonuçlar
+
+1. **Uzaktan kontrol = out-of-process yüzey:** ana GUI kendi motorunu doğrudan çağırır; Remote API yalnız **3. parti/uydu** süreçler içindir → `neva-mcp` ayrı süreç + yerel API olarak tasarlanmalı (in-process hook değil).
+2. **Polling modeli:** `IsParametersDirty`-tipi 1 Hz sorgu + değişimde okuma → `neva-mcp` araçları busy-wait yapmamalı (Neva'da event/subscription varsa tercih edilir; yoksa dirty-flag kopyalanır).
+3. **Uydu araç ayrımı kanıtlandı:** BUSGEQ15 (GEQ editörü) ayrı exe + ayrı DLL katmanı → Neva'da EQ/monitor araçları da ayrı process olarak paketlenebilir (ADR-107 paketleme §19 ile uyumlu).
+
+### §23.4 Güven sınırları
+
+- Kapanan: GUI↔Remote ayrımı (çift kanıt: statik 0 referans + canlı 0 yükleme) · polling frekansı (15/15 sn tek tip çağrı) · 32-bit uydu / 64-bit GUI ayrımı.
+- **Kapanmayan:** etkileşimli `SetParameter*` / `MacroButton_*` / `AudioCallback*` çalışma anı davranışları — gözlem penceresinde çağrı **0** (sistemsiz; kullanıcı hamlesi gerekir) → `⚠️ VERIFICATION REQUIRED`. Aletli EQ kaydırıcısını hareket ettirirken tekrar edilebilir (aynı script).
 
 ---
 
