@@ -40,7 +40,7 @@ final class StreamController
             $this->fail(400, 'Geçersiz müzik ID biçimi');
         }
 
-        $row = $this->musicRepository->findById($musicIdHex);
+        $row = $this->musicRepository->findPrimaryFile($musicIdHex);
         if ($row === null) {
             $this->fail(404, 'Müzik kaydı bulunamadı');
         }
@@ -63,9 +63,9 @@ final class StreamController
         $etag = '"' . md5($path . '|' . $size . '|' . $mtime) . '"';
         $lastMod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
 
-        // Koşullu istek denetimi (If-None-Match)
+        // Koşullu istek denetimi (If-None-Match) — RFC 9110: çoklu değer, W/ öneki, * kabul
         $ifNoneMatch = trim((string) ($_SERVER['HTTP_IF_NONE_MATCH'] ?? ''));
-        if ($ifNoneMatch !== '' && $ifNoneMatch === $etag) {
+        if ($ifNoneMatch !== '' && $this->etagMatches($ifNoneMatch, $etag)) {
             http_response_code(304);
             header('ETag: ' . $etag);
             header('Last-Modified: ' . $lastMod);
@@ -144,6 +144,32 @@ final class StreamController
         }
 
         fclose($fp);
+    }
+
+    /**
+     * If-None-Match karşılaştırması (RFC 9110 §13.1.2):
+     *   *, çoklu değer (virgül), W/ öneki, tırnak farkı — hepsi eşleşir.
+     */
+    private function etagMatches(string $headerValue, string $etag): bool
+    {
+        if ($headerValue === '*') {
+            return true;
+        }
+
+        $bareEtag = preg_replace('/^W\//', '', $etag) ?? $etag;
+        $bareEtag = trim($bareEtag, '"');
+
+        foreach (explode(',', $headerValue) as $candidate) {
+            $candidate = trim($candidate);
+            $candidate = preg_replace('/^W\//', '', $candidate) ?? $candidate;
+            $candidate = trim($candidate, '"');
+
+            if ($candidate === $bareEtag) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function parseRange(string $header, int $size): array

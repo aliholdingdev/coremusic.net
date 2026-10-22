@@ -14,6 +14,13 @@ interface IMusicRepository
     public function findById(string $trackId): ?array;
 
     /**
+     * Birincil dosya satırı (stream için).
+     *
+     * @return array{file_path: string, file_format: string, file_size: int}|null
+     */
+    public function findPrimaryFile(string $musicIdHex): ?array;
+
+    /**
      * @return array<int, array<string, mixed>>
      */
     public function findMany(int $limit, int $offset): array;

@@ -45,6 +45,26 @@ final class MusicRepository implements IMusicRepository
         return $rows === [] ? null : $rows[0];
     }
 
+    public function findPrimaryFile(string $musicIdHex): ?array
+    {
+        if (strlen($musicIdHex) !== 32 || !ctype_xdigit($musicIdHex)) {
+            return null;
+        }
+
+        $sql = 'SELECT f.file_path, f.file_format, f.file_size
+                  FROM music_files f
+                  JOIN musics m ON m.id = f.music_id
+                 WHERE f.music_id = UNHEX(:id)
+                   AND m.is_deleted = 0
+                   AND f.is_deleted = 0
+                 ORDER BY f.is_primary DESC, f.id ASC
+                 LIMIT 1';
+
+        $rows = $this->db()->execute($sql, ['id' => $musicIdHex]);
+
+        return $rows === [] ? null : $rows[0];
+    }
+
     public function findMany(int $limit, int $offset): array
     {
         // LIMIT/OFFSET int cast ile gömülür (native prepare bu alanlarda bind desteklemez).
