@@ -36,8 +36,10 @@ if ($csrf === '') {
 <!-- HERO (left 749px) -->
 <div class="lgn-hero">
   <div class="lgn-hero__brand">
-    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-img.png" alt="" width="30" height="30">
-    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-text.png" alt="CoreMusic" class="logo-text-png">
+    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-img.png" alt="" width="30" height="30" class="lgn-hero__logo-img">
+    <a href="/home" class="site-header__logo" aria-label="CoreMusic" data-no-spa>
+      <span class="logo-core">Core</span> <span class="logo-music">Music</span>
+    </a>
   </div>
   <h1 class="lgn-hero__title"><em class="hero-title--sm">Duygu için</em><br><em>mükemmel</em></h1>
   <p class="lgn-hero__text">sistem. Milyonlarca şarkı, özel seçilmiş playlist'ler, sonsuz müzik keşfi. Senin için.</p>
@@ -71,12 +73,12 @@ if ($csrf === '') {
     <?php endif; ?>
     <div class="lgn-form__field">
       <label class="lgn-form__label" for="lgn-id">E-posta, Telefon veya Kullanıcı Adı</label>
-      <input class="lgn-form__input" type="text" id="lgn-id" name="email" placeholder="Equalzier Presents 5" autocomplete="username" required>
+      <input class="lgn-form__input" type="text" id="lgn-id" name="email" placeholder="ornek@mail.com" autocomplete="username" required>
     </div>
     <div class="lgn-form__field">
       <label class="lgn-form__label" for="lgn-pw">Şifre</label>
       <div class="lgn-form__pw-wrap">
-        <input class="lgn-form__input" type="password" id="lgn-pw" name="password" placeholder="Equalzier Presents 5" autocomplete="current-password" required>
+        <input class="lgn-form__input" type="password" id="lgn-pw" name="password" placeholder="Şifreniz" autocomplete="current-password" required>
         <button type="button" class="lgn-form__pw-eye" aria-label="Şifreyi göster"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11 7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></button>
       </div>
     </div>
