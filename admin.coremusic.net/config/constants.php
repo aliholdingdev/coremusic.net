@@ -88,7 +88,7 @@ if (!defined('AUTH_URL')) {
 /* --- Database (AdminDB) --- */
 if (!defined('DB_HOST')) {
     define('DB_HOST', $env('DB_HOST', 'localhost'));
-    define('DB_ADMIN_NAME', $env('DB_ADMIN_NAME', 'coremusic_admin'));
+    define('DB_ADMIN_NAME', $env('DB_ADMIN_NAME', 'coremusic_auth'));
     define('DB_USER', $env('DB_USER', ''));
     define('DB_PASSWORD', $env('DB_PASSWORD', ''));
     define('DB_PORT', (int)$env('DB_PORT', 3306));
