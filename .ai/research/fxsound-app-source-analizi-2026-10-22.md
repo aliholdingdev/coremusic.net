@@ -228,8 +228,8 @@ fxmcp/
 | # | Madde | Durum |
 |---|---|---|
 | U1 | `DfxDsp` API sözleşmesi (`include/DfxDsp.h`) içeriği | ✅ **KAPANDI** (§19.1 — gerçek yol `dsp/include/DfxDsp.h`, 79 satır tam okundu) |
-| U2 | `FxController::applyConfig` CLI sözleşmesi (`docs/COMMAND_LINE_OPTIONS.md`) | OKUNMADI — sonraki oturum |
-| U3 | `.fac` dosyalarının formatı | `⚠️ VERIFICATION REQUIRED` |
+| U2 | `FxController::applyConfig` CLI sözleşmesi (`docs/COMMAND_LINE_OPTIONS.md`) | ✅ **KAPANDI** (§18 — 128 satır tam okundu) |
+| U3 | `.fac` dosyalarının formatı | ✅ **KAPANDI** (§19.2 + §21 — repo `bin/arm64/Factsoft/1.fac` = aynı düz metin şema) |
 | U4 | `Resources` submodule içeriği (clone edilmedi) | `⚠️ VERIFICATION REQUIRED` |
 
 ---
@@ -463,12 +463,12 @@ fxmcp/
 |---|---|---|---|
 | U1 | `include/DfxDsp.h` API sözleşmesi | ✅ **KAPANDI** (§19.1) | — |
 | U2 | `docs/COMMAND_LINE_OPTIONS.md` CLI yüzeyi | ✅ **KAPANDI** (§18 — 128 satır tam okundu) | — |
-| U3 | `.fac` formatı (55 `bin/`, 68 depo) | `⚠️ VERIFICATION REQUIRED` | hex header |
+| U3 | `.fac` formatı (55 `bin/`, 68 depo) | ✅ **KAPANDI** (§21 — repo örneği `bin/arm64/Factsoft/1.fac` ilk satırları: `CLASS1 : Effect Type` = kurulu dosyalarla birebir aynı düz metin şema) | — |
 | U4 | `Resources` submodule içeriği | clone edilmedi | `git submodule update --init` |
 | U5 | `.fac` = preset mi FIR mı | ✅ **KAPANDI** (§19.2 — düz metin preset, FIR yok) | — |
-| U6 | FxSound **exclusive** iddiası (forum) vs `LOOPBACK` (kod) | **Çelişki — kod lehine çözüldü**, ama çıkış yönü `sndDevices*` dışında tam tarama gerekli | `grep -r AUDCLNT_SHAREMODE` |
-| U7 | `dfxpdefs.h` — DFX kökeni/etiketi | `⚠️ VERIFICATION REQUIRED` | Dosya okuması |
-| U8 | 4. CI workflow adı | okunmadı | dosya adı listesi |
+| U6 | FxSound **exclusive** iddiası (forum) vs `LOOPBACK` (kod) | ✅ **KAPANDI** (§21 — tam repo grep: 5/5 isabet `AUDCLNT_SHAREMODE_SHARED`, **0 EXCLUSIVE**) | — |
+| U7 | `dfxpdefs.h` — DFX kökeni/etiketi | ✅ **KAPANDI** (§21 — 245 satır tam okundu: GPLv3 header, `DFX` ürün adı + klasik 5 efekt registry adları) | — |
+| U8 | 4. CI workflow adı | ✅ **KAPANDI** (§21 — `.github/workflows/` = **3** dosya: `claude-code-review.yml` · `claude.yml` · `publish-dsp-tutorial.yml`; "4." diye bir workflow **YOK**) | — |
 
 ---
 
@@ -645,6 +645,21 @@ pAudioClientCapture                         pAudioClientPlayback
 **Sonuç:** FxSound passthru her iki uçta da `AUDCLNT_SHAREMODE_SHARED` (exclusive yok —
 §kod teyidi); playback uçunda format uyumsuzluğunda `pClosestMatch` fallback'i var. Neva
 IAudioBackend bu akışın exclusive varyantını hedefler (ADR-107).
+
+---
+
+## §21 KAPANIŞ TURU — U2/U3/U6/U7/U8 (2026-10-22 · disk kanıtı, 4 madde)
+
+| Madde | Kanıt (bu turda alınan) | Sonuç |
+|---|---|---|
+| **U3** `.fac` formatı (repo 55 `bin/` örneği) | `bin/arm64/Factsoft/1.fac` ilk satırları: `CLASS1 : Effect Type` / `9: Version` / `General` / `0: Double Params Flag` → kurulu `Factsoft\` dosyalarıyla **birebir aynı düz metin şema** (§19.2) | ✅ Aynı format — repo/kurulu ayrımı yok |
+| **U6** exclusive iddiası | Tam depo grep `AUDCLNT_SHAREMODE`: **5 isabet, 5/5 `AUDCLNT_SHAREMODE_SHARED`** (`sndDevicesSetupDevices.cpp:185,466,474,481,491`) — **EXCLUSIVE = 0 isabet** (kaynak kodun tamamı, `.cpp/.h/.c`) | ✅ FxSound **yalnız SHARED** kullanır |
+| **U7** `dfxpdefs.h` | 245 satır tam okundu (`audiopassthru/include/dfxpdefs.h` + ikinci kopya `dsp/ptutil/include/dfxpDefs.h`): header **GPLv3 / FxSound LLC 2023 / katkı: theremino.com 2025**; `DFXP_REGISTRY_DFX_PRODUCT_NAME_WIDE = L"DFX"`; klasik DFX efekt registry adları (`valFidelity/valAmbience/valDynamicBoost/valSurround/valBassBoost`); paylaşımlı-uygulama kalıntıları (`dfx.exe`, `dfxgApp.exe`, `WavToWma.exe`); Winamp/WMP/jRiver host buffer delay tablosu; shareware `serialNumber/password/regcount` registrasyon kalıntısı; trial seed GUID'leri; spectrum 10 bant/40 ms refresh; init MIDI knob'ları (51/51/26/51/68) | ✅ **DFX Audio Enhancer kökenli kod tabanı** — isim/marka hariç DFX mimarisi birebir korunmuş; lisans GPLv3+ |
+| **U8** CI workflow | `.github/workflows/` = **3 dosya**: `claude-code-review.yml` · `claude.yml` · `publish-dsp-tutorial.yml` | ✅ "4. workflow" yok — gerçek sayı **3** |
+
+**Neva etkisi (§13 dersleriyle kesişenler):** registry-depolu preset/knob modeli + host-özgün buffer-delay tablosu (Neva: config dosyası + tek genel gecikme ayarı tercih edilir — DFX'in WMP/Winamp kalıntısı Neva'da **yapılmaz**); SHARED-only kanıtı ADR-107 exclusive hedefinin FxSound'a karşı farkını kesinleştirir.
+
+**Kalan tek açık:** U4 (`Resources` submodule clone edilmedi — `git submodule update --init` gerektirir; opsiyonel).
 
 ---
 
