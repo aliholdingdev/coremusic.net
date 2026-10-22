@@ -18,6 +18,7 @@
         constructor() {
             this.apiUrl = window.API_URL || 'https://api.coremusic.net';
             this.currentTrack = null;
+            this.csrfToken = null;
             this.init();
         }
 
@@ -27,6 +28,39 @@
             this.observeDomChanges();
             this.injectStyles();
             this.loadInitialData();
+        }
+
+        /**
+         * CSRF token'ını uygulama sözleşmesinden okur (CsrfSyncManager selector'ı
+         * ile aynı): DOM'daki `input[name="csrf_token"]` gizli alanı. Cookie'den
+         * okumak yanlıştır (C-F-04: PHP asla csrf_token cookie'si set etmez).
+         * Token yoksa auth/me'den tazele (Faz 3 hibrit dağıtım sözleşmesi).
+         */
+        async getCsrfToken() {
+            if (this.csrfToken) {
+                return this.csrfToken;
+            }
+            const input = document.querySelector('[name="csrf_token"]');
+            if (input && input.value) {
+                this.csrfToken = input.value;
+                return this.csrfToken;
+            }
+            try {
+                const res = await fetch(`${this.apiUrl}/api/v1/auth/me`, {
+                    headers: { 'Accept': 'application/json' },
+                    credentials: 'include',
+                });
+                if (res.ok) {
+                    const payload = await res.json();
+                    this.csrfToken = payload?.data?.csrf_token || null;
+                }
+            } catch (_) { /* API yoksa null — POST'lar 401/403 döner, PHP render korunur */ }
+            return this.csrfToken;
+        }
+
+        /** X-CSRF-Token başlığı — token yoksa boş nesne (CsrfMiddleware 403 döner). */
+        csrfHeaders() {
+            return this.csrfToken ? { 'X-CSRF-Token': this.csrfToken } : {};
         }
 
         bindTrackClicks() {
@@ -141,11 +175,13 @@
 
         async recordHistory(trackInfo) {
             try {
+                await this.getCsrfToken();
                 const response = await fetch(`${this.apiUrl}/api/v1/music/history`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
+                        ...this.csrfHeaders(),
                     },
                     credentials: 'include',
                     body: JSON.stringify({
@@ -496,11 +532,13 @@
 
         async createPlaylist(name, description = '') {
             try {
+                await this.getCsrfToken();
                 const res = await fetch(`${this.apiUrl}/api/v1/playlist`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
+                        ...this.csrfHeaders(),
                     },
                     credentials: 'include',
                     body: JSON.stringify({ name, description })
@@ -520,11 +558,13 @@
 
         async addTrackToPlaylist(playlistId, trackHex, playlistName = '') {
             try {
+                await this.getCsrfToken();
                 const res = await fetch(`${this.apiUrl}/api/v1/playlist/tracks`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
+                        ...this.csrfHeaders(),
                     },
                     credentials: 'include',
                     body: JSON.stringify({
