@@ -32,6 +32,10 @@ export class MysqlAdapter implements DbAdapter {
       waitForConnections: true,
       connectionLimit: 10,
       namedPlaceholders: false,
+      // Uzak MySQL (95.70.176.119): boşta bekleyen TCP'yi firewall/NAT
+      // 26 dk'da kesti → ECONNRESET. Keepalive sondaşı bekletir.
+      enableKeepAlive: true,
+      keepAliveInitialDelay: 10_000,
     });
   }
 

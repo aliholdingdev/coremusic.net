@@ -210,4 +210,51 @@ coremusic_musics.musics (BINARY16 UUID)
 
 ---
 
-*data-engineer (L0 Infrastructure) · CoreMusic · 2026-10-21 · REVISION-REPORT v1.0.0*
+---
+
+## §9 — Novasearch Legacy Tablo Envanteri & 2026-10-22 Kullanıcı Kararı (Addendum v1.0.1)
+
+> **Tetik:** NovaSearch DB yazım sorunu çözümü (2026-10-22) — kullanıcı talimatı: "legacy tablolar .ai/.sql'e yaz, dokunma".
+
+### §9.1 Legacy Envanter (kaynak-tarih belirtilmiş, tahmin YOK)
+
+| Kaynak | Tarih | Novasearch içeriği |
+|---|---|---|
+| Canlı dump (git `43e6763`, `git show 43e6763:.ai/.sql/mysql/novasearch.sql`) | 2026-10-07 | **7 tablo**: `cache_entries`, `channels` (UUID PK, geniş kolon seti), `knex_migrations`, `knex_migrations_lock`, `playlists`, `search_logs` (çoğul + `response_time_ms`), `videos` |
+| Bu rapor §1.5 (2026-10-21 denetim dump'ı) | 2026-10-21 | **12 tablo**: yukarıdakilere ek `daily_stats`, `search_synonyms`, `channel_statistics`, `trending_cache` + `v_search_log_singular` VIEW (salt-okunur köprü, normalize migration BÖLÜM 3) |
+| Kullanıcı phpMyAdmin ekran görüntüsü | 2026-10-22 | **9 varlık, tümü 0 satır** · "Sunucu: localhost" = phpMyAdmin'in bağlandığı sunucunun perspektifi |
+
+**Fark notu:** 2026-10-07 dump'ı ile 2026-10-21 denetim arasında +5 tablo görünüm farkı var (`daily_stats`, `search_synonyms`, `channel_statistics`, `trending_cache` + ek tablo) — canlı şema 2026-10-07 sonrası knex-era'da büyümüş. 2026-10-22 ekran görüntüsü 9 varlık gösterir; hangi 9 olduğu ekran görüntüsü metninden tam listelenemez → **UNKNOWN, tahmin yazılmadı**.
+
+### §9.2 2026-10-22 Ortam Kanıtı (kök neden)
+
+| Ölçüm | Sonuç |
+|---|---|
+| Lokal MySQL servis/process/port (3306/3307/33060 + tüm port taraması) | **YOK** — lokal makinede MySQL çalışmıyor |
+| `mysqld.exe` disk taraması (C: + D:, derinlik 5) | **0 isabet** — lokal kurulum yok |
+| MySQL bağlantısı (`Ali:ali**` @ 127.0.0.1:3306) | **ECONNREFUSED** |
+| `api.coremusic.net` (95.70.176.119 hosts kanıtı) → `/api/health` | **404** — uzak sunucuda NovaSearch API'si o yolda yok |
+| phpMyAdmin'deki MySQL konumu | **Uzak sunucu 95.70.176.119** (kullanıcı beyanı 2026-10-22) |
+
+**Kök neden:** Kullanıcı testi `localhost:3001`'e atıldı; `.env` dosyası yoktu → `bootstrap.ts:21` `DB_TYPE` default'u **sqlite**'a düştü → yazımlar `./data/novasearch.db` SQLite dosyasına gitti, uzak MySQL'e DEĞİL. Kod yazım yolları sağlam (`SearchLogRepo.log` ← `engine.ts:231`, `VideoRepo.upsertMany`).
+
+### §9.3 Kullanıcı Kararı (2026-10-22 — bağlayıcı)
+
+1. **Legacy tablolara DOKUNULMAZ** — drop/truncate/ALTER yok; knex-era tablolar (`search_logs`, `knex_migrations*`, `cache_entries`, `playlists`, legacy `channels`) uzak sunucuda arşiv olarak kalır.
+2. **Kod seması geçerli:** `.ai/.sql/mysql/novasearch.sql` (schema.ts ddl() türevi, idempotent) uzak sunucudaki `novasearch` DB'sine phpMyAdmin'den import edilecek — `CREATE ... IF NOT EXISTS` mevcut tablolara dokunmaz, eksikleri ekler.
+3. **Kod yazım hedefi:** yeni tablolar — `search_log` (tekil + `took_ms`) · `videos` · `channels` (INT PK). Legacy `search_logs` ile `v_search_log_singular` köprüsü opsiyonel (normalize migration BÖLÜM 3'te hazır, uygulanması kullanıcıya bağlı).
+4. **Yerel test stratejisi:** lokal yeşil test SQLite ile (mysql yok kanıtı §9.2); MySQL yazım testi git pull sonrası sunucu fazında.
+
+### §9.4 Yerel Yeşil Test Kanıtı (2026-10-22, SQLite)
+
+`bun apps/api/src/index.ts` + `.env` (`DB_TYPE=sqlite`, `.gitignore:8` ile commit'e girmez) · `/api/search?q=test+query` → **200, 20 sonuç, 8400ms** · `/api/stats` → `recent[0]: "test query"` · SQLite doğrudan okuma: `search_log` **1** · `videos` **50** · `channels` **10** satır. Yazım zinciri uçtan uca DOĞRULANDI.
+
+### §9.5 Kalan Aksiyonlar (sunucu fazı)
+
+1. Uzak sunucuda phpMyAdmin → `novasearch` → Import → `.ai/.sql/mysql/novasearch.sql` (idempotent).
+2. Uzak sunucuda NovaSearch `.env` → `DB_TYPE=mysql` + `MYSQL_HOST`/`MYSQL_USER=Ali`/`MYSQL_PASSWORD` (`.env` asla commit edilmez — sunucuda elle).
+3. Sunucuda API başlat → test araması → phpMyAdmin'de `search_log`/`videos` satır kanıtı.
+
+---
+
+*v1.0.1 — data-engineer addendum (2026-10-22): §9 legacy envanter + kök neden + kullanıcı kararı · orijinal v1.0.0 (2026-10-21) bölümleri DEĞİŞTİRİLMEDİ*

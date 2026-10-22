@@ -228,7 +228,10 @@ export class SearchEngine {
       }
     }
 
-    void this.db.searchLog.log(q.query, paged.length, source, Date.now() - started);
+    // Fire-and-forget: arka plan log yazımı asla isteği/uygulamayı çökertmez
+    void this.db.searchLog.log(q.query, paged.length, source, Date.now() - started).catch(
+      () => undefined,
+    );
     progress({ step: 'bitti', note: `${paged.length} sonuç` });
 
     // Benzer öneriler (Recommendation Engine — indeks terim benzerliği)

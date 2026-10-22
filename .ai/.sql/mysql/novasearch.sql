@@ -12,6 +12,10 @@
 --   NOT: Kod semasi ile CANLI legacy (knex) semasi ARASINDA kolon farklari VAR
 --   (legacy: search_logs, kod: search_log; legacy channels kolonlari farklidir).
 --   Legacy canli dump git gecmisindedir: git log -- .ai/.sql/mysql/novasearch.sql
+--   (git show 43e6763:... ile 2026-10-07 dump'i goruntulenir - 7 tablo: cache_entries,
+--   channels[legacy UUID], knex_migrations, knex_migrations_lock, playlists,
+--   search_logs[corogul], videos). Legacy envanter + kullanici karari (dokunma):
+--   ./REVISION-REPORT.md §9 (2026-10-22).
 --   Kod yazmalari icin bu dosyanin semasi gecerlidir (bkz. scripts/mysql-smoke.ts notu:
 --   canli legacy sema dokunulmaz, test DB novasearch_test kullanilir).
 --
