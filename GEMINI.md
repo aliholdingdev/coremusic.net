@@ -108,6 +108,8 @@ Proje dışı **~340 üçüncü-parti global skill** grubu (dotnet, dx-blazor, s
 | — | `.ai/ROLE.md` | Rol → teknoloji eşlemesi |
 
 > **Boot okuma sırası**: [[AGENTS.md]] → **bu dosya (CLAUDE.md)** → [[README.md]] → [[WORKFLOW.md]] → ihtiyaç anında `@.ai/CLAUDE.md` + `@.ai/AGENTS.md` + `@.ai/WORKFLOW.md` + `@.ai/CONTEXT.md` + `@.ai/RAG.md`.
+>
+> **Kurallar defteri (`.agents/rules/`)**: domain bazlı kural seti — master: `.agents/rules/RULES.md` · domain: `architecture-rules.md` · `backend-rules.md` · `frontend-rules.md` · `database-rules.md` · `security-rules.md` · `audio-hardware-rules.md` · `workflow-rules.md` (hepsi `.ai` SSOT'una bağlı türev; çelişkide vault kazanır). Görev başlarken ilgili domain dosyası okunur.
 
 **Sabitler:** Amplifikatör topolojisi **Class AB** (Class D yasak). Agent hiyerarşisi: **Expert 5 / Senior 5 / Junior 10** → [[AGENTS.md]] §6.1.
 
