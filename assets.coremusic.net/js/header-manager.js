@@ -15,7 +15,7 @@
             this.dropdown = document.querySelector('.header-user-dropdown');
             this.nameEl = document.querySelector('.header-user__name');
             this.avatarEl = document.querySelector('.header-user__avatar');
-            this.apiUrl = window.API_URL || 'http://api.coremusic.net';
+            this.apiUrl = window.API_URL || 'https://api.coremusic.net';
             
             this.init();
         }
@@ -161,6 +161,57 @@
                     link.style.padding = '6px 8px';
                     playlistContainer.appendChild(link);
                 });
+            }
+
+            // Okunmamış Bildirim Rozeti (Adım 10)
+            if (typeof data.unread_notifications === 'number') {
+                let badge = document.querySelector('.header-notification-badge');
+                const notifBtn = document.querySelector('.header-action--notifications') || document.querySelector('[data-action="notifications"]');
+                if (data.unread_notifications > 0) {
+                    if (!badge && notifBtn) {
+                        badge = document.createElement('span');
+                        badge.className = 'header-notification-badge';
+                        badge.style.position = 'absolute';
+                        badge.style.top = '2px';
+                        badge.style.right = '2px';
+                        badge.style.background = '#ff3366';
+                        badge.style.color = '#fff';
+                        badge.style.fontSize = '10px';
+                        badge.style.fontWeight = 'bold';
+                        badge.style.borderRadius = '10px';
+                        badge.style.padding = '1px 5px';
+                        badge.style.lineHeight = '1';
+                        notifBtn.style.position = 'relative';
+                        notifBtn.appendChild(badge);
+                    }
+                    if (badge) {
+                        badge.textContent = String(data.unread_notifications);
+                        badge.style.display = 'inline-block';
+                    }
+                } else if (badge) {
+                    badge.style.display = 'none';
+                }
+            }
+
+            // Arama Önerileri Datalist (Adım 10)
+            if (data.search_suggestions && Array.isArray(data.search_suggestions) && data.search_suggestions.length > 0) {
+                const searchInput = document.querySelector('.header-search__input') || document.querySelector('input[type="search"]');
+                if (searchInput) {
+                    let datalist = document.getElementById('header-search-suggestions');
+                    if (!datalist) {
+                        datalist = document.createElement('datalist');
+                        datalist.id = 'header-search-suggestions';
+                        document.body.appendChild(datalist);
+                        searchInput.setAttribute('list', 'header-search-suggestions');
+                    }
+                    datalist.innerHTML = '';
+                    data.search_suggestions.forEach(item => {
+                        const opt = document.createElement('option');
+                        opt.value = item.title;
+                        opt.label = item.artist_name ? `${item.title} — ${item.artist_name}` : item.title;
+                        datalist.appendChild(opt);
+                    });
+                }
             }
         }
     }

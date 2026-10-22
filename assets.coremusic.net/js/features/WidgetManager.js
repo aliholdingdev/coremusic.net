@@ -61,16 +61,12 @@ export default class WidgetManager {
         this.#widgets.set('clock', { el: clockWidget, update: updateClock });
     }
 
-    /** Hava durumu widget'ı — placeholder */
+    /** Hava durumu widget'ı — placeholder (gerçek API gelene kadar '--°C' korunur) */
     #initWeather() {
         const widgets = document.querySelectorAll('.home-widget');
         widgets.forEach((w) => {
             const title = w.querySelector('.home-widget__title');
             if (title && title.textContent.includes('Hava Durumu')) {
-                const info = w.querySelector('.home-widget__info');
-                if (info && info.textContent.trim() === '--°C') {
-                    info.textContent = '28°C';
-                }
                 this.#widgets.set('weather', { el: w });
             }
         });

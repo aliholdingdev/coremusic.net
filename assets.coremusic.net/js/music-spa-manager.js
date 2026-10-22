@@ -11,9 +11,12 @@
 (function () {
     'use strict';
 
+    // Görsel varlıkların servis edildiği origin — desen: ViewModeManager.js / UrlUtils.js
+    const ASSETS_ORIGIN = window.CoreMusic?.RouterConfig?.assetsUrl || 'https://assets.coremusic.net';
+
     class MusicSpaManager {
         constructor() {
-            this.apiUrl = window.API_URL || 'http://api.coremusic.net';
+            this.apiUrl = window.API_URL || 'https://api.coremusic.net';
             this.currentTrack = null;
             this.init();
         }
@@ -95,7 +98,7 @@
 
             const title = el.getAttribute('data-title') || (titleEl ? titleEl.textContent.trim() : 'Bilinmeyen Parça');
             const artist = el.getAttribute('data-artist') || (artistEl ? artistEl.textContent.trim() : 'Bilinmeyen Sanatçı');
-            const duration = durationEl ? durationEl.textContent.trim() : '00:03:00';
+            const duration = durationEl ? durationEl.textContent.trim() : '--:--:--';
             const art = imgEl ? imgEl.src : '';
 
             return { hex, title, artist, duration, art, streamUrl };
@@ -188,15 +191,15 @@
             card.setAttribute('data-artist', trackInfo.artist);
             card.innerHTML = `
                 <div class="home-song__mini-card__art">
-                    <img class="home-song__mini-card__art-img" src="${trackInfo.art || 'http://assets.coremusic.net/Image/res-pink/album-goksel.png'}" alt="" width="50" height="50" loading="lazy"/>
-                    <img class="home-song__mini-card__art-case" src="http://assets.coremusic.net/Image/res-pink/cd-case.png" alt="" aria-hidden="true"/>
-                    <img class="home-song__mini-card__art-badge" src="http://assets.coremusic.net/Image/res-pink/music.png" alt="" aria-hidden="true"/>
-                    <img class="home-song__mini-card__art-cd" src="http://assets.coremusic.net/Image/res-pink/cd-overlay.png" alt="" aria-hidden="true"/>
+                    <img class="home-song__mini-card__art-img" src="${trackInfo.art || `${ASSETS_ORIGIN}/Image/res-pink/album-goksel.png`}" alt="" width="50" height="50" loading="lazy"/>
+                    <img class="home-song__mini-card__art-case" src="${ASSETS_ORIGIN}/Image/res-pink/cd-case.png" alt="" aria-hidden="true"/>
+                    <img class="home-song__mini-card__art-badge" src="${ASSETS_ORIGIN}/Image/res-pink/music.png" alt="" aria-hidden="true"/>
+                    <img class="home-song__mini-card__art-cd" src="${ASSETS_ORIGIN}/Image/res-pink/cd-overlay.png" alt="" aria-hidden="true"/>
                 </div>
                 <div class="home-song__mini-card__info">
                     <h3 class="home-song__mini-card__title">${this.escapeHtml(trackInfo.title)}</h3>
                     <p class="home-song__mini-card__subtitle">${this.escapeHtml(trackInfo.artist)}</p>
-                    <span class="home-song__mini-card__subtitle">${this.escapeHtml(trackInfo.duration || '00:03:00')}</span>
+                    <span class="home-song__mini-card__subtitle">${this.escapeHtml(trackInfo.duration || '--:--:--')}</span>
                 </div>
             `;
 
@@ -234,7 +237,7 @@
                         </span>
                         <span class="history-row__title">${this.escapeHtml(trackInfo.title)}</span>
                         <span class="history-row__artist">${this.escapeHtml(trackInfo.artist)}</span>
-                        <span class="history-row__duration">${this.escapeHtml(trackInfo.duration || '00:03:00')}</span>
+                        <span class="history-row__duration">${this.escapeHtml(trackInfo.duration || '--:--:--')}</span>
                     </a>
                 `;
                 historyList.insertBefore(li, historyList.firstChild);
@@ -247,9 +250,9 @@
                 li.className = 'history-list__item';
                 li.innerHTML = `
                     <a class="history-row history-row--mini" href="/playlist" data-no-spa data-stream="${trackInfo.streamUrl || `/stream/${trackInfo.hex}`}" aria-label="Oynat: ${this.escapeHtml(trackInfo.title)} — ${this.escapeHtml(trackInfo.artist)}">
-                        <img class="history-row__disc" src="http://assets.coremusic.net/Image/figma-1920/disc-history.png" width="24" height="21" alt="" loading="lazy">
+                        <img class="history-row__disc" src="${ASSETS_ORIGIN}/Image/figma-1920/disc-history.png" width="24" height="21" alt="" loading="lazy">
                         <span class="history-row__title">${this.escapeHtml(trackInfo.title)}</span>
-                        <span class="history-row__duration">${this.escapeHtml(trackInfo.duration || '00:03:00')}</span>
+                        <span class="history-row__duration">${this.escapeHtml(trackInfo.duration || '--:--:--')}</span>
                     </a>
                 `;
                 firstCol.insertBefore(li, firstCol.firstChild);
@@ -343,10 +346,10 @@
             const art = document.createElement('div');
             art.className = 'home-song__mini-card__art';
             [
-                ['home-song__mini-card__art-img', 'http://assets.coremusic.net/Image/res-pink/album-goksel.png', 50, 50],
-                ['home-song__mini-card__art-case', 'http://assets.coremusic.net/Image/res-pink/cd-case.png', 0, 0],
-                ['home-song__mini-card__art-badge', 'http://assets.coremusic.net/Image/res-pink/music.png', 0, 0],
-                ['home-song__mini-card__art-cd', 'http://assets.coremusic.net/Image/res-pink/cd-overlay.png', 0, 0],
+                ['home-song__mini-card__art-img', `${ASSETS_ORIGIN}/Image/res-pink/album-goksel.png`, 50, 50],
+                ['home-song__mini-card__art-case', `${ASSETS_ORIGIN}/Image/res-pink/cd-case.png`, 0, 0],
+                ['home-song__mini-card__art-badge', `${ASSETS_ORIGIN}/Image/res-pink/music.png`, 0, 0],
+                ['home-song__mini-card__art-cd', `${ASSETS_ORIGIN}/Image/res-pink/cd-overlay.png`, 0, 0],
             ].forEach(([cls, src, w, h]) => {
                 const img = document.createElement('img');
                 img.className = cls;
@@ -437,7 +440,7 @@
 
             const disc = document.createElement('img');
             disc.className = 'history-row__disc';
-            disc.src = 'http://assets.coremusic.net/Image/figma-1920/disc-history.png';
+            disc.src = `${ASSETS_ORIGIN}/Image/figma-1920/disc-history.png`;
             disc.width = 24;
             disc.height = 21;
             disc.alt = '';
