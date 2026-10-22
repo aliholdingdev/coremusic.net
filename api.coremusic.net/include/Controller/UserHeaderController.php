@@ -2,18 +2,19 @@
 
 namespace CoreMusic\Api\Controller;
 
-use CoreMusic\Api\Repository\IMusicRepository;
-use CoreMusic\Api\Repository\INotificationRepository;
-use CoreMusic\Api\Repository\IPlaylistRepository;
-use CoreMusic\Api\Repository\IUserProfileRepository;
+use CoreMusic\Api\Service\IUserHeaderService;
 
+/**
+ * UserHeaderController — GET /v1/user/header ucu (Adım 05).
+ *
+ * Katman ihlali düzeltmesi: 4 repository bağımlılığı IUserHeaderService'e
+ * taşındı (Controller→Service→Repository tek yön — Adım 05 §4.1). Controller
+ * yalnızca HTTP: kimlik al, servisi çağır, sarmalayıcı döndür.
+ */
 final class UserHeaderController extends AbstractController
 {
     public function __construct(
-        private readonly IUserProfileRepository $userRepo,
-        private readonly IPlaylistRepository $playlistRepo,
-        private readonly IMusicRepository $musicRepo,
-        private readonly INotificationRepository $notificationRepo,
+        private readonly IUserHeaderService $service,
     ) {}
 
     /**
@@ -22,44 +23,9 @@ final class UserHeaderController extends AbstractController
      */
     public function handle(array $route, array $request): array
     {
-        $userId = $this->authUserId($request);
+        $summary = $this->service->getHeaderSummary($this->authUserId($request));
 
-        // Kullanıcı giriş yapmışsa profil ve playlist'leri çek
-        $userData = null;
-        $playlists = [];
-        if ($userId !== null) {
-            $profile = $this->userRepo->findByUserId($userId);
-            if ($profile !== null) {
-                $userData = [
-                    'id'       => $userId,
-                    'username' => $profile['username'] ?? 'Kullanıcı',
-                    'email'    => $profile['email'] ?? '',
-                    'role'     => $profile['role'] ?? 'user',
-                    'gender'   => $profile['gender'] ?? 'neutral',
-                ];
-            }
-            // İlk 5 çalma listesi (kısayollar)
-            $allPlaylists = $this->playlistRepo->findByUserId($userId);
-            $playlists = array_slice($allPlaylists, 0, 5);
-        }
-
-        // Arama önerileri için popüler parçalar (en çok dinlenen veya son eklenen 5 parça)
-        $popularTracks = $this->musicRepo->findMany(5, 0);
-        $searchSuggestions = array_map(static function (array $track): array {
-            return [
-                'id'          => $track['music_hex'] ?? '',
-                'title'       => $track['title'] ?? '',
-                'artist_name' => $track['artist_name'] ?? '',
-            ];
-        }, $popularTracks);
-
-        return $this->success([
-            'user'               => $userData,
-            'is_authenticated'   => $userData !== null,
-            'playlist_shortcuts' => $playlists,
-            'unread_notifications' => $userId !== null ? $this->notificationRepo->countUnread($userId) : 0,
-            'search_suggestions' => $searchSuggestions,
-        ]);
+        return $this->success($summary);
     }
 
     private function authUserId(array $request): ?string

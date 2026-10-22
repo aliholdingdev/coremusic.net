@@ -10,6 +10,7 @@ use CoreMusic\Api\Repository\INotificationRepository;
 use CoreMusic\Api\Repository\IPlaylistRepository;
 use CoreMusic\Api\Repository\IUserProfileRepository;
 use CoreMusic\Api\Service\HistoryService;
+use CoreMusic\Api\Service\UserHeaderService;
 use PHPUnit\Framework\TestCase;
 
 final class HistoryAndStreamTest extends TestCase
@@ -62,7 +63,8 @@ final class HistoryAndStreamTest extends TestCase
         $notificationRepo = $this->createMock(INotificationRepository::class);
         $notificationRepo->method('countUnread')->willReturn(0);
 
-        $controller = new UserHeaderController($userRepo, $playlistRepo, $musicRepo, $notificationRepo);
+        $service = new UserHeaderService($userRepo, $playlistRepo, $musicRepo, $notificationRepo);
+        $controller = new UserHeaderController($service);
         $response = $controller->handle(['action' => 'headerData'], []);
 
         $this->assertTrue($response['success']);
@@ -93,7 +95,8 @@ final class HistoryAndStreamTest extends TestCase
 
         $musicRepo->method('findMany')->willReturn([]);
 
-        $controller = new UserHeaderController($userRepo, $playlistRepo, $musicRepo, $notificationRepo);
+        $service = new UserHeaderService($userRepo, $playlistRepo, $musicRepo, $notificationRepo);
+        $controller = new UserHeaderController($service);
         $request = ['_auth_user' => ['id' => $userId]];
 
         $response = $controller->handle(['action' => 'headerData'], $request);

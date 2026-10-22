@@ -4,17 +4,12 @@ namespace CoreMusic\Api\Service;
 
 use CoreMusic\Api\Repository\IHistoryRepository;
 
-interface IHistoryService
-{
-    public function recordListening(string $userId, string $musicId, int $durationSec, string $deviceType = 'desktop'): bool;
-
-    /** @return list<array<string, mixed>> */
-    public function getRecentTracks(string $userId, int $limit = 10): array;
-
-    /** @return array{items: list<array<string, mixed>>, total: int, page: int, per_page: int} */
-    public function getHistory(string $userId, int $page = 1, int $perPage = 20): array;
-}
-
+/**
+ * HistoryService — dinleme geçmişi iş katmanı (IHistoryService implementasyonu).
+ *
+ * Adım 05: Arayüz ayrı dosyaya taşındı (IHistoryService.php) — SRP + dosya deseni
+ * tutarlılığı. Sınırlar: sayfa/perPage clamp (1..100), limit clamp (1..50).
+ */
 final class HistoryService implements IHistoryService
 {
     public function __construct(

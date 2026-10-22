@@ -20,6 +20,7 @@ use CoreMusic\Api\Repository\UserProfileRepository;
 use CoreMusic\Api\Service\HistoryService;
 use CoreMusic\Api\Service\MusicService;
 use CoreMusic\Api\Service\PlaylistService;
+use CoreMusic\Api\Service\UserHeaderService;
 use CoreMusic\Api\Service\UserService;
 use CoreMusic\Contracts\Database\IDatabaseRegistry;
 use CoreMusic\Database\DatabaseRegistry;
@@ -93,10 +94,12 @@ final class ApiContainer
     {
         if (self::$userHeaderController === null) {
             self::$userHeaderController = new UserHeaderController(
-                self::userProfileRepository(),
-                self::playlistRepository(),
-                self::musicRepository(),
-                self::notificationRepository()
+                new UserHeaderService(
+                    self::userProfileRepository(),
+                    self::playlistRepository(),
+                    self::musicRepository(),
+                    self::notificationRepository()
+                )
             );
         }
 
