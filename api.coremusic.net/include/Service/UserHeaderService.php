@@ -21,6 +21,34 @@ final class UserHeaderService implements IUserHeaderService
 
     private const SEARCH_SUGGESTION_LIMIT = 5;
 
+    /**
+     * Dropdown menü envanteri (Adım 11) — route'lar gerçek disk yüzeyinden:
+     * /ayarlar + /history = header.php dropdown (L99-L100) · admin = admin.coremusic.net
+     * (PNG: admin-1920 · T17 admin-login/register/layout spec'leri).
+     *
+     * @var list<array{id: string, label: string, route: string, roles: list<string>}>
+     */
+    private const MENU_ITEMS = [
+        [
+            'id'    => 'settings',
+            'label' => 'Ayarlar',
+            'route' => '/ayarlar',
+            'roles' => ['user', 'admin'],
+        ],
+        [
+            'id'    => 'history',
+            'label' => 'Geçmiş',
+            'route' => '/history',
+            'roles' => ['user', 'admin'],
+        ],
+        [
+            'id'    => 'admin',
+            'label' => 'Admin Panel',
+            'route' => 'https://admin.coremusic.net/',
+            'roles' => ['admin'],
+        ],
+    ];
+
     public function __construct(
         private readonly IUserProfileRepository $profiles,
         private readonly IPlaylistRepository $playlists,
@@ -37,6 +65,7 @@ final class UserHeaderService implements IUserHeaderService
                 'is_authenticated'   => false,
                 'playlist_shortcuts' => [],
                 'unread_notifications' => 0,
+                'menu'               => [],
                 'search_suggestions' => $this->searchSuggestions(),
             ];
         }
@@ -60,8 +89,25 @@ final class UserHeaderService implements IUserHeaderService
             'is_authenticated'   => $user !== null,
             'playlist_shortcuts' => array_slice($allPlaylists, 0, self::PLAYLIST_SHORTCUT_LIMIT),
             'unread_notifications' => $this->notifications->countUnread($userId),
+            'menu'               => $this->menuForRole((string) ($user['role'] ?? 'user')),
             'search_suggestions' => $this->searchSuggestions(),
         ];
+    }
+
+    /**
+     * Rol bazlı menü — SUNUCU FİLTRESİ (Adım 11 Hard Rule 2): istemciye yalnız
+     * kullanıcının rolüne uygun öğeler gider; yetkisiz öğe yanıt gövdesine hiç
+     * yazılmaz (client'ta "gizle" yetmez — menü öğesi API'den gelmiyorsa DOM'a
+     * hiç basılmaz).
+     *
+     * @return list<array{id: string, label: string, route: string, roles: list<string>}>
+     */
+    private function menuForRole(string $role): array
+    {
+        return array_values(array_filter(
+            self::MENU_ITEMS,
+            static fn (array $item): bool => in_array($role, $item['roles'], true),
+        ));
     }
 
     /** Popüler/son parçalardan arama önerileri — public veri, ownership yok. */

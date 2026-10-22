@@ -416,6 +416,36 @@
 }
 
 /* ============================================================
+   HEADER — Dropdown Rol Bazlı Menü (Adım 11)
+   statik PHP öğeleri API menüsüyle değişir → [hidden] geri alımı
+   (a { display: flex } UA [hidden]'ı override eder → açık kural şart)
+   ============================================================ */
+.header-user-dropdown a[hidden] {
+    display: none;
+}
+
+.header-dropdown-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-dropdown-menu a {
+    min-height: 24px; /* touch hedef — Hard Rule 5 */
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Çok uzun playlist kısayolları — §9 truncate */
+.header-dropdown-playlists a {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ============================================================
    HEADER — Action Buttons (Ayarlar, Çıkış)
    ============================================================ */
 .header-action-btn {

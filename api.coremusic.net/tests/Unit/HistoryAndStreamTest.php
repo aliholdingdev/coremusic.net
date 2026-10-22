@@ -108,6 +108,72 @@ final class HistoryAndStreamTest extends TestCase
         $this->assertCount(1, $response['data']['playlist_shortcuts']);
     }
 
+    /** Adım 11: anonim menü boş — hata değil, oturumsuz dropdown'da menü öğesi yok. */
+    public function testUserHeaderMenuAnonymousIsEmpty(): void
+    {
+        $userRepo = $this->createMock(IUserProfileRepository::class);
+        $playlistRepo = $this->createMock(IPlaylistRepository::class);
+        $musicRepo = $this->createMock(IMusicRepository::class);
+        $musicRepo->method('findMany')->willReturn([]);
+        $notificationRepo = $this->createMock(INotificationRepository::class);
+
+        $service = new UserHeaderService($userRepo, $playlistRepo, $musicRepo, $notificationRepo);
+        $response = $service->getHeaderSummary(null);
+
+        $this->assertSame([], $response['menu']);
+    }
+
+    /** Adım 11 Hard Rule 2: rol 'user' → admin menü öğesi YANIT GÖVDESİNDE YOK (sunucu filtresi). */
+    public function testUserHeaderMenuServerSideRoleFilter(): void
+    {
+        $userId = '018f3a5b6c7d8e9f0123456789abcdef';
+        $userRepo = $this->createMock(IUserProfileRepository::class);
+        $userRepo->method('findByUserId')->willReturn([
+            'id' => $userId, 'username' => 'normal', 'email' => 'u@x.test', 'role' => 'user',
+        ]);
+        $playlistRepo = $this->createMock(IPlaylistRepository::class);
+        $playlistRepo->method('findByUserId')->willReturn([]);
+        $musicRepo = $this->createMock(IMusicRepository::class);
+        $musicRepo->method('findMany')->willReturn([]);
+        $notificationRepo = $this->createMock(INotificationRepository::class);
+
+        $service = new UserHeaderService($userRepo, $playlistRepo, $musicRepo, $notificationRepo);
+        $menu = $service->getHeaderSummary($userId)['menu'];
+
+        $this->assertCount(2, $menu);
+        $ids = array_column($menu, 'id');
+        $this->assertSame(['settings', 'history'], $ids);
+        $this->assertNotContains('admin', $ids);
+    }
+
+    /** Adım 11: rol 'admin' → 3 öğe + şema alanları (id/label/route/roles) tam. */
+    public function testUserHeaderMenuAdminRoleIncludesAdminItem(): void
+    {
+        $userId = '018f3a5b6c7d8e9f0123456789abcdef';
+        $userRepo = $this->createMock(IUserProfileRepository::class);
+        $userRepo->method('findByUserId')->willReturn([
+            'id' => $userId, 'username' => 'admin', 'email' => 'a@x.test', 'role' => 'admin',
+        ]);
+        $playlistRepo = $this->createMock(IPlaylistRepository::class);
+        $playlistRepo->method('findByUserId')->willReturn([]);
+        $musicRepo = $this->createMock(IMusicRepository::class);
+        $musicRepo->method('findMany')->willReturn([]);
+        $notificationRepo = $this->createMock(INotificationRepository::class);
+
+        $service = new UserHeaderService($userRepo, $playlistRepo, $musicRepo, $notificationRepo);
+        $menu = $service->getHeaderSummary($userId)['menu'];
+
+        $this->assertCount(3, $menu);
+        foreach ($menu as $item) {
+            $this->assertArrayHasKey('id', $item);
+            $this->assertArrayHasKey('label', $item);
+            $this->assertArrayHasKey('route', $item);
+            $this->assertArrayHasKey('roles', $item);
+            $this->assertContains($item['id'], ['settings', 'history', 'admin']);
+        }
+        $this->assertSame('https://admin.coremusic.net/', $menu[2]['route']);
+    }
+
     public function testHistoryControllerRecordValidation(): void
     {
         $mockRepo = $this->createMock(IHistoryRepository::class);

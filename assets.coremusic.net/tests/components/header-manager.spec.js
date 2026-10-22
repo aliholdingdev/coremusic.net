@@ -25,8 +25,9 @@ function buildHeaderDom() {
                 <img class="header-user__avatar" src="/x.png" alt="Avatar"/>
                 <span class="header-user__name">Misafir</span>
                 <div class="header-user-dropdown" role="menu">
-                    <a href="/ayarlar" role="menuitem">Ayarlar</a>
-                    <a href="/logout" class="logout-btn" role="menuitem">Çıkış Yap</a>
+                    <a href="/ayarlar" role="menuitem" data-no-spa>Ayarlar</a>
+                    <a href="/history" role="menuitem" data-no-spa>Geçmiş</a>
+                    <a href="/logout" class="logout-btn" role="menuitem" data-no-spa>Çıkış Yap</a>
                 </div>
             </div>
             <div class="site-header__actions">
@@ -193,5 +194,141 @@ describe('HeaderManager (Adım 10 — hibrit header fetch)', () => {
         expect(nameEl.querySelector('img')).toBeNull();
         const link = document.querySelector('.header-dropdown-playlists a');
         expect(link.querySelector('img')).toBeNull();
+    });
+});
+
+describe('HeaderManager — Adım 11 (rol bazlı dropdown menü + SPA)', () => {
+    const adminMenu = [
+        { id: 'settings', label: 'Ayarlar', route: '/ayarlar', roles: ['user', 'admin'] },
+        { id: 'history', label: 'Geçmiş', route: '/history', roles: ['user', 'admin'] },
+        { id: 'admin', label: 'Admin Panel', route: 'https://admin.coremusic.net/', roles: ['admin'] },
+    ];
+    const userMenu = adminMenu.slice(0, 2);
+
+    function payloadWithMenu(menu, extra = {}) {
+        return {
+            success: true,
+            data: {
+                user: { id: 'u1', username: 'Bayram', role: 'admin' },
+                playlist_shortcuts: [],
+                unread_notifications: 0,
+                menu,
+                search_suggestions: [],
+                ...extra,
+            },
+        };
+    }
+
+    const stat = (href) => `.header-user-dropdown > a[href="${href}"]`;
+
+    beforeEach(() => {
+        buildHeaderDom();
+    });
+
+    afterEach(() => {
+        vi.unstubAllGlobals();
+        document.body.innerHTML = '';
+    });
+
+    it('rol admin → 3 menü linki; statik PHP öğeleri gizli (çift menü YOK), logout görünür', async () => {
+        stubFetch(payloadWithMenu(adminMenu));
+
+        await loadModule();
+
+        await vi.waitFor(() => {
+            expect(document.querySelectorAll('.header-dropdown-menu a')).toHaveLength(3);
+        });
+        expect(document.querySelector(stat('/ayarlar')).hidden).toBe(true);
+        expect(document.querySelector(stat('/history')).hidden).toBe(true);
+        expect(document.querySelector('.logout-btn').hidden).toBe(false);
+    });
+
+    it('rol user → API yalnız 2 öğe gönderir; admin link DOM\'da YOK (Hard Rule 2)', async () => {
+        stubFetch(payloadWithMenu(userMenu, { user: { username: 'normal', role: 'user' } }));
+
+        await loadModule();
+
+        await vi.waitFor(() => {
+            expect(document.querySelectorAll('.header-dropdown-menu a')).toHaveLength(2);
+        });
+        expect(document.querySelector('.header-dropdown-menu a[href="https://admin.coremusic.net/"]')).toBeNull();
+        expect(document.querySelector('.header-dropdown-menu a[href="/ayarlar"]')).not.toBeNull();
+    });
+
+    it('SPA: same-origin link data-route + data-no-spa YOK (delegate navigate eder); cross-origin admin data-no-spa (Hard Rule 3)', async () => {
+        stubFetch(payloadWithMenu(adminMenu));
+
+        await loadModule();
+
+        await vi.waitFor(() => {
+            expect(document.querySelector('.header-dropdown-menu a[href="/ayarlar"]')).not.toBeNull();
+        });
+
+        const settings = document.querySelector('.header-dropdown-menu a[href="/ayarlar"]');
+        expect(settings.getAttribute('data-route')).toBe('true');
+        expect(settings.hasAttribute('data-no-spa')).toBe(false);
+        expect(settings.getAttribute('role')).toBe('menuitem');
+
+        const admin = document.querySelector('.header-dropdown-menu a[href="https://admin.coremusic.net/"]');
+        expect(admin.hasAttribute('data-no-spa')).toBe(true);
+        expect(admin.getAttribute('rel')).toBe('external');
+    });
+
+    it('anonim menü [] → statik öğeler gizli, yalnız logout görünür (API\'den gelmeyen öğe DOM\'da olmaz)', async () => {
+        stubFetch({
+            success: true,
+            data: {
+                user: null,
+                playlist_shortcuts: [],
+                unread_notifications: 0,
+                menu: [],
+                search_suggestions: [],
+            },
+        });
+
+        await loadModule();
+
+        await vi.waitFor(() => {
+            expect(document.querySelector(stat('/ayarlar')).hidden).toBe(true);
+        });
+        expect(document.querySelector('.header-dropdown-menu')).toBeNull();
+        expect(document.querySelector(stat('/history')).hidden).toBe(true);
+        expect(document.querySelector('.logout-btn').hidden).toBe(false);
+    });
+
+    it('§9 oturum/akış hatası: önce admin menü render, sonra 500 → eski menü gizlenir, statik öğeler geri gelir', async () => {
+        stubFetch(payloadWithMenu(adminMenu));
+        await loadModule();
+        await vi.waitFor(() => {
+            expect(document.querySelectorAll('.header-dropdown-menu a')).toHaveLength(3);
+        });
+
+        vi.unstubAllGlobals();
+        stubFetch({ success: false }, { ok: false, status: 500 });
+        await loadModule(); // yeni instance — aynı DOM
+
+        await vi.waitFor(() => {
+            expect(fetch).toHaveBeenCalledTimes(1);
+        });
+        expect(document.querySelector('.header-dropdown-menu').hidden).toBe(true);
+        expect(document.querySelector(stat('/ayarlar')).hidden).toBe(false);
+        expect(document.querySelector(stat('/history')).hidden).toBe(false);
+    });
+
+    it('XSS: menü label\'ı textContent ile yazılır (payload img OLUŞTURMAZ)', async () => {
+        stubFetch(payloadWithMenu([
+            { id: 'x', label: '<img src=x onerror=alert(9)>', route: '/ayarlar', roles: ['admin'] },
+        ]));
+
+        await loadModule();
+
+        await vi.waitFor(() => {
+            expect(document.querySelector('.header-dropdown-menu a')).not.toBeNull();
+        });
+
+        const link = document.querySelector('.header-dropdown-menu a');
+        expect(link.textContent).toBe('<img src=x onerror=alert(9)>');
+        expect(link.querySelector('img')).toBeNull();
+        expect(document.querySelectorAll('img[onerror]')).toHaveLength(0);
     });
 });

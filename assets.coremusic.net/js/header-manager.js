@@ -100,19 +100,99 @@
                 });
 
                 if (!response.ok) {
+                    this.#resetMenu();
                     return;
                 }
 
                 const result = await response.json();
                 if (!result.success || !result.data) {
+                    this.#resetMenu();
                     return;
                 }
 
                 this.renderHeaderData(result.data);
             } catch (err) {
                 // Sessiz başarısızlık — offline veya ağ hatası durumunda mevcut UI korunur
+                // (Adım 11 §9: eski menü verisiyle devam YASAK — menü alanı sıfırlanır,
+                // statik PHP öğeleri görünür geri gelir)
+                this.#resetMenu();
                 console.debug('[HeaderManager] Header verisi alınamadı:', err);
             }
+        }
+
+        /**
+         * Rol bazlı menü (Adım 11) — sunucu filtresinden gelen öğeler.
+         * Hard Rule 2: menü öğesi API'den gelmiyorsa DOM'a hiç basılmaz;
+         * hard rule 3: aynı-origin rota SPA router delegate'ine bırakılır
+         * (RouterEventManager: data-no-spa OLMAYAN same-origin link otomatik
+         * preventDefault + navigate eder — kendi delegate'imiz yok, çift tetikleme riski yok).
+         * XSS: textContent-only · idempotent: replaceChildren.
+         *
+         * @param {Array|null} menu
+         */
+        #renderMenu(menu) {
+            if (!Array.isArray(menu)) {
+                return; // Sözleşmede alan yoksa dokunma (fail-safe)
+            }
+
+            // header.php statik öğeleri (Ayarlar/Geçmiş) — logout HARİÇ
+            const staticLinks = [...this.dropdown.querySelectorAll('a[role="menuitem"]:not(.logout-btn):not(.header-dropdown-menu a):not(.header-dropdown-playlists a)')];
+            let menuContainer = this.dropdown.querySelector('.header-dropdown-menu');
+
+            if (menu.length === 0) {
+                // Menü boş (ör. anonim) → statik öğeler de gizli (API'den gelmeyen öğe DOM'da olmaz)
+                if (menuContainer) {
+                    menuContainer.hidden = true;
+                }
+                staticLinks.forEach((el) => { el.hidden = true; });
+                return;
+            }
+
+            if (!menuContainer) {
+                menuContainer = document.createElement('div');
+                menuContainer.className = 'header-dropdown-menu';
+                menuContainer.setAttribute('role', 'presentation');
+                const logoutBtn = this.dropdown.querySelector('.logout-btn');
+                if (logoutBtn) {
+                    this.dropdown.insertBefore(menuContainer, logoutBtn);
+                } else {
+                    this.dropdown.appendChild(menuContainer);
+                }
+            }
+
+            menuContainer.replaceChildren();
+            menu.forEach((item) => {
+                if (!item || typeof item.route !== 'string' || item.route === '') return;
+                if (typeof item.label !== 'string' || item.label === '') return;
+                const link = document.createElement('a');
+                link.href = item.route;
+                link.setAttribute('role', 'menuitem');
+                link.setAttribute('data-route', 'true');
+                // Aynı origin olmayan rota (ör. admin alt domain) SPA delegate'inin dışındadır
+                if (/^https?:\/\//i.test(item.route) && !item.route.startsWith(window.location.origin)) {
+                    link.setAttribute('data-no-spa', '');
+                    link.setAttribute('rel', 'external');
+                }
+                link.textContent = item.label;
+                menuContainer.appendChild(link);
+            });
+            menuContainer.hidden = false;
+
+            // Statik öğeler API menüsüyle değiştirildi (çift menü YOK)
+            staticLinks.forEach((el) => { el.hidden = true; });
+        }
+
+        /**
+         * Menü sıfırlama (Adım 11 §9) — fetch başarısız/401/oturum düştüğünde
+         * eski API menüsü gösterilmez; statik PHP öğeleri görünür geri gelir.
+         */
+        #resetMenu() {
+            const menuContainer = this.dropdown.querySelector('.header-dropdown-menu');
+            if (menuContainer) {
+                menuContainer.hidden = true;
+            }
+            this.dropdown.querySelectorAll('a[role="menuitem"]:not(.logout-btn):not(.header-dropdown-menu a):not(.header-dropdown-playlists a)')
+                .forEach((el) => { el.hidden = false; });
         }
 
         renderHeaderData(data) {
@@ -193,6 +273,11 @@
                         datalist.appendChild(opt);
                     });
                 }
+            }
+
+            // Rol bazlı menü (Adım 11) — sunucu filtresi geldi, statik öğelerin yerini alır
+            if ('menu' in data) {
+                this.#renderMenu(data.menu);
             }
         }
     }
