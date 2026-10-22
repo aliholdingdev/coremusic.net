@@ -2,9 +2,9 @@
 title: "AIMP.Shared.dll + AIMP.Runtime.dll — Tam Full Decompile (Ghidra Headless)"
 type: reverse-engineering
 project: NevaPlayer
-version: 1.4.0
+version: 1.5.0
 status: active
-date: 2026-10-20
+date: 2026-10-22
 authority: "Zero-hallucination: her iddia asagida kaynakli. Isim-eslesme sayimlari yalnizca orneklenmis terimler icin gecerli (bolum 6 kirlilik notu)."
 evidence:
   - "C:\Program Files\AIMP\AIMP.Shared.dll | 4.641.728 B | sha256 E9622014E251A5AA2DEB1616187032C7388EA686448A1EBC304F711C8BC05CE7 | v5.4.0.2722 | PE x64 (0x8664/PE32+)"
@@ -275,13 +275,16 @@ codec ne Runtime.dll'de ne Shared'de statik; plugin DLL'lerinde.
    **101** isimli prosedur (tur8'deki "183" dogrulanamadi), `Aso::Player`
    namespace toplami = 438. Loader thread ic yapisi + WndProc
    detaylari kapandi (tur20, bolum 13.8) — Radio/Decoder turlari madde 4'te ayrI.
-4. Radio 198 / Decoder 185 isimli prosedur (Shared) — ADR-0106 radyo decode
+4. ~~Radio 198 / Decoder 185 isimli prosedur~~ — **Decoder KAPANDI (tur21,
+   bolum 14):** decoder katmani tam eslesti (185 proc = factory + TBASSDecoder + 7
+   plugin literal). Kalan acik: **Radio 198** proseduru — ADR-0106 radyo decode
    kenari icin ayri tur.
 5. ~~Sabit bolumleri: `_DAT_005b1a68` (ms→saniye)~~ — **KAPANDI (tur18):
    double 1000.0** (raw 0x408F400000000000, `ReadPlayerConsts.java` ile
    okundu — bolum 12.6); `GetActualCrossMixingTime` = cross-mix (ms, short
-   @ fading+0x3A) / 1000 = saniye. Kalan acik: `_DAT_0057f078` (Hz→kHz
-   esigi) — veri okuma bekliyor. *(Onceki kismen-kapanan: DAT_0060a788 =
+   @ fading+0x3A) / 1000 = saniye. ~~Kalan acik: `_DAT_0057f078`~~ — **KAPANDI
+   (tur21): double 1000.0** (bolum 14.6): `SoundOutEqBandFreqString` divisor — freq < 1000
+   ise IntToStr, aksine FormatFloat(freq / 1000.0) + `LAB_0057f0b8` ("kHz" eki). *(Onceki kismen-kapanan: DAT_0060a788 =
    float 0.2 (sn) ve DAT_0060a790 = double 250.0 — tur17, bolum 11.7.)*
 6. Runtime "Render" ×141 ve Shared "Tag" ×645 sayimlari orneklenmedi (bolum 6
    kirlilik notu nedeniyle raporlanmiyor).
@@ -330,9 +333,54 @@ Arama ornegi: `Select-String -Path aimp-runtime-proc-index.txt -Pattern "TASOASI
   (1-6) + TASOPlayerLoadingParams offset haritasi + GetStateForTrackStart
   @0x5DEFA0. §8 madde 3'teki "Kalan" satiri kapandi. Yeni bulgu:
   `Basstypes::TBASSDecoder` (170 sembol satiri) — Shared.dll'de BASS
-  tabanli decoder katmani; DLL literal adi dump'ta YOK (dolayli yukleme).
+  tabanli decoder katmani; DLL literal adi dump'ta YOK (dolayli yukleme) — **tur21
+  duzeltmesi: REFUTED — statik import, bolum 14.1** (dump pseudocode != PE bayt).
   Decoder turu (185 prosedur) icin isaret; §6 "BASS plugin modeli" ile
   uyumlu.
+- **v1.5.0 (2026-10-22, tur21):** bolum 14 eklendi — decoder katmani (185 proc)
+  + **bass.dll STATIK import duzeltmesi**. PE import parse: bass.dll = AIMP.Shared.dll
+  import descriptor [0] (27 fonksiyon, delay import = 0) — v1.4.0 "dolayli yukleme"
+  inferansi **REFUTED** (dump pseudocode != PE bayt; satir 333 ve 808 notlari bolum 14.1
+  ile duzeltildi). Nuanstan: bass.dll cekirdegi statik, ama opsiyonel codec-plugin
+  giris noktalari GERCEKTEN dinamik — `acGetProcAddress` ile BASS_ALAC/MP4/WV_
+  StreamCreateFile (TAIMPBASSM4APlugin @0x52D230, TAIMPBASSWavPackPlugin @0x52D810).
+  Yeni kanitlar: factory iki faz (CreateDecoderForFileURI @0x54D140 kilitli giris,
+  satir 215917-215928 -> CreateDecoderForParams @0x54CBD0 "File was not found." /
+  "Decoder was not found for this format." + SetInfo 0xffffffff -> CreateDecoderForStream
+  @0x54D4C0 (satir 215758) -> Failed(hr) && uzanti sayaci > 0 ise extension fallback,
+  ters iterasyon, Succeeded || hr == E_PENDING (0x8000000A) kabul); TBASSDecoder ctor
+  @0x51D150 (BASS_ChannelSetAttribute 0x13001 + DAT_0051d218 = 0.0) + Read @0x51D4A0 /
+  SetPositionEx @0x51D4F0 / GetStreamInfo @0x51D410 / IsRealTimeStream @0x51D480 = false /
+  IsSeekable @0x51D490; TBASSLibrary::EnsureInitialized @0x51D7C0 (BASS_Init 44100 + 15
+  SetConfig raw id); RTTI 7 plugin literal (BASS/MIDI/MP4/WV/TAK/Wave64); BASS playback
+  API dump = 0 hit — BASS yalniz DECODER, cikis WASAPI (bolum 11-13 ile bagimsiz
+  Mutabik); WMA encoder CreateHandle @0x624860 (BASS_WMA_EncodeOpen, 27 import icinde DEGIL
+  — mekanizma VERIFICATION REQUIRED). Sabitler: `_DAT_0057f078` = double 1000.0
+  (Hz→kHz, bolme 1000 + "kHz" eki). Olcum: Decoder = 185, Radio = 198,
+  _ZN9Basstypes = 30, _ZN3Aso8Decoders = 23.
+  — §8 madde 4 (Decoder 185) ve madde 5 (_DAT_0057f078) kapandi; **Radio 198** kaldi.
+- **v1.6.0 (2026-10-22, tur22):** bolum 15 eklendi — radyo decode kenari (ADR-0106
+  kapanis turu). D agilim (proc-index, 198): RemoteStream 48 · Recorder 91 (9'u
+  `TACLLinkedList<TASORadioRecorderBufferChunk>` generic) · OptionsFrame 30 (UI-only) ·
+  FormatStringFactory 13 · StationInfo 6 · MetaDownloader 2 · IsRadioStream 1 = 191;
+  kalan 7 = Radio/Radio::Stream namespace init+final (0x5B8D40/0x5B8D50/0x5D60F0/0x5D6130)
+  + 3 VCL (SetRadioItem @0x406E10, TAIMPUIRadioBoxControl @0x43E028/@0x44B5C0).
+  Ana bulgu: **radyo decode kendi HTTP client'i DEGIL** — `Connect` @0x5D09D0
+  `BASS_StreamCreateURL(url,0,DECODE|STATUS,ProcDownload)` + BLOCK retry (MEM=1) +
+  FLOAT recreate (depth>23) + realtime busy-wait (`filepos(9)` progress = 100-Max(x,0);
+  filepos 9 VR) + 7 sync kenari (META=4/DOWNLOAD=7/OGG_CHANGE=0xc dogrulandi;
+  0x10100/0x10101/0x10300/0x10301 VR). Metadata zinciri: ReceiveMetadata @0x5D3030 ->
+  ParseMeta (tags 8/5 + attrib 0xc Round->bitrate; tag 8 VR) -> realtime ise pending
+  meta + TACLTimer debounce (interval `FUN_005d2f50` ile HESAPLANIR, sabit degil) ->
+  HandlerSyncMetaDelayTimer @0x5D36A0 -> UpdateMetadata @0x5D31A0 (IsTrackChanged &&
+  IsRealTimeStream -> Assign+GetPosition+DoTrackChanged; else BeginUpdate/Assign/
+  CancelUpdate) - Recorder = tee-sink (StartCore @0x5BDB80 -> OnData TS+0x84 -> Buffer ->
+  OnTrack @0x5BDF00 split dallanmasi -> SetActive @0x5BE280). GetContentType @0x5D3260
+  eslemesi kesin (0x10301->audio/mpeg, 0x10002/0x10901->audio/ogg, 0x10003-5->audio/mpeg,
+  0x10300->audio/wma, 0x10b00->audio/aac; isim atflari VR). BASS sabitleri bass.h 2.4
+  (2012, Un4seen) ile dogrulandi (bolum 15.6 tablosu - dogrulanmis/VR ayrimi);
+  tags(7)=BASS_TAG_MP4 (APE=6) duzeltmesi. **Radio 198 KAPANDI** — §8 madde 4 tamamen
+  kapali; §14.7 sayimindaki "KALAN tek tur" ibaresi de guncellendi.
 
 ## 11. WASAPI istemci eslemesi (tur17 — kapi 5.6 kapandi)
 
@@ -804,9 +852,430 @@ ezer (preload istisna: hedef state uygulanmaz).
 
 **BASS decoder katmani (yeni kesif):** `Basstypes` namespace'inde **170**
 isimli BASS sembolu (TBASSDecoder vtable @0x51CA98, TBASSDecoderC3,
-BASSUserStreamingCreate(IAIMPStream), TBASSUserData.Wrap, ...). Dump'ta
-b-string DLL literal adi YOK (dolayli yukleme — INFERENCE: module
-handle + dinamik binding; yontem §6'daki BASS plugin modeli ile ayni).
-Neva sonucu: AIMP decoder katmaninin bir kismi BASS tabanli — Decoder
-turu (185 prosedur) disaridan bakista bu siniftan baslar.
+BASSUserStreamingCreate(IAIMPStream), TBASSUserData.Wrap, ...). 
+~~Dump'ta b-string DLL literal adi YOK (dolayli yukleme)~~ **REFUTED (tur21):**
+bass.dll = **statik import** (AIMP.Shared.dll import descriptor [0], 27 fonksiyon,
+delay import = 0) — dump'ta literal gorunmemesi Ghidra artefaktidir (pseudocode
+sembol adini gosterir, PE baytini degil) — bolum 14.1 (iki-katman nuansi dahil:
+cekirdek statik, codec-plugin giris noktalari acGetProcAddress ile dinamik).
+Neva sonucu: AIMP decoder katmaninin bir kismi BASS tabanli — Decoder turu
+(185 prosedur) bolum 14'te tam eslesti.
+
+## 14. Decoder katmani (tur21 — factory + TBASSDecoder + bass.dll statik import)
+
+> Kapsam: AIMP.Shared.dll decoder olusturma zinciri (factory), BASS tabanli
+> decoder instance (TBASSDecoder / TBASSLibrary), PE import gercegi (bass.dll
+> **statik**) ve v1.4.0'daki "dolayli yukleme" inferansinin REFUTED edilmesi.
+> Kaynaklar: proc-index (14.817 proc) + aimp-shared-full-decompile.txt
+> (dump satir referanslari parantez icinde) + PE bayt okumasi
+> (parse-imports.ps1: import directory `oh+112+8`, nameRVA -> section
+> eslemesi R2F ile file offset'e cevrildi).
+
+### 14.1 PE import gercegi: bass.dll STATIK (v1.4.0 notu REFUTED)
+
+`AIMP.Shared.dll` (4.641.728 bayt) import directory'si PE baytlarindan parse
+edildi: **bass.dll = import descriptor [0]** (ilk descriptor):
+
+| Alan | Deger |
+|---|---|
+| nameRVA / file offset | 0x278ef0 / 0x2762f0 (`.idata`) |
+| ILT (lookup table) | 0x26a0e0 |
+| IAT | 0x2717e8 |
+| Fonksiyon sayisi | **27** |
+
+27 import (olcum sirasi): `BASS_StreamCreate` · `BASS_StreamCreateURL` ·
+`BASS_SetConfig` · `BASS_PluginFree` · `BASS_ChannelGetTags` · `BASS_MusicFree`
+· `BASS_StreamGetFilePosition` · `BASS_ChannelSetPosition` ·
+`BASS_ChannelGetPosition` · `BASS_Init` · `BASS_StreamCreateFile` ·
+`BASS_PluginGetInfo` · `BASS_MusicLoad` · `BASS_PluginLoad` ·
+`BASS_ChannelSetDSP` · `BASS_StreamFree` · `BASS_GetConfigPtr` ·
+`BASS_SetConfigPtr` · `BASS_ChannelGetInfo` · `BASS_ChannelSetSync` ·
+`BASS_ChannelGetData` · `BASS_ChannelGetLength` · `BASS_ChannelSetAttribute` ·
+`BASS_ChannelGetAttribute` · `BASS_ChannelBytes2Seconds` ·
+`BASS_ErrorGetCode` · `BASS_StreamCreateFileUser`
+
+Toplam **10 import descriptor** (bass.dll + winmm + kernel32 + shell32 +
+ole32 + ... + `dsound.dll` [#9]); **delay import directory = 0** (tamamini
+statik import baglar).
+
+**REFUTED — v1.4.0 "dolayli yukleme" notu (doc satir 333 ve 808):** "Dump'ta
+b-string DLL literal adi YOK -> dinamik import/dolayli yukleme" inferansi
+gecersizdir ve karsit kanitta oturmaktadir. Nedeni metodolojik: Ghidra dump'i
+pseudocode'tur ve statik import'lari **sembol adiyla** gosterir (ham bayt
+olarak degil); "bass" literal'inin dump metninde aranmasi yanlis bir deneydir.
+Dogru yontem PE import directory parse'idir ve sonuc **statik import**'tur.
+Bu, §2'deki tur15 MUTABAKAT notu ile (Shared dump'inda
+`BASS_SetConfig @0x51ac60` · `BASS_Init @0x51aca0` · `BASS_PluginLoad @0x51acb0`
+import thunk'lari) zaten mutabikti; tur21 bunu bayt seviyesinde kilitledi.
+AIMP.exe seviyesinde bass.dll import'unun olmamasi (§2) ayri ve gecerli bir
+gozlemdir — bagimlilik AIMP.Shared.dll'e devredilmistir.
+
+**Iki-katmanli nuans (tur21):** "dolayli yukleme" iddiasi **sinirli kapsamda
+dogru cikti — ama hedef bass.dll degil, opsiyonel codec-plugin giris
+noktalari.** `acGetProcAddress` uzerinden dinamik baglanan fonksiyonlar
+(grep-dump8, dump satir 196440-196520): `BASS_ALAC_StreamCreateFile` ·
+`BASS_MP4_StreamCreateFile` (`TAIMPBASSM4APlugin` ctor @0x52D230, dtor
+@0x52D090, wrapper @0x52D300) · `BASS_WV_StreamCreateFileUserEx`
+(`TAIMPBASSWavPackPlugin` @0x52D810). Yani: **bass.dll cekirdegi = statik
+import (27), ALAC/M4A/WV codec entry-point'leri = plugin yukleme aninda
+GetProcAddress.** Bu iki katman ayristirilmadan "dolayli yukleme" denirse
+yanlis olur: bass.dll yuklenmesi statik baglantidir (IAT dolumu loader
+tarafindan), codec sembolleri ise run-time cozumlenur.
+
+### 14.2 Factory katmani: SoundOutDecoderManager (Aso::Decoders)
+
+Adresler proc-index ile dogrulandi (`_ZN3Aso8Decoders` = **23** proc):
+
+| Uye | Adres | Kanit |
+|---|---|---|
+| GetStreamFormat | @0x54C7D0 | `PTR__ZN3Aso5Types18SoundOutNullFormatE_006686d8` (fallback format) |
+| SoundOutDecoderManager (singleton) | @0x54C840 | `DAT_006694c8` tekil instance |
+| CreateDecoder | @0x54CB80 | CreateDecoderForParams cagirici (satir 215669) |
+| CreateDecoderForParams | @0x54CBD0 | `TASOSourceParams::ResetErrorLog` -> `TAIMPErrorInfoAdapter` -> `FileManager::CreateStreamForFileURI` -> `IsFileExists` (satir 215680-215845) |
+| CreateDecoderForFileURI | @0x54D140 | CreateDecoderForParams cagirici (satir 215923) |
+| CreateDecoderForStream | @0x54D4C0 | ext listesi `param_1+0x10` + `CRITICAL_SECTION` `+0x20` (satir 216091); factory icinden cagri (satir 215758) |
+| RegisterExtension | @0x54D6C0 | uzanti kayit |
+| UnregisterExtension | @0x54D800 | uzanti kaldirma |
+| CanProcess | @0x54D940 | `IAIMPExtensionAudioDecoderOld` + `UnicodeString` |
+
+**Fabrika akisi (ikili faz — dogrulanmis satirlar):**
+
+1. **Giris (CreateDecoderForFileURI, satir 215917-215928):**
+   `TACLCriticalSection::Enter(manager+0x20)` -> `TASOSourceParams` ctor
+   (vtable `0054ad90`; `+0x2c = (flags & 0x1000) != 0`) -> `SetFileName` ->
+   `CreateDecoderForParams` (satir 215923-215924) -> params `Free` -> `Leave`.
+2. **Cozum (CreateDecoderForParams):** `ResetErrorLog` -> `TAIMPErrorInfoAdapter`
+   -> `FileManager::CreateStreamForFileURI` -> `IsFileExists` (basarisizsa
+   `SetInfo(0xffffffff, L"File was not found.")`) -> `CreateDecoderForStream`
+   (satir 215758-215759).
+3. **Extension fallback (satir 215761-215762):** `Failed(hr)` **ve** uzanti
+   sayaci > 0 ise (konteyner `*(manager+0x18)`, ic sayac `+0x20`, array
+   `+0x28`) uzanti listesi **ters iterasyon** ile gezinilir:
+   `CanProcess(ext, ...)` -> `ext vtable+0x18` (CreateDecoder) ->
+   `Succeeded(hr)` **veya** `hr == E_PENDING (0x8000000A)` ise kabul.
+   Hicbiri tutmazsa `SetInfo(0xffffffff, L"Decoder was not found for this
+   format.")`. Boylece dosya-varligi ile format-destegi ayri ayri raporlanir.
+
+Ayrica `CheckBufferForReading/Writing/SafeGetValue` (@0x14170 / @0x141b0 /
+@0x141f0) null/bad-pointer durumunda hata kodu dondurur (bkz. 14.6).
+
+### 14.3 TBASSDecoder (decoder instance — Basstypes, 30 proc)
+
+| Uye | Adres | Davranis |
+|---|---|---|
+| ctor | @0x51D150 | `+0x1c` = BASS handle, `+0x18` = flag; `BASS_ChannelSetAttribute(handle, 0x13001, DAT_0051d218)` + `CheckDuration` |
+| BASSUserStreamingCreate | @0x51CFE0 | `BASS_StreamCreateFileUser` |
+| TBASSLibrary::EnsureInitialized | @0x51D7C0 | `BASS_Init(0, 0xac44, 0, 0)` + SetConfig zinciri |
+| CheckForError | @0x51D570 | `BASS_ErrorGetCode` + `IAIMPErrorInfo` uzerinden kod cevirimi |
+| GetStreamInfo | @0x51D410 | `BASS_ChannelGetInfo`; `flags &1 -> 1`, `&0x100 -> 5`, else `2` |
+| IsRealTimeStream | @0x51D480 | **sabit 0 (`return false`)** |
+| IsSeekable | @0x51D490 | `+0x1a` bayt 0 ise `-1` (True) |
+| Read | @0x51D4A0 | `BASS_ChannelGetData`; hata -> `SetFinished` + 0 |
+| SetPositionEx | @0x51D4F0 | flag `0x40000000` ise `IfThen`; `BASS_ChannelSetPosition`; basari -> `finished = false` |
+| GetPosition | @0x51D3B0 | `BASS_ChannelGetPosition` |
+| GetSize | @0x51D3D0 | `BASS_ChannelGetLength` |
+| GetAvailableData | @0x51D2E0 | `GetLength - GetPosition` (uzunluk 0 -> 0) |
+| CheckDuration | @0x51D280 | sure kontrolu |
+
+**`DAT_0051d218` = 0** (PE: 4 bayt `00 00 00 00`, file offset 0x11c618) ->
+ctor'da `BASS_ChannelSetAttribute(ch, 0x13001, 0.0)`. **`0x13001` attribute
+adinin ne oldugu dogrulanamadi** -> VERIFICATION REQUIRED. Ayrica seek
+flag'i `0x40000000` ve `GetStreamInfo` flag bit adlari (1 / 5 / 2 eslemesi)
+VERIFICATION REQUIRED.
+
+**TBASSLibrary::EnsureInitialized (@0x51D7C0):** `BASS_Init(0, 0xac44 = 44100,
+0, 0)` + ardindan SetConfig zinciri (raw id'ler; isim eslemesi VERIFICATION
+REQUIRED): `0x10` · `0x28` · `9` · `0x39` · `0xc` · `0x15` · `0xf` · `0x3c` ·
+`0x25` · `0xb` · `0x48 = 64000` · `1` · `0x10101` · `0x17` · `0x34` +
+`SetConfigPtr`/`GetConfigPtr` cagrilari; hata durumunda
+`L"BASS_INIT_ERROR"` mesaji.
+
+### 14.4 BASS yalniz DECODER (playback API = 0 hit)
+
+dump'ta `BASS_ChannelPlay` · `BASS_ChannelStop` · `BASS_ChannelPause` ·
+`BASS_ChannelSetVolume` · `BASS_ChannelIsActive` · `BASS_StreamPutData`
+-> **0 isabet** (isimli
+prosedur de, cagri de yok). Sonuc: AIMP BASS'i **oynatma motoru olarak
+kullanmiyor**; BASS yalnizca decode tarafinda calisir — pull-model
+`BASS_ChannelGetData` (Read @0x51D4A0, TBASSDecoder uyesi olarak cagriliyor);
+BASS'in genisletme yetenekleri 14.1'deki import listesinden okunur:
+`StreamCreateURL` (radyo) · `MusicLoad` (tracker) · `ChannelSetDSP` (DSP hook)
+· `ChannelGetTags` (import kaniti; cagri noktasi olculmedi). Ses cikisi
+tamamen WASAPI'dir (§11-§13). Bu bulgu §11-§13 zinciriyle **bagimsiz Mutabik**:
+BASS playback API'nin dump'ta olmemesi, WASAPI'in tek cikis oldugunu dogrular.
+
+**Istisna — encode yolu (tur21):** `Aso::Encoders::Wma::TASOWMAEncoderStream::CreateHandle`
+@0x624860 (+ @0x623a90, dump satir 341890/342446) `BASS_WMA_EncodeOpen` /
+`BASS_WMA_EncodeOpenFile` cagirir; hedef `DAT_00669970` — yani AIMP, BASS'i
+WMA kodlayici olarak da kullanabiliyor (encode = decode'in tersi, PCM -> WMA).
+Dikkat: bu iki sembol 27 statik import **arasinda degil** -> cozumleme
+mekanizmasi (dolayli yukleme / GetProcAddress olasiligi) VERIFICATION
+REQUIRED. Encode Neva kapsaminda ayri bir kapi olarak degerlendirilir
+(decode cekirdegi ile karistirilmaz).
+
+### 14.5 RTTI plugin literal'lari (PE ASCII scan — 7 distinct)
+
+`AIMP.Plugins.Input.BASS` · `.BASS.MIDI` · `.BASS.MIDI.SettingsDialog` ·
+`.BASS.MP4` · `.BASS.WV` · `.TAK` · `.Wave64` (44 hit) + demangled siniflar:
+`Aimp::Plugins::Input::Bass::TASOBASSDecoderExtension` @0x523168 ·
+`TASOBASSTrackerMusicDecoderExtension` @0x5234E0 ("DecoderExtension" 38 hit).
+Yani decoder plugin kumesi: BASS ailesi (BASS/MIDI/MP4/WV) + TAK + Wave64 —
+§6'daki "BASS plugin modeli" tespiti sayisal olarak genislemis oldu.
+
+### 14.6 Sabit olcumleri ve hata kodlari
+
+| Sabit / kod | Deger | Kanit |
+|---|---|---|
+| `_DAT_0057f078` | **double 1000.0** | dump satir 247448: `SoundOutEqBandFreqString` icinde divisor — freq < 1000 -> `IntToStr`, freq >= 1000 -> `FormatFloat(freq / 1000.0)` + `LAB_0057f0b8` ("kHz" eki). **§8 madde 5 KAPANDI** |
+| `DAT_0051d218` | **0** (`0.0f`) | PE file offset 0x11c618 (4 x `00`) |
+| `EQ_BANDS` @0x64C070 | 20 double (31.5..22000 Hz) | PE okumasi Ghidra dump ile mutabik (§5) |
+| `-0x7ffffff6` | `0x8000000A` = `E_PENDING` | aritmetik turev (COM standart degeri) |
+| `-0x7fffbffc` | `0x80004004` = `E_ABORT` | aritmetik turev |
+| `-0x7ff8ffa9` | `0x80070057` = `E_INVALIDARG` | aritmetik turev (CheckBuffer*/SafeGetValue) |
+| `-0x7fffbffd` | `0x80004003` | aritmetik turev; isim atfi (`E_POINTER`) VERIFICATION REQUIRED |
+
+Hex degerler aritmetik olarak kesindir; isim atflari COM tanimlarindan
+turetilmistir (§3 zero-hallucination: turev oldugu isaretlenmistir).
+
+### 14.7 Olcum tablosu (proc-index)
+
+| Terim | Sayi |
+|---|---|
+| Toplam proc (AIMP.Shared.dll) | 14.817 |
+| "Decoder" substring | **185** — §8 madde 4 KAPANDI |
+| "Radio" substring | **198** — §8 madde 4 KAPANDI (tur22, bolum 15) |
+| `_ZN9Basstypes` | 30 |
+| `_ZN3Aso8Decoders` | 23 |
+
+Not: "Aso::Decoders" demangled kalibi indekste **0** — indeks mangled-only'dir;
+eski "0" olcumu yanlis kalipti, bu bolumde duzeltildi (doc'a 0 yazilmaz).
+
+### 14.8 Neva karsiliklari
+
+1. **Factory deseni:** `DecoderRegistry` + per-format `CanProcess(magic/ext)`
+   + ayri `CreateDecoder` — CreateDecoderForParams/CanProcess zincirinin
+   birebir karsiligi; "dosya yok" ve "format desteklenmiyor" hatasi ayri
+   tip olarak (typed error) modellenmeli.
+2. **Decoder != Output:** BASS yalnizca decode, cikis WASAPI ayriligi,
+   ADR-019 `IAudioBackend` katmanlasmayi dogrular — Neva'da decode backend
+   (miniaudio/FFmpeg) ile render backend (WASAPI exclusive) ayni arayuzun
+   iki implementasyonu degil, iki ayri katmandir.
+3. **Idempotent init:** `EnsureInitialized` critical-section + tek seferlik
+   `BASS_Init` + SetConfig zinciri — Neva'da `std::call_once` + tek init
+   noktasi (RT callback'e init gecmez, §11 kurali ile ayni).
+4. **Error-info adapter:** `IAIMPErrorInfo` uzerinden kod+mesaj cevirimi —
+   Neva'da `DecoderError{kind, osCode}` (osCode BASS/FFmpeg hata kodu,
+   kind = NotFound / UnsupportedFormat / IoError).
+5. **Realtime isareti:** `IsRealTimeStream = false` + `IsSeekable` bayti —
+   radyo/akis hedefleri icin bayt isareti; **KAPANDI (tur22, bolum 15):**
+   `TASORemoteStream` bu slotu override eder (vtable+0x30) ve Connect/Metadata
+   (UpdateMetadata) kararlarinda dogrudan kullanilir.
+
+---
+
+## 15. Radio 198 — radyo decode kenari (tur22 — ADR-0106 KAPANDI)
+
+> Kapsam: AIMP.Shared.dll "Radio" substring = **198** prosedur. Yontem:
+> proc-index gruplandirma + Ghidra extract bloklari (Connect/metadata/recorder)
+> + **bass.h 2.4 (2012, Un4seen; samp-incognito GitHub mirror'indan tekrar
+> dogrulandi — 271 define regex cekildi)**. §8 madde 4'teki son "KALAN" tur
+> bu bolumde kapandi. ASCII guard: bu bolumde diakritik YOK.
+
+### 15.1 D agilim (198 = 191 anlamli + 7)
+
+| Grup | Proc | Not |
+|---|---|---|
+| `Aso::Player::Radio::Recorder` | **91** | radyo kayit tee-sink (9'u `TACLLinkedList<TASORadioRecorderBufferChunk>` generic, 0x5BE400-0x5BE660) |
+| `...::Radio::Stream::TASORemoteStream` | **48** | radyo decode kenari — bolum 15.2-15.4 |
+| `...::Gui::OptionsFrame` | **30** | ayar sayfasi (UI-only; decode zincirine girmez) |
+| `TASOStationInfoFormatStringFactory` | **13** | istasyon baslik formatlama (ToString) |
+| `TASOStationInfo` | **6** | metadata tasiyici (Assign/Clear/IsTrackChanged/SetFormat) |
+| `TASORemoteStreamMetaDownloader` | **2** | ctor+dtor (detay disi) |
+| `TASOPlayerStreamInfo::IsRadioStream` | **1** | radyo bayti okuyucu |
+| **Toplam anlamli** | **191** | |
+| Radio namespace init/final | 4 | `Radio::initialization` @0x5B8D50 · `Radio::Finalization` @0x5B8D40 · `Radio::Stream::initialization` @0x5D6130 · `Radio::Stream::Finalization` @0x5D60F0 |
+| VCL kalan | 3 | `Vcl::Menus::TMenuItem::SetRadioItem` @0x406E10 · `TAIMPUIRadioBoxControl::_IntfE` @0x43E028 · `TAIMPUIRadioBoxControl::CreateComponent` @0x44B5C0 |
+| **Toplam** | **198** | 191 + 4 + 3 = 198 ✓ (proc-index TOTAL ile mutabik) |
+
+### 15.2 Ana bulgu: radyo decode kendi HTTP client'i DEGIL
+
+`TASORemoteStream` = `TBASSDecoder` turevi (§14.3); HTTP indirmeyi BASS'a
+devreder. `Connect` @0x5D09D0 (dump L296249-296376) kesin zincir:
+
+1. `flags = 0xA00000` = `BASS_STREAM_DECODE` (0x200000) | `BASS_STREAM_STATUS`
+   (0x800000) — **bass.h dogrulandi**.
+2. `BASS_StreamCreateURL(url, 0, flags, ProcDownload)` — indirme callback'i
+   `TASORemoteStream::ProcDownload` (vtable +0x10, §14.2).
+3. Handle == 0 ve `BASS_ErrorGetCode() == 1` (**BASS_ERROR_MEM**, dogrulandi)
+   → `flags |= 0x100000` (**BASS_STREAM_BLOCK**, dogrulandi) → retry (L296270).
+4. Handle != 0 → `GetOriginalBitDepth() > 23` ve `Is32BitSupported` →
+   `flags |= 0x100` (**BASS_SAMPLE_FLOAT**, dogrulandi) → `BASS_StreamFree` +
+   recreate (L296286).
+5. `IsRealTimeStream` (vtable+0x30) != 0 ve BLOCK yoksa → **busy-wait:**
+   `BASS_StreamGetFilePosition(handle, 9)` her 10 ms'de (`Sleep(10)`) okunur,
+   ilerleme `100 - Max(x,0)` olarak obje+0x10'a yazilir, x < 1'de kirilir.
+   **filepos 9 = VERIFICATION REQUIRED** (bass.h 2.4'te 0-6 araliginda; muhtemel
+   yeni surum eklentisi).
+6. Sync kayitlari + DSP (bolum 15.3), sonra: `BeginUpdate` → `GetStreamFormat` →
+   `SetFormat` → `GetContentType` (stationInfo+400) → `GetAttribute(0xc)` →
+   `Round` → stationInfo+0x10A (bitrate; attrib 0xc **VR**) → `GetTags(8)` →
+   `ProcessServerHeaders` → `EndUpdate` → `UpdateRecorder` →
+   `NotifyInputFormatChanged` → `ReceiveMetadata(handle, 0)` → flag temizligi.
+
+`Read` @0x5D16F0: `BASS_ChannelGetData` < 0 → hata logu; `ErrorGetCode`
+**0x25** (`BASS_ERROR_NOTAVAIL`, 37 — dogrulandi) veya **0x2D**
+(`BASS_ERROR_ENDED`, 45 — dogrulandi) → obje+0x10 bit 0x04 → `DoFinished`
+@0x5D1450. `+0x19` flag false ise `FastZeroMem` + tam uzunluk dondurur
+(sessiz padding — `NotAVAIL` aninda buffer'i doldurur); true ise 0 dondurur.
+
+### 15.3 Sync kenarlari ve metadata zinciri
+
+**Sync kayitlari (Connect icinde, 7 adet):**
+
+| Sync id | Callback | bass.h 2.4 |
+|---|---|---|
+| `4` | `ProcSyncMeta` (obje+0x14) | **BASS_SYNC_META = 4** ✓ |
+| `0x10301` | `ProcSyncHLSDescriptionTable` (+0xA4) | 2012'te YOK — **VR** |
+| `0x10300` | `ProcSyncHLSSegment` (+0x15) | 2012'te YOK — **VR** (HLS destegi sonrasi) |
+| `7` | `ProcSyncDownloaded` | **BASS_SYNC_DOWNLOAD = 7** ✓ |
+| `0xc` | `ProcSyncMeta` | **BASS_SYNC_OGG_CHANGE = 12** ✓ |
+| `0x10100` | `ProcSyncMeta` | 2012'te YOK — **VR** |
+| `0x10101` | `ProcSyncMeta` | 2012'te YOK — **VR** |
+
+Not: 2012 header'inda `BASS_TAG_MUSIC_INST = 0x10100` / `BASS_TAG_MUSIC_SAMPLE
+= 0x10300` **sayisal cakismasi** var — ayni degerler sync tipi olarak kullaniliyor
+(semantik farkli; cakisma not edilir, eslestirilmez).
+
+**Metadata zinciri:**
+
+- `ProcPCMData` (DSP) → `ProcessStreamData` (bolum 15.4 tee-sink).
+- `ReceiveMetadata` @0x5D3030 (dump L298017-298067): `ParseMeta` (2 overloads
+  — asagi) → gecerlilik → `CS(+0xB0)` Enter → external listener (+0xC0,
+  vtable+0x28) → `IsRealTimeStream` != 0 (canli): pending meta (+0x90)
+  `ExchangePtr` + `TACLTimer` (+0x98) `SetInterval(FUN_005d2f50(...))` +
+  `Restart` — **debounce araligi HESAPLANIR, sabit degil** (uydurma ms
+  DEGILDIR); realtime degilse aninda `UpdateMetadata`.
+- `HandlerSyncMetaDelayTimer` @0x5D36A0: timer → `UpdateMetadata` →
+  `FreeAndNil(+0x90)`.
+- `UpdateMetadata` @0x5D31A0: `TASOStationInfo::IsTrackChanged` && realtime →
+  `Assign` + `GetPosition` → +0x60 + `DoTrackChanged` @0x5D1510; aksi halde
+  `BeginUpdate`/`Assign`/`CancelUpdate` (sessiz tazeleme).
+- `ParseMeta` — IKI overload: **@0x5D1DE0** (UStr; tags parse → stationInfo)
+  ve **@0x5D2160** (uint; `GetTags(8)` + `GetTags(5=BASS_TAG_META ✓)`
+  `_UStrCatN` ile birlestirilir → UStr overload → `GetAttribute(0xc)` → Round
+  → +0x10A bitrate; tag 8 **VR** — header'da 7 (MP4) ile 9 (VENDOR) arasi bosluk).
+- `ProcessTagsPairs` @0x5D2930: `GetTags(2)` (**BASS_TAG_OGG** ✓) +
+  `GetTags(7)` (**BASS_TAG_MP4** ✓ — *duzeltme: onceki taslakta "APE"
+  yazilmisti; APE = 6'dir*) → VorbisComments + MappedFiler → GetString(2)
+  bos ise GetString(0xc)+`FUN_005D41A0` → Merge.
+- `ProcessDVBDescription` @0x5D2B80: `GetTags(0x14003)` (DVB aciklama;
+  **VR** — 2012'te bu aralikta tag yok) → binary parse: ilk bayt 0x42 ('B'),
+  `Swap16` uzunluk & 0xFFF.
+- `GetContentType` @0x5D3260 (dump L298139-298186) — **kesin esleme:**
+
+| ctype | MIME | bass.h 2.4 |
+|---|---|---|
+| `0x10301` | `audio/mpeg` | YOK — **VR** |
+| `0x10002` | `audio/ogg` | `BASS_CTYPE_STREAM_OGG` ✓ |
+| `0x10003-0x10005` (MP1/MP2/MP3) | `audio/mpeg` | `BASS_CTYPE_STREAM_MP1/2/3` ✓ |
+| `0x10300` | `audio/wma` | YOK — **VR** |
+| `0x10901` | `audio/ogg` | YOK — **VR** |
+| `0x10b00` | `audio/aac` | YOK — **VR** |
+| diger | "" (bos doner) | — |
+
+### 15.4 Recorder mimarisi (tee-sink, 91 proc)
+
+`TASORadioRecorder` @0x5B9BB8 — radyo akisini "decode sonrasi, mixer oncesi"
+PCM'den kopyalayip encoder'a veren tee-sink (Neva'daki tee-node kavraminin
+AIMP karsiligi):
+
+- **StartCore** @0x5BDB80: `CreateEncoder` → Controller ctor (vtable 0x5B93E8,
+  encoder, recorder) → +0x18 = controller → `Initialize(fileInfo, format)` →
+  vtable+0x58 → `SetCapturing(true)`.
+- **OnData** @0x5BDE50: `CS(+0x40)` → `TACLThread::Timestamp` → +0x84 (zaman
+  damgali chunk).
+- **OnTrack** @0x5BDF00: `CS(+0x40)` → `param_3 == (Buffer+0x30 != 0)` →
+  `Buffer::Clear(0)` → +0x58 (tek-parca flag) == 0 ise: controller (+0x18) != 0
+  → `fileInfo(+0x50).Assign(stationInfo)` → `SplitOptions` (+0x48): `+8 == 0 ||
+  +9 != 0` → vtable+0x58 (parca guncelleme); `+8 && +9 == 0` → controller+0x38
+  `.Assign` + `SplitFile(SplitOptions+0x1c gecikme)`; `+0x58 != 0` →
+  `SetActive(false)`.
+- **SetActive** @0x5BE280: kapanis → `CS` + `SetCapturing(false)` +
+  `FreeAndNil(+0x18)`; acilis → `+0x6D` int > 0 → `StartCore(+0x68 format,
+  +0x50 fileInfo)`.
+- **Controller** (`TASOEncodingController` turevi): +0x90 CS · +0x98 staging
+  (`TACLByteBuffer`) · +0xA0 `TASORadioRecorderDecoder` · +0xB0 → +0x10 Buffer ·
+  +0xB8 `TASOMixer` · +0xC0 raw encoder stream · +0xD0 delayed-split · +0xD8
+  async-flag.
+  - `WritePCMData` @0x5BBBD0: CS+0x90 → `Decoder::PutData(+0xa0)` → dongu:
+    `Decoder::GetUsed` → `Mixer::GetData(+0xb8)` → `SetUsed` → dolunca base
+    `WriteData` (encoder'a).
+  - `WriteRawData` @0x5BBCF0: vtable+0x18 `Write` (bolme sabiti `_DAT_005BBDA0`
+    **VR**).
+  - `AsyncEncodeBuffer` @0x5BBDD0: `Buffer::Extract` FIFO → +0xC0 == 0 ?
+    `WritePCMData` : `WriteRawData(chunk+0x20 - +0x24)`; son chunk'ta +0xD8 = 0.
+  - `CheckNeedSplit` @0x5BACC0: `SplitOptions+8` ve `+9 == 1` (boyut modu) →
+    `GetOutputBytes >= (+0xC MB) << 20`.
+  - `SplitFile` @0x5BB1C0: CS+0x90 → `FreeAndNil(+0xd0)` → base `SplitFile`;
+    `SplitDelayTimerHandler` vtable+0x50.
+  - `PopulateFormatList`: sample-format 0..6 × StdSampleRates (16) combo.
+- **Buffer**: `Add`/`Extract` (FIFO `TACLLinkedList`) / `Clear` / `SetRawFormat`
+  @0x5BB690; 9 generic-uye proseduru (0x5BE400-0x5BE660).
+- **Decoder** (`TASORadioRecorderDecoder`): `PutData`/`GetAvailableData`
+  (+0x10 byte buffer, pos/size) · `SetFormat` @0x5BB260 · GetFormatType/
+  GetFileInfo/GetPosition/GetSize/GetStreamInfo/IsRealTimeStream/IsSeekable.
+
+### 15.5 BASS sabit dogrulamasi (bass.h 2.4 — 2012, Un4seen)
+
+**Dogrulanmis** (271 define regex cekimi; kullanimi ile birebir):
+
+| Sabit | Deger | Kullanim (bolum) |
+|---|---|---|
+| `BASS_STREAM_DECODE` | 0x200000 | Connect flags (15.2) |
+| `BASS_STREAM_STATUS` | 0x800000 | Connect flags (15.2) |
+| `BASS_STREAM_BLOCK` | 0x100000 | MEM retry (15.2) |
+| `BASS_SAMPLE_FLOAT` | 0x100 (256) | FLOAT recreate (15.2) |
+| `BASS_ERROR_MEM` | 1 | StreamCreateURL hatasi (15.2) |
+| `BASS_ERROR_NOTAVAIL` | 37 (0x25) | Read → DoFinished (15.2) |
+| `BASS_ERROR_ENDED` | 45 (0x2D) | Read → DoFinished (15.2) |
+| `BASS_SYNC_META` | 4 | ProcSyncMeta (15.3) |
+| `BASS_SYNC_DOWNLOAD` | 7 | ProcSyncDownloaded (15.3) |
+| `BASS_SYNC_OGG_CHANGE` | 12 (0xc) | ProcSyncMeta (15.3) |
+| `BASS_TAG_META` | 5 | ParseMeta (15.3) |
+| `BASS_TAG_OGG` | 2 | ProcessTagsPairs (15.3) |
+| `BASS_TAG_MP4` | **7** | ProcessTagsPairs (15.3) — *APE = 6 ile cakisma YOK; onceki "tags(7)=APE" okumasi duzeltildi* |
+| `BASS_FILEPOS_DOWNLOAD` / `END` | 1 / 2 | GetBufferingProgress (dosya modu) |
+| `BASS_CTYPE_STREAM_OGG` | 0x10002 | GetContentType → audio/ogg |
+| `BASS_CTYPE_STREAM_MP1/MP2/MP3` | 0x10003-5 | GetContentType → audio/mpeg |
+| config `UPDATEPERIOD/FLOATDSP/NET_TIMEOUT/NET_BUFFER/NET_PREBUF/NET_AGENT/NET_PLAYLIST/VERIFY/NET_READTIMEOUT` | 1/9/0xb/0xc/0xf/0x10/0x15/0x17/0x25 | §14.3 EnsureInitialized |
+
+**⚠️ VERIFICATION REQUIRED** (2012 header'da TANIMLI DEGIL — kapatilmayacak):
+
+| Kod | Kullanim | Not |
+|---|---|---|
+| sync `0x10100`, `0x10101` | ProcSyncMeta | header sync tanimlari 0-12 arasi; ust aralik muhtemel surum eklentisi |
+| sync `0x10300`, `0x10301` | HLS segment / description table | HLS destegi 2012 sonrasi |
+| tag `8` | ProcessServerHeaders + ParseMeta | header bosluk: 7 (MP4), 9 (VENDOR) |
+| tag `0x14003` | ProcessDVBDescription | DVB |
+| attrib `0xc` | bitrate (Round → +0x10A) | header'da bu id yok |
+| filepos `9` | Connect busy-wait | header 0-6 |
+| ctype `0x10300/0x10301/0x10901/0x10b00` | GetContentType | plugin ctypes — §6 "BASS plugin modeli" ile tutarli, isimler VR |
+| config `0x28, 0x34, 0x39, 0x3c, 0x48, 0x10101` | §14.3 SetConfig zinciri | — |
+
+### 15.6 Neva karsiliklari (ADR-0106 radyo decode kenari)
+
+| AIMP (bolum 15) | Neva karsiligi | Not |
+|---|---|---|
+| `BASS_StreamCreateURL` + `ProcDownload` | kendi HTTP client'i (ADR-0106 karari: ICY/Shoutcast v1+v2 ozel tuner + HLS/FFmpeg gateway) | AIMP her seyi BASS'a devrediyor; Neva tuneri kendisi yaziyor — fark bilincli |
+| realtime busy-wait (filepos 9, Sleep 10) | baglanti asamasinda progress event'i (polling YOK) | AIMP bloklayici polling; Neva'da non-blocking asama makinesi |
+| `IsRealTimeStream` override (vtable+0x30) | `SourceKind::LiveRadio` varyanti | §14.8 madde 5 kapanisi |
+| metadata debounce (TACLTimer, sure `FUN_005d2f50` ile hesap) | metadata callback rate-limit (ayni debouncer deseni) | aralik sabit degil — Neva kendi degerini secer |
+| 7 sync kenari (META/OGG_CHANGE/DOWNLOAD + 4 VR) | demux seviyesinde ICY-NAME/GENRE/URL + ogg granule olaylari | HLS sync'lerinin karsiligi gateway ciktisinda segment olaylari |
+| Recorder tee-sink (OnData → Buffer → Decoder → Mixer → encoder) | tee-sink: decode → tee → (player + file sink) | mixer-oncesi PCM kopyasi — ADR-0105 SPSC ring yapisine oturur |
+| OnTrack → SplitFile (parca/split/size modlari) | segmentWriter: parca degisiminde dosya bolme | SplitOptions 3 modu (kapatik/split-on-track/size) |
+| GetContentType ctype→mime | demux container/codec adindan mime turetme | VR ctype'ler plugin araligi |
+| Read 0x25/0x2D → DoFinished + silence padding (+0x19) | EOF/hata → "yayin bitti" olayi + zero-fill fallback | padding bayti: hata aninda buffer doldurulur |
+
+**Kalan acik (kucuk):** config VR seti (0x28/0x34/0x39/0x3c/0x48/0x10101) —
+§14.3 ile ayni; gecikme/RAM/VRAM/olcum turleri derived (tur21'den devam).
 
