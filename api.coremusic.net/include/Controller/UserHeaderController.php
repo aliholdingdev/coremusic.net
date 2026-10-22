@@ -3,6 +3,7 @@
 namespace CoreMusic\Api\Controller;
 
 use CoreMusic\Api\Repository\IMusicRepository;
+use CoreMusic\Api\Repository\INotificationRepository;
 use CoreMusic\Api\Repository\IPlaylistRepository;
 use CoreMusic\Api\Repository\IUserProfileRepository;
 
@@ -12,6 +13,7 @@ final class UserHeaderController extends AbstractController
         private readonly IUserProfileRepository $userRepo,
         private readonly IPlaylistRepository $playlistRepo,
         private readonly IMusicRepository $musicRepo,
+        private readonly INotificationRepository $notificationRepo,
     ) {}
 
     /**
@@ -55,7 +57,7 @@ final class UserHeaderController extends AbstractController
             'user'               => $userData,
             'is_authenticated'   => $userData !== null,
             'playlist_shortcuts' => $playlists,
-            'unread_notifications' => 0, // Bildirim sistemi
+            'unread_notifications' => $userId !== null ? $this->notificationRepo->countUnread($userId) : 0,
             'search_suggestions' => $searchSuggestions,
         ]);
     }

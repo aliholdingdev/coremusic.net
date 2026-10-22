@@ -6,6 +6,7 @@ use CoreMusic\Api\Controller\HistoryController;
 use CoreMusic\Api\Controller\UserHeaderController;
 use CoreMusic\Api\Repository\IHistoryRepository;
 use CoreMusic\Api\Repository\IMusicRepository;
+use CoreMusic\Api\Repository\INotificationRepository;
 use CoreMusic\Api\Repository\IPlaylistRepository;
 use CoreMusic\Api\Repository\IUserProfileRepository;
 use CoreMusic\Api\Service\HistoryService;
@@ -58,8 +59,10 @@ final class HistoryAndStreamTest extends TestCase
         $musicRepo = $this->createMock(IMusicRepository::class);
 
         $musicRepo->method('findMany')->willReturn([]);
+        $notificationRepo = $this->createMock(INotificationRepository::class);
+        $notificationRepo->method('countUnread')->willReturn(0);
 
-        $controller = new UserHeaderController($userRepo, $playlistRepo, $musicRepo);
+        $controller = new UserHeaderController($userRepo, $playlistRepo, $musicRepo, $notificationRepo);
         $response = $controller->handle(['action' => 'headerData'], []);
 
         $this->assertTrue($response['success']);
@@ -73,6 +76,8 @@ final class HistoryAndStreamTest extends TestCase
         $userRepo = $this->createMock(IUserProfileRepository::class);
         $playlistRepo = $this->createMock(IPlaylistRepository::class);
         $musicRepo = $this->createMock(IMusicRepository::class);
+        $notificationRepo = $this->createMock(INotificationRepository::class);
+        $notificationRepo->method('countUnread')->willReturn(2);
 
         $userId = '018f3a5b6c7d8e9f0123456789abcdef';
         $userRepo->method('findByUserId')->with($userId)->willReturn([
@@ -88,7 +93,7 @@ final class HistoryAndStreamTest extends TestCase
 
         $musicRepo->method('findMany')->willReturn([]);
 
-        $controller = new UserHeaderController($userRepo, $playlistRepo, $musicRepo);
+        $controller = new UserHeaderController($userRepo, $playlistRepo, $musicRepo, $notificationRepo);
         $request = ['_auth_user' => ['id' => $userId]];
 
         $response = $controller->handle(['action' => 'headerData'], $request);
@@ -98,5 +103,49 @@ final class HistoryAndStreamTest extends TestCase
         $this->assertSame('bayramali', $response['data']['user']['username']);
         $this->assertSame('admin', $response['data']['user']['role']);
         $this->assertCount(1, $response['data']['playlist_shortcuts']);
+    }
+
+    public function testHistoryControllerRecordValidation(): void
+    {
+        $mockRepo = $this->createMock(IHistoryRepository::class);
+        $service = new HistoryService($mockRepo);
+        $controller = new HistoryController($service);
+
+        $request = [
+            '_auth_user' => ['id' => '018f3a5b6c7d8e9f0123456789abcdef'],
+            'body' => [] // music_id eksik
+        ];
+
+        $response = $controller->handle(['action' => 'record'], $request);
+        $this->assertArrayHasKey('error', $response);
+        $this->assertSame('VALIDATION_ERROR', $response['error']['code']);
+    }
+
+    public function testHistoryControllerRecordSuccess(): void
+    {
+        $mockRepo = $this->createMock(IHistoryRepository::class);
+        $userId = '018f3a5b6c7d8e9f0123456789abcdef';
+        $musicId = '018f3a5b6c7d8e9f0123456789abcdef';
+
+        $mockRepo->expects($this->once())
+            ->method('record')
+            ->with($userId, $musicId, 180, 'desktop')
+            ->willReturn(true);
+
+        $service = new HistoryService($mockRepo);
+        $controller = new HistoryController($service);
+
+        $request = [
+            '_auth_user' => ['id' => $userId],
+            'body' => [
+                'music_id' => $musicId,
+                'duration_sec' => 180,
+                'device_type' => 'desktop'
+            ]
+        ];
+
+        $response = $controller->handle(['action' => 'record'], $request);
+        $this->assertTrue($response['success']);
+        $this->assertTrue($response['data']['recorded']);
     }
 }

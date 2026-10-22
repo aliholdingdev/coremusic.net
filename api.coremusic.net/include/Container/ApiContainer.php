@@ -10,9 +10,11 @@ use CoreMusic\Api\Controller\UserHeaderController;
 use CoreMusic\Api\Repository\HistoryRepository;
 use CoreMusic\Api\Repository\IHistoryRepository;
 use CoreMusic\Api\Repository\IMusicRepository;
+use CoreMusic\Api\Repository\INotificationRepository;
 use CoreMusic\Api\Repository\IPlaylistRepository;
 use CoreMusic\Api\Repository\IUserProfileRepository;
 use CoreMusic\Api\Repository\MusicRepository;
+use CoreMusic\Api\Repository\NotificationRepository;
 use CoreMusic\Api\Repository\PlaylistRepository;
 use CoreMusic\Api\Repository\UserProfileRepository;
 use CoreMusic\Api\Service\HistoryService;
@@ -53,6 +55,8 @@ final class ApiContainer
 
     private static ?IHistoryRepository $historyRepository = null;
 
+    private static ?INotificationRepository $notificationRepository = null;
+
     /**
      * Gateway handlerResolver girişi — route'daki handler adına göre controller.
      *
@@ -91,7 +95,8 @@ final class ApiContainer
             self::$userHeaderController = new UserHeaderController(
                 self::userProfileRepository(),
                 self::playlistRepository(),
-                self::musicRepository()
+                self::musicRepository(),
+                self::notificationRepository()
             );
         }
 
@@ -207,5 +212,30 @@ final class ApiContainer
         }
 
         return self::$historyRepository;
+    }
+
+    /**
+     * Bildirim repo (coremusic_system DB) — header uç verisi (okunmamış sayısı).
+     * System registry münferit: ADR-003 (DB başına tek registry) — system bağlantısı
+     * başka repo ile paylaşılmıyor (şu an tek kullanıcı notificationRepository).
+     */
+    private static function notificationRepository(): INotificationRepository
+    {
+        if (self::$notificationRepository === null) {
+            $systemRegistry = new DatabaseRegistry();
+            $systemRegistry->registerMySql(
+                'system',
+                DB_HOST,
+                (string) ($_ENV['DB_SYSTEM_NAME'] ?? 'coremusic_system'),
+                DB_USER,
+                DB_PASSWORD,
+                DB_PORT,
+                DB_CHARSET,
+            );
+
+            self::$notificationRepository = new NotificationRepository($systemRegistry);
+        }
+
+        return self::$notificationRepository;
     }
 }

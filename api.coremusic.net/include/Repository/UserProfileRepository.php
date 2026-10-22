@@ -30,6 +30,8 @@ final class UserProfileRepository implements IUserProfileRepository
         $rows = $this->db()->execute(
             'SELECT HEX(u.id)          AS user_id_hex,
                     u.username         AS username,
+                    u.email            AS email,
+                    u.account_type     AS role,
                     u.display_name     AS display_name,
                     u.gender           AS gender,
                     u.avatar_url       AS avatar_url,
