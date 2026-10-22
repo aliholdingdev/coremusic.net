@@ -39,7 +39,7 @@ Zero-hallucination: her iddia kaynaklı; doğrulanamayanlar `⚠️ VERIFICATION
 | Yankı susturma | Yok hazır — uygulama sorumluluğu | `module-echo-cancel` (WebRTC AEC) hazır | Uygulama (VoiceProcessingAU) |
 | Sanal cihaz formatı (kanıt) | VAIO: 44.1k–192k/float+extensible; fxvad: **44.1/48k** | null-sink `audio.rate` ayarlanabilir (default 48000) | BlackHole: 8k–768k (12 oran) |
 | Çok istemci (sanal cihaza eşzamanlı) | Her pin tek istemci (ks.sys arbitre) | Graph doğal çok-bağlantılı | HAL plug-in çok-bağlantılı |
-| Lisans riski (referans alınanlar) | VoiceMeeter kapalı; FxSound **AGPL** | PipeWire MIT; snd-aloop GPL | BlackHole lisansı ⚠️ VERIFICATION REQUIRED (GitHub'da beyan edilmiş, bu raporda doğrulanmadı); Soundflower GPL-2 kökenli ⚠️ VERIFICATION REQUIRED |
+| Lisans riski (referans alınanlar) | VoiceMeeter kapalı; FxSound **AGPL** | PipeWire MIT; snd-aloop GPL | BlackHole **GPLv3** (LICENSE okundu 2026-10-22; marka/logo resmi olmayan derlemelerde yasak) |
 
 **Neva Engine çıkarımı (tek cümle):** üç OS'ta da "sanal cihaz" üretmek ayrı bir driver/iş
 mühendisliği projesidir; çekirdek mixer uygulaması her OS'ta mevcut sanal cihaz **üstüne**
@@ -210,9 +210,11 @@ level/MIDI/callback) Neva'nın `neva-mcp` + plugin API'si için referans şablon
 `audio.rate` default **48000** (L60, L947-948), örnek değerler 44100/48000/96000/192000 →
 **rate userspace'te serbest** (kernel sınırı yok; sınır fiziksel ALSA cihazındadır).
 
-**Önemli mimari fark:** PipeWire grafiği tüm sesi dahili **float32** olarak işler ⚠️
-VERIFICATION REQUIRED (kaynak: PipeWire tasarım dokümanı — bu turda birincil sayfa
-okunmadı; `pw-cli info` ile teyit gerekli). Format dönüşümü graph içinde otomatik.
+**Önemli mimari fark (✅ DOĞRULANDI 2026-10-22):** PipeWire grafiği tüm sesi dahili
+**float32** olarak işler — resmi man sayfası `pipewire-props(7)`: *"This is the format used
+internally in the node because the graph processing format is always float 32"* (docs.pipewire.org/page_man_pipewire-props_7.html).
+Format dönüşümü (S16/S32/F64 vb. uç formatlar) graph içinde otomatik yapılır → bit-perfect
+hedefi Linux'ta graph formatını sabitleyerek (`audio.format`) korunur.
 
 **Konfigürasyon deseni (kanıt — ArchWiki/sorrel.sh):**
 
@@ -259,7 +261,7 @@ yi yönetmeli.
 | Katman | Teknoloji |
 |---|---|
 | Sanal cihaz | **CoreAudio Audio Server Driver Plug-in** (HAL plug-in, `.component` bundle; kullanıcı-space, `coreaudiod` yükler) |
-| Yeni API | **AudioDriverKit** (WWDC21) — AudioServerPlugIn + DriverKit'i tek pakette birleştirir ⚠️ minimum macOS sürümü VERIFICATION REQUIRED |
+| Yeni API | **AudioDriverKit** (WWDC21) — AudioServerPlugIn + DriverKit'i tek pakette birleştirir · min destek ✅ **macOS 12.1+ / iOS 16.0+** (Apple docs "Creating an audio device driver", Xcode 16.0+). Not: Apple forumu 2023'te "AudioDriverKit sanal sürücüleri henüz desteklemiyor" beyanı var (thread 733507) — güncel durum ⚠️ VERIFICATION REQUIRED (gerçek Mac'te teyit gerekli) |
 | DSP | Uygulama içinde (AU plugin / CoreAudio callback) |
 | Sistem hazır özellikleri | Aggregate Device + Multi-Output Device (Audio MIDI Setup) — mixer DEĞİL, sadece çoklu-yönlendirme |
 
@@ -270,6 +272,7 @@ yi yönetmeli.
 | Tür | Loopback sürücü (app↔app yönlendirme) |
 | Rate'ler | **8k, 16k, 44.1k, 48k, 88.2k, 96k, 176.4k, 192k, 352.8k, 384k, 705.6k, 768k** (12 oran) |
 | Derleme zamanı yapılandırma sabitleri | `kDevice_Name`, `kDevice_HasInput/Output`, `kNumber_Of_Channels`, `kSampleRates`, `kLatency_Frame_Size`, `kPlugIn_BundleID` |
+| Lisans | ✅ **GPLv3** (GitHub `LICENSE` dosyası tam okundu: "The BlackHole source code is licensed under the GNU General Public License v3.0" — Existential Audio Inc. © 2019–2026; **marka/logo/paket adı** resmi olmayan derlemede izinsiz yasak; GPLv3 §13 ile AGPL-3 ile kombinasyona izinli) |
 | Kanal varyantları | 2ch / 16ch sürümleri (beyan) ⚠️ VERIFICATION REQUIRED (bu turda indirilip doğrulanmadı) |
 
 **Neva çıkarımı:** macOS hedefinde Neva "sanal cihaz üretmez" — kullanıcı BlackHole kurar
@@ -306,9 +309,9 @@ exclusive/shared akış açar (Windows WASAPI-excl karşılığı: `kAudioDevice
 
 | # | Konu | Durum |
 |---|---|---|
-| 1 | PipeWire float32 dahili format iddiası | ⚠️ VERIFICATION REQUIRED — `pw-cli` teyidi Linux makinede |
-| 2 | BlackHole lisansı + 16ch varyant | ⚠️ VERIFICATION REQUIRED — GitHub LICENSE + release notu |
-| 3 | AudioDriverKit minimum macOS sürümü | ⚠️ VERIFICATION REQUIRED — Apple docs sürüm alanı |
+| 1 | PipeWire float32 dahili format iddiası | ✅ **KAPANDI** (2026-10-22 — `pipewire-props(7)` man sayfası: "graph processing format is always float 32") |
+| 2 | BlackHole lisansı + 16ch varyant | Lisans ✅ **KAPANDI** (GPLv3 — GitHub LICENSE tam okundu); 16ch varyant ⚠️ hâlâ VERIFICATION REQUIRED (release notu okunmadı) |
+| 3 | AudioDriverKit minimum macOS sürümü | ✅ **KAPANDI** (Apple docs: macOS 12.1+ / iOS 16.0+; ek not: forum 2023 "sanal sürücü desteği yok" beyanı gerçek Mac'te teyit bekliyor) |
 | 4 | VAIO .sys içindeki kesin pin-format tablosu (struct layout) | Kapandı sayılmaz: rate sabitleri kanıt, tam pin desen dizisi değil |
 | 5 | `module-combine-stream` varlığı | ⚠️ VERIFICATION REQUIRED — docs.pipewire.org sayfası okunmadı |
 | 6 | K4 (ASIO SDK lisans kararı) + neva-mcp dili + neva-engine kurtarma | Kullanıcı kararı bekliyor (ADR-107 ile birlikte) |
@@ -336,7 +339,11 @@ exclusive/shared akış açar (Windows WASAPI-excl karşılığı: `kAudioDevice
 - https://developer.apple.com/documentation/coreaudio/creating-an-audio-server-driver-plug-in
 - WWDC21 "Create audio drivers with DriverKit" (AudioDriverKit)
 - https://github.com/existentialaudio/blackhole (12 rate listesi, kSampleRates/kNumber_Of_Channels sabitleri)
+- https://raw.githubusercontent.com/existentialaudio/BlackHole/master/LICENSE (GPLv3 tam metin — 2026-10-22 okundu)
+- https://developer.apple.com/documentation/audiodriverkit/creating-an-audio-device-driver (availability: macOS 12.1+, iOS 16.0+, Xcode 16.0+)
+- https://developer.apple.com/forums/thread/733507 (2023 beyanı: AudioDriverKit sanal sürücü desteği — tarihsel not)
 - https://existential.audio/blackhole/ (44.1k–192k tanıtım grafiği)
+- https://docs.pipewire.org/page_man_pipewire-props_7.html (float32 graph formatı — 2026-10-22 OKUNDU)
 
 **İlişkili vault:**
 - `@.ai/research/reverse-voicemeeter-fxsound-2026-10-22.md` (Windows reverse; §23 derin tur bu rapora taşındı)
