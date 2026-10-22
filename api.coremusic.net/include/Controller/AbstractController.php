@@ -18,10 +18,15 @@ namespace CoreMusic\Api\Controller;
  */
 abstract class AbstractController
 {
-    /** 200 + {success:true, data:{...}} */
-    protected function success(array $data): array
+    /**
+     * 2xx + {success:true, data:{...}} (varsayılan 200 — davranış korunur).
+     *
+     * Adım 07: POST create 201 (Created) üretir; index.php 2xx status'u
+     * korur (eski kod her <400 durumu 200'e zorlardı).
+     */
+    protected function success(array $data, int $status = 200): array
     {
-        http_response_code(200);
+        http_response_code($status);
 
         return ['success' => true, 'data' => $data];
     }

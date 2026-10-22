@@ -79,6 +79,18 @@ return [
             'implemented' => true,
         ],
 
+        // ─── Adım 07: playlist detay (RouteTable exact-path → id query'de) ───
+        '/api/v1/playlist/detail' => [
+            'service'     => 'playlist',
+            'handler'     => 'playlistController',
+            'action'      => 'show',
+            'public'      => false,
+            'implemented' => true,
+            'validation'  => [
+                'id' => ['required' => true, 'type' => 'string'],
+            ],
+        ],
+
         // ─── Faz 4: kullanıcı profili (UserService bağlı) ───
         '/api/v1/user/profile' => [
             'service'     => 'user',
@@ -224,6 +236,56 @@ return [
             'action'      => 'updateProfile',
             'public'      => false,
             'implemented' => true,
+        ],
+
+        // ─── Adım 07: playlist güncelleme (meta) + sıralama ───
+        '/api/v1/playlist' => [
+            'service'     => 'playlist',
+            'handler'     => 'playlistController',
+            'action'      => 'update',
+            'public'      => false,
+            'implemented' => true,
+            'validation'  => [
+                'id' => ['required' => true, 'type' => 'string'],
+            ],
+        ],
+        '/api/v1/playlist/order' => [
+            'service'     => 'playlist',
+            'handler'     => 'playlistController',
+            'action'      => 'reorder',
+            'public'      => false,
+            'implemented' => true,
+            'validation'  => [
+                'playlist_id' => ['required' => true, 'type' => 'string'],
+                'track_ids'   => ['required' => true, 'type' => 'array'],
+            ],
+        ],
+    ],
+
+    // ─── Adım 07: playlist silme (soft) + şarkı çıkarma ───
+    // DELETE body methodu DEĞİL (RequestValidationMiddleware BODY_METHODS =
+    // POST/PUT/PATCH) → doğrulama query'den okunur: ?id=... / ?playlist_id=...
+    'DELETE' => [
+        '/api/v1/playlist' => [
+            'service'     => 'playlist',
+            'handler'     => 'playlistController',
+            'action'      => 'delete',
+            'public'      => false,
+            'implemented' => true,
+            'validation'  => [
+                'id' => ['required' => true, 'type' => 'string'],
+            ],
+        ],
+        '/api/v1/playlist/tracks' => [
+            'service'     => 'playlist',
+            'handler'     => 'playlistController',
+            'action'      => 'removeTrack',
+            'public'      => false,
+            'implemented' => true,
+            'validation'  => [
+                'playlist_id' => ['required' => true, 'type' => 'string'],
+                'track_id'    => ['required' => true, 'type' => 'string'],
+            ],
         ],
     ],
 ];

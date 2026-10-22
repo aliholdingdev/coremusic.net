@@ -223,15 +223,24 @@ if (str_starts_with($requestUri, '/api/')) {
         // Header anahtarı API sözleşmesine ({data,meta} / {error:{...}}) dahil değildir.
         unset($result['headers']);
 
-        // Preflight (Cors 'halt' ile kısa devre eder): gövdesiz 204.
+        // Preflight (Cors 'halt' ile kısa devre eder) + Adım 07 DELETE 204:
+        // gövdesiz yanıt. Dizi gövde (CsrfMiddleware {error:csrf_invalid}) JSON
+        // olarak basılır — eski (string) cast "Array" yazıyordu (P5-32 gözetimi
+        // JSON contract'e uymuyordu).
         if (($result['halt'] ?? false) === true) {
             http_response_code((int) ($result['httpStatus'] ?? 204));
-            echo (string) ($result['body'] ?? '');
+            $haltBody = $result['body'] ?? '';
+            echo is_array($haltBody)
+                ? (string) json_encode($haltBody, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+                : (string) $haltBody;
             exit;
         }
 
         $status = (int) http_response_code();
-        $jsonResponse($result, $status >= 400 ? $status : 200);
+        // 2xx status controller'dan geldiği gibi korunur (Adım 07: 201 create,
+        // 204 delete halt yolu); 4xx/5xx aynen, diğer durumlar 200.
+        $emitStatus = ($status >= 200 && $status < 300) || $status >= 400 ? $status : 200;
+        $jsonResponse($result, $emitStatus);
     } catch (\Throwable $e) {
         $logger->error("Unhandled: {$e->getMessage()}", [
             'file'   => $e->getFile() . ':' . $e->getLine(),

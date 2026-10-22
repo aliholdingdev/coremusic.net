@@ -60,6 +60,29 @@ final class PlaylistControllerTest extends TestCase
             {
                 return (bool) ($this->config['removed'] ?? false);
             }
+
+            public function update(string $playlistId, array $data, string $userId): ?array
+            {
+                if (array_key_exists('updated', $this->config)) {
+                    return $this->config['updated'];
+                }
+
+                return ['playlist_id' => $playlistId] + $data;
+            }
+
+            public function delete(string $playlistId, string $userId): bool
+            {
+                return (bool) ($this->config['deleted'] ?? false);
+            }
+
+            public function reorder(string $playlistId, array $trackIds, string $userId): ?array
+            {
+                if (array_key_exists('reordered', $this->config)) {
+                    return $this->config['reordered'];
+                }
+
+                return ['playlist_id' => $playlistId, 'order' => $trackIds];
+            }
         };
     }
 
@@ -151,5 +174,160 @@ final class PlaylistControllerTest extends TestCase
 
         $this->assertTrue($result['success']);
         $this->assertSame(3, $result['data']['position']);
+    }
+
+    // ─── Adım 07: detay · güncelle · sil · çıkar · sırala ───
+
+    public function testCreateReturns201Created(): void
+    {
+        $result = $this->handle($this->service(), 'create', self::USER, ['name' => 'Yeni']);
+
+        $this->assertTrue($result['success']);
+        $this->assertSame(201, http_response_code(), 'POST create → 201 Created (Adım 07)');
+    }
+
+    public function testShowWithoutIdReturns404(): void
+    {
+        $result = $this->handle($this->service(), 'show');
+
+        $this->assertSame('NOT_FOUND', $result['error']['code']);
+        $this->assertSame(404, http_response_code());
+    }
+
+    public function testUpdateWithoutIdReturns422(): void
+    {
+        $result = $this->handle($this->service(), 'update', self::USER, ['name' => 'X']);
+
+        $this->assertSame('VALIDATION_ERROR', $result['error']['code']);
+        $this->assertSame(422, http_response_code());
+        $this->assertArrayHasKey('id', $result['error']['fields']);
+    }
+
+    public function testUpdateWithoutMutableFieldReturns422(): void
+    {
+        $result = $this->handle($this->service(), 'update', self::USER, ['id' => 'p1']);
+
+        $this->assertSame('VALIDATION_ERROR', $result['error']['code']);
+        $this->assertSame(422, http_response_code());
+    }
+
+    public function testUpdateWithInvalidVisibilityReturns422(): void
+    {
+        $result = $this->handle($this->service(), 'update', self::USER, [
+            'id' => 'p1', 'visibility' => 'everyone',
+        ]);
+
+        $this->assertSame('VALIDATION_ERROR', $result['error']['code']);
+        $this->assertSame(422, http_response_code());
+        $this->assertStringContainsString('visibility', (string) ($result['error']['fields']['visibility'] ?? ''));
+    }
+
+    public function testUpdateOwnershipViolationReturns404(): void
+    {
+        $result = $this->handle($this->service(['updated' => null]), 'update', self::USER, [
+            'id' => 'p1', 'name' => 'Başkasının listesi',
+        ]);
+
+        $this->assertSame('NOT_FOUND', $result['error']['code']);
+        $this->assertSame(404, http_response_code());
+    }
+
+    public function testUpdateReturnsPlaylist(): void
+    {
+        $result = $this->handle($this->service(), 'update', self::USER, [
+            'id' => 'p1', 'name' => 'Yeni Ad',
+        ]);
+
+        $this->assertTrue($result['success']);
+        $this->assertSame('Yeni Ad', $result['data']['playlist']['name']);
+    }
+
+    public function testDeleteReturns204WhenOwned(): void
+    {
+        $_GET = ['id' => 'p1'];
+
+        $result = $this->handle($this->service(['deleted' => true]), 'delete');
+
+        $this->assertTrue((bool) ($result['halt'] ?? false), 'DELETE → halt (gövdesiz)');
+        $this->assertSame(204, (int) ($result['httpStatus'] ?? 0));
+        $this->assertSame('', $result['body'] ?? null);
+    }
+
+    public function testDeleteOwnershipViolationReturns404(): void
+    {
+        $_GET = ['id' => 'p1'];
+
+        $result = $this->handle($this->service(['deleted' => false]), 'delete');
+
+        $this->assertSame('NOT_FOUND', $result['error']['code']);
+        $this->assertSame(404, http_response_code());
+    }
+
+    public function testRemoveTrackReturnsSuccess(): void
+    {
+        $_GET = ['playlist_id' => 'p1', 'track_id' => 't1'];
+
+        $result = $this->handle($this->service(['removed' => true]), 'removeTrack');
+
+        $this->assertTrue($result['success']);
+        $this->assertTrue($result['data']['removed']);
+    }
+
+    public function testRemoveTrackOwnershipViolationReturns404(): void
+    {
+        $_GET = ['playlist_id' => 'p1', 'track_id' => 't1'];
+
+        $result = $this->handle($this->service(['removed' => false]), 'removeTrack');
+
+        $this->assertSame('NOT_FOUND', $result['error']['code']);
+        $this->assertSame(404, http_response_code());
+    }
+
+    public function testReorderReturnsPersistedOrder(): void
+    {
+        $ids = ['bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'];
+
+        $result = $this->handle($this->service(), 'reorder', self::USER, [
+            'playlist_id' => 'p1',
+            'track_ids'   => $ids,
+        ]);
+
+        $this->assertTrue($result['success']);
+        $this->assertSame('p1', $result['data']['playlist_id']);
+        $this->assertSame($ids, $result['data']['order']);
+        $this->assertSame(200, http_response_code());
+    }
+
+    public function testReorderWithInvalidTrackIdReturns422(): void
+    {
+        $result = $this->handle($this->service(), 'reorder', self::USER, [
+            'playlist_id' => 'p1',
+            'track_ids'   => ['not-a-hex-id'],
+        ]);
+
+        $this->assertSame('VALIDATION_ERROR', $result['error']['code']);
+        $this->assertSame(422, http_response_code());
+        $this->assertArrayHasKey('track_ids.0', $result['error']['fields']);
+    }
+
+    public function testReorderOwnershipViolationReturns404(): void
+    {
+        $result = $this->handle($this->service(['reordered' => null]), 'reorder', self::USER, [
+            'playlist_id' => 'p1',
+            'track_ids'   => ['aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'],
+        ]);
+
+        $this->assertSame('NOT_FOUND', $result['error']['code']);
+        $this->assertSame(404, http_response_code());
+    }
+
+    public function testAllPlaylistActionsReturn401WithoutAuth(): void
+    {
+        foreach (['index', 'create', 'show', 'update', 'delete', 'addTrack', 'removeTrack', 'reorder'] as $action) {
+            $result = $this->handle($this->service(), $action, null);
+
+            $this->assertSame('UNAUTHORIZED', $result['error']['code'], "{$action} auth'sız 401");
+            $this->assertSame(401, http_response_code(), "{$action} auth'sız 401 status");
+        }
     }
 }

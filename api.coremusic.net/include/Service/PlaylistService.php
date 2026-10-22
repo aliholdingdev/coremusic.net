@@ -62,8 +62,9 @@ final class PlaylistService implements IPlaylistService
             return null;
         }
 
-        $position = $this->playlists->maxPosition($playlistId) + 1;
-        $this->playlists->insertTrack($playlistId, $trackId, $position);
+        // MAX+1 + INSERT + track_count tek transaction (repo::appendTrack —
+        // Adım 07 Hard Rule 2/3: yarış koşulu reddedilir).
+        $position = $this->playlists->appendTrack($playlistId, $trackId);
 
         return [
             'playlist_id' => $playlistId,
@@ -79,6 +80,82 @@ final class PlaylistService implements IPlaylistService
         }
 
         return $this->playlists->deleteTrack($playlistId, $trackId);
+    }
+
+    public function update(string $playlistId, array $data, string $userId): ?array
+    {
+        if ($this->ownedPlaylist($playlistId, $userId) === null) {
+            return null;
+        }
+
+        $fields = [];
+        if (array_key_exists('name', $data)) {
+            $fields['name'] = trim((string) $data['name']);
+        }
+        if (array_key_exists('description', $data)) {
+            $fields['description'] = $data['description'] === null
+                ? null
+                : trim((string) $data['description']);
+        }
+        if (array_key_exists('visibility', $data)) {
+            $fields['visibility'] = (string) $data['visibility'];
+        }
+
+        if ($fields === []) {
+            return null;
+        }
+
+        $this->playlists->updateMeta($playlistId, $fields);
+
+        return $this->playlists->findById($playlistId);
+    }
+
+    public function delete(string $playlistId, string $userId): bool
+    {
+        if ($this->ownedPlaylist($playlistId, $userId) === null) {
+            return false;
+        }
+
+        // Hard Rule 4: liste + şarkı kayıtları soft-delete, tek transaction.
+        return $this->playlists->softDeleteWithTracks($playlistId);
+    }
+
+    public function reorder(string $playlistId, array $trackIds, string $userId): ?array
+    {
+        if ($this->ownedPlaylist($playlistId, $userId) === null) {
+            return null;
+        }
+
+        $current = $this->playlists->findTrackIds($playlistId);
+
+        // Normalizasyon (idempotent): geçerli istek sırası + eksikler mevcut
+        // sıralarıyla sona; tekrar eden/bilinmeyen id yok sayılır.
+        $known    = array_flip($current);
+        $order    = [];
+        $accepted = [];
+
+        foreach ($trackIds as $trackId) {
+            $id = strtolower((string) $trackId);
+            if (!isset($known[$id]) || isset($accepted[$id])) {
+                continue;
+            }
+            $accepted[$id] = true;
+            $order[]       = $id;
+        }
+
+        foreach ($current as $id) {
+            if (!isset($accepted[$id])) {
+                $accepted[$id] = true;
+                $order[]       = $id;
+            }
+        }
+
+        $this->playlists->replacePositions($playlistId, $order);
+
+        return [
+            'playlist_id' => $playlistId,
+            'order'       => $order,
+        ];
     }
 
     /** Yalnız sahipse liste döner; değilse null (404 — enumerate koruma). */
