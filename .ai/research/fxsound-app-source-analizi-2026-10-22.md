@@ -335,6 +335,8 @@ fxmcp/
 
 **Çıkarım:** Sürücü kaynağı **bu depoda yok** → FxSound sürücüsü ya ayrı bir depoda ya da açıklaştırılmamış dağıtımdadır. `fxvad.sys` pin formatları bu nedenle **yalnız binary analiziyle** doğrulanabilir (`reverse-voicemeeter-fxsound-2026-10-22.md` §9-U2).
 
+> **GÜNCELLEME (2026-10-22 derin tur):** Binary taraması yapıldı ve U2 kapandı — `fxvad.sys` içinde 88.2/96/176.4/192 kHz sabitleri **0 isabet**, yalnız 44.1/48 kHz var; `fxvad.inf` default endpoint blob'u **48 kHz/16-bit/stereo WAVEFORMATEXTENSIBLE**. FxSound sanal cihazı 192k hedefini karşılamaz. Tam kanıt: `@.ai/research/multi-os-audio-stack-veri-toplama-2026-10-22.md` §3.
+
 ---
 
 ## §13 Neva Engine — 12 maddelik uygulanabilir ders listesi

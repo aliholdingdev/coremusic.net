@@ -292,11 +292,11 @@ Get-ChildItem "C:\Program Files\FxSound LLC\FxSound\Drivers" -Recurse
 
 | # | Madde | Durum |
 |---|---|---|
-| U1 | VoiceMeeter'in gerçek **exclusive mod** kullanımı ve pin formatları | `⚠️ VERIFICATION REQUIRED` — INF içeriği + dinamik analiz gerekli |
-| U2 | `fxvad.sys` pin formatları (max rate/bit) | `⚠️ VERIFICATION REQUIRED` — INF + WAVEFORMATEX yapılandırması okunmalı |
+| U1 | VoiceMeeter'in gerçek **exclusive mod** kullanımı ve pin formatları | Pin formatları ✅ **KAPANDI** (`multi-os-audio-stack-veri-toplama-2026-10-22.md` §2: 8 render + 8 capture pin, VAIO2023; .sys rate taraması 44.1k–192k, 192k en sık=36; EXTENSIBLE 709/FLOAT 244). Exclusive mod kullanımı hâlâ `⚠️ VERIFICATION REQUIRED` (dinamik analiz gerekli) |
+| U2 | `fxvad.sys` pin formatları (max rate/bit) | ✅ **KAPANDI** (`multi-os-audio-stack-veri-toplama-2026-10-22.md` §3: 88.2/96/176.4/192 kHz sabitleri .sys'te **0**; default INF blob'u 48 kHz/16-bit/stereo EXTENSIBLE → FxSound sanal cihazı 44.1/48 kHz ile sınırlı) |
 | U3 | Dinamik analiz (çalışan process: hangi API çağrılıyor) | YAPILMADI — Rizin/REA debug oturumu gerekli |
 | U4 | `.fac` dosyalarının içeriği (preset mi, FIR katsayı mı) | `⚠️ VERIFICATION REQUIRED` |
-| U5 | VoiceMeeterRemote API export listesi | `⚠️ VERIFICATION REQUIRED` — `dumpbin /exports VoicemeeterRemote64.dll` |
+| U5 | VoiceMeeterRemote API export listesi | ✅ **KAPANDI** (`multi-os-audio-stack-veri-toplama-2026-10-22.md` §4: ASCII string taraması — `VBVMR_Login/Get/SetParameter(Float/StringA/W)/SetParameters(W)/GetLevel/GetMidiMessage/Input_GetDevice*/AudioCallback*`; 3 COM callback kanalı `VBVMCClientV2`; derleme VC2010, PDB path kanıtı) |
 
 ---
 
@@ -553,8 +553,8 @@ Kılavuzda yer alan **VB-Audio Voicemeeter VAIO Control Panel (Version 3.3.1.6)*
 | C10 | FxSound MCP sunucusu (Go, 14 araç) | **KANITLI** | `fxmcp/go.mod` + README (§5) |
 | C11 | FxSound EQ 5/10/15/20/31 bant, Q 1–3 | **KANITLI** | `COMMAND_LINE_OPTIONS.md` (§18) |
 | C12 | VoiceMeeter tek-process değil, modüler süreç | **KANITLI** | 6 yardımcı exe + 2 DLL (§12) |
-| C13 | VoiceMeeter `.sys` pin formatları | **`⚠️`** | INF okunmadı (U1) |
-| C14 | `fxvad.sys` pin formatları | **`⚠️`** | INF okunmadı (U2) |
+| C13 | VoiceMeeter `.sys` pin formatları | ✅ **ÇÖZÜLDÜ** (2026-10-22 derin tur) | `.sys` bayt taraması: 6 rate DWORD (192k=36 isabet) + EXTENSIBLE/FLOAT tag'leri — `multi-os-...md` §2.3 |
+| C14 | `fxvad.sys` pin formatları | ✅ **ÇÖZÜLDÜ** (2026-10-22 derin tur) | 44.1/48 kHz-only (diğerleri 0 isabet) + INF default blob 48k/16bit — `multi-os-...md` §3 |
 | C15 | Dinamik API davranışı (çalışırken hangi çağrı) | **`⚠️` YAPILMADI** | U3 |
 
 ---
