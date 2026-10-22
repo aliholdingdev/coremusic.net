@@ -193,14 +193,16 @@
 
 /* ─── Sağ Alan: Açık Cam Kartı ─── */
 .adm-auth-card--light {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.50);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-left: 1px solid rgba(255, 255, 255, 0.65);
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 0;
   padding: 40px;
-  box-shadow: 0 20px 48px -10px rgba(99, 102, 241, 0.12),
-              0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.08);
 }
 
 .adm-auth-card__header {
@@ -208,16 +210,17 @@
 }
 
 .adm-auth-card__title {
-  font-size: 24px;
-  font-weight: 800;
-  color: #1a1025;
+  font-size: clamp(24px, 2vw, 30px);
+  font-weight: 700;
+  color: #9d174d;
+  font-family: '00543', cursive, sans-serif;
   margin: 0 0 6px 0;
-  letter-spacing: -0.02em;
 }
 
 .adm-auth-card__subtitle {
-  font-size: 14px;
-  color: rgba(26, 16, 37, 0.6);
+  font-size: clamp(18px, 1.4vw, 22px);
+  color: #db2777;
+  font-family: '00543', cursive, sans-serif;
   margin: 0;
 }
 
@@ -531,10 +534,10 @@
   min-height: 100dvh !important;
   overflow-x: hidden !important;
   position: relative !important;
-  background-color: #120d1a !important;
+  background-color: transparent !important;
 }
 
-/* Sol Arka Plan Fotoğrafı (%74 Figma IMAGE FILL) */
+/* Sol Arka Plan Fotoğrafı (%74 Figma IMAGE FILL Golden Gate) */
 .adm-page--login .adm-bg,
 .adm-page--register .adm-bg {
   position: fixed !important;
@@ -542,44 +545,30 @@
   width: 100% !important;
   height: 100% !important;
   z-index: 0 !important;
+  background: transparent !important;
 }
 
 .adm-page--login .adm-bg__image,
 .adm-page--register .adm-bg__image {
   position: absolute !important;
   inset: 0 !important;
-  background-image: url('http://assets.coremusic.net/Image/background/bkimage1.png') !important;
+  background-image: url('../../Image/background/admin-login-bg.png') !important;
   background-size: cover !important;
   background-position: center !important;
+  background-repeat: no-repeat !important;
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
 }
 
 .adm-page--login .adm-bg__scrim,
 .adm-page--register .adm-bg__scrim {
   position: absolute !important;
   inset: 0 !important;
-  background: linear-gradient(90deg, rgba(16, 12, 28, 0.4) 0%, rgba(16, 12, 28, 0.75) 100%) !important;
+  background: linear-gradient(90deg, transparent 0%, transparent 65%, rgba(253, 242, 248, 0.15) 100%) !important;
 }
 
-/* Sağ Cam Panel (%26 / 500px Figma SSOT) */
-.adm-page--login .adm-auth-panel,
-.adm-page--register .adm-auth-panel {
-  position: relative !important;
-  z-index: 2 !important;
-  width: clamp(400px, 28vw, 500px) !important;
-  min-height: 100vh !important;
-  height: auto !important;
-  background: rgba(255, 255, 255, 0.88) !important;
-  backdrop-filter: blur(24px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.4) !important;
-  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.25) !important;
-  padding: clamp(32px, 5vh, 48px) clamp(24px, 2.5vw, 40px) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  box-sizing: border-box !important;
-  overflow-y: auto !important;
-}
+/* ─── Light Tema Auth Sayfa Uyum Kuralları (Bileşen stilleri 04_Components altındadır) ─── */
 
 /* 4K UHD Ekranlar (≥ 1921px - 3840px+) */
 @media (min-width: 1921px) {
@@ -588,86 +577,104 @@
   }
   .adm-page--login .adm-auth-panel,
   .adm-page--register .adm-auth-panel {
-    width: calc(500px * var(--adm-scale)) !important;
-    padding: calc(48px * var(--adm-scale)) calc(40px * var(--adm-scale)) !important;
+    width: calc(275px * var(--adm-scale)) !important;
+    padding: calc(18px * var(--adm-scale)) calc(22px * var(--adm-scale)) !important;
   }
   .adm-page--login .adm-auth__title,
   .adm-page--register .adm-auth__title {
-    font-size: calc(28px * var(--adm-scale)) !important;
+    font-size: calc(13px * var(--adm-scale)) !important;
+    line-height: calc(16px * var(--adm-scale)) !important;
   }
   .adm-page--login .adm-auth__subtitle,
   .adm-page--register .adm-auth__subtitle {
-    font-size: calc(23px * var(--adm-scale)) !important;
+    font-size: calc(10px * var(--adm-scale)) !important;
+    line-height: calc(13px * var(--adm-scale)) !important;
   }
   .adm-page--login .adm-auth__note-icon,
   .adm-page--register .adm-auth__note-icon {
-    width: calc(50px * var(--adm-scale)) !important;
-    height: calc(50px * var(--adm-scale)) !important;
+    width: calc(20px * var(--adm-scale)) !important;
+    height: calc(20px * var(--adm-scale)) !important;
   }
   .adm-page--login .adm-auth__note-text,
   .adm-page--register .adm-auth__note-text {
-    font-size: calc(16px * var(--adm-scale)) !important;
+    font-size: calc(8.5px * var(--adm-scale)) !important;
+    line-height: calc(11.5px * var(--adm-scale)) !important;
   }
   .adm-page--login .adm-form__label,
   .adm-page--register .adm-form__label {
-    font-size: calc(20px * var(--adm-scale)) !important;
+    font-size: calc(9.5px * var(--adm-scale)) !important;
+  }
+  .adm-page--login .adm-form__field,
+  .adm-page--register .adm-form__field {
+    height: calc(32px * var(--adm-scale)) !important;
   }
   .adm-page--login .adm-form__input,
   .adm-page--register .adm-form__input {
-    height: calc(34px * var(--adm-scale)) !important;
-    font-size: calc(14px * var(--adm-scale)) !important;
+    font-size: calc(10px * var(--adm-scale)) !important;
   }
   .adm-page--login .adm-btn,
   .adm-page--register .adm-btn {
-    height: calc(40px * var(--adm-scale)) !important;
-    font-size: calc(15px * var(--adm-scale)) !important;
+    height: calc(28px * var(--adm-scale)) !important;
+    font-size: calc(9px * var(--adm-scale)) !important;
   }
   .adm-page--login .adm-auth__qr,
   .adm-page--register .adm-auth__qr {
-    padding: calc(14px * var(--adm-scale)) !important;
+    padding: calc(6px * var(--adm-scale)) calc(8px * var(--adm-scale)) !important;
+  }
+  .adm-page--login .adm-auth__qr-phone-svg,
+  .adm-page--register .adm-auth__qr-phone-svg {
+    width: calc(18px * var(--adm-scale)) !important;
+    height: calc(36px * var(--adm-scale)) !important;
+  }
+  .adm-page--login .adm-auth__qr-text,
+  .adm-page--register .adm-auth__qr-text {
+    font-size: calc(8px * var(--adm-scale)) !important;
+    line-height: calc(11px * var(--adm-scale)) !important;
   }
 }
 
-/* Tablet (768px - 1024px) */
+/* Tablet & Mobil Düzeni (<= 1024px — select-gender gibi 275px sağ dock & 0 border radius) */
 @media (max-width: 1024px) {
   .adm-page--login.adm-auth-wrapper,
   .adm-page--register.adm-auth-wrapper {
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 32px 16px !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: stretch !important;
+    padding: 0 !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
   }
   .adm-page--login .adm-auth-panel,
   .adm-page--register .adm-auth-panel {
-    width: min(500px, 100%) !important;
-    border-radius: 16px !important;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35) !important;
-    margin: auto !important;
+    position: fixed !important;
+    right: 0 !important;
+    top: 0 !important;
+    width: 275px !important;
+    max-width: 100vw !important;
+    height: 100% !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    border-radius: 0 !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.30) !important;
+    border-top: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    box-shadow: -10px 0 35px rgba(0, 0, 0, 0.15) !important;
+    padding: 18px 22px 14px 22px !important;
   }
 }
 
-/* Mobil (≤ 767px) */
-@media (max-width: 767px) {
-  .adm-page--login.adm-auth-wrapper,
-  .adm-page--register.adm-auth-wrapper {
-    padding: 0 !important;
-  }
+/* Küçük Mobil (≤ 520px) */
+@media (max-width: 520px) {
   .adm-page--login .adm-auth-panel,
   .adm-page--register .adm-auth-panel {
     width: 100% !important;
+    max-width: 100vw !important;
+    height: 100% !important;
+    height: 100vh !important;
+    height: 100dvh !important;
     border-radius: 0 !important;
     border: none !important;
-    padding: 24px 16px !important;
-    min-height: 100vh !important;
-  }
-  .adm-page--login .adm-form__input,
-  .adm-page--register .adm-form__input {
-    height: 46px !important;
-    font-size: 15px !important;
-  }
-  .adm-page--login .adm-btn,
-  .adm-page--register .adm-btn {
-    height: 48px !important;
-    font-size: 16px !important;
+    padding: 16px 14px !important;
   }
 }

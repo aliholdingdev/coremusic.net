@@ -1,9 +1,9 @@
 -- =========================================================================
--- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
--- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
--- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
--- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
--- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
+-- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
+-- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7)
+-- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
+-- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
 
 SET NAMES utf8mb4;
@@ -15,6 +15,19 @@ CREATE DATABASE IF NOT EXISTS `coremusic_ai`
 
 USE `coremusic_ai`;
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `audio_features`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `audio_features` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `music_id` int unsigned NOT NULL,
@@ -37,7 +50,10 @@ CREATE TABLE `audio_features` (
   KEY `idx_af_bpm` (`bpm`),
   KEY `idx_af_key` (`key_signature`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `listening_features`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `listening_features` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -53,7 +69,10 @@ CREATE TABLE `listening_features` (
   UNIQUE KEY `uq_lf_pair` (`user_id`,`music_id`),
   KEY `idx_lf_music` (`music_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `model_versions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `model_versions` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `model_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -75,7 +94,10 @@ CREATE TABLE `model_versions` (
   CONSTRAINT `model_versions_chk_1` CHECK ((`model_type` in (_utf8mb4'recommendation',_utf8mb4'audio_analysis',_utf8mb4'nlp',_utf8mb4'classification'))),
   CONSTRAINT `model_versions_chk_2` CHECK ((`status` in (_utf8mb4'training',_utf8mb4'active',_utf8mb4'deprecated',_utf8mb4'archived')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `recommendation_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `recommendation_history` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -96,7 +118,10 @@ CREATE TABLE `recommendation_history` (
   CONSTRAINT `recommendation_history_chk_1` CHECK ((`algorithm` in (_utf8mb4'collaborative',_utf8mb4'content_based',_utf8mb4'hybrid',_utf8mb4'ai_curated'))),
   CONSTRAINT `recommendation_history_chk_2` CHECK ((`feedback` in (_utf8mb4'none',_utf8mb4'liked',_utf8mb4'disliked',_utf8mb4'skipped',_utf8mb4'saved')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `training_jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `training_jobs` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `model_version_id` int unsigned NOT NULL,
@@ -111,9 +136,13 @@ CREATE TABLE `training_jobs` (
   PRIMARY KEY (`id`),
   KEY `idx_tj_model` (`model_version_id`),
   KEY `idx_tj_status` (`status`),
+  CONSTRAINT `fk_training_jobs_model_versions` FOREIGN KEY (`model_version_id`) REFERENCES `model_versions` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `training_jobs_chk_1` CHECK ((`status` in (_utf8mb4'queued',_utf8mb4'running',_utf8mb4'completed',_utf8mb4'failed',_utf8mb4'cancelled')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_preference_profiles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_preference_profiles` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -129,5 +158,15 @@ CREATE TABLE `user_preference_profiles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_upp_user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 SET FOREIGN_KEY_CHECKS = 1;

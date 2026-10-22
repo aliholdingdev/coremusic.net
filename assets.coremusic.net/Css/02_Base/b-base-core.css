@@ -114,3 +114,56 @@ input, select, textarea {
 
 /* ═══ Visibility Helpers ═══ */
 .is-hidden { display: none !important; }
+
+/* ============================================================
+   EMBEDDED / TOUCH BEHAVIOR — RPi5 1024×600 (≤1024px)
+   ============================================================ */
+@media (max-width: 1024px) {
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Scrollbar — thin (RPi5 touch) */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* ============================================================
+   GLOBAL OVERRIDES — 4K TV (2561–3840px)
+   ============================================================ */
+@media (min-width: 2561px) and (max-width: 3840px) {
+  html {
+    font-size: 18px; /* 10ft UI için büyük font */
+  }
+}
+
+/* ============================================================
+   GLOBAL OVERRIDES — 4K Monitor (≥3841px)
+   ============================================================ */
+@media (min-width: 3841px) {
+  html {
+    font-size: 20px; /* En büyük font */
+  }
+}

@@ -104,13 +104,17 @@ if (defined('DEBUG_MODE') && DEBUG_MODE && $requestUri === '/dev-login') {
     exit;
 }
 
-// G2 (2026-10-19): admin host'ta /login ve /register → lokal Figma formları.
-// Kernel'e taşınsa AuthGuard::checkAuthRedirectRoute (shared AuthRouteConfig)
-// bu URI'leri auth.coremusic.net'e yönlendirirdi — admin host'ta auth redirect
-// YOK (karar 2026-10-19). Mantık AuthAliasRedirector'da (test edilebilir saf sınıf);
-// query string korunur: /login?error=invalid_key → /admin-login?error=invalid_key.
+// G2 (2026-10-19) → revize (2026-10-21): admin host'ta /login, /register ve
+// eski /admin-login, /admin-register artık auth domain'e yönlendirilir
+// (admin auth formları auth.coremusic.net/admin/* altında — ADR-043; lokal
+// sayfalar kaldırıldı). Kernel'e taşınsa AuthGuard::checkAuthRedirectRoute
+// (shared AuthRouteConfig) zaten auth domain'e atardı — bu sınıf alias +
+// geriye-uyum rotalarını tek yerde tutar; query string korunur:
+// /login?error=invalid_key → auth /admin/login?error=invalid_key.
+$authBaseUrl = $domainConfig->getUrl('auth');
 $authAlias = AuthAliasRedirector::resolve(
     (string)($_SERVER['REQUEST_URI'] ?? ''),
+    $authBaseUrl,
     (string)($_SERVER['QUERY_STRING'] ?? '')
 );
 if ($authAlias !== null) {
@@ -125,7 +129,10 @@ if ($authAlias !== null) {
 if ($requestUri === '') {
     SessionBootstrapper::ensureStarted();
     $rootHelper = new PageRouterHelper();
-    $rootTarget = AdminRootRedirector::resolve($rootHelper->checkAuthenticated());
+    $rootTarget = AdminRootRedirector::resolve(
+        $rootHelper->checkAuthenticated(),
+        $authBaseUrl . '/admin/login',
+    );
     $rootQuery = (string)($_SERVER['QUERY_STRING'] ?? '');
     if ($rootQuery !== '') {
         $rootTarget['location'] .= '?' . $rootQuery;

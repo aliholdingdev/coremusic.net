@@ -171,10 +171,9 @@
             loadCSS(base + AUTH_CSS[device], 'cm-device-css');
             removeCSS('cm-view-css');
         } else if (viewMode === 'admin') {
-            // Admin: TEK cihaz girişi d-admin-1920.css (DeviceCssMap::adminToCssPath
-            // ile senkron — cihaz ayrımı yok, breakpoint'ler dosyanın içinde).
-            // HOME_CSS admin'i EZMESİN: admin responsive @media kuralları yalnızca
-            // d-admin-1920.css'tedir; home device CSS swap'i responsive'i düşürüyordu.
+            // Admin: Admin cihaz paketi d-admin-desktop.css (DeviceCssMap::adminToCssPath
+            // ile senkron).
+            // HOME_CSS admin'i EZMESİN: admin cihaz CSS'i ADMIN_CSS ile yüklenir.
             loadCSS(base + ADMIN_CSS[device], 'cm-device-css');
             loadCSS(base + (VIEW_CSS[viewMode] || VIEW_CSS['home']), 'cm-view-css');
             removeCSS('cm-auth-bundled');
@@ -193,7 +192,7 @@
      * Sadece device CSS'i değiştir (view korunarak)
      * @param {string} device
      * @param {boolean} isAuth
-     * @param {string} viewMode  View mode (admin → d-admin-1920.css korunur)
+     * @param {string} viewMode  View mode (admin → d-admin-desktop.css korunur)
      * @param {string} baseUrl
      */
     function loadDeviceOnly(device, isAuth, viewMode, baseUrl) {

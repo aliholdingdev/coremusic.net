@@ -33,3 +33,17 @@
   color: var(--adm-c-text-sidebar);
   white-space: nowrap;
 }
+
+/* ------------------------------------------------------------
+   RESPONSIVE PANEL DÜZENİ (ITCSS 04_Components · c-adm-panel)
+   ------------------------------------------------------------ */
+@media (max-width: 767px) {
+  .adm-panel__title {
+    font-size: 20px !important;
+  }
+
+  .adm-panel__breadcrumb {
+    font-size: 12px !important;
+  }
+}
+

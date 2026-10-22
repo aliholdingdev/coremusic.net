@@ -523,3 +523,16 @@ html[data-theme="dark"] {
   --adm-theme-footer-bg: rgba(14, 16, 30, 0.45);
   --adm-theme-footer-border: rgba(255, 255, 255, 0.14);
 }
+
+/* 4K & Ultra HD Ekran Ölçekleme Tokenları (ADR-006 / C5) */
+@media (min-width: 1921px) {
+  :root {
+    --adm-scale: clamp(1, calc(100vw / 1920), 2);
+  }
+}
+
+@media (min-width: 3840px) {
+  :root {
+    --adm-scale: 2;
+  }
+}

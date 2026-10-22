@@ -1,9 +1,9 @@
 -- =========================================================================
--- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
--- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
--- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
--- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
--- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
+-- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
+-- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7)
+-- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
+-- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
 
 SET NAMES utf8mb4;
@@ -15,13 +15,26 @@ CREATE DATABASE IF NOT EXISTS `coremusic_social`
 
 USE `coremusic_social`;
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `achievements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `achievements` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 (PHP katmaninda uretilir)',
   `achievement_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Benzersiz basari tipi kodu',
   `achievement_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Gorunur ad',
   `achievement_description` text COLLATE utf8mb4_unicode_ci COMMENT 'Aciklama',
   `achievement_icon` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Ikon URL',
-  `rarity` enum('common','uncommon','rare','epic','legendary') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'common' COMMENT 'Nadirlik (karma ENUM — karar #5)',
+  `rarity` enum('common','uncommon','rare','epic','legendary') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'common' COMMENT 'Nadirlik (karma ENUM ÔÇö karar #5)',
   `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Aktif mi?',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olusturma (UTC)',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme (UTC)',
@@ -29,8 +42,11 @@ CREATE TABLE `achievements` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_achievements_type` (`achievement_type`),
   KEY `idx_achievements_rarity` (`rarity`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Basari/rozet lookup tablosu (3NF — karar #5)';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Basari/rozet lookup tablosu (3NF ÔÇö karar #5)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `activity_feed`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `activity_feed` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `user_id` binary(16) NOT NULL COMMENT 'Aktiviteyi yapan kullanici ID',
@@ -51,7 +67,10 @@ CREATE TABLE `activity_feed` (
   CONSTRAINT `fk_activity_target` FOREIGN KEY (`target_user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_activity_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Kullanici aktivite akisi (begeni, takip, yorum, paylasim)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `comment_likes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comment_likes` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `comment_id` binary(16) NOT NULL COMMENT 'Begenilen yorum ID',
@@ -63,7 +82,10 @@ CREATE TABLE `comment_likes` (
   CONSTRAINT `fk_comment_likes_comment` FOREIGN KEY (`comment_id`) REFERENCES `comments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_comment_likes_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Yorum begenileri (kullanici bazli benzersiz)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `user_id` binary(16) NOT NULL COMMENT 'Yorum yapan kullanici ID',
@@ -91,7 +113,10 @@ CREATE TABLE `comments` (
   CONSTRAINT `fk_comments_parent` FOREIGN KEY (`parent_id`) REFERENCES `comments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_comments_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Yorumlar (hiyerarsik cevap zincirleri ile)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `listening_room_members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `listening_room_members` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `room_id` binary(16) NOT NULL COMMENT 'Oda ID',
@@ -113,7 +138,10 @@ CREATE TABLE `listening_room_members` (
   CONSTRAINT `fk_room_members_room` FOREIGN KEY (`room_id`) REFERENCES `listening_rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_room_members_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Dinleme odasi uyeleri (host, co-host, member, listener)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `listening_room_queue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `listening_room_queue` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `room_id` binary(16) NOT NULL COMMENT 'Oda ID',
@@ -131,7 +159,10 @@ CREATE TABLE `listening_room_queue` (
   CONSTRAINT `fk_room_queue_music` FOREIGN KEY (`music_id`) REFERENCES `coremusic_musics`.`musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_room_queue_room` FOREIGN KEY (`room_id`) REFERENCES `listening_rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Dinleme odasi sarki sirasi (kullanici bazli ekleme)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `listening_rooms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `listening_rooms` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `host_user_id` binary(16) NOT NULL COMMENT 'Oda sahibi kullanici ID',
@@ -157,7 +188,10 @@ CREATE TABLE `listening_rooms` (
   CONSTRAINT `fk_listening_rooms_host` FOREIGN KEY (`host_user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_listening_rooms_music` FOREIGN KEY (`current_music_id`) REFERENCES `coremusic_musics`.`musics` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Dinleme odalari (gercek zamanli paylasimli dinleme)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `shares`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shares` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `user_id` binary(16) NOT NULL COMMENT 'Paylasan kullanici ID',
@@ -174,7 +208,10 @@ CREATE TABLE `shares` (
   KEY `idx_shares_created` (`created_at`),
   CONSTRAINT `fk_shares_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Paylasim kayitlari (Facebook, Twitter, Instagram, WhatsApp, Telegram)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `social_notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `social_notifications` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `user_id` binary(16) NOT NULL COMMENT 'Hedef kullanici ID',
@@ -199,7 +236,10 @@ CREATE TABLE `social_notifications` (
   CONSTRAINT `fk_social_notif_from` FOREIGN KEY (`from_user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_social_notif_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sosyal bildirimler (takip, begeni, yorum, oda daveti, bahsetme)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_achievements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_achievements` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `user_id` binary(16) NOT NULL COMMENT 'Kullanici ID',
@@ -225,5 +265,15 @@ CREATE TABLE `user_achievements` (
   CONSTRAINT `fk_achievements_ach` FOREIGN KEY (`achievement_id`) REFERENCES `achievements` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_achievements_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Kullanici basarilari ve rozetleri (common, uncommon, rare, epic, legendary)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 SET FOREIGN_KEY_CHECKS = 1;

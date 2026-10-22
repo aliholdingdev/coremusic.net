@@ -1,0 +1,52 @@
+/**
+ * Dosya: page-layout.css
+ * Katman: 03_Layout - sayfa yerleşim iskeleti ve grid taşıyıcıları
+ * Rol: Sayfa genel yerleşim kuralları (Header/Footer offset, responsive container)
+ * Bağımlılık: token üretir/tüketir: var(--sidebar-*), var(--header-*), var(--footer-*)
+ * Güncelleme: 2026-10-22 (ITCSS 03_Layout katmanına taşındı; 4K sol hizalı kuralı eklendi)
+ */
+
+/* ============================================================
+   PAGE LAYOUT — Sayfa Ana İskeleti
+   ============================================================ */
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  /* Viewport tabanlı genişlik (vw) — % yerine; sidebar offset düşülür */
+  width: calc(100vw - var(--sidebar-offset, 0px));
+  gap: var(--grid-gap, 10px);
+  margin-top: var(--header-h, 60px);
+  min-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  max-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  /* Header dibine nefes: padding tercih edildi */
+  padding: var(--space-6) var(--space-6) var(--space-2);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  /* Cihaz geçişlerinde yumuşak geçiş */
+  opacity: 1;
+  transition: opacity 200ms ease-in-out, width 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Ultra-wide content constraint: default auto, 4K sol hizalı */
+  margin-inline: auto;
+}
+
+/* 4K UHD (≥2561px): Ortalama YOK (margin-inline: auto override) — 1920 hiyerarşisi sol hizalı */
+@media (min-width: 2561px) {
+  .page-layout {
+    margin-inline: 0 !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Scroll sözleşmesi: scroll YALNIZCA container'da.
+   Header/footer fixed — document scroll'u kilitlenir (çift scroll önlenir). */
+body:has(.page-layout) {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Sidebar açıkken content offset */
+html:not(.sidebar-collapsed) .page-layout {
+  --sidebar-offset: var(--sidebar-w, 280px);
+}

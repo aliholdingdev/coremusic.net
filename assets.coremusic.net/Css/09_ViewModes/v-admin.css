@@ -6,7 +6,7 @@
  *      zinciri (auth-bundled.css deseni · Görev C · ADR-001 tek uygulama
  *      noktası · 17 @import / 17 dosya)
  * Bağımlılık: @import ile 16 dosya (aşağıda); 07_Vendors YOK (boş),
- *      08_Devices/d-admin-1920.css BURADA @import EDİLMEZ: ayrı
+ *      08_Devices/d-admin-desktop.css BURADA @import EDİLMEZ: ayrı
  *      <link id="cm-device-css"> olarak basılır (auth-bundled NOT satırı
  *      deseni) — içe aktarılsa çift yüklenir. 1024/4K fallback +
  *      reduced-motion kill o dosyada korunur.
@@ -54,5 +54,5 @@
 @import url("../05_Pages/p-admin-crud-light.css?v=1.0.0");
 
 /* === ADMIN DEVICES === */
-/* d-admin-1920.css burada @import EDİLMEZ (yukarıdaki Bağımlılık notu).
+/* d-admin-desktop.css burada @import EDİLMEZ (yukarıdaki Bağımlılık notu).
    Cihaz link'i ayrı: cm-device-css deseni + DeviceCssMap/devices.config. */

@@ -1,9 +1,9 @@
 -- =========================================================================
--- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
--- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
--- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
--- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
--- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
+-- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
+-- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7)
+-- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
+-- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
 
 SET NAMES utf8mb4;
@@ -15,6 +15,19 @@ CREATE DATABASE IF NOT EXISTS `coremusic_api`
 
 USE `coremusic_api`;
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `api_calls`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `api_calls` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `api_key_id` int unsigned DEFAULT NULL,
@@ -51,7 +64,10 @@ CREATE TABLE `api_calls` (
  PARTITION p_2026_11 VALUES LESS THAN (740316) ENGINE = InnoDB,
  PARTITION p_2026_12 VALUES LESS THAN (740347) ENGINE = InnoDB,
  PARTITION p_future VALUES LESS THAN MAXVALUE ENGINE = InnoDB) */;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `api_keys`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `api_keys` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -74,7 +90,10 @@ CREATE TABLE `api_keys` (
   KEY `idx_ak_last_used` (`last_used_at` DESC),
   KEY `idx_ak_deleted` (`deleted_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `rate_limits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `rate_limits` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `api_key_id` int unsigned NOT NULL,
@@ -90,7 +109,10 @@ CREATE TABLE `rate_limits` (
   KEY `idx_rl_endpoint` (`endpoint_pattern`(255)),
   CONSTRAINT `rate_limits_ibfk_1` FOREIGN KEY (`api_key_id`) REFERENCES `api_keys` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `webhooks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `webhooks` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `api_key_id` int unsigned NOT NULL,
@@ -105,7 +127,7 @@ CREATE TABLE `webhooks` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `fk_wh_key` (`api_key_id`),
+  UNIQUE KEY `uq_wh_key_event_url` (`api_key_id`,`event_type`,`callback_url`(255)),
   KEY `idx_wh_event` (`event_type`),
   KEY `idx_wh_active` (`is_active`),
   KEY `idx_wh_last` (`last_triggered_at`),
@@ -113,5 +135,15 @@ CREATE TABLE `webhooks` (
   CONSTRAINT `webhooks_chk_1` CHECK ((`retry_count` between 0 and 10)),
   CONSTRAINT `webhooks_chk_2` CHECK ((`timeout_ms` between 1000 and 30000))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 SET FOREIGN_KEY_CHECKS = 1;

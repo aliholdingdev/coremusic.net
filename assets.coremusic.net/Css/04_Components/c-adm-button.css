@@ -1,45 +1,38 @@
 /* ============================================================
    c-adm-button.css — Admin (04_Components · C06)
-   Block: .adm-btn — CTA --adm-btn-w × --adm-btn-h, r (2161:12510)
-   Zemin: --adm-c-accent + --adm-c-accent-layer · 15/400 beyaz metin
-   Kontrast ölçümü: --adm-c-accent + beyaz = 3.03:1 → GAP (rapor)
-   KAPI: ham hex/px YOK · @media YOK · geçiş transform/opacity
+   Block: .adm-btn — CTA buton bileşeni
+   select-gender uyumlu degrade pembe/mor kristal buton:
+   - Yükseklik: 28px, border-radius: 5px
+   - Tipografi: Plus Jakarta Sans 9px / 600 / 0.04em
+   - Zemin: linear-gradient pembe/mor
    ============================================================ */
 
 .adm-btn {
-  position: absolute;
-  left: 0;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--adm-btn-w);
-  height: var(--adm-btn-h);
+  width: 100%;
+  height: 28px;
+  min-height: 28px;
+  max-height: 28px;
+  margin-top: 5px;
   padding: 0;
-  border: 0;
-  border-radius: var(--adm-r-input);
-  background-color: var(--adm-c-accent);
-  font-family: var(--adm-font-ui);
-  font-size: var(--adm-fs-cta);
-  font-weight: var(--adm-fw-reg);
-  line-height: var(--adm-lh-tight);
-  color: var(--adm-c-text);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+  background: linear-gradient(135deg, rgba(255, 0, 200, 0.75) 0%, rgba(255, 60, 220, 0.85) 50%, rgba(255, 0, 200, 0.65) 100%);
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #ffffff;
   text-align: center;
   cursor: pointer;
   appearance: none;
-  box-shadow: var(--adm-shadow-1);
-  transition: transform var(--adm-duration-fast) var(--adm-ease-out),
-              opacity var(--adm-duration-fast) var(--adm-ease-out);
-}
-
-/* Beyaz α.05 üst katman (2161:12510 · zemin rengi
-   hareket edemez — ADR-018: yalnız transform/opacity) */
-.adm-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background-color: var(--adm-c-accent-layer);
-  pointer-events: none;
+  box-shadow: 0 2px 10px rgba(255, 0, 200, 0.30);
+  box-sizing: border-box;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .adm-btn__label {
@@ -48,34 +41,57 @@
 }
 
 /* ------------------------------------------------------------
-   State matrix (master token — figma'da yalnız default çizili)
-   hover/pressed: transform+opacity (ADR-018); zemin rengi
-   class değişiminde anında değişir.
+   State matrix
    ------------------------------------------------------------ */
 .adm-btn:hover {
-  background-color: var(--adm-c-accent-hover); /* master L37 · spec state
-                                                * matrix hover — anında
-                                                * değişir (ADR-018: renk
-                                                * hareketi animasyonu yok) */
-  transform: scale(var(--adm-scale-hover));
+  box-shadow: 0 3px 14px rgba(255, 0, 200, 0.50);
+  transform: translateY(-1px);
 }
 
 .adm-btn:active {
-  background-color: var(--adm-c-accent-pressed); /* master L38 · pressed */
-  transform: scale(var(--adm-scale-press));
-  opacity: 0.9;
+  transform: scale(0.985);
+  opacity: 0.92;
 }
 
 .adm-btn.is-loading {
-  background-color: var(--adm-c-accent-90); /* master --cm-primary-90 (L48) */
   cursor: progress;
+  opacity: 0.85;
 }
 
 .adm-btn[disabled],
 .adm-btn.is-disabled {
-  background-color: var(--adm-c-text-disabled); /* master L75 */
-  color: var(--adm-c-text);
-  cursor: default;
-  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.50);
+  border-color: rgba(255, 255, 255, 0.18);
+  cursor: not-allowed;
+  box-shadow: none;
   transform: none;
 }
+
+/* ------------------------------------------------------------
+   RESPONSIVE BUTON DÜZENİ (ITCSS 04_Components · c-adm-button)
+   ------------------------------------------------------------ */
+
+/* Mobil (<= 767px) */
+@media (max-width: 767px) {
+  .adm-btn {
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    font-size: 11px !important;
+    border-radius: 6px !important;
+  }
+}
+
+/* 4K & Ultra HD (>= 1921px) */
+@media (min-width: 1921px) {
+  .adm-btn {
+    height: calc(var(--adm-btn-h, 44px) * var(--adm-scale, 1)) !important;
+    min-height: calc(var(--adm-btn-h, 44px) * var(--adm-scale, 1)) !important;
+    max-height: calc(var(--adm-btn-h, 44px) * var(--adm-scale, 1)) !important;
+    border-radius: calc(6px * var(--adm-scale, 1)) !important;
+    font-size: calc(var(--adm-fs-cta, 14px) * var(--adm-scale, 1)) !important;
+    margin-top: calc(8px * var(--adm-scale, 1)) !important;
+  }
+}
+

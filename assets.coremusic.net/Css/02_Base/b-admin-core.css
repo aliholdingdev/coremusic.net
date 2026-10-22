@@ -45,9 +45,20 @@ img {
   outline: none;
 }
 
-/* T6 — reduced-motion kill (ADR-018; 2 kural) → 08_Devices/
-   d-admin-1920.css içinde uygulanir (kural: her @media SADECE
-   08'de — Görev B kapisi). */
+/* T6 — reduced-motion kill (ADR-018) */
+@media (prefers-reduced-motion: reduce) {
+  .adm-page *,
+  .adm-page *::before,
+  .adm-page *::after {
+    animation-duration: 0ms !important;
+    transition-duration: 0ms !important;
+  }
+}
+
+/* Genel akış ve yatay taşma engelleme */
+html, body {
+  overflow-x: hidden;
+}
 
 /* Kalıcı medya hedef elemanları (HtmlShellRenderer: <audio>/<video class="vdisplay">).
    Admin ortamında layout akışında yer kaplamaz — 300×150 boyutu tüm sayfayı 156px aşağı itiyordu. */

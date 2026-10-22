@@ -1,0 +1,7 @@
+/**
+ * Dosya: d-admin-4k-tv.css
+ * Katman: 08_Devices — Admin 4K TV Cihaz Paketi
+ * Rol: Admin 4K TV cihaz paketi — ITCSS katman @import bundle
+ * Kural: İçinde doğrudan CSS kodu barındırmaz, yalnızca @import içerir (ITCSS SSOT)
+ */
+@import url("./d-admin-4k.css?v=2.2.0");

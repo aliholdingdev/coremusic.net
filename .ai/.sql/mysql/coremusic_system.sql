@@ -1,9 +1,9 @@
 -- =========================================================================
--- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
--- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
--- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
--- VERİ   : YALNIZ system_services seed (7 satır — PII YOK)
--- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
+-- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
+-- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7) · SEED: system_services,i18n_languages
+-- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
+-- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
 
 SET NAMES utf8mb4;
@@ -15,6 +15,19 @@ CREATE DATABASE IF NOT EXISTS `coremusic_system`
 
 USE `coremusic_system`;
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `i18n_languages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `i18n_languages` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -29,7 +42,10 @@ CREATE TABLE `i18n_languages` (
   KEY `idx_il_active` (`is_active`),
   KEY `idx_il_order` (`sort_order`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `i18n_translations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `i18n_translations` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `translation_key` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -43,12 +59,18 @@ CREATE TABLE `i18n_translations` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamani (UTC)',
+  `plural_key` varchar(20) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (if((`plural_form` is null),_utf8mb4'',`plural_form`)) STORED,
+  `deleted_key` bigint GENERATED ALWAYS AS (if((`is_deleted` = 0),0,to_seconds(`deleted_at`))) STORED,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_it_pair` (`translation_key`,`locale`,`plural_form`),
+  UNIQUE KEY `uq_it_pair` (`translation_key`,`locale`,`plural_key`,`deleted_key`),
   KEY `idx_it_locale` (`locale`),
   KEY `idx_it_key` (`translation_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `i18n_ui_strings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `i18n_ui_strings` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `module` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -60,12 +82,17 @@ CREATE TABLE `i18n_ui_strings` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamani (UTC)',
+  `deleted_key` bigint GENERATED ALWAYS AS (if((`is_deleted` = 0),0,to_seconds(`deleted_at`))) STORED,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_ius_pair` (`module`,`string_key`,`locale`),
+  UNIQUE KEY `uq_ius_pair` (`module`,`string_key`,`locale`,`deleted_key`),
   KEY `idx_ius_module` (`module`),
   KEY `idx_ius_locale` (`locale`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `i18n_user_locale`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `i18n_user_locale` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -80,7 +107,10 @@ CREATE TABLE `i18n_user_locale` (
   UNIQUE KEY `uq_iul_user` (`user_id`),
   KEY `idx_iul_locale` (`locale`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_api_endpoints`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_api_endpoints` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `endpoint` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'API endpoint yolu',
@@ -97,7 +127,10 @@ CREATE TABLE `system_api_endpoints` (
   KEY `idx_api_endpoints_active` (`is_active`),
   KEY `idx_api_endpoints_version` (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='API endpoint tanimlari ve sinirlamalari';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_app_settings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_app_settings` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `user_id` binary(16) NOT NULL COMMENT 'Kullanici ID',
@@ -111,7 +144,10 @@ CREATE TABLE `system_app_settings` (
   KEY `idx_app_settings_key` (`setting_key`),
   CONSTRAINT `fk_app_settings_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Kullanici bazli uygulama ayarlari';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_backup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_backup` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `backup_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Yedek adi',
@@ -134,7 +170,10 @@ CREATE TABLE `system_backup` (
   KEY `idx_backup_status` (`status`),
   KEY `idx_backup_created` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Veritabani yedekleme kayitlari (tam, artirimli, farkli)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_bluetooth_devices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_bluetooth_devices` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `device_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Cihaz adi',
@@ -158,7 +197,10 @@ CREATE TABLE `system_bluetooth_devices` (
   KEY `idx_bt_devices_paired` (`is_paired`),
   KEY `idx_bt_devices_connected` (`is_connected`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bluetooth cihaz bilgileri (hoparlor, kulaklik, araba, telefon)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_cache`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_cache` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `cache_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Onbellek anahtari (benzersiz)',
@@ -177,7 +219,10 @@ CREATE TABLE `system_cache` (
   KEY `idx_cache_type` (`cache_type`),
   KEY `idx_cache_expires` (`expires_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Uygulama onbellek verisi (query, config, session, data, template)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_config` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `config_key` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Konfigurasyon anahtari (benzersiz)',
@@ -191,12 +236,16 @@ CREATE TABLE `system_config` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme zamani (UTC)',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Silindi mi? (soft delete)',
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamani (UTC)',
+  `deleted_key` bigint GENERATED ALWAYS AS (if((`is_deleted` = 0),0,to_seconds(`deleted_at`))) STORED,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_config_key` (`config_key`),
+  UNIQUE KEY `uk_config_key` (`config_key`,`deleted_key`),
   KEY `idx_config_group` (`config_group`),
   KEY `idx_config_sensitive` (`is_sensitive`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sistem konfigurasyonu (duyarli veriler: sifre, API anahtari)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_eq_presets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_eq_presets` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `user_id` binary(16) DEFAULT NULL COMMENT 'Sahip kullanici ID (NULL = fabrika)',
@@ -214,14 +263,19 @@ CREATE TABLE `system_eq_presets` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme zamani (UTC)',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Silindi mi? (soft delete)',
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamani (UTC)',
+  `deleted_key` bigint GENERATED ALWAYS AS (if((`is_deleted` = 0),0,`id`)) STORED,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_eq_presets_user_name` (`user_id`,`preset_name`,`deleted_key`),
   KEY `idx_eq_presets_user` (`user_id`),
   KEY `idx_eq_presets_type` (`preset_type`),
   KEY `idx_eq_presets_default` (`is_default`),
   KEY `idx_eq_presets_public` (`is_public`),
   CONSTRAINT `fk_eq_presets_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='EQ on ayarlari (kullanici, fabrika, topluluk, AI uretimli)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_file_manager`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_file_manager` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `parent_id` binary(16) DEFAULT NULL COMMENT 'Ust klasor ID (NULL = kok)',
@@ -237,7 +291,9 @@ CREATE TABLE `system_file_manager` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme zamani (UTC)',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Silindi mi? (soft delete)',
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamani (UTC)',
+  `deleted_key` bigint GENERATED ALWAYS AS (if((`is_deleted` = 0),0,`id`)) STORED,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_file_manager_parent_name` (`parent_id`,`file_name`,`deleted_key`),
   KEY `idx_file_manager_parent` (`parent_id`),
   KEY `idx_file_manager_owner` (`owner_id`),
   KEY `idx_file_manager_type` (`file_type`),
@@ -246,15 +302,18 @@ CREATE TABLE `system_file_manager` (
   CONSTRAINT `fk_file_manager_owner` FOREIGN KEY (`owner_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_file_manager_parent` FOREIGN KEY (`parent_id`) REFERENCES `system_file_manager` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Dosya ve klasor yonetimi (hiyerarsik agac yapisi)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_jobs` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 (PHP katmaninda uretilir)',
   `job_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Is tipi (alan-olcumlu: media.process, patch.apply, ...)',
-  `status` enum('queued','running','done','failed','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'queued' COMMENT 'Surec durumu (teknik ENUM — karar #5)',
+  `status` enum('queued','running','done','failed','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'queued' COMMENT 'Surec durumu (teknik ENUM ÔÇö karar #5)',
   `priority` int NOT NULL DEFAULT '100' COMMENT 'Kucuk = once (cekirdek cizelge)',
   `payload` json DEFAULT NULL COMMENT 'Kontrollu JSON argumanlar (karar #9)',
   `ref_type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Isin bagli oldugu varlik tipi (opsiyonel)',
-  `ref_id` binary(16) DEFAULT NULL COMMENT 'Isin bagli oldugu varlik ID (opsiyonel; polymorphic — FK YOK)',
+  `ref_id` binary(16) DEFAULT NULL COMMENT 'Isin bagli oldugu varlik ID (opsiyonel; polymorphic ÔÇö FK YOK)',
   `attempts` tinyint unsigned NOT NULL DEFAULT '0' COMMENT 'Deneme sayisi (max 5 onerilir)',
   `last_error` text COLLATE utf8mb4_unicode_ci COMMENT 'Son hata (varsa)',
   `available_at` timestamp NULL DEFAULT NULL COMMENT 'Baslayabilecegi zaman (zamanlanmis is)',
@@ -268,8 +327,11 @@ CREATE TABLE `system_jobs` (
   KEY `idx_jobs_type` (`job_type`),
   KEY `idx_jobs_priority` (`priority`,`created_at`),
   KEY `idx_jobs_ref` (`ref_type`,`ref_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cekirdek surec/cizelge tablosu (OS metaforu — sistem geneli is kuyrugu)';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cekirdek surec/cizelge tablosu (OS metaforu ÔÇö sistem geneli is kuyrugu)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_migration_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_migration_log` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `database_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Veritabani adi',
@@ -289,7 +351,10 @@ CREATE TABLE `system_migration_log` (
   KEY `idx_migration_log_status` (`status`),
   KEY `idx_migration_log_started` (`started_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Migration islem loglari (up, down, seed, fix)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_notifications` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `user_id` binary(16) NOT NULL COMMENT 'Hedef kullanici ID',
@@ -309,14 +374,17 @@ CREATE TABLE `system_notifications` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Silindi mi? (soft delete)',
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamani (UTC)',
   PRIMARY KEY (`id`),
-  KEY `idx_notifications_user` (`user_id`),
   KEY `idx_notifications_type` (`notification_type`),
   KEY `idx_notifications_read` (`is_read`),
   KEY `idx_notifications_priority` (`priority`),
   KEY `idx_notifications_created` (`created_at`),
+  KEY `idx_notifications_user_read` (`user_id`,`is_read`),
   CONSTRAINT `fk_notifications_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Kullanici bildirimleri (sistem, sosyal, indirme, guncelleme)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_schema_versions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_schema_versions` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `database_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Veritabani adi',
@@ -330,22 +398,24 @@ CREATE TABLE `system_schema_versions` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olusturma zamani (UTC)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_schema_versions_db_version` (`database_name`,`version`),
-  KEY `idx_schema_versions_db` (`database_name`),
   KEY `idx_schema_versions_version` (`version`),
   KEY `idx_schema_versions_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Veritabani shema versiyon takibi (migration gecmisi)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_services`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_services` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 (PHP katmaninda uretilir)',
-  `service_code` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kisa kod (§10): control, media, audio, device, network, ai, download',
-  `service_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Gorunur ad (§10)',
-  `port_primary` int unsigned DEFAULT NULL COMMENT 'Birincil port (§11: 81/5000/9741/3001 ...; NULL = atanmamis)',
-  `port_secondary` int unsigned DEFAULT NULL COMMENT 'Ikincil port (§11: 6000 media, 9742 audio WS)',
-  `protocol` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http' COMMENT 'Protokol (§10: HTTP/REST/WS/BLE/WiFi/WebRTC/Internal)',
-  `stack` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Teknoloji (§10: PHP 8.4, C++20 JUCE, Node.js+TS ...)',
+  `service_code` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kisa kod (┬ğ10): control, media, audio, device, network, ai, download',
+  `service_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Gorunur ad (┬ğ10)',
+  `port_primary` int unsigned DEFAULT NULL COMMENT 'Birincil port (┬ğ11: 81/5000/9741/3001 ...; NULL = atanmamis)',
+  `port_secondary` int unsigned DEFAULT NULL COMMENT 'Ikincil port (┬ğ11: 6000 media, 9742 audio WS)',
+  `protocol` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'http' COMMENT 'Protokol (┬ğ10: HTTP/REST/WS/BLE/WiFi/WebRTC/Internal)',
+  `stack` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Teknoloji (┬ğ10: PHP 8.4, C++20 JUCE, Node.js+TS ...)',
   `base_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Temel URL (varsa)',
-  `lifecycle` enum('active','planned','deprecated') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'planned' COMMENT '§9 hedef-mimari notu: kanitlanan aktif servis yoksa planned',
-  `status` enum('up','degraded','down') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'down' COMMENT 'Canli saglik (varsayilan down — olcum yokken dürüst deger)',
+  `lifecycle` enum('active','planned','deprecated') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'planned' COMMENT '┬ğ9 hedef-mimari notu: kanitlanan aktif servis yoksa planned',
+  `status` enum('up','degraded','down') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'down' COMMENT 'Canli saglik (varsayilan down ÔÇö olcum yokken d├╝r├╝st deger)',
   `config` json DEFAULT NULL COMMENT 'Kontrollu JSON ek yapilandirma (karar #9)',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -354,17 +424,11 @@ CREATE TABLE `system_services` (
   UNIQUE KEY `uk_services_code` (`service_code`),
   KEY `idx_services_lifecycle` (`lifecycle`),
   KEY `idx_services_port` (`port_primary`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cekirdek servis kayit defteri (.ai/CLAUDE.md §10/§11 — OS servis tablosu)';
-
-INSERT INTO `system_services` (`id`,`service_code`,`service_name`,`port_primary`,`port_secondary`,`protocol`,`stack`,`base_url`,`lifecycle`,`status`,`config`,`created_at`,`updated_at`,`deleted_at`) VALUES
-(X'49d9779dc27f11f1a14f00155de6b252','control','Control Service',81,NULL,'HTTP','PHP 8.4',NULL,'active','down',NULL,'2026-10-07 21:45:38','2026-10-07 21:45:38',NULL),
-(X'49d9b7ffc27f11f1a14f00155de6b252','media','Media Service',5000,6000,'HTTP','PHP + FFmpeg',NULL,'active','down',NULL,'2026-10-07 21:45:38','2026-10-07 21:45:38',NULL),
-(X'49d9b9f7c27f11f1a14f00155de6b252','audio','Audio Service',9741,9742,'REST/WS','C++20 JUCE',NULL,'planned','down',NULL,'2026-10-07 21:45:38','2026-10-07 21:45:38',NULL),
-(X'49d9ba61c27f11f1a14f00155de6b252','device','Device Service',NULL,NULL,'BLE/WiFi/USB','C++20',NULL,'planned','down',NULL,'2026-10-07 21:45:38','2026-10-07 21:45:38',NULL),
-(X'49d9babbc27f11f1a14f00155de6b252','network','Network Audio',NULL,NULL,'WebRTC/P2P','C++20',NULL,'planned','down',NULL,'2026-10-07 21:45:38','2026-10-07 21:45:38',NULL),
-(X'49d9bf05c27f11f1a14f00155de6b252','ai','AI Service',NULL,NULL,'Internal','PHP + Python',NULL,'planned','down',NULL,'2026-10-07 21:45:38','2026-10-07 21:45:38',NULL),
-(X'49d9bf77c27f11f1a14f00155de6b252','download','Download Service',3001,NULL,'HTTP/WS','Node.js + TS',NULL,'active','down',NULL,'2026-10-07 21:45:38','2026-10-07 21:45:38',NULL);
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cekirdek servis kayit defteri (.ai/CLAUDE.md ┬ğ10/┬ğ11 ÔÇö OS servis tablosu)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_settings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_settings` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `setting_key` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Ayar anahtari (benzersiz)',
@@ -379,20 +443,24 @@ CREATE TABLE `system_settings` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme zamani (UTC)',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Silindi mi? (soft delete)',
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamani (UTC)',
+  `deleted_key` bigint GENERATED ALWAYS AS (if((`is_deleted` = 0),0,to_seconds(`deleted_at`))) STORED,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_system_settings_key` (`setting_key`),
+  UNIQUE KEY `uk_system_settings_key` (`setting_key`,`deleted_key`),
   KEY `idx_system_settings_group` (`setting_group`),
   KEY `idx_system_settings_public` (`is_public`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sistem ayarlari ve konfigurasyon parametreleri';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_storage_mounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_storage_mounts` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 (PHP katmaninda uretilir)',
   `mount_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kisa ad (orn: library-main, nas-archive)',
   `mount_path` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kok yol (orn: D:/CoreMusic/library, /mnt/nas/music)',
-  `storage_type` enum('local','nas','s3','external','removable') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'local' COMMENT 'Depolama turu (§14: NAS/PC/arac — teknik ENUM, karar #5)',
+  `storage_type` enum('local','nas','s3','external','removable') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'local' COMMENT 'Depolama turu (┬ğ14: NAS/PC/arac ÔÇö teknik ENUM, karar #5)',
   `is_readonly` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Salt okunur mu (dis kaynak)',
   `status` enum('mounted','unmounted','error') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unmounted' COMMENT 'Mount durumu (teknik ENUM)',
-  `config` json DEFAULT NULL COMMENT 'Kontrollu JSON ( kimlik bilgisi DEGIL — sadece yapılandırma; sır icermemeli)',
+  `config` json DEFAULT NULL COMMENT 'Kontrollu JSON ( kimlik bilgisi DEGIL ÔÇö sadece yap─▒land─▒rma; s─▒r icermemeli)',
   `last_seen_at` timestamp NULL DEFAULT NULL COMMENT 'Son erisim (saglik)',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -402,8 +470,11 @@ CREATE TABLE `system_storage_mounts` (
   KEY `idx_mounts_type` (`storage_type`),
   KEY `idx_mounts_status` (`status`),
   KEY `idx_mounts_path` (`mount_path`(100))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cekirdek mount/depolama kayit tablosu (OS mount table — §14 deployment modlari)';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cekirdek mount/depolama kayit tablosu (OS mount table ÔÇö ┬ğ14 deployment modlari)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_wifi_networks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `system_wifi_networks` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `network_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Ag adi',
@@ -427,6 +498,72 @@ CREATE TABLE `system_wifi_networks` (
   KEY `idx_wifi_network_type` (`network_type`),
   KEY `idx_wifi_network_ssid` (`ssid`),
   KEY `idx_wifi_network_auto` (`is_auto_connect`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WiFi ag bilgileri (ev, stüdyo, araba, herkese acik, misafir)';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WiFi ag bilgileri (ev, st├╝dyo, araba, herkese acik, misafir)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- SEED (KVKK onayli whitelist — yalniz bu tablolar): system_services, i18n_languages
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+LOCK TABLES `system_services` WRITE;
+/*!40000 ALTER TABLE `system_services` DISABLE KEYS */;
+INSERT INTO `system_services` (`id`, `service_code`, `service_name`, `port_primary`, `port_secondary`, `protocol`, `stack`, `base_url`, `lifecycle`, `status`, `config`, `created_at`, `updated_at`, `deleted_at`) VALUES (_binary 'I\┘wØ\┬\±íO\0]\µ▓R','control','Control Service',81,NULL,'HTTP','PHP 8.4',NULL,'active','down',NULL,'2026-10-07 18:45:38','2026-10-07 18:45:38',NULL),(_binary 'I┘À \┬\±íO\0]\µ▓R','media','Media Service',5000,6000,'HTTP','PHP + FFmpeg',NULL,'active','down',NULL,'2026-10-07 18:45:38','2026-10-07 18:45:38',NULL),(_binary 'I┘╣\¸\┬\±íO\0]\µ▓R','audio','Audio Service',9741,9742,'REST/WS','C++20 JUCE',NULL,'planned','down',NULL,'2026-10-07 18:45:38','2026-10-07 18:45:38',NULL),(_binary 'I┘║a\┬\±íO\0]\µ▓R','device','Device Service',NULL,NULL,'BLE/WiFi/USB','C++20',NULL,'planned','down',NULL,'2026-10-07 18:45:38','2026-10-07 18:45:38',NULL),(_binary 'I┘║╗\┬\±íO\0]\µ▓R','network','Network Audio',NULL,NULL,'WebRTC/P2P','C++20',NULL,'planned','down',NULL,'2026-10-07 18:45:38','2026-10-07 18:45:38',NULL),(_binary 'I┘┐\┬\±íO\0]\µ▓R','ai','AI Service',NULL,NULL,'Internal','PHP + Python',NULL,'planned','down',NULL,'2026-10-07 18:45:38','2026-10-07 18:45:38',NULL),(_binary 'I┘┐w\┬\±íO\0]\µ▓R','download','Download Service',3001,NULL,'HTTP/WS','Node.js + TS',NULL,'active','down',NULL,'2026-10-07 18:45:38','2026-10-07 18:45:38',NULL);
+/*!40000 ALTER TABLE `system_services` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+LOCK TABLES `i18n_languages` WRITE;
+/*!40000 ALTER TABLE `i18n_languages` DISABLE KEYS */;
+INSERT INTO `i18n_languages` (`id`, `code`, `name`, `native_name`, `is_default`, `is_active`, `sort_order`, `created_at`) VALUES (1,'tr','Turkish','Turkce',1,1,1,'2026-08-17 11:41:26'),(2,'en','English','English',0,1,2,'2026-08-17 11:41:26'),(3,'de','German','Deutsch',0,1,3,'2026-08-17 11:41:26'),(4,'fr','French','Francais',0,1,4,'2026-08-17 11:41:26'),(5,'es','Spanish','Espanol',0,1,5,'2026-08-17 11:41:26'),(6,'it','Italian','Italiano',0,1,6,'2026-08-17 11:41:26'),(7,'pt','Portuguese','Portugues',0,1,7,'2026-08-17 11:41:26'),(8,'ru','Russian','Russkiy',0,1,8,'2026-08-17 11:41:26'),(9,'ja','Japanese','Nihongo',0,1,9,'2026-08-17 11:41:26'),(10,'ko','Korean','Hangug-eo',0,1,10,'2026-08-17 11:41:26'),(11,'zh','Chinese','Zhongwen',0,1,11,'2026-08-17 11:41:26'),(12,'ar','Arabic','Alarabiya',0,1,12,'2026-08-17 11:41:26');
+/*!40000 ALTER TABLE `i18n_languages` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
 
 SET FOREIGN_KEY_CHECKS = 1;

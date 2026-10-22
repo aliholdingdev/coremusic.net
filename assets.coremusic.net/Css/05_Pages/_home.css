@@ -8,7 +8,7 @@
  *   uygulanmamasına yol açıyordu)
  */
 
-@import './_home-layout.css?v=20261018';
+@import '../03_Layout/_home-layout.css?v=20261022';
 @import '../04_Components/_home-components.css?v=20261007';
 @import './_home-inline.css?v=20261007';
 
@@ -112,3 +112,157 @@
   min-width: 0;
   padding-inline: var(--home-song-list-pad-start, 25px) var(--home-song-list-pad-end, 67px);
 }
+
+/* ============================================================
+   HOME COMPONENTS — 4K TV Grid (2561–3840px)
+   ============================================================ */
+@media (min-width: 2561px) and (max-width: 3840px) {
+  .home-quick-links {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-4);
+  }
+
+  .home-quick-link {
+    min-height: 56px;
+    padding: var(--sp-3) var(--sp-4);
+    font-size: 1.125rem;
+  }
+
+  .home-folder-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-6);
+  }
+
+  .home-folder {
+    padding: var(--sp-6);
+  }
+
+  .home-folder__icon {
+    font-size: 3rem;
+  }
+
+  .home-folder__name {
+    font-size: 1.125rem;
+  }
+
+  .home-recently {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-6);
+  }
+
+  .home-recently__cover {
+    border-radius: var(--r-md);
+  }
+
+  .home-recently__title {
+    font-size: 1.125rem;
+  }
+
+  .home-recently__artist {
+    font-size: 1rem;
+  }
+}
+
+/* ============================================================
+   HOME COMPONENTS — 4K Monitor Grid (≥3841px)
+   ============================================================ */
+@media (min-width: 3841px) {
+  .home-layout {
+    grid-template-columns: var(--sidebar-w) 1fr;
+    max-width: 100%; /* 4K: tam genişlik — ortalama YOK (kullanıcı kararı 2026-10-16) */
+    margin: 0;
+  }
+
+  .home-quick-links {
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--sp-4);
+  }
+
+  .home-quick-link {
+    min-height: 64px;
+    padding: var(--sp-3) var(--sp-4);
+    font-size: 1.25rem;
+  }
+
+  .home-folder-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--sp-6);
+  }
+
+  .home-folder {
+    padding: var(--sp-8);
+  }
+
+  .home-folder__icon {
+    font-size: 4rem;
+  }
+
+  .home-folder__name {
+    font-size: 1.25rem;
+  }
+
+  .home-recently {
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--sp-6);
+  }
+
+  .home-recently__cover {
+    border-radius: var(--r-md);
+  }
+
+  .home-recently__title {
+    font-size: 1.25rem;
+  }
+
+  .home-recently__artist {
+    font-size: 1.125rem;
+  }
+}
+
+/* ============================================================
+   HOME COMPONENTS — Phone Grid (≤767px)
+   ============================================================ */
+@media (max-width: 767px) {
+  .home-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .home-sidebar {
+    display: none;
+  }
+
+  .home-main {
+    padding: var(--space-2, 8px);
+  }
+
+  .home-quick-links {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2, 8px);
+  }
+
+  .home-quick-link {
+    min-height: 48px;
+    padding: var(--space-2, 8px) var(--space-3, 12px);
+  }
+
+  .home-folder-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2, 8px);
+  }
+
+  .home-folder {
+    padding: var(--space-2, 8px);
+    min-height: 48px;
+  }
+
+  .home-recently {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2, 8px);
+  }
+
+  .home-recently__cover {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm, 6px);
+  }
+}
+

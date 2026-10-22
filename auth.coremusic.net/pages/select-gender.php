@@ -29,15 +29,17 @@ if ($csrf === '') {
     error_log(json_encode(['level' => 'error', 'service' => 'auth.coremusic.net', 'message' => 'select-gender.php: csrf_token missing in session - POST /v1/auth/set-gender will be rejected']));
 }
 ?>
-<section class="lgn-page" data-gender="<?=$genderAttr?>">
+<section class="lgn-page lgn-page--select-gender" data-gender="<?=$genderAttr?>" data-page="select-gender">
 <div class="lgn-bg" aria-hidden="true"></div>
 <div class="lgn-particles" aria-hidden="true"><?php for($i=0;$i<8;$i++)echo'<div class="lgn-particle"></div>'; ?></div>
 
 <!-- HERO (left 749px) -->
 <div class="lgn-hero">
   <div class="lgn-hero__brand">
-    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-img.png" alt="" width="30" height="30">
-    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-text.png" alt="CoreMusic" class="logo-text-png">
+    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-img.png" alt="" width="30" height="30" class="lgn-hero__logo-img">
+    <a href="/home" class="site-header__logo" aria-label="CoreMusic" data-no-spa>
+      <span class="logo-core">Core</span> <span class="logo-music">Music</span>
+    </a>
   </div>
   <h1 class="lgn-hero__title"><em class="hero-title--sm">Seni</em><br><em>Tanıyalım</em></h1>
   <p class="lgn-hero__text">Deneyimini sana özel hale getirmek için bir seçim yapman yeterli.</p>
@@ -52,6 +54,7 @@ if ($csrf === '') {
 
 <!-- GLASS PANEL (right 275px, fixed dock) -->
 <div class="lgn-panel"><div class="lgn-panel__glass">
+  <!-- 1. Kısım: Üst (Avatar + Başlık) -->
   <div class="lgn-panel__inner-top">
     <div class="lgn-panel__avatar" aria-hidden="true">
       <img src="<?= ASSETS_URL ?>/Image/res-pink/girl-1.png" alt="" width="100" height="100">
@@ -61,39 +64,43 @@ if ($csrf === '') {
       <p class="lgn-panel__sub">Müzik deneyimini sana özel hale getirelim</p>
     </div>
   </div>
+
+  <!-- 2. Kısım: Orta (Select Gender Formu + Devam Et) -->
   <div class="lgn-panel__inner-mid">
-  <div class="lgn-error" id="lgn-err" role="alert" aria-live="polite"></div>
-  <form id="gender-form" method="post" action="/set-gender" class="lgn-gender-form">
-    <input type="hidden" name="csrf_token" value="<?=$csrf?>">
-    <input type="hidden" name="client_id" value="<?=htmlspecialchars($clientId, ENT_QUOTES, 'UTF-8')?>">
-    <input type="hidden" name="response_type" value="<?=htmlspecialchars($responseType, ENT_QUOTES, 'UTF-8')?>">
-    <?php if (!empty($redirectUri)): ?>
-    <input type="hidden" name="redirect_uri" value="<?=htmlspecialchars($redirectUri, ENT_QUOTES, 'UTF-8')?>">
-    <?php endif; ?>
-    <input type="hidden" name="gender" id="gender-input" value="">
+    <div class="lgn-error" id="lgn-err" role="alert" aria-live="polite"></div>
+    <form id="gender-form" method="post" action="/set-gender" class="lgn-gender-form">
+      <input type="hidden" name="csrf_token" value="<?=$csrf?>">
+      <input type="hidden" name="client_id" value="<?=htmlspecialchars($clientId, ENT_QUOTES, 'UTF-8')?>">
+      <input type="hidden" name="response_type" value="<?=htmlspecialchars($responseType, ENT_QUOTES, 'UTF-8')?>">
+      <?php if (!empty($redirectUri)): ?>
+      <input type="hidden" name="redirect_uri" value="<?=htmlspecialchars($redirectUri, ENT_QUOTES, 'UTF-8')?>">
+      <?php endif; ?>
+      <input type="hidden" name="gender" id="gender-input" value="">
 
-    <button type="button" class="lgn-gender-btn" data-gender="female" aria-label="Kız seçeneğini seç">
-      <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/kız-gender-select.png" alt="Kız" width="20" height="20"></span>
-      <span class="lgn-gender-btn__info"><strong>Kız</strong><small>Romantik, soft vibes</small></span>
-    </button>
+      <button type="button" class="lgn-gender-btn" data-gender="female" aria-label="Kız seçeneğini seç">
+        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/kız-gender-select.png" alt="Kız" width="20" height="20"></span>
+        <span class="lgn-gender-btn__info"><strong>Kız</strong><small>Romantik, soft vibes</small></span>
+      </button>
 
-    <button type="button" class="lgn-gender-btn" data-gender="male" aria-label="Erkek seçeneğini seç">
-      <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/erkek-gender-select.png" alt="Erkek" width="20" height="20"></span>
-      <span class="lgn-gender-btn__info"><strong>Erkek</strong><small>Modern , cool vibes</small></span>
-    </button>
+      <button type="button" class="lgn-gender-btn" data-gender="male" aria-label="Erkek seçeneğini seç">
+        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/erkek-gender-select.png" alt="Erkek" width="20" height="20"></span>
+        <span class="lgn-gender-btn__info"><strong>Erkek</strong><small>Modern , cool vibes</small></span>
+      </button>
 
-    <button type="button" class="lgn-gender-btn" data-gender="neutral" aria-label="Cinsiyetimi söylemek istemiyorum">
-      <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/notur-gender-select.png" alt="Nötr" width="20" height="20"></span>
-      <span class="lgn-gender-btn__info"><strong>Cinsiyetimi söylemek istemiyorum</strong><small>Genel, soft netural vibes</small></span>
-    </button>
+      <button type="button" class="lgn-gender-btn" data-gender="neutral" aria-label="Cinsiyetimi söylemek istemiyorum">
+        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/notur-gender-select.png" alt="Nötr" width="20" height="20"></span>
+        <span class="lgn-gender-btn__info"><strong>Cinsiyetimi söylemek istemiyorum</strong><small>Genel, soft netural vibes</small></span>
+      </button>
 
-    <button type="submit" class="lgn-btn" id="continue-btn" disabled>Devam Et</button>
-  </form>
+      <button type="submit" class="lgn-btn" id="continue-btn" disabled>Devam Et</button>
+    </form>
   </div>
-  <div class="lgn-panel__art" aria-hidden="true">
-    <img src="<?= ASSETS_URL ?>/Image/res-pink/banner/login-text.png" alt="" width="196" height="130" class="lgn-panel__poem-img">
-  </div>
+
+  <!-- 3. Kısım: Alt (Text İllüstrasyon / Şiir + Gizlilik Linki) -->
   <div class="lgn-panel__inner-bot">
+    <div class="lgn-panel__art" aria-hidden="true">
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/banner/login-text.png" alt="" width="196" height="130" class="lgn-panel__poem-img">
+    </div>
     <p class="lgn-foot-link">Devam ederek <a href="/privacy" data-no-spa>Gizlilik Politikası</a>'nı kabul etmiş olursunuz.</p>
   </div>
 </div></div>

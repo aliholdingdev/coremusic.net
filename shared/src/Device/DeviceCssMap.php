@@ -25,6 +25,16 @@ final class DeviceCssMap
         '4k-monitor' => '08_Devices/d-auth-4k-monitor.css',
     ];
 
+    private const ADMIN_DEVICE_CSS = [
+        'embedded'   => '08_Devices/d-admin-embedded.css',
+        'phone'      => '08_Devices/d-admin-phone.css',
+        'tablet'     => '08_Devices/d-admin-tablet.css',
+        'laptop'     => '08_Devices/d-admin-laptop.css',
+        'desktop'    => '08_Devices/d-admin-desktop.css',
+        '4k-tv'      => '08_Devices/d-admin-4k-tv.css',
+        '4k-monitor' => '08_Devices/d-admin-4k-monitor.css',
+    ];
+
     private const VIEW_MODE_CSS = [
         'home'    => '09_ViewModes/v-home.css',
         'pro'     => '09_ViewModes/v-pro.css',
@@ -45,7 +55,7 @@ final class DeviceCssMap
 
     public static function adminToCssPath(string $deviceType = 'desktop'): string
     {
-        return '08_Devices/d-admin-1920.css';
+        return self::ADMIN_DEVICE_CSS[$deviceType] ?? self::ADMIN_DEVICE_CSS['desktop'];
     }
 
     public static function viewModeToCssPath(string $viewMode): string

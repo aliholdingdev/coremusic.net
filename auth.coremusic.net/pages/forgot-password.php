@@ -25,8 +25,10 @@ if ($csrfTokenEsc === '') {
 <!-- HERO (left 78%) -->
 <div class="lgn-hero">
   <div class="lgn-hero__brand">
-    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-img.png" alt="" width="40" height="40">
-    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-text.png" alt="CoreMusic" class="logo-text-png">
+    <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-img.png" alt="" width="30" height="30" class="lgn-hero__logo-img">
+    <a href="/home" class="site-header__logo" aria-label="CoreMusic" data-no-spa>
+      <span class="logo-core">Core</span> <span class="logo-music">Music</span>
+    </a>
   </div>
   <h1 class="lgn-hero__title">Şifreni<br><em>sıfırla</em></h1>
   <p class="lgn-hero__text">E-posta adresini gir, sana sıfırlama bağlantısı gönderelim.</p>
@@ -42,7 +44,7 @@ if ($csrfTokenEsc === '') {
 <div class="lgn-panel"><div class="lgn-panel__glass">
   <div class="lgn-panel__inner-top">
     <div class="lgn-panel__avatar" aria-hidden="true">
-      <img src="<?= ASSETS_URL ?>/Image/res-pink/kız-gender-select.png" alt="" width="64" height="64">
+      <img src="<?= ASSETS_URL ?>/Image/res-pink/girl-1.png" alt="" width="100" height="100">
     </div>
     <div class="lgn-panel__head">
       <h2 class="lgn-panel__title">Şifremi Unuttum</h2>

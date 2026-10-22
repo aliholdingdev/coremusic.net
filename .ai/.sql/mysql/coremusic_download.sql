@@ -1,9 +1,9 @@
 -- =========================================================================
--- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
--- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
--- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
--- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
--- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
+-- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
+-- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7)
+-- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
+-- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
 
 SET NAMES utf8mb4;
@@ -15,6 +15,19 @@ CREATE DATABASE IF NOT EXISTS `coremusic_download`
 
 USE `coremusic_download`;
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `download_cache`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `download_cache` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `file_hash` char(64) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -27,13 +40,17 @@ CREATE TABLE `download_cache` (
   `access_count` int unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_dc_hash` (`file_hash`),
+  UNIQUE KEY `uq_dc_source_source_id` (`source`,`source_id`),
   KEY `idx_dc_source` (`source`),
   KEY `idx_dc_source_id` (`source`,`source_id`),
   KEY `idx_dc_accessed` (`last_accessed_at` DESC),
   KEY `idx_dc_count` (`access_count` DESC),
   CONSTRAINT `download_cache_chk_1` CHECK ((`source` in (_utf8mb4'deezer',_utf8mb4'youtube',_utf8mb4'spotify',_utf8mb4'soundcloud')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `download_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `download_history` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -52,7 +69,10 @@ CREATE TABLE `download_history` (
   KEY `idx_dh_hash` (`file_hash`),
   CONSTRAINT `download_history_chk_1` CHECK ((`source` in (_utf8mb4'deezer',_utf8mb4'youtube',_utf8mb4'spotify',_utf8mb4'soundcloud')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `download_queue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `download_queue` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -65,7 +85,9 @@ CREATE TABLE `download_queue` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `started_at` datetime DEFAULT NULL,
   `completed_at` datetime DEFAULT NULL,
+  `active_key` tinyint unsigned GENERATED ALWAYS AS (if((`status` in (_utf8mb4'queued',_utf8mb4'processing')),1,NULL)) STORED,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_dq_user_track_active` (`user_id`,`track_id`,`active_key`),
   KEY `idx_dq_user` (`user_id`),
   KEY `idx_dq_track` (`track_id`),
   KEY `idx_dq_status` (`status`),
@@ -76,7 +98,10 @@ CREATE TABLE `download_queue` (
   CONSTRAINT `download_queue_chk_2` CHECK ((`status` in (_utf8mb4'queued',_utf8mb4'processing',_utf8mb4'completed',_utf8mb4'failed'))),
   CONSTRAINT `download_queue_chk_3` CHECK ((`priority` between 0 and 255))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `download_sources`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `download_sources` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -95,5 +120,15 @@ CREATE TABLE `download_sources` (
   KEY `idx_ds_quota` (`quota_remaining`),
   CONSTRAINT `download_sources_chk_1` CHECK ((`source` in (_utf8mb4'deezer',_utf8mb4'youtube',_utf8mb4'spotify',_utf8mb4'soundcloud')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 SET FOREIGN_KEY_CHECKS = 1;

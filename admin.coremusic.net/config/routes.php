@@ -12,35 +12,7 @@ return [
     // G2 (2026-10-19): /login ve /register = admin'in KENDİ Figma formlarının
     // takma adları — auth domain redirect YOK. 302 hedefi config/bootstrap.php'de
     // kernel ÖNCESİ uygulanır (AuthGuard shared AuthRouteConfig ile bu URI'leri
-    // auth.coremusic.net'e atardı). Canonical kayıtlar: admin-login/admin-register.
-    'login' => new SpaRoute(
-        page: 'admin-login',
-        requiresAuth: false,
-        title: 'Yönetici Girişi',
-        cacheable: false,
-    ),
-    'register' => new SpaRoute(
-        page: 'admin-register',
-        requiresAuth: false,
-        title: 'Kayıt',
-        cacheable: false,
-    ),
-
-    // Görev D: admin'in KENDİ formları (figma) — yönlendirme DEĞİL; form
-    // fetch ile doğrudan auth API'sine (POST /v1/auth/login|register) gider.
-    // CSP form-action 'self' nedeniyle çapraz-origin native POST engellenir.
-    'admin-login' => new SpaRoute(
-        page: 'admin-login',
-        requiresAuth: false,
-        title: 'Yönetici Girişi',
-        cacheable: false,
-    ),
-    'admin-register' => new SpaRoute(
-        page: 'admin-register',
-        requiresAuth: false,
-        title: 'Yönetici Kaydı',
-        cacheable: false,
-    ),
+    // auth.coremusic.net'e atardı). Canonical kayıtlar: admin-login/admin-register
 
     // Auth callback (cross-domain session transfer — bootstrap'te kernel ÖNCESİ
     // işlenir: doğrulama + session oluşturup302 ile /admin-dashboard'a atar,

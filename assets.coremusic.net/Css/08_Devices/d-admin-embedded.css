@@ -1,0 +1,47 @@
+/**
+ * Dosya: d-admin-embedded.css
+ * Katman: 08_Devices — Admin Embedded Cihaz Paketi (Araç / Gömülü Sistemler)
+ * Rol: Admin Embedded cihaz paketi — ITCSS katman @import bundle
+ * Kural: İçinde doğrudan CSS kodu barındırmaz, yalnızca @import içerir (ITCSS SSOT)
+ * Bağımlılık: 01_Abstracts -> 02_Base -> 03_Layout -> 04_Components -> 05_Pages -> 06_Utilities -> 09_ViewModes -> 10_Helpers
+ */
+
+/* 01_Abstracts — Tokens & Mixins */
+@import url("../01_Abstracts/a-fonts-token.css?v=2.2.0");
+@import url("../01_Abstracts/a-color-mode-tokens.css?v=2.2.0");
+@import url("../01_Abstracts/a-light-glass-tokens.css?v=2.2.0");
+@import url("../01_Abstracts/a-admin-tokens.css?v=2.2.0");
+@import url("../01_Abstracts/a-mixins.css?v=2.2.0");
+@import url("../01_Abstracts/a-layout-tokens-1024.css?v=2.2.0");
+
+/* 02_Base — Reset & Core Styles */
+@import url("../02_Base/b-admin-core.css?v=2.2.0");
+
+/* 03_Layout — Admin Shell & Dock Layout */
+@import url("../03_Layout/_admin-shell.css?v=2.2.0");
+
+/* 04_Components — Admin UI Components */
+@import url("../04_Components/c-adm-sidebar.css?v=2.2.0");
+@import url("../04_Components/c-adm-navbar.css?v=2.2.0");
+@import url("../04_Components/c-adm-footer.css?v=2.2.0");
+@import url("../04_Components/c-adm-panel.css?v=2.2.0");
+@import url("../04_Components/c-adm-form.css?v=2.2.0");
+@import url("../04_Components/c-adm-button.css?v=2.2.0");
+@import url("../04_Components/c-adm-auth.css?v=2.2.0");
+
+/* 05_Pages — Admin Pages */
+@import url("../05_Pages/p-admin-login.css?v=2.2.0");
+@import url("../05_Pages/p-admin-register.css?v=2.2.0");
+@import url("../05_Pages/p-admin-layout.css?v=2.2.0");
+@import url("../05_Pages/p-admin-dashboard.css?v=2.2.0");
+@import url("../05_Pages/p-admin-crud-light.css?v=2.2.0");
+@import url("../05_Pages/p-admin-auth-light.css?v=2.2.0");
+
+/* 06_Utilities — Utilities */
+@import url("../06_Utilities/u-adm-utility.css?v=2.2.0");
+
+/* 09_ViewModes — View Mode Overrides */
+@import url("../09_ViewModes/v-admin.css?v=2.2.0");
+
+/* 10_Helpers — Ellipsis & Helpers */
+@import url("../10_Helpers/h-adm-ellipsis.css?v=2.2.0");

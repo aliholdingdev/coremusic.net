@@ -1,9 +1,9 @@
 -- =========================================================================
--- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
--- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
--- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
--- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
--- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
+-- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
+-- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7)
+-- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
+-- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
 
 SET NAMES utf8mb4;
@@ -15,9 +15,22 @@ CREATE DATABASE IF NOT EXISTS `coremusic_auth`
 
 USE `coremusic_auth`;
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `admin_activity_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `admin_activity_log` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
-  `admin_user_id` binary(16) NOT NULL COMMENT 'FK → admin_users.id',
+  `admin_user_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ admin_users.id',
   `action` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Admin action description',
   `target_type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Target entity type',
   `target_id` binary(16) DEFAULT NULL COMMENT 'Target entity ID',
@@ -28,14 +41,17 @@ CREATE TABLE `admin_activity_log` (
   PRIMARY KEY (`id`),
   KEY `idx_admin_log_user` (`admin_user_id`) COMMENT 'Admin activity lookup',
   KEY `idx_admin_log_action` (`action`) COMMENT 'Action type filtering',
-  KEY `idx_admin_log_target` (`target_type`) COMMENT 'Target type filtering',
   KEY `idx_admin_log_created` (`created_at`) COMMENT 'Time-based audit queries',
+  KEY `idx_admin_log_target` (`target_type`,`target_id`),
   CONSTRAINT `fk_admin_log_user` FOREIGN KEY (`admin_user_id`) REFERENCES `admin_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Admin activity log — actions, changes, audit trail';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Admin activity log ÔÇö actions, changes, audit trail';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `admin_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `admin_users` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
-  `user_id` binary(16) NOT NULL COMMENT 'FK → users.id (unique)',
+  `user_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ users.id (unique)',
   `admin_level` enum('super_admin','admin','moderator','support') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Admin privilege level',
   `department` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Admin department',
   `can_manage_users` tinyint(1) DEFAULT '0' COMMENT 'User management permission',
@@ -51,11 +67,14 @@ CREATE TABLE `admin_users` (
   UNIQUE KEY `idx_admin_user` (`user_id`) COMMENT 'Unique admin user lookup',
   KEY `idx_admin_level` (`admin_level`) COMMENT 'Admin level filtering',
   CONSTRAINT `fk_admin_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Admin users — privilege levels, permissions';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Admin users ÔÇö privilege levels, permissions';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `api_keys`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `api_keys` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
-  `user_id` binary(16) NOT NULL COMMENT 'FK → users.id',
+  `user_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ users.id',
   `key_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'SHA-256 hash of API key',
   `key_prefix` varchar(8) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Visible key prefix for identification',
   `key_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Human-readable key label',
@@ -76,11 +95,14 @@ CREATE TABLE `api_keys` (
   KEY `idx_apikeys_prefix` (`key_prefix`) COMMENT 'Key prefix identification',
   KEY `idx_apikeys_type` (`key_type`),
   CONSTRAINT `fk_apikeys_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='API keys — external integration authentication';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='API keys ÔÇö external integration authentication';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `api_usage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `api_usage` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
-  `api_key_id` binary(16) NOT NULL COMMENT 'FK → api_keys.id',
+  `api_key_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ api_keys.id',
   `endpoint` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Requested API endpoint',
   `method` enum('GET','POST','PUT','DELETE','PATCH') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'HTTP method',
   `status_code` int DEFAULT NULL COMMENT 'HTTP response status code',
@@ -95,8 +117,11 @@ CREATE TABLE `api_usage` (
   KEY `idx_apiusage_endpoint` (`endpoint`) COMMENT 'Endpoint filtering',
   KEY `idx_apiusage_method` (`method`) COMMENT 'Method filtering',
   CONSTRAINT `fk_apiusage_key` FOREIGN KEY (`api_key_id`) REFERENCES `api_keys` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='API usage log — requests, responses, analytics';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='API usage log ÔÇö requests, responses, analytics';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `credential_audit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `credential_audit` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `credential_id` binary(16) NOT NULL,
@@ -118,11 +143,16 @@ CREATE TABLE `credential_audit` (
   KEY `idx_cau_status` (`status`),
   KEY `idx_cau_occurred` (`occurred_at` DESC),
   KEY `idx_cau_request` (`request_id`),
-  CONSTRAINT `fk_cau_vault` FOREIGN KEY (`credential_id`) REFERENCES `credential_vault` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_cau_key` FOREIGN KEY (`credential_key_id`) REFERENCES `credential_keys` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_cau_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_cau_vault` FOREIGN KEY (`credential_id`) REFERENCES `credential_vault` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `credential_audit_chk_1` CHECK ((`action` in (_utf8mb4'read',_utf8mb4'write',_utf8mb4'rotate',_utf8mb4'revoke',_utf8mb4'create'))),
   CONSTRAINT `credential_audit_chk_2` CHECK ((`status` in (_utf8mb4'allowed',_utf8mb4'denied')))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Credential audit trail — append-only access log';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Credential audit trail ÔÇö append-only access log';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `credential_keys`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `credential_keys` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `key_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -139,8 +169,11 @@ CREATE TABLE `credential_keys` (
   KEY `idx_ck_purpose` (`key_purpose`),
   KEY `idx_ck_active` (`is_active`),
   CONSTRAINT `credential_keys_chk_1` CHECK ((`key_purpose` in (_utf8mb4'credential_encryption',_utf8mb4'jwt_signing',_utf8mb4'session_encryption',_utf8mb4'api_signing')))
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Encryption key version management — hash-only, no raw keys';
-
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Encryption key version management ÔÇö hash-only, no raw keys';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `credential_vault`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `credential_vault` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
   `service_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Target service identifier',
@@ -156,29 +189,31 @@ CREATE TABLE `credential_vault` (
   `expires_at` timestamp NULL DEFAULT NULL COMMENT 'Credential expiration timestamp',
   `rotation_interval_days` int DEFAULT '90' COMMENT 'Auto-rotation interval in days',
   `metadata` json DEFAULT NULL COMMENT 'Additional metadata (JSON)',
-  `created_by` binary(16) DEFAULT NULL COMMENT 'FK → users.id — creator',
+  `created_by` binary(16) DEFAULT NULL COMMENT 'FK ÔåÆ users.id ÔÇö creator',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Record creation timestamp',
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last update timestamp',
   `is_deleted` tinyint(1) DEFAULT '0' COMMENT 'Soft delete flag',
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete timestamp',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_credential_unique` (`service_name`,`credential_name`) COMMENT 'Unique credential per service',
-  KEY `idx_credential_service` (`service_name`) COMMENT 'Service name lookup',
   KEY `idx_credential_type` (`credential_type`) COMMENT 'Credential type filtering',
   KEY `idx_credential_active` (`is_active`) COMMENT 'Active credential filtering',
   KEY `fk_credential_creator` (`created_by`),
   CONSTRAINT `fk_credential_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Credential vault — AES-256-GCM encrypted secrets';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Credential vault ÔÇö AES-256-GCM encrypted secrets';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `permission_audit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `permission_audit` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
-  `user_id` binary(16) NOT NULL COMMENT 'FK → users.id — affected user',
+  `user_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ users.id ÔÇö affected user',
   `permission` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Permission string',
   `action` enum('grant','deny','revoke','check') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Permission action',
   `resource_type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Target resource type',
   `resource_id` binary(16) DEFAULT NULL COMMENT 'Target resource ID',
   `reason` text COLLATE utf8mb4_unicode_ci COMMENT 'Reason for action',
-  `performed_by` binary(16) DEFAULT NULL COMMENT 'FK → users.id — actor',
+  `performed_by` binary(16) DEFAULT NULL COMMENT 'FK ÔåÆ users.id ÔÇö actor',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Audit event timestamp',
   PRIMARY KEY (`id`),
   KEY `idx_perm_audit_user` (`user_id`) COMMENT 'User permission audit lookup',
@@ -188,13 +223,16 @@ CREATE TABLE `permission_audit` (
   KEY `fk_perm_audit_by` (`performed_by`),
   CONSTRAINT `fk_perm_audit_by` FOREIGN KEY (`performed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_perm_audit_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Permission audit trail — grants, denials, revocations';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Permission audit trail ÔÇö grants, denials, revocations';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_assigned_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_assigned_roles` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
-  `user_id` binary(16) NOT NULL COMMENT 'FK → users.id',
-  `role_id` binary(16) NOT NULL COMMENT 'FK → user_roles.id',
-  `assigned_by` binary(16) DEFAULT NULL COMMENT 'FK → users.id — who assigned this role',
+  `user_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ users.id',
+  `role_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ user_roles.id',
+  `assigned_by` binary(16) DEFAULT NULL COMMENT 'FK ÔåÆ users.id ÔÇö who assigned this role',
   `assigned_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Assignment timestamp',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Record creation timestamp',
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last update timestamp',
@@ -202,14 +240,16 @@ CREATE TABLE `user_assigned_roles` (
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete timestamp',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assigned_roles_unique` (`user_id`,`role_id`) COMMENT 'Prevent duplicate assignments',
-  KEY `idx_assigned_roles_user` (`user_id`) COMMENT 'User role lookup',
   KEY `idx_assigned_roles_role` (`role_id`) COMMENT 'Role member lookup',
   KEY `fk_assigned_roles_by` (`assigned_by`),
   CONSTRAINT `fk_assigned_roles_by` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_assigned_roles_role` FOREIGN KEY (`role_id`) REFERENCES `user_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_assigned_roles_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User-role assignment junction — RBAC bindings';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User-role assignment junction ÔÇö RBAC bindings';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_roles` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
   `role_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unique role identifier',
@@ -222,11 +262,14 @@ CREATE TABLE `user_roles` (
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete timestamp',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_user_roles_name` (`role_name`) COMMENT 'Unique role name lookup'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='RBAC role definitions — permissions, system roles';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='RBAC role definitions ÔÇö permissions, system roles';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_sessions` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
-  `user_id` binary(16) NOT NULL COMMENT 'FK → users.id',
+  `user_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ users.id',
   `session_token_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'SHA-256 hash of session token',
   `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Client IP (IPv4/IPv6)',
   `user_agent` text COLLATE utf8mb4_unicode_ci COMMENT 'Browser/client user agent string',
@@ -244,11 +287,14 @@ CREATE TABLE `user_sessions` (
   KEY `idx_sessions_active` (`is_active`) COMMENT 'Active session filtering',
   KEY `idx_sessions_expires` (`expires_at`) COMMENT 'Expiry cleanup index',
   CONSTRAINT `fk_sessions_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User sessions — authentication, tracking, expiry';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User sessions ÔÇö authentication, tracking, expiry';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_tokens` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
-  `user_id` binary(16) NOT NULL COMMENT 'FK → users.id',
+  `user_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ users.id',
   `token_type` enum('password_reset','email_verify','api_key','refresh','access') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Token purpose',
   `token_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'SHA-256 hash of token value',
   `token_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Human-readable token label',
@@ -261,12 +307,15 @@ CREATE TABLE `user_tokens` (
   `is_deleted` tinyint(1) DEFAULT '0' COMMENT 'Soft delete flag',
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete timestamp',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_tokens_hash` (`token_hash`),
   KEY `idx_tokens_user_type` (`user_id`,`token_type`) COMMENT 'User token type lookup',
-  KEY `idx_tokens_hash` (`token_hash`) COMMENT 'Token hash lookup',
   KEY `idx_tokens_expires` (`expires_at`) COMMENT 'Expiry cleanup index',
   CONSTRAINT `fk_tokens_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User tokens — reset, verify, API, refresh, access';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User tokens ÔÇö reset, verify, API, refresh, access';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 primary key',
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unique login username',
@@ -293,6 +342,16 @@ CREATE TABLE `users` (
   KEY `idx_users_is_active` (`is_active`) COMMENT 'Active user filtering',
   KEY `idx_users_account_type` (`account_type`) COMMENT 'Account tier filtering',
   KEY `idx_users_is_banned` (`is_banned`) COMMENT 'Banned user filtering'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Core user accounts — authentication, profiles, state';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Core user accounts ÔÇö authentication, profiles, state';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 SET FOREIGN_KEY_CHECKS = 1;

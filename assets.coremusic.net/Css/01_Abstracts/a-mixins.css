@@ -73,7 +73,7 @@
 
 /* ------------------------------------------------------------
    T6 — Reduced-motion (killing: fade + slide → 0ms).
-   Uygulama: 08_Devices/d-admin-1920.css içinde (kural: her
+   Uygulama: 08_Devices/d-admin-desktop.css içinde (kural: her
    @media SADECE 08'de). İki özellik, toplam özelik-işareti
    sınırı 3'ün altında kalır; aksesuar süreleri transform/
    opacity'e kilitli (ADR-018).

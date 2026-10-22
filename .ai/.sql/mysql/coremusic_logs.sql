@@ -1,9 +1,9 @@
 -- =========================================================================
--- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
--- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
--- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
--- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
--- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
+-- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
+-- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7)
+-- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
+-- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
 
 SET NAMES utf8mb4;
@@ -15,6 +15,19 @@ CREATE DATABASE IF NOT EXISTS `coremusic_logs`
 
 USE `coremusic_logs`;
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `analytics_daily_genre`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_daily_genre` (
   `id` binary(16) NOT NULL,
   `genre_id` binary(16) NOT NULL,
@@ -30,7 +43,10 @@ CREATE TABLE `analytics_daily_genre` (
   KEY `idx_daily_genre_stat_date` (`stat_date`),
   KEY `idx_daily_genre_trending_score` (`trending_score`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Daily genre performance analytics for trending and genre-based recommendations';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `analytics_daily_music`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_daily_music` (
   `id` binary(16) NOT NULL,
   `music_id` binary(16) NOT NULL,
@@ -48,7 +64,10 @@ CREATE TABLE `analytics_daily_music` (
   KEY `idx_daily_music_stat_date` (`stat_date`),
   KEY `idx_daily_music_play_count` (`play_count`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Daily music performance analytics for trending and recommendations';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `analytics_daily_platform`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_daily_platform` (
   `id` binary(16) NOT NULL,
   `stat_date` date NOT NULL,
@@ -67,7 +86,10 @@ CREATE TABLE `analytics_daily_platform` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_daily_platform_date` (`stat_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Daily platform-wide analytics for business metrics and growth tracking';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `analytics_daily_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_daily_users` (
   `id` binary(16) NOT NULL,
   `user_id` binary(16) NOT NULL,
@@ -88,7 +110,10 @@ CREATE TABLE `analytics_daily_users` (
   KEY `idx_daily_users_stat_date` (`stat_date`),
   KEY `idx_daily_users_total_plays` (`total_plays`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Daily user analytics for reporting, insights, and recommendations';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `analytics_performance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_performance` (
   `id` binary(16) NOT NULL,
   `metric_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -105,7 +130,10 @@ CREATE TABLE `analytics_performance` (
   KEY `idx_performance_endpoint` (`endpoint`),
   KEY `idx_performance_metric_created` (`metric_name`,`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='API and system performance metrics for monitoring and optimization';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `analytics_realtime_events`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_realtime_events` (
   `id` binary(16) NOT NULL,
   `event_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -120,7 +148,10 @@ CREATE TABLE `analytics_realtime_events` (
   KEY `idx_realtime_events_created_at` (`created_at`),
   KEY `idx_realtime_events_type_created` (`event_type`,`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Real-time event tracking for live dashboards and monitoring';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `analytics_retention`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_retention` (
   `id` binary(16) NOT NULL,
   `user_id` binary(16) NOT NULL,
@@ -133,7 +164,10 @@ CREATE TABLE `analytics_retention` (
   UNIQUE KEY `uk_retention_user_period_type_date` (`user_id`,`retention_period`,`metric_type`,`stat_date`),
   KEY `idx_retention_stat_date` (`stat_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User retention metrics for business analytics and growth tracking';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `analytics_storage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_storage` (
   `id` binary(16) NOT NULL,
   `storage_type` enum('audio','image','cache','database','log','backup','other') COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -144,10 +178,14 @@ CREATE TABLE `analytics_storage` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_storage_type_path` (`storage_type`,`storage_path`),
   KEY `idx_storage_type` (`storage_type`),
   KEY `idx_storage_path` (`storage_path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Storage usage analytics for capacity planning and optimization';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `audit_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `audit_logs` (
   `id` binary(16) NOT NULL,
   `user_id` binary(16) DEFAULT NULL,
@@ -165,9 +203,13 @@ CREATE TABLE `audit_logs` (
   KEY `idx_audit_logs_action` (`action`),
   KEY `idx_audit_logs_entity_type` (`entity_type`),
   KEY `idx_audit_logs_created_at` (`created_at`),
-  KEY `idx_audit_logs_user_created` (`user_id`,`created_at`)
+  KEY `idx_audit_logs_user_created` (`user_id`,`created_at`),
+  KEY `idx_audit_logs_entity` (`entity_type`,`entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Audit trail for all critical system actions and data changes';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `daily_stats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `daily_stats` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `stats_date` date NOT NULL,
@@ -195,7 +237,10 @@ CREATE TABLE `daily_stats` (
   KEY `idx_ds_plays` (`total_plays` DESC),
   KEY `idx_ds_listen` (`total_listen_ms` DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Gunluk ozet istatistikler (cron job ile doldurulur)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `error_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `error_logs` (
   `id` binary(16) NOT NULL,
   `error_level` enum('info','warning','error','critical','fatal') COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -220,7 +265,10 @@ CREATE TABLE `error_logs` (
   KEY `idx_error_logs_user_id` (`user_id`),
   KEY `idx_error_logs_level_created` (`error_level`,`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Application error and exception logging for debugging and monitoring';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `log_activity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `log_activity` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `correlation_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -242,9 +290,13 @@ CREATE TABLE `log_activity` (
   KEY `idx_la_user_action` (`user_id`,`action`),
   KEY `idx_la_user_created` (`user_id`,`created_at`),
   KEY `idx_la_action_created` (`action`,`created_at`),
+  KEY `idx_la_correlation_id` (`correlation_id`),
   FULLTEXT KEY `ft_la_entity_name` (`entity_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Kullanici aktivite loglari - CRUD, dinleme, arama';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `log_events`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `log_events` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `correlation_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'UUID v4 - istek takip kimligi',
@@ -271,7 +323,10 @@ CREATE TABLE `log_events` (
   KEY `idx_le_created_level` (`created_at`,`level`),
   FULLTEXT KEY `ft_le_message` (`message`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Genel olay loglari - PSR-3 uyumlu deep logging';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `log_performance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `log_performance` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `correlation_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -290,9 +345,13 @@ CREATE TABLE `log_performance` (
   KEY `idx_lp_user_id` (`user_id`),
   KEY `idx_lp_metric_type_created` (`metric_type`,`created_at`),
   KEY `idx_lp_created_metric` (`created_at`,`metric_type`),
+  KEY `idx_lp_correlation_id` (`correlation_id`),
   FULLTEXT KEY `ft_lp_metric_name` (`metric_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Performans metrik loglari - query time, TTFB, memory';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `log_security`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `log_security` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `correlation_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -316,9 +375,13 @@ CREATE TABLE `log_security` (
   KEY `idx_ls_user_id` (`user_id`),
   KEY `idx_ls_severity_created` (`severity`,`created_at`),
   KEY `idx_ls_event_type_created` (`event_type`,`created_at`),
+  KEY `idx_ls_correlation_id` (`correlation_id`),
   FULLTEXT KEY `ft_ls_uri` (`request_uri`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Guvenlik olay loglari - OWASP Top 10:2025 uyumlu';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `log_system`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `log_system` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `correlation_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -335,9 +398,13 @@ CREATE TABLE `log_system` (
   KEY `idx_lsys_component` (`component`),
   KEY `idx_lsys_severity_created` (`severity`,`created_at`),
   KEY `idx_lsys_event_type_created` (`event_type`,`created_at`),
+  KEY `idx_lsys_correlation_id` (`correlation_id`),
   FULLTEXT KEY `ft_lsys_message` (`message`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sistem olay loglari - servis, cron, deployment';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `page_views`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `page_views` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user_id` binary(16) DEFAULT NULL COMMENT 'NULL = anonim',
@@ -363,7 +430,10 @@ CREATE TABLE `page_views` (
   KEY `idx_pv_loadtime` (`load_time_ms`),
   KEY `idx_pv_viewed` (`viewed_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sayfa goruntuleme loglari (PARTITION yok, basitlestirilmis)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `performance_metrics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `performance_metrics` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `metric_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -378,7 +448,10 @@ CREATE TABLE `performance_metrics` (
   KEY `idx_pm_name_time` (`metric_name`,`sampled_at` DESC),
   CONSTRAINT `performance_metrics_chk_1` CHECK ((`source` in (_utf8mb4'app',_utf8mb4'db',_utf8mb4'cache',_utf8mb4'engine',_utf8mb4'download')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Uygulama/sunucu performans metrikleri (API, DB, cache, engine, download)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `rate_limit_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `rate_limit_logs` (
   `id` binary(16) NOT NULL,
   `identifier` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -390,11 +463,15 @@ CREATE TABLE `rate_limit_logs` (
   `is_blocked` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_rate_limit_identifier_window` (`identifier`,`identifier_type`,`window_start`),
   KEY `idx_rate_limit_identifier` (`identifier`,`identifier_type`),
   KEY `idx_rate_limit_window_start` (`window_start`),
   KEY `idx_rate_limit_blocked` (`is_blocked`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Rate limiting tracking for API security and abuse prevention';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `search_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `search_logs` (
   `id` binary(16) NOT NULL,
   `user_id` binary(16) DEFAULT NULL,
@@ -412,7 +489,10 @@ CREATE TABLE `search_logs` (
   KEY `idx_search_logs_created_at` (`created_at`),
   FULLTEXT KEY `ft_search_logs_query` (`search_query`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Search query logging for analytics, search improvement, and trending analysis';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_activity_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_activity_logs` (
   `id` binary(16) NOT NULL,
   `user_id` binary(16) NOT NULL,
@@ -429,7 +509,10 @@ CREATE TABLE `user_activity_logs` (
   KEY `idx_user_activity_created_at` (`created_at`),
   KEY `idx_user_activity_user_type` (`user_id`,`activity_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User activity tracking for analytics, personalization, and recommendations';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_events`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_events` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user_id` binary(16) NOT NULL,
@@ -448,5 +531,15 @@ CREATE TABLE `user_events` (
   KEY `idx_ue_occurred` (`occurred_at` DESC),
   KEY `idx_ue_page` (`page_url`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Kullanici etkilesim olaylari (tiklama, oynatma, arama, ...)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -1,167 +1,249 @@
 /* ============================================================
    c-adm-auth.css — Admin (04_Components · C07)
-   Block: .adm-auth — sağ auth paneli içerikleri (kabuk zemin/
-   konum → 03_Layout)
-   Ortak figma: başlık 2161:12520/12532 · alt başlık 12521/12533
-   ikon 50×50 @1645 · qr blok y941 (her iki ekran)
-   KAPI: ham hex/px YOK · @media YOK · geçiş transform/opacity
+   Block: .adm-auth — sağ auth paneli içerikleri
+   Ortak figma/select-gender standardı:
+   - Başlık: Plus Jakarta Sans 13px / 600
+   - Alt başlık: DM Sans 10px / 300
+   - Bilgi notu: Saydam kristal cam kart (20px ikon + 8.5px metin)
+   - QR blok: Kompakt cam kart (18×36 telefon + 8px metin)
+   - Footer: 8.5px beyaz link
    ============================================================ */
 
-/* Başlık — ölçekli text (style 7 figma / bbox 313×32 →
-   render ≈ --adm-fs-auth-title ⚠️)
-   00543 (extracted §7.3) · 1514,107 → panel-rel ortalanmış */
+/* Başlık */
 .adm-auth__title {
-  position: absolute;
-  top: var(--adm-auth-title-top);
-  left: 50%;
-  width: var(--adm-auth-title-w);
-  height: var(--adm-auth-title-h);
-  margin: 0;
-  transform: translateX(-50%);
-  font-family: var(--adm-font-label);
-  font-size: var(--adm-fs-auth-title);
-  font-weight: var(--adm-fw-reg);
-  line-height: var(--adm-lh-tight);
-  color: var(--adm-c-text);
+  position: relative;
+  width: 100%;
+  margin: 0 0 3px 0;
   text-align: center;
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.40);
 }
 
-/* Alt başlık — "Sisteme Giriş Yapın" 1587,169 → 166×25 */
+/* Alt başlık */
 .adm-auth__subtitle {
-  position: absolute;
-  top: var(--adm-auth-subtitle-top);
-  left: 50%;
-  width: var(--adm-auth-subtitle-w);
-  height: var(--adm-auth-subtitle-h);
-  margin: 0;
-  transform: translateX(-50%);
-  font-family: var(--adm-font-label);
-  font-size: var(--adm-fs-subtitle);
-  font-weight: var(--adm-fw-reg);
-  line-height: var(--adm-lh-tight);
-  color: var(--adm-c-text);
+  position: relative;
+  width: 100%;
+  margin: 0 0 10px 0;
   text-align: center;
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 13px;
+  color: #dcdcdc;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.30);
 }
-
-/* Not ikonu — 50×50 @1645 → panel-rel x225 (panel merkezi).
-   Konum: sayfa katmanında (note-top bağlamı) — p-admin-*.
-   DOM sırası (spec §7): başlık → bilgi notu → form → buton → qr
-   → AYRI başlık-ikoni YOK (spec'te çizim yok, uydurulmadı). */
 
 /* ------------------------------------------------------------
-   Bilgi notu — ikon + çok satırlı metin (16/500, lh 1.4,
-   gölge (0,0.5) r4 α.80 · 2161:12518 / 12548)
-   Band top/büküm: 05_Pages (login 261 · register 239)
+   Bilgi notu — Kristal cam kutu (20px ikon + 8.5px metin)
    ------------------------------------------------------------ */
 .adm-auth__note {
-  position: absolute;
-  left: var(--adm-login-note-x);
-  width: var(--adm-login-note-w);
-  text-align: center;
+  position: relative;
+  width: 100%;
+  margin: 0 0 10px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 5px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 7px 9px;
+  box-sizing: border-box;
 }
 
 .adm-auth__note-icon {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  max-width: 20px;
+  flex-shrink: 0;
   display: block;
-  margin: 0 auto;
+  margin: 0;
   object-fit: contain;
 }
 
 .adm-auth__note-text {
+  width: auto;
+  flex: 1;
   margin: 0;
-  font-family: var(--adm-font-ui);
-  font-size: var(--adm-fs-note);
-  font-weight: var(--adm-fw-med);
-  line-height: var(--adm-lh-note);
-  color: var(--adm-c-text);
-  text-shadow: var(--adm-shadow-info);
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+  font-size: 8.5px;
+  line-height: 11.5px;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
+  text-align: left;
 }
 
-/* ------------------------------------------------------------
-   Form bölge — satır top'ları 05_Pages (figma mutlak ofsetler)
-   ------------------------------------------------------------ */
+/* Form Bölgesi */
 .adm-auth__form {
-  position: absolute;
+  position: relative;
+  width: 100%;
+  margin: 0 0 8px 0;
 }
 
 /* ------------------------------------------------------------
-   QR blok — y941 h100 · block-rel ölçüler (2161:12522 / 12550)
+   QR blok — Kompakt kristal cam kart
    ------------------------------------------------------------ */
 .adm-auth__qr {
-  position: absolute;
-  top: var(--adm-auth-qr-top);
-  left: var(--adm-auth-qr-x);
-  width: var(--adm-qr-card-w, 390px);
-  height: var(--adm-auth-qr-h, 100px);
+  position: relative;
+  width: 100%;
+  margin-top: 6px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 14px;
-  padding: 12px 18px;
+  gap: 8px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 5px;
   box-sizing: border-box;
-  background-color: var(--adm-c-qr-bg);
-  border-radius: var(--adm-r-panel);
-  box-shadow: var(--adm-shadow-1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  z-index: 2;
 }
 
 .adm-auth__qr-card {
   display: none;
 }
 
-.adm-auth__qr-phone {
-  position: relative;
-  width: var(--adm-qr-phone-w, 28px);
-  height: var(--adm-qr-phone-h, 56px);
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.adm-auth__qr-code {
-  position: absolute;
-  top: var(--adm-qr-code-y);
-  left: var(--adm-qr-code-x);
-  width: var(--adm-qr-code);
-  height: var(--adm-qr-code);
-  object-fit: contain;
-}
-
-/* QR alt metni — login 16/500 (w311) · register 15 (w298) */
-.adm-auth__qr-text {
-  position: relative;
-  top: auto;
-  left: auto;
-  width: auto;
-  flex: 1;
-  margin: 0;
-  font-family: var(--adm-font-ui);
-  font-size: var(--adm-fs-note);
-  font-weight: var(--adm-fw-med);
-  line-height: var(--adm-lh-note);
-  color: var(--adm-c-text);
-  text-align: left;
-}
-
-/* Frame — telefon SVG mock-up taşıyıcısı */
 .adm-auth__qr-frame {
   position: relative;
-  top: auto;
-  left: auto;
-  width: 28px;
-  height: 56px;
+  width: 18px;
+  height: 36px;
   flex-shrink: 0;
   background-color: transparent;
-  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
 }
 
 .adm-auth__qr-phone-svg {
   display: block;
-  width: 28px;
-  height: 56px;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+  width: 18px;
+  height: 36px;
 }
+
+.adm-auth__qr-text {
+  position: relative;
+  width: auto;
+  flex: 1;
+  margin: 0;
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+  font-size: 8px;
+  line-height: 11px;
+  color: #ffffff;
+  text-align: left;
+}
+
+/* ------------------------------------------------------------
+   Footer Dipnot
+   ------------------------------------------------------------ */
+.adm-auth-card__footer {
+  position: relative;
+  width: 100%;
+  margin-top: 6px;
+  text-align: center;
+  font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+  font-size: 8.5px;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.40);
+}
+
+.adm-auth-card__footer span {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 8.5px;
+}
+
+.adm-auth-card__footer a {
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: underline;
+  font-size: 8.5px;
+  transition: color 0.15s ease;
+}
+
+.adm-auth-card__footer a:hover {
+  color: #ffe4f1;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.80);
+}
+
+/* ------------------------------------------------------------
+   RESPONSIVE COMPONENT DÜZENİ (ITCSS 04_Components · c-adm-auth)
+   ------------------------------------------------------------ */
+
+/* Mobil (<= 767px) — QR bloğu gizlenir */
+@media (max-width: 767px) {
+  .adm-auth__qr {
+    display: none !important;
+  }
+}
+
+/* 4K & Ultra HD (>= 1921px) */
+@media (min-width: 1921px) {
+  .adm-auth__title {
+    font-size: calc(var(--adm-fs-auth-title, 28px) * var(--adm-scale, 1)) !important;
+    line-height: 1.2 !important;
+    margin-bottom: calc(6px * var(--adm-scale, 1)) !important;
+  }
+
+  .adm-auth__subtitle {
+    font-size: calc(var(--adm-fs-subtitle, 20px) * var(--adm-scale, 1)) !important;
+    line-height: 1.2 !important;
+    margin-bottom: calc(16px * var(--adm-scale, 1)) !important;
+  }
+
+  .adm-auth__note {
+    padding: calc(12px * var(--adm-scale, 1)) calc(16px * var(--adm-scale, 1)) !important;
+    border-radius: calc(8px * var(--adm-scale, 1)) !important;
+    margin-bottom: calc(16px * var(--adm-scale, 1)) !important;
+    gap: calc(12px * var(--adm-scale, 1)) !important;
+  }
+
+  .adm-auth__note-icon {
+    width: calc(32px * var(--adm-scale, 1)) !important;
+    height: calc(32px * var(--adm-scale, 1)) !important;
+    min-width: calc(32px * var(--adm-scale, 1)) !important;
+    max-width: calc(32px * var(--adm-scale, 1)) !important;
+  }
+
+  .adm-auth__note-text {
+    font-size: calc(var(--adm-fs-note, 14px) * var(--adm-scale, 1)) !important;
+    line-height: 1.4 !important;
+  }
+
+  .adm-auth__qr {
+    padding: calc(10px * var(--adm-scale, 1)) calc(14px * var(--adm-scale, 1)) !important;
+    border-radius: calc(8px * var(--adm-scale, 1)) !important;
+    margin-top: calc(12px * var(--adm-scale, 1)) !important;
+    gap: calc(12px * var(--adm-scale, 1)) !important;
+  }
+
+  .adm-auth__qr-frame,
+  .adm-auth__qr-phone-svg {
+    width: calc(26px * var(--adm-scale, 1)) !important;
+    height: calc(52px * var(--adm-scale, 1)) !important;
+  }
+
+  .adm-auth__qr-text {
+    font-size: calc(13px * var(--adm-scale, 1)) !important;
+    line-height: 1.35 !important;
+  }
+
+  .adm-auth-card__footer {
+    font-size: calc(13px * var(--adm-scale, 1)) !important;
+    margin-top: calc(10px * var(--adm-scale, 1)) !important;
+  }
+
+  .adm-auth-card__footer span,
+  .adm-auth-card__footer a {
+    font-size: calc(13px * var(--adm-scale, 1)) !important;
+  }
+}
+

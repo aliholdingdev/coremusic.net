@@ -1,9 +1,9 @@
 -- =========================================================================
--- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
--- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
--- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
--- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
--- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
+-- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
+-- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7)
+-- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
+-- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
 
 SET NAMES utf8mb4;
@@ -15,6 +15,19 @@ CREATE DATABASE IF NOT EXISTS `coremusic_musics`
 
 USE `coremusic_musics`;
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `artist_credit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `artist_credit` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7',
   `display_name` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Gorunur birlesik ad ("Queen & David Bowie")',
@@ -23,8 +36,11 @@ CREATE TABLE `artist_credit` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_artist_credit_display` (`display_name`(100))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Artist credit basligi (MusicBrainz hizali — karar #10)';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Artist credit basligi (MusicBrainz hizali ÔÇö karar #10)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `artist_credit_names`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `artist_credit_names` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7',
   `artist_credit_id` binary(16) NOT NULL COMMENT 'FK -> artist_credit.id',
@@ -39,70 +55,82 @@ CREATE TABLE `artist_credit_names` (
   KEY `idx_acn_artist` (`artist_id`),
   CONSTRAINT `fk_acn_artist` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_acn_credit` FOREIGN KEY (`artist_credit_id`) REFERENCES `artist_credit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Artist credit bilesenleri (N:M + join_phrase — karar #10)';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Artist credit bilesenleri (N:M + join_phrase ÔÇö karar #10)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `artist_members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `artist_members` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz üye tanımlayıcı',
-  `artist_id` binary(16) NOT NULL COMMENT 'Sanatçı/grup ID',
-  `user_id` binary(16) DEFAULT NULL COMMENT 'Kullanıcı ID (CoreMusic üyesi ise)',
-  `role` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'member' COMMENT 'Grup içindeki rol',
-  `joined_at` date DEFAULT NULL COMMENT 'Katılım tarihi',
-  `left_at` date DEFAULT NULL COMMENT 'Ayrılma tarihi',
-  `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Aktif üye mi?',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Güncellenme zamanı',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumuşak silme bayrağı',
-  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamanı',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz ├╝ye tan─▒mlay─▒c─▒',
+  `artist_id` binary(16) NOT NULL COMMENT 'Sanat├ğ─▒/grup ID',
+  `user_id` binary(16) DEFAULT NULL COMMENT 'Kullan─▒c─▒ ID (CoreMusic ├╝yesi ise)',
+  `role` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'member' COMMENT 'Grup i├ğindeki rol',
+  `joined_at` date DEFAULT NULL COMMENT 'Kat─▒l─▒m tarihi',
+  `left_at` date DEFAULT NULL COMMENT 'Ayr─▒lma tarihi',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Aktif ├╝ye mi?',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
-  KEY `idx_artist_members_artist` (`artist_id`) COMMENT 'Sanatçı filtresi',
-  KEY `idx_artist_members_user` (`user_id`) COMMENT 'Kullanıcı filtresi',
-  KEY `idx_artist_members_active` (`is_active`) COMMENT 'Aktif üye filtresi',
+  KEY `idx_artist_members_artist` (`artist_id`) COMMENT 'Sanat├ğ─▒ filtresi',
+  KEY `idx_artist_members_user` (`user_id`) COMMENT 'Kullan─▒c─▒ filtresi',
+  KEY `idx_artist_members_active` (`is_active`) COMMENT 'Aktif ├╝ye filtresi',
   CONSTRAINT `fk_artist_members_artist` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sanatçı üye tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sanat├ğ─▒ ├╝ye tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `artists`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `artists` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz sanatçı tanımlayıcı',
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Sanatçı adı',
-  `slug` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URL dostu sanatçı adı',
-  `biography` text COLLATE utf8mb4_unicode_ci COMMENT 'Sanatçı biyografisi',
-  `country` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Ülke kodu (ISO 3166-1 alpha-2)',
-  `formed_year` int DEFAULT NULL COMMENT 'Kuruluş/yıl',
-  `artist_type` enum('solo','band','duo','orchestra','other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'solo' COMMENT 'Sanatçı türü',
-  `image_url` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Sanatçı fotoğrafı URL',
-  `is_verified` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Doğrulanmış sanatçı mı?',
-  `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Aktif sanatçı mı?',
-  `monthly_listeners` int NOT NULL DEFAULT '0' COMMENT 'Aylık dinleyici sayısı',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Güncellenme zamanı',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumuşak silme bayrağı',
-  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamanı',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz sanat├ğ─▒ tan─▒mlay─▒c─▒',
+  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Sanat├ğ─▒ ad─▒',
+  `slug` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URL dostu sanat├ğ─▒ ad─▒',
+  `biography` text COLLATE utf8mb4_unicode_ci COMMENT 'Sanat├ğ─▒ biyografisi',
+  `country` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '├£lke kodu (ISO 3166-1 alpha-2)',
+  `formed_year` int DEFAULT NULL COMMENT 'Kurulu┼ş/y─▒l',
+  `artist_type` enum('solo','band','duo','orchestra','other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'solo' COMMENT 'Sanat├ğ─▒ t├╝r├╝',
+  `image_url` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Sanat├ğ─▒ foto─şraf─▒ URL',
+  `is_verified` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Do─şrulanm─▒┼ş sanat├ğ─▒ m─▒?',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Aktif sanat├ğ─▒ m─▒?',
+  `monthly_listeners` int NOT NULL DEFAULT '0' COMMENT 'Ayl─▒k dinleyici say─▒s─▒',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_artists_slug` (`slug`) COMMENT 'URL benzersizlik',
-  KEY `idx_artists_name` (`name`) COMMENT 'İsim araması',
-  KEY `idx_artists_country` (`country`) COMMENT 'Ülke filtresi',
-  KEY `idx_artists_type` (`artist_type`) COMMENT 'Sanatçı türü filtresi',
-  FULLTEXT KEY `idx_artists_fulltext` (`name`,`biography`) COMMENT 'Tam metin araması'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sanatçılar tablosu';
-
+  KEY `idx_artists_name` (`name`) COMMENT '─░sim aramas─▒',
+  KEY `idx_artists_country` (`country`) COMMENT '├£lke filtresi',
+  KEY `idx_artists_type` (`artist_type`) COMMENT 'Sanat├ğ─▒ t├╝r├╝ filtresi',
+  FULLTEXT KEY `idx_artists_fulltext` (`name`,`biography`) COMMENT 'Tam metin aramas─▒'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sanat├ğ─▒lar tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `genres`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `genres` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz tür tanımlayıcı',
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Tür adı',
-  `slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URL dostu tür adı',
-  `description` text COLLATE utf8mb4_unicode_ci COMMENT 'Tür açıklaması',
-  `parent_id` binary(16) DEFAULT NULL COMMENT 'Üst tür ID (hiyerarşik)',
-  `genre_level` int NOT NULL DEFAULT '0' COMMENT 'Hiyerarşi seviyesi (0: kök)',
-  `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Aktif tür mü?',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Güncellenme zamanı',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumuşak silme bayrağı',
-  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamanı',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz t├╝r tan─▒mlay─▒c─▒',
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'T├╝r ad─▒',
+  `slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URL dostu t├╝r ad─▒',
+  `description` text COLLATE utf8mb4_unicode_ci COMMENT 'T├╝r a├ğ─▒klamas─▒',
+  `parent_id` binary(16) DEFAULT NULL COMMENT '├£st t├╝r ID (hiyerar┼şik)',
+  `genre_level` int NOT NULL DEFAULT '0' COMMENT 'Hiyerar┼şi seviyesi (0: k├Âk)',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Aktif t├╝r m├╝?',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_genres_slug` (`slug`) COMMENT 'URL benzersizlik',
-  KEY `idx_genres_parent` (`parent_id`) COMMENT 'Üst tür ilişkisi',
-  KEY `idx_genres_level` (`genre_level`) COMMENT 'Hiyerarşi seviyesi',
+  KEY `idx_genres_parent` (`parent_id`) COMMENT '├£st t├╝r ili┼şkisi',
+  KEY `idx_genres_level` (`genre_level`) COMMENT 'Hiyerar┼şi seviyesi',
   CONSTRAINT `fk_genres_parent` FOREIGN KEY (`parent_id`) REFERENCES `genres` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Müzik türleri tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='M├╝zik t├╝rleri tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `music_artists`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `music_artists` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7 (PHP katmaninda uretilir)',
   `music_id` binary(16) NOT NULL COMMENT 'FK -> musics.id (recording adayi)',
@@ -121,158 +149,186 @@ CREATE TABLE `music_artists` (
   CONSTRAINT `fk_music_artists_artist` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_music_artists_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_music_artists_role` FOREIGN KEY (`artist_role_id`) REFERENCES `coremusic_catalog`.`catalog_artist_roles` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT=' Sarki-artc N:M junction + rol + pozisyon (4NF — karar #3)';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT=' Sarki-artc N:M junction + rol + pozisyon (4NF ÔÇö karar #3)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `music_audio_features`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `music_audio_features` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz özellik tanımlayıcı',
-  `music_id` binary(16) NOT NULL COMMENT 'Müzik ID',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz ├Âzellik tan─▒mlay─▒c─▒',
+  `music_id` binary(16) NOT NULL COMMENT 'M├╝zik ID',
   `danceability` decimal(4,3) DEFAULT NULL COMMENT 'Dans edilebilirlik (0.000-1.000)',
   `energy` decimal(4,3) DEFAULT NULL COMMENT 'Enerji seviyesi (0.000-1.000)',
   `valence` decimal(4,3) DEFAULT NULL COMMENT 'Pozitiflik (0.000-1.000)',
   `acousticness` decimal(4,3) DEFAULT NULL COMMENT 'Akustiklik (0.000-1.000)',
-  `instrumentalness` decimal(4,3) DEFAULT NULL COMMENT 'Enstrümantallık (0.000-1.000)',
-  `liveness` decimal(4,3) DEFAULT NULL COMMENT 'Canlılık (0.000-1.000)',
-  `speechiness` decimal(4,3) DEFAULT NULL COMMENT 'Konuşma benzerliği (0.000-1.000)',
-  `loudness` decimal(6,3) DEFAULT NULL COMMENT 'Ses şiddeti (dB)',
+  `instrumentalness` decimal(4,3) DEFAULT NULL COMMENT 'Enstr├╝mantall─▒k (0.000-1.000)',
+  `liveness` decimal(4,3) DEFAULT NULL COMMENT 'Canl─▒l─▒k (0.000-1.000)',
+  `speechiness` decimal(4,3) DEFAULT NULL COMMENT 'Konu┼şma benzerli─şi (0.000-1.000)',
+  `loudness` decimal(6,3) DEFAULT NULL COMMENT 'Ses ┼şiddeti (dB)',
   `tempo` decimal(6,2) DEFAULT NULL COMMENT 'Tempo (BPM)',
-  `key_confidence` decimal(4,3) DEFAULT NULL COMMENT 'Anahtar güvenilirliği (0.000-1.000)',
-  `mode_confidence` decimal(4,3) DEFAULT NULL COMMENT 'Mod güvenilirliği (0.000-1.000)',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Güncellenme zamanı',
+  `key_confidence` decimal(4,3) DEFAULT NULL COMMENT 'Anahtar g├╝venilirli─şi (0.000-1.000)',
+  `mode_confidence` decimal(4,3) DEFAULT NULL COMMENT 'Mod g├╝venilirli─şi (0.000-1.000)',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_music_audio_features_music` (`music_id`) COMMENT 'Benzersiz müzik ilişkisi',
+  UNIQUE KEY `idx_music_audio_features_music` (`music_id`) COMMENT 'Benzersiz m├╝zik ili┼şkisi',
   CONSTRAINT `fk_music_audio_features_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Müzik ses özellikleri tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='M├╝zik ses ├Âzellikleri tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `music_credits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `music_credits` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz kredi tanımlayıcı',
-  `music_id` binary(16) NOT NULL COMMENT 'Müzik ID',
-  `credit_type` enum('composer','lyricist','producer','engineer','mixer','mastering','feature','other') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kredi türü',
-  `person_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Kişi adı (CoreMusic dışı ise)',
-  `person_id` binary(16) DEFAULT NULL COMMENT 'Kişi ID (CoreMusic üyesi ise)',
-  `credit_order` int NOT NULL DEFAULT '0' COMMENT 'Kredi sırası',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz kredi tan─▒mlay─▒c─▒',
+  `music_id` binary(16) NOT NULL COMMENT 'M├╝zik ID',
+  `credit_type` enum('composer','lyricist','producer','engineer','mixer','mastering','feature','other') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kredi t├╝r├╝',
+  `person_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Ki┼şi ad─▒ (CoreMusic d─▒┼ş─▒ ise)',
+  `person_id` binary(16) DEFAULT NULL COMMENT 'Ki┼şi ID (CoreMusic ├╝yesi ise)',
+  `credit_order` int NOT NULL DEFAULT '0' COMMENT 'Kredi s─▒ras─▒',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
   PRIMARY KEY (`id`),
-  KEY `idx_music_credits_music` (`music_id`) COMMENT 'Müzik filtresi',
-  KEY `idx_music_credits_type` (`credit_type`) COMMENT 'Kredi türü filtresi',
-  KEY `idx_music_credits_person` (`person_id`) COMMENT 'Kişi filtresi',
+  KEY `idx_music_credits_music` (`music_id`) COMMENT 'M├╝zik filtresi',
+  KEY `idx_music_credits_type` (`credit_type`) COMMENT 'Kredi t├╝r├╝ filtresi',
+  KEY `idx_music_credits_person` (`person_id`) COMMENT 'Ki┼şi filtresi',
   CONSTRAINT `fk_music_credits_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Müzik kredileri tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='M├╝zik kredileri tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `music_files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `music_files` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz dosya tanımlayıcı',
-  `music_id` binary(16) NOT NULL COMMENT 'Müzik ID',
-  `file_format` enum('mp3','flac','wav','aac','ogg','dsd','mqa') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Dosya formatı',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz dosya tan─▒mlay─▒c─▒',
+  `music_id` binary(16) NOT NULL COMMENT 'M├╝zik ID',
+  `file_format` enum('mp3','flac','wav','aac','ogg','dsd','mqa') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Dosya format─▒',
   `file_path` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Dosya yolu',
   `file_size` bigint NOT NULL COMMENT 'Dosya boyutu (byte)',
-  `bit_rate` int DEFAULT NULL COMMENT 'Bit hızı (kbps)',
-  `sample_rate` int DEFAULT NULL COMMENT 'Örnekleme hızı (Hz)',
-  `bit_depth` int DEFAULT NULL COMMENT 'Bit derinliği',
-  `channels` int NOT NULL DEFAULT '2' COMMENT 'Kanal sayısı',
+  `bit_rate` int DEFAULT NULL COMMENT 'Bit h─▒z─▒ (kbps)',
+  `sample_rate` int DEFAULT NULL COMMENT '├ûrnekleme h─▒z─▒ (Hz)',
+  `bit_depth` int DEFAULT NULL COMMENT 'Bit derinli─şi',
+  `channels` int NOT NULL DEFAULT '2' COMMENT 'Kanal say─▒s─▒',
   `codec` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Codec bilgisi',
   `checksum_sha256` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'SHA256 checksum',
-  `is_primary` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Birincil dosya mı?',
+  `is_primary` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Birincil dosya m─▒?',
   `quality_level` enum('low_128','medium_192','high_320','lossless','hi_res') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'high_320' COMMENT 'Kalite seviyesi',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Güncellenme zamanı',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumuşak silme bayrağı',
-  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamanı',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
-  KEY `idx_music_files_music` (`music_id`) COMMENT 'Müzik ilişkisi',
+  KEY `idx_music_files_music` (`music_id`) COMMENT 'M├╝zik ili┼şkisi',
   KEY `idx_music_files_format` (`file_format`) COMMENT 'Format filtresi',
   KEY `idx_music_files_quality` (`quality_level`) COMMENT 'Kalite filtresi',
   KEY `idx_music_files_primary` (`is_primary`) COMMENT 'Birincil dosya filtresi',
+  KEY `idx_mf_music_primary` (`music_id`,`is_primary`,`is_deleted`),
   CONSTRAINT `fk_music_files_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Müzik dosyaları tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='M├╝zik dosyalar─▒ tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `music_genres`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `music_genres` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz ilişki tanımlayıcı',
-  `music_id` binary(16) NOT NULL COMMENT 'Müzik ID',
-  `genre_id` binary(16) NOT NULL COMMENT 'Tür ID',
-  `is_primary` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Birincil tür mü?',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz ili┼şki tan─▒mlay─▒c─▒',
+  `music_id` binary(16) NOT NULL COMMENT 'M├╝zik ID',
+  `genre_id` binary(16) NOT NULL COMMENT 'T├╝r ID',
+  `is_primary` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Birincil t├╝r m├╝?',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_music_genres_unique` (`music_id`,`genre_id`) COMMENT 'Benzersiz müzik-tür çifti',
-  KEY `idx_music_genres_genre` (`genre_id`) COMMENT 'Tür filtresi',
+  UNIQUE KEY `idx_music_genres_unique` (`music_id`,`genre_id`) COMMENT 'Benzersiz m├╝zik-t├╝r ├ğifti',
+  KEY `idx_music_genres_genre` (`genre_id`) COMMENT 'T├╝r filtresi',
   CONSTRAINT `fk_music_genres_genre` FOREIGN KEY (`genre_id`) REFERENCES `genres` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_music_genres_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Müzik-tür ilişkisi tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='M├╝zik-t├╝r ili┼şkisi tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `music_lyrics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `music_lyrics` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz söz tanımlayıcı',
-  `music_id` binary(16) NOT NULL COMMENT 'Müzik ID',
-  `lyrics_text` longtext COLLATE utf8mb4_unicode_ci COMMENT 'Şarkı sözleri metni',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz s├Âz tan─▒mlay─▒c─▒',
+  `music_id` binary(16) NOT NULL COMMENT 'M├╝zik ID',
+  `lyrics_text` longtext COLLATE utf8mb4_unicode_ci COMMENT '┼Şark─▒ s├Âzleri metni',
   `lyrics_language` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'en' COMMENT 'Dil kodu (ISO 639-1)',
-  `lyrics_source` enum('manual','genius','musixmatch','ai_generated','verified') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'manual' COMMENT 'Söz kaynağı',
-  `synced_lyrics` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Senkronize söz var mı?',
-  `synced_lyrics_data` json DEFAULT NULL COMMENT 'Senkronize söz verisi (LRC formatı)',
-  `is_verified` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Doğrulanmış sözler mi?',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Güncellenme zamanı',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumuşak silme bayrağı',
-  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamanı',
+  `lyrics_source` enum('manual','genius','musixmatch','ai_generated','verified') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'manual' COMMENT 'S├Âz kayna─ş─▒',
+  `synced_lyrics` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Senkronize s├Âz var m─▒?',
+  `synced_lyrics_data` json DEFAULT NULL COMMENT 'Senkronize s├Âz verisi (LRC format─▒)',
+  `is_verified` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Do─şrulanm─▒┼ş s├Âzler mi?',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_music_lyrics_music` (`music_id`) COMMENT 'Benzersiz müzik ilişkisi',
+  UNIQUE KEY `idx_music_lyrics_music` (`music_id`) COMMENT 'Benzersiz m├╝zik ili┼şkisi',
   KEY `idx_music_lyrics_lang` (`lyrics_language`) COMMENT 'Dil filtresi',
-  FULLTEXT KEY `idx_music_lyrics_fulltext` (`lyrics_text`) COMMENT 'Söz araması',
+  FULLTEXT KEY `idx_music_lyrics_fulltext` (`lyrics_text`) COMMENT 'S├Âz aramas─▒',
   CONSTRAINT `fk_music_lyrics_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Şarkı sözleri tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='┼Şark─▒ s├Âzleri tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `music_similar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `music_similar` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz benzerlik tanımlayıcı',
-  `music_id` binary(16) NOT NULL COMMENT 'Müzik ID',
-  `similar_music_id` binary(16) NOT NULL COMMENT 'Benzer müzik ID',
-  `similarity_score` decimal(3,2) NOT NULL COMMENT 'Benzerlik puanı (0.00-1.00)',
-  `algorithm` enum('collaborative','content_based','hybrid') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hybrid' COMMENT 'Benzerlik algoritması',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz benzerlik tan─▒mlay─▒c─▒',
+  `music_id` binary(16) NOT NULL COMMENT 'M├╝zik ID',
+  `similar_music_id` binary(16) NOT NULL COMMENT 'Benzer m├╝zik ID',
+  `similarity_score` decimal(3,2) NOT NULL COMMENT 'Benzerlik puan─▒ (0.00-1.00)',
+  `algorithm` enum('collaborative','content_based','hybrid') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hybrid' COMMENT 'Benzerlik algoritmas─▒',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_music_similar_unique` (`music_id`,`similar_music_id`) COMMENT 'Benzersiz müzik çifti',
-  KEY `idx_music_similar_target` (`similar_music_id`) COMMENT 'Hedef müzik filtresi',
-  KEY `idx_music_similar_score` (`similarity_score`) COMMENT 'Benzerlik puanı sıralaması',
+  UNIQUE KEY `idx_music_similar_unique` (`music_id`,`similar_music_id`) COMMENT 'Benzersiz m├╝zik ├ğifti',
+  KEY `idx_music_similar_target` (`similar_music_id`) COMMENT 'Hedef m├╝zik filtresi',
+  KEY `idx_music_similar_score` (`similarity_score`) COMMENT 'Benzerlik puan─▒ s─▒ralamas─▒',
   CONSTRAINT `fk_music_similar_source` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_music_similar_target` FOREIGN KEY (`similar_music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Benzer müzik tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Benzer m├╝zik tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `music_stats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `music_stats` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz istatistik tanımlayıcı',
-  `music_id` binary(16) NOT NULL COMMENT 'Müzik ID',
-  `daily_plays` int NOT NULL DEFAULT '0' COMMENT 'Günlük çalma sayısı',
-  `weekly_plays` int NOT NULL DEFAULT '0' COMMENT 'Haftalık çalma sayısı',
-  `monthly_plays` int NOT NULL DEFAULT '0' COMMENT 'Aylık çalma sayısı',
-  `total_plays` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam çalma sayısı',
-  `daily_downloads` int NOT NULL DEFAULT '0' COMMENT 'Günlük indirme sayısı',
-  `weekly_downloads` int NOT NULL DEFAULT '0' COMMENT 'Haftalık indirme sayısı',
-  `monthly_downloads` int NOT NULL DEFAULT '0' COMMENT 'Aylık indirme sayısı',
-  `total_downloads` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam indirme sayısı',
-  `daily_shares` int NOT NULL DEFAULT '0' COMMENT 'Günlük paylaşım sayısı',
-  `weekly_shares` int NOT NULL DEFAULT '0' COMMENT 'Haftalık paylaşım sayısı',
-  `monthly_shares` int NOT NULL DEFAULT '0' COMMENT 'Aylık paylaşım sayısı',
-  `total_shares` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam paylaşım sayısı',
-  `popularity_score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT 'Popülerlik puanı',
-  `trending_score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT 'Trend puanı',
-  `last_played_at` timestamp NULL DEFAULT NULL COMMENT 'Son çalınma zamanı',
-  `stats_date` date NOT NULL COMMENT 'İstatistik tarihi',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Güncellenme zamanı',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz istatistik tan─▒mlay─▒c─▒',
+  `music_id` binary(16) NOT NULL COMMENT 'M├╝zik ID',
+  `daily_plays` int NOT NULL DEFAULT '0' COMMENT 'G├╝nl├╝k ├ğalma say─▒s─▒',
+  `weekly_plays` int NOT NULL DEFAULT '0' COMMENT 'Haftal─▒k ├ğalma say─▒s─▒',
+  `monthly_plays` int NOT NULL DEFAULT '0' COMMENT 'Ayl─▒k ├ğalma say─▒s─▒',
+  `total_plays` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam ├ğalma say─▒s─▒',
+  `daily_downloads` int NOT NULL DEFAULT '0' COMMENT 'G├╝nl├╝k indirme say─▒s─▒',
+  `weekly_downloads` int NOT NULL DEFAULT '0' COMMENT 'Haftal─▒k indirme say─▒s─▒',
+  `monthly_downloads` int NOT NULL DEFAULT '0' COMMENT 'Ayl─▒k indirme say─▒s─▒',
+  `total_downloads` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam indirme say─▒s─▒',
+  `daily_shares` int NOT NULL DEFAULT '0' COMMENT 'G├╝nl├╝k payla┼ş─▒m say─▒s─▒',
+  `weekly_shares` int NOT NULL DEFAULT '0' COMMENT 'Haftal─▒k payla┼ş─▒m say─▒s─▒',
+  `monthly_shares` int NOT NULL DEFAULT '0' COMMENT 'Ayl─▒k payla┼ş─▒m say─▒s─▒',
+  `total_shares` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam payla┼ş─▒m say─▒s─▒',
+  `popularity_score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT 'Pop├╝lerlik puan─▒',
+  `trending_score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT 'Trend puan─▒',
+  `last_played_at` timestamp NULL DEFAULT NULL COMMENT 'Son ├ğal─▒nma zaman─▒',
+  `stats_date` date NOT NULL COMMENT '─░statistik tarihi',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_music_stats_unique` (`music_id`,`stats_date`) COMMENT 'Benzersiz müzik-tarih çifti',
-  KEY `idx_music_stats_popularity` (`popularity_score`) COMMENT 'Popülerlik sıralaması',
-  KEY `idx_music_stats_trending` (`trending_score`) COMMENT 'Trend sıralaması',
+  UNIQUE KEY `idx_music_stats_unique` (`music_id`,`stats_date`) COMMENT 'Benzersiz m├╝zik-tarih ├ğifti',
+  KEY `idx_music_stats_popularity` (`popularity_score`) COMMENT 'Pop├╝lerlik s─▒ralamas─▒',
+  KEY `idx_music_stats_trending` (`trending_score`) COMMENT 'Trend s─▒ralamas─▒',
   CONSTRAINT `fk_music_stats_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Müzik istatistikleri tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='M├╝zik istatistikleri tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `music_tags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `music_tags` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz etiket tanımlayıcı',
-  `music_id` binary(16) NOT NULL COMMENT 'Müzik ID',
-  `tag` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Etiket adı',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz etiket tan─▒mlay─▒c─▒',
+  `music_id` binary(16) NOT NULL COMMENT 'M├╝zik ID',
+  `tag` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Etiket ad─▒',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_music_tags_unique` (`music_id`,`tag`) COMMENT 'Benzersiz müzik-etiket çifti',
-  KEY `idx_music_tags_music` (`music_id`) COMMENT 'Müzik filtresi',
-  KEY `idx_music_tags_tag` (`tag`) COMMENT 'Etiket araması',
+  UNIQUE KEY `idx_music_tags_unique` (`music_id`,`tag`) COMMENT 'Benzersiz m├╝zik-etiket ├ğifti',
+  KEY `idx_music_tags_music` (`music_id`) COMMENT 'M├╝zik filtresi',
+  KEY `idx_music_tags_tag` (`tag`) COMMENT 'Etiket aramas─▒',
   CONSTRAINT `fk_music_tags_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Müzik etiketleri tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='M├╝zik etiketleri tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `music_videos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `music_videos` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `music_id` binary(16) NOT NULL,
@@ -300,45 +356,53 @@ CREATE TABLE `music_videos` (
   CONSTRAINT `fk_mv_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `music_videos_chk_1` CHECK ((`video_format` in (_utf8mb4'mp4',_utf8mb4'webm',_utf8mb4'mkv',_utf8mb4'avi'))),
   CONSTRAINT `music_videos_chk_2` CHECK ((`resolution` in (_utf8mb4'480p',_utf8mb4'720p',_utf8mb4'1080p',_utf8mb4'1440p',_utf8mb4'2160p',_utf8mb4'4320p')))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Müzik videoları — music video metadata';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='M├╝zik videolar─▒ ÔÇö music video metadata';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `musics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `musics` (
-  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz müzik tanımlayıcı',
-  `title` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Şarkı başlığı',
-  `slug` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URL dostu başlık',
-  `artist_id` binary(16) NOT NULL COMMENT 'Sanatçı ID',
-  `album_id` binary(16) DEFAULT NULL COMMENT 'Albüm ID (opsiyonel)',
-  `genre_id` binary(16) DEFAULT NULL COMMENT 'Birincil tür ID',
-  `track_number` int DEFAULT NULL COMMENT 'Albüm içindeki sıra numarası',
-  `disc_number` int NOT NULL DEFAULT '1' COMMENT 'Disk numarası',
-  `duration_sec` int DEFAULT NULL COMMENT 'Süre (saniye)',
-  `release_date` date DEFAULT NULL COMMENT 'Yayın tarihi',
-  `isrc` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Uluslararası Standart Kayıt Kodu',
-  `upc` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Evrensel Ürün Kodu',
+  `id` binary(16) NOT NULL COMMENT 'UUID v7 - Benzersiz m├╝zik tan─▒mlay─▒c─▒',
+  `title` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '┼Şark─▒ ba┼şl─▒─ş─▒',
+  `slug` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URL dostu ba┼şl─▒k',
+  `artist_id` binary(16) NOT NULL COMMENT 'Sanat├ğ─▒ ID',
+  `album_id` binary(16) DEFAULT NULL COMMENT 'Alb├╝m ID (opsiyonel)',
+  `genre_id` binary(16) DEFAULT NULL COMMENT 'Birincil t├╝r ID',
+  `track_number` int DEFAULT NULL COMMENT 'Alb├╝m i├ğindeki s─▒ra numaras─▒',
+  `disc_number` int NOT NULL DEFAULT '1' COMMENT 'Disk numaras─▒',
+  `duration_sec` int DEFAULT NULL COMMENT 'S├╝re (saniye)',
+  `release_date` date DEFAULT NULL COMMENT 'Yay─▒n tarihi',
+  `isrc` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Uluslararas─▒ Standart Kay─▒t Kodu',
+  `upc` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Evrensel ├£r├╝n Kodu',
   `bpm` int DEFAULT NULL COMMENT 'Tempo (darbe/dakika)',
-  `key_signature` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Müzik anahtarı',
+  `key_signature` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'M├╝zik anahtar─▒',
   `mood` enum('happy','sad','energetic','calm','dark','uplifting','neutral') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'neutral' COMMENT 'Ruh hali',
-  `is_explicit` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'İçerik uyarısı',
-  `is_verified` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Doğrulanmış müzik',
-  `is_instrumental` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Enstrümantal parça mı?',
-  `play_count` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam çalma sayısı',
-  `like_count` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam beğeni sayısı',
-  `download_count` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam indirme sayısı',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Oluşturulma zamanı',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Güncellenme zamanı',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumuşak silme bayrağı',
-  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamanı',
+  `is_explicit` tinyint(1) NOT NULL DEFAULT '0' COMMENT '─░├ğerik uyar─▒s─▒',
+  `is_verified` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Do─şrulanm─▒┼ş m├╝zik',
+  `is_instrumental` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Enstr├╝mantal par├ğa m─▒?',
+  `play_count` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam ├ğalma say─▒s─▒',
+  `like_count` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam be─şeni say─▒s─▒',
+  `download_count` bigint NOT NULL DEFAULT '0' COMMENT 'Toplam indirme say─▒s─▒',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
-  KEY `idx_musics_artist` (`artist_id`) COMMENT 'Sanatçı filtresi',
-  KEY `idx_musics_album` (`album_id`) COMMENT 'Albüm filtresi',
-  KEY `idx_musics_genre` (`genre_id`) COMMENT 'Tür filtresi',
-  KEY `idx_musics_release` (`release_date`) COMMENT 'Yayın tarihi sıralaması',
+  KEY `idx_musics_artist` (`artist_id`) COMMENT 'Sanat├ğ─▒ filtresi',
+  KEY `idx_musics_album` (`album_id`) COMMENT 'Alb├╝m filtresi',
+  KEY `idx_musics_genre` (`genre_id`) COMMENT 'T├╝r filtresi',
+  KEY `idx_musics_release` (`release_date`) COMMENT 'Yay─▒n tarihi s─▒ralamas─▒',
   KEY `idx_musics_mood` (`mood`) COMMENT 'Ruh hali filtresi',
-  FULLTEXT KEY `idx_musics_fulltext` (`title`) COMMENT 'Tam metin araması',
+  KEY `idx_musics_active_created` (`is_deleted`,`created_at` DESC),
+  KEY `idx_musics_artist_created` (`artist_id`,`created_at` DESC),
+  FULLTEXT KEY `idx_musics_fulltext` (`title`) COMMENT 'Tam metin aramas─▒',
   CONSTRAINT `fk_musics_artist` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_musics_genre` FOREIGN KEY (`genre_id`) REFERENCES `genres` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Müzik parçaları tablosu';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='M├╝zik par├ğalar─▒ tablosu';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `podcast_episodes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `podcast_episodes` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `show_id` int unsigned NOT NULL,
@@ -365,8 +429,11 @@ CREATE TABLE `podcast_episodes` (
   CONSTRAINT `fk_pe_show` FOREIGN KEY (`show_id`) REFERENCES `podcast_shows` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `podcast_episodes_chk_1` CHECK ((`status` in (_utf8mb4'draft',_utf8mb4'published',_utf8mb4'scheduled',_utf8mb4'archived'))),
   CONSTRAINT `podcast_episodes_chk_2` CHECK ((`audio_format` in (_utf8mb4'mp3',_utf8mb4'aac',_utf8mb4'ogg',_utf8mb4'flac',_utf8mb4'wav')))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast bölümleri — episodes, audio, scheduling';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast b├Âl├╝mleri ÔÇö episodes, audio, scheduling';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `podcast_shows`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `podcast_shows` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `author_user_id` int unsigned NOT NULL,
@@ -391,8 +458,11 @@ CREATE TABLE `podcast_shows` (
   KEY `idx_ps_language` (`language`),
   KEY `idx_ps_status` (`status`),
   CONSTRAINT `podcast_shows_chk_1` CHECK ((`status` in (_utf8mb4'draft',_utf8mb4'active',_utf8mb4'paused',_utf8mb4'archived')))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast gösterileri — series, episodes, subscriptions';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast g├Âsterileri ÔÇö series, episodes, subscriptions';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `podcast_subscriptions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `podcast_subscriptions` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -405,8 +475,11 @@ CREATE TABLE `podcast_subscriptions` (
   UNIQUE KEY `uq_ps_pair` (`user_id`,`show_id`),
   KEY `idx_ps_sub_show` (`show_id`),
   CONSTRAINT `fk_psub_show` FOREIGN KEY (`show_id`) REFERENCES `podcast_shows` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast abonelikleri — user-show bindings';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast abonelikleri ÔÇö user-show bindings';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `podcast_transcripts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `podcast_transcripts` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `episode_id` int unsigned NOT NULL,
@@ -420,8 +493,11 @@ CREATE TABLE `podcast_transcripts` (
   UNIQUE KEY `uq_pt_pair` (`episode_id`,`language`),
   KEY `idx_pt_language` (`language`),
   CONSTRAINT `fk_pt_episode` FOREIGN KEY (`episode_id`) REFERENCES `podcast_episodes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast transkripsiyonları — AI-generated transcripts';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast transkripsiyonlar─▒ ÔÇö AI-generated transcripts';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `radio_now_playing`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `radio_now_playing` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `station_id` int unsigned NOT NULL,
@@ -437,8 +513,11 @@ CREATE TABLE `radio_now_playing` (
   KEY `idx_rnp_music` (`music_id`),
   CONSTRAINT `fk_rnp_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_rnp_station` FOREIGN KEY (`station_id`) REFERENCES `radio_stations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Radyo anlık yayın durumu — now playing info';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Radyo anl─▒k yay─▒n durumu ÔÇö now playing info';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `radio_schedules`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `radio_schedules` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `station_id` int unsigned NOT NULL,
@@ -455,8 +534,11 @@ CREATE TABLE `radio_schedules` (
   KEY `idx_rs_time` (`start_time`),
   CONSTRAINT `fk_rsch_station` FOREIGN KEY (`station_id`) REFERENCES `radio_stations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `radio_schedules_chk_1` CHECK (((`day_of_week` >= 0) and (`day_of_week` <= 6)))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Radyo yayın programları — weekly schedules';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Radyo yay─▒n programlar─▒ ÔÇö weekly schedules';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `radio_stations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `radio_stations` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -482,8 +564,11 @@ CREATE TABLE `radio_stations` (
   KEY `idx_rs_country` (`country`),
   KEY `idx_rs_active` (`is_active`),
   CONSTRAINT `radio_stations_chk_1` CHECK ((`stream_type` in (_utf8mb4'icecast',_utf8mb4'shoutcast',_utf8mb4'hls',_utf8mb4'direct')))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Radyo istasyonları — stream URLs, genres, locations';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Radyo istasyonlar─▒ ÔÇö stream URLs, genres, locations';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `recordings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `recordings` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7',
   `title` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kayit adi',
@@ -491,7 +576,7 @@ CREATE TABLE `recordings` (
   `isrc` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ISO 3901 ISRC (musics.isrc tasinacak)',
   `artist_credit_id` binary(16) DEFAULT NULL COMMENT 'FK -> artist_credit.id',
   `work_id` binary(16) DEFAULT NULL COMMENT 'FK -> works.id',
-  `legacy_music_id` binary(16) DEFAULT NULL COMMENT 'TAŞIMA İZİ: musics.id (backfill FAZ 2b; FK YOK — iz korunur)',
+  `legacy_music_id` binary(16) DEFAULT NULL COMMENT 'TA┼ŞIMA ─░Z─░: musics.id (backfill FAZ 2b; FK YOK ÔÇö iz korunur)',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -502,11 +587,21 @@ CREATE TABLE `recordings` (
   KEY `idx_rec_work` (`work_id`),
   CONSTRAINT `fk_rec_credit` FOREIGN KEY (`artist_credit_id`) REFERENCES `artist_credit` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_rec_work` FOREIGN KEY (`work_id`) REFERENCES `works` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Recording — ozgun ses (MusicBrainz hizali — karar #10)';
-
--- VIEW: v_music_recording_map
-CREATE ALGORITHM=UNDEFINED DEFINER=`Ali`@`%` SQL SECURITY DEFINER VIEW `coremusic_musics`.`v_music_recording_map` AS select `m`.`id` AS `music_id`,`r`.`id` AS `recording_id`,`m`.`title` AS `title`,`r`.`isrc` AS `isrc` from (`coremusic_musics`.`musics` `m` left join `coremusic_musics`.`recordings` `r` on((`r`.`legacy_music_id` = `m`.`id`)));
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Recording ÔÇö ozgun ses (MusicBrainz hizali ÔÇö karar #10)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `v_music_recording_map`;
+/*!50001 DROP VIEW IF EXISTS `v_music_recording_map`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `v_music_recording_map` AS SELECT 
+ 1 AS `music_id`,
+ 1 AS `recording_id`,
+ 1 AS `title`,
+ 1 AS `isrc`*/;
+SET character_set_client = @saved_cs_client;
+DROP TABLE IF EXISTS `video_playback_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `video_playback_history` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -522,8 +617,11 @@ CREATE TABLE `video_playback_history` (
   KEY `idx_vph_video` (`video_id`),
   KEY `idx_vph_updated` (`updated_at` DESC),
   CONSTRAINT `fk_vph_video` FOREIGN KEY (`video_id`) REFERENCES `music_videos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Video oynatma geçmişi — playback position, watch count';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Video oynatma ge├ğmi┼şi ÔÇö playback position, watch count';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `video_subtitles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `video_subtitles` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `video_id` int unsigned NOT NULL,
@@ -539,13 +637,16 @@ CREATE TABLE `video_subtitles` (
   KEY `idx_vs_language` (`language`),
   CONSTRAINT `fk_vs_video` FOREIGN KEY (`video_id`) REFERENCES `music_videos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `video_subtitles_chk_1` CHECK ((`format` in (_utf8mb4'srt',_utf8mb4'vtt',_utf8mb4'ass')))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Video altyazıları — subtitle tracks, multi-language';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Video altyaz─▒lar─▒ ÔÇö subtitle tracks, multi-language';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `works`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `works` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7',
   `title` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Eser adi',
   `iswc` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ISWC (opsiyonel, [VERIFY REQUIRED] format kontrolu)',
-  `artist_credit_id` binary(16) DEFAULT NULL COMMENT 'FK -> artist_credit.id (söz/müzik kredisi)',
+  `artist_credit_id` binary(16) DEFAULT NULL COMMENT 'FK -> artist_credit.id (s├Âz/m├╝zik kredisi)',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -554,6 +655,29 @@ CREATE TABLE `works` (
   KEY `idx_works_title` (`title`(100)),
   KEY `fk_works_credit` (`artist_credit_id`),
   CONSTRAINT `fk_works_credit` FOREIGN KEY (`artist_credit_id`) REFERENCES `artist_credit` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Eser/Work varligi (MusicBrainz hizali — karar #10)';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Eser/Work varligi (MusicBrainz hizali ÔÇö karar #10)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!50001 DROP VIEW IF EXISTS `v_music_recording_map`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`Ali`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_music_recording_map` AS select `m`.`id` AS `music_id`,`r`.`id` AS `recording_id`,`m`.`title` AS `title`,`r`.`isrc` AS `isrc` from (`musics` `m` left join `recordings` `r` on((`r`.`legacy_music_id` = `m`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 SET FOREIGN_KEY_CHECKS = 1;

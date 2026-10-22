@@ -1,9 +1,9 @@
 -- =========================================================================
--- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
--- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
--- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
--- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
--- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
+-- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
+-- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7)
+-- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
+-- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
 
 SET NAMES utf8mb4;
@@ -15,6 +15,19 @@ CREATE DATABASE IF NOT EXISTS `coremusic_wireless`
 
 USE `coremusic_wireless`;
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `bluetooth_audio_profiles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `bluetooth_audio_profiles` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `peer_id` binary(16) NOT NULL COMMENT 'Bluetooth cihaz ID',
@@ -28,12 +41,16 @@ CREATE TABLE `bluetooth_audio_profiles` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olusturma zamani (UTC)',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme zamani (UTC)',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_bt_audio_profiles_peer_name` (`peer_id`,`profile_name`),
   KEY `idx_bt_audio_profile_peer` (`peer_id`),
   KEY `idx_bt_audio_profile_codec` (`codec`),
   KEY `idx_bt_audio_profile_active` (`is_active`),
   CONSTRAINT `fk_bt_audio_profile_peer` FOREIGN KEY (`peer_id`) REFERENCES `bluetooth_peers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bluetooth ses profilleri (SBC, AAC, aptX, aptX HD, LDAC, LHDC)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `bluetooth_peers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `bluetooth_peers` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `device_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Cihaz adi',
@@ -61,7 +78,10 @@ CREATE TABLE `bluetooth_peers` (
   KEY `idx_bt_peers_connected` (`is_connected`),
   KEY `idx_bt_peers_trusted` (`is_trusted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bluetooth eslesme cihazlari (hoparlor, kulaklik, araba, telefon)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `network_profiles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `network_profiles` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `profile_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Profil adi',
@@ -88,7 +108,10 @@ CREATE TABLE `network_profiles` (
   CONSTRAINT `fk_network_profile_bluetooth` FOREIGN KEY (`bluetooth_id`) REFERENCES `bluetooth_peers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_network_profile_wifi` FOREIGN KEY (`wifi_id`) REFERENCES `wifi_networks` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Ag profilleri (WiFi + Bluetooth kombinasyonu, DNS, proxy, MTU)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `sync_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sync_history` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `device_type` enum('wifi','bluetooth','usb','airplay','chromecast') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Cihaz tipi',
@@ -106,7 +129,10 @@ CREATE TABLE `sync_history` (
   KEY `idx_sync_history_status` (`sync_status`),
   KEY `idx_sync_history_created` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cihazlar arasi senkronizasyon gecmisi (WiFi, Bluetooth, USB, AirPlay, Chromecast)';
-
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `wifi_networks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `wifi_networks` (
   `id` binary(16) NOT NULL COMMENT 'Benzersiz tanimlayici (UUID v7)',
   `network_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Ag adi',
@@ -136,6 +162,16 @@ CREATE TABLE `wifi_networks` (
   KEY `idx_wifi_auto_connect` (`is_auto_connect`),
   KEY `idx_wifi_favorite` (`is_favorite`),
   KEY `idx_wifi_priority` (`priority`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WiFi ag yapilandirmalari (ev, stüdyo, araba, herkese acik, misafir)';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WiFi ag yapilandirmalari (ev, st├╝dyo, araba, herkese acik, misafir)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 SET FOREIGN_KEY_CHECKS = 1;

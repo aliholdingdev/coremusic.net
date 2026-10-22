@@ -36,12 +36,21 @@ final class AuthPostHandler
 
         try {
             return match ($uri) {
-                'login'            => $this->controller->handleLogin($normalizedRequest),
-                'register'         => $this->controller->handleRegister($normalizedRequest),
-                'logout'           => $this->controller->handleLogout($normalizedRequest),
-                'set-gender'       => $this->controller->handleSetGender($normalizedRequest),
-                'forgot-password'  => $this->controller->handleForgotPassword($normalizedRequest),
-                'reset-password'   => $this->controller->handleResetPassword($normalizedRequest),
+                'login'                 => $this->controller->handleLogin($normalizedRequest),
+                // Admin auth varyantları (2026-10-21): admin.coremusic.net /login
+                // AuthAliasRedirector ile auth domain'e bağlanır; formlar
+                // /admin/* altında (client_id=coremusic-admin — bkz. index.php §4).
+                'admin/login'           => $this->controller->handleLogin($normalizedRequest),
+                'register'              => $this->controller->handleRegister($normalizedRequest),
+                'admin/register'        => $this->controller->handleRegister($normalizedRequest),
+                'logout'                => $this->controller->handleLogout($normalizedRequest),
+                'admin/logout'          => $this->controller->handleLogout($normalizedRequest),
+                'set-gender'            => $this->controller->handleSetGender($normalizedRequest),
+                'admin/set-gender'      => $this->controller->handleSetGender($normalizedRequest),
+                'forgot-password'       => $this->controller->handleForgotPassword($normalizedRequest),
+                'admin/forgot-password' => $this->controller->handleForgotPassword($normalizedRequest),
+                'reset-password'        => $this->controller->handleResetPassword($normalizedRequest),
+                'admin/reset-password'  => $this->controller->handleResetPassword($normalizedRequest),
                 default            => [
                     'httpStatus' => 404,
                     'type'       => 'json',

@@ -1,71 +1,56 @@
 /* ============================================================
    p-admin-login.css — Admin (05_Pages · P01)
    Ekran: admin-login · figma 2161:12506 · PNG admin-1920/login
-   ASCII §1 bant toplamı: 261+136+110+254+180+100+39 = 1080 ✓
-   Scope: .adm-page--login (Görev A HTML contract)
-   KAPI: ham hex/px YOK · var fallback YOK · @media YOK
+   Sağ dock akıcı flex yerleşimi (select-gender standardı).
+   Scope: .adm-page--login
    ============================================================ */
 
-/* Bilgi notu bandı — y261 h136 (panel-rel) */
+/* Bilgi notu bandı */
 .adm-page--login .adm-auth__note {
-  top: var(--adm-login-note-top);
-  height: var(--adm-login-note-h);
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  height: auto;
 }
 
-/* ikon panel-rel 261 → note-rel 0 · metin 331 → note-rel 70
-   (calc — token'lar panel-rel, containment note) */
 .adm-page--login .adm-auth__note-icon {
-  position: absolute;
-  top: calc(var(--adm-login-note-icon-top) - var(--adm-login-note-top));
-  /* panel-rel x225 (panel merkezi) → note-rel = 225 - note-x */
-  left: calc(var(--adm-auth-icon-x) - var(--adm-login-note-x));
-  width: var(--adm-auth-icon);
-  height: var(--adm-auth-icon);
+  position: relative;
+  top: auto;
+  left: auto;
 }
 
 .adm-page--login .adm-auth__note-text {
-  position: absolute;
-  top: calc(var(--adm-login-note-text-top) - var(--adm-login-note-top));
-  left: 0;
-  width: var(--adm-login-note-w);
-  min-height: var(--adm-login-note-text-h);
+  position: relative;
+  top: auto;
+  left: auto;
+  width: auto;
+  min-height: 0;
 }
 
-/* Form — y507 h254 · x55 (w390, ortalı) */
+/* Form akıcı flex kutusu */
 .adm-page--login .adm-auth__form {
-  top: var(--adm-login-form-top);
-  left: var(--adm-login-form-x);
-  width: var(--adm-input-w);
-  height: var(--adm-login-form-h);
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  height: auto;
 }
 
-/* Form iç satırlar (form-rel — figma 507/545/595/633/683/723) */
-.adm-page--login .adm-form__label--l1 {
-  top: var(--adm-login-l1-top);
-}
-
-.adm-page--login .adm-form__field--i1 {
-  top: var(--adm-login-i1-top);
-}
-
-.adm-page--login .adm-form__label--l2 {
-  top: var(--adm-login-l2-top);
-}
-
-.adm-page--login .adm-form__field--i2 {
-  top: var(--adm-login-i2-top);
-}
-
-.adm-page--login .adm-form__actions {
-  top: var(--adm-login-actions-top);
-}
-
-/* CTA — y723 (form-rel 216) */
+/* Form içi elemanlar */
+.adm-page--login .adm-form__label,
+.adm-page--login .adm-form__field,
+.adm-page--login .adm-form__actions,
 .adm-page--login .adm-btn {
-  top: var(--adm-login-btn-top);
+  position: relative;
+  top: auto;
+  left: auto;
 }
 
-/* QR — ortak blok y941; metin genişliği login (w311) */
-.adm-page--login .adm-auth__qr-text {
-  width: var(--adm-qr-text-w-login);
+/* QR */
+.adm-page--login .adm-auth__qr {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
 }

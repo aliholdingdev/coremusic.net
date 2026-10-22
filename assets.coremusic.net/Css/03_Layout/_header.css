@@ -41,7 +41,37 @@
     display: flex;
     align-items: center;
     height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    /* padding-right: var(--header-padding-right, 24px); */
     gap: 8px;
+}
+
+/* Header sağ aksiyonlar: kullanıcı hapı, wifi, bluetooth, pil — ekranın EN SAĞINA yapışık */
+.site-header__actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* 4K UHD: Header %100 tam genişlik ve sağ kısım tam yapışık */
+@media (min-width: 2561px) {
+    .site-header {
+        width: 100vw !important;
+        max-width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    .site-header__inner {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-right: 32px !important;
+    }
+    .site-header__actions {
+        margin-left: auto !important;
+    }
 }
 
 .site-header__inner .site-header__logo {
@@ -500,6 +530,10 @@
         margin-right: 10px;
     }
 
+    .header-widget {
+        display: none;
+    }
+
     /* Sol hiza — Figma 1024 text x=16.
        Seçici base ile aynı olmalı (.site-header__inner .site-header__logo);
        tek sınıf seçici base'in specificity'sini geçemiyordu → padding ölü koddu. */
@@ -510,6 +544,9 @@
     .nav-link {
         font-size: var(--fs-xs, 11px);
         padding: 4px 8px;
+        min-height: var(--touch-min, 48px);
+        display: inline-flex;
+        align-items: center;
     }
 
     .header-user__name {
@@ -520,6 +557,11 @@
     .header-action-btn {
         width: var(--btn-size-sm, 30px);
         height: var(--btn-size-sm, 30px);
+        min-width: var(--touch-min, 48px);
+        min-height: var(--touch-min, 48px);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
@@ -618,13 +660,17 @@
 @media (min-width: 3841px) {
     .site-header {
         height: var(--header-h, 90px);
+        padding: 0 var(--sp-8);
     }
 
     .site-header__logo {
+        height: 48px;
         font-size: var(--fs-3xl, 40px);
     }
 
     .nav-link {
+        min-height: 64px;
+        min-width: 64px;
         font-size: var(--fs-xl, 22px);
         padding: 12px 24px;
     }
@@ -651,6 +697,11 @@
    MOBILE (< 768px) — Minimal nav (Hibrit scale)
    ============================================================ */
 @media (max-width: 767px) {
+    .site-header {
+        height: 56px;
+        padding: 0 var(--space-2, 8px);
+    }
+
     .site-header__nav {
         display: none;
     }
@@ -660,7 +711,13 @@
     }
 
     .site-header__logo {
+        height: 28px;
         font-size: var(--fs-lg, 18px);
+    }
+
+    .header-user__name {
+        font-size: 11px;
+        max-width: 70px;
     }
 }
 

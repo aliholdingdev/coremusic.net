@@ -112,6 +112,94 @@
   min-height: 48px;         /* PNG ~44px — WCAG 48px touch korunur */
 }
 
+/* Embedded touch targets & cards */
+.home-layout--embedded .quick-app-btn,
+.home-layout--embedded .embedded-app-btn,
+.quick-app-btn,
+.embedded-app-btn {
+  min-width: var(--touch-min, 48px);
+  min-height: var(--touch-min, 48px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-layout--embedded .mini-music-card,
+.home-layout--embedded .home-recent-card,
+.mini-music-card,
+.home-recent-card {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.home-layout--embedded .home-widget-card,
+.home-widget-card {
+  min-height: var(--touch-min, 48px);
+}
+
+.star-gold-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(255, 209, 59, 0.5));
+}
+
+.hero-stat-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.heart-purple-icon {
+  display: inline-block;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.8));
+}
+
+@media (max-width: 1024px) {
+  .card-grid {
+    --grid-cols: 3;
+  }
+
+  .detail-panel__art {
+    width: var(--detail-panel-art-size, 280px);
+    height: var(--detail-panel-art-size, 280px);
+  }
+
+  .genre-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .card-grid--scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .card-grid--scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .now-playing,
+  .home-widget,
+  .widget,
+  .detail-panel,
+  .mini-card {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  .modal {
+    max-width: 380px;
+  }
+
+  .auth-screen__panel {
+    width: 284px;
+  }
+}
+
 /* — Wide/Desktop (1920) bileşen ölçekleri — PNG home-1920 ölçümleri — */
 /* .home_song__btn-title: wide markup'ta .section-title sınıfı taşımaz → h2 base
    (32px / koyu renk) devralıyordu; bölüm başlığı değerleri burada eşitlenir. */
@@ -189,6 +277,43 @@
     height: 28px;
   }
 }
+
+/* ============================================================
+   NOW PLAYING — 4K TV (2561–3840px)
+   ============================================================ */
+@media (min-width: 2561px) and (max-width: 3840px) {
+  .home-now-playing__cover {
+    width: 96px;
+    height: 96px;
+  }
+
+  .home-now-playing__title {
+    font-size: 1.25rem;
+  }
+
+  .home-now-playing__artist {
+    font-size: 1rem;
+  }
+}
+
+/* ============================================================
+   NOW PLAYING — 4K Monitor (≥3841px)
+   ============================================================ */
+@media (min-width: 3841px) {
+  .home-now-playing__cover {
+    width: 120px;
+    height: 120px;
+  }
+
+  .home-now-playing__title {
+    font-size: 1.5rem;
+  }
+
+  .home-now-playing__artist {
+    font-size: 1.25rem;
+  }
+}
+
 
 
 

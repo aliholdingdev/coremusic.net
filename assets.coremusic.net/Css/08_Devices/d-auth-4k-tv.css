@@ -1,8 +1,33 @@
 /**
  * Dosya: d-auth-4k-tv.css
- * Katman: 08_Devices - cihaz/breakpoint override
- * Rol: Auth 2561-3840px (4K TV, 10ft) split layout override'ları
- * Bağımlılık: token tüketir: var(--lgn-*)
- * Güncelleme: 2026-10-03
+ * Katman: 08_Devices - cihaz paketi (bundle)
+ * Rol: Auth 4K TV (2561-3840px) cihaz paketi - ITCSS katman @import bundle
+ * Kural: İçinde doğrudan CSS kodu barındırmaz, yalnızca @import içerir (ITCSS SSOT)
+ * Bağımlılık: 01_Abstracts -> 02_Base -> 05_Pages -> 06_Utilities -> 11_OAuth
+ * Güncelleme: 2026-10-21 (Import zinciri tam ITCSS katmanları ile yenilendi)
  */
-:root {  --lgn-panel-w: 500px;  --lgn-font-size: 18px;  --touch-min: 56px;}html { font-size: 18px; }/* ═══ PANEL ═══ */.lgn-panel {  width: var(--lgn-panel-w);}/* ═══ HERO — Padding for panel ═══ */.lgn-hero {  padding-left: 6vw;  padding-right: calc(var(--lgn-panel-w) + 5vw) !important;}.lgn-hero__title {  font-size: clamp(1.4rem, 1.8vw, 2.2rem);}/* ═══ FORM ELEMENTS ═══ */.lgn-form__input {  height: clamp(46px, 2vw, 56px);}.lgn-btn {  height: clamp(50px, 2.2vw, 60px);}.lgn-social {  grid-template-columns: repeat(3, 1fr);}.lgn-social__btn {  height: clamp(40px, 2.2vw, 48px);}/* Background image is controlled by auth-gender-bg.js for crossfade animation */
+
+/* 01_Abstracts — Tokens */
+@import url("../01_Abstracts/a-primitive-tokens.css?v=2.2.0");
+@import url("../01_Abstracts/a-fonts-token.css?v=2.2.0");
+@import url("../01_Abstracts/a-colors-token.css?v=2.2.0");
+@import url("../01_Abstracts/a-semantic-token.css?v=2.2.0");
+@import url("../01_Abstracts/a-theme-config.css?v=2.2.0");
+@import url("../01_Abstracts/a-light-glass-tokens.css?v=2.2.0");
+@import url("../01_Abstracts/a-login-tokens.css?v=2.2.0");
+@import url("../01_Abstracts/a-breakpoint-tokens.css?v=2.2.0");
+@import url("../01_Abstracts/a-layout-tokens-3840.css?v=2.2.0");
+
+/* 02_Base — Reset & Base Styles */
+@import url("../02_Base/b-base-core.css?v=2.2.0");
+
+/* 05_Pages — Auth Pages */
+@import url("../05_Pages/p-select-gender.css?v=2.2.0");
+@import url("../05_Pages/p-login-view.css?v=2.2.0");
+@import url("../05_Pages/p-admin-auth-light.css?v=2.2.0");
+
+/* 06_Utilities — Helpers */
+@import url("../06_Utilities/u-helpers-utility.css?v=2.2.0");
+
+/* 11_OAuth — OAuth Providers */
+@import url("../11_OAuth/oauth.css?v=2.2.0");

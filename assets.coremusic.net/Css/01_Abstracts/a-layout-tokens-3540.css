@@ -12,7 +12,7 @@
  *   (device-loader.js "4k-monitor ≥3841px") — iki kaynak çelişiyor; §2.1 uygulandı.
  * Kaynak: 08_Devices/d-4k-monitor.css → :root bloğu (uydurma YOK). */
 
-@media (min-width: 3540px) and (max-width: 3839px) {
+@media (min-width: 3540px) {
   :root {
     /* --- Header: largest --- */
     --header-h: 90px;
