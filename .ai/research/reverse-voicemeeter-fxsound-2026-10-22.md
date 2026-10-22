@@ -295,7 +295,7 @@ Get-ChildItem "C:\Program Files\FxSound LLC\FxSound\Drivers" -Recurse
 | U1 | VoiceMeeter'in gerçek **exclusive mod** kullanımı ve pin formatları | Pin formatları ✅ **KAPANDI** (`multi-os-audio-stack-veri-toplama-2026-10-22.md` §2: 8 render + 8 capture pin, VAIO2023; .sys rate taraması 44.1k–192k, 192k en sık=36; EXTENSIBLE 709/FLOAT 244). Exclusive mod kullanımı hâlâ `⚠️ VERIFICATION REQUIRED` (dinamik analiz gerekli) |
 | U2 | `fxvad.sys` pin formatları (max rate/bit) | ✅ **KAPANDI** (`multi-os-audio-stack-veri-toplama-2026-10-22.md` §3: 88.2/96/176.4/192 kHz sabitleri .sys'te **0**; default INF blob'u 48 kHz/16-bit/stereo EXTENSIBLE → FxSound sanal cihazı 44.1/48 kHz ile sınırlı) |
 | U3 | Dinamik analiz (çalışan process: hangi API çağrılıyor) | YAPILMADI — Rizin/REA debug oturumu gerekli |
-| U4 | `.fac` dosyalarının içeriği (preset mi, FIR katsayı mı) | `⚠️ VERIFICATION REQUIRED` |
+| U4 | `.fac` dosyalarının içeriği (preset mi, FIR katsayı mı) | ✅ **KAPANDI** — **preset** (düz metin, `Factsoft/` 13 dosya, şema §9: `fxsound-app-source-analizi-2026-10-22.md` §19.2; FIR katsayı YOK) |
 | U5 | VoiceMeeterRemote API export listesi | ✅ **KAPANDI** (`multi-os-audio-stack-veri-toplama-2026-10-22.md` §4: ASCII string taraması — `VBVMR_Login/Get/SetParameter(Float/StringA/W)/SetParameters(W)/GetLevel/GetMidiMessage/Input_GetDevice*/AudioCallback*`; 3 COM callback kanalı `VBVMCClientV2`; derleme VC2010, PDB path kanıtı) |
 
 ---

@@ -227,7 +227,7 @@ fxmcp/
 
 | # | Madde | Durum |
 |---|---|---|
-| U1 | `DfxDsp` API sözleşmesi (`include/DfxDsp.h`) içeriği | OKUNMADI — sonraki oturum |
+| U1 | `DfxDsp` API sözleşmesi (`include/DfxDsp.h`) içeriği | ✅ **KAPANDI** (§19.1 — gerçek yol `dsp/include/DfxDsp.h`, 79 satır tam okundu) |
 | U2 | `FxController::applyConfig` CLI sözleşmesi (`docs/COMMAND_LINE_OPTIONS.md`) | OKUNMADI — sonraki oturum |
 | U3 | `.fac` dosyalarının formatı | `⚠️ VERIFICATION REQUIRED` |
 | U4 | `Resources` submodule içeriği (clone edilmedi) | `⚠️ VERIFICATION REQUIRED` |
@@ -461,11 +461,11 @@ fxmcp/
 
 | # | Madde | Durum | Kapatma yolu |
 |---|---|---|---|
-| U1 | `include/DfxDsp.h` API sözleşmesi | OKUNMADI | Dosya okuması |
+| U1 | `include/DfxDsp.h` API sözleşmesi | ✅ **KAPANDI** (§19.1) | — |
 | U2 | `docs/COMMAND_LINE_OPTIONS.md` CLI yüzeyi | ✅ **KAPANDI** (§18 — 128 satır tam okundu) | — |
 | U3 | `.fac` formatı (55 `bin/`, 68 depo) | `⚠️ VERIFICATION REQUIRED` | hex header |
 | U4 | `Resources` submodule içeriği | clone edilmedi | `git submodule update --init` |
-| U5 | `.fac` = preset mi FIR mı | `⚠️` | U3 ile birlikte |
+| U5 | `.fac` = preset mi FIR mı | ✅ **KAPANDI** (§19.2 — düz metin preset, FIR yok) | — |
 | U6 | FxSound **exclusive** iddiası (forum) vs `LOOPBACK` (kod) | **Çelişki — kod lehine çözüldü**, ama çıkış yönü `sndDevices*` dışında tam tarama gerekli | `grep -r AUDCLNT_SHAREMODE` |
 | U7 | `dfxpdefs.h` — DFX kökeni/etiketi | `⚠️ VERIFICATION REQUIRED` | Dosya okuması |
 | U8 | 4. CI workflow adı | okunmadı | dosya adı listesi |
@@ -570,6 +570,81 @@ fxsound.exe --status
 | Volume leveling | 0–4 dB | Loudness eşitleme (modül `⚠️`) | önerilen |
 | Balance | ±20 dB | Pan kontrolü | ✅ |
 | Etkiler | fidelity/clarity, ambience, surround, dynamicboost, bass (0–10) | Neva: clarity/ambience/surround/bass + **reverb/limiter ayrı** | kısmi |
+
+## §19 DERİN TUR — DfxDsp API + .fac preset + WASAPI akış zinciri (2026-10-22 · U1/U5 KAPANDI)
+
+> Bu bölüm §17'deki U1 (`DfxDsp.h` okunmadı) ve U5 (`.fac` = preset mi FIR mı) maddelerini
+> **dosya okumasıyla** kapatır. Kanıtlar: `dsp/include/DfxDsp.h` (79 satır, tamamı okundu) ·
+`Factsoft/*.fac` (13 dosya, hex + tam metin okundu) · `audiopassthru/src/sndDevices/*.cpp`
+> (grep satır kanıtları). Tam bağlam: `@.ai/research/multi-os-audio-stack-veri-toplama-2026-10-22.md`.
+
+### §19.1 DfxDsp API sözleşmesi (U1 KAPANDI)
+
+`dsp/include/DfxDsp.h` — AGPL başlığı (FxSound LLC 2025 + theremino katkıcıları). Tek sınıf:
+
+| Grup | Üyeler | Not |
+|---|---|---|
+| Efekt enum | `Fidelity=0, Ambience=1, Surround=2, DynamicBoost=3, Bass=4` (`NumEffects=5`) | 5 efekt — `.fac`'taki `Main 0..5` (6 slot) ile birebir örtüşme **kanıtlanmadı** ⚠️ |
+| Format | `setSignalFormat(bps, nch, srate, valid_bits)` | Tek çağrıda tam format |
+| İşleme | `processAudio(short* in, short* out, num_sets, check_duplicate_buffers)` | **Public API 16-bit (short)** — float yol içerde (`dfxpProcessReal.cpp`) olabilir, sözleşme short ⚠️ |
+| Preset | `loadPreset/savePreset/exportPreset` (`.fac` yolu) | §19.2 |
+| EQ | `getNumEqBands/setNumBands`, `get/setEqBandFrequency` + `getEqBandFrequencyRange`, `get/setEqBandBoostCut`, `get/setFilterQ`, `eqOn` | Bant sayısı **dinamik** (setNumBands) |
+| Master | `get/setBalance`, `get/setNormalization`, `get/setVolumeLeveling`, `get/setMasterGain` | dB tabanlı |
+| Güç | `powerOn/isPowerOn` | |
+| Telemetri | `getTotalAudioProcessedTime/reset`, `getSpectrumBandValues(float*, size)` | Spectrum UI beslemesi |
+
+PIMPL: `DfxDspPrivate *data_` — uygulama ile DSP arasındaki tek geçiş noktası.
+
+### §19.2 .fac preset formatı (U5 KAPANDI — "preset", FIR DEĞİL)
+
+**13 dosya** `C:\Program Files\FxSound LLC\FxSound\Factsoft\` (944–984 bayt, `Default.fac` +
+`1..12.fac`). Hex header = **düz metin** (CRLF): `CLASS1 : Effect Type\r\n9: Version\r\n<isim>...`
+
+Şema (tam metin okuma):
+
+```
+CLASS1 : Effect Type          ← dosya sınıfı
+9: Version                    ← şema sürümü 9
+<Default|General|Light Processing|...>   ← efekt adı
+0: Double Params Flag
+1: Total number of elements
+<6×> "Main 0..5"              ← 6 ana parametre (Light Processing: 25/0/0/35/5/20)
+<7×> "Param 0..6"             ← element parametreleri
+7: Number of Application Dependent Integers
+<7×> "Integer[0..6]"          ← bayraklar (1/0/1/1/1/0/2 deseni)
+10: Number of EQ Bands        ← 10 bant EQ
+1: On/Off Flag
+Band N → "<CF>: CF" + "<dB>: Boost/Cut"   ← merkez frekans + kazanç
+```
+
+**EQ CF değerleri (Default.fac):** 62.5 · 121.5 · 225 · 416.5 · 770.5 · 1425 · 2645 · 4895 ·
+9060 · 13885 Hz (CLI'daki 10-bant moduyla uyumlu; 7.fac kaba örnekte CF'ler kayar —
+115.734/214.311/... → CF'ler preset'e göre serbest).
+
+**Neva çıkarımı:** preset formatı insan-okur metin (INI-benzeri) — Neva için aynı sadelikte
+metin preset yeterli; FIR katsayı dosyası FxSound'da **yok**.
+
+### §19.3 WASAPI akış zinciri (kanıt satırları)
+
+```text
+CAPTURE (loopback)                          PLAYBACK
+─────────────────                           ────────
+pCaptureDevice                              pPlaybackDevice
+  ->Activate(IAudioClient)        :75         ->Activate(IAudioClient)    :310/:426/:472
+     (taze client için re-activate           (yorum: "Release and re-activate
+      yorumu L424)                            to get a fresh, uninitialized IAudioClient")
+pAudioClientCapture                         pAudioClientPlayback
+  ->Initialize(SHARED, flags, dur) :185      ->Initialize(SHARED, flags, dur, 0, pwfx) :481
+     (flags iç LOOPBACK=1 — §kod :170,173)     hata durumunda IsFormatSupported
+                                               pClosestMatch ile tekrar :474/:491
+  ->GetService(IAudioCaptureClient) :203    pAudioClientPlayback
+     → pAudioCaptureLoopback                  ->GetService(IAudioRenderClient) :518
+                                                → pAudioClientPlaybackRender
+```
+
+**Sonuç:** FxSound passthru her iki uçta da `AUDCLNT_SHAREMODE_SHARED` (exclusive yok —
+§kod teyidi); playback uçunda format uyumsuzluğunda `pClosestMatch` fallback'i var. Neva
+IAudioBackend bu akışın exclusive varyantını hedefler (ADR-107).
 
 ---
 
