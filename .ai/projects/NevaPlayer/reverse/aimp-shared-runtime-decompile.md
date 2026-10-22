@@ -2,7 +2,7 @@
 title: "AIMP.Shared.dll + AIMP.Runtime.dll — Tam Full Decompile (Ghidra Headless)"
 type: reverse-engineering
 project: NevaPlayer
-version: 1.6.0
+version: 1.7.0
 status: active
 date: 2026-10-22
 authority: "Zero-hallucination: her iddia asagida kaynakli. Isim-eslesme sayimlari yalnizca orneklenmis terimler icin gecerli (bolum 6 kirlilik notu)."
@@ -380,7 +380,9 @@ Arama ornegi: `Select-String -Path aimp-runtime-proc-index.txt -Pattern "TASOASI
   OnTrack @0x5BDF00 split dallanmasi -> SetActive @0x5BE280). GetContentType @0x5D3260
   eslemesi kesin (0x10301->audio/mpeg, 0x10002/0x10901->audio/ogg, 0x10003-5->audio/mpeg,
   0x10300->audio/wma, 0x10b00->audio/aac; isim atflari VR). BASS sabitleri bass.h 2.4
-  (2012, Un4seen) ile dogrulandi (bolum 15.6 tablosu - dogrulanmis/VR ayrimi);
+  ile dogrulandi (bolum 15.5 tablosu - dogrulanmis/VR ayrimi). Surum ayrimi (tur23):
+  AIMP `bass.dll` = 2.4.17 (x64, 165824 B, FileVersion kaniti) / indirilen resmi
+  Un4seen paketi = 2.4.18 (x86, 144696 B; tarihce 2.4.18.3 - 15/12/2025);
   tags(7)=BASS_TAG_MP4 (APE=6) duzeltmesi. **Radio 198 KAPANDI** — §8 madde 4 tamamen
   kapali; §14.7 sayimindaki "KALAN tek tur" ibaresi de guncellendi.
 
@@ -438,9 +440,34 @@ Exclusive @0x608e80 (FUN_00609e30), DS @0x606820 (FUN_00606ca0).
   rol adlari `"rConsole"/"rMultimedia"/"rCommunications"`.
 - `FUN_0060c430` = `IMMNotificationClient::OnDeviceStateChanged` (gövde kaniti:
   log `"WASAPI: OnDeviceStateChanged - "`, vtable PTR @0x7d77fc).
-  Bildirim client'i provider nesnesine **gömülü** (+0x20); 5-slot ayri
-  vtable @0x609768 (diz/liste yardimcisi; kuyruk asmasi notu) — slot-level
-  bildirim eslemesi kucuk acik is.
+  Bildirim client'i provider nesnesine **gömülü** (+0x20). **Slot-level
+  bildirim eslemesi KAPANDI (tur23):** gercek IMMNotificationClient
+  vtable'i **@0x608EC8 (file 0x2082C8), 8 slot** (tablo asagida);
+  @0x609768'deki 5-imlec dizi **bildirim vtable'i DEGIL** (diz/liste
+  yardimcisi; tek disp32 "xref"i rel=0 padding isabeti).
+
+**IMMNotificationClient vtable @0x608EC8 (tur23 - 8 slot):**
+
+| Slot | Metot | Thunk VA | Hedef |
+|---|---|---|---|
+| [0] | QueryInterface | 0x608EA6 | `48 83 C1 E0 48 8B 01 FF 20` = `add rcx,-0x20; mov rax,[rcx]; jmp [rax]` -> provider VMT slot 0 (Delphi dispatch; hedef adlandirma VR) |
+| [1] | AddRef | 0x608EAF | `jmp 0x409240` = `FF 25` IAT thunk -> IAT rva 0x277A28 (AIMP.Runtime.dll) -> `Acl::Classes::TACLUnknownObject::_AddRef()` (hint=0) |
+| [2] | Release | 0x608EB8 | `jmp 0x409250` = `FF 25` IAT thunk -> IAT rva 0x274D08 (AIMP.Runtime.dll) -> `Acl::Classes::TACLUnknownObject::_Release()` (hint=0; mangled `_ZN3Acl7Classes17TACLUnknownObject8_ReleaseEv`, bayt dogrulandi file 0x28E99E) |
+| [3] | OnDeviceStateChanged | 0x608E79 | `jmp` rel32 -> `FUN_0060c430` |
+| [4] | OnDeviceAdded | 0x608E82 | `jmp` rel32 -> `FUN_0060c2b0` (`GetDeviceNameByID` govdesi; isim + arrival x3 rol) |
+| [5] | OnDeviceRemoved | 0x608E8B | `jmp` rel32 -> `FUN_0060c330` (Disconnected + removal) |
+| [6] | OnDefaultDeviceChanged | 0x608E94 | `jmp` rel32 -> `FUN_0060c0b0` |
+| [7] | OnAudioSessionNotification | 0x608E9D | `jmp` rel32 -> `FUN_0060c5b0` (no-op `return 0`) |
+
+  Tum thunk'lar `48 83 C1 E0` = **`add rcx,-0x20`** (this-adjust: embedded
+  client = provider+0x20 -> provider) ile baslar; bu yuzden govde provider
+  alanlarini (+0x10 enum, +0x18 list) okur - onceki "this-0x20 celiskisi"
+  kapandi. **Gercek interface tablo girdisi** VA 0x608F10-0x608F2F:
+  IMMNotificationClient GUID baytlari `C9 EE 91 79 89 7E 85 4D 83 90 6C 70 3C
+  EC 60 C0` = `7991EEC9-7E89-4D85-8390-6C703CEC60C0` (**IID_IMMNotificationClient**,
+  websearch 4 bagimsiz kaynak) + vtable ptr `0x608EC8` (imm32 `C8 8E 60 00`
+  @ VA 0x608F20 / file 0x208320 - imm32 xref taramasindaki TEK isabet) +
+  **offset 0x20** -> "embedded +0x20" iddiasi yapil olarak kanitlandi.
 
 ### 11.4 Istemci (IAudioClient sarmalayici) vtable'lari — KANONIK BULGU
 
@@ -986,11 +1013,27 @@ flag'i `0x40000000` ve `GetStreamInfo` flag bit adlari (1 / 5 / 2 eslemesi)
 VERIFICATION REQUIRED.
 
 **TBASSLibrary::EnsureInitialized (@0x51D7C0):** `BASS_Init(0, 0xac44 = 44100,
-0, 0)` + ardindan SetConfig zinciri (raw id'ler; isim eslemesi VERIFICATION
-REQUIRED): `0x10` · `0x28` · `9` · `0x39` · `0xc` · `0x15` · `0xf` · `0x3c` ·
-`0x25` · `0xb` · `0x48 = 64000` · `1` · `0x10101` · `0x17` · `0x34` +
-`SetConfigPtr`/`GetConfigPtr` cagrilari; hata durumunda
+0, 0)` + ardindan SetConfig zinciri (15 cagri; **13'u isimlendi - tur23**,
+resmi 2.4.18 header ile birebir): `0x10` NET_AGENT · `0x28` MF_DISABLE ·
+`9` FLOATDSP · `0x39` **header'da tanimsiz** · `0xc` NET_BUFFER · `0x15`
+NET_PLAYLIST · `0xf` NET_PREBUF · `0x3c` NET_PREBUF_WAIT · `0x25`
+NET_READTIMEOUT · `0xb` NET_TIMEOUT · `0x48 = 64000` NET_RESTRATE · `1`
+UPDATEPERIOD · `0x10101` **header'da tanimsiz** · `0x17` VERIFY · `0x34`
+VERIFY_NET + `SetConfigPtr`/`GetConfigPtr` cagrilari; hata durumunda
 `L"BASS_INIT_ERROR"` mesaji.
+
+**Canli probe (tur23 - AIMP `bass.dll` 2.4.17 x64 + resmi paket 2.4.18 x86;
+her iki DLL'de AYNI sonuc):**
+
+| Secenek id | Probe | Sonuc |
+|---|---|---|
+| `0x39` (57) | `BASS_SetConfig(0x39, 1)` | **True, err=0** - runtime kabul; public header'da **tanimsiz** (56 NET_SEEK / 58 AM_DISABLE arasi) -> anlami VERIFICATION REQUIRED |
+| `0x10101` (65793) | `BASS_SetConfig(0x10101, 1)` | **False, err=20 (BASS_ERROR_INVALID)** - tanimsiz secenek |
+| `0x3c` (60, NET_PREBUF_WAIT) | `BASS_SetConfig(0x3c, 1)` | **False, err=37 (BASS_ERROR_NOTAVAIL)** - bass.txt 2.4.17 tarihcesi: "BASS_CONFIG_NET_PREBUF_WAIT disabled" (deger degil, destek kapali) |
+| `999` | kontrol - tanimsiz id | **False, err=20** - probe guvenirlik kontrolu |
+
+`0x39`/`0x10101` icin AIMP'in zincirde ne gonderdigi ve hata kontrolu dump'ta
+ayrica incelenmedi -> VERIFICATION REQUIRED.
 
 ### 14.4 BASS yalniz DECODER (playback API = 0 hit)
 
@@ -1079,8 +1122,10 @@ eski "0" olcumu yanlis kalipti, bu bolumde duzeltildi (doc'a 0 yazilmaz).
 
 > Kapsam: AIMP.Shared.dll "Radio" substring = **198** prosedur. Yontem:
 > proc-index gruplandirma + Ghidra extract bloklari (Connect/metadata/recorder)
-> + **bass.h 2.4 (2012, Un4seen; samp-incognito GitHub mirror'indan tekrar
-> dogrulandi — 271 define regex cekildi)**. §8 madde 4'teki son "KALAN" tur
+> + **bass.h 2.4** (ilk dogrulama samp-incognito GitHub mirror'indan - 271
+> define regex cekildi; **tur23'te resmi Un4seen paketi ile tazelendi**:
+> AIMP `bass.dll` 2.4.17 x64 / resmi paket 2.4.18 x86 - bolum 15.5).
+> §8 madde 4'teki son "KALAN" tur
 > bu bolumde kapandi. ASCII guard: bu bolumde diakritik YOK.
 
 ### 15.1 D agilim (198 = 191 anlamli + 7)
@@ -1227,7 +1272,7 @@ AIMP karsiligi):
   (+0x10 byte buffer, pos/size) · `SetFormat` @0x5BB260 · GetFormatType/
   GetFileInfo/GetPosition/GetSize/GetStreamInfo/IsRealTimeStream/IsSeekable.
 
-### 15.5 BASS sabit dogrulamasi (bass.h 2.4 — 2012, Un4seen)
+### 15.5 BASS sabit dogrulamasi (bass.h 2.4 - AIMP 2.4.17 x64 / resmi paket 2.4.18 x86)
 
 **Dogrulanmis** (271 define regex cekimi; kullanimi ile birebir):
 
@@ -1250,8 +1295,9 @@ AIMP karsiligi):
 | `BASS_CTYPE_STREAM_OGG` | 0x10002 | GetContentType → audio/ogg |
 | `BASS_CTYPE_STREAM_MP1/MP2/MP3` | 0x10003-5 | GetContentType → audio/mpeg |
 | config `UPDATEPERIOD/FLOATDSP/NET_TIMEOUT/NET_BUFFER/NET_PREBUF/NET_AGENT/NET_PLAYLIST/VERIFY/NET_READTIMEOUT` | 1/9/0xb/0xc/0xf/0x10/0x15/0x17/0x25 | §14.3 EnsureInitialized |
+| config `MF_DISABLE/VERIFY_NET/NET_PREBUF_WAIT/NET_RESTRATE` (tur23 eklendi - resmi 2.4.18 header) | 0x28/0x34/0x3c/0x48 | §14.3; NET_PREBUF_WAIT probe NOTAVAIL (37) |
 
-**⚠️ VERIFICATION REQUIRED** (2012 header'da TANIMLI DEGIL — kapatilmayacak):
+**⚠️ VERIFICATION REQUIRED** (mirror header (2012 donemi) bazli; config satiri tur23'te resmi 2.4.18 header ile guncellendi - kapatilmayacak):
 
 | Kod | Kullanim | Not |
 |---|---|---|
@@ -1262,7 +1308,7 @@ AIMP karsiligi):
 | attrib `0xc` | bitrate (Round → +0x10A) | header'da bu id yok |
 | filepos `9` | Connect busy-wait | header 0-6 |
 | ctype `0x10300/0x10301/0x10901/0x10b00` | GetContentType | plugin ctypes — §6 "BASS plugin modeli" ile tutarli, isimler VR |
-| config `0x28, 0x34, 0x39, 0x3c, 0x48, 0x10101` | §14.3 SetConfig zinciri | — |
+| config `0x39` (57), `0x10101` (65793) | §14.3 SetConfig zinciri | Resmi 2.4.18 header'da TANIMLI DEGIL; probe (tur23): `0x39` -> True/err=0 (runtime-kabul) · `0x10101` -> False/err=20 (INVALID) |
 
 ### 15.6 Neva karsiliklari (ADR-0106 radyo decode kenari)
 
