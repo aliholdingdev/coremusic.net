@@ -26,6 +26,7 @@ $order = @(
   'coremusic_albums',
   'coremusic_media',
   'coremusic_cms',
+  'coremusic_billing',
   'coremusic_api',
   'coremusic_download',
   'coremusic_logs',

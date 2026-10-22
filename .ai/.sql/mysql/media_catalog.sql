@@ -184,6 +184,7 @@ CREATE TABLE `koleksiyon` (
   `tag` json NOT NULL COMMENT 'tag {tur[]} ÔÇö $defs/koleksiyon.tag',
   `durum` enum('inbox','aktif','sakli','tekrar','arsiv') COLLATE utf8mb4_tr_0900_ai_ci NOT NULL DEFAULT 'inbox' COMMENT 'SYNC: taxonomy.json#durum',
   `eklenme` datetime NOT NULL COMMENT 'eklenme (+03:00)',
+  `guncelleme` datetime DEFAULT NULL COMMENT 'guncelleme (datetime03_null)',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'soft delete',
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'silinme zaman─▒',
   PRIMARY KEY (`id`),

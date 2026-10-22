@@ -37,6 +37,8 @@ CREATE TABLE `device_playlists` (
   `last_synced_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_device_playlists_device_playlist` (`device_id`,`playlist_id`),
   KEY `idx_device_playlists_sync_status` (`sync_status`),
@@ -59,6 +61,9 @@ CREATE TABLE `device_sync_history` (
   `duration_ms` int DEFAULT '0',
   `error_message` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_sync_history_device_id` (`device_id`),
   KEY `idx_sync_history_sync_type` (`sync_type`),
@@ -81,6 +86,8 @@ CREATE TABLE `device_tracks` (
   `synced_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_device_tracks_device_music` (`device_id`,`music_id`),
   KEY `idx_device_tracks_sync_status` (`sync_status`),
@@ -140,7 +147,8 @@ CREATE TABLE `devices` (
   KEY `idx_devices_user_id` (`user_id`),
   KEY `idx_devices_device_type_id` (`device_type_id`),
   KEY `idx_devices_is_active` (`is_active`),
-  CONSTRAINT `fk_devices_device_types` FOREIGN KEY (`device_type_id`) REFERENCES `device_types` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `fk_devices_device_types` FOREIGN KEY (`device_type_id`) REFERENCES `device_types` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_devices_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User devices for synchronization, streaming, and multi-device access';
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `media_access`;
@@ -156,12 +164,15 @@ CREATE TABLE `media_access` (
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_media_access_grant` (`user_id`,`file_key`,`access_type`),
   KEY `idx_media_access_user_id` (`user_id`),
   KEY `idx_media_access_file_key` (`file_key`),
   KEY `idx_media_access_type` (`access_type`),
-  KEY `idx_media_access_expires_at` (`expires_at`)
+  KEY `idx_media_access_expires_at` (`expires_at`),
+  CONSTRAINT `fk_media_access_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Media file access control permissions for sharing and collaboration';
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `media_audit`;
@@ -178,11 +189,15 @@ CREATE TABLE `media_audit` (
   `user_agent` text COLLATE utf8mb4_unicode_ci,
   `metadata` json DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_media_audit_user_id` (`user_id`),
   KEY `idx_media_audit_action` (`action`),
   KEY `idx_media_audit_file_key` (`file_key`),
-  KEY `idx_media_audit_created_at` (`created_at`)
+  KEY `idx_media_audit_created_at` (`created_at`),
+  CONSTRAINT `fk_media_audit_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Media file operation audit trail for security and compliance';
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `media_metadata`;
@@ -207,7 +222,8 @@ CREATE TABLE `media_metadata` (
   UNIQUE KEY `uk_media_metadata_file_key` (`file_key`),
   UNIQUE KEY `uk_media_metadata_music_id` (`music_id`),
   KEY `idx_media_metadata_file_name` (`file_name`),
-  KEY `idx_media_metadata_mime_type` (`mime_type`)
+  KEY `idx_media_metadata_mime_type` (`mime_type`),
+  CONSTRAINT `fk_media_metadata_music` FOREIGN KEY (`music_id`) REFERENCES `coremusic_musics`.`musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Media file metadata for audio, images, and other media files';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

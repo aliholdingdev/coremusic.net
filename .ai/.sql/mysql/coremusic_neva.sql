@@ -1,7 +1,7 @@
 -- =========================================================================
 -- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
 -- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
--- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7) · SEED: eq_presets
+-- Semasi : TAM (tum tablolar/views/routines) · BCNF & UUID v7 Normalizasyon · SEED: eq_presets
 -- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
 -- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
@@ -30,18 +30,21 @@ DROP TABLE IF EXISTS `dsp_settings`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `dsp_settings` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned NOT NULL,
+  `user_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_auth.users.id (UUID v7)',
   `slot_order` tinyint unsigned NOT NULL,
   `effect_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `params_json` json NOT NULL,
   `is_bypassed` tinyint(1) NOT NULL DEFAULT '0',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_dsp_slot` (`user_id`,`slot_order`),
   KEY `idx_dsp_type` (`effect_type`),
   KEY `idx_dsp_order` (`slot_order`),
   KEY `idx_dsp_bypass` (`is_bypassed`),
+  CONSTRAINT `fk_dsp_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `dsp_settings_chk_1` CHECK ((`slot_order` between 0 and 15)),
   CONSTRAINT `dsp_settings_chk_2` CHECK ((`effect_type` in (_utf8mb4'equalizer',_utf8mb4'compressor',_utf8mb4'gate',_utf8mb4'reverb',_utf8mb4'delay',_utf8mb4'chorus',_utf8mb4'spatial',_utf8mb4'limiter')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -51,7 +54,7 @@ DROP TABLE IF EXISTS `eq_presets`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eq_presets` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned NOT NULL,
+  `user_id` binary(16) DEFAULT NULL COMMENT 'FK -> coremusic_auth.users.id (NULL = system/factory)',
   `preset_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `eq_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'graphic',
   `band_count` tinyint unsigned NOT NULL DEFAULT '10',
@@ -61,6 +64,7 @@ CREATE TABLE `eq_presets` (
   `sort_order` tinyint unsigned NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `deleted_at` datetime DEFAULT NULL,
   `eq_name_key` varchar(255) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (if((`deleted_at` is null),`preset_name`,NULL)) STORED,
   PRIMARY KEY (`id`),
@@ -69,6 +73,7 @@ CREATE TABLE `eq_presets` (
   KEY `idx_eqp_active` (`user_id`,`is_active`),
   KEY `idx_eqp_system` (`is_system`),
   KEY `idx_eqp_order` (`sort_order`),
+  CONSTRAINT `fk_eq_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `eq_presets_chk_1` CHECK ((`eq_type` in (_utf8mb4'graphic',_utf8mb4'parametric',_utf8mb4'shelving',_utf8mb4'peak'))),
   CONSTRAINT `eq_presets_chk_2` CHECK ((`band_count` in (2,5,10,15,31)))
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -78,7 +83,7 @@ DROP TABLE IF EXISTS `routing_matrix`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `routing_matrix` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned NOT NULL,
+  `user_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_auth.users.id (UUID v7)',
   `route_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `input_source` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `input_channel` tinyint unsigned NOT NULL DEFAULT '0',
@@ -87,13 +92,16 @@ CREATE TABLE `routing_matrix` (
   `gain_db` decimal(5,2) NOT NULL DEFAULT '0.00',
   `is_muted` tinyint(1) NOT NULL DEFAULT '0',
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_rm_user_name` (`user_id`,`route_name`),
   KEY `idx_rm_input` (`input_source`),
   KEY `idx_rm_output` (`output_destination`),
   KEY `idx_rm_active` (`is_active`),
+  CONSTRAINT `fk_rm_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `routing_matrix_chk_1` CHECK ((`input_source` in (_utf8mb4'system',_utf8mb4'microphone',_utf8mb4'file',_utf8mb4'stream',_utf8mb4'plugin'))),
   CONSTRAINT `routing_matrix_chk_2` CHECK ((`output_destination` in (_utf8mb4'speakers',_utf8mb4'headphones',_utf8mb4'bluetooth',_utf8mb4'file',_utf8mb4'stream'))),
   CONSTRAINT `routing_matrix_chk_3` CHECK ((`gain_db` between -(60.00) and 24.00))
@@ -105,7 +113,7 @@ DROP TABLE IF EXISTS `spectrum_analysis`;
 CREATE TABLE `spectrum_analysis` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `session_id` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` int unsigned NOT NULL,
+  `user_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_auth.users.id (UUID v7)',
   `bin_count` smallint unsigned NOT NULL DEFAULT '256',
   `fft_size` int unsigned NOT NULL DEFAULT '4096',
   `sample_rate_hz` int unsigned NOT NULL DEFAULT '48000',
@@ -120,6 +128,7 @@ CREATE TABLE `spectrum_analysis` (
   KEY `idx_sa_user` (`user_id`),
   KEY `idx_sa_sampled` (`sampled_at` DESC),
   KEY `idx_sa_bins` (`bin_count`),
+  CONSTRAINT `fk_sa_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `spectrum_analysis_chk_1` CHECK ((`bin_count` in (128,256,512,1024))),
   CONSTRAINT `spectrum_analysis_chk_2` CHECK ((`fft_size` in (1024,2048,4096,8192,16384))),
   CONSTRAINT `spectrum_analysis_chk_3` CHECK ((`sample_rate_hz` in (44100,48000,96000,192000))),
@@ -152,7 +161,14 @@ CREATE TABLE `spectrum_analysis` (
 
 LOCK TABLES `eq_presets` WRITE;
 /*!40000 ALTER TABLE `eq_presets` DISABLE KEYS */;
-INSERT INTO `eq_presets` (`id`, `user_id`, `preset_name`, `eq_type`, `band_count`, `bands_json`, `is_active`, `is_system`, `sort_order`, `created_at`, `updated_at`, `deleted_at`) VALUES (1,0,'Flat (Varsayilan)','graphic',10,'[{\"hz\": 32, \"gain\": 0}, {\"hz\": 64, \"gain\": 0}, {\"hz\": 125, \"gain\": 0}, {\"hz\": 250, \"gain\": 0}, {\"hz\": 500, \"gain\": 0}, {\"hz\": 1000, \"gain\": 0}, {\"hz\": 2000, \"gain\": 0}, {\"hz\": 4000, \"gain\": 0}, {\"hz\": 8000, \"gain\": 0}, {\"hz\": 16000, \"gain\": 0}]',0,1,0,'2026-08-17 11:41:25','2026-08-17 11:41:25',NULL),(2,0,'Pop','graphic',10,'[{\"hz\": 32, \"gain\": 1}, {\"hz\": 64, \"gain\": 2}, {\"hz\": 125, \"gain\": 2}, {\"hz\": 250, \"gain\": 0}, {\"hz\": 500, \"gain\": -1}, {\"hz\": 1000, \"gain\": 0}, {\"hz\": 2000, \"gain\": 1}, {\"hz\": 4000, \"gain\": 2}, {\"hz\": 8000, \"gain\": 3}, {\"hz\": 16000, \"gain\": 3}]',0,1,1,'2026-08-17 11:41:25','2026-08-17 11:41:25',NULL),(3,0,'Rock','graphic',10,'[{\"hz\": 32, \"gain\": 4}, {\"hz\": 64, \"gain\": 3}, {\"hz\": 125, \"gain\": 2}, {\"hz\": 250, \"gain\": 1}, {\"hz\": 500, \"gain\": 0}, {\"hz\": 1000, \"gain\": -1}, {\"hz\": 2000, \"gain\": 0}, {\"hz\": 4000, \"gain\": 2}, {\"hz\": 8000, \"gain\": 3}, {\"hz\": 16000, \"gain\": 4}]',0,1,2,'2026-08-17 11:41:25','2026-08-17 11:41:25',NULL),(4,0,'Jazz','graphic',10,'[{\"hz\": 32, \"gain\": 2}, {\"hz\": 64, \"gain\": 2}, {\"hz\": 125, \"gain\": 1}, {\"hz\": 250, \"gain\": 1}, {\"hz\": 500, \"gain\": 0}, {\"hz\": 1000, \"gain\": 0}, {\"hz\": 2000, \"gain\": 1}, {\"hz\": 4000, \"gain\": 1}, {\"hz\": 8000, \"gain\": 2}, {\"hz\": 16000, \"gain\": 2}]',0,1,3,'2026-08-17 11:41:25','2026-08-17 11:41:25',NULL),(5,0,'Klasik','graphic',10,'[{\"hz\": 32, \"gain\": 3}, {\"hz\": 64, \"gain\": 2}, {\"hz\": 125, \"gain\": 1}, {\"hz\": 250, \"gain\": 0}, {\"hz\": 500, \"gain\": 0}, {\"hz\": 1000, \"gain\": 0}, {\"hz\": 2000, \"gain\": 0}, {\"hz\": 4000, \"gain\": 1}, {\"hz\": 8000, \"gain\": 2}, {\"hz\": 16000, \"gain\": 3}]',0,1,4,'2026-08-17 11:41:25','2026-08-17 11:41:25',NULL),(6,0,'Bas Arttir','graphic',10,'[{\"hz\": 32, \"gain\": 6}, {\"hz\": 64, \"gain\": 5}, {\"hz\": 125, \"gain\": 4}, {\"hz\": 250, \"gain\": 2}, {\"hz\": 500, \"gain\": 0}, {\"hz\": 1000, \"gain\": 0}, {\"hz\": 2000, \"gain\": 0}, {\"hz\": 4000, \"gain\": 0}, {\"hz\": 8000, \"gain\": 0}, {\"hz\": 16000, \"gain\": 0}]',0,1,5,'2026-08-17 11:41:25','2026-08-17 11:41:25',NULL),(7,0,'Vokal','graphic',10,'[{\"hz\": 32, \"gain\": -2}, {\"hz\": 64, \"gain\": -1}, {\"hz\": 125, \"gain\": 0}, {\"hz\": 250, \"gain\": 1}, {\"hz\": 500, \"gain\": 2}, {\"hz\": 1000, \"gain\": 3}, {\"hz\": 2000, \"gain\": 3}, {\"hz\": 4000, \"gain\": 2}, {\"hz\": 8000, \"gain\": 1}, {\"hz\": 16000, \"gain\": 0}]',0,1,6,'2026-08-17 11:41:25','2026-08-17 11:41:25',NULL);
+INSERT INTO `eq_presets` (`id`, `user_id`, `preset_name`, `eq_type`, `band_count`, `bands_json`, `is_active`, `is_system`, `sort_order`, `created_at`, `updated_at`, `is_deleted`, `deleted_at`) VALUES 
+(1,NULL,'Flat (Varsayilan)','graphic',10,'[{\"hz\": 32, \"gain\": 0}, {\"hz\": 64, \"gain\": 0}, {\"hz\": 125, \"gain\": 0}, {\"hz\": 250, \"gain\": 0}, {\"hz\": 500, \"gain\": 0}, {\"hz\": 1000, \"gain\": 0}, {\"hz\": 2000, \"gain\": 0}, {\"hz\": 4000, \"gain\": 0}, {\"hz\": 8000, \"gain\": 0}, {\"hz\": 16000, \"gain\": 0}]',0,1,0,'2026-08-17 11:41:25','2026-08-17 11:41:25',0,NULL),
+(2,NULL,'Pop','graphic',10,'[{\"hz\": 32, \"gain\": 1}, {\"hz\": 64, \"gain\": 2}, {\"hz\": 125, \"gain\": 2}, {\"hz\": 250, \"gain\": 0}, {\"hz\": 500, \"gain\": -1}, {\"hz\": 1000, \"gain\": 0}, {\"hz\": 2000, \"gain\": 1}, {\"hz\": 4000, \"gain\": 2}, {\"hz\": 8000, \"gain\": 3}, {\"hz\": 16000, \"gain\": 3}]',0,1,1,'2026-08-17 11:41:25','2026-08-17 11:41:25',0,NULL),
+(3,NULL,'Rock','graphic',10,'[{\"hz\": 32, \"gain\": 4}, {\"hz\": 64, \"gain\": 3}, {\"hz\": 125, \"gain\": 2}, {\"hz\": 250, \"gain\": 1}, {\"hz\": 500, \"gain\": 0}, {\"hz\": 1000, \"gain\": -1}, {\"hz\": 2000, \"gain\": 0}, {\"hz\": 4000, \"gain\": 2}, {\"hz\": 8000, \"gain\": 3}, {\"hz\": 16000, \"gain\": 4}]',0,1,2,'2026-08-17 11:41:25','2026-08-17 11:41:25',0,NULL),
+(4,NULL,'Jazz','graphic',10,'[{\"hz\": 32, \"gain\": 2}, {\"hz\": 64, \"gain\": 2}, {\"hz\": 125, \"gain\": 1}, {\"hz\": 250, \"gain\": 1}, {\"hz\": 500, \"gain\": 0}, {\"hz\": 1000, \"gain\": 0}, {\"hz\": 2000, \"gain\": 1}, {\"hz\": 4000, \"gain\": 1}, {\"hz\": 8000, \"gain\": 2}, {\"hz\": 16000, \"gain\": 2}]',0,1,3,'2026-08-17 11:41:25','2026-08-17 11:41:25',0,NULL),
+(5,NULL,'Klasik','graphic',10,'[{\"hz\": 32, \"gain\": 3}, {\"hz\": 64, \"gain\": 2}, {\"hz\": 125, \"gain\": 1}, {\"hz\": 250, \"gain\": 0}, {\"hz\": 500, \"gain\": 0}, {\"hz\": 1000, \"gain\": 0}, {\"hz\": 2000, \"gain\": 0}, {\"hz\": 4000, \"gain\": 1}, {\"hz\": 8000, \"gain\": 2}, {\"hz\": 16000, \"gain\": 3}]',0,1,4,'2026-08-17 11:41:25','2026-08-17 11:41:25',0,NULL),
+(6,NULL,'Bas Arttir','graphic',10,'[{\"hz\": 32, \"gain\": 6}, {\"hz\": 64, \"gain\": 5}, {\"hz\": 125, \"gain\": 4}, {\"hz\": 250, \"gain\": 2}, {\"hz\": 500, \"gain\": 0}, {\"hz\": 1000, \"gain\": 0}, {\"hz\": 2000, \"gain\": 0}, {\"hz\": 4000, \"gain\": 0}, {\"hz\": 8000, \"gain\": 0}, {\"hz\": 16000, \"gain\": 0}]',0,1,5,'2026-08-17 11:41:25','2026-08-17 11:41:25',0,NULL),
+(7,NULL,'Vokal','graphic',10,'[{\"hz\": 32, \"gain\": -2}, {\"hz\": 64, \"gain\": -1}, {\"hz\": 125, \"gain\": 0}, {\"hz\": 250, \"gain\": 1}, {\"hz\": 500, \"gain\": 2}, {\"hz\": 1000, \"gain\": 3}, {\"hz\": 2000, \"gain\": 3}, {\"hz\": 4000, \"gain\": 2}, {\"hz\": 8000, \"gain\": 1}, {\"hz\": 16000, \"gain\": 0}]',0,1,6,'2026-08-17 11:41:25','2026-08-17 11:41:25',0,NULL);
 /*!40000 ALTER TABLE `eq_presets` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -164,6 +180,5 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
 
 SET FOREIGN_KEY_CHECKS = 1;

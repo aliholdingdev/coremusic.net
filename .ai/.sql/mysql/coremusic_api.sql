@@ -1,7 +1,7 @@
 -- =========================================================================
 -- CoreMusic — CANLI DUMP (MySQL -> .ai/.sql/mysql SSOT)
 -- Kaynak : canli MySQL · mysqldump (birebir canli sema) · Tarih: 2026-10-22
--- Semasi : TAM (tum tablolar/views/routines) · Uretec: regen_dumps_20261022.ps1 (mysqldump 9.7)
+-- Semasi : TAM (tum tablolar/views/routines) · BCNF & UUID v7 Normalizasyon
 -- VERI   : YOK — kullanici/davranisman/credential verisi bilincli yazilmaz (KVKK/REDACTED)
 -- Yeniden kurulum: .ai/.sql/mysql/rebuild-all.ps1
 -- =========================================================================
@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `api_calls`;
 CREATE TABLE `api_calls` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `api_key_id` int unsigned DEFAULT NULL,
-  `user_id` int unsigned DEFAULT NULL,
+  `user_id` binary(16) DEFAULT NULL COMMENT 'FK -> coremusic_auth.users.id (UUID v7)',
   `endpoint` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `method` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `http_status` smallint unsigned NOT NULL,
@@ -48,7 +48,8 @@ CREATE TABLE `api_calls` (
   KEY `idx_ac_status` (`http_status`),
   KEY `idx_ac_method` (`method`),
   KEY `idx_ac_response` (`response_time_ms`),
-  KEY `idx_ac_ip` (`ip_address`)
+  KEY `idx_ac_ip` (`ip_address`),
+  CONSTRAINT `fk_ac_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 /*!50100 PARTITION BY RANGE (to_days(`called_at`))
 (PARTITION p_2026_01 VALUES LESS THAN (740013) ENGINE = InnoDB,
@@ -70,13 +71,14 @@ DROP TABLE IF EXISTS `api_keys`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `api_keys` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned NOT NULL,
+  `user_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_auth.users.id (UUID v7)',
   `api_key_hash` char(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `api_key_prefix` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `key_label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `scope` varchar(1024) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `allowed_ips` text COLLATE utf8mb4_unicode_ci,
+  `scopes` json NOT NULL COMMENT 'JSON array of granted scopes (1NF compliant)',
+  `allowed_ips` json DEFAULT NULL COMMENT 'JSON array of allowed CIDRs/IPs',
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `expires_at` datetime DEFAULT NULL,
   `last_used_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -88,7 +90,8 @@ CREATE TABLE `api_keys` (
   KEY `idx_ak_active` (`is_active`),
   KEY `idx_ak_expires` (`expires_at`),
   KEY `idx_ak_last_used` (`last_used_at` DESC),
-  KEY `idx_ak_deleted` (`deleted_at`)
+  KEY `idx_ak_deleted` (`deleted_at`),
+  CONSTRAINT `fk_api_keys_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rate_limits`;
@@ -101,8 +104,10 @@ CREATE TABLE `rate_limits` (
   `max_requests` int unsigned NOT NULL DEFAULT '60',
   `window_sec` int unsigned NOT NULL DEFAULT '60',
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_rl_key_endpoint` (`api_key_id`,`endpoint_pattern`(255)),
   KEY `idx_rl_active` (`is_active`),
@@ -124,8 +129,10 @@ CREATE TABLE `webhooks` (
   `timeout_ms` int unsigned NOT NULL DEFAULT '5000',
   `last_triggered_at` datetime DEFAULT NULL,
   `last_http_status` smallint unsigned DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_wh_key_event_url` (`api_key_id`,`event_type`,`callback_url`(255)),
   KEY `idx_wh_event` (`event_type`),

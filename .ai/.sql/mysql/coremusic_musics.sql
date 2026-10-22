@@ -33,6 +33,7 @@ CREATE TABLE `artist_credit` (
   `display_name` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Gorunur birlesik ad ("Queen & David Bowie")',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_artist_credit_display` (`display_name`(100))
@@ -49,6 +50,7 @@ CREATE TABLE `artist_credit_names` (
   `join_phrase` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Birlestirme metni (" & ", ", ")',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_acn_credit_pos` (`artist_credit_id`,`position`),
@@ -140,6 +142,7 @@ CREATE TABLE `music_artists` (
   `is_primary` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Birincil sanatci bayragi',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olusturma (UTC)',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme (UTC)',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete (UTC)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_music_artists_pair` (`music_id`,`artist_id`),
@@ -170,6 +173,8 @@ CREATE TABLE `music_audio_features` (
   `mode_confidence` decimal(4,3) DEFAULT NULL COMMENT 'Mod g├╝venilirli─şi (0.000-1.000)',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zamani',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_music_audio_features_music` (`music_id`) COMMENT 'Benzersiz m├╝zik ili┼şkisi',
   CONSTRAINT `fk_music_audio_features_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -186,6 +191,9 @@ CREATE TABLE `music_credits` (
   `person_id` binary(16) DEFAULT NULL COMMENT 'Ki┼şi ID (CoreMusic ├╝yesi ise)',
   `credit_order` int NOT NULL DEFAULT '0' COMMENT 'Kredi s─▒ras─▒',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
   KEY `idx_music_credits_music` (`music_id`) COMMENT 'M├╝zik filtresi',
   KEY `idx_music_credits_type` (`credit_type`) COMMENT 'Kredi t├╝r├╝ filtresi',
@@ -232,6 +240,9 @@ CREATE TABLE `music_genres` (
   `genre_id` binary(16) NOT NULL COMMENT 'T├╝r ID',
   `is_primary` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Birincil t├╝r m├╝?',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_music_genres_unique` (`music_id`,`genre_id`) COMMENT 'Benzersiz m├╝zik-t├╝r ├ğifti',
   KEY `idx_music_genres_genre` (`genre_id`) COMMENT 'T├╝r filtresi',
@@ -272,6 +283,9 @@ CREATE TABLE `music_similar` (
   `similarity_score` decimal(3,2) NOT NULL COMMENT 'Benzerlik puan─▒ (0.00-1.00)',
   `algorithm` enum('collaborative','content_based','hybrid') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hybrid' COMMENT 'Benzerlik algoritmas─▒',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_music_similar_unique` (`music_id`,`similar_music_id`) COMMENT 'Benzersiz m├╝zik ├ğifti',
   KEY `idx_music_similar_target` (`similar_music_id`) COMMENT 'Hedef m├╝zik filtresi',
@@ -304,6 +318,8 @@ CREATE TABLE `music_stats` (
   `stats_date` date NOT NULL COMMENT '─░statistik tarihi',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_music_stats_unique` (`music_id`,`stats_date`) COMMENT 'Benzersiz m├╝zik-tarih ├ğifti',
   KEY `idx_music_stats_popularity` (`popularity_score`) COMMENT 'Pop├╝lerlik s─▒ralamas─▒',
@@ -319,6 +335,9 @@ CREATE TABLE `music_tags` (
   `music_id` binary(16) NOT NULL COMMENT 'M├╝zik ID',
   `tag` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Etiket ad─▒',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olu┼şturulma zaman─▒',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'G├╝ncellenme zaman─▒',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Yumu┼şak silme bayra─ş─▒',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Silinme zaman─▒',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_music_tags_unique` (`music_id`,`tag`) COMMENT 'Benzersiz m├╝zik-etiket ├ğifti',
   KEY `idx_music_tags_music` (`music_id`) COMMENT 'M├╝zik filtresi',
@@ -346,6 +365,7 @@ CREATE TABLE `music_videos` (
   `like_count` int unsigned NOT NULL DEFAULT '0',
   `is_official` tinyint(1) NOT NULL DEFAULT '0',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -408,10 +428,14 @@ CREATE TABLE `podcast_episodes` (
   `show_id` int unsigned NOT NULL,
   `title` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guid` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Global unique episode GUID (Apple Podcasts spec)',
   `description` text COLLATE utf8mb4_unicode_ci,
   `audio_url` varchar(2048) COLLATE utf8mb4_unicode_ci NOT NULL,
   `audio_format` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'mp3',
   `audio_size_bytes` bigint unsigned DEFAULT NULL,
+  `enclosure_url` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Enclosure audio URL',
+  `enclosure_length` bigint unsigned DEFAULT NULL COMMENT 'Enclosure length in bytes',
+  `enclosure_type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Enclosure MIME type',
   `duration_seconds` int unsigned DEFAULT NULL,
   `episode_number` int unsigned DEFAULT NULL,
   `season_number` int unsigned DEFAULT NULL,
@@ -419,6 +443,7 @@ CREATE TABLE `podcast_episodes` (
   `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft',
   `play_count` int unsigned NOT NULL DEFAULT '0',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -426,6 +451,8 @@ CREATE TABLE `podcast_episodes` (
   KEY `idx_pe_show` (`show_id`),
   KEY `idx_pe_publish` (`publish_date` DESC),
   KEY `idx_pe_status` (`status`),
+  KEY `idx_pe_guid` (`guid`(191)),
+  KEY `idx_pe_show_status_date` (`show_id`,`status`,`publish_date` DESC),
   CONSTRAINT `fk_pe_show` FOREIGN KEY (`show_id`) REFERENCES `podcast_shows` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `podcast_episodes_chk_1` CHECK ((`status` in (_utf8mb4'draft',_utf8mb4'published',_utf8mb4'scheduled',_utf8mb4'archived'))),
   CONSTRAINT `podcast_episodes_chk_2` CHECK ((`audio_format` in (_utf8mb4'mp3',_utf8mb4'aac',_utf8mb4'ogg',_utf8mb4'flac',_utf8mb4'wav')))
@@ -436,7 +463,7 @@ DROP TABLE IF EXISTS `podcast_shows`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `podcast_shows` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `author_user_id` int unsigned NOT NULL,
+  `author_user_id` binary(16) DEFAULT NULL COMMENT 'FK -> coremusic_auth.users.id (UUID v7)',
   `title` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
@@ -445,10 +472,12 @@ CREATE TABLE `podcast_shows` (
   `category` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `language` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'tr',
   `website_url` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `feed_url` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'RSS feed URL (Apple Podcasts / RSS import)',
   `episode_count` int unsigned NOT NULL DEFAULT '0',
   `subscriber_count` int unsigned NOT NULL DEFAULT '0',
   `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -457,6 +486,7 @@ CREATE TABLE `podcast_shows` (
   KEY `idx_ps_category` (`category`),
   KEY `idx_ps_language` (`language`),
   KEY `idx_ps_status` (`status`),
+  CONSTRAINT `fk_pshow_author` FOREIGN KEY (`author_user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `podcast_shows_chk_1` CHECK ((`status` in (_utf8mb4'draft',_utf8mb4'active',_utf8mb4'paused',_utf8mb4'archived')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast g├Âsterileri ÔÇö series, episodes, subscriptions';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -465,16 +495,19 @@ DROP TABLE IF EXISTS `podcast_subscriptions`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `podcast_subscriptions` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned NOT NULL,
+  `user_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_auth.users.id (UUID v7)',
   `show_id` int unsigned NOT NULL,
   `notify_new_episode` tinyint(1) NOT NULL DEFAULT '1',
   `last_played_episode_id` int unsigned DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_ps_pair` (`user_id`,`show_id`),
   KEY `idx_ps_sub_show` (`show_id`),
-  CONSTRAINT `fk_psub_show` FOREIGN KEY (`show_id`) REFERENCES `podcast_shows` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_psub_show` FOREIGN KEY (`show_id`) REFERENCES `podcast_shows` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_psub_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast abonelikleri ÔÇö user-show bindings';
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `podcast_transcripts`;
@@ -488,12 +521,36 @@ CREATE TABLE `podcast_transcripts` (
   `format` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'plain',
   `model_version` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `confidence` decimal(3,2) DEFAULT NULL,
-  `generated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_pt_pair` (`episode_id`,`language`),
   KEY `idx_pt_language` (`language`),
   CONSTRAINT `fk_pt_episode` FOREIGN KEY (`episode_id`) REFERENCES `podcast_episodes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast transkripsiyonlar─▒ ÔÇö AI-generated transcripts';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `podcast_transcript_segments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `podcast_transcript_segments` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `transcript_id` int unsigned NOT NULL,
+  `start_ms` int unsigned NOT NULL COMMENT 'Segment baslangic zamani (ms)',
+  `end_ms` int unsigned NOT NULL COMMENT 'Segment bitis zamani (ms)',
+  `speaker_tag` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Konusmaci etiketi (Host, Guest 1)',
+  `segment_text` text COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Zaman damgali metin parcasi',
+  `confidence` decimal(3,2) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_pts_transcript` (`transcript_id`),
+  KEY `idx_pts_timing` (`transcript_id`,`start_ms`,`end_ms`),
+  CONSTRAINT `fk_pts_transcript` FOREIGN KEY (`transcript_id`) REFERENCES `podcast_transcripts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Podcast zaman-ayarli transkript segmentleri — timestamp seek ve karaoke';
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `radio_now_playing`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -508,12 +565,39 @@ CREATE TABLE `radio_now_playing` (
   `genre` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `duration_seconds` int unsigned DEFAULT NULL,
   `started_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_rnp_station` (`station_id`),
   KEY `idx_rnp_music` (`music_id`),
   CONSTRAINT `fk_rnp_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_rnp_station` FOREIGN KEY (`station_id`) REFERENCES `radio_stations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Radyo anl─▒k yay─▒n durumu ÔÇö now playing info';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `radio_play_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `radio_play_history` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `station_id` int unsigned NOT NULL,
+  `music_id` binary(16) DEFAULT NULL COMMENT 'FK -> musics.id (NULL = harici parca/jingle)',
+  `track_title` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `artist_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `album_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `played_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `duration_seconds` int unsigned DEFAULT NULL,
+  `listener_count` int unsigned DEFAULT '0',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_rph_station_played` (`station_id`,`played_at` DESC),
+  KEY `idx_rph_music` (`music_id`),
+  CONSTRAINT `fk_rph_station` FOREIGN KEY (`station_id`) REFERENCES `radio_stations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_rph_music` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Radyo gecmis yayin akisi — time-series play log';
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `radio_schedules`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -528,6 +612,10 @@ CREATE TABLE `radio_schedules` (
   `host_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `is_recurring` tinyint(1) NOT NULL DEFAULT '1',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_rs_schedule` (`station_id`,`day_of_week`,`start_time`),
   KEY `idx_rs_day` (`day_of_week`),
@@ -556,6 +644,7 @@ CREATE TABLE `radio_stations` (
   `listener_count` int unsigned NOT NULL DEFAULT '0',
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -579,6 +668,7 @@ CREATE TABLE `recordings` (
   `legacy_music_id` binary(16) DEFAULT NULL COMMENT 'TA┼ŞIMA ─░Z─░: musics.id (backfill FAZ 2b; FK YOK ÔÇö iz korunur)',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_rec_isrc` (`isrc`),
@@ -604,18 +694,20 @@ DROP TABLE IF EXISTS `video_playback_history`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `video_playback_history` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned NOT NULL,
+  `user_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_auth.users.id (UUID v7)',
   `video_id` int unsigned NOT NULL,
   `last_position` int unsigned NOT NULL DEFAULT '0',
   `watch_count` int unsigned NOT NULL DEFAULT '1',
   `completion_pct` decimal(5,2) NOT NULL DEFAULT '0.00',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_vph_user` (`user_id`),
   KEY `idx_vph_video` (`video_id`),
   KEY `idx_vph_updated` (`updated_at` DESC),
+  CONSTRAINT `fk_vph_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_vph_video` FOREIGN KEY (`video_id`) REFERENCES `music_videos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Video oynatma ge├ğmi┼şi ÔÇö playback position, watch count';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -631,7 +723,9 @@ CREATE TABLE `video_subtitles` (
   `format` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'srt',
   `is_auto_generated` tinyint(1) NOT NULL DEFAULT '0',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_vs_pair` (`video_id`,`language`),
   KEY `idx_vs_language` (`language`),
@@ -649,6 +743,7 @@ CREATE TABLE `works` (
   `artist_credit_id` binary(16) DEFAULT NULL COMMENT 'FK -> artist_credit.id (s├Âz/m├╝zik kredisi)',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_works_iswc` (`iswc`),

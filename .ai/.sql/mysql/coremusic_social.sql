@@ -38,6 +38,7 @@ CREATE TABLE `achievements` (
   `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Aktif mi?',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olusturma (UTC)',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme (UTC)',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
   `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete (UTC)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_achievements_type` (`achievement_type`),
@@ -57,6 +58,9 @@ CREATE TABLE `activity_feed` (
   `metadata` json DEFAULT NULL COMMENT 'Ek veri (JSON)',
   `visibility` enum('public','friends','private') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'public' COMMENT 'Gorunurluk',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Aktivite zamani (UTC)',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme zamani (UTC)',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete (UTC)',
   PRIMARY KEY (`id`),
   KEY `idx_activity_user` (`user_id`),
   KEY `idx_activity_type` (`activity_type`),
@@ -64,6 +68,7 @@ CREATE TABLE `activity_feed` (
   KEY `idx_activity_target` (`target_user_id`),
   KEY `idx_activity_visibility` (`visibility`),
   KEY `idx_activity_user_created` (`user_id`,`created_at`),
+  KEY `idx_af_user_vis_created` (`user_id`,`visibility`,`created_at` DESC),
   CONSTRAINT `fk_activity_target` FOREIGN KEY (`target_user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_activity_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Kullanici aktivite akisi (begeni, takip, yorum, paylasim)';
@@ -76,6 +81,9 @@ CREATE TABLE `comment_likes` (
   `comment_id` binary(16) NOT NULL COMMENT 'Begenilen yorum ID',
   `user_id` binary(16) NOT NULL COMMENT 'Begenen kullanici ID',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Begenme zamani (UTC)',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme zamani (UTC)',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete (UTC)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_comment_likes_comment_user` (`comment_id`,`user_id`),
   KEY `idx_comment_likes_user` (`user_id`),
@@ -109,6 +117,7 @@ CREATE TABLE `comments` (
   KEY `idx_comments_parent` (`parent_id`),
   KEY `idx_comments_pinned` (`is_pinned`),
   KEY `idx_comments_created` (`created_at`),
+  KEY `idx_comments_entity_pinned` (`entity_type`,`entity_id`,`is_pinned` DESC,`created_at` DESC),
   FULLTEXT KEY `ftx_comments_text` (`comment_text`),
   CONSTRAINT `fk_comments_parent` FOREIGN KEY (`parent_id`) REFERENCES `comments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_comments_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -151,6 +160,9 @@ CREATE TABLE `listening_room_queue` (
   `is_playing` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Suan caliniyor mu?',
   `played_at` timestamp NULL DEFAULT NULL COMMENT 'Calinma zamani (UTC)',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Eklenme zamani (UTC)',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme zamani (UTC)',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete (UTC)',
   PRIMARY KEY (`id`),
   KEY `idx_room_queue_room_position` (`room_id`,`position`),
   KEY `idx_room_queue_music` (`music_id`),
@@ -189,6 +201,52 @@ CREATE TABLE `listening_rooms` (
   CONSTRAINT `fk_listening_rooms_music` FOREIGN KEY (`current_music_id`) REFERENCES `coremusic_musics`.`musics` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Dinleme odalari (gercek zamanli paylasimli dinleme)';
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `oauth_connections`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `oauth_connections` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_auth.users.id',
+  `provider` enum('instagram','pinterest','tiktok','snapchat','discord','reddit','x','linkedin','youtube','facebook') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider_user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `access_token_encrypted` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `refresh_token_encrypted` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `token_expires_at` timestamp NULL DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `profile_data` json DEFAULT NULL,
+  `connected_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_provider_user` (`provider`,`provider_user_id`),
+  KEY `idx_user_active` (`user_id`,`is_active`),
+  KEY `idx_provider` (`provider`),
+  KEY `idx_expires` (`token_expires_at`),
+  CONSTRAINT `fk_oauth_conn_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sosyal medya OAuth baglantilari (ADR-072 / ADR-088)';
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `oauth_states`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `oauth_states` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `state_token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_auth.users.id',
+  `code_verifier` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `expires_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_state_token` (`state_token`),
+  KEY `idx_provider_user` (`provider`,`user_id`),
+  KEY `idx_expires` (`expires_at`),
+  CONSTRAINT `fk_oauth_states_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='OAuth CSRF state token yonetimi (ADR-072 / ADR-088)';
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `shares`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -201,6 +259,9 @@ CREATE TABLE `shares` (
   `share_url` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Paylasim URL',
   `click_count` int NOT NULL DEFAULT '0' COMMENT 'Tiklama sayisi',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Paylasim zamani (UTC)',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme zamani (UTC)',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete (UTC)',
   PRIMARY KEY (`id`),
   KEY `idx_shares_user` (`user_id`),
   KEY `idx_shares_entity` (`entity_type`,`entity_id`),
@@ -233,6 +294,7 @@ CREATE TABLE `social_notifications` (
   KEY `idx_social_notif_type` (`notification_type`),
   KEY `idx_social_notif_read` (`is_read`),
   KEY `idx_social_notif_created` (`created_at`),
+  KEY `idx_sn_user_read_created` (`user_id`,`is_read`,`created_at` DESC),
   CONSTRAINT `fk_social_notif_from` FOREIGN KEY (`from_user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_social_notif_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sosyal bildirimler (takip, begeni, yorum, oda daveti, bahsetme)';
@@ -255,6 +317,8 @@ CREATE TABLE `user_achievements` (
   `completed_at` timestamp NULL DEFAULT NULL COMMENT 'Tamamlanma zamani (UTC)',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Olusturma zamani (UTC)',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Guncelleme zamani (UTC)',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Soft delete flag',
+  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Soft delete (UTC)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_achievements_user_type` (`user_id`,`achievement_type`),
   KEY `idx_achievements_user` (`user_id`),
