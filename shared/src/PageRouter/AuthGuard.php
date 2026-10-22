@@ -28,7 +28,10 @@ final class AuthGuard
         if (!$route->requiresAuth || $this->authHelper->checkAuthenticated()) {
             return null;
         }
-        return $this->urlBuilder->redirectAuth('login', '/' . $uri, $isSpaRequest);
+        // Admin host'ta korumalı sayfa → auth domain /admin/login (admin akışı,
+        // client_id=coremusic-admin); diğer hostlar → normal /login.
+        $loginRoute = $this->urlBuilder->isAdminContext() ? 'admin/login' : 'login';
+        return $this->urlBuilder->redirectAuth($loginRoute, '/' . $uri, $isSpaRequest);
     }
 
     private function checkRole(string $uri, SpaRoute $route): ?array

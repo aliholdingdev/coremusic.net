@@ -78,13 +78,24 @@ final class HtmlShellRenderer
         $appVersion   = (string)$this->config->get('app.version', '1.0.0');
         $isDebug      = (bool)$this->config->get('app.debug', false);
 
-        // Viewport bilgisi: cookie (cm_viewport_w/h) → HTTP header → $_SERVER
-        $viewportW = !empty($_SERVER['VIEWPORT_W'])
-            ? (int)$_SERVER['VIEWPORT_W']
-            : (!empty($_COOKIE['cm_viewport_w']) ? (int)$_COOKIE['cm_viewport_w'] : null);
-        $viewportH = !empty($_SERVER['VIEWPORT_H'])
-            ? (int)$_SERVER['VIEWPORT_H']
-            : (!empty($_COOKIE['cm_viewport_h']) ? (int)$_COOKIE['cm_viewport_h'] : null);
+        // Viewport bilgisi: test modu (?_test_resp) → cookie (cm_viewport_w/h) → HTTP header → $_SERVER
+        if (isset($_GET['_test_resp']) && preg_match('/^(1024|1440|1920|3840)$/', (string)$_GET['_test_resp'])) {
+            $viewportW = (int)$_GET['_test_resp'];
+            $viewportH = match ($viewportW) {
+                1024 => 600,
+                1440 => 900,
+                1920 => 1080,
+                3840 => 2160,
+                default => null,
+            };
+        } else {
+            $viewportW = !empty($_SERVER['VIEWPORT_W'])
+                ? (int)$_SERVER['VIEWPORT_W']
+                : (!empty($_COOKIE['cm_viewport_w']) ? (int)$_COOKIE['cm_viewport_w'] : null);
+            $viewportH = !empty($_SERVER['VIEWPORT_H'])
+                ? (int)$_SERVER['VIEWPORT_H']
+                : (!empty($_COOKIE['cm_viewport_h']) ? (int)$_COOKIE['cm_viewport_h'] : null);
+        }
         $deviceType   = DeviceDetector::detect(
             $_SERVER['HTTP_USER_AGENT'] ?? null,
             $viewportW,

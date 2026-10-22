@@ -62,4 +62,26 @@ final class AuthUrlBuilderTest extends TestCase
         $this->assertSame('true', $result['headers']['X-Auth-Required']);
         $this->assertSame('unauthenticated', $result['headers']['X-Auth-Status']);
     }
+
+    public function testIsAdminContextFalseOnHomeHost(): void
+    {
+        // setUp host = home.coremusic.net → admin context değil.
+        $this->assertFalse($this->builder->isAdminContext());
+    }
+
+    public function testIsAdminContextTrueOnAdminHost(): void
+    {
+        $domainConfig = new DomainConfig();
+        $domainConfig->setOverrides('https', 'admin.coremusic.net', 443);
+        $builder = new AuthUrlBuilder($domainConfig, new PageRouterHelper());
+        $this->assertTrue($builder->isAdminContext());
+    }
+
+    public function testAdminLoginRedirectUsesAdminClientId(): void
+    {
+        // admin/ önekli rota → client_id=coremusic-admin (ADR-043).
+        $result = $this->builder->buildAuthRedirect('admin/login');
+        $this->assertStringContainsString('/admin/login', $result['url']);
+        $this->assertStringContainsString('client_id=coremusic-admin', $result['url']);
+    }
 }

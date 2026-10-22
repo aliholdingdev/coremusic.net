@@ -5,6 +5,7 @@ namespace CoreMusic\Config;
 final class AuthRouteConfig
 {
     private const CLIENT_ID = 'coremusic-web';
+    private const ADMIN_CLIENT_ID = 'coremusic-admin';
 
     private const AUTH_ROUTES = [
         'login',
@@ -58,8 +59,11 @@ final class AuthRouteConfig
             $callbackDomain = self::getHomeUrl('http', $domain);
         }
         $callbackUrl = $callbackDomain . '/auth/callback';
+        // Admin auth akışları (route öneki 'admin/') coremusic-admin client'ını
+        // kullanır; normal akışlar coremusic-web'de kalır (ADR-043 ayrımı).
+        $clientId = str_starts_with($route, 'admin/') ? self::ADMIN_CLIENT_ID : self::CLIENT_ID;
         $params = [
-            'client_id'     => self::CLIENT_ID,
+            'client_id'     => $clientId,
             'response_type' => 'session',
             'redirect_uri'  => $returnUrl !== ''
                 ? $callbackUrl . '?return=' . urlencode($returnUrl)

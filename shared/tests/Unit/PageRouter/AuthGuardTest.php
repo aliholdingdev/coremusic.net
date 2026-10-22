@@ -33,6 +33,30 @@ final class AuthGuardTest extends TestCase
         $this->assertArrayHasKey('Location', $result['headers']);
         $this->assertStringContainsString('auth.coremusic.net', $result['headers']['Location']);
         $this->assertStringContainsString('login', $result['headers']['Location']);
+        $this->assertStringContainsString('client_id=coremusic-web', $result['headers']['Location']);
+    }
+
+    public function testAuthRequiredOnAdminHostRedirectsToAdminLogin(): void
+    {
+        // Admin host'unda korumalı sayfa → auth domain /admin/login
+        // (client_id=coremusic-admin), ASLA normal /login (coremusic-web) değil.
+        $domainConfig = new DomainConfig();
+        $domainConfig->setOverrides('https', 'admin.coremusic.net', 443);
+        $helper = new PageRouterHelper();
+        $urlBuilder = new AuthUrlBuilder($domainConfig, $helper);
+        $guard = new AuthGuard($helper, $urlBuilder);
+
+        $_SESSION = [];
+        $route = new SpaRoute(page: 'admin-dashboard', requiresAuth: true);
+        $result = $guard->check('admin-dashboard', $route, false);
+
+        $this->assertNotNull($result);
+        $this->assertSame(302, $result['httpStatus']);
+        $location = $result['headers']['Location'];
+        $this->assertStringContainsString('auth.coremusic.net', $location);
+        $this->assertStringContainsString('/admin/login', $location);
+        $this->assertStringContainsString('client_id=coremusic-admin', $location);
+        $this->assertStringNotContainsString('client_id=coremusic-web', $location);
     }
 
     public function testAuthRequiredButNotLoggedInSpaReturns403(): void

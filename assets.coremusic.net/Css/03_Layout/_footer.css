@@ -80,8 +80,7 @@
   flex: 1;
   width: 100%;
   max-width: 100%;
-  box-sizing: border-box;
-  ,: 0 24px;
+  padding: 0 24px;
   display: grid;
   grid-template-columns: auto 1fr auto auto;
   grid-template-areas:
@@ -105,6 +104,14 @@
   .footer-player__inner {
     width: 100% !important;
     max-width: 100% !important;
+    padding: 0 40px !important;
+  }
+  .footer-player__controls:not(:has(.footer__utility-icons)) {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 2 !important;
   }
   .footer-player__volume,
   .footer__utility-icons {

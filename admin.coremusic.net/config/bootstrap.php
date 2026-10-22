@@ -150,8 +150,8 @@ if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
     ]);
 
     if ($authKeyRaw === '') {
-        $adminLogger->warning('[Admin] Auth callback with empty auth_key, redirecting to /login');
-        header('Location: /login', true, 302);
+        $adminLogger->warning('[Admin] Auth callback with empty auth_key, redirecting to admin login');
+        header('Location: ' . $authBaseUrl . '/admin/login', true, 302);
         exit;
     }
 
@@ -173,11 +173,11 @@ if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
         exit;
     }
 
-    // Başarısız → login'e dön
+    // Başarısız → auth domain admin login'e dön (error=invalid_key korunur)
     $adminLogger->warning('[Admin] Auth callback validation failed', [
         'error' => $result['error'] ?? 'unknown',
     ]);
-    header('Location: /login?error=invalid_key', true, 302);
+    header('Location: ' . $authBaseUrl . '/admin/login?error=invalid_key', true, 302);
     exit;
 }
 

@@ -175,12 +175,24 @@ final class DeviceManager
         string  $viewMode  = 'home',
         bool    $isAuth    = false,
     ): self {
-        // Viewport bilgisi cookie'den de okunabilir
-        if ($viewportW === null && !empty($_COOKIE['cm_viewport_w'])) {
-            $viewportW = (int)$_COOKIE['cm_viewport_w'];
-        }
-        if ($viewportH === null && !empty($_COOKIE['cm_viewport_h'])) {
-            $viewportH = (int)$_COOKIE['cm_viewport_h'];
+        // Test modu: ?_test_resp=1024|1440|1920|3840 (Figma ve responsive testleri)
+        if (isset($_GET['_test_resp']) && preg_match('/^(1024|1440|1920|3840)$/', (string)$_GET['_test_resp'])) {
+            $viewportW = (int)$_GET['_test_resp'];
+            $viewportH = match ($viewportW) {
+                1024 => 600,
+                1440 => 900,
+                1920 => 1080,
+                3840 => 2160,
+                default => null,
+            };
+        } else {
+            // Viewport bilgisi cookie'den de okunabilir
+            if ($viewportW === null && !empty($_COOKIE['cm_viewport_w'])) {
+                $viewportW = (int)$_COOKIE['cm_viewport_w'];
+            }
+            if ($viewportH === null && !empty($_COOKIE['cm_viewport_h'])) {
+                $viewportH = (int)$_COOKIE['cm_viewport_h'];
+            }
         }
 
         $device = DeviceDetector::detect($userAgent, $viewportW, $viewportH);

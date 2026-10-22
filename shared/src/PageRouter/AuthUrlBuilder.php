@@ -20,6 +20,16 @@ final class AuthUrlBuilder
         return $this->authHelper;
     }
 
+    /**
+     * Mevcut istek admin subdomain üzerinde mi?
+     * Domain config'deki 'admin' subdomain host'u ile mevcut host karşılaştırılır.
+     */
+    public function isAdminContext(): bool
+    {
+        $adminHost = $this->domainConfig->getSubdomainHost('admin');
+        return $adminHost !== null && $this->domainConfig->getHost() === $adminHost;
+    }
+
     public function buildAuthRedirect(string $path, ?string $returnPath = null): array
     {
         $url = $this->buildAuthUrl($path, $returnPath);

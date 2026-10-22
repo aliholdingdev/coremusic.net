@@ -226,9 +226,14 @@ final class AuthController
 
         $logger->authEvent('logout', ['user_id' => $userId ?? '-']);
 
+        // Admin logout akışları (admin/logout) auth domain /admin/login'e döner;
+        // normal akışlar /login'e (ADR-043 ayrımı — bkz. AuthPostHandler).
+        $isAdmin = str_starts_with((string)($request['uri'] ?? ''), 'admin/');
+        $redirectPath = $isAdmin ? '/admin/login' : '/login';
+
         return ['httpStatus' => 200, 'type' => 'json', 'body' => [
             'success'  => true,
-            'redirect' => (defined('AUTH_URL') ? AUTH_URL : '') . '/login',
+            'redirect' => (defined('AUTH_URL') ? AUTH_URL : '') . $redirectPath,
         ]];
     }
 
@@ -257,7 +262,11 @@ final class AuthController
             $redirectUri = '';
         }
 
-        $clientId     = $request['query_params']['client_id'] ?? $post['client_id'] ?? 'coremusic-web';
+        // Admin set-gender akışları (admin/set-gender) /admin/login + coremusic-admin
+        // client'ına döner; normal akışlar /login + coremusic-web'e (ADR-043 ayrımı).
+        $isAdmin      = str_starts_with((string)($request['uri'] ?? ''), 'admin/');
+        $defaultClientId = $isAdmin ? 'coremusic-admin' : 'coremusic-web';
+        $clientId     = $request['query_params']['client_id'] ?? $post['client_id'] ?? $defaultClientId;
         $responseType = $request['query_params']['response_type'] ?? $post['response_type'] ?? 'session';
 
         $params = ['client_id' => $clientId, 'response_type' => $responseType];
@@ -265,7 +274,8 @@ final class AuthController
             $params['redirect_uri'] = $redirectUri;
         }
 
-        $redirectUrl = '/login?' . http_build_query($params);
+        $redirectPath = $isAdmin ? '/admin/login' : '/login';
+        $redirectUrl = $redirectPath . '?' . http_build_query($params);
 
         return ['httpStatus' => 200, 'type' => 'json', 'body' => ['success' => true, 'gender' => $gender, 'redirect' => $redirectUrl]];
     }
