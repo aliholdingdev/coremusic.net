@@ -1,13 +1,29 @@
 -- =========================================================================
--- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
--- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
--- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
--- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
--- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- NovaSearch - nova-search-engine KOD SEMASI (MySQL dialect)
+-- Kaynak : app-nodejs-projects/nova-search-engine/packages/database/src/schema.ts
+--          (ddl() fonksiyonu - TEK KAYNAK; migrate() ile ayni sonucu verir)
+-- Semasi : 3 tablo (channels, videos, search_log) + 4 indeks - VERI YOK
+-- Tarih  : 2026-10-22
+-- AYRI PROJE: CoreMusic rebuild/regen dongusune DAHIL DEGIL (bkz. ../CLAUDE.md)
+--
+-- UYARI (DROP YOKTUR - bilincli):
+--   Bu dosya idempotent ve yok edicidir (CREATE ... IF NOT EXISTS). Mevcut bir
+--   DB'ye uygulanirsa mevcut tablolara DOKUNMAZ, eksik tablolari ekler.
+--   NOT: Kod semasi ile CANLI legacy (knex) semasi ARASINDA kolon farklari VAR
+--   (legacy: search_logs, kod: search_log; legacy channels kolonlari farklidir).
+--   Legacy canli dump git gecmisindedir: git log -- .ai/.sql/mysql/novasearch.sql
+--   Kod yazmalari icin bu dosyanin semasi gecerlidir (bkz. scripts/mysql-smoke.ts notu:
+--   canli legacy sema dokunulmaz, test DB novasearch_test kullanilir).
+--
+-- İndeksler: MySQL CREATE INDEX IF NOT EXISTS desteklemez - indeksler CREATE TABLE
+--   icine gomuludur; tekrar import hata uretmez, migrate() ile ayni indeksleri verir.
+-- Farkli DB hedefi: asagidaki CREATE DATABASE / USE satirlarini kendi DB adiniza
+--   gore degistirin (veya USE satirini silip `mysql -u... hedef_db < dosya` ile
+--   import edin; komut satiri DB adi USE ile ezilir).
+-- Import: mysql -u root -p < novasearch.sql
 -- =========================================================================
 
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE DATABASE IF NOT EXISTS `novasearch`
   CHARACTER SET utf8mb4
@@ -15,133 +31,65 @@ CREATE DATABASE IF NOT EXISTS `novasearch`
 
 USE `novasearch`;
 
-CREATE TABLE `cache_entries` (
-  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT (uuid()),
-  `cache_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cache_value` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cache_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expires_at` datetime NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `cache_key` (`cache_key`),
-  KEY `idx_cache_key` (`cache_key`)
+CREATE TABLE IF NOT EXISTS `channels` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `youtube_id` VARCHAR(64) NOT NULL UNIQUE,
+  `name` VARCHAR(512) NOT NULL,
+  `description` TEXT,
+  `subscriber_count` BIGINT DEFAULT 0,
+  `video_count` BIGINT DEFAULT 0,
+  `thumbnail_url` VARCHAR(512),
+  `verified` BIGINT DEFAULT 0,
+  `created_at` VARCHAR(64) NOT NULL,
+  `updated_at` VARCHAR(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `channels` (
-  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT (uuid()),
-  `youtube_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `subscriber_count` bigint DEFAULT '0',
-  `video_count` int DEFAULT '0',
-  `view_count` bigint DEFAULT '0',
-  `thumbnail_url` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `banner_url` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `country` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `language` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `published_at` datetime DEFAULT NULL,
-  `hidden_subscriber_count` tinyint(1) DEFAULT '0',
-  `keywords` text COLLATE utf8mb4_unicode_ci,
-  `verification_status` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT 'none',
-  `channel_type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT 'personal',
-  `available_tabs` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `youtube_id` (`youtube_id`),
-  KEY `idx_youtube_id` (`youtube_id`),
-  KEY `idx_name` (`name`)
+CREATE TABLE IF NOT EXISTS `videos` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `youtube_id` VARCHAR(64) NOT NULL UNIQUE,
+  `channel_youtube_id` VARCHAR(64),
+  `channel_name` VARCHAR(512),
+  `title` VARCHAR(512) NOT NULL,
+  `description` TEXT,
+  `duration_seconds` BIGINT DEFAULT 0,
+  `view_count` BIGINT DEFAULT 0,
+  `like_count` BIGINT DEFAULT 0,
+  `comment_count` BIGINT DEFAULT 0,
+  `view_count_text` VARCHAR(512),
+  `published_at` VARCHAR(64),
+  `published_text` VARCHAR(64),
+  `category` VARCHAR(64),
+  `thumbnail_url` VARCHAR(512),
+  `tags` TEXT,
+  `thumbnails` TEXT,
+  `badges` TEXT,
+  `caption_tracks` TEXT,
+  `top_comments` TEXT,
+  `related_ids` TEXT,
+  `is_short` BIGINT DEFAULT 0,
+  `is_live` BIGINT DEFAULT 0,
+  `is_family_safe` BIGINT DEFAULT 1,
+  `is_unlisted` BIGINT DEFAULT 0,
+  `is_crawlable` BIGINT DEFAULT 1,
+  `channel_subscriber_count` BIGINT DEFAULT 0,
+  `channel_verified` BIGINT DEFAULT 0,
+  `language` VARCHAR(64),
+  `spam_score` DOUBLE DEFAULT 0,
+  `quality_score` DOUBLE DEFAULT 0,
+  `source` VARCHAR(64) DEFAULT 'youtube',
+  `created_at` VARCHAR(64) NOT NULL,
+  `updated_at` VARCHAR(64) NOT NULL,
+  KEY `idx_videos_title` (`title`),
+  KEY `idx_videos_views` (`view_count`),
+  KEY `idx_videos_published` (`published_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `knex_migrations` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `batch` int DEFAULT NULL,
-  `migration_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS `search_log` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `query` VARCHAR(512) NOT NULL,
+  `results_count` BIGINT DEFAULT 0,
+  `source` VARCHAR(64),
+  `took_ms` BIGINT DEFAULT 0,
+  `created_at` VARCHAR(64) NOT NULL,
+  KEY `idx_search_log_query` (`query`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE `knex_migrations_lock` (
-  `index` int unsigned NOT NULL AUTO_INCREMENT,
-  `is_locked` int DEFAULT NULL,
-  PRIMARY KEY (`index`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE `playlists` (
-  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT (uuid()),
-  `youtube_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `channel_id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `channel_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `video_count` int DEFAULT '0',
-  `thumbnail_url` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `published_at` datetime DEFAULT NULL,
-  `privacy_status` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT 'public',
-  `view_count` bigint DEFAULT '0',
-  `last_updated_at` datetime DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `youtube_id` (`youtube_id`),
-  KEY `channel_id` (`channel_id`),
-  KEY `idx_youtube_id` (`youtube_id`),
-  CONSTRAINT `playlists_ibfk_1` FOREIGN KEY (`channel_id`) REFERENCES `channels` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE `search_logs` (
-  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT (uuid()),
-  `query` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `filters` text COLLATE utf8mb4_unicode_ci,
-  `results_count` int DEFAULT '0',
-  `response_time_ms` int DEFAULT '0',
-  `source` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'api',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_query` (`query`(100))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE `videos` (
-  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT (uuid()),
-  `youtube_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `channel_id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `channel_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `duration` int DEFAULT '0',
-  `view_count` bigint DEFAULT '0',
-  `like_count` bigint DEFAULT '0',
-  `comment_count` bigint DEFAULT '0',
-  `published_at` datetime DEFAULT NULL,
-  `thumbnail_url` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `thumbnails` text COLLATE utf8mb4_unicode_ci,
-  `tags` text COLLATE utf8mb4_unicode_ci,
-  `category` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `language` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT '',
-  `is_live` tinyint(1) DEFAULT '0',
-  `is_private` tinyint(1) DEFAULT '0',
-  `definition` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `projection` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `has_custom_thumbnail` tinyint(1) DEFAULT '0',
-  `is_crawlable` tinyint(1) DEFAULT '1',
-  `is_unlisted` tinyint(1) DEFAULT '0',
-  `recording_date` date DEFAULT NULL,
-  `embed_html` text COLLATE utf8mb4_unicode_ci,
-  `embed_width` int DEFAULT NULL,
-  `embed_height` int DEFAULT NULL,
-  `short_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `published_at_precision` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT 'exact',
-  `live_broadcast_content` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT 'none',
-  `view_count_accuracy` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT 'exact',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `youtube_id` (`youtube_id`),
-  KEY `idx_youtube_id` (`youtube_id`),
-  KEY `idx_channel_id` (`channel_id`),
-  KEY `idx_title` (`title`(100)),
-  KEY `idx_view_count` (`view_count` DESC),
-  CONSTRAINT `videos_ibfk_1` FOREIGN KEY (`channel_id`) REFERENCES `channels` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-SET FOREIGN_KEY_CHECKS = 1;

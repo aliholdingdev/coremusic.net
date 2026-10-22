@@ -1,7 +1,12 @@
-# SQLite — Rezerve Klasor
+# SQLite — Rezerve Klasör
 
-> Durum (2026-09-06): Bu klasor bos bulundu, konvansiyonel README ile dolduruldu.
+> Durum (2026-10-22): Vault Steward onayıyla ilk içerik eklendi.
 
 - Ana otorite: MySQL 9, 18 BCNF (ADR-003 + ADR-040)
-- SQLite gomulu/offline plani su an YOK (VERIFICATION REQUIRED)
-- Icerik eklemek icin Vault Steward onayi gerekir
+- `novasearch.sql` (2026-10-22): nova-search-engine **kod şeması** — SQLite dialekt,
+  3 tablo (channels / videos / search_log) + 4 indeks. Kaynak (tek doğruluk):
+  `app-nodejs-projects/nova-search-engine/packages/database/src/schema.ts` (`ddl()` + `INDEXES`).
+  MySQL ikizi: `../mysql/novasearch.sql`. DROP yok (idempotent, veri silmez).
+  Doğrulama: kod `migrate()` ile yapısal eşitlik + üretim repo round-trip = PASS (2026-10-22).
+- Genel SQLite gomülü/offline planı: YOK (VERIFICATION REQUIRED)
+- İçerik eklemek için Vault Steward onayi gerekir

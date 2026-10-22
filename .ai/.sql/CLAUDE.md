@@ -6,7 +6,7 @@
 
 ## 1. Bağlam
 
-SQL dump klasörü. MySQL altında **20 dump dosyası** (2026-10-22 ölçümü): 18 BCNF `coremusic_*` + `media_catalog` (CANLI — 2026-10-22 doğrulandı) + `novasearch` (**AYRI PROJE** — nova-search-engine Node.js; CoreMusic şema senkronu/rebuild döngüsü DIŞI; canlıya 2026-10-22 kuruldu, `v_search_log_singular` köprü view'ı dahil). Otorite: ADR-003 + ADR-040.
+SQL dump klasörü. MySQL altında **21 dump dosyası** (2026-10-22 ölçümü; Backend Rebuild Adım 01 sayımıyla hizalı): 19 BCNF `coremusic_*` + `media_catalog` (CANLI — 2026-10-22 doğrulandı) + `novasearch` (**AYRI PROJE** — nova-search-engine Node.js; CoreMusic şema senkronu/rebuild döngüsü DIŞI; **2026-10-22: dosya kod şemasıyla yeniden yazıldı** — kaynak `packages/database/src/schema.ts` `ddl()`, 3 tablo (channels/videos/search_log), MySQL dialekt; SQLite ikizi `sqlite/novasearch.sql`. Legacy knex dump (7 tablo) git geçmişinde; canlıya 2026-10-22 kurulan legacy şema + `v_search_log_singular` view etkilenmedi — dump ≠ canlı, bkz. `.ai/reports/backend-step01-sema-dogrulama.md`). Otorite: ADR-003 + ADR-040.
 Sql Veritabanı dosyaları bauarda yazılır toplanır baurda nromzşie diemiş şekidle yazılır.
 
 ---
@@ -37,7 +37,7 @@ Sql Veritabanı dosyaları bauarda yazılır toplanır baurda nromzşie diemiş 
 6. `coremusic_system.sql`: `i18n_languages` tablosuna `updated_at`, `is_deleted`, `deleted_at` audit & soft-delete kolonları eklendi (ADR-079 / ADR-033).
 7. `coremusic_user.sql`: `user_favorites.item_type` ENUM'ına `'radio'` ve `'video'` eklendi (ADR-074 §1.1/15b / polymorphic favorite uyumu).
 
-Dosyalarda `DROP TABLE IF EXISTS` var → **idempotent rebuild**. ŞEMA: TAM (tablo/view/routine/trigger). VERİ: yalnız onaylı seed — `coremusic_system.system_services` (7) + `coremusic_system.i18n_languages` (12) + `coremusic_neva.eq_presets` (7) + `media_catalog.taxonomy` (98) — **kullanıcı onayı 2026-10-22** (PII/kullanıcı verisi YOK). `novasearch` **AYRI PROJE** — CoreMusic regen/rebuild döngüsüne DAHİL DEĞİL (kullanıcı kuralı 2026-10-22; 7 tablo + `v_search_log_singular` view). `media_catalog` **9 tablo + 1 view = CANLI**. CoreMusic platform toplamı: **194 tablo + 2 view** (19 CoreMusic DB + media_catalog; novasearch hariç). Genel toplam: **201 tablo + 2 view** (21 SQL dosyası). Yeniden kurulum: `mysql/rebuild-all.ps1`. FAZ1-3 migration kayıtları: `migration/2026-10-07_faz{1,2,3}_*.sql`.
+Dosyalarda `DROP TABLE IF EXISTS` var → **idempotent rebuild** (`novasearch.sql` hariç — bilinçli DROP yok, yok edici değil: `CREATE ... IF NOT EXISTS`, mevcut veriye dokunmaz). ŞEMA: TAM (tablo/view/routine/trigger). VERİ: yalnız onaylı seed — `coremusic_system.system_services` (7) + `coremusic_system.i18n_languages` (12) + `coremusic_neva.eq_presets` (7) + `media_catalog.taxonomy` (98) — **kullanıcı onayı 2026-10-22** (PII/kullanıcı verisi YOK). `novasearch` **AYRI PROJE** — CoreMusic regen/rebuild döngüsüne DAHİL DEĞİL (kullanıcı kuralı 2026-10-22; **dosya = kod şeması 3 tablo** — `schema.ts` tek kaynak, MySQL + SQLite ikiz; canlıda legacy knex 7 tablo + `v_search_log_singular` view ayrı durur, dump ≠ canlı). `media_catalog` **9 tablo + 1 view = CANLI**. CoreMusic platform toplamı: **194 tablo + 2 view** (19 CoreMusic DB + media_catalog; novasearch hariç). Genel toplam: **197 tablo + 2 view** (21 SQL dosyası; novasearch 3 = kod şeması). Yeniden kurulum: `mysql/rebuild-all.ps1`. FAZ1-3 migration kayıtları: `migration/2026-10-07_faz{1,2,3}_*.sql`.
 
 ---
 
