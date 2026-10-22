@@ -98,6 +98,7 @@ if (!defined('AUTH_URL')) {
     define('AUTH_URL', $env('AUTH_URL', COREMUSIC_SCHEME . '://auth.coremusic.net'));
     define('MUSIC_URL', $env('MUSIC_URL', COREMUSIC_SCHEME . '://home.coremusic.net'));
     define('ASSETS_URL', $env('ASSETS_URL', COREMUSIC_SCHEME . '://assets.coremusic.net'));
+    define('API_URL', $env('API_URL', COREMUSIC_SCHEME . '://api.coremusic.net'));
 }
 
 /* --- Database (HomeDB — user, music, etc.) --- */

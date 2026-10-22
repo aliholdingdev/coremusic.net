@@ -6,6 +6,7 @@ use CoreMusic\Home\Class\AbstractComponent;
 use CoreMusic\Home\Class\HomeLayoutVariant;
 use CoreMusic\Home\Component\HomeSongButton;
 use CoreMusic\Home\Repository\MusicRepository;
+use CoreMusic\Home\Repository\PlaylistRepository;
 
 /**
  * RecentTracksComponent — Alt satır bölümleri: En Son + Playlistler + Sıradaki (v4.0.0)
@@ -18,15 +19,9 @@ use CoreMusic\Home\Repository\MusicRepository;
  *                   + "Playlist listesini görüntüle" link kartı) · kolon3 Sıradaki
  *                   (1 kart, 186×109 cam panel)
  *
- * Figma/PNG SSOT:
- *   extracted-1024.md — 1639:9904 "Menu En Son Şarkılar" · 1639:9892 "Menu Oynatma Listesi"
- *                       (+1639:9893 link kartı) · 1639:9910 "Sıradaki Şarkı" (185.978×109)
- *   extracted-1920.md — 2856:22290 (En Son kartı, y−220) · 2850:21627 (playlist başlığı,
- *                       fs13 Avalon-Bold ls0.975) · 2890:7922-7927 (6 playlist kartı, y−89)
- *
  * Veri: En Son = coremusic_musics (musics ⋈ artists ⋈ music_files is_primary=1);
- *       DB yoksa PNG demo verisi (testler bu yolu kullanır).
- *       Playlist + Sıradaki = PNG sabit içerik (DB tablosu yok).
+ *       Playlist: coremusic_playlist.playlists (curated/public listeler);
+ *       Sıradaki: dinamik DB şarkısı (ikinci parça).
  */
 final class RecentTracksComponent extends AbstractComponent
 {
@@ -45,7 +40,7 @@ final class RecentTracksComponent extends AbstractComponent
     /** @var list<string> "En Son Dinlenen Şarkılar" mini kart HTML'leri */
     public readonly array $cards;
 
-    /** @var list<string> "Son Oluşturlan & Sistem Taraından Oluşturlan Playlistler" kart HTML'leri */
+    /** @var list<string> "Son Oluşturulan & Sistem Tarafından Oluşturulan Playlistler" kart HTML'leri */
     public readonly array $playlistCards;
 
     /** @var array{t: string, album: string, a: string, art: string}|null
@@ -58,10 +53,15 @@ final class RecentTracksComponent extends AbstractComponent
     /**
      * @param list<array{t: string, a: string, d: string, art: string, stream?: string, k?: string}>|null $tracks
      *        override verisi (yalnız "En Son"u besler) — null ise DB, DB yoksa PNG varsayılanları
-     * @param MusicRepository|null $repository veri erişimi (ComponentLoader::make injection'ı)
+     * @param MusicRepository|null $repository müzik veri erişimi
+     * @param PlaylistRepository|null $playlistRepository playlist veri erişimi
      */
-    public function __construct(HomeLayoutVariant $variant, ?array $tracks = null, ?MusicRepository $repository = null)
-    {
+    public function __construct(
+        HomeLayoutVariant $variant,
+        ?array $tracks = null,
+        ?MusicRepository $repository = null,
+        ?PlaylistRepository $playlistRepository = null
+    ) {
         parent::__construct($variant);
 
         $data = $tracks ?? $this->dbTracks($repository) ?? $this->defaultTracks();
@@ -85,6 +85,8 @@ final class RecentTracksComponent extends AbstractComponent
         $this->cards = array_slice($cards, 0, $max);
 
         $playlistMax = $variant->isWide() ? self::WIDE_PLAYLIST_CARDS : self::EMBEDDED_PLAYLIST_CARDS;
+        $playlistSource = $this->dbPlaylists($playlistRepository) ?? $this->defaultPlaylists();
+
         $this->playlistCards = array_map(
             fn (array $p): string => HomeSongButton::html(
                 [
@@ -92,20 +94,22 @@ final class RecentTracksComponent extends AbstractComponent
                     's'      => (string)$p['a'],
                     'art'    => (string)$p['art'],
                     'stream' => '',
-                    'k'      => (string)($p['k'] ?? 'song'),
+                    'k'      => (string)($p['k'] ?? 'playlist'),
                 ],
                 'home-song__mini-card__subtitle',
                 (string)$p['d']
             ),
-            array_slice($this->defaultPlaylists(), 0, $playlistMax)
+            array_slice($playlistSource, 0, $playlistMax)
         );
 
-        $this->nextCard = $variant->isWide() ? null : [
-            't'     => 'Göksel - Sevil Neşelen',
-            'album' => 'Hayat Rüya Gibi',
-            'a'     => 'Göksel',
-            'art'   => $this->asset('/Image/res-pink/album-goksel.png'),
-        ];
+        // Sıradaki şarkı kartı: DB'deki 2. parçadan dinamik beslenir
+        $nextTrack = $data[1] ?? ($data[0] ?? null);
+        $this->nextCard = $variant->isWide() ? null : ($nextTrack !== null ? [
+            't'     => (string)$nextTrack['t'],
+            'album' => 'CoreMusic Library',
+            'a'     => (string)$nextTrack['a'],
+            'art'   => !empty($nextTrack['art']) ? (string)$nextTrack['art'] : $this->asset('/Image/res-pink/album-goksel.png'),
+        ] : null);
 
         $this->playlistLinkIcon = $this->asset('/Image/res-pink/album-kursat.png');
     }
@@ -153,6 +157,42 @@ final class RecentTracksComponent extends AbstractComponent
         }
 
         return $tracks !== [] ? $tracks : null;
+    }
+
+    /**
+     * DB'den vitrin çalma listeleri.
+     *
+     * @return list<array{t: string, a: string, d: string, art: string, k: string}>|null
+     */
+    private function dbPlaylists(?PlaylistRepository $repository): ?array
+    {
+        if (!defined('DB_HOST')) {
+            return null;
+        }
+
+        try {
+            $repo = $repository ?? PlaylistRepository::fromEnvironment();
+            $rows = $repo->findFeaturedPlaylists(6);
+        } catch (\Throwable) {
+            return null;
+        }
+
+        if ($rows === []) {
+            return null;
+        }
+
+        $playlists = [];
+        foreach ($rows as $row) {
+            $playlists[] = [
+                't'   => (string)$row['name'],
+                'a'   => (string)($row['description'] ?? 'Sistem Tarafından Oluşturuldu'),
+                'd'   => sprintf('%d Parça', (int)($row['total_tracks'] ?? 0)),
+                'art' => !empty($row['cover_art_url']) ? $this->asset((string)$row['cover_art_url']) : $this->asset('/Image/res-pink/album-kursat.png'),
+                'k'   => 'playlist',
+            ];
+        }
+
+        return $playlists;
     }
 
     /** Saniye → HH:MM:SS (NULL → 00:00:00 — import duration_sec yazmaz). */

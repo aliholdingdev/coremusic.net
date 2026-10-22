@@ -65,11 +65,12 @@ try {
             if ($hex === '') {
                 continue;
             }
+            $streamPrefix = defined('API_URL') && API_URL !== '' ? rtrim(API_URL, '/') : '';
             $tracks[] = [
                 't'      => (string)$row['title'],
                 'a'      => (string)$row['artist_name'],
                 'd'      => $formatDuration($row['duration_sec'] ?? null),
-                'stream' => '/stream/' . $hex,
+                'stream' => $streamPrefix . '/stream/' . $hex,
             ];
         }
     }
