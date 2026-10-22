@@ -160,16 +160,23 @@ stream handler en son).
 
 ---
 
-## 8. Test Sonuçları
+## 8. Test Sonuçleri
 
 | Kontrol | Sonuç |
 |---|---|
 | `node --check music-spa-manager.js` | **0 hata** |
-| PHPUnit api suite (kod değişmedi — regression) | 99/99 yeşil (Adım 07 tabanı korunuyor) |
+| `php -l` HistoryAndStreamTest | **0 hata** |
+| PHPUnit api suite (tam) | **102/102 yeşil, 330 assertion** (Adım 07: 99 → +3) |
 
-> Not: Bu adımda PHP kodu değişmedi (yalnız JS) — `php -l` gerekmedi.
-> PHPUnit Adım 07'de yeşildi ve API yüzeyine dokunulmadı; server-PC'de
-> `composer test` ile teyit edilir.
+### 8.1 Yeni Testler (`tests/Unit/HistoryAndStreamTest.php` +3)
+
+- **limit clamp:** `?limit=999` → repo çağrısı `50` ile (service katmanı sınırı)
+- **sayfalı liste:** `?page=2` → `findHistory(userId, 2, 20)` + `countForUser` aktarımı
+- **ownership spoof koruması:** body'de `user_id` sahtelemesi **yok sayılır**;
+  repo çağrısı yalnız session `_auth_user.id` ile (Hard Rule 3)
+
+> Mevcut 4 HistoryController testi (401, recent, 422, record success) korunmuş
+> — çoğaltma yapılmadı, yalnız clamp/paging/ownership boşlukları kapatıldı.
 
 ---
 

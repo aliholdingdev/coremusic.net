@@ -151,4 +151,90 @@ final class HistoryAndStreamTest extends TestCase
         $this->assertTrue($response['success']);
         $this->assertTrue($response['data']['recorded']);
     }
+
+    /** Adım 08 — limit clamp: >50 istek 50'ye düşer (service katmanı sınırı). */
+    public function testHistoryControllerRecentClampsLimitToFifty(): void
+    {
+        $mockRepo = $this->createMock(IHistoryRepository::class);
+        $mockRepo->expects($this->once())
+            ->method('findRecentTracks')
+            ->with('018f3a5b6c7d8e9f0123456789abcdef', 50)
+            ->willReturn([]);
+
+        $service = new HistoryService($mockRepo);
+        $controller = new HistoryController($service);
+
+        $_GET['limit'] = '999';
+        try {
+            $response = $controller->handle(
+                ['action' => 'recent'],
+                ['_auth_user' => ['id' => '018f3a5b6c7d8e9f0123456789abcdef']]
+            );
+        } finally {
+            unset($_GET['limit']);
+        }
+
+        $this->assertTrue($response['success']);
+        $this->assertSame([], $response['data']['items']);
+    }
+
+    /** Adım 08 — sayfalı geçmiş: repository'ye page/perPage clamp'i iletilir. */
+    public function testHistoryControllerListPassesPagingToService(): void
+    {
+        $mockRepo = $this->createMock(IHistoryRepository::class);
+        $mockRepo->expects($this->once())
+            ->method('findHistory')
+            ->with('018f3a5b6c7d8e9f0123456789abcdef', 2, 20)
+            ->willReturn([['music_hex' => 'aa', 'title' => 'Paged']]);
+        $mockRepo->expects($this->once())
+            ->method('countForUser')
+            ->with('018f3a5b6c7d8e9f0123456789abcdef')
+            ->willReturn(41);
+
+        $service = new HistoryService($mockRepo);
+        $controller = new HistoryController($service);
+
+        $_GET['page'] = '2';
+        try {
+            $response = $controller->handle(
+                ['action' => 'list'],
+                ['_auth_user' => ['id' => '018f3a5b6c7d8e9f0123456789abcdef']]
+            );
+        } finally {
+            unset($_GET['page']);
+        }
+
+        $this->assertTrue($response['success']);
+        $this->assertSame(2, $response['data']['page']);
+        $this->assertSame(20, $response['data']['per_page']);
+        $this->assertSame(41, $response['data']['total']);
+        $this->assertSame('Paged', $response['data']['items'][0]['title']);
+    }
+
+    /** Adım 08 — ownership: userId yalnız _auth_user'dan gelir, body'den DEĞİL. */
+    public function testHistoryControllerRecordIgnoresUserIdInBody(): void
+    {
+        $mockRepo = $this->createMock(IHistoryRepository::class);
+        $sessionUserId = '018f3a5b6c7d8e9f0123456789abcdef';
+        $spoofedUserId = 'deadbeefdeadbeefdeadbeefdeadbeef';
+
+        $mockRepo->expects($this->once())
+            ->method('record')
+            ->with($sessionUserId, $this->anything(), $this->anything(), $this->anything())
+            ->willReturn(true);
+
+        $service = new HistoryService($mockRepo);
+        $controller = new HistoryController($service);
+
+        $request = [
+            '_auth_user' => ['id' => $sessionUserId],
+            'body' => [
+                'music_id' => '018f3a5b6c7d8e9f0123456789abcdef',
+                'user_id'  => $spoofedUserId,
+            ],
+        ];
+
+        $response = $controller->handle(['action' => 'record'], $request);
+        $this->assertTrue($response['success']);
+    }
 }
