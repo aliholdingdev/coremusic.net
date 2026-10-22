@@ -204,7 +204,7 @@ level/MIDI/callback) Neva'nın `neva-mcp` + plugin API'si için referans şablon
 | `libpipewire-module-loopback` | Sink↔source köprüsü, `capture.props` + `playback.props` | Bus yönlendirme |
 | `libpipewire-module-filter-chain` | DSP zinciri: **builtin** (bq_highpass vb.) + **LV2** (Calf EQ/comp/deesser) | DSP / EQ / comp |
 | `libpipewire-module-echo-cancel` | WebRTC AEC (`monitor.mode`, `webrtc.extended_filter` ayarlı) | VoiceMeeter'da yok hazır |
-| `libpipewire-module-combine-stream` ⚠️ VERIFICATION REQUIRED | Çoklu çıkış birleştirme | Bus out |
+| `libpipewire-module-combine-stream` ✅ DOĞRULANDI (1.6.10) | Çoklu çıkış birleştirme (`combine.mode = capture|playback|sink|source`, `combine.latency-compensate`, `combine.on-demand-streams`; 3 stereo sink → 5.1 virtual sink örneği resmi sayfada) | Bus out / multi-out |
 
 **Format/rate kanıtı:** null-sink kaynağı `spa/plugins/support/null-audio-sink.c`:
 `audio.rate` default **48000** (L60, L947-948), örnek değerler 44100/48000/96000/192000 →
@@ -273,7 +273,10 @@ yi yönetmeli.
 | Rate'ler | **8k, 16k, 44.1k, 48k, 88.2k, 96k, 176.4k, 192k, 352.8k, 384k, 705.6k, 768k** (12 oran) |
 | Derleme zamanı yapılandırma sabitleri | `kDevice_Name`, `kDevice_HasInput/Output`, `kNumber_Of_Channels`, `kSampleRates`, `kLatency_Frame_Size`, `kPlugIn_BundleID` |
 | Lisans | ✅ **GPLv3** (GitHub `LICENSE` dosyası tam okundu: "The BlackHole source code is licensed under the GNU General Public License v3.0" — Existential Audio Inc. © 2019–2026; **marka/logo/paket adı** resmi olmayan derlemede izinsiz yasak; GPLv3 §13 ile AGPL-3 ile kombinasyona izinli) |
-| Kanal varyantları | 2ch / 16ch sürümleri (beyan) ⚠️ VERIFICATION REQUIRED (bu turda indirilip doğrulanmadı) |
+| Kanal varyantları | ✅ README: **2, 16, 64, 128, 256** kanal derlemeleri (Homebrew: `blackhole-2ch/16ch/64ch`); macOS 10.10+ · Intel + Apple Silicon · **kext yok** |
+| Bit derinliği | ✅ FAQ: "BlackHole uses **32-bit float** bit depth since macOS Core Audio natively uses 32-bit at the system level" (24-bit integer için kayıpsız) |
+| Ek mekanizmalar | **Mirror device** (gizli ikinci cihaz, in/out aynalı — `kDevice2_*` sabitleri) · `kLatency_Frame_Size` max **65536 frame** gecikme ekleme · gizli cihazlara `kAudioHardwarePropertyTranslateUIDToDevice` erişimi |
+| Ticari lisans | README Developer Guides: "A license is required for all non-GPLv3 projects" → GPLv3 DIŞI projeler için Existential Audio'dan ücretli lisans alınmalı |
 
 **Neva çıkarımı:** macOS hedefinde Neva "sanal cihaz üretmez" — kullanıcı BlackHole kurar
 veya sistem Aggregate kullanır; Neva'nın CoreAudio backend'i mevcut cihazlar üstünde
@@ -287,7 +290,7 @@ exclusive/shared akış açar (Windows WASAPI-excl karşılığı: `kAudioDevice
 | Neva IAudioBackend | Windows | Linux | macOS |
 |---|---|---|---|
 | Render/capture akışı | WASAPI exclusive/shared | PipeWire stream API (veya saf ALSA pcm) | CoreAudio AudioUnit/IOProc |
-| Bit-perfect çıkış | AUDCLNT_SHAREMODE_EXCLUSIVE | PipeWire `audio.format=S16/S32/F32` sabitleme + `node.rate` | Hog mode ⚠️ |
+| Bit-perfect çıkış | AUDCLNT_SHAREMODE_EXCLUSIVE | PipeWire `audio.format=S16/S32/F32` sabitleme + `node.rate` | ✅ **Hog mode** = `kAudioDevicePropertyHogMode` (Apple AudioHardware.h: pid_t — kendi PID'ini yazan süreç exclusive sahibi olur; -1 = serbest; sistem mixer'ı by-pass) |
 | Sanal cihaz (giriş köprüsü) | 3. taraf sürücü (VAIO) KULLANICI kurar | **null-sink ücretsiz** (Neva kurulumu konfig yazar) | BlackHole KULLANICI kurar |
 | DSP (EQ/comp) | Çekirdek içinde (JUCE) | filter-chain LV2 **veya** çekirdek | Çekirdek içinde (JUCE) |
 | Yankı susturma | Yok (VoiceMeeter da yok) | module-echo-cancel hazır | AU VoiceProcessing ⚠️ |
@@ -310,11 +313,12 @@ exclusive/shared akış açar (Windows WASAPI-excl karşılığı: `kAudioDevice
 | # | Konu | Durum |
 |---|---|---|
 | 1 | PipeWire float32 dahili format iddiası | ✅ **KAPANDI** (2026-10-22 — `pipewire-props(7)` man sayfası: "graph processing format is always float 32") |
-| 2 | BlackHole lisansı + 16ch varyant | Lisans ✅ **KAPANDI** (GPLv3 — GitHub LICENSE tam okundu); 16ch varyant ⚠️ hâlâ VERIFICATION REQUIRED (release notu okunmadı) |
+| 2 | BlackHole lisansı + 16ch varyant | ✅ **KAPANDI** (GPLv3 LICENSE + README: 2/16/64/128/256 kanal, 32-bit float native, kext yok; GPLv3 dışı proje = ücretli lisans zorunlu) |
 | 3 | AudioDriverKit minimum macOS sürümü | ✅ **KAPANDI** (Apple docs: macOS 12.1+ / iOS 16.0+; ek not: forum 2023 "sanal sürücü desteği yok" beyanı gerçek Mac'te teyit bekliyor) |
 | 4 | VAIO .sys içindeki kesin pin-format tablosu (struct layout) | Kapandı sayılmaz: rate sabitleri kanıt, tam pin desen dizisi değil |
-| 5 | `module-combine-stream` varlığı | ⚠️ VERIFICATION REQUIRED — docs.pipewire.org sayfası okunmadı |
+| 5 | `module-combine-stream` varlığı | ✅ **KAPANDI** (docs.pipewire.org 1.6.10 resmi sayfa okundu — `libpipewire-module-combine-stream`, 4 mode, latency-compensate, 5.1 örneği) |
 | 6 | K4 (ASIO SDK lisans kararı) + neva-mcp dili + neva-engine kurtarma | Kullanıcı kararı bekliyor (ADR-107 ile birlikte) |
+| 7 | macOS hog-mode mekanizması (§7 tablosu) | ✅ **KAPANDI** (`kAudioDevicePropertyHogMode` — Apple AudioHardware.h + AudioHardwareDevice docs: pid_t exclusive sahipliği) |
 
 ---
 
@@ -340,6 +344,10 @@ exclusive/shared akış açar (Windows WASAPI-excl karşılığı: `kAudioDevice
 - WWDC21 "Create audio drivers with DriverKit" (AudioDriverKit)
 - https://github.com/existentialaudio/blackhole (12 rate listesi, kSampleRates/kNumber_Of_Channels sabitleri)
 - https://raw.githubusercontent.com/existentialaudio/BlackHole/master/LICENSE (GPLv3 tam metin — 2026-10-22 okundu)
+- https://raw.githubusercontent.com/existentialaudio/BlackHole/master/README.md (kanal varyantları 2/16/64/128/256, 32-bit float native FAQ, mirror device, kLatency_Frame_Size 65536, ticari lisans notu — 2026-10-22 OKUNDU)
+- https://docs.pipewire.org/page_module_combine_stream.html (combine-stream modülü 1.6.10 — 2026-10-22 OKUNDU)
+- https://developer.apple.com/documentation/coreaudio/audiohardwaredevice (hog mode: pid_t exclusive sahipliği)
+- https://github.com/phracker/MacOSX-SDKs/blob/master/MacOSX10.9.sdk/.../AudioHardware.h (kAudioDevicePropertyHogMode tanımı — SDK header kanıtı)
 - https://developer.apple.com/documentation/audiodriverkit/creating-an-audio-device-driver (availability: macOS 12.1+, iOS 16.0+, Xcode 16.0+)
 - https://developer.apple.com/forums/thread/733507 (2023 beyanı: AudioDriverKit sanal sürücü desteği — tarihsel not)
 - https://existential.audio/blackhole/ (44.1k–192k tanıtım grafiği)
