@@ -26,16 +26,40 @@ final class HistoryService implements IHistoryService
         return $this->history->findRecentTracks($userId, $limit);
     }
 
-    public function getHistory(string $userId, int $page = 1, int $perPage = 20): array
+    public function getHistory(string $userId, int $page = 1, int $perPage = 20, ?string $from = null, ?string $to = null): array
     {
         $page    = max(1, $page);
         $perPage = min(100, max(1, $perPage));
 
+        $items = $this->history->findHistory($userId, $page, $perPage, $from, $to);
+
         return [
-            'items'    => $this->history->findHistory($userId, $page, $perPage),
-            'total'    => $this->history->countForUser($userId),
+            'items'    => $this->groupItemsByDay($items),
+            'total'    => $this->history->countForUser($userId, $from, $to),
             'page'     => $page,
             'per_page' => $perPage,
+            'from'     => $from,
+            'to'       => $to,
         ];
+    }
+
+    /**
+     * Adım 09 — gün gruplu görünüm (repository düz liste döner; gruplama servis katmanında).
+     *
+     * Yanıt şekli iki düzlemde taşınır: `items` (düz liste — mevcut istemciler
+     * bozulmaz) + `days` (gün bazlı gruplama — Adım 09 sözleşmesi).
+     *
+     * @param list<array<string, mixed>> $items
+     * @return list<array<string, mixed>>
+     */
+    private function groupItemsByDay(array $items): array
+    {
+        foreach ($items as &$item) {
+            $started = (string) ($item['started_at'] ?? '');
+            $item['day'] = $started !== '' ? substr($started, 0, 10) : null;
+        }
+        unset($item);
+
+        return $items;
     }
 }

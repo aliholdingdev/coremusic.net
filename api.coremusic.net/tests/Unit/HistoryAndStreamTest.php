@@ -237,4 +237,134 @@ final class HistoryAndStreamTest extends TestCase
         $response = $controller->handle(['action' => 'record'], $request);
         $this->assertTrue($response['success']);
     }
+
+    /** Adım 09 — from/to tarih filtresi servise aktarılır + yanıtta `from`/`to` taşınır. */
+    public function testHistoryControllerListPassesDateRangeToService(): void
+    {
+        $mockRepo = $this->createMock(IHistoryRepository::class);
+        $mockRepo->expects($this->once())
+            ->method('findHistory')
+            ->with('018f3a5b6c7d8e9f0123456789abcdef', 1, 20, '2026-10-01', '2026-10-22')
+            ->willReturn([
+                ['music_hex' => 'aa', 'title' => 'A', 'started_at' => '2026-10-15 10:00:00'],
+                ['music_hex' => 'bb', 'title' => 'B', 'started_at' => '2026-10-20 22:30:00'],
+            ]);
+        $mockRepo->expects($this->once())
+            ->method('countForUser')
+            ->with('018f3a5b6c7d8e9f0123456789abcdef', '2026-10-01', '2026-10-22')
+            ->willReturn(2);
+
+        $service = new HistoryService($mockRepo);
+        $controller = new HistoryController($service);
+
+        $_GET['from'] = '2026-10-01';
+        $_GET['to']   = '2026-10-22';
+        try {
+            $response = $controller->handle(
+                ['action' => 'list'],
+                ['_auth_user' => ['id' => '018f3a5b6c7d8e9f0123456789abcdef']]
+            );
+        } finally {
+            unset($_GET['from'], $_GET['to']);
+        }
+
+        $this->assertTrue($response['success']);
+        $this->assertSame('2026-10-01', $response['data']['from']);
+        $this->assertSame('2026-10-22', $response['data']['to']);
+        $this->assertSame(2, $response['data']['total']);
+        $this->assertSame('2026-10-15', $response['data']['items'][0]['day']);
+        $this->assertSame('2026-10-20', $response['data']['items'][1]['day']);
+    }
+
+    /** Adım 09 — gün gruplama: her item `day` (Y-m-d) alanı alır (başlangıç saatinden). */
+    public function testHistoryServiceGroupsItemsByDay(): void
+    {
+        $mockRepo = $this->createMock(IHistoryRepository::class);
+        $mockRepo->method('findHistory')->willReturn([
+            ['music_hex' => 'aa', 'started_at' => '2026-10-20 08:15:00'],
+            ['music_hex' => 'bb', 'started_at' => '2026-10-20 21:45:00'],
+            ['music_hex' => 'cc', 'started_at' => '2026-10-19 12:00:00'],
+        ]);
+        $mockRepo->method('countForUser')->willReturn(3);
+
+        $service = new HistoryService($mockRepo);
+        $result  = $service->getHistory('018f3a5b6c7d8e9f0123456789abcdef');
+
+        $this->assertSame(['2026-10-20', '2026-10-20', '2026-10-19'], array_column($result['items'], 'day'));
+    }
+
+    /** Adım 09 — tarih injection kapısı: SQL'e gömülmez; geçersiz format sessizce yok sayılır. */
+    public function testHistoryControllerListRejectsMalformedDate(): void
+    {
+        $mockRepo = $this->createMock(IHistoryRepository::class);
+        $mockRepo->expects($this->once())
+            ->method('findHistory')
+            ->with('018f3a5b6c7d8e9f0123456789abcdef', 1, 20, null, null)
+            ->willReturn([]);
+        $mockRepo->expects($this->once())->method('countForUser')->willReturn(0);
+
+        $service = new HistoryService($mockRepo);
+        $controller = new HistoryController($service);
+
+        $_GET['from'] = "2026-10-01' OR '1'='1";
+        $_GET['to']   = '2026/10/22';
+        try {
+            $response = $controller->handle(
+                ['action' => 'list'],
+                ['_auth_user' => ['id' => '018f3a5b6c7d8e9f0123456789abcdef']]
+            );
+        } finally {
+            unset($_GET['from'], $_GET['to']);
+        }
+
+        $this->assertTrue($response['success']);
+        $this->assertNull($response['data']['from']);
+        $this->assertNull($response['data']['to']);
+    }
+
+    /** Adım 09 — gelecek tarih kırpılır (trust client YASAK — §9 edge case). */
+    public function testHistoryControllerListClampsFutureDateToToday(): void
+    {
+        $mockRepo = $this->createMock(IHistoryRepository::class);
+        $mockRepo->expects($this->once())
+            ->method('findHistory')
+            ->with('018f3a5b6c7d8e9f0123456789abcdef', 1, 20, date('Y-m-d'), null)
+            ->willReturn([]);
+        $mockRepo->expects($this->once())->method('countForUser')->willReturn(0);
+
+        $service = new HistoryService($mockRepo);
+        $controller = new HistoryController($service);
+
+        $_GET['from'] = '2099-01-01';
+        try {
+            $response = $controller->handle(
+                ['action' => 'list'],
+                ['_auth_user' => ['id' => '018f3a5b6c7d8e9f0123456789abcdef']]
+            );
+        } finally {
+            unset($_GET['from']);
+        }
+
+        $this->assertSame(date('Y-m-d'), $response['data']['from']);
+    }
+
+    /** Adım 09 — boş geçmiş hata DEĞİL (§9 edge case: boş durum mesajı). */
+    public function testHistoryControllerListEmptyHistoryIsSuccess(): void
+    {
+        $mockRepo = $this->createMock(IHistoryRepository::class);
+        $mockRepo->method('findHistory')->willReturn([]);
+        $mockRepo->method('countForUser')->willReturn(0);
+
+        $service = new HistoryService($mockRepo);
+        $controller = new HistoryController($service);
+
+        $response = $controller->handle(
+            ['action' => 'list'],
+            ['_auth_user' => ['id' => '018f3a5b6c7d8e9f0123456789abcdef']]
+        );
+
+        $this->assertTrue($response['success']);
+        $this->assertSame([], $response['data']['items']);
+        $this->assertSame(0, $response['data']['total']);
+    }
 }
