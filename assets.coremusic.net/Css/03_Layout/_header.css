@@ -43,7 +43,6 @@
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    /* padding-right: var(--header-padding-right, 24px); */
     gap: 8px;
 }
 
@@ -67,7 +66,6 @@
     .site-header__inner {
         width: 100% !important;
         max-width: 100% !important;
-        padding-right: 32px !important;
     }
     .site-header__actions {
         margin-left: auto !important;
@@ -623,7 +621,7 @@
 
     .site-header__inner {
         gap: 12px;
-        padding: 0 24px;
+        padding-left: 24px;
     }
 
     .site-header__logo {

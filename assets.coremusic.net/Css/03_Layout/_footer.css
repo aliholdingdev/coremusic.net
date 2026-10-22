@@ -81,7 +81,7 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  /* padding: 0 24px; */
+  ,: 0 24px;
   display: grid;
   grid-template-columns: auto 1fr auto auto;
   grid-template-areas:
@@ -105,7 +105,6 @@
   .footer-player__inner {
     width: 100% !important;
     max-width: 100% !important;
-    padding: 0 32px !important;
   }
   .footer-player__volume,
   .footer__utility-icons {
@@ -329,73 +328,82 @@
   }
 }
 
-/* ═══ Responsive — 4K UHD & Geniş Ekranlar (≥2560px) ═══
-   1920 Figma hiyerarşisi tam ölçeklendirilmiş (2x) tok ve dengeli player bar */
-@media (min-width: 2560px) {
-  /* Ana Footer Yüksekliği ve Zemin */
+/* ═══ Responsive — Geniş Ekranlar & 4K UHD (≥1921px) ═══
+   Figma SSOT (node 3175:13504 — 3840×92 & 1920 baseline):
+   Footer %100 tam genişlik, 90-92px yükseklik, 1920 oranlarında kusursuz CD player yerleşimi */
+@media (min-width: 1921px) {
   .footer,
   .footer-player {
-    height: 160px !important;
-    min-height: 160px !important;
+    height: var(--footer-h, 90px) !important;
+    min-height: var(--footer-h, 90px) !important;
     width: 100vw !important;
+    max-width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Seekbar: tam genişlik, zarif 5px Figma ölçüsü */
+  .footer-player__progress {
+    height: var(--footer-progressbar-h, 5px) !important;
+    width: 100% !important;
+  }
+
+  .footer-player__inner {
+    height: calc(var(--footer-h, 90px) - var(--footer-progressbar-h, 5px)) !important;
+    width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
   }
 
-  /* Seekbar (Progressbar) — 4K'da daha kalın ve belirgin */
-  .footer-player__progress {
-    height: 10px !important;
-  }
-
-  .footer-player__inner {
-    height: calc(160px - 10px) !important;
-    padding: 0 36px !important;
-    box-sizing: border-box !important;
-  }
-
-  /* ZON 1: Sol Albüm Kapağı & Bilgileri — 2x Ölçekli */
+  /* ZON 1: Sol Albüm Kapağı & Bilgileri — 1920 kusursuz CD case ölçüsü (84x84) */
   .footer-player__meta {
-    gap: 20px !important;
+    gap: 10px !important;
   }
 
   .footer-player__cover-wrap {
-    height: 140px !important;
-    max-height: 140px !important;
-    width: 140px !important;
-    border-radius: 4px !important;
+    height: calc(var(--footer-h, 90px) - 6px) !important;
+    max-height: calc(var(--footer-h, 90px) - 6px) !important;
+    width: calc(var(--footer-h, 90px) - 6px) !important;
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  .footer-player__cover {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .footer-player__cover-case {
+    top: -6.52% !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 113.04% !important;
+  }
+
+  .footer-player__cover-cd {
+    top: 16.67% !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 66.67% !important;
   }
 
   .footer-player__info {
-    gap: 6px !important;
+    gap: 2px !important;
   }
 
   .footer-player__text {
-    font-size: 18px !important;
-    line-height: 1.4 !important;
-  }
-
-  .footer-player__song #footer_songname {
-    font-size: 20px !important;
-    font-weight: 600 !important;
-  }
-
-  .footer-player__album #footer_albumadi,
-  .footer-player__artist #footer_sanatci {
-    font-size: 18px !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
   }
 
   .footer-player__icon {
-    width: 20px !important;
-    height: 20px !important;
-    margin-right: 6px !important;
+    width: 13px !important;
+    height: 13px !important;
   }
 
-  .footer-player__time {
-    font-size: 16px !important;
-    gap: 8px !important;
-  }
-
-  /* ZON 2: Orta Kontrol Butonları (⏮ ▶ ⏹ ⏭) — 2x Ölçekli ve Tok */
+  /* ZON 2: Orta Kontrol Butonları (⏮ ▶ ⏹ ⏭) — 1920 Figma buton ölçüsü, tam ortada */
   .footer-player__controls:not(:has(.footer__utility-icons)) {
     position: absolute !important;
     left: 50% !important;
@@ -403,86 +411,86 @@
     transform: translate(-50%, -50%) !important;
     display: flex !important;
     align-items: center !important;
-    gap: 24px !important;
+    gap: 10px !important;
     z-index: 2 !important;
   }
 
   .footer-player__btn {
-    width: 64px !important;
-    height: 64px !important;
-    min-width: 64px !important;
-    min-height: 64px !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
     border-radius: 50% !important;
-    padding: 10px !important;
+    padding: 3px !important;
   }
 
   .footer-player__btn img {
-    width: 34px !important;
-    height: 34px !important;
+    width: 22px !important;
+    height: 22px !important;
   }
 
-  /* Ortadaki Ana Play/Pause Butonu */
   .footer-player__btn--play {
-    width: 78px !important;
-    height: 78px !important;
-    min-width: 78px !important;
-    min-height: 78px !important;
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
   }
 
   .footer-player__btn--play img,
   .footer-player__play-icon {
-    width: 42px !important;
-    height: 42px !important;
+    width: 24px !important;
+    height: 24px !important;
   }
 
-  /* ZON 3: Sağ Bölüm (Utility Butonları ve Ses Çubuğu) — 2x Ölçekli */
+  /* ZON 3: Sağ Bölüm (Utility Butonları ve Ses Çubuğu) — Ekranın sağına yapışık */
   .footer__utility-icons {
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 2px !important;
   }
 
   .footer__utility-icon {
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
-    min-height: 48px !important;
-    border-radius: 6px !important;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
+    border-radius: 50% !important;
   }
 
   .footer__utility-icon img {
-    width: 28px !important;
-    height: 28px !important;
+    width: 18px !important;
+    height: 18px !important;
   }
 
   .footer-player__volume {
     display: flex !important;
     align-items: center !important;
-    gap: 16px !important;
+    gap: 6px !important;
+    justify-self: end !important;
   }
 
   .footer-player__volume img,
   #volumeIcon {
-    width: 36px !important;
-    height: 36px !important;
+    width: 20px !important;
+    height: 20px !important;
   }
 
   .footer-player__volume-track {
-    width: 320px !important;
-    height: 16px !important;
+    width: 200px !important;
+    height: 4px !important;
   }
 
   .footer-player__volume-slider {
-    height: 16px !important;
+    height: 4px !important;
   }
 
   .footer-player__volume-fill {
-    height: 16px !important;
+    height: 4px !important;
   }
 
   .footer-player__volume-value {
-    font-size: 18px !important;
-    min-width: 54px !important;
+    font-size: 11px !important;
+    min-width: 36px !important;
   }
 }
 
