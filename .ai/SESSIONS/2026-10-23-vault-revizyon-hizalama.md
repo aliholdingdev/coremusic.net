@@ -80,9 +80,9 @@ Boot zinciri taramasıyla 5 çelişki (Ç1-Ç5) tespit edilip onaylandı; beyin 
 
 ## 3.7 Sonraki Adımlar
 
-- [ ] **Adım 4 — G: Prompt Arşivi revizyonu** (42 dosya envanter → README + brain.md L1130 hizası; O-4 onaylı)
+- [x] **Adım 4 — G: Prompt Arşivi revizyonu** TAMAM (README 7 sayı düzeltmesi + brain.md L1130 mutabakatı + `miamri→mimari` rename teyidi — log 2026-10-23 ~17:05)
 - [ ] Kullanıcı cevabı: MEMORY mojibake düzeltinsin mi? (ADR-042 → geçmiş satır edit izni gerekir)
-- [ ] Commit kararı: 2026-10-23 hizalama + önceki oturumun ADR-097/108/109/110 taşımaları tek commit'te mi ayrıştırılacak
+- [x] Commit: **2 commit atıldı** (orkestratör, kullanıcı "devam et" onayı) — `961244a` (ADR kararları: 097 terfi + 108/109 rename + 110 draft + index hizası) · `96eb63f` (çekirdek hizalama + kapanış, 11 dosya)
 - [ ] `app-cpp-projects/` untracked — kime ait, commit'e dahil mi?
 
 ## 3.8 Vault Güncellemeleri
@@ -99,4 +99,4 @@ Boot zinciri taramasıyla 5 çelişki (Ç1-Ç5) tespit edilip onaylandı; beyin 
 - Yazma kanalı: log.md `vault-utf8-writer.mjs append` (bayt-güvenli, tek izinli) · satır editleri `edit` tool (UTF-8; PowerShell cmdlet YOK — mojibake/BOM kontrolü writer `verify` ile).
 - `.ai/CLAUDE.md` silinme nedeni bilinmiyor; içerik kaybı YOK (HEAD = oturum başı v27.5.0).
 - Doğrulama: log diff `+N/−0` (append-only) · placeholder 0 · verify BOM/mojibake 0.
-- Commit ATILMADI (subagent kuralı — orkestratör onayı gerekir).
+- Commit: `961244a` + `96eb63f` (2026-10-23, orkestratör — kullanıcı onayıyla; `app-cpp-projects/` ilgisiz, hariç).
