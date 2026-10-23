@@ -663,7 +663,7 @@ Session Sonunda:
 | Yüzey | Sayım |
 |-------|-------|
 | `ui-design/` kök `0*.md` | **6** (`00-device-matrix` … `05-responsive-architecture`) |
-| `screens/` | **21 md** = 1 indeks (`00-ascii-art-index`) + **20 spec** (T07-embedded 12 · T17-monitor-22fhd 2 · shared 6) |
+| `screens/` | **28 md** = 1 indeks (`00-ascii-art-index`) + **27 spec** (T07-embedded 12 · T17-monitor-22fhd 8 · shared 6 · T20-monitor-4k 1 — 2026-10-23 disk ölçümü; §7.2 ile hizalı) |
 | `flow/` | **21 md** = `00-flow-index` + 20 (auth 5 · music 5 · settings 4 · navigation 3 · automotive 2 · watch 1) |
 | `prompt/` | **51 md** = **48 içerik** (component 16 · page 12 · layout 10 · screen 10) + `prompt/00-prompt-index` + `screen/00-prompt-index` + `web-research` |
 | `reference/` · `tokens/` | **17 md** (11 üst düzey `01-php-source-architecture` … `10-device-specific-guidelines` + `legacy-inventory`, `figma/` 6) · **4 md + 7 json** |

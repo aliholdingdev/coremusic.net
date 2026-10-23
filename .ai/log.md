@@ -360,3 +360,13 @@ updated: 2026-10-02
 **Durum:** PLAN v1.4.0 — Durum Tablosu **12/19 kapandı** → **7 açık** (P1 0 · **P2 7**: Adım 13-19; Adım 14 `/stream` testi KOD içerir → ayrı session). TODO v1.3.0. S7 grubu (9-10-11) + S8 (12) kapandı; sonraki grup S9 (Adım 13, 15, 16-19).
 
 **Dokunulmayan (kapsam dışı):** root `AGENTS.md` çalışan ağaçta 2 değişiklik taşıyor — (1) bu script'in frontmatter bump'ı, (2) **başka bir oturum/kullanıcının eklediği PRD satırı** (`@PRD.md` kök pointer'ı, §9 tablosu) → dosya BU commit'e DAHİL EDİLMEDİ; PRD işi sahibinin commit'ine bırakıldı.
+
+## 2026-10-23 — Beyin/Boot Hizalama (Faz 7 içerik — INIT v4.0 PROMPT 2/3)
+
+- **Kök `CLAUDE.md` §10:** css-template `v3.0.0 → v4.0.0` (disk kanıtı: `.ai/.templates/frontend/css-template.md` FM `version: 4.0.0`; kök `AGENTS.md:256` ile hizalı — `CLAUDE.md:280` bayattı).
+- **`.ai/index.md` v30.0.0 → v30.1.0:** FM sayaçları (kök 24 dosya/23 md · recursive 2527/2236/394 · depth-1 21 · ADR 101: 84/10/6) + §2/§5 ADR göstergesi v1.5.2 hizası + §3 (+AGENT-BRIEFING, +PRD — 23 md) + §7 (`.png` 26 PNG+5 md · `prompts/` yeniden mevcut 4 md · +`research/` 7 md · +`tmp/` 25) + §9 madde 2/3/4/5 + footer 30.1.0.
+- **`.ai/WORKFLOW.md`:** `screens/` `21 → 28 md` (1 indeks + 27 spec: T07-12 · T17-8 · shared-6 · T20-1 — disk ölçümü, `.ai/AGENTS.md` §7.2 ile hizalı).
+- **`.ai/AGENTS.md` §13.8 + §25.5:** Faz 7 satırı "🔄 BU REVİZYON" → "✅ İÇERİK HİZALANDI (2026-10-23) — commit bekliyor".
+- **`.claude/skills/ui-code-generator/references/checklist.md`:** G2.1 `v3.0.0 → v4.0.0`.
+- **`.ai/keys.md`:** bayat atıf grep isabeti 0 → dokunulmadı.
+- **Commit atılmadı** (kural: subagent atmaz; orkestratör/kullanıcı onayı bekleniyor). Faz 8 QA kapısı commit sonrası.

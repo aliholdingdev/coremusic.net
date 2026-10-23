@@ -21,7 +21,7 @@
 
 | # | Madde | Kanıt |
 |---|-------|-------|
-| G2.1 | Katman sırası 01→11 bozulmadı (`.ai/.templates/frontend/css-template.md` v3.0.0) | import bloğu |
+| G2.1 | Katman sırası 01→11 bozulmadı (`.ai/.templates/frontend/css-template.md` v4.0.0) | import bloğu |
 | G2.2 | Sabit değer (hex/px/rem/rgba) yalnız `01_Abstracts/a-*.css` içinde | grep: ham hex katman dosyasında 0 |
 | G2.3 | Sınıf adları BEM (`block__elem--mod`); DOM özdeşliği 1:1 | HTML + CSS |
 | G2.4 | Stil DOM'a gömülü değil (`style=""` yok; `<style>` gömülü yok) | grep |

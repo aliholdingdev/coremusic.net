@@ -4,19 +4,19 @@ type: system
 category: vault-navigation
 status: active
 authority: SSOT
-version: 30.0.0
-updated: 2026-10-12
+version: 30.1.0
+updated: 2026-10-23
 date: 2026-08-09
-total_root_files: 22
-total_root_md: 21
-total_ai_dirs: 17
-total_recursive_files: 665
-total_recursive_md: 435
-total_recursive_dirs: 72
-total_adr: 91
-total_adr_accepted: 80
+total_root_files: 24
+total_root_md: 23
+total_ai_dirs: 21
+total_recursive_files: 2527
+total_recursive_md: 2236
+total_recursive_dirs: 394
+total_adr: 101
+total_adr_accepted: 84
 total_adr_rejected: 10
-total_adr_draft: 0
+total_adr_draft: 6
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
 tier: 5
 domain: navigation
@@ -55,7 +55,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | Konu→dosya retrieval indeksi (hangi soru hangi dosya) | [[RAG.md]] |
 | Terimler Sözlüğü | [[glossary.md]] |
 | Mimari kararlar (özet) | [[brain.md]] |
-| Mimari kararlar (ADR arşivi) | `.ai/.decisions/index.md` (91 ADR: 80/10/0 · v1.5.0) |
+| Mimari kararlar (ADR arşivi) | `.ai/.decisions/index.md` (101 ADR: 84/10/6 · v1.5.2) |
 | Ajan yetkileri | [[AGENTS.md]] |
 | Agent profilleri | [[.agents/AGENTS]] (11 profil) |
 | Süreçler | [[WORKFLOW.md]] |
@@ -75,7 +75,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 
 ---
 
-### §3 SSOT Core Dosyaları (21 `.ai/` kök `.md` — 2026-10-12 disk ölçümü)
+### §3 SSOT Core Dosyaları (23 `.ai/` kök `.md` — 2026-10-23 disk ölçümü)
 
 | # | Dosya | Amaç | Sınıf |
 |---|-------|------|-------|
@@ -100,8 +100,10 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | 19 | [[SYNC.md]] | Sürekli güncelleme döngüsü SSOT'u — hedef set 26, üç kapı, tazelik ölçütü §5 | 🔴 CRITICAL |
 | 20 | [[PLAN.md]] | Plan görünümü | 🟠 ON-DEMAND |
 | 21 | [[TODO.md]] | Açık iş listesi — P0/P1/P2 önceliklendirme | 🟠 ON-DEMAND |
+| 22 | [[AGENT-BRIEFING.md]] | Operasyonel brifing — her bölüm disk kanıtına bağlı brief (K000 node, `status: verify-required`) | 🟠 ON-DEMAND |
+| 23 | [[PRD.md]] | Vault PRD — `.ai/` belge sistemi gereksinim belgesi (`authority: Derived`, 2026-10-23) + kök `PRD.md` aile indeksi | 🟠 ON-DEMAND |
 
-**Sınıf sayımı:** 🔴 CRITICAL **18** · 🟠 ON-DEMAND **3** (PLAN · PLANNER · TODO) · ⚪ LOG **1** = 22 satır (LOG dosyası CRITICAL setine de girer; benzersiz dosya = 21).
+**Sınıf sayımı:** 🔴 CRITICAL **18** · 🟠 ON-DEMAND **5** (PLAN · PLANNER · TODO · PRD · AGENT-BRIEFING) · ⚪ LOG **1** = 24 satır (LOG dosyası CRITICAL setine de girer; benzersiz dosya = 23).
 
 **K-SPACE KALDIRILDI (2026-10-12):** K-space katman mimarisi (K000–K020 / A0–A5 / `.ai/architecture/` 46 dosya) ve ADR-061 birlikte silindi; 4 mimari şablon + `.workflows/architecture-write.md` + `.superpowers/` kaldırıldı. Yedek: `C:\temp\opencode\vault-backup-2026-10-12`. Bu dosyadaki tüm sayılar 2026-10-12 disk ölçümüyle yeniden yazıldı.
 
@@ -129,17 +131,18 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 
 ### §5 ADR Kataloğu
 
-**SSOT:** `.ai/.decisions/index.md` (v1.5.0, 2026-10-12). Bu dosyada liste **kopyalanmaz** — yalnız işaretçi verilir.
+**SSOT:** `.ai/.decisions/index.md` (v1.5.2, 2026-10-23). Bu dosyada liste **kopyalanmaz** — yalnız işaretçi verilir.
 
-| Durum | Sayı (2026-10-12 disk ölçümü) |
+| Durum | Sayı (2026-10-23 disk ölçümü — `.decisions/index.md` FM ile hizalı) |
 |-------|-------------------------------|
 | Frozen (001-036) | 36 |
-| Active (037-101) | 45 |
+| Active (037-101 + kökteki ADR-091) | 49 |
 | Rejected (R-001..R-010) | 10 |
-| Draft | 0 |
-| **Toplam dosya** | **91** |
+| Draft (103/104/107/108/109/110) | 6 |
+| **Toplam dosya** | **101** |
 
 > **Not (2026-10-12):** ADR-061 (K-space katman tanımı) K-space ile birlikte kaldırıldı → toplam 91.
+> **Not (2026-10-23):** Sayılar `.decisions/index.md` v1.5.2 FM ile hizalandı (accepted 84 · rejected 10 · draft 6 · kök ADR-091 · toplam 101 — önceki "91 · 80/10/0 · v1.5.0" yazımı bayattı).
 
 ---
 
@@ -161,7 +164,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 
 ---
 
-### §7 Vault Dizin Haritası (18 depth-1 dizin — 2026-10-15 16:09 disk ölçümü)
+### §7 Vault Dizin Haritası (21 depth-1 dizin — 2026-10-23 disk ölçümü)
 
 | Dizin | Dosya | Amaç |
 |-------|-------|------|
@@ -176,17 +179,19 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | `.sql/` | 20 .sql + 5 md | SQL şema (4 DBMS: mssql/mysql/postgresql/sqlite) |
 | `scripts/` | 10 dosya | Doğrulama/vault betikleri |
 | `index/` | 5 md | Master katalog hub alt sayfaları (01-05) |
-| `.png/` | 19 PNG + 4 md | Görsel SSOT (salt okunur) |
+| `.png/` | 26 PNG + 5 md | Görsel SSOT (salt okunur — alt dizinli: admin-1920 · home-1024 · home-1920 · home-3840 · shared-1024; 2026-10-23 recurse ölçümü — önceki "19 PNG + 4 md" bayattı) |
 | `servers/` | 3 md | Sunucu/kurulum notları |
 | `SESSIONS/` | 15 md | Session kayıtları (ölçüm 2026-10-23; son eklenen: 2026-10-23-vault-revizyon-hizalama) |
 | `.obsidian/` | 5 dosya | Obsidian yapılandırması |
 | `.rules/` | 1 md | `senior-mode.md` (error-recovery.md YOK) |
-| `prompts/` | — | **DİZİN YOK** (2026-10-15 `Test-Path=False`; 2026-10-12 "boş dizin" iddiası geçersiz — dizin hiç var olmamış/taşınmış) |
+| `prompts/` | 4 md | Prompt arşivi (2026-10-23 disk ölçümü — dizin **yeniden mevcut**; eski "DİZİN YOK (2026-10-15 Test-Path=False)" iddiası tarihseldir, artık geçersiz) |
+| `research/` | 7 md | Araştırma notları (2026-10-23 disk ölçümü) |
+| `tmp/` | 25 dosya | Geçici çalışma alanı (2026-10-23 disk ölçümü) |
 | `reports/` | 18 dosya + 1 dizin | Rapor arşivi (2026-10-22 disk ölçümü: backend-step01-11 = 10 rapor md + 5 curl-pc.ps1 + k000/k006 dil-kapsama + neva-re-dump-aimp-vlc + `k001-taksonomi/` dizini; önceki "12 dosya (11 rapor + index.md)" sayımı bayat — `reports/index.md` diskte YOK) |
 | `.diagram/` | — | **DİZİN YOK** (2026-10-15 `Test-Path=False`) |
 | `projects/` | 84 md (2026-10-20 disk sayımı — `10-dil-ffi-feasibility-analizi` + `reverse/runtime-ozel-gozlem-capraz-dogrulama` eklendi) | **NovaSearchEngine (2 doc, 2026-10-16):** `01-kurulum-mimari-ve-acik-konular` (proje kökü `app-nodejs-projects/nova-search-engine` — konum düzeltmesi: eski `C:\www\nova-search-engine` terk edildi · ADR-001..007 + debate D1–D7 · OpenRouter canlı doğrulama: nemotron-3-super/3.5-lightning/inkling 200 ✓, gemma-4 429, deepseek-chat-v3-0324:free 404 · coverage %60.30 lines/%52.21 funcs vs %75 kapı AÇIK · 40/40 bun test · tsc 0 · 4 açık madde: MySQL canlı test, coverage, likeCount/publishedAt V2, aylık free-model taraması) · **Neva Connect (11 doc, 2026-10-15):** `NevaConnect/01-wlanapi-sürüm-matrisi-ve-windows-plani` (pconlife 9 DLL + yerel Win10 19041 = 10 DLL MD5 ✓ · PE export matrisi XP 36 → Win7 48 → Win8 103 → Win8.1 108 → Win10 10240 121 → 19041 148 · **her geçişte −0** · REA/Ghidra 12.1.4 çapraz kontrol · 6 katman plan + 4 açık madde) · **02 çok-exe + Windows SDK derleme matrisi** (769 satır: v141_xp/SDK 7.1A vs v143/Win10 SDK, `_WIN32_WINNT` define kuralı, Level 0-3 istisna/fallback, dumpbin /imports kapı, 42 kaynak) · **03 sürüme göre özellik kısıtlama** (678 satır: GetProcAddress + dönüş-kodu ikili kapı, List2→List1 degradation, MSDN min-OS teyitleri, KB940541, 21 kaynak) · **04 kapsam yol haritası** (1129 satır: WiFi 7 = Win11 24H2 + WiFiCx MLO, BT Win32/WinRT, WinUSB, SATA BusType 0x0B/NVMe 0x11, OS×özellik matrisi, 50+ kaynak) · **05 neva-wlan çekirdek modül tasarımı** (666 satır: wifi list/connect/status akışları, SPSC kuyruk + WlanCloseHandle kapanış sırası, WS 9742 JSON sözleşmesi, 17 satır Level hata tablosu; §2.1/§9 felaket yolu ile güncellendi) · **06 test & kalite planı** (560 satır: OS×modül matrisi, 45 birim senaryo, XP uç smoke X1-X4b, N1-N9 negatif, §7.3 T-01…T-12 felaket yolu, GH Actions gate) · **07 XP WZC stack kaynak araştırması** (500 satır: nt5src clone daad8a087 — XP SP1'de wlanapi YOK/WZC tam kaynak, wzc.idl UUID+pipe, NDISUIO OID 802.11 felaket yolu, XP panel lanui envanteri, WZC-wlanapi izomorfizm; §2.2 NDISUIO düzeltmesi) · **08 XP panel davranış sözleşmesi** (595 satır: lanui/wzcui/chklist kaynağından durum sınıfları, 3500 ms liste timer, bağlanma akışı, gerçek IDS_* mesajları, WS 9742 eşleme 22 satır) · **09 XP NDISUIO felaket yolu tasarımı** (554 satır: `\\.\Ndisuio` + 5 IOCTL nuiouser.h kanıtlı, NDISUIO_OID_QUERY/Set yapıları, BSSID listesi walk güvenlik, L0-L4 yerleşimi, karar akışı, T-01…T-12) · **10 WZC/EAPOL/NDISUIO registry değerleri** v1.1.0 (nt5src + yerel Win10/11 HKLM okuması: WZCSVC kökü wirelessspd.c:157-159, WZC profil saklama düzeni storage.h — ActiveSettings/Static# REG_BINARY + LayoutVersion=4, EAPOL gerçek değer adları eapolutil.c:46-55 authPeriod/SupplicantMode vs (2 açık madde kapandı), politika store GPTWirelessPolicy/GPTWiFiPolicy/Cache, netwzc.inx Start=2+ServiceDll, NDISUIO NDIS 6.30 kaydı, WZCSVC→WlanSvc/dot3svc eşleme + LayoutVersion izomorfizmi, 9 maddelik açık liste + XP VM reg query komutları + 3 karar kartı) · **11 windows wlanapi mimarisi** (507 satır: 10 DLL PE analizi pe_arch.py — XP=9 import/WZCSAPI 19 fn + RPCRT4 yalnız UuidFromString, Vista+=async RPC Ndr64AsyncClientCall, mitigasyon XP 0x0 → Win10 0x4160 CFG, bölüm evrimi .didat/`.idata`, export mutabakatı toplam 36→48→153→173→220→258 vs Wlan* 36→48→103→108→121→148 (WFD ailesi Win8+), WNF/threadpool bildirim kanıtı, XP token impersonation + Win10 ControlService, 36 export işlevsel gruplama + delta zinciri, 8 MS Learn HEAD-200, 8 açık madde) + **Neva Engine (49 md):** `00-sdk-lib-envanter`..`10-io-format-32bit-192khz` (11 doc) + **`11-cok-dilli-kod-ornekleri`** (index: 10 dil × 6 örnek, K1-K6) + **`11-examples/` 10 dosya** (`01-c11`·`02-cpp20`·`03-csharp`·`04-php8`·`05-javascript`·`06-typescript`·`07-python`·`08-go`·`09-rust`·`10-html-css`, ~235KB, derlenmedi, 2026-10-16) · **NevaPlayer (8 md):** `01-kapsam-ve-kabul-kriterleri` (v0.2.3) + **`10-dil-ffi-feasibility-analizi`** (650 satır · 34.6 KB · 25 dil FFI uyumluluk + feasibility + **statik (§5) + runtime (§6) + kod örneği (§4, 24 blok) hepsi** · `neva_c.h` R1–R9 (tek başlık / PIMPL / opaque handle / `struct_size` / sembol gizleme) · `neva_session_api_version()` handshake (ADR §50) · ctypes C ABI smoke (ADR §5.5) · blok granülaritesi hesabı cgo ~40 ns → 128 karede ~%0,006 · RT yasağı §6.3 · U1–U9 + R-1..R-4) + `research/3` (`lib-matrix` · `media-stack-web-verification` 112 kaynak · `radio-and-hires`) + `reverse/3`, 2026-10-20) |
 
-**Toplam:** `.ai/` recursive **2520 dosya · 2232 `.md` · 394 dizin** · kök **22 `.md`** · depth-1 **21 dizin** (2026-10-22 doğrudan `Get-ChildItem -Recurse -Force` disk ölçümü — vault-sync kapanışı; kendi kuralı gereği bu taze ölçüm esastır, önceki 2026-10-16 tabanı bayattı). **Metodoloji düzeltmesi:** Önceki "673→676 dosya · 443→446 md · 72→73 dizin" serisi **eski tabana +delta** eklenerek üretilmişti ve `architecture/` (1187 md) + `electronic/` (60 md) + `.personas/` (84 md) gibi dizinleri dışarıda bırakıyordu; bu yüzden disk gerçeğiyle (1974/1745/394) uyuşmuyordu. 2026-10-12 tabanı `architecture/` "kaldırıldı" varsayımıyla ölçülmüştü; `.ai/architecture/` K000-K020 ile diskte MEVCUT olduğundan eski taban **geçersizdir**. Bu satırdan itibaren **doğrudan disk ölçümü** esastır; delta listesi yalnız tarihi kayıt olarak korunur: NevaConnect 01→11 = +11 md (10 = WZC/EAPOL/NDISUIO registry değerleri, 11 = wlanapi PE mimarisi, 2026-10-15) · architecture K014+K000 = +2 md · NevaEngine 10-io-format = +1 md · **2026-10-16: NevaEngine doc 11 index + `11-examples/` 10 dil dosyası = +11 md (+1 dizin, projects 49→60; toplam 1974→2144 dosya / 1745→1915 md / 394→395 dizin — paralel turlar dahil doğrudan ölçüm)** · **2026-10-16: NovaSearchEngine doc 01 = +1 md (+1 dizin, projects 60→61; toplam 2144→2243 dosya / 1915→2007 md / 395→406 dizin — doğrudan ölçüm, fark = 2026-10-16 arası .ai/ genelindeki diğer eklemeler dahil)** · kök .md 21→22 (`AGENT-BRIEFING.md` +1).
+**Toplam:** `.ai/` recursive **2527 dosya · 2236 `.md` · 394 dizin** · kök **23 `.md`** · depth-1 **21 dizin** (2026-10-23 doğrudan `Get-ChildItem -Recurse -Force` disk ölçümü — beyin/boot hizalama; önceki 2026-10-22 tablosu (2520·2232·22 kök .md) bayattı, delta +7 dosya/+4 md/+1 kök .md (`PRD.md`)). **Metodoloji düzeltmesi:** Önceki "673→676 dosya · 443→446 md · 72→73 dizin" serisi **eski tabana +delta** eklenerek üretilmişti ve `architecture/` (1187 md) + `electronic/` (60 md) + `.personas/` (84 md) gibi dizinleri dışarıda bırakıyordu; bu yüzden disk gerçeğiyle (1974/1745/394) uyuşmuyordu. 2026-10-12 tabanı `architecture/` "kaldırıldı" varsayımıyla ölçülmüştü; `.ai/architecture/` K000-K020 ile diskte MEVCUT olduğundan eski taban **geçersizdir**. Bu satırdan itibaren **doğrudan disk ölçümü** esastır; delta listesi yalnız tarihi kayıt olarak korunur: NevaConnect 01→11 = +11 md (10 = WZC/EAPOL/NDISUIO registry değerleri, 11 = wlanapi PE mimarisi, 2026-10-15) · architecture K014+K000 = +2 md · NevaEngine 10-io-format = +1 md · **2026-10-16: NevaEngine doc 11 index + `11-examples/` 10 dil dosyası = +11 md (+1 dizin, projects 49→60; toplam 1974→2144 dosya / 1745→1915 md / 394→395 dizin — paralel turlar dahil doğrudan ölçüm)** · **2026-10-16: NovaSearchEngine doc 01 = +1 md (+1 dizin, projects 60→61; toplam 2144→2243 dosya / 1915→2007 md / 395→406 dizin — doğrudan ölçüm, fark = 2026-10-16 arası .ai/ genelindeki diğer eklemeler dahil)** · kök .md 21→22 (`AGENT-BRIEFING.md` +1).
 ---
 
 ### §8 Veritabanı
@@ -207,10 +212,10 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | # | Kontrol | Kriter |
 |---|---------|--------|
 | 1 | Frontmatter | 7 zorunlu alan + Control Plane v2 bloğu |
-| 2 | Kök dosya sayımı | 22 `.md` (2026-10-15 16:09 disk ölçümü; 21 iddiası 2026-10-12 tabanı — `AGENT-BRIEFING.md` sonradan eklendi) |
-| 3 | Dizin sayımı | 18 depth-1 dizin (2026-10-15 disk ölçümü; `.agents .decisions .obsidian .personas .png .rules .sql .templates architecture ecosystem electronic index projects reports scripts servers SESSIONS ui-design` — `prompts/` ve `.diagram/` YOK) |
-| 4 | Recursive | 1974 dosya · 1745 md · 394 dizin (2026-10-15 16:09 disk ölçümü; eski "665·435·72" tabanı `architecture/` hariç ölçümldü, geçersiz) |
-| 5 | ADR | 92 (80 kabul / 10 red / 2 taslak — `.decisions/index.md` v1.5.0 ile hizalı; 2026-10-15 disk ölçümü `ADR-*.md`=83 + `R-*.md`=10 + 6 yardımcı = 99 md) |
+| 2 | Kök dosya sayımı | 23 `.md` (2026-10-23 disk ölçümü; +`AGENT-BRIEFING.md` ve +`PRD.md` eklendiği için 22 iddiası bayattı) |
+| 3 | Dizin sayımı | 21 depth-1 dizin (2026-10-23 disk ölçümü; `.agents .decisions .obsidian .personas .png .rules .sql .templates architecture ecosystem electronic index projects prompts reports research scripts servers SESSIONS tmp ui-design` — `prompts/` yeniden mevcut (4 md); yalnız `.diagram/` YOK) |
+| 4 | Recursive | 2527 dosya · 2236 md · 394 dizin (2026-10-23 disk ölçümü; eski "665·435·72" ve "1974·1745" tabanları bayat — `architecture/` dahil doğrudan ölçüm) |
+| 5 | ADR | 101 (84 kabul / 10 red / 6 taslak + kökteki ADR-091 — `.decisions/index.md` v1.5.2 ile hizalı; 2026-10-23 disk sayımı: `accepted/` 84 + `rejected/` 10 + `draft/` 6 + kök 1) |
 | 6 | Skill Registry | 13 proje skill — kök `CLAUDE.md` §Skill Registry ile hizalı |
 | 7 | K-space | `architecture/` diskte **MEVCUT** (2026-10-15 16:09: 1187 md · 28 alt dizin · K000-K020 · kök index/README — eski "diskte YOK / kaldırım 2026-10-12" iddiası **geçersizdir**; yedek `C:\temp\opencode\vault-backup-2026-10-12` referansı tarihi kayıt) |
 | 8 | Ölü referans | `TECHNICAL_DOCUMENTATION.md` · `broken-links-report.md` · `.opencode/skills` — üçü de kaldırıldı |
@@ -236,11 +241,11 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | Alt registry | [[.agents/AGENTS]] | 11 agent profili |
 | Doğrulama betiği | `.ai/scripts/validate.mjs` | 7 check (fm/tier/ssot/dep/link/orphan/fanout) |
 | Link denetimi | `.ai/scripts/wiki-link-check.ps1` | Wiki-link doğrulama |
-| Disk kanıtı | 2026-10-12 ölçümü | §3 · §7 tüm sayılar |
+| Disk kanıtı | 2026-10-23 ölçümü | §3 · §7 · §9 tüm sayılar (beyin/boot hizalama) |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Version:** 30.0.0
-**Last Updated:** 2026-10-12
+**Version:** 30.1.0
+**Last Updated:** 2026-10-23
 **Mode:** Red Team · Human Mode · Truth Mode
