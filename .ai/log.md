@@ -317,3 +317,4 @@ updated: 2026-10-02
 **Sonraki adım:** açık maddeler — MEMORY mojibake kararı (kullanıcı, ADR-042 izni) · PROMPT 4 kodlama kapsamı (kullanıcı onayı sonrası).
 
 [MO][P0][2026-10-23] vault-sync-post | session: 2026-10-23-vault-revizyon-hizalama | kapsam notu: 9 dosya/11 edit | 0 ADR | 0 kod
+2026-10-23 | session | MEMORY mojibake onarimi TAMAMLANDI (ADR-042 izni: kullanici "DEVAM ET") - .ai/MEMORY.md 239 -> 0 mojibake; hedefli script: Temp/opencode/fix-mojibake-memory.mjs (cp1252/latin1 misread + onek-decode iterasyonu, fatal utf-8 round-trip guard, imza kapisi; klasik fix-mojibake.py 3 sorun nedeniyle KULLANILMADI: tous vault kapsami, 'Ã'->'İ' catch-all, dogrudan yazim); 842 run onarildi / 86 run dokunulmadi (temiz karakter); 754 satir yapi korundu, 225 satir degisti (225+/225-); durum satirlari: L404 "acik" -> KAPANDI, L709 Next = PROMPT 4 kodlama fazi, L710 KAPANDI; tek yazma kanali vault-utf8-writer write + verify BOM=0 mojibake=0 CJK=0 NUL=0.
