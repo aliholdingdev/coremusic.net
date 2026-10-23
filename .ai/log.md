@@ -329,3 +329,12 @@ updated: 2026-10-02
 **Adım 11 (composer-sync)** → TODO'da 2026-10-21 kapanmış; PLAN `[x]` senkronu bu oturumda.
 **Sonuç**: PLAN 19 adımdan **6 kapandı** (`[x]`), 13 açık (P1 6 · P2 7); **P0 5/5 tamam**. TODO.md 5 madde `[x]` + 1 yeni madde (`app-cpp-projects/` sınıflandırma — kökte untracked, 163 dosya/16.6 MB).
 **Sonraki**: S6 grubu = Adım 6 (ADR numara çelişkisi — Vault Steward onayı) · Adım 7 (§27A skills tablosu) · Adım 8 (dead-mark 8 hedef — sahip kararı).
+
+## 2026-10-23 · PROMPT 4 · S6 GRUBU KAPANDI (Adım 6-8 — PLAN v1.3.0)
+
+**Adım 6 (ADR numara çelişkisi — Vault Steward onaylı):** kök `CLAUDE.md`'de "next = 091" iddiası artık YOK (boot yeniden yazılmış); `.ai/.decisions/index.md` v1.5.2 GÜNCEL; `.ai/CLAUDE.md` §29 hizalandı: **101 karar (accepted 84 · rejected 10 · draft 6 · active 49) → next 111** (draft: 103/104/107/108/109/110). Düzeltme NOTU: `accepted/` `Get-ChildItem` ile 85 görünür ama 1'i vault şablonu `accepted/CLAUDE.md` → gerçek accepted **84**. **KAPANDI.**
+**Adım 7 (§27A skills):** başlık 8 → **13 Aktif Skill**; tablo 13 disk skill ile yeniden yazıldı (`.claude/skills/*/SKILL.md` = 13, `git ls-files`); "DOĞRULAMA GEREKLİ" kapandı; `.opencode/skills/` (kapatıldı 2026-10-07) referansı kaldırıldı; eski envanterden diskte olmayan 3 satır (`hallucination-control` · `human-mode` · `red-team-truth-mode`) ADR-042 gereği silinmedi, notla korundu (durum UNKNOWN — sahip kararı). **KAPANDI.**
+**Adım 8 (dead-mark — sahip kararı: yeni tarama):** kaynak `.ai/broken-links-report.md` diskte/tracked/history'de YOK (index.md L216 "ölü referans — kaldırıldı"); `wiki-link-check.ps1` (kökten, §13.6): **389 link / 6 kırık = hepsi §13.7 bilinen sahte** → **gerçek dead-mark 0**; vault'ta "⚠️ DEAD (faz6-D)" etiketi = 0 isabet. **KAPANDI.**
+**Sonuç**: PLAN 19 adımın **9'u kapandı** (P0 5/5 + P1 3 + Adım 11) → **10 açık** (P1 3: Adım 9/10/12 · P2 7). app-cpp-projects/ kararı: şimdilik dokunma (TODO'da madde açık).
+**Sonraki**: Adım 9 (H026/H027 sözlük) · Adım 10 (skill kural çakışması — `.opencode/skills/` kapalı, kapsam kontrolü gerekli) · Adım 12.
+**Değişen dosyalar**: `.ai/CLAUDE.md` (§27A + §29) · `.ai/PLAN.md` (v1.3.0: §4 Adım 6-8 [x] + Toplam + changelog) · `.ai/TODO.md` (v1.2.0: Adım 6-8 [x]) · `.ai/log.md` (+append).

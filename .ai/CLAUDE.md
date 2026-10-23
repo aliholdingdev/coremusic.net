@@ -772,7 +772,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | Platform Tiers | 5 |
 | Deployment Modes | 5 |
 | Audio Divisions | 5 |
-| ADR Coverage | 46 fiziksel ADR dosyası (001-043, 081, 089, 090 — `.ai/.decisions/accepted/`, ölçüm 2026-09-27) + brain.md metin kararları; ADR-090 mevcut → sonraki yeni numara **091**; 044-080 ve 082-088 arası kararlar yalnız brain.md metnindedir (081 hariç — faz 5 karar appendix'i) · *(eski kayıt: 001-089 — 80 karar: 37 Frozen + 31 Active + 12 Rejected; 89 numaradan 80 dolu, 9 numara boşluk — DOĞRULAMA GEREKLİ)* |
+| ADR Coverage | **101 karar** (accepted 84 · rejected 10 · draft 6 · active 49 — SSOT: `.ai/.decisions/index.md` v1.5.2, 2026-10-23 disk sayımı; draft: 103/104/107/108/109/110) → sonraki yeni numara **111**; kabul serisi `accepted/` dizininde + kökteki ADR-091 (template-engine) · *(eski kayıtlar korundu: 2026-09-27 "46 fiziksel dosya → next 091 · 044-080/082-088 brain.md metnindedir" ve "001-089 — 80 karar: 37 Frozen + 31 Active + 12 Rejected" — ikisi de 2026-10-23 sayımıyla günceldir; Vault Steward onaylı hizalama)* |
 | Cross References | 11 |
 | Glossary Terms | 94 (ölçüm 2026-10-06: §2 32 kanonik + §2.1 11 ekosistem + §3 51 teknoloji; SSOT: [[glossary]]) |
 | Forbidden Patterns | 14 |
@@ -944,24 +944,29 @@ Her oturum başlangıcında sırayla okunur:
 
 ---
 
-### §27A Skills Registry (8 Aktif Skill — Guardrail #16 Mandatory)
+### §27A Skills Registry (13 Aktif Skill — Guardrail #16 Mandatory)
 
-> ⚠️ **DÜZELTME (2026-09-24):** Başlık 10 → **8 Aktif Skill** (disk kanıtı: `.opencode/skills/*/SKILL.md` = 8: agent-debate, composer-sync, context-report, db-engine, orchestration, truth-engine, ui-workbench, vault-sync-post). Aşağıdaki 10 satırlık tablo eski envanterdir — **silinmedi, korunmuştur** (ADR-042). Tablo isimleri diskteki 8 skill ile uyuşmuyor (yalnız `composer-sync) ortak) — **DOĞRULAMA GEREKLİ** (isim uyumu sonraki fazda).
+> ⚠️ **DÜZELTME (2026-10-23):** Başlık 8 → **13 Aktif Skill** (disk kanıtı: `.claude/skills/*/SKILL.md` = 13 — SSOT: kök `CLAUDE.md` §Skill Registry, `git ls-files` 2026-10-23). 2026-09-24 düzeltmesindeki "8 Aktif Skill" envanteri (`.opencode/skills/`) **kapatıldı** (2026-10-07, merge/port: orchestration→agent-orchestrator, db-engine→database-normalize-maker — `.ai/AGENTS.md` §14); "DOĞRULAMA GEREKLİ" notu bu hizalamayla kapandı. Tablo 13 disk skill ile hizalandı; eski 10 satırlık envanterden diskte OLMAYAN 3 satır **silinmedi, tablo altında korundu** (ADR-042).
 
 | # | Skill | Amaç | Kullanım |
 |---|-------|------|----------|
-| 1 | `ui-code-generator` | UI/CSS kod üretimi, responsive tasarım | Frontend geliştirme |
-| 2 | `ui-analyzer` | UI analizi, mevcut tasarım değerlendirme | Tasarım inceleme |
-| 3 | `skill-maker` | Yeni skill oluşturma, template sistemi | Skill geliştirme |
-| 4 | `hallucination-control` | Halüsinasyon kontrolü, doğrulama | Kod yazma öncesi |
-| 5 | `human-mode` | İnsan modu iletişimi, onay süreçleri | Kullanıcı etkileşimi |
-| 6 | `red-team-truth-mode` | Güvenlik testi, adversarial analiz | Güvenlik denetimi |
-| 7 | `prompt-maker` | Prompt mühendisliği, AI talimat tasarımı | Prompt geliştirme |
-| 8 | `agent-orchestrator` | Agent görev dağıtımı, multi-agent koordinasyonu | Görev dağıtımı |
-| 9 | `composer-sync` | Composer dependency yönetimi | Bağımlılık yönetimi |
-| 10 | `database-normalize-maker` | BCNF normalizasyonu, şema tasarımı | DB tasarımı |
+| 1 | `agent-orchestrator` | Subagent ekipleri, load balancing, task queue | Görev dağıtımı |
+| 2 | `audio-engine-cpp` | Neva Engine, JUCE 9, ASIO, DSP chain, realtime C++ | Embedded/audio |
+| 3 | `composer-sync` | Composer dependency drift, vendor junction sync | Bağımlılık yönetimi |
+| 4 | `database-normalize-maker` | BCNF normalizasyon, migration, MySQL şema | DB tasarımı |
+| 5 | `hardware-electronics` | Class AB amp, güç kaynağı, termal, PCB, BOM | Donanım dokümanı |
+| 6 | `learning-prompts` | Sokratik/Feynman/aktif hatırlama öğrenme yöntemleri | Öğrenme |
+| 7 | `php-backend-standards` | PHP 8.4 backend, middleware, endpoint, PDO | Backend |
+| 8 | `prompt-maker` | Prompt oluşturma/genişletme/düzeltme (23 bölümlük mimari) | Prompt geliştirme |
+| 9 | `security-hardening` | Auth, session, CSRF, CSP, rate-limit, encryption | Güvenlik |
+| 10 | `skill-maker` | SKILL.md oluşturma/upgrade/denetim (v3.0 şema) | Skill geliştirme |
+| 11 | `ui-analyzer` | UI/CSS denetimi — design system, token, WCAG | Tasarım inceleme |
+| 12 | `ui-code-generator` | ITCSS/BEM/--cm-* token ile frontend kod üretimi | Frontend geliştirme |
+| 13 | `vault-sync-post` | Session kapanışı vault sync + log append | Vault bakımı |
 
-**Konum:** `.opencode/skills/*/SKILL.md`
+**Eski envanterden çıkarılan 3 satır (silinmedi — durum `UNKNOWN`):** `hallucination-control` · `human-mode` · `red-team-truth-mode` — `.claude/skills/` diskte yok; `.opencode/skills/` port izi de yok (ADR-042/C4 Mandatory-5 çağının sistem becerisi olabilirler) → sahip kararı bekler.
+
+**Konum:** `.claude/skills/*/SKILL.md` (13) — `C:\.claude\skills` (348 dizin) bu makinede YOK (diğer PC/server'da mevcut; **silinmez** — kullanıcı notu 2026-10-23)
 **Kural:** Her skill dosyası vault referansları içerir (CLAUDE.md, AGENTS.md, WORKFLOW.md, brain.md, index.md).
 **Yüklenme:** Boot protokolünde otomatik yüklenmez, gerektiğinde `skill` tool'u ile yüklenir.
 

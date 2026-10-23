@@ -2,7 +2,7 @@
 title: "CoreMusic — Sıralı Yürütme Planı"
 type: plan
 category: project-planning
-version: 1.2.0
+version: 1.3.0
 status: active
 authority: SSOT
 updated: 2026-10-23
@@ -212,9 +212,9 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 | 3 | P0 | §2 satır 35 | [x] |
 | 4 | P0 | §2 satır 36 | [x] |
 | 5 | P0 | §2 satır 37 | [x] |
-| 6 | P1 | §3 satır 41 | [ ] |
-| 7 | P1 | §3 satır 42 | [ ] |
-| 8 | P1 | §3 satır 43 | [ ] |
+| 6 | P1 | §3 satır 41 | [x] |
+| 7 | P1 | §3 satır 42 | [x] |
+| 8 | P1 | §3 satır 43 | [x] |
 | 9 | P1 | §3 satır 44 | [ ] |
 | 10 | P1 | §3 satır 45 | [ ] |
 | 11 | P1 | §3 satır 46 | [x] |
@@ -227,7 +227,7 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 | 18 | P2 | §4 satır 56 | [ ] |
 | 19 | P2 | §4 satır 57 | [ ] |
 
-**Toplam:** 19 adımın **6'sı kapandı** (Adım 1-5 P0 + Adım 11 — 2026-10-23 disk/git/zip ölçümü; Adım 11 çifti [[TODO.md]]'de 2026-10-21'de kapanmıştı) → **13 açık** (P1 6 · P2 7). İlk sayı 2026-10-01 okumasından türetilmişti; yeni iş kural §1.3 gereği önce [[TODO.md]]'ye eklendi (`app-cpp-projects/` satırı), bu plana sonraki seçimde girer.
+**Toplam:** 19 adımın **9'u kapandı** (Adım 1-5 P0 · Adım 6-8 P1 · Adım 11 — 2026-10-23 disk/git/zip ölçümü; Adım 6 Vault Steward onaylı §29 hizalaması · Adım 7 §27A → 13 skill · Adım 8 wiki-link-check 389 link/gerçek kırık 0) → **10 açık** (P1 3 · P2 7). İlk sayı 2026-10-01 okumasından türetilmişti; yeni iş kural §1.3 gereği önce [[TODO.md]]'ye eklendi (`app-cpp-projects/` satırı — 2026-10-23 kararı: şimdilik dokunma), bu plana sonraki seçimde girer.
 
 ---
 
@@ -331,9 +331,10 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 | 2026-10-01 | 1.0.0 | İlk üretim — TODO.md açık maddelerinden 19 adımlık sıralı plan |
 | 2026-10-01 | 1.1.0 | §6 UI Görevi eklendi (aaa.md · Kalıp C — 9 adım + 11 validation + git uyarısı); §1-§5 değişmedi; eski "§6 Referanslar" → §7 |
 | 2026-10-23 | 1.2.0 | Durum Tablosu: Adım 1-5 + 11 → [x] (git status/ls-files/.ai.zip REDACTED ölçümü); Toplam 19→13 açık; §7 aaa.md disk yolu notu; yeni TODO satırı: app-cpp-projects |
+| 2026-10-23 | 1.3.0 | Adım 6-8 → [x]: §29 ADR Coverage hizalandı (101 karar/next 111 — Vault Steward onaylı; `accepted/CLAUDE.md` şablonu sayıldı, 84 gerçek) · §27A → 13 SKILL.md (`.opencode/skills/` referansı kaldırıldı, 3 eski satır ADR-042 ile korundu) · wiki-link-check 389 link/gerçek kırık 0; Toplam 13→10 açık (P1 3 · P2 7) |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-10-01
+**Last Updated:** 2026-10-23
 **Mode:** Red Team · Human Mode · Truth Mode

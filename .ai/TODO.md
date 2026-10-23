@@ -2,7 +2,7 @@
 title: "CoreMusic — Proje TODO Listesi"
 type: todo
 category: project-tracking
-version: 1.1.0
+version: 1.2.0
 status: active
 authority: SSOT
 updated: 2026-10-23
@@ -46,9 +46,9 @@ Depodaki gerçek iş kalemlerini (açık commit'ler, eksik testler, vault tutars
 
 ### §3 P1 — Vault tutarlılığı & karar bekleyenler
 
-- [ ] **ADR numara çelişkisini çöz:** kök `CLAUDE.md` "next new = 091" diyor, `.ai/.decisions/index.md` Active aralığını "ADR-038 → 092" yazıyor ve `accepted/ADR-092-media-dizin-ekseni-ve-ulid.md` diskte var; ayrıca `.ai/CLAUDE.md` §29 "ADR Coverage 001-089 (80 karar)" diyor → tek sayı hizalanacak (Vault Steward onayı) — Kaynak: `CLAUDE.md` L16 · `.ai/.decisions/index.md` §2 · `.ai/CLAUDE.md` §29
-- [ ] **§27A skills tablosunu düzelt:** `.ai/CLAUDE.md` §27A'da 10 satırlık liste var ama diskte 8 SKILL.md var (kendi notu "DOĞRULAMA GEREKLİ") → tablo `.ai/index.md` §11B ile hizalanacak — Kaynak: `.ai/CLAUDE.md` §27A · `ls .opencode/skills/*` = 8 (2026-09-29)
-- [ ] **dead-mark 8 hedefi karara bağla:** eşdeğer dosya üretilirse `⚠️ DEAD (faz6-D)` etiketi kaldırılıp retarget edilir; 1 `blocked` satır sahip kararı bekliyor — Kaynak: `.ai/broken-links-report.md` §B + §Kurallar
+- [x] **ADR numara çelişkisini çöz** — KAPANDI 2026-10-23 (Vault Steward onaylı) — kök `CLAUDE.md`'de "next = 091" iddiası artık YOK (boot yeniden yazılmış); `.ai/.decisions/index.md` v1.5.2 GÜNCEL; `.ai/CLAUDE.md` §29 hizalandı: **101 karar (accepted 84 · rejected 10 · draft 6 · active 49) → next 111** (draft: 103/104/107/108/109/110; eski kayıtlar korundu) — Kaynak: `Get-ChildItem .ai/.decisions` + `index.md` frontmatter 2026-10-23
+- [x] **§27A skills tablosunu düzelt** — KAPANDI 2026-10-23 — `.ai/CLAUDE.md` §27A hizalandı: başlık 8 → **13 Aktif Skill** (disk: `.claude/skills/*/SKILL.md` = 13 — `git ls-files`); tablo 13 disk skill ile yeniden yazıldı, "DOĞRULAMA GEREKLİ" kapandı; eski envanterden diskte olmayan 3 satır (`hallucination-control` · `human-mode` · `red-team-truth-mode`) ADR-042 gereği silinmedi, notla korundu (durum UNKNOWN — sahip kararı); `.opencode/skills/` (kapatıldı 2026-10-07) referansı kaldırıldı — Kaynak: `.ai/CLAUDE.md` §27A · `.claude/skills/` sayımı 2026-10-23
+- [x] **dead-mark 8 hedefi karara bağla** — KAPANDI 2026-10-23 (sahip kararı: yeni tarama) — kaynak `.ai/broken-links-report.md` diskte/tracked/history'de YOK (`.ai/index.md` L216: "ölü referans — kaldırıldı"); yeniden tarama `wiki-link-check.ps1` (kökten, §13.6): **389 link / 6 kırık = hepsi §13.7 bilinen sahte** (01-login [[C]] · 04-select-gender [[V]] · 01-playback [[V]] · 04-general [[V]] · legacy-inventory [[link]] ×2) → **gerçek dead-mark 0**; vault md'lerinde "⚠️ DEAD (faz6-D)" etiketi = 0 isabet → kapanacak dead-mark yok — Kaynak: `wiki-link-check.ps1` çıktısı 2026-10-23
 - [ ] **H026/H027 sözlük düzeltmesini kapat:** truth/hallucination terimleri `.ai/CLAUDE.md` #15/16 ile işaretlendi ama `glossary.md` hâlâ düzeltilmedi → vault-updater'a bırakılmış, açık — Kaynak: `.ai/log.md` 2026-09-29 "Acik konular (MO)"
 - [ ] **Çakışan skill kurallarını tek kurala indir:** `orchestration` "max 400 satır" ↔ `skill-maker` "max 2000"; `truth-engine` "web arama yasak" ↔ `prompt-maker`/`skill-maker` zorunlu arama → karar + skill güncelleme — Kaynak: `.ai/log.md` 2026-09-29 "Acik konular (MO)"
 - [x] **`.claude/skills/composer-sync` frontmatter/dup-ID kararını ver:** KAPANDI 2026-10-21 — v3.0 yeniden yazımda frontmatter eklendi (`name: composer-sync` + `description` "Use when…", name=klasör 1:1); duplicate ID kaynağı `.opencode/skills/` kapatıldı (2026-10-07) — Kaynak: commit 391a330 + composer-sync/SKILL.md L2-3 ölçümü
