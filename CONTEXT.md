@@ -29,6 +29,8 @@ Not: Önceki sürümün K-space katman mimarisi atıfları bu revizyonda kaldır
 | Top-level envanter: **17 dizin, 19 dosya, 36 giriş** | `list_directory` ölçümü, 2026-10-12 |
 | Kök `.md` dosyası: **7** (`AGENTS` · `CLAUDE` · `CONTEXT` · `README` · `RAG` · `WORKFLOW` · `notes`) | aynı ölçüm, 2026-10-12 |
 | Alt alan adı dizinleri: **5** (`api` · `assets` · `auth` · `home` · `media`) | `list_directory` + her birinde `CONTEXT.md` bulunduğu glob ile doğrulandı (2026-10-12) |
+| PRD ailesi: **28 yüzey** — kök `PRD.md` (SSOT indeksi) + `.ai/PRD.md` (vault) + 26 alt PRD | 2026-10-23 revizyonu — indeks: `[[PRD.md]]` §5 |
+| **2026-10-23 düzeltme notu:** diskte **6** alt alan adı dizini var (`admin` · `api` · `assets` · `auth` · `home` · `media`); `admin.coremusic.net/` boot seti (CONTEXT/AGENTS/CLAUDE) **YOK** — üstteki "5" ölçümü 2026-10-12 tarihlidir, `admin` o tarihte ölçülmemiş olabilir | `list_directory` ölçümü 2026-10-23 |
 | `bin/` **1 dosya** · `shared/` **15 üst düzey giriş** · `node_modules/` **85 üst düzey giriş** | `list_directory` ölçümü, 2026-10-12 |
 | `--/` **297 dosya, 65 dizin** (içerik sayılmadı, yalnız adet) | `directory_tree` ölçümü, 2026-10-12 (iki ayrı sayım aynı sonucu verdi) |
 | Kök `CLAUDE`/`WORKFLOW`/`RAG` dosyaları **pointer**'dır | frontmatter `authority` okuması, 2026-10-12 |

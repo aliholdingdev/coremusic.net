@@ -78,6 +78,7 @@ Not: Önceki sürümün K-space katman mimarisi içeriği bu revizyonda kaldır�
 | `ULTRA-THINKING.md` | Ultra düşünme protokolü + kanıt dosyaları | Protokol adımları | Derin görevlerde tek akış zorunlu olsun | Protokol revizyonunda |
 | `VISION.md` | Vizyon, pazar, konumlandırma metni | Vizyon paragrafları | Ürün yönü tek kaynakta dursun | Vizon değişince |
 | `PROJECTS.md` | Proje tanımı, yetenekler, hedef kitle, sektörel çözümler | Proje/kitle tabloları | Kapsam tanımı tek yerde dursun | Kapsam değişince |
+| `PRD.md` | Vault PRD — belge sistemi gereksinimleri (VLT-001..010) + kapılar | 8 bölüm, gereksinim/kapı tabloları | Vault doküman üretimi kurallı ve denetlenebilir olsun | Vault belge sistemi değişince (MO) — kök `[[../PRD.md]]` ile aile bağlanır |
 | `SYNC.md` | Sürekli güncelleme döngüsü SSOT'u — hedef set, kapılar, tazelik ölçütü | Döngü adımları + hedef seti | Güncelleme dağınık olmasın | Hedef set/kapı değişince |
 | `CONTEXT.md` (bu dosya) | Vault klasör envanteri + çelişki kaydı | 7 bölüm + 5 sütunlu envanter tabloları | Sayılar ölçümle tek yerde dursun | Envanter ölçümü değişince |
 | `CHECKLIST.md` · `PLAN.md` · `PLANNER.md` · `TODO.md` | Plan/kontrol listesi ve planner spec görünümü (içerik bu görevde OKUNMADI) | UNKNOWN (okunmadı) | Görev listesi kural dosyasını kirletmesin | İçerik okunduğunda — VERIFICATION REQUIRED |

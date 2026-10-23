@@ -5,7 +5,7 @@ category: agent-registry
 version: 1.2.0
 status: active
 authority: "SSOT: .ai/AGENTS.md — Full registry read @.ai/AGENTS.md (v22.2.0)"
-updated: 2026-10-07
+updated: 2026-10-23
 ---
 # .ai gizli dizin, hidden: true ile tarıyorum:
 ## .ai/README.md okuması (gerekirse)
@@ -242,6 +242,8 @@ Diğer tüm görev türleri için geçerli kural §7 Execution Loop adım 0'dır
 | Vault-içi otorite | `@.ai/CLAUDE.md` §2 · not: `.ai.OLD/` dizini diskte YOK (2026-10-12), otorite sırası yalnız `.ai/CLAUDE.md` içindedir |
 | Süreç, faz, hard gate | `@.ai/WORKFLOW.md` · eski `.ai/wiki/vault-workflow.md` ve `.ai/raw/WORKFLOW.md` **diskte YOK** (2026-10-10) |
 | Retrieval — "hangi soru → hangi dosya" | `@.ai/RAG.md` (§3 indeks · §4 pipeline PLANNED — ADR-030) · keyword: `@.ai/keys.md` |
+| Ürün gereksinimleri, PRD ailesi indeksi | `@PRD.md` (kök — platform PRD + 28 yüzey indeksi + §5.1 Neva ürün PRD'leri, 2026-10-23) · vault belge sistemi: `@.ai/PRD.md` |
+| Neva ürün PRD'leri (tam gereksinim, arşiv — K-6 onaylı 2026-10-23) | `@.ai/projects/NevaEngine/coremusic-neva-engine-prd.md` (8004 satır, 182 gereksinim) · `@.ai/projects/NevaPlayer/coremusic-neva-player-prd.md` (8006 satır, 215 gereksinim) — arşiv nüshası `G:\Drive'ım\Projelerim\Project-notes\Bayram Ali Prompt Arşivi & Notlar\Coremusic\` |
 
 **Kural**: bu dosyalar yalnız görevin gerektirdiği anda okunur; boot'ta toplu
 okuma, "tüm vault'u oku", "önce tüm .ai/ oku" talimatları geçersizdir.
