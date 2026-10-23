@@ -2,10 +2,10 @@
 title: "CoreMusic — Sıralı Yürütme Planı"
 type: plan
 category: project-planning
-version: 1.1.0
+version: 1.2.0
 status: active
 authority: SSOT
-updated: 2026-10-01
+updated: 2026-10-23
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
 tier: 5
 domain: task-state
@@ -207,17 +207,17 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 
 | Adım | Öncelik | Kaynak (TODO.md) | Durum |
 |---|---|---|---|
-| 1 | P0 | §2 satır 33 | [ ] |
-| 2 | P0 | §2 satır 34 | [ ] |
-| 3 | P0 | §2 satır 35 | [ ] |
-| 4 | P0 | §2 satır 36 | [ ] |
-| 5 | P0 | §2 satır 37 | [ ] |
+| 1 | P0 | §2 satır 33 | [x] |
+| 2 | P0 | §2 satır 34 | [x] |
+| 3 | P0 | §2 satır 35 | [x] |
+| 4 | P0 | §2 satır 36 | [x] |
+| 5 | P0 | §2 satır 37 | [x] |
 | 6 | P1 | §3 satır 41 | [ ] |
 | 7 | P1 | §3 satır 42 | [ ] |
 | 8 | P1 | §3 satır 43 | [ ] |
 | 9 | P1 | §3 satır 44 | [ ] |
 | 10 | P1 | §3 satır 45 | [ ] |
-| 11 | P1 | §3 satır 46 | [ ] |
+| 11 | P1 | §3 satır 46 | [x] |
 | 12 | P1 | §3 satır 47 | [ ] |
 | 13 | P2 | §4 satır 51 | [ ] |
 | 14 | P2 | §4 satır 52 | [ ] |
@@ -227,7 +227,7 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 | 18 | P2 | §4 satır 56 | [ ] |
 | 19 | P2 | §4 satır 57 | [ ] |
 
-**Toplam:** 19 açık madde (P0 5 · P1 7 · P2 7) — sayı [[TODO.md]] §2/§3/§4'teki `[ ]` sayımından türetildi (2026-10-01 okuma).
+**Toplam:** 19 adımın **6'sı kapandı** (Adım 1-5 P0 + Adım 11 — 2026-10-23 disk/git/zip ölçümü; Adım 11 çifti [[TODO.md]]'de 2026-10-21'de kapanmıştı) → **13 açık** (P1 6 · P2 7). İlk sayı 2026-10-01 okumasından türetilmişti; yeni iş kural §1.3 gereği önce [[TODO.md]]'ye eklendi (`app-cpp-projects/` satırı), bu plana sonraki seçimde girer.
 
 ---
 
@@ -324,12 +324,13 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 | [[WORKFLOW.md]] | Süreçler, §8.7 bitiş adımları |
 | [[CLAUDE.md]] | Guardrail'ler (#1 Zero Code Before Plan, #16 şablon) |
 | `.ai/.templates/index.md` | Şablon registry (Guardrail #16) |
-| `aaa.md` | §6 UI Görevi tek kaynağı (Kalıp C promptu) |
+| `aaa.md` | §6 UI Görevi tek kaynağı (Kalıp C promptu) — **disk yolu ölçümü 2026-10-23: kök `--\aaa.md`** (kök `Test-Path aaa.md` = False; §6 başlamadan yolu netleştirilmeli) |
 
 | Tarih | Versiyon | Değişiklik |
 |---|---|---|
 | 2026-10-01 | 1.0.0 | İlk üretim — TODO.md açık maddelerinden 19 adımlık sıralı plan |
 | 2026-10-01 | 1.1.0 | §6 UI Görevi eklendi (aaa.md · Kalıp C — 9 adım + 11 validation + git uyarısı); §1-§5 değişmedi; eski "§6 Referanslar" → §7 |
+| 2026-10-23 | 1.2.0 | Durum Tablosu: Adım 1-5 + 11 → [x] (git status/ls-files/.ai.zip REDACTED ölçümü); Toplam 19→13 açık; §7 aaa.md disk yolu notu; yeni TODO satırı: app-cpp-projects |
 
 ---
 

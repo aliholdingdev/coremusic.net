@@ -318,3 +318,14 @@ updated: 2026-10-02
 
 [MO][P0][2026-10-23] vault-sync-post | session: 2026-10-23-vault-revizyon-hizalama | kapsam notu: 9 dosya/11 edit | 0 ADR | 0 kod
 2026-10-23 | session | MEMORY mojibake onarimi TAMAMLANDI (ADR-042 izni: kullanici "DEVAM ET") - .ai/MEMORY.md 239 -> 0 mojibake; hedefli script: Temp/opencode/fix-mojibake-memory.mjs (cp1252/latin1 misread + onek-decode iterasyonu, fatal utf-8 round-trip guard, imza kapisi; klasik fix-mojibake.py 3 sorun nedeniyle KULLANILMADI: tous vault kapsami, 'Ã'->'İ' catch-all, dogrudan yazim); 842 run onarildi / 86 run dokunulmadi (temiz karakter); 754 satir yapi korundu, 225 satir degisti (225+/225-); durum satirlari: L404 "acik" -> KAPANDI, L709 Next = PROMPT 4 kodlama fazi, L710 KAPANDI; tek yazma kanali vault-utf8-writer write + verify BOM=0 mojibake=0 CJK=0 NUL=0.
+
+## 2026-10-23 · PROMPT 4 · P0 ADIMLARI 1-5 + ADIM 11 KAPANDI (PLAN v1.2.0)
+
+**Adım 1 (Çalışma ağacı temizliği)** → `git status --porcelain` = tek satır (`?? app-cpp-projects/`); `ls-files .ai` = 3565 tracked; `.ai/CLAUDE.md` diskte + tracked. **KAPANDI.**
+**Adım 2 (Interface/Contract)** → `shared/src/Interfaces`=0 · `shared/src/AI/Contracts`=0 · `shared/src/Contracts`=20 tracked (6 dizin). **KAPANDI** (0+0+20).
+**Adım 3 (Auth test tek-ağaç)** → `tests/Domain/**`=0 · `tests/Unit/Domain/**`=227 tracked (tek ağaç). **KAPANDI.**
+**Adım 4 (.ai.zip + artık dosyalar)** → `.ai.zip` **SİLİNMEDİ** (`.gitignore:77`'de korunur — kullanıcı onayı); REDACTED taraması: 1764 metin dosyası → gerçek secret 0 (16 isabet = presigned-S3/Figma AKIA; 1 = ADR-034 desen dokümanı); `coremusic.net.zip`/`aaa.md`/`output.md` kökten gitmiş (`aaa.md` → `--\aaa.md`). **KAPANDI.**
+**Adım 5 (Untracked kaynaklar)** → `.gitleaks.toml` tracked (`43e6763`) · ADR-048/049/050 tracked · `home.../Repository/` 2 file · `OAuthRepository.php` 1 file. **KAPANDI** (4/4).
+**Adım 11 (composer-sync)** → TODO'da 2026-10-21 kapanmış; PLAN `[x]` senkronu bu oturumda.
+**Sonuç**: PLAN 19 adımdan **6 kapandı** (`[x]`), 13 açık (P1 6 · P2 7); **P0 5/5 tamam**. TODO.md 5 madde `[x]` + 1 yeni madde (`app-cpp-projects/` sınıflandırma — kökte untracked, 163 dosya/16.6 MB).
+**Sonraki**: S6 grubu = Adım 6 (ADR numara çelişkisi — Vault Steward onayı) · Adım 7 (§27A skills tablosu) · Adım 8 (dead-mark 8 hedef — sahip kararı).

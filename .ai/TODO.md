@@ -2,7 +2,7 @@
 title: "CoreMusic — Proje TODO Listesi"
 type: todo
 category: project-tracking
-version: 1.0.0
+version: 1.1.0
 status: active
 authority: SSOT
 updated: 2026-10-23
@@ -37,11 +37,12 @@ Depodaki gerçek iş kalemlerini (açık commit'ler, eksik testler, vault tutars
 
 ### §2 P0 — Depo bütünlüğü & çalışır durum (önce bunlar)
 
-- [ ] **Commit bekleyen 105 değişikliği sınıflandır ve commit'e hazırla** (63 M / 25 D / 17 `??`) — Kaynak: `git status --porcelain` ölçümü 2026-09-29 (anlık)
-- [ ] **Interface → Contract taşımasını tamamla:** `shared/src/Interfaces/**` (14 D) ve `shared/src/AI/Contracts/**` (7 D) worktree'de silinmiş; karşılığı olan `shared/src/Contracts/{AI,Auth,Config,Database,Middleware,Security}/**` (6 dizin) henüz tracked değil → taşımayı stage et **veya** revert et — Kaynak: `git status` D/?? 2026-09-29
-- [ ] **auth testlerindeki çift ağacı tek ağaç yap:** HEAD hem `tests/Domain/**` (4 dosya) hem `tests/Unit/Domain/**` (6 dosya) içeriyor, worktree eski 4'ü silmiş → eski yolu stage ederek silinmeyi onayla — Kaynak: `git ls-files auth.coremusic.net/tests` + `git status` D, 2026-09-29
-- [ ] **Kökteki stash/artık dosyaları temizle:** `.ai.zip`, `coremusic.net.zip`, `aaa.md`, `output.md` (untracked, `.gitignore` kapsamı dışında) → sil / arşivle / `.gitignore` ekle; `.ai.zip` vault içeriği olabilir (REDACTED kontrolü) — Kaynak: `git status ??` 2026-09-29
-- [ ] **Untracked kaynak varlıklarını commit et:** `.gitleaks.toml` (CI'da `secret-scan.yml` var), `.ai/.decisions/accepted/ADR-048-…/ADR-049-…/ADR-050-…` (3 dosya), `home.coremusic.net/include/Repository/`, `shared/src/OAuth/OAuthRepository.php` — Kaynak: `git status ??` 2026-09-29
+- [x] **Commit bekleyen 105 değişikliği sınıflandır ve commit'e hazırla** — KAPANDI 2026-10-23 — çalışma ağacı temiz: `git status --porcelain` = tek satır (`?? app-cpp-projects/`); 105 değişiklik commit serisiyle kapandı (`961244a` → `96eb63f` → `f0e15eb` → `af5ea57` → `2017410`) — Kaynak: `git status` 2026-10-23
+- [x] **Interface → Contract taşımasını tamamla** — KAPANDI 2026-10-23 — `git ls-files`: `shared/src/Interfaces`=0 · `shared/src/AI/Contracts`=0 · `shared/src/Contracts`=20 tracked (6 dizin) → taşıma commit'lenmiş, eksik/stage bekleyen yok — Kaynak: `git ls-files` 2026-10-23
+- [x] **auth testlerindeki çift ağacı tek ağaç yap** — KAPANDI 2026-10-23 — `git ls-files`: `tests/Domain/**`=0 · `tests/Unit/Domain/**`=227 tracked (tek ağaç); eski 4 dosya worktree'de silinmiş ve silinmesi commit'lenmiş — Kaynak: `git ls-files auth.coremusic.net/tests` 2026-10-23
+- [x] **Kökteki stash/artık dosyaları temizle** — KAPANDI 2026-10-23 — `.ai.zip` karar verildi: **SİLİNMEDİ** (`.gitignore:77`'de, REDACTED taraması: 1764 metin dosyası → gerçek secret 0; 16 isabet = presigned-S3/Figma AKIA'sı); `coremusic.net.zip`/`aaa.md`/`output.md` kökten gitmiş (`aaa.md` → `--\aaa.md` altında) — Kaynak: `Test-Path` + `git check-ignore` 2026-10-23
+- [x] **Untracked kaynak varlıklarını commit et** — KAPANDI 2026-10-23 — `git ls-files`: `.gitleaks.toml` tracked (`43e6763`) · `ADR-048/049/050` (3 dosya) tracked · `home.coremusic.net/include/Repository/` 2 file · `shared/src/OAuth/OAuthRepository.php` 1 file → 4 küme de commit'lenmiş — Kaynak: `git ls-files` 2026-10-23
+- [ ] **`app-cpp-projects/` sınıflandır** — kökte untracked `??` (163 dosya / 16.6 MB, `.gitignore:13` C++ hariç) → commit / `.gitignore` / taşıma kararı — Kaynak: `git status --porcelain` + `ls -R` 2026-10-23
 
 ### §3 P1 — Vault tutarlılığı & karar bekleyenler
 
