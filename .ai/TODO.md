@@ -5,7 +5,7 @@ category: project-tracking
 version: 1.0.0
 status: active
 authority: SSOT
-updated: 2026-09-29
+updated: 2026-10-22
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
 tier: 5
 domain: task-state
@@ -54,6 +54,8 @@ Depodaki gerçek iş kalemlerini (açık commit'ler, eksik testler, vault tutars
 - [ ] **Post-op sync scriptlerini karara bağla:** `.ai/scripts/session-save.mjs`, `vault-post-update.mjs`, `vault-cmd.mjs` ve `project-state.md` **diskte YOK** → kapanış manuel yapılıyor; script üretilsin mi (kod, onay gerektirir)? — Kaynak: `MEMORY.md` §20 Known Issue (2026-09-28) + filesystem taraması 2026-09-29
 
 - [ ] **`.ai/AGENTS.md` §14 skill sayımı bayat:** "12 proje `.claude/skills/` + 5 global = 17" yazıyor ama diskte **13** dizin (ölçüm 2026-10-21, `.claude/CONTEXT.md` 13 dizin/134 dosya ile hizalı) → §14 satır edit ile düzeltilecek (bu kapanışta surgical-change sınırı nedeniyle dokunulmadı) — Kaynak: `.ai/AGENTS.md` §14 · `.claude/CONTEXT.md` §3 (2026-10-21)
+- [ ] **Backend Rebuild Adım 09-11 canlı doğrulaması (server PC):** `git pull` + `CM_TEST_EMAIL`/`CM_TEST_PASSWORD` ile `backend-step11-curl-pc.ps1` (11/11 hedef) + `backend-step10-curl-pc.ps1` (13) + `backend-step09-curl-pc.ps1` + `composer test`; ardından KAPI-E browser (dropdown XHR-only geçiş, rol A/B, Enter/Esc) — dev makinede MySQL YOK → ⚠️ VERIFICATION REQUIRED — Kaynak: `.ai/reports/backend-step11-dropdown.md` §KAPI-E + 3 script (2026-10-22)
+
 ### §4 P2 — Kalite & teknik borç
 
 - [ ] **Coverage ölçümü yok:** son phpunit sayıları `shared 216/545`, `auth unit 31/59`, `home 23/54` (geçen/toplam — coverage yüzdesi log'ta yok → `VERIFICATION REQUIRED`) → coverage raporu üretilip §17 hedefi (≥%80) karşılaştırılacak — Kaynak: `.ai/log.md` 2026-09-29 · `.ai/CLAUDE.md` §17
