@@ -158,7 +158,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 | 4 | root 6 md yeniden yazımı + PNG 149/151 + env SSOT | `21f357d` | ✅ TAMAMLANDI |
 | 5 | screens frontmatter Kalıp D (13 dosya) | `1042cf4` | ✅ TAMAMLANDI |
 | 6 | reference+flow+prompt Kalıp A/B/C (70 dosya) | `02a98b9` | ✅ TAMAMLANDI |
-| 7 | Guardrail 6 dosyanın disk/commit gerçeğiyle hizalanması (`AGENTS` · `CLAUDE` · `WORKFLOW` · `index` · `keys` · `log`) | `91e87d9` | ✅ TAMAMLANDI (2026-10-23: kök CLAUDE css-template v4.0.0 · index.md v30.1.0 envanter/ADR hizası · WORKFLOW screens 28 · keys: bayat atıf 0 — orchestrator commit'i) |
+| 7 | Guardrail 6 dosyanın disk/commit gerçeğiyle hizalanması (`AGENTS` · `CLAUDE` · `WORKFLOW` · `index` · `keys` · `log`) | `f86a488` | ✅ TAMAMLANDI (2026-10-23: kök CLAUDE css-template v4.0.0 · index.md v30.1.0 envanter/ADR hizası · WORKFLOW screens 28 · keys: bayat atıf 0 — orchestrator commit'i; hash amend sonrası nihai) |
 | 8 | QA denetimi → `[[ui-design/reference/04-verification]]` protokolü | — | ⏳ BEKLEMEDE (Faz 7 commit'i sonrası) |
 
 **Kalan tek açık:** Faz 8 QA kapısı. Faz 0–6 commit'leri doğrulanmıştır (§25.5 aynı listeyi subject metinleriyle taşır); Faz 7/8'in commit'i **henüz yoktur** — tabloda uydurma hash yazılmaz.
@@ -655,7 +655,7 @@ Her dosya için kontrol et:
 | 4 | `21f357d` | ui-design: Faz 4 kok 6 md yeniden yazim + PNG 149/151 + env SSOT | ✅ TAMAMLANDI |
 | 5 | `1042cf4` | ui-design: Faz 5 screens frontmatter Kalip D hizalamasi (13 dosya) | ✅ TAMAMLANDI |
 | 6 | `02a98b9` | ui-design: Faz 6 Kalip A/B/C hizalamasi (70 dosya) - A:0 B:0 C:0 | ✅ TAMAMLANDI |
-| 7 | `91e87d9` | Guardrail 6 dosyanın disk/commit gerçeğiyle hizalanması (`AGENTS`, `CLAUDE`, `WORKFLOW`, `index`, `keys`, `log`) | ✅ TAMAMLANDI (2026-10-23 — orchestrator commit'i) |
+| 7 | `f86a488` | Guardrail 6 dosyanın disk/commit gerçeğiyle hizalanması (`AGENTS`, `CLAUDE`, `WORKFLOW`, `index`, `keys`, `log`) | ✅ TAMAMLANDI (2026-10-23 — orchestrator commit'i; hash amend sonrası nihai) |
 | 8 | — | Kalite/QA kapısı — `[[ui-design/reference/04-verification]]` protokolü | ⏳ BEKLEMEDE |
 
 **Kalan tek açık:** Faz 8 (`04-verification.md` akışı) — Faz 7 commit'i sonrası çalıştırılır.
