@@ -1115,3 +1115,16 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 ---
 
 > ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Bu belgede geçen `main.css` (satır L451) diskte **YOK** — kanıt: `Get-ChildItem -Recurse -Filter main.css` → **0 isabet** (2026-09-30, repo kökü). İlgili referans tarihsel/kurucu metindir, güncel disk yapısını yansıtmaz. Buna karşılık `07_Vendors/bootstrap*.css` diskte **MEVCUT** (33 dosya, `assets.coremusic.net/Css/07_Vendors/`) → o referanslar geçerlidir, düzeltilmemiştir.
+
+---
+
+## 2026-10-23 | Prompt Arşivi Taraması + ADR Hizalama Kararları (onaylı)
+
+**Karar mercii:** Bayram Ali (P0/P1 tur + O-1..O-6 onayı, 2026-10-23).
+
+1. **ADR-097 K-Space V3: draft → accepted terfi** (gerekçe: üretim diskte tam — 22 K · ~1.700 md · band-2..7 yerleşimi; ADR 11 gündür draft'ta kalmıştı).
+2. **Numara çakışması giderildi:** `draft/ADR-098-k-space-kimlik-…` → **ADR-108**, `draft/ADR-102-tur-taksonomi-…` → **ADR-109** (accepted ADR-098-Parnas ve ADR-102-admin-theme korundu).
+3. **index.md sayıları disk ile hizalandı** (v1.5.2): accepted 84 · draft 6 · rejected 10 · kök ADR-091 · toplam 101 (2026-10-23 son disk sayımı: ADR-110 aynı gün draft'a eklendiği için draft 5 değil 6; §2/§4A ile aynı). §4A'ya ADR-104/107 ilk kez eklendi.
+4. **Soft-ADR kararları (P1-2 raporu onaylandı):** S1 SELECT * istisna (admin/konsol uçları) = SOFT · S2 SameSite=Strict → default Lax = SOFT · S3 playlist hard DELETE yasağı = HARD kaldı · S4 `<a href>` full-reload yasağı = HARD kaldı (OAuth/logout istisnası ADR-043/047 bağlamında değerlendirilecek) · S5 position mekanizması serbest (yarış koşulu reddi şartı hard) = SOFT · S6 ITCSS katman sayısı SSOT = css-template v4.0.0 / 11 katman.
+5. **Güvenlik:** `figma-ai-mcp-prompt-1.md` içinde düz metin Figma API token bulundu (L1/L13). Token yeniden yazımda çıkarıldı; kullanıcıya rotate tavsiyesi iletildi.
+6. **Prompt arşivi (G:):** Coremusic/ 14 dosya + üst dizin 7 dosya prompt-maker v4 formatında yeniden yazılacak; kopya dosyalara arşiv notu; boş `coremusic-katmanı-mimari-ses.md` yerine k-space ses katmanı promptu üretilecek. **Güncelleme (2026-10-23 Adım 4 kapanışı):** YENİDEN YAZIM TAMAMLANDI — disk: `G:…\Coremusic\` 41 içerik dosyası (+README = 42 md); stale 14+7 v4'e yazıldı + üst dizinden taşındı + 4 yeni üretim (adr103/104/107 + `katmanı-mimari-ses`); `miamri copy` rename'i bitti → `coremusic-katmanlı-mimari-olustur-ai-copy.md` (273 KB, 15:48). **Sayı mutabakatı:** "14+7" = yeniden yazım kapsamı (stale subset), "41/42" = toplam envanter (README hariç 41) — çelişki yok. README §4 "accepted 85" → **84** düzeltildi (vault SSOT).

@@ -83,7 +83,7 @@ değildir**; kural koymaz, yalnız yönlendirir ve durum raporlar.
 | 10 | Şablon seçimi (Guardrail #16) | [[.templates/index]] (65 dosya, 13 kategori — 2026-10-07) | şablon, template, guardrail-16 | IMPLEMENTED |
 | 11 | UI mockup, bileşen, token, ekran spec | [[ui-design/01-mockup-index]] · `ui-design/02-component-inventory.md` (ui-design/ altında 121 md · 20 PNG) | mockup, bileşen, C01-C16, token, wcag | IMPLEMENTED |
 | 12 | DB şema, BCNF, migration | `.ai/.sql/` (21 .sql) · [[brain]] ADR-040 · skill `database-normalize-maker` | bcnf, şema, sql, migration, 18 db | IMPLEMENTED |
-| 13 | Skill registry ve eşleşme kuralı | [[../CLAUDE]] (kök) §Skill Registry (12 proje skill) | skill, mandate, registry | IMPLEMENTED |
+| 13 | Skill registry ve eşleşme kuralı | [[../CLAUDE]] (kök) §Skill Registry (13 proje skill — 2026-10-23 disk sayımı: `.claude/skills/` 13 SKILL.md; `C:\.claude\skills` YOK) | skill, mandate, registry | IMPLEMENTED |
 | 14 | Vizyon, kapsam, yetenekler | [[VISION]] · [[PROJECTS]] | vizyon, yetenek, kapsam, pazar | IMPLEMENTED |
 | 15 | Terimler | [[glossary]] | terim, sözlük, glossary | IMPLEMENTED |
 | 16 | Session hafızası, audit trail | [[MEMORY]] · [[log]] (append-only) | session, log, audit, geçmiş | IMPLEMENTED |

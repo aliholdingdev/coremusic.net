@@ -8,6 +8,19 @@ authority: "SSOT: .ai/CLAUDE.md (tam anayasa) · bu dosya §Skill Registry (Skil
 updated: 2026-10-11
 ---
 
+# .ai gizli dizin, hidden: true ile tarıyorum:
+## .ai/README.md okuması (gerekirse)
+
+**Gerekirse oku:** Bu dosya, .ai içindeki tüm agent'lar, skill'ler ve konvansiyonlar için tek referans noktasıdır. Herhangi bir agent veya skill'in spesifik davranış kurallarını, dosya organizasyonunu veya özel çalışma prensiplerini anlamak için bu dosyayı oku.   
+
+## CLAUDE.md okuması (gerekirse)
+
+**Gerekirse oku:** Bu dosya, .ai içindeki tüm agent'lar, skill'ler ve konvansiyonlar için tek referans noktasıdır. Herhangi bir agent veya skill'in spesifik davranış kurallarını, dosya organizasyonunu veya özel çalışma prensiplerini anlamak için bu dosyayı oku.   
+
+## .ai/CLAUDE.md okuması (gerekirse)
+
+**Gerekirse oku:** Bu dosya, .ai içindeki tüm agent'lar, skill'ler ve konvansiyonlar için tek referans noktasıdır. Herhangi bir agent veya skill'in spesifik davranış kurallarını, dosya organizasyonunu veya özel çalışma prensiplerini anlamak için bu dosyayı oku.   
+
 # CLAUDE.md
 
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
@@ -73,6 +86,30 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+
+---
+
+# CoreMusic — Skill Registry (SSOT)
+
+> **Disk kanıtı (2026-10-23 sayımı):** `.claude/skills/` = **13 SKILL.md** · `C:\.claude\skills` **YOK** · `.opencode/skills/` kapalı (2026-10-07 merge/port). Eski "12 proje + 5 global = 17" envanteri **bayattı** (5 global dizin diskte hiç yoktu); bu tablo tek kaynaktır.
+
+| # | Skill | Tetikleyici (özet — tam tetikleyiciler skill'dedir) |
+|---|-------|------|
+| 1 | `agent-orchestrator` | görev ata · koordine et · handover · dispatch · routing |
+| 2 | `audio-engine-cpp` | Neva Engine · JUCE 9 · ASIO · DSP chain · realtime C++ |
+| 3 | `composer-sync` | composer · vendor · autoload · junction · class not found |
+| 4 | `database-normalize-maker` | normalize · BCNF · schema · migration · SQL yaz |
+| 5 | `hardware-electronics` | amfi tasarımı · güç kaynağı · termal · PCB/BOM |
+| 6 | `learning-prompts` | sokratik · Feynman · şeytanın avukatı · aktif hatırlama |
+| 7 | `php-backend-standards` | PHP kodla · middleware ekle · endpoint yaz · PDO sorgusu |
+| 8 | `prompt-maker` | prompt oluştur/yaz · system prompt · MASTER PROMPT · rules yaz · CLAUDE.md yaz |
+| 9 | `security-hardening` | güvenlik değişikliği · CSRF ekle · CSP ayarı · auth kodu |
+| 10 | `skill-maker` | yeni skill · skill oluştur/güncelle · SKILL.md yaz · skill audit |
+| 11 | `ui-analyzer` | UI analiz · arayüz denetimi · tasarım sistemi kontrol · mockup karşılaştırma |
+| 12 | `ui-code-generator` | html css js · responsive design · bileşen oluştur · ITCSS/BEM/token |
+| 13 | `vault-sync-post` | vault güncelle · session kapat · senkronize · log yaz |
+
+**Skill Usage Mandate (bağlayıcı):** Görev bir skill ile eşleşiyorsa **İLK işlem Skill tool ile o skill'i yüklemektir** (kök `AGENTS.md` §7 adım 0). Skill üretimi → `skill-maker` · prompt üretimi → `prompt-maker` · `.ai/` yazımı yalnız orkestratörde · skill "kod yazar" ama domain kodu domain agent'ındır.
 
 
 # CoreMusic — AGENTS.md (Master Agent Rules)

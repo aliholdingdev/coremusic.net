@@ -360,7 +360,7 @@ Müzik Dosyası → Metadata Çıkarma → DB Kaydı → İndeksleme → Arama �
 | New Feature | 20-Fazlı lifecycle, Phase 7 Hard Gate |
 | Security Audit | OWASP Top 10:2025 tam liste, ADR referanslı |
 | Deployment | Pre-flight + post-flight, Hard Gate |
-| Session Init | 14 dosya, 25s timeout, 5 soru |
+| Session Init | Hafif boot 4 adım (2026-10-23), 25s timeout, 5 soru |
 | Vault Sync | 5 soru + 6 adım, wiki-link doğrulama |
 | YAML Formatter | 2 boşluk girinti, single-quote, 120 char limit |
 
@@ -549,7 +549,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 
 | Adım | Aksiyon | Süre |
 |------|---------|------|
-| 1 | Boot protokolünü çalıştır (14 dosya) | Max 36s |
+| 1 | Boot protokolünü çalıştır (hafif boot 4 adım — kök AGENTS.md → kök CLAUDE.md → @.ai/AGENTS.md → görev-bazlı; genişletilmiş 14 dosyalık set yalnız ağır görevde, §8.7A/AGENTS §25.4) | Max 36s |
 | 1.5 | ROLE.md oku (Senior Architect rol tanımı) | Max 3s |
 | 2a | prompt0 oku (Genel Ana Prompt) | [[archives/prompt0-genel-ana-prompt-2026-09-01]] | 5s |
 | 2b | prompt1 oku (SPA Router) | [[archives/prompt1-spa-router-2026-09-01]] | 3s |
@@ -638,7 +638,7 @@ Session Sonunda:
 
 | # | Kural | İhlal Sonucu |
 |---|-------|--------------|
-| 1 | Session başında 14 dosya okunmadan kod yazılamaz | İşlem durdurulur |
+| 1 | Session başında hafif boot (4 adım) okunmadan kod yazılamaz — genişletilmiş set yalnız ağır görevde (2026-10-23: "14 dosya her görevde" kuralı kaldırıldı, AGENTS §25.4) | İşlem durdurulur |
 | 2 | Session sonunda değişen dosyalar güncellenmezse vault tutarsızlığı | CRITICAL log |
 | 3 | Çelişki varsa SSOT hierarchy takip edilir | CLAUDE.md öncelikli |
 | 4 | Timestamp'ler her zaman güncel olmalı | Eski timestamp = eski bilgi |

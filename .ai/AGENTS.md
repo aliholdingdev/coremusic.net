@@ -19,7 +19,7 @@ depends-on: [".ai/CLAUDE.md"]
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** Registry → kök `CLAUDE.md` §Skill Registry (12 proje `.claude/skills/` + 5 global `C:\.claude\skills` = 17 · Claude Skill v3.0 · kullanım zorunlu — §Skill Usage Mandate). `.opencode/skills/` kapatıldı (2026-10-07, merge/port edildi). Guardrail #16 (şablon) + skill-maker v3.0 şeması zorunlu.
+**Skills:** Registry → kök `CLAUDE.md` §Skill Registry (13 proje `.claude/skills/` + 0 global — `C:\.claude\skills` diskte YOK, 2026-10-23 sayımı · Claude Skill v3.0 · kullanım zorunlu — §Skill Usage Mandate). `.opencode/skills/` kapatıldı (2026-10-07, merge/port edildi). Guardrail #16 (şablon) + skill-maker v3.0 şeması zorunlu.
 
 ---
 
@@ -78,7 +78,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 |---|-------|---------|--------|--------|-----------|
 | 1 | **Master Orchestrator** | `mo` | Görev dağıtımı, koordinasyon | Koordinasyon | Vault System, log.md |
 | 2 | **Backend Architect** | `backend` | PHP 8.4 API, routing, middleware | A2 | PHP strict_types, PDO, PageRouter |
-| 3 | **UI Designer** | `ui` | Vanilla JS, ITCSS, CSS, responsive | A3 | Vanilla JS ES6+, ITCSS 9-layer |
+| 3 | **UI Designer** | `ui` | Vanilla JS, ITCSS, CSS, responsive | A3 | Vanilla JS ES6+, ITCSS 11-layer (SSOT: css-template v4.0.0 — 2026-10-23 düzeltme, S6 soft-ADR) |
 | 4 | **Security Engineer** | `security` | OWASP, encryption, CSRF, CSP | A1 | Argon2id, AES-256-GCM, APCu |
 | 5 | **Data Engineer** | `data` | MySQL 18 BCNF, PDO, migration | A0 | MySQL 9, PDO, BCNF |
 | 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | A0 | C++20, JUCE 9, ASIO SDK 2.3.4 |
@@ -115,7 +115,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 |---|-------|--------|-----------|--------|
 | 1 | Master Orchestrator | Koordinasyon | Vault System, log.md | [[.agents/master-orchestrator]] |
 | 2 | Backend Architect | A2 (K8-K9) | PHP 8.4, PDO, PageRouter | [[.agents/backend-architect]] |
-| 3 | UI Designer | A3 (K10-K11) | Vanilla JS ES6+, ITCSS 9-layer | [[.agents/ui-designer]] |
+| 3 | UI Designer | A3 (K10-K11) | Vanilla JS ES6+, ITCSS 11-layer (SSOT: css-template v4.0.0) | [[.agents/ui-designer]] |
 | 4 | Security Engineer | A1 (K6-K7) | OWASP, Argon2id, AES-256-GCM | [[.agents/security-engineer]] |
 | 5 | Data Engineer | A0 (K0-K5) | MySQL 9, PDO, BCNF | [[.agents/data-engineer]] |
 | 6 | Embedded Engineer | A0 (K1-K3) | C++20, JUCE 9, ASIO SDK 2.3.4 | [[.agents/embedded-engineer]] |
@@ -175,7 +175,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 
 ### §14 Skills (Pointer — SSOT: kök CLAUDE.md §Skill Registry)
 
-> **Registry SSOT: kök `CLAUDE.md` §Skill Registry** (12 proje + 5 global = 17, Claude Skill v3.0). Bu bölümde liste kopyalanmaz; kullanım zorunluluğu kök `CLAUDE.md` §Skill Usage Mandate'dedir (hook: `.claude/settings.json → UserPromptSubmit`).
+> **Registry SSOT: kök `CLAUDE.md` §Skill Registry** (13 proje + 0 global = 13, Claude Skill v3.0 — 2026-10-23 disk sayımı: `.claude/skills/` 13 SKILL.md; `C:\.claude\skills` YOK). Bu bölümde liste kopyalanmaz; kullanım zorunluluğu kök `CLAUDE.md` §Skill Usage Mandate'dedir (hook: `.claude/settings.json → UserPromptSubmit`).
 >
 > **Tarihsel not:** eski "Mandatory 5 Skills (ADR-042/C4)" tablosu ve ".opencode/skills 8 aktif" envanteri 2026-10-07'de kaldırıldı — `.opencode/skills/` kapatıldı (içerik merge/port edildi: orchestration→agent-orchestrator, db-engine→database-normalize-maker, truth-engine 3-way merge→global, verify-loop/agent-debate/context-report→global port). `/brainstorming` hâlâ sistem becerisi (klasör yok); `/vault-sync` → `.workflows/vault-sync.md` akışı + `vault-sync-post` skill. `Template Mandatory` (Guardrail #16) + skill-maker v3.0 şeması her dosya üretiminde geçerlidir.
 
@@ -496,9 +496,9 @@ Ajan dosyaya erişmek ister
 | 4. Sonuç Tahmini | Etki alanı, edge cases, performance | Düşünce | Değişken |
 | 5. Doğrulama | LSP, typecheck, test, template uyumu | Build araçları | Anlık |
 
-#### §24.2 .ai Reference Tracking
+#### §24.2 .ai Reference Tracking (genişletilmiş okuma seti)
 
-**Her görev başında bu dosyaları OKU:**
+**Ağır görev / vault revizyonu / bağlam gerektiğinde bu dosyaları OKU** — hafif boot (her görevde) kanonik sırası: kök `AGENTS.md` → kök `CLAUDE.md` (§Skill Registry) → `@.ai/AGENTS.md` (bu dosya) → görev-bazlı `@.ai/` dosyaları (`RAG.md` §3 → `keys.md` → `index.md`). "Başta tüm vault'u oku" YASAKTIR (2026-10-23 hizalama — token ekonomisi; §25.4).
 
 | Sıra | Dosya | Amaç |
 |------|-------|------|
@@ -637,9 +637,11 @@ Her dosya için kontrol et:
 4. **Teknoloji direktifi:** Dinamik stack (Node.js/C++/C#/PHP + diğer) — [[engine.md]] §9, [[ROLE.md]] §11.
 5. **Faz kapanışı:** engine §12.6 kontrol listesi 8/8 → §12.7 rapor → vault-sync.
 
-#### §25.4 Boot List Compatibility
+#### §25.4 Boot List Compatibility (2026-10-23 hizalama)
 
-Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sayısı farkı bilinen durumdur: §5 genişletilmiş okuma setidir (`.claude/rules/*`, prompt arşivleri ve mockup indeksi dahil). Kanonik kök boot listesi bu dosyanın §24.2'si ve [[WORKFLOW.md]] §8.7A'dır (14 .ai kök dosya); FULL boot 17 öğedir (root CLAUDE.md + root WORKFLOW.md + root README.md + 14 .ai kök dosya + 3 dizin: .workflows, .ai/.templates, .ai/.agents).
+**Kanonik hafif boot (her görevde — 4 adım):** kök `AGENTS.md` → kök `CLAUDE.md` (§Skill Registry) → `@.ai/AGENTS.md` (bu dosya) → görev-bazlı `@.ai/` dosyaları. Bu, master prompt v4.0 §3.1 ile aynıdır ve token ekonomisi gereği **her görevde** geçerlidir.
+
+**Genişletilmiş set (yalnız ağır görev/vault revizyonu):** §24.2 14 dosyalık referans listesi. [[MEMORY.md]] §5 (20 adım) bunun da üzeridir (`.claude/rules/*`, prompt arşivleri ve mockup indeksi dahil). FULL boot 17 öğedir (root CLAUDE.md + root WORKFLOW.md + root README.md + 14 .ai kök dosya + 3 dizin: .workflows, .ai/.templates, .ai/.agents). Üç liste arasındaki fark bilinçlidir: **önce hafif boot, bağlam yetmezse genişlet** — "her görevde 14 dosya" kuralı 2026-10-23'te kaldırıldı (önceki hali token israfıydı ve §3.1'e aykırıydı).
 
 #### §25.5 UI-Design Vault Yeniden Yazım Kaydı (Faz 0–8 — 2026-09-29)
 

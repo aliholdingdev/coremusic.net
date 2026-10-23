@@ -5,7 +5,7 @@ category: project-tracking
 version: 1.0.0
 status: active
 authority: SSOT
-updated: 2026-10-22
+updated: 2026-10-23
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
 tier: 5
 domain: task-state
@@ -53,8 +53,10 @@ Depodaki gerçek iş kalemlerini (açık commit'ler, eksik testler, vault tutars
 - [x] **`.claude/skills/composer-sync` frontmatter/dup-ID kararını ver:** KAPANDI 2026-10-21 — v3.0 yeniden yazımda frontmatter eklendi (`name: composer-sync` + `description` "Use when…", name=klasör 1:1); duplicate ID kaynağı `.opencode/skills/` kapatıldı (2026-10-07) — Kaynak: commit 391a330 + composer-sync/SKILL.md L2-3 ölçümü
 - [ ] **Post-op sync scriptlerini karara bağla:** `.ai/scripts/session-save.mjs`, `vault-post-update.mjs`, `vault-cmd.mjs` ve `project-state.md` **diskte YOK** → kapanış manuel yapılıyor; script üretilsin mi (kod, onay gerektirir)? — Kaynak: `MEMORY.md` §20 Known Issue (2026-09-28) + filesystem taraması 2026-09-29
 
-- [ ] **`.ai/AGENTS.md` §14 skill sayımı bayat:** "12 proje `.claude/skills/` + 5 global = 17" yazıyor ama diskte **13** dizin (ölçüm 2026-10-21, `.claude/CONTEXT.md` 13 dizin/134 dosya ile hizalı) → §14 satır edit ile düzeltilecek (bu kapanışta surgical-change sınırı nedeniyle dokunulmadı) — Kaynak: `.ai/AGENTS.md` §14 · `.claude/CONTEXT.md` §3 (2026-10-21)
-- [ ] **Backend Rebuild Adım 09-11 canlı doğrulaması (server PC):** `git pull` + `CM_TEST_EMAIL`/`CM_TEST_PASSWORD` ile `backend-step11-curl-pc.ps1` (11/11 hedef) + `backend-step10-curl-pc.ps1` (13) + `backend-step09-curl-pc.ps1` + `composer test`; ardından KAPI-E browser (dropdown XHR-only geçiş, rol A/B, Enter/Esc) — dev makinede MySQL YOK → ⚠️ VERIFICATION REQUIRED — Kaynak: `.ai/reports/backend-step11-dropdown.md` §KAPI-E + 3 script (2026-10-22)
+- [x] **`.ai/AGENTS.md` §14 skill sayımı bayat:** KAPANDI 2026-10-23 (Adım 1) — §14 + Skills satırı düzeltildi: 12+5=17 → 13+0=13 (disk: `.claude/skills/` 13 SKILL.md, `C:\.claude\skills` YOK); kök `CLAUDE.md`'ye §Skill Registry eklendi; eski tespit: "12 proje `.claude/skills/` + 5 global = 17" yazıyor ama diskte **13** dizin (ölçüm 2026-10-21, `.claude/CONTEXT.md` 13 dizin/134 dosya ile hizalı) → §14 satır edit ile düzeltilecek (bu kapanışta surgical-change sınırı nedeniyle dokunulmadı) — Kaynak: `.ai/AGENTS.md` §14 · `.claude/CONTEXT.md` §3 (2026-10-21)
+- [ ] **Backend Rebuild Adım 09-11 canlı doğrulaması (server PC):** `git pull` + `CM_TEST_EMAIL`/`CM_TEST_PASSWORD` ile `backend-step11-curl-pc.ps1` (11/11 hedef) + `backend-step10-curl-pc.ps1` (13) + `backend-step09-curl-pc.ps1` + `composer test`; ardından KAPI-E browser (dropdown XHR-only geçiş, rol A/B, Enter/Esc) — dev makinede MySQL YOK → ⚠️ VERIFICATION REQUIRED - Kaynak: `.ai/reports/backend-step11-dropdown.md` §KAPI-E + 3 script (2026-10-22)
+- [x] **Adım 4 — G: Prompt Arşivi revizyonu (O-4 onaylı):** KAPANDI 2026-10-23 — yeniden yazım tamamlandı (önceki oturum + arka plan ajanı); bu oturum: README sayı hizası (§2.1 13 · §2.5 7 · §4 accepted 84 · toplam 41 içerik) + `miamri→mimari` rename disk teyidi (273 KB, 15:48) + brain.md L1130 mutabakatı ("14+7" = stale kapsam subset'i, "41" = toplam — çelişki yok) — Kaynak: G:Coremusic/ disk sayımı + README (2026-10-23)
+- [ ] **`.ai/CLAUDE.md` silinme olayı (2026-10-23):** çalışma ağacından silinmişti (git D, 987 satır, commit edilmemiş) → `git checkout` ile kurtarıldı (v27.5.0, 3×hash eşleşti); **neden silindiği bilinmiyor (UNKNOWN)** → tekrarını önleme araştırması — Kaynak: git status D + AGENTS §17.10
 
 ### §4 P2 — Kalite & teknik borç
 
