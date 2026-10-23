@@ -73,7 +73,7 @@ $headerTierClass = $dm->shouldRender4kLayout()
 <header class="header site-header <?= $headerTierClass ?> <?= $dm->allClasses() ?>" role="banner" <?= $dm->dataAttributes() ?>>
     <div class="site-header__inner">
 
-        <a href="/home" class="site-header__logo" aria-label="CoreMusic" data-no-spa>
+        <a href="/home" class="site-header__logo" aria-label="CoreMusic">
             <span class="logo-core">Core</span> <span class="logo-music">Music</span>
         </a>
 

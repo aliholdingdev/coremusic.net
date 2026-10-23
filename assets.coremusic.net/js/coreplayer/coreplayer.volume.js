@@ -89,7 +89,16 @@
       this._inputEl = null;
       this._fillEl = null;
       this._pctEl = null;
-      this._bound = { setFromInput: this._setFromInput.bind(this), setFromDrag: this._setFromDrag.bind(this), setFromWheel: this._setFromWheel.bind(this), startDrag: this._startDrag.bind(this), stopDrag: this._stopDrag.bind(this), toggleMute: this._toggleMute.bind(this), toggleMuteKey: this._toggleMuteKey.bind(this) };
+      this._bound = {
+        setFromInput: this._setFromInput.bind(this),
+        setFromDrag: this._setFromDrag.bind(this),
+        setFromWheel: this._setFromWheel.bind(this),
+        startDrag: this._startDrag.bind(this),
+        stopDrag: this._stopDrag.bind(this),
+        handleClick: this._handleClick.bind(this),
+        toggleMute: this._toggleMute.bind(this),
+        toggleMuteKey: this._toggleMuteKey.bind(this),
+      };
       this._containerEl = null;
       this._config = { container: '.footer-player__volume', fillSelector: '#volume2', percentSelector: '.footer-player__volume-value', iconSelector: '#volumeIcon', iconBasePath: this.#resolveThemePath(), trackSelector: '#volumeclick' };
     }
@@ -123,6 +132,7 @@
       const track = el.querySelector(this._config.trackSelector) || el;
       track.addEventListener('mousedown', this._bound.startDrag);
       track.addEventListener('touchstart', this._bound.startDrag, { passive: false });
+      track.addEventListener('click', this._bound.handleClick);
       document.addEventListener('mouseup', this._bound.stopDrag);
       document.addEventListener('touchend', this._bound.stopDrag);
       document.addEventListener('touchcancel', this._bound.stopDrag);
@@ -172,6 +182,8 @@
       const track = el.querySelector(this._config.trackSelector) || el;
       track.removeEventListener('mousedown', this._bound.startDrag);
       track.removeEventListener('touchstart', this._bound.startDrag);
+      track.removeEventListener('click', this._bound.handleClick);
+      this._stopDrag();
       document.removeEventListener('mouseup', this._bound.stopDrag);
       document.removeEventListener('touchend', this._bound.stopDrag);
       document.removeEventListener('touchcancel', this._bound.stopDrag);
@@ -211,14 +223,20 @@
     _startDrag(e) {
       const el = this._containerEl;
       if (!el) return;
-      if (e.target.closest('input')) return;
+      if (e.button !== undefined && e.button !== 0) return;
 
       this._isDragging = true;
       e.preventDefault();
+      if (this._inputEl) this._inputEl.focus();
       this._applyDrag(e);
 
       document.addEventListener('mousemove', this._bound.setFromDrag);
       document.addEventListener('touchmove', this._bound.setFromDrag, { passive: false });
+    }
+
+    _handleClick(e) {
+      if (e.button !== undefined && e.button !== 0) return;
+      this._applyDrag(e);
     }
 
     _stopDrag() {
@@ -238,7 +256,11 @@
       if (!el) return;
       const track = el.querySelector(this._config.trackSelector) || el;
       const rect = track.getBoundingClientRect();
-      const clientX = e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : 0);
+      const clientX = e.clientX !== undefined
+        ? e.clientX
+        : (e.touches && e.touches[0]
+            ? e.touches[0].clientX
+            : (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : 0));
       const raw = VolumeCalculator.fromClientX(clientX, rect.left, rect.width);
       this.setVolume(raw);
     }
@@ -270,12 +292,19 @@
       const el = this._containerEl;
       if (!el) return;
       const input = this._inputEl || el.querySelector('input[type="range"]');
-      if (input) input.value = String(value);
+      if (input) {
+        input.value = String(value);
+        input.setAttribute('aria-valuenow', String(Math.round(value * 100)));
+      }
     }
 
     _updateFill(value) {
       const fill = this._fillEl || document.querySelector(this._config.fillSelector);
-      if (fill) fill.style.width = Math.round(value * 100) + '%';
+      if (fill) {
+        const pct = Math.round(value * 100);
+        fill.style.width = pct + '%';
+        fill.dataset.progress = String(pct);
+      }
     }
 
     _updatePercentDisplay(value) {

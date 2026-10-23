@@ -80,7 +80,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 180px;
+    width: 100%;
     height: 10px;
     margin: 0;
     background: transparent;
@@ -154,8 +154,7 @@
     ============================================================ */
 /* --bp-1024: 1024px — a-breakpoint-tokens.css (@media'de var() geçersiz) */
 @media (max-width: 1024px) {
-    #volumeclick,
-    #volume {
+    #volumeclick {
         width: 145px;
     }
 }

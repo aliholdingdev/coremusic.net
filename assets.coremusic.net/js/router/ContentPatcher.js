@@ -21,6 +21,10 @@ export default class ContentPatcher {
             this.#csrfSync.update(responseData.csrfToken);
         }
 
+        if (responseData.meta?.title) {
+            document.title = responseData.meta.title;
+        }
+
         // C-F-14: target artik query korur — route anahtari pathname'dir.
         const isAuth = isAuthRoute(target.split('?')[0]);
         document.body.classList.toggle('auth-page', isAuth);

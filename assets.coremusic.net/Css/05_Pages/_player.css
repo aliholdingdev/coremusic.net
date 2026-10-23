@@ -2129,10 +2129,10 @@
 html body .page-player--wide.page-layout,
 html body .page-history--wide.page-layout {
     position: absolute;
-    top: 60px;
+    top: var(--header-h, 60px);
     left: 0;
     right: 0;
-    bottom: 90px;
+    bottom: var(--footer-h, 90px);
     display: block;
     width: auto;
     max-width: none;
@@ -2469,10 +2469,11 @@ html body .page-history--wide.page-layout {
 
 :is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar--figma-wide {
     position: absolute;
-    right: 15px;
-    top: 27px;
-    width: 245px;
-    height: calc(100% - 48px);
+    right: 24px;
+    top: 29px;
+    bottom: 22px;
+    width: 240px;
+    height: auto;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -2481,23 +2482,14 @@ html body .page-history--wide.page-layout {
     padding: 16px 12px;
     flex: none;
     overflow-y: auto;
-    /* Multi-layer Frosted Glass — mockup panel zemini */
-    background: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.16) 0%,
-        rgba(255, 255, 255, 0.05) 100%
-    ), rgba(18, 10, 28, 0.45);
-    backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
-    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    border-top: 1px solid rgba(255, 255, 255, 0.45);
-    border-left: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 14px;
-    box-shadow:
-        inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
-        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.25),
-        0 20px 50px rgba(0, 0, 0, 0.45),
-        0 4px 12px rgba(0, 0, 0, 0.25);
+    /* Yarı Saydam (%50) Cam Panel — history-glass ve diğer panellerle birebir uyumlu */
+    background: rgba(186, 186, 186, 0.21);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(0, 0, 0, 0.8);
 }
 
 /* ── 1) PROFİL KARTI — dairesel avatar + şarkı + 5 aksiyon butonu ── */
@@ -2660,8 +2652,12 @@ html body .page-history--wide.page-layout {
     cursor: pointer;
     padding: 6px 2px;
     border-radius: 9px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-top: 1px solid rgba(255, 255, 255, 0.30);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -2733,9 +2729,14 @@ html body .page-history--wide.page-layout {
     top: -2px;
     width: 224px;
     height: 116px;
-    border-radius: 10px;
-    background: rgba(146, 146, 146, 0.135);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.21), 0 0.2px 1px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    background: rgba(186, 186, 186, 0.16);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.20), 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
 }
 
 :is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__info-row {
@@ -2873,18 +2874,33 @@ html body .page-history--wide.page-layout {
 }
 
 /* Durum kartı — cam (1678.6,462) 225.2×507 · aynı katman modeli */
-/* 4) BOŞ KART — Figma durum (1680,462) 224×507 · kalan yüksekliği doldurur */
 :is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__status-card {
     flex: 1 1 auto;
     min-height: 120px;
     margin: 0;
     padding: 0;
-    border: 0;
-    border-radius: 10px;
-    background: rgba(146, 146, 146, 0.135);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.21), 0 0.2px 1px rgba(0, 0, 0, 0.5);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    border-radius: 8px;
+    background: rgba(186, 186, 186, 0.16);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.20), 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   4K UHD (≥2560px) — Header ile Container arası nefes boşluğu artışı
+   1920'de 29px olan boşluk, 4K ekranlarda 48px'e yükseltilir.
+   Cam panel ve sağ kenar çubuğu üstten ve alttan dengeli hizalanır.
+   ════════════════════════════════════════════════════════════════════ */
+@media (min-width: 2560px) {
+    :is(.page-player--wide, .page-player--embedded) .player-glass,
+    .page-history--wide .history-glass,
+    :is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar--figma-wide {
+        top: 48px;
+        bottom: 32px;
+    }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -3173,4 +3189,150 @@ html body .page-history--wide.page-layout {
     font-weight: 500;
     line-height: 7.5px;
     letter-spacing: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   WIDE 4K (≥2560px) — BOŞLUK DÜZELTMESİ + içerik yoğunluğu
+   ─────────────────────────────────────────────────────────────────────
+   Kök neden: dosyanın başındaki `@media (min-width: 3840px)` bileşen
+   büyütme bloğu (~satır 1979), WIDE 1920 bloğundan (satır 2129+) ÖNCE
+   geldiği ve özgüllüğü onunla eşit/düşük kaldığı için wide düzende HİÇ
+   UYGULANMIYORDU (ölü kural). Sonuç: 4K tuvalinde (3840×2160) 1920
+   ölçüsünde satır (21px) + 9px yazı, ama cam panel viewport'a kadar
+   uzadı → panelin ~%79'u boş görünüyordu (1920'de bu oran %51).
+   Bu blok DOSYA SONUNDA wide kurallarından sonra yazılır:
+     1) tablo satırları cam paneli dikeyde DOLDURUR (flex-grow + min-height)
+     2) başlık/satır yazıları 4K okunurluğuna büyür
+     3) sağ kenar çubuğu kartları panele YAYILIR (altta ölü boşluk kalmaz)
+   1920 ve daha dar ekranlar DEĞİŞMEZ (yalnız ≥2560px).
+   ═══════════════════════════════════════════════════════════════════ */
+@media (min-width: 2560px) {
+
+    /* ── Araç çubuğu — 4K okunurluğu · dikey merkez 41px korunur ── */
+    .page-player--wide .player-toolbar__btn {
+        left: 15px;
+        top: 15px;
+        width: 52px;
+        height: 52px;
+    }
+
+    .page-player--wide .player-toolbar__btn img {
+        width: 52px;
+        height: 52px;
+    }
+
+    .page-player--wide .player-toolbar__title {
+        left: 81px;
+        top: 26px;
+        height: 30px;
+        font-size: 26px;
+        line-height: 30px;
+    }
+
+    .page-player--wide .player-toolbar__search {
+        right: 16px;
+        top: 23px;
+        width: 360px;
+        height: 36px;
+    }
+
+    .page-player--wide .player-toolbar__search-input {
+        left: 18px;
+        top: 9px;
+        width: 288px;
+        height: 18px;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .page-player--wide .player-toolbar__search-icon {
+        left: 326px;
+        top: 8px;
+        width: 20px;
+        height: 20px;
+    }
+
+    /* ── Tablo: satırlar cam panelin tamamını dikeyde doldurur ──
+       panel (overflow-y:auto) flex sütun olur · thead sabit · tbody büyüyen
+       satırları dağıtır · veri paneli aşarsa satır min-height'da kalır ve
+       panel kaydırılır (taşma yok). */
+    .page-player--wide .player-table-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-player--wide .player-table {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .page-player--wide .player-table thead {
+        flex: 0 0 auto;
+        height: 46px;
+    }
+
+    .page-player--wide .player-table thead tr {
+        height: 46px;
+        align-items: center;
+    }
+
+    .page-player--wide .player-table thead th {
+        padding-top: 0;
+        font-size: 14px;
+    }
+
+    /* "Süre" başlığının taban padding-top:10px kalıntısı (Figma 1920) */
+    .page-player--wide .player-table thead .player-col--duration {
+        padding-top: 0;
+    }
+
+    .page-player--wide .player-table tbody {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        padding-top: 12px;
+    }
+
+    .page-player--wide .player-row {
+        flex: 1 1 auto;
+        height: auto;
+        min-height: 54px;
+        margin-bottom: 8px;
+    }
+
+    .page-player--wide .player-row td {
+        height: auto;
+        font-size: 15px;
+    }
+
+    /* vurgu bandı sabit 21px idi → uzayan satırda tam yükseklik */
+    .page-player--wide .player-row--active::before {
+        height: 100%;
+    }
+
+    .page-player--wide .player-row__disc {
+        width: 34px;
+        height: 26px;
+    }
+
+    .page-player--wide .player-stars {
+        height: 22px;
+        margin-top: 0;
+    }
+
+    .page-player--wide .player-star {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* ── Sağ kenar çubuğu — kartlar panele yayılır ──
+       status kartı esnek ama max-height 507px (Figma) ile sınırlı; kalan
+       boşluk justify-content ile kart ARALARINDA eşit bölüşülür →
+       panelin altında ölu (dolu olmayan) cam şerit kalmaz. */
+    :is(.page-player--wide, .page-history--wide) .page-sidebar--figma-wide {
+        justify-content: space-between;
+    }
 }

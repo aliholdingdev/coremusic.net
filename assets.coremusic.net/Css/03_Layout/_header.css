@@ -447,6 +447,8 @@
     border-bottom-right-radius: 0;
     backdrop-filter: blur(0.5px);
     -webkit-backdrop-filter: blur(0.5px);
+    height: 37.4px;
+    box-sizing: border-box;
     transition: transform 150ms ease, background 150ms ease;
     transform: scale(0.95);
     transform-origin: center;
@@ -509,6 +511,8 @@
     display: flex;
     align-items: center;
     gap: 2px;
+    height: 37.4px;
+    box-sizing: border-box;
 }
 
 /* ============================================================
@@ -584,106 +588,111 @@
 }
 
 /* ============================================================
-   RESPONSIVE — 4K / 2K (Hibrit scale)
+   RESPONSIVE — 4K / 2K (Zarif, dengeli ve kompakt ölçek)
    ============================================================ */
 @media (min-width: 2560px) {
     .site-header {
-        height: var(--header-h, 80px);
+        height: var(--header-h, 65px);
+        padding-top: 15px;
     }
 
     .site-header__logo {
-        font-size: var(--fs-3xl, 32px);
+        font-size: 24px;
+        padding: 0 20px;
+    }
+
+    .site-header__nav {
+        gap: 8px;
     }
 
     .nav-link {
-        font-size: var(--fs-lg, 16px);
-        padding: 8px 16px;
+        font-size: 15px;
+        padding: 6px 14px;
+        min-height: auto;
     }
 
     .header-user {
-        height: 40px;
+        height: 36px;
     }
 
     .header-user__avatar {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
     }
 
     .header-user__name {
-        font-size: var(--fs-lg, 16px);
+        font-size: 14px;
     }
 }
 
 @media (min-width: 3840px) {
     .site-header {
-        height: var(--header-h, 80px);
+        height: var(--header-h, 65px);
+        padding-top: 15px;
     }
 
     .site-header__inner {
-        gap: 12px;
-        padding-left: 24px;
+        gap: 8px;
+        padding-left: 20px;
     }
 
     .site-header__logo {
-        font-size: var(--fs-3xl, 36px);
-        padding: 0 32px;
+        font-size: 24px;
+        padding: 0 20px;
     }
 
     .nav-link {
-        font-size: var(--fs-xl, 20px);
-        padding: 10px 20px;
-        min-height: var(--touch-min, 60px);
+        font-size: 15px;
+        padding: 6px 14px;
+        min-height: auto;
     }
 
     .header-user {
-        height: 44px;
-    }
-
-    .header-user__avatar {
-        width: 36px;
         height: 36px;
     }
 
-    .header-user__name {
-        font-size: var(--fs-xl, 20px);
+    .header-user__avatar {
+        width: 28px;
+        height: 28px;
     }
 
-    .header-action-btn {
-        min-width: var(--touch-min, 60px);
-        min-height: var(--touch-min, 60px);
+    .header-user__name {
+        font-size: 14px;
     }
 }
 
-/* 4K Monitor — 4K TV'den farklı: mouse+fare, daha büyük */
+/* 4K Monitor */
 @media (min-width: 3841px) {
     .site-header {
-        height: var(--header-h, 90px);
-        padding: 0 var(--sp-8);
+        height: var(--header-h, 65px);
+        padding: 0 var(--sp-4, 16px);
+        padding-top: 15px;
     }
 
     .site-header__logo {
-        height: 48px;
-        font-size: var(--fs-3xl, 40px);
+        height: auto;
+        font-size: 24px;
+        padding: 0 20px;
     }
 
     .nav-link {
-        min-height: 64px;
-        min-width: 64px;
-        font-size: var(--fs-xl, 22px);
-        padding: 12px 24px;
+        min-height: auto;
+        min-width: auto;
+        font-size: 15px;
+        padding: 6px 14px;
     }
 
     .header-user {
-        height: 48px;
+        height: 36px;
     }
 
     .header-user__avatar {
-        width: 40px;
-        height: 40px;
+        width: 28px;
+        height: 28px;
     }
 
     .header-user__name {
-        font-size: var(--fs-xl, 22px);
+        font-size: 14px;
     }
 }
 
@@ -799,20 +808,20 @@
 }
 
 .site-header--tv {
-    height: var(--header-h, 90px);
+    height: var(--header-h, 65px);
     padding-top: 15px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .site-header--tv .site-header__logo--tv {
-    font-size: 34px;
+    font-size: 24px;
 }
 
 .site-header--tv .nav-link {
-    font-size: var(--fs-xl, 20px);
-    padding: 10px 20px;
-    min-height: var(--touch-min, 60px);
+    font-size: 15px;
+    padding: 6px 14px;
+    min-height: auto;
 }
 
 .site-header--tv .nav-link:focus-visible,
@@ -824,5 +833,5 @@
 }
 
 .header-user--tv .header-user__name {
-    font-size: var(--fs-xl, 20px);
+    font-size: 14px;
 }

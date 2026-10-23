@@ -229,7 +229,7 @@ $mediaStatus = $homeSession->getMediaStatus();
 
 <!-- CorePlayer modülleri -->
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.shared.js?v=2.1.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.volume.js?v=2.1.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.volume.js?v=2.2.0"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.seekbar.js?v=2.1.0"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.controls.js?v=2.1.0"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.progressbar.js?v=2.1.0"></script>

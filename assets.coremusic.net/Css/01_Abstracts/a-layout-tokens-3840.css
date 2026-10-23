@@ -15,8 +15,8 @@
 /* Band onayı 2026-10-20: 4K ailesi min 2561px (3840 Figma tasarımı). 3540–3839 override: a-layout-tokens-3540.css */
 @media (min-width: 2561px) {
   :root {
-    /* --- Header: 90px for 4K --- */
-    --header-h: 90px;
+    /* --- Header: 65px for 4K (dengeli ve zarif ölçek) --- */
+    --header-h: 65px;
 
     /* --- Footer: 90px (Figma SSOT node 3175:13504 & 1920 baseline) --- */
     --footer-h: 90px;
@@ -29,7 +29,8 @@
     --content-max-w: 1920px;
 
     /* --- 4K Sol Hizalı Scale Token'ları --- */
-    --layout-scale-4k: 2;
+    --layout-scale-4k: 0.85;
+    --scale-home: 0.85;
     --layout-origin-4k: top left;
 
     /* --- Touch targets: 10ft UI için büyük --- */

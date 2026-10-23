@@ -82,12 +82,26 @@ const PLAYER_EMBEDDED_SCALE_TARGET = {
     ],
 };
 
+const HOME_SCALE_TARGET = {
+    name: 'home',
+    selector: '.home-layout',
+    origin: 'top left',
+    compensateWidth: false,
+    customProp: '--scale-home',
+    rules: [
+        { max: 1024, skip: true }, // Embedded 1024px: CSS @media kontrollü
+        { min: 1025, max: 2560, skip: true }, // FHD/2K (1025-2560px): CSS 1:1 doğal
+        { min: 2561, scale: 0.85 }, // 4K UHD (≥2561px): Özel scale sistemimiz (ScaleManager) 0.85 ile küçük ve zarif
+    ],
+};
+
 export function registerPageScaleTargets(scaleManager) {
     if (!scaleManager || typeof scaleManager.registerTarget !== 'function') {
         console.warn('[PageScaleTargets] ScaleManager bulunamadi veya registerTarget metodu yok.');
         return;
     }
 
+    scaleManager.registerTarget(HOME_SCALE_TARGET);
     scaleManager.registerTarget(HISTORY_WIDE_SCALE_TARGET);
     scaleManager.registerTarget(HISTORY_EMBEDDED_SCALE_TARGET);
     scaleManager.registerTarget(PLAYER_WIDE_SCALE_TARGET);
@@ -98,9 +112,11 @@ export function registerPageScaleTargets(scaleManager) {
 }
 
 export {
+    HOME_SCALE_TARGET,
     HISTORY_WIDE_SCALE_TARGET,
     HISTORY_EMBEDDED_SCALE_TARGET,
     PLAYER_WIDE_SCALE_TARGET,
     PLAYER_FULLSCREEN_SCALE_TARGET,
     PLAYER_EMBEDDED_SCALE_TARGET,
 };
+

@@ -182,7 +182,19 @@ import MiniCardComponent from './components/composites/MiniCardComponent.js';
            anında MUTASYON OBSERVER yeni component'ları çoktan mount etmiştir;
            destroyAll() orada CANLI component'ları öldürecekti (WeakSet yüzünden
            geri mount edilemez) → bu yüzden destroyAll route change'e bağlanmaz. */
-        eventBus.on('nav:complete', () => componentRegistry.destroyDetached());
+        eventBus.on('nav:complete', ({ url } = {}) => {
+            componentRegistry.destroyDetached();
+            const path = (url || window.location.pathname).split('?')[0];
+            document.querySelectorAll('.site-header__nav a.nav-link, .mobile-bottom-nav__link').forEach((a) => {
+                const isActive = (a.getAttribute('href') === path);
+                a.classList.toggle('active', isActive);
+                if (isActive) {
+                    a.setAttribute('aria-current', 'page');
+                } else {
+                    a.removeAttribute('aria-current');
+                }
+            });
+        });
 
         /* Toast singleton'ı global erişime aç */
         window.CoreMusic.Toast = ToastComponent.getInstance();

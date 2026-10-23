@@ -1075,3 +1075,130 @@
 .page-history--wide .history-row__duration {
     white-space: nowrap;
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   4K UHD (≥2560px) — Header ile Container arası nefes boşluğu artışı
+   1920'de 29px olan boşluk, 4K ekranlarda 48px'e yükseltilir.
+   ════════════════════════════════════════════════════════════════════ */
+@media (min-width: 2560px) {
+    .page-history--wide .history-glass {
+        top: 48px;
+        bottom: 32px;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   WIDE 4K (≥2560px) — BOŞLUK DÜZELTMESİ + içerik yoğunluğu
+   ────────────────────────────────────────────────────────────────────
+   Kök neden: dosyanın başındaki `@media (min-width: 3840px)` blok
+   (satır ~726), WIDE 1920 bloğundan (satır ~792) ÖNCE geldiği ve
+   özgüllüğü düşük kaldığı için wide düzende HİÇ UYGULANMIYORDU
+   (`.history-row--mini` 4K'de min-height:56 yerine 21px'te kaldı).
+   Sonuç: 4K cam panel (~1810px) içinde 21px'lik satırlar üstte toplanır,
+   altta geniş boş şerit kalır.
+   Bu blok dosya sonunda wide kurallarından sonra yazılır:
+     1) kolon satırları panelin tamamını dikeyde doldurur
+     2) başlık/satır yazıları 4K okunurluğuna büyür
+     3) araç çubuğu başlık/arama 4K ölçeğine geçer (dikey merkez korunur)
+   1920 ve daha dar ekranlar DEĞİŞMEZ (yalnız ≥2560px).
+   ════════════════════════════════════════════════════════════════════ */
+@media (min-width: 2560px) {
+
+    /* ── Araç çubuğu — 4K okunurluğu (dikey merkez 41px korunur) ── */
+    .page-history--wide .history-toolbar__btn {
+        left: 15px;
+        top: 15px;
+        width: 52px;
+        height: 52px;
+    }
+
+    .page-history--wide .history-toolbar__btn img {
+        width: 52px;
+        height: 52px;
+    }
+
+    .page-history--wide .history-toolbar__title {
+        left: 81px;
+        top: 26px;
+        height: 30px;
+        font-size: 26px;
+        line-height: 30px;
+    }
+
+    /* desc sağ kenarı: yeni arama kutusu (360 + right 16 = 376) ile
+       çakışmasın → 190/392 */
+    .page-history--wide .history-toolbar__desc {
+        left: 210px;
+        right: 392px;
+        top: 30px;
+        height: 16px;
+        font-size: 13px;
+        line-height: 16px;
+    }
+
+    .page-history--wide .history-toolbar__search {
+        right: 16px;
+        top: 23px;
+        width: 360px;
+        height: 36px;
+    }
+
+    .page-history--wide .history-toolbar__input {
+        left: 18px;
+        top: 9px;
+        width: 288px;
+        height: 18px;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .page-history--wide .history-toolbar__search-icon {
+        left: 326px;
+        top: 8px;
+        width: 20px;
+        height: 20px;
+    }
+
+    /* ── 6 kolon: başlık bandı büyür, satırlar paneli doldurur ──
+       items yüksekliği = 100% − (kolon başlığı 46 + üst boşluk 8) */
+    .page-history--wide .history-col__head {
+        height: 46px;
+        /* 4K: 1 etiket 13px ("Albüm" ≈35px) > 31px track → başlık satırla
+           eşit kalsın diye İKİSI birden 42px'e genişler (168fr/30fr korunur). */
+        grid-template-columns: 42px minmax(0, 168fr) minmax(0, 30fr);
+    }
+
+    .page-history--wide .history-col__label {
+        font-size: 13px;
+        line-height: 16px;
+    }
+
+    .page-history--wide .history-col__items {
+        height: calc(100% - 54px);
+    }
+
+    .page-history--wide .history-list__item {
+        flex: 1 1 auto;
+        display: flex;
+        min-height: 46px;
+    }
+
+    .page-history--wide .history-row--mini {
+        flex: 0 1 auto;          /* yatay büyüme YOK — width:calc(100% - 40px) korunur (Süre hizası) */
+        height: auto;
+        min-height: 46px;
+        font-size: 14px;
+        line-height: 18px;
+        /* başlık bandıyla aynı 1. kolon genişliği — "textleri eşitle" */
+        grid-template-columns: 42px minmax(0, 168fr) minmax(0, 30fr);
+    }
+
+    .page-history--wide .history-row__disc {
+        width: 30px;
+        height: 26px;
+    }
+
+    .page-history--wide .history-row__duration {
+        font-size: 13px;
+    }
+}

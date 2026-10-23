@@ -249,7 +249,7 @@
 @media (min-width: 2561px) {
   .home-layout--wide .section-title,
   .home-layout--wide .home_song__btn-title {
-    font-size: 22px;
+    font-size: 13px; /* Figma 2850:21627 fs13 — 4K orantılı standart */
   }
   .home-layout--wide .now-playing__meta-line,
   .home-layout--wide .now-playing__meta-label,
