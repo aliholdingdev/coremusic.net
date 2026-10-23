@@ -5,7 +5,7 @@ category: boot
 version: 3.3.0
 status: active
 authority: "SSOT: .ai/CLAUDE.md (tam anayasa) · bu dosya §Skill Registry (Skill Registry SSOT)"
-updated: 2026-10-11
+updated: 2026-10-23
 ---
 
 # .ai gizli dizin, hidden: true ile tarıyorum:

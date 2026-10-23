@@ -2,7 +2,7 @@
 title: "CoreMusic — Sıralı Yürütme Planı"
 type: plan
 category: project-planning
-version: 1.3.0
+version: 1.4.0
 status: active
 authority: SSOT
 updated: 2026-10-23
@@ -215,10 +215,10 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 | 6 | P1 | §3 satır 41 | [x] |
 | 7 | P1 | §3 satır 42 | [x] |
 | 8 | P1 | §3 satır 43 | [x] |
-| 9 | P1 | §3 satır 44 | [ ] |
-| 10 | P1 | §3 satır 45 | [ ] |
+| 9 | P1 | §3 satır 44 | [x] |
+| 10 | P1 | §3 satır 45 | [x] |
 | 11 | P1 | §3 satır 46 | [x] |
-| 12 | P1 | §3 satır 47 | [ ] |
+| 12 | P1 | §3 satır 47 | [x] |
 | 13 | P2 | §4 satır 51 | [ ] |
 | 14 | P2 | §4 satır 52 | [ ] |
 | 15 | P2 | §4 satır 53 | [ ] |
@@ -227,7 +227,7 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 | 18 | P2 | §4 satır 56 | [ ] |
 | 19 | P2 | §4 satır 57 | [ ] |
 
-**Toplam:** 19 adımın **9'u kapandı** (Adım 1-5 P0 · Adım 6-8 P1 · Adım 11 — 2026-10-23 disk/git/zip ölçümü; Adım 6 Vault Steward onaylı §29 hizalaması · Adım 7 §27A → 13 skill · Adım 8 wiki-link-check 389 link/gerçek kırık 0) → **10 açık** (P1 3 · P2 7). İlk sayı 2026-10-01 okumasından türetilmişti; yeni iş kural §1.3 gereği önce [[TODO.md]]'ye eklendi (`app-cpp-projects/` satırı — 2026-10-23 kararı: şimdilik dokunma), bu plana sonraki seçimde girer.
+**Toplam:** 19 adımın **12'si kapandı** (Adım 1-5 P0 · Adım 6-10+12 P1 · Adım 11 — 2026-10-23; Adım 9 glossary +2 terim (Truth Mode · Zero-Hallucination → §2 34) · Adım 10 çakışma kalmadı: 400 kuralı yok, N3 500-2000 tek bant · Adım 12 post-op script üretildi: session-save + vault-post-update + vault-cmd, project-state.md üretilmez) → **7 açık** (P1 0 · P2 7). İlk sayı 2026-10-01 okumasından türetilmişti; yeni iş kural §1.3 gereği önce [[TODO.md]]'ye eklendi (`app-cpp-projects/` satırı — 2026-10-23 kararı: şimdilik dokunma), bu plana sonraki seçimde girer.
 
 ---
 
@@ -332,6 +332,7 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 | 2026-10-01 | 1.1.0 | §6 UI Görevi eklendi (aaa.md · Kalıp C — 9 adım + 11 validation + git uyarısı); §1-§5 değişmedi; eski "§6 Referanslar" → §7 |
 | 2026-10-23 | 1.2.0 | Durum Tablosu: Adım 1-5 + 11 → [x] (git status/ls-files/.ai.zip REDACTED ölçümü); Toplam 19→13 açık; §7 aaa.md disk yolu notu; yeni TODO satırı: app-cpp-projects |
 | 2026-10-23 | 1.3.0 | Adım 6-8 → [x]: §29 ADR Coverage hizalandı (101 karar/next 111 — Vault Steward onaylı; `accepted/CLAUDE.md` şablonu sayıldı, 84 gerçek) · §27A → 13 SKILL.md (`.opencode/skills/` referansı kaldırıldı, 3 eski satır ADR-042 ile korundu) · wiki-link-check 389 link/gerçek kırık 0; Toplam 13→10 açık (P1 3 · P2 7) |
+| 2026-10-23 | 1.4.0 | Adım 9-10-12 → [x]: glossary v2.4.0 (+Truth Mode · Zero-Hallucination → §2 34/96) · skill çakışması kalmadı (400 kuralı yok, N3 500-2000 tek bant, truth-engine YOK) · post-op script üretildi (session-save + vault-post-update + vault-cmd; project-state.md üretilmez kararı; SKILL.md/vault-sync/MEMORY §20/scripts-index hizalandı); Toplam 12/19 kapandı → 7 açık (P1 0 · P2 7) |
 
 ---
 

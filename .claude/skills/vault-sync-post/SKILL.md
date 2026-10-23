@@ -132,8 +132,10 @@ Session kaydı **`.ai/SESSIONS/YYYY-MM-DD-<slug>.md`** altına yazılır (dizin 
 - Şablon: `.ai/.templates/session-log-template.md` (v2.0.1, TPL-SESSION-LOG) — Guardrail #16:
   şablon okunmadan dosya üretilmez.
 - Yazım: `vault-utf8-writer.mjs` `write` modu (yeni dosya).
-- Otomasyon yok: `session-save.mjs` **diskte YOK** (§9) — bu adım manuel yapılır;
-  `--task/--status/--agent` parametre kavramları kayıt içeriğine elle taşınır.
+- Otomasyon: `session-save.mjs` **üretildi (2026-10-23, PLAN Adım 12)** —
+  `node .ai/scripts/session-save.mjs --task "<gorev>" --status <completed|partial|blocked> --agent <agent>`
+  şablonu doldurur, yazımı writer `write` moduyla (`@tmpfile`) yapar; kalan
+  `{...}` placeholder'ları raporlar. Manuel yazım da mümkündür (Adım 1 alanları elle doldurulur).
 
 **Şablon alanları (session-log-template §3 — `{...}` placeholder'ları doldurulmadan
 kapanış YOK):**
@@ -259,11 +261,12 @@ değişir).
 ### Adım 7 — Kapanış Raporu & Commit Kapısı (Aşama 8 manuel)
 
 `.workflows/vault-sync.md` Aşama 8'in otomasyon araçları (**session-save.mjs /
-vault-post-update.mjs**) diskte **YOK** → bu adım manuel senkron + rapordur:
+vault-post-update.mjs / vault-cmd.mjs**) **üretildi (2026-10-23, PLAN Adım 12)** →
+bu adım artık script'li senkron + rapordur:
 
 ```text
-SESSION SAVE     → Adım 1 (manuel .ai/SESSIONS/ yazımı)
-VAULT UPDATE     → Adım 2-4 (manuel touchpoint tazelik)
+SESSION SAVE     → Adım 1 (session-save.mjs — elle yazım da mümkün)
+VAULT UPDATE     → Adım 2-4 (vault-post-update.mjs --scope root [--dry-run])
 VERIFY           → Adım 6
 RESULTS CHECK    → §7 kontrol listesi
 LOG APPEND       → Adım 5
@@ -420,7 +423,7 @@ yazılmaz (Guardrail #4).
 | H3 | **SSOT kirliliği** — türev dosya SSOT yerine elle değiştirildi | `cmp`/hash eşitsizliği; `.ai/` dışı elle yazım | SSOT (`.ai/`) lehine `copy` modu ile eşitle | Kopya dosya SSOT'tan yeniden üretilir; elle kısım geri alınır |
 | H4 | **Overwrite / append-only ihlali** (`log.md` vs. `git diff`) | `git diff` → silme/düzeltme satırı | `git checkout -- .ai/log.md` (veya writer yedeği) → append'i tekrarla | Git son iyi duruma döner; sonra Adım 5 tekrar |
 | H5 | **UTF-8 bozukluğu (mojibake)** | `verify` modu / gözle `Ã…` dizgeleri | Writer dışı yazım tespiti → `repair` (yedek alır) → yazımı writer ile tekrarla + CRITICAL log | Yedekten onarım |
-| H6 | **Olmayan araca çağrı** — `session-save.mjs` vb. | `Test-Path` False (§9) | Manuel akışa geç (Adım 1/7); araç yok diye adım atlanmaz | — |
+| H6 | **Olmayan/bozuk araca çağrı** — `session-save.mjs` vb. | `Test-Path` False (artık nadir — araçlar 2026-10-23'te üretildi; §9) veya script hata verdi | Manuel akışa geç (Adım 1/7); araç yok/çalışmıyor diye adım atlanmaz | — |
 | H7 | **Kırık wiki-link** | 6.1 + `wiki-link-check.ps1` (repo **kökünden**) | Hedefi üret veya linki düzelt (in-place); bilinen sahte kırık linkler "onarılmaz" (§9 + `.ai/AGENTS.md` §13.6/§13.7) | — |
 | H8 | **Session kaydı şablonsuz** | `{...}` placeholder kaldı / 7 alanlı FM eksik | Kaydı sil, şablondan yeniden yaz (Guardrail #16); `write` modu | Hatalı kayıt writer yedeğinde kalır |
 | H9 | **Yarım kapanış** — Adım 3'te kesildi (log yazılmadan çıktı) | §7 checklist eksik işaretli | Adım 5-7'yi tamamla; eksik adımı atlamadan sırayla | Kismi yazılan dosyalar in-place tamamlanır |
@@ -485,6 +488,12 @@ git status --short                     # genel: ne değişti / stage YOK (subage
 
 > Bu tablo, v3.0.0 ve öncesindeki iddiaların **2026-10-21 disk ölçümüyle** karşılaştırmasıdır.
 > Zero-Hallucination gereği olmayan araç/dosya "var" olarak anlatılmaz.
+>
+> **2026-10-23 güncellemesi:** `session-save.mjs` · `vault-post-update.mjs` · `vault-cmd.mjs`
+> **üretildi** (PLAN Adım 12, kullanıcı onaylı üretim; test: `--help` exit 0 + dry-run doğrulandı) —
+> tablodaki üç "YOK" satırı **2026-10-21 tarihsel ölçümüdür**, güncel durum böyle değildir.
+> `project-state.md` yine **üretilmez** (bu dosya §9 kuralı — 3. satır geçerliliğini korur).
+> Güncel envanter: `.ai/scripts/index.md`.
 
 | Konu | Eski iddia (v3 ve öncesi) | Disk gerçeği (2026-10-21) | Davranış |
 |------|---------------------------|---------------------------|----------|

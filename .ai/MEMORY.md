@@ -411,7 +411,7 @@ Backend (home.coremusic.net):
 | Domain | Neva Engine OSS sanal surucu arastirmasi (09 v1.1.0) + MEMORY.md kurtarma |
 - **Last Action (2026-10-15):** NevaEngine **doc 11 + 11-examples/**: 10 dil × 6 örnek çok dilli kod paketi (~235KB, 4 paralel subagent) — K1-K6/R10/R16/R18 etiketli, derlenmedi (Faz 0). Doc 03 → v1.1.0 (§8 cross-ref). Öncesinde doc 04 v1.3.0 (OS sürücü matrisi + fxvad/fxmcp RE) + NevaConnect doc 10 v1.2.0. Hepsi commit'siz (~357 dosya, orkestratör onayı bekliyor).
 | Changed Files | .ai/projects/NevaEngine/09-open-source-virtual-audio-driver-karsilastirma.md (v1.1.0) + .ai/keys.md + .ai/log.md (append) + .ai/MEMORY.md (kurtarma + S20 guncel) |
-| Known Issue | session-save.mjs · vault-post-update.mjs · vault-cmd.mjs · project-state.md YOK → post-op sync manuel (VERIFICATION REQUIRED); log.md'de onceden mevcut mojibake 6 / CJK 12; S5=55 / S6=46 uygulanabilirlik sayilari eski vault kaynakli ⚠️ VERIFICATION REQUIRED; PowerShell 5.1 -match Turkce culture'da 'I' harfinde yanlis sonuc verir → sayimlarda CultureInvariant regex kullanildi |
+| Known Issue | session-save.mjs · vault-post-update.mjs · vault-cmd.mjs **URETILDI 2026-10-23** (PLAN Adim 12, kullanici onayli; test: --help exit 0 + dry-run) → post-op sync artik script'li; project-state.md **uretilmez** (SKILL.md §9 kurali); log.md'de onceden mevcut mojibake 6 / CJK 12; S5=55 / S6=46 uygulanabilirlik sayilari eski vault kaynakli ⚠️ VERIFICATION REQUIRED; PowerShell 5.1 -match Turkce culture'da 'I' harfinde yanlis sonuc verir → sayimlarda CultureInvariant regex kullanildi |
 
 ---
 

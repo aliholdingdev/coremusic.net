@@ -338,3 +338,25 @@ updated: 2026-10-02
 **Sonuç**: PLAN 19 adımın **9'u kapandı** (P0 5/5 + P1 3 + Adım 11) → **10 açık** (P1 3: Adım 9/10/12 · P2 7). app-cpp-projects/ kararı: şimdilik dokunma (TODO'da madde açık).
 **Sonraki**: Adım 9 (H026/H027 sözlük) · Adım 10 (skill kural çakışması — `.opencode/skills/` kapalı, kapsam kontrolü gerekli) · Adım 12.
 **Değişen dosyalar**: `.ai/CLAUDE.md` (§27A + §29) · `.ai/PLAN.md` (v1.3.0: §4 Adım 6-8 [x] + Toplam + changelog) · `.ai/TODO.md` (v1.2.0: Adım 6-8 [x]) · `.ai/log.md` (+append).
+
+## 2026-10-23 — S7/S8 grubu kapandı: Adım 9 (glossary) + Adım 10 (skill çakışması) + Adım 12 (post-op script üretimi)
+
+**Adım 9 (glossary H026/H027):** `.ai/glossary.md` v2.3.0 → **v2.4.0** — §2'ye **+2 terim** eklendi: **Truth Mode** (kanıt zorunluluğu kipi — `.ai/AGENTS.md` §3 · frontmatter governance · glossary L51/L599 uygulaması) ve **Zero-Hallucination** (bilinmeyen = `UNKNOWN` / doğrulanamayan = `⚠️ VERIFICATION REQUIRED` — `.ai/AGENTS.md` §3) → §2 34 · toplam 96. **Kaynak notu (Truth Mode):** TODO maddesindeki "#15/16 ile işaretlendi" atfı doğrulanamadı (CLAUDE.md #15 Vault-First birleştirilmiş, #16 Template Mandatory — terimle ilgisiz) ve iddia edilen `.ai/log.md` 2026-09-29 "Acik konular (MO)" kaynağı log.md'de YOK → düzeltme terim özüne ve `.ai/AGENTS.md` §3'e göre yapıldı.
+
+**Adım 10 (skill kural çakışması):** ölçüm → çakışma **kalmadı**: "max 400 satır" kuralı hiçbir `.claude/skills/` SKILL.md'de YOK (eski `orchestration` kapatılmış, kural taşınmamış); "500-2000 satır" bandı 7 skill'de tutarlı (skill-maker N3 revize 2026-10-21 = SSOT); `truth-engine` diskte YOK (global port) ve Truth Mode artık **zorunlu kaynak defteriyle** web aramasına açık (ui-analyzer `sources.md`: 4 kaynak doğrulandı). Değişiklik gerekmedi; madde kanıtla kapatıldı.
+
+**Adım 12 (post-op sync scriptleri):** kullanıcı kararı = **"Script üret"** (açık onay — question tool). Üretilen 3 script (Node.js ESM; yazım `vault-utf8-writer.mjs` write modu üzerinden `@tmpfile` — tek yazma kanalı korundu):
+- `.ai/scripts/session-save.mjs` — Aşama 8 adım 1: session-log-template v2.0.1'i doldurur (`--task/--status/--agent/--summary/--decision/--rationale/--issue/--resolution/--files/--next/--dry-run`); `{...}` placeholder'lar satır-bazlı doldurulur (`{STATUS}`/`{NOTES}` generik, `{TASK_2}` satırında istisna); kalan placeholder beyaz listeyle raporlanır.
+- `.ai/scripts/vault-post-update.mjs` — Aşama 8 adım 2: `--scope root|full`, yalnız frontmatter `updated:` satırı güncellenir; HARİÇ: log.md (append-only) · SESSIONS/ · .templates/ · .decisions/ (frozen); `--dry-run` destekli.
+- `.ai/scripts/vault-cmd.mjs` — Türkçe komut arayüzü (ekle/yaz/araya-ekle/kopyala/dogrula/onar/tara) + repo-kökü-dışı yazma engeli.
+- `project-state.md` **üretilmez** (SKILL.md §9 kuralı — Aşama 8 doğrulaması `log.md` + `MEMORY.md` §20 üzerinden yürür).
+
+**Test kanıtları:** üç script `--help` exit 0 · session-save dry-run: 0 kalan placeholder + §3.1-§3.9 tam dolu · eksik argüman exit 2 · vault-cmd `C:/Windows/Temp` denemesi ENGELLENDI exit 2 · vault-cmd `dogrula` passthrough exit 0 (glossary.md: BOM 0/mojibake 0/CJK 0/723 satır).
+
+**Bug + itiraf (Truth Mode):** `vault-post-update.mjs`'in ilk sürümünde `--dry-run` bayrağı **sadece rapor satırındaydı, yazma bloğunda guard yoktu** → "dry-run" dediğim ilk turda 3 boot dosyasının (root AGENTS.md · CLAUDE.md · WORKFLOW.md) frontmatter `updated:` alanı 2026-10-23'e çekildi. Değişiklik tek satır/tarih alanıdır, içerik kaybı **0**, Aşama 8 adım 2'nin hedeflediği tazelikle aynıdır → geri alınmadı, COMMIT'E DAHİL EDİLDİ (yalnız frontmatter hattı). Guard eklendikten sonra `--scope full --dry-run` → 17 hedef raporlandı / 0 yazma (git status kanıtı: çalışma ağacı değişmedi).
+
+**Hizalama (Adım 12 doküman seti):** `.workflows/vault-sync.md` Aşama 8 "⚠️ diskte YOK" notu kaldırıldı (yerine 2026-10-23 üretim notu + project-state.md üretilmez kuralı) · `vault-sync-post/SKILL.md` 4 bölge (Adım 1 otomasyon · Adım 7 "script'li senkron" · H6 "artık nadir" · §9 tablo altına tarihsel-koruyucu güncelleme notu — tablonun 2026-10-21 ölçümü bozulmadı) · `MEMORY.md` §20 Known Issue → "üretildi / script'li" · `.ai/scripts/index.md` v1.1.0 → §1 disk ölçümüyle hizalandı (3→12 script; `vault-faz4-sweep.mjs` diskte YOK → §2, silinme nedeni UNKNOWN).
+
+**Durum:** PLAN v1.4.0 — Durum Tablosu **12/19 kapandı** → **7 açık** (P1 0 · **P2 7**: Adım 13-19; Adım 14 `/stream` testi KOD içerir → ayrı session). TODO v1.3.0. S7 grubu (9-10-11) + S8 (12) kapandı; sonraki grup S9 (Adım 13, 15, 16-19).
+
+**Dokunulmayan (kapsam dışı):** root `AGENTS.md` çalışan ağaçta 2 değişiklik taşıyor — (1) bu script'in frontmatter bump'ı, (2) **başka bir oturum/kullanıcının eklediği PRD satırı** (`@PRD.md` kök pointer'ı, §9 tablosu) → dosya BU commit'e DAHİL EDİLMEDİ; PRD işi sahibinin commit'ine bırakıldı.

@@ -4,9 +4,9 @@ type: system
 category: reference
 title: "CoreMusic — Glossary"
 date: 2026-08-19
-updated: 2026-10-12
+updated: 2026-10-23
 status: active
-version: 2.3.0
+version: 2.4.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -54,7 +54,7 @@ Bu sürüm (v2.0.0) Faz 1 vault revizyonu ile genişletilmiştir:
 
 ## Scope
 
-### §2 Sözlük (Kanonik 32 Terim — ölçüm 2026-10-06: §2 32 · §2.1 11 · §3 51 → toplam 94; CLAUDE §29 ile hizalı)
+### §2 Sözlük (Kanonik 34 Terim — ölçüm 2026-10-06: §2 32 · §2.1 11 · §3 51 → toplam 94; **2026-10-23 ekleme: +2 — Truth Mode · Zero-Hallucination (Adım 9) → §2 34 · toplam 96**; CLAUDE §29 ile hizalı)
 
 | Terim | Tanım |
 |-------|-------|
@@ -88,8 +88,10 @@ Bu sürüm (v2.0.0) Faz 1 vault revizyonu ile genişletilmiştir:
 | **SOLID** | Single Responsibility, Open/Closed, Liskov, Interface, Dependency |
 | **SPA** | Single Page Application |
 | **SSOT** | Single Source of Truth |
+| **Truth Mode** | Kanıt zorunluluğu kipi — her iddia disk/commit kanıtıyla (gerçek dosya yolu + içerik) desteklenir; kod kanıtı dokümanın üstündedir, çelişki `log.md`'ye kaydedilir (`.ai/AGENTS.md` §3 · frontmatter `governance` satırı · bu dosya L51/L599 uygulaması) |
 | **TTFB** | Time To First Byte |
 | **WCAG** | Web Content Accessibility Guidelines |
+| **Zero-Hallucination** | Repo, URL, API, class, method, dependency, version, config, skill, agent, dosya veya mimari kural asla uydurulmaz; bilinmeyen değer = `UNKNOWN`, doğrulanamayan iddia = `⚠️ VERIFICATION REQUIRED` (`.ai/AGENTS.md` §3) |
 
 ### §2.1 Ekosistem ve Vizyon Terimleri (Freelancer Technical Documentation v1.0)
 
