@@ -227,9 +227,9 @@ fxmcp/
 
 | # | Madde | Durum |
 |---|---|---|
-| U1 | `DfxDsp` API sözleşmesi (`include/DfxDsp.h`) içeriği | OKUNMADI — sonraki oturum |
-| U2 | `FxController::applyConfig` CLI sözleşmesi (`docs/COMMAND_LINE_OPTIONS.md`) | OKUNMADI — sonraki oturum |
-| U3 | `.fac` dosyalarının formatı | `⚠️ VERIFICATION REQUIRED` |
+| U1 | `DfxDsp` API sözleşmesi (`include/DfxDsp.h`) içeriği | ✅ **KAPANDI** (§19.1 — gerçek yol `dsp/include/DfxDsp.h`, 79 satır tam okundu) |
+| U2 | `FxController::applyConfig` CLI sözleşmesi (`docs/COMMAND_LINE_OPTIONS.md`) | ✅ **KAPANDI** (§18 — 128 satır tam okundu) |
+| U3 | `.fac` dosyalarının formatı | ✅ **KAPANDI** (§19.2 + §21 — repo `bin/arm64/Factsoft/1.fac` = aynı düz metin şema) |
 | U4 | `Resources` submodule içeriği (clone edilmedi) | `⚠️ VERIFICATION REQUIRED` |
 
 ---
@@ -334,6 +334,8 @@ fxmcp/
 | `Installer/DfxInstall/` | COM DLL | Sürücü+DOOM kurulum mantığı ayrı DLL |
 
 **Çıkarım:** Sürücü kaynağı **bu depoda yok** → FxSound sürücüsü ya ayrı bir depoda ya da açıklaştırılmamış dağıtımdadır. `fxvad.sys` pin formatları bu nedenle **yalnız binary analiziyle** doğrulanabilir (`reverse-voicemeeter-fxsound-2026-10-22.md` §9-U2).
+
+> **GÜNCELLEME (2026-10-22 derin tur):** Binary taraması yapıldı ve U2 kapandı — `fxvad.sys` içinde 88.2/96/176.4/192 kHz sabitleri **0 isabet**, yalnız 44.1/48 kHz var; `fxvad.inf` default endpoint blob'u **48 kHz/16-bit/stereo WAVEFORMATEXTENSIBLE**. FxSound sanal cihazı 192k hedefini karşılamaz. Tam kanıt: `@.ai/research/multi-os-audio-stack-veri-toplama-2026-10-22.md` §3.
 
 ---
 
@@ -459,14 +461,14 @@ fxmcp/
 
 | # | Madde | Durum | Kapatma yolu |
 |---|---|---|---|
-| U1 | `include/DfxDsp.h` API sözleşmesi | OKUNMADI | Dosya okuması |
+| U1 | `include/DfxDsp.h` API sözleşmesi | ✅ **KAPANDI** (§19.1) | — |
 | U2 | `docs/COMMAND_LINE_OPTIONS.md` CLI yüzeyi | ✅ **KAPANDI** (§18 — 128 satır tam okundu) | — |
-| U3 | `.fac` formatı (55 `bin/`, 68 depo) | `⚠️ VERIFICATION REQUIRED` | hex header |
+| U3 | `.fac` formatı (55 `bin/`, 68 depo) | ✅ **KAPANDI** (§21 — repo örneği `bin/arm64/Factsoft/1.fac` ilk satırları: `CLASS1 : Effect Type` = kurulu dosyalarla birebir aynı düz metin şema) | — |
 | U4 | `Resources` submodule içeriği | clone edilmedi | `git submodule update --init` |
-| U5 | `.fac` = preset mi FIR mı | `⚠️` | U3 ile birlikte |
-| U6 | FxSound **exclusive** iddiası (forum) vs `LOOPBACK` (kod) | **Çelişki — kod lehine çözüldü**, ama çıkış yönü `sndDevices*` dışında tam tarama gerekli | `grep -r AUDCLNT_SHAREMODE` |
-| U7 | `dfxpdefs.h` — DFX kökeni/etiketi | `⚠️ VERIFICATION REQUIRED` | Dosya okuması |
-| U8 | 4. CI workflow adı | okunmadı | dosya adı listesi |
+| U5 | `.fac` = preset mi FIR mı | ✅ **KAPANDI** (§19.2 — düz metin preset, FIR yok) | — |
+| U6 | FxSound **exclusive** iddiası (forum) vs `LOOPBACK` (kod) | ✅ **KAPANDI** (§21 — tam repo grep: 5/5 isabet `AUDCLNT_SHAREMODE_SHARED`, **0 EXCLUSIVE**) | — |
+| U7 | `dfxpdefs.h` — DFX kökeni/etiketi | ✅ **KAPANDI** (§21 — 245 satır tam okundu: GPLv3 header, `DFX` ürün adı + klasik 5 efekt registry adları) | — |
+| U8 | 4. CI workflow adı | ✅ **KAPANDI** (§21 — `.github/workflows/` = **3** dosya: `claude-code-review.yml` · `claude.yml` · `publish-dsp-tutorial.yml`; "4." diye bir workflow **YOK**) | — |
 
 ---
 
@@ -568,6 +570,96 @@ fxsound.exe --status
 | Volume leveling | 0–4 dB | Loudness eşitleme (modül `⚠️`) | önerilen |
 | Balance | ±20 dB | Pan kontrolü | ✅ |
 | Etkiler | fidelity/clarity, ambience, surround, dynamicboost, bass (0–10) | Neva: clarity/ambience/surround/bass + **reverb/limiter ayrı** | kısmi |
+
+## §19 DERİN TUR — DfxDsp API + .fac preset + WASAPI akış zinciri (2026-10-22 · U1/U5 KAPANDI)
+
+> Bu bölüm §17'deki U1 (`DfxDsp.h` okunmadı) ve U5 (`.fac` = preset mi FIR mı) maddelerini
+> **dosya okumasıyla** kapatır. Kanıtlar: `dsp/include/DfxDsp.h` (79 satır, tamamı okundu) ·
+`Factsoft/*.fac` (13 dosya, hex + tam metin okundu) · `audiopassthru/src/sndDevices/*.cpp`
+> (grep satır kanıtları). Tam bağlam: `@.ai/research/multi-os-audio-stack-veri-toplama-2026-10-22.md`.
+
+### §19.1 DfxDsp API sözleşmesi (U1 KAPANDI)
+
+`dsp/include/DfxDsp.h` — AGPL başlığı (FxSound LLC 2025 + theremino katkıcıları). Tek sınıf:
+
+| Grup | Üyeler | Not |
+|---|---|---|
+| Efekt enum | `Fidelity=0, Ambience=1, Surround=2, DynamicBoost=3, Bass=4` (`NumEffects=5`) | 5 efekt — `.fac`'taki `Main 0..5` (6 slot) ile birebir örtüşme **kanıtlanmadı** ⚠️ |
+| Format | `setSignalFormat(bps, nch, srate, valid_bits)` | Tek çağrıda tam format |
+| İşleme | `processAudio(short* in, short* out, num_sets, check_duplicate_buffers)` | **Public API 16-bit (short)** — float yol içerde (`dfxpProcessReal.cpp`) olabilir, sözleşme short ⚠️ |
+| Preset | `loadPreset/savePreset/exportPreset` (`.fac` yolu) | §19.2 |
+| EQ | `getNumEqBands/setNumBands`, `get/setEqBandFrequency` + `getEqBandFrequencyRange`, `get/setEqBandBoostCut`, `get/setFilterQ`, `eqOn` | Bant sayısı **dinamik** (setNumBands) |
+| Master | `get/setBalance`, `get/setNormalization`, `get/setVolumeLeveling`, `get/setMasterGain` | dB tabanlı |
+| Güç | `powerOn/isPowerOn` | |
+| Telemetri | `getTotalAudioProcessedTime/reset`, `getSpectrumBandValues(float*, size)` | Spectrum UI beslemesi |
+
+PIMPL: `DfxDspPrivate *data_` — uygulama ile DSP arasındaki tek geçiş noktası.
+
+### §19.2 .fac preset formatı (U5 KAPANDI — "preset", FIR DEĞİL)
+
+**13 dosya** `C:\Program Files\FxSound LLC\FxSound\Factsoft\` (944–984 bayt, `Default.fac` +
+`1..12.fac`). Hex header = **düz metin** (CRLF): `CLASS1 : Effect Type\r\n9: Version\r\n<isim>...`
+
+Şema (tam metin okuma):
+
+```
+CLASS1 : Effect Type          ← dosya sınıfı
+9: Version                    ← şema sürümü 9
+<Default|General|Light Processing|...>   ← efekt adı
+0: Double Params Flag
+1: Total number of elements
+<6×> "Main 0..5"              ← 6 ana parametre (Light Processing: 25/0/0/35/5/20)
+<7×> "Param 0..6"             ← element parametreleri
+7: Number of Application Dependent Integers
+<7×> "Integer[0..6]"          ← bayraklar (1/0/1/1/1/0/2 deseni)
+10: Number of EQ Bands        ← 10 bant EQ
+1: On/Off Flag
+Band N → "<CF>: CF" + "<dB>: Boost/Cut"   ← merkez frekans + kazanç
+```
+
+**EQ CF değerleri (Default.fac):** 62.5 · 121.5 · 225 · 416.5 · 770.5 · 1425 · 2645 · 4895 ·
+9060 · 13885 Hz (CLI'daki 10-bant moduyla uyumlu; 7.fac kaba örnekte CF'ler kayar —
+115.734/214.311/... → CF'ler preset'e göre serbest).
+
+**Neva çıkarımı:** preset formatı insan-okur metin (INI-benzeri) — Neva için aynı sadelikte
+metin preset yeterli; FIR katsayı dosyası FxSound'da **yok**.
+
+### §19.3 WASAPI akış zinciri (kanıt satırları)
+
+```text
+CAPTURE (loopback)                          PLAYBACK
+─────────────────                           ────────
+pCaptureDevice                              pPlaybackDevice
+  ->Activate(IAudioClient)        :75         ->Activate(IAudioClient)    :310/:426/:472
+     (taze client için re-activate           (yorum: "Release and re-activate
+      yorumu L424)                            to get a fresh, uninitialized IAudioClient")
+pAudioClientCapture                         pAudioClientPlayback
+  ->Initialize(SHARED, flags, dur) :185      ->Initialize(SHARED, flags, dur, 0, pwfx) :481
+     (flags iç LOOPBACK=1 — §kod :170,173)     hata durumunda IsFormatSupported
+                                               pClosestMatch ile tekrar :474/:491
+  ->GetService(IAudioCaptureClient) :203    pAudioClientPlayback
+     → pAudioCaptureLoopback                  ->GetService(IAudioRenderClient) :518
+                                                → pAudioClientPlaybackRender
+```
+
+**Sonuç:** FxSound passthru her iki uçta da `AUDCLNT_SHAREMODE_SHARED` (exclusive yok —
+§kod teyidi); playback uçunda format uyumsuzluğunda `pClosestMatch` fallback'i var. Neva
+IAudioBackend bu akışın exclusive varyantını hedefler (ADR-107).
+
+---
+
+## §21 KAPANIŞ TURU — U2/U3/U6/U7/U8 (2026-10-22 · disk kanıtı, 4 madde)
+
+| Madde | Kanıt (bu turda alınan) | Sonuç |
+|---|---|---|
+| **U3** `.fac` formatı (repo 55 `bin/` örneği) | `bin/arm64/Factsoft/1.fac` ilk satırları: `CLASS1 : Effect Type` / `9: Version` / `General` / `0: Double Params Flag` → kurulu `Factsoft\` dosyalarıyla **birebir aynı düz metin şema** (§19.2) | ✅ Aynı format — repo/kurulu ayrımı yok |
+| **U6** exclusive iddiası | Tam depo grep `AUDCLNT_SHAREMODE`: **5 isabet, 5/5 `AUDCLNT_SHAREMODE_SHARED`** (`sndDevicesSetupDevices.cpp:185,466,474,481,491`) — **EXCLUSIVE = 0 isabet** (kaynak kodun tamamı, `.cpp/.h/.c`) | ✅ FxSound **yalnız SHARED** kullanır |
+| **U7** `dfxpdefs.h` | 245 satır tam okundu (`audiopassthru/include/dfxpdefs.h` + ikinci kopya `dsp/ptutil/include/dfxpDefs.h`): header **GPLv3 / FxSound LLC 2023 / katkı: theremino.com 2025**; `DFXP_REGISTRY_DFX_PRODUCT_NAME_WIDE = L"DFX"`; klasik DFX efekt registry adları (`valFidelity/valAmbience/valDynamicBoost/valSurround/valBassBoost`); paylaşımlı-uygulama kalıntıları (`dfx.exe`, `dfxgApp.exe`, `WavToWma.exe`); Winamp/WMP/jRiver host buffer delay tablosu; shareware `serialNumber/password/regcount` registrasyon kalıntısı; trial seed GUID'leri; spectrum 10 bant/40 ms refresh; init MIDI knob'ları (51/51/26/51/68) | ✅ **DFX Audio Enhancer kökenli kod tabanı** — isim/marka hariç DFX mimarisi birebir korunmuş; lisans GPLv3+ |
+| **U8** CI workflow | `.github/workflows/` = **3 dosya**: `claude-code-review.yml` · `claude.yml` · `publish-dsp-tutorial.yml` | ✅ "4. workflow" yok — gerçek sayı **3** |
+
+**Neva etkisi (§13 dersleriyle kesişenler):** registry-depolu preset/knob modeli + host-özgün buffer-delay tablosu (Neva: config dosyası + tek genel gecikme ayarı tercih edilir — DFX'in WMP/Winamp kalıntısı Neva'da **yapılmaz**); SHARED-only kanıtı ADR-107 exclusive hedefinin FxSound'a karşı farkını kesinleştirir.
+
+**Kalan tek açık:** U4 (`Resources` submodule clone edilmedi — `git submodule update --init` gerektirir; opsiyonel).
 
 ---
 

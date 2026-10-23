@@ -40,13 +40,33 @@ final class HistoryController extends AbstractController
         ]);
     }
 
-    /** GET /api/v1/music/history — sayfalı geçmiş */
+    /** GET /api/v1/music/history — sayfalı geçmiş (Adım 09: from/to + gün gruplu) */
     private function listHistory(string $userId): array
     {
         $page    = max(1, (int) ($_GET['page'] ?? 1));
         $perPage = min(100, max(1, (int) ($_GET['per_page'] ?? 20)));
+        $from    = $this->validDate($_GET['from'] ?? null);
+        $to      = $this->validDate($_GET['to'] ?? null);
 
-        return $this->success($this->service->getHistory($userId, $page, $perPage));
+        return $this->success($this->service->getHistory($userId, $page, $perPage, $from, $to));
+    }
+
+    /**
+     * Adım 09 — tarih parametresi kapısı: yalnız `Y-m-d` kabul edilir.
+     * Gelecek tarih sunucu saatiyle kırpılır (trust client YASAK — §9 edge case).
+     */
+    private function validDate(mixed $value): ?string
+    {
+        if (!is_string($value) || preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) !== 1) {
+            return null;
+        }
+
+        $today = date('Y-m-d');
+        if ($value > $today) {
+            return $today;
+        }
+
+        return $value;
     }
 
     /** POST /api/v1/music/history — dinleme kaydet */

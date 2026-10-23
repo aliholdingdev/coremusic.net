@@ -10,7 +10,7 @@ interface IHistoryRepository
     public function findRecentTracks(string $userId, int $limit = 10): array;
 
     /** @return list<array<string, mixed>> */
-    public function findHistory(string $userId, int $page = 1, int $perPage = 20): array;
+    public function findHistory(string $userId, int $page = 1, int $perPage = 20, ?string $from = null, ?string $to = null): array;
 
-    public function countForUser(string $userId): int;
+    public function countForUser(string $userId, ?string $from = null, ?string $to = null): int;
 }

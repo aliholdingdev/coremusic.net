@@ -17,6 +17,7 @@
 .header{
     --header-text: white;
     --header-logo-hover: #fd00c6;
+    --header-badge-bg: #ff3366;
 }
 
 .site-header {
@@ -362,6 +363,86 @@
     background: rgba(255, 80, 80, 0.15);
     outline: 2px solid var(--cm-color-ff8080);
     outline-offset: -2px;
+}
+
+/* ============================================================
+   HEADER — Dropdown Playlist Kısayolları + Bildirim Rozeti
+   Adım 10: header-manager.js inline style'ları buraya taşındı
+   (CSP — css-template §4.1 #3: inline style yasak · BEM)
+   ============================================================ */
+.header-dropdown-playlists {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 6px;
+    margin-top: 4px;
+}
+
+.header-dropdown-playlists__title {
+    display: block;
+    padding: 0 8px 4px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.header-dropdown-playlists a {
+    padding: 6px 8px;
+    font-size: 12px;
+}
+
+/* Bildirim tetikleyicisi — rozet için göreli zemin (JS position:inline KALDIRILDI) */
+.header-action--notifications,
+[data-action="notifications"] {
+    position: relative;
+}
+
+.header-notification-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 14px;
+    padding: 1px 5px;
+    border-radius: 10px;
+    background: var(--header-badge-bg, #ff3366);
+    color: var(--cm-white, #fff);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+}
+
+.header-notification-badge[hidden] {
+    display: none;
+}
+
+/* ============================================================
+   HEADER — Dropdown Rol Bazlı Menü (Adım 11)
+   statik PHP öğeleri API menüsüyle değişir → [hidden] geri alımı
+   (a { display: flex } UA [hidden]'ı override eder → açık kural şart)
+   ============================================================ */
+.header-user-dropdown a[hidden] {
+    display: none;
+}
+
+.header-dropdown-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-dropdown-menu a {
+    min-height: 24px; /* touch hedef — Hard Rule 5 */
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Çok uzun playlist kısayolları — §9 truncate */
+.header-dropdown-playlists a {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* ============================================================

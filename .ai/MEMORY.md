@@ -401,6 +401,7 @@ Backend (home.coremusic.net):
 ---
 
 ### Ã‚§20 Current Session State
+- 2026-10-22: Backend Rebuild Adım 08-11 + plan 01-11 kapanışı — completed (kod tarafı; commits 1e806d1 / 1f60449+27c568b / afe8634 / f3a6cc9) · PHP api 110/110 · JS 190/190 · rubrik 93/100 (Security 95) · KAPI-E kod kapandı · sonraki: server PC canlı curl (3 script) + KAPI-E browser (dev'de MySQL YOK)
 - 2026-10-21: 13 skill v3.0 sıfırdan yeniden yazım — completed (agent: MO + subagent'lar) · dosyalar: .claude/skills/** 13 dizin/134 dosya + .claude/CONTEXT.md · commit 391a330 (+5.407/−38.051) · sonraki: composer-sync 2 VERIFICATION REQUIRED kapanışı
 
 | Ozellik | Deger |
@@ -741,6 +742,7 @@ Bu revizyonda her dÃƒ¼zeltme ÃƒÂ¼Ãƒ§ kaynakla desteklendi: (1) Test-Pa
 
 2026-10-21 | session | 13 skill v3.0 SIFIRDAN YENIDEN YAZIM TAMAMLANDI (commit 391a330, 117 dosya, +5407/-38051) - .claude/skills/ 13 dizin/134 dosya, 23.565 satir, N1-N10 13/13 PASS (name=klasör 1:1, "Use when..." 13/13, footer 2026-10-21, BOM/sidecar/fmExtra 0, orphan 0), SKILL min 501 / dizin min 1010; sources.md 2-3 resmi kaynak x13 + checklist.md PASS/BLOCK x13; database-normalize-maker subagent (SKILL 407->501 + 13 reference + 3 PHP script) + schema-to-diagram splitTopLevel fix; PHP kaniti C:\Php858\php.exe (php -l 3/3 + normalize-checker 2 BCNF ihlal exit=1 / security-audit PASS exit=0 / schema-to-diagram mermaid exit=0); CONTEXT.md envanter 13/134 + recursive 287/50. Session: .ai/SESSIONS/2026-10-21-13-skill-v3-rewrite.md
 
+2026-10-22 | session | Backend Rebuild Adım 08-11 + plan 01-11 KAPANDI (4 commit: 1e806d1 Adım 08 CSRF token / 1f60449+27c568b Adım 09 history from-to + gun gruplu + hibrit HistoryComponent / afe8634 Adım 10 header CSP + idempotent replaceChildren + 6 spec / f3a6cc9 Adım 11 dropdown rol-bazli SUNUCU filtresi - UserHeaderService::menuForRole yetkisiz ogce govdeye yazmaz + header-manager #renderMenu/#resetMenu fail-safe + _header.css a[hidden] fix). Kanit: PHP 110/110, JS 190/190, php -l 0, rubrik 93/100 (Security 95) GECTI. KAPI-E kod tarafı kapandi; canli curl (3 script .ai/reports/backend-step09/10/11-curl-pc.ps1) + browser proof server PC'ye ertelendi (dev makinede MySQL YOK). Session: .ai/SESSIONS/2026-10-22-backend-rebuild-adim08-11.md
 <!-- vault-sync:auto-end -->
 2026-10-20 | tur5d commit: fac17c1 (4 dosya, +102/-5, pathspec)
 2026-10-20 | tur5e: FUN_0048e990 kalan 11 cagri adayi kapandi (doc 04 v1.4.4 §14.11) - FUN_0048c960 = 4-durumlu/4-double-katsayili IIR benzeri suzgec, FUN_0048cf20 = 8-seritli smoothing+gain (ana dongu VR), FUN_0048d700 = scratch sifirla+staging (FUN_00473de0 VR), FUN_0048e600 = lineer gain ramp, FUN_0048e850 = sessizlik dedektoru (ret 0/1 dogrulandi); FUN_00487230 tuketici zinciri asm ile kismen kanit (FCOM DAT_005361a0 + floor DAT_00536198, nihai kullanim VR). REA restart nedeniyle 3 ince bosluk acik. Duzeltme: §14.10 Cince sizintisi (CJK U+53E6U+4E00U+4E2A) temizlendi, CJK/mojibake 0.

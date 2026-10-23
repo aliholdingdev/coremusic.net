@@ -60,7 +60,7 @@ final class HistoryRepository implements IHistoryRepository
         return $this->hydrateTracksWithMusicDb($historyRows);
     }
 
-    public function findHistory(string $userId, int $page = 1, int $perPage = 20): array
+    public function findHistory(string $userId, int $page = 1, int $perPage = 20, ?string $from = null, ?string $to = null): array
     {
         if (strlen($userId) !== 32) {
             return [];
@@ -76,11 +76,15 @@ final class HistoryRepository implements IHistoryRepository
                        h.started_at,
                        h.device_type
                   FROM user_listening_history h
-                 WHERE h.user_id = UNHEX(:uid)
-                 ORDER BY h.started_at DESC
-                 LIMIT ' . $perPage . ' OFFSET ' . $offset;
+                 WHERE h.user_id = UNHEX(:uid)';
 
-        $historyRows = $this->userDb()->execute($sql, ['uid' => $userId]);
+        $params = ['uid' => $userId];
+        [$sql, $params] = $this->applyDateRange($sql, $params, $from, $to);
+
+        $sql .= ' ORDER BY h.started_at DESC
+                  LIMIT ' . $perPage . ' OFFSET ' . $offset;
+
+        $historyRows = $this->userDb()->execute($sql, $params);
         if ($historyRows === []) {
             return [];
         }
@@ -88,16 +92,43 @@ final class HistoryRepository implements IHistoryRepository
         return $this->hydrateTracksWithMusicDb($historyRows);
     }
 
-    public function countForUser(string $userId): int
+    public function countForUser(string $userId, ?string $from = null, ?string $to = null): int
     {
         if (strlen($userId) !== 32) {
             return 0;
         }
 
         $sql = 'SELECT COUNT(id) AS total FROM user_listening_history WHERE user_id = UNHEX(:uid)';
-        $rows = $this->userDb()->execute($sql, ['uid' => $userId]);
+        $params = ['uid' => $userId];
+        [$sql, $params] = $this->applyDateRange($sql, $params, $from, $to);
+
+        $rows = $this->userDb()->execute($sql, $params);
 
         return (int) ($rows[0]['total'] ?? 0);
+    }
+
+    /**
+     * Adım 09 — tarih aralığı filtresi (parametreli sorgu: tarih asla SQL'e gömülmez).
+     *
+     * Hard Rule 3: yalnız `Y-m-d` formatı kabul edilir; başka bir değer
+     * sessizce yok sayılır (injection kapıları kapatılır). `from`/`to` tek
+     * başlarına da çalışır (aralık opsiyonel).
+     *
+     * @param array<string, mixed> $params
+     * @return array{0: string, 1: array<string, mixed>}
+     */
+    private function applyDateRange(string $sql, array $params, ?string $from, ?string $to): array
+    {
+        if ($from !== null && preg_match('/^\d{4}-\d{2}-\d{2}$/', $from) === 1) {
+            $sql .= ' AND h.started_at >= :from_date';
+            $params['from_date'] = $from . ' 00:00:00';
+        }
+        if ($to !== null && preg_match('/^\d{4}-\d{2}-\d{2}$/', $to) === 1) {
+            $sql .= ' AND h.started_at <= :to_date';
+            $params['to_date'] = $to . ' 23:59:59';
+        }
+
+        return [$sql, $params];
     }
 
     /**

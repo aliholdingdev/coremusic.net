@@ -12,7 +12,7 @@
  *
  * @requires vitest + jsdom
  */
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import HistoryComponent from '../../js/components/interactive/HistoryComponent.js';
 
 /** @type {HistoryComponent|null} */
@@ -132,5 +132,78 @@ describe('HistoryComponent', () => {
         typeQuery(root, 'GÖKSEL');
 
         expect(visibleTitles(root)).toEqual(['Göksel - Sevil Neşelen']);
+    });
+
+    /* ═══════════════ Adım 09 — hibrit API fetch ═══════════════ */
+
+    /** Geçerli 32 hex music id */
+    const MUSIC_HEX = '018f3a5b6c7d8e9f0123456789abcdef';
+
+    it('başarılı fetch satırları API verisiyle tazeler (textContent + data-stream)', async () => {
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                success: true,
+                data: {
+                    items: [
+                        { music_hex: MUSIC_HEX, title: 'API Şarkı', artist_name: 'API Sanatçı', duration_sec: 3661 },
+                        { music_hex: 'not-hex', title: 'İkinci', artist_name: 'Kimse', duration_sec: 65 },
+                    ],
+                    total: 2, page: 1, per_page: 50, from: null, to: null,
+                },
+            }),
+        }));
+
+        const root = mountComponent();
+        await vi.waitFor(() => {
+            expect(root.querySelector('.history-row__title').textContent).toBe('API Şarkı');
+        });
+
+        const rows = root.querySelectorAll('.history-list__item');
+        expect(rows[0].querySelector('.history-row__artist').textContent).toBe('API Sanatçı');
+        expect(rows[0].querySelector('.history-row__duration').textContent).toBe('01:01:01');
+        expect(rows[0].querySelector('.history-row').getAttribute('data-stream'))
+            .toBe('/stream/' + MUSIC_HEX);
+        /* 2 item → 2 satır round-robin (kapasite korunur) */
+        expect(rows[1].querySelector('.history-row__title').textContent).toBe('İkinci');
+        /* geçersiz hex → data-stream yok (footer kontratı) */
+        expect(rows[1].querySelector('.history-row').hasAttribute('data-stream')).toBe(false);
+    });
+
+    it('aria-label PHP kontratıyla güncellenir (Oynat: başlık — sanatçı)', async () => {
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                success: true,
+                data: { items: [{ music_hex: MUSIC_HEX, title: 'T', artist_name: 'A', duration_sec: 1 }] },
+            }),
+        }));
+
+        const root = mountComponent();
+        await vi.waitFor(() => {
+            expect(root.querySelector('.history-row').getAttribute('aria-label')).toBe('Oynat: T — A');
+        });
+    });
+
+    it('fetch 500 dönerse PHP initial render korunur (satırlar değişmez)', async () => {
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 500 }));
+
+        const root = mountComponent();
+        await vi.waitFor(() => {
+            expect(fetch).toHaveBeenCalledTimes(1);
+        });
+
+        expect(visibleTitles(root)).toEqual(['Göksel - Sevil Neşelen', 'Barış Manco - Gulpembe']);
+    });
+
+    it('ağ hatası sessizce yutulur (konsol temiz, sayfa bozulmaz)', async () => {
+        vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+
+        const root = mountComponent();
+        await vi.waitFor(() => {
+            expect(fetch).toHaveBeenCalledTimes(1);
+        });
+
+        expect(visibleTitles(root)).toHaveLength(2);
     });
 });

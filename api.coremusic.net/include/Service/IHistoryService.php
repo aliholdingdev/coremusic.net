@@ -16,6 +16,15 @@ interface IHistoryService
     /** @return list<array<string, mixed>> Son dinlenenler (ownership: userId filtresi zorunlu). */
     public function getRecentTracks(string $userId, int $limit = 10): array;
 
-    /** @return array{items: list<array<string, mixed>>, total: int, page: int, per_page: int} */
-    public function getHistory(string $userId, int $page = 1, int $perPage = 20): array;
+    /**
+     * @return array{
+     *     items: list<array<string, mixed>>,
+     *     total: int,
+     *     page: int,
+     *     per_page: int,
+     *     from: ?string,
+     *     to: ?string
+     * }
+     */
+    public function getHistory(string $userId, int $page = 1, int $perPage = 20, ?string $from = null, ?string $to = null): array;
 }
