@@ -4,8 +4,8 @@ title: "CoreMusic — K-Space V3: Sıfırdan Kurulum, Çoklu-MD Düğüm Şemas�
 type: adr
 category: decisions
 date: 2026-10-12
-updated: 2026-10-12
-status: draft
+updated: 2026-10-23
+status: accepted
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode

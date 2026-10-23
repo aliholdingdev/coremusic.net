@@ -3,16 +3,16 @@ type: index
 category: decisions
 title: "CoreMusic — Decisions Index"
 date: 2026-08-15
-updated: 2026-10-20
+updated: 2026-10-23
 status: active
-version: 1.5.1
+version: 1.5.2
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total-accepted: 80
+total-accepted: 84
 total-rejected: 10
-total-draft: 1
+total-draft: 6
 total-frozen: 36
-total-active: 45
+total-active: 49
 # Control Plane v2 (2026-10-07):
 tier: 3
 domain: decisions
@@ -36,10 +36,16 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Durum | Sayı | Açıklama |
 |-------|------|----------|
 | **Frozen** | **36** | Değiştirilemez (ADR-001 → ADR-036 — diskte tam) |
-| **Active** | **45** | `accepted/` içindeki **44** (ADR-037 üzeri) + kökteki **ADR-091** |
+| **Active** | **49** | `accepted/` içindeki **48** (ADR-037 üzeri) + kökteki **ADR-091** (2026-10-23 disk sayımı: accepted 84 − frozen 36 = 48 + 1 kök) |
 | **Rejected** | **10** | `rejected/` 10 dosya (R-011/R-012'de dosya YOK — §5'te işaretli) |
-| **Draft** | **3** | `draft/ADR-097-k-space-v3-…` + `draft/ADR-102-tur-taksonomi-genislemesi-5-dal` (2026-10-13) + `draft/ADR-103-media-provider-auth-gate` (2026-10-17) — §4A | |
-| **Toplam** | **94** | 80 accepted + 10 rejected + 3 draft + 1 kök ADR |
+| **Draft** | **6** | `draft/ADR-103-…` + `draft/ADR-104-page-router-kernel-god-class-bolme-plani` + `draft/ADR-107-neva-engine-platform-ve-paketleme` + `draft/ADR-108-k-space-kimlik-duzeltmesi-…` + `draft/ADR-109-tur-taksonomi-genislemesi-5-dal` + `draft/ADR-110-soft-adr-notlari-…` (2026-10-23) — §4A | |
+| **Toplam** | **101** | 84 accepted + 10 rejected + 6 draft + 1 kök ADR | |
+
+> **Not (2026-10-23 — Prompt Arşivi Taraması Revizyonu):** Disk sayımı index ile hizalandı:
+> `accepted/` 83 → **84** (**ADR-097 K-Space V3 `draft/` → `accepted/`'e terfi** — üretim diskte tam, kullanıcı onayı 2026-10-23) ·
+> `draft/` **6'da kaldı** (ADR-097 terfi −1, ADR-110 soft-ADR ekleme +1 — 2026-10-23 disk sayımı: 103/104/107/108/109/110) · **numara çakışması giderildi**: `draft/ADR-098-k-space-kimlik-…` → **ADR-108**,
+> `draft/ADR-102-tur-taksonomi-…` → **ADR-109** (accepted ADR-098-Parnas ve ADR-102-admin-theme korundu) ·
+> §4A'ya **ADR-104** ve **ADR-107** ilk kez eklendi (önceki index'te hiç geçmiyorlardı).
 
 > **Not (2026-10-12):** **ADR-061 (Electronics Architecture L6 — K uzayı katman tanımı)**, K-space katman mimarisi (K000–K020 / A0–A5 / `.ai/architecture/`) ile birlikte **kaldırıldı** — dosya silindi, yedek `C:\temp\opencode\vault-backup-2026-10-12\decisions-adr061\`.
 > Not (2026-10-06 LINT-3): §3 başlığı ve §6 eski hali ADR-037'yi frozen sayıyordu (37/35); §2'deki "ADR-037 debate ✅, frozen YOK" kaydı esas alındı → 36.
@@ -137,6 +143,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[accepted/ADR-093-view-modes-single-load-path]] | 09_ViewModes v-*.css için tek yükleme yolu: <link id="cm-view-css"> kanoniktir, cihaz @import zinciri deferred | Frontend |
 | [[accepted/ADR-094-api-pipeline-origin-csrf]] | API pipeline'ına OriginCheck + koşullu CSRF eklendi (ADR-020 sıra genişletmesi; B-F-02/B-F-03) | Security |
 | [[accepted/ADR-095-hybrid-jwt-rs256-access-token]] | Hybrid JWT (RS256): issue/validate/revocation — firebase/php-jwt, jti→user_tokens, 0 migration | Security |
+| [[accepted/ADR-097-k-space-v3-sifirdan-kurulum-coklu-md-ve-bant-rezervasyonu]] | K-Space V3: Sıfırdan Kurulum, Çoklu-MD Düğüm Şeması, İsimlendirme ve Band-2..7 Rezervasyonu (draft → accepted terfi 2026-10-23) | Architecture |
 | [[accepted/ADR-098-modul-siniri-gizlenecek-karar]] | Modül Sınırı = Gizlenecek Karar (Parnas 1972) | Architecture |
 | [[accepted/ADR-099-tek-deploy-modular-monolith]] | Tek Deploy + Zorlanabilir Modül Sınırları (Modular Monolith) | Architecture |
 | [[accepted/ADR-100-cross-db-outbox-cqrss-semi]] | Cross-DB Yazmada Outbox Zorunlu; CQRS Yalnız Okuma Sorgusu Düzeyinde | Database |
@@ -147,11 +154,16 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 ## 4A. Draft ADR'ler
 
+> **2026-10-23 notu:** ADR-097 accepted'a terfi etti; ADR-098-draft → **ADR-108**, ADR-102-draft → **ADR-109** olarak yeniden numaralandırıldı (numara çakışması giderildi). ADR-104/ADR-107 bu tabloya ilk kez eklendi.
+
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
-| [[draft/ADR-097-k-space-v3-sifirdan-kurulum-coklu-md-ve-bant-rezervasyonu]] | K-Space V3: Sıfırdan Kurulum, Çoklu-MD Düğüm Şeması, İsimlendirme Spesifikasyonu ve Band-2..7 Rezervasyonu | Architecture |
-| [[draft/ADR-102-tur-taksonomi-genislemesi-5-dal]] | K001 donanaım-type Tür Taksonomisi Genişlemesi: 3 → 9 Bağlam (display · power · cables · network · memory · cpu) | Architecture |
 | [[draft/ADR-103-media-provider-auth-gate]] | Medya-Sağlayıcı Auth Gate: Harici Servis Kimlik Şeması Kapısı ve Üretim Entegrasyonu Ön Koşulları (K020-discovery tur-2 devri) | Security |
+| [[draft/ADR-104-page-router-kernel-god-class-bolme-plani]] | PageRouter Kernel God-Class Bölme Planı | Architecture |
+| [[draft/ADR-107-neva-engine-platform-ve-paketleme]] | Neva Engine Platform ve Paketleme | Audio |
+| [[draft/ADR-108-k-space-kimlik-duzeltmesi-disk-karsilastirmasi-ve-yeniden-numaralandirma]] | K-Space Kimlik Düzeltmesi, Disk Karşılaştırması ve Yeniden Numaralandırma (eski adı draft/ADR-098) | Architecture |
+| [[draft/ADR-109-tur-taksonomi-genislemesi-5-dal]] | K001 donanım-type Tür Taksonomisi Genişlemesi: 3 → 9 Bağlam (eski adı draft/ADR-102) | Architecture |
+| [[draft/ADR-110-soft-adr-notlari-select-star-samesite-position-itcss]] | Soft-ADR Notları: SELECT * İstisnası (admin/konsol), SameSite=Lax, Position Mekanizması Serbestliği, ITCSS 11-Katman SSOT | Security + CSS |
 
 ## 5. Reddedilen ADR'ler
 
@@ -178,7 +190,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 |----------|--------|--------|--------|
 | Security | 8 | 10 | 18 |
 | Database | 4 | 13 | 17 |
-| Architecture | 6 | 6 | 12 |
+| Architecture | 6 | 7 | 13 |
 | Frontend | 2 | 5 | 7 |
 | Electronics | 0 | 5 | 5 |
 | Audio | 3 | 3 | 6 |
@@ -191,7 +203,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Social | 1 | 0 | 1 |
 | Testing | 1 | 0 | 1 |
 | Vault | 0 | 1 | 1 |
-| **TOPLAM** | **36** | **46** | **82** |
+| **TOPLAM** | **36** | **49** | **85** |
 
 ---
 
