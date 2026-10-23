@@ -30,7 +30,7 @@ depends-on: []
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]] · [[SYNC]] · [[CONTEXT]] · [[RAG]]
 
-**Skills:** Registry SSOT = kök `CLAUDE.md` §Skill Registry — **13 proje skill'i** (`.claude/skills/`, 2026-10-12 disk ölçümü). Global skill envanteri `C:\.claude\skills` (348 dizin, proje dışı). `.opencode/skills/` diskte YOK (kapatıldı).
+**Skills:** Registry SSOT = kök `CLAUDE.md` §Skill Registry — **13 proje skill'i** (`.claude/skills/`, 2026-10-12 disk ölçümü). Global skill envanteri `C:\.claude\skills` (348 dizin, proje dışı — bu makinede diskte YOK/2026-10-23; **diğer PC/server'da mevcut — kullanıcı notu: silinmez**). `.opencode/skills/` diskte YOK (kapatıldı).
 
 ---
 

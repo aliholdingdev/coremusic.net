@@ -88,7 +88,7 @@ eşleşen skill'i KULLANMAK bu mandate ile çelişmez, aksine zorunludur.
 | 13 | `learning-prompts` | project | `.claude/skills/learning-prompts/SKILL.md` | Sokratik / Feynman / aktif hatırlama | new (2026-10-10 disk kanıtıyla eklendi) |
 
 ✅ **DISK ÖLÇÜMÜ (2026-10-10):** `.claude/skills/` = **13 dizin** (yukarıdaki 13 satır birebir eşleşir).
-⚠️ **DÜZELTİLDİ:** Eski kayıt "12 proje + 5 global = 17" idi — **5 global skill (`human-mode` · `truth-engine` · `verify-loop` · `agent-debate` · `context-report`) `C:\.claude\skills\` altında Diskte YOK** (Test-Path = False). `.opencode/skills/` de kapatılmıştır (Test-Path = False). Kayıt, disk gerçeğiyle hizalandı: **toplam 13 proje skill'i, 0 global skill**. Eski "moved/merged/ported" satırları geçersizleşti.
+⚠️ **DÜZELTİLDİ:** Eski kayıt "12 proje + 5 global = 17" idi — **5 global skill (`human-mode` · `truth-engine` · `verify-loop` · `agent-debate` · `context-report`) `C:\.claude\skills\` altında BU MAKİNEDE diskte YOK** (Test-Path = False; kullanıcı notu 2026-10-23: envanter diğer PC/server'da mevcut — referanslar silinmez). `.opencode/skills/` de kapatılmıştır (Test-Path = False). Kayıt, disk gerçeğiyle hizalandı: **toplam 13 proje skill'i, 0 global skill**. Eski "moved/merged/ported" satırları geçersizleşti.
 
 Proje dışı **~340 üçüncü-parti global skill** grubu (dotnet, dx-blazor, superpowers, claude-mem, chrome-devtools) harness **available-skills** listesiyle gelir; bu tabloya kopyalanmaz. Eşleşme varsa Skill tool ile yüklenir (§Skill Usage Mandate).
 

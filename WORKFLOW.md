@@ -65,7 +65,7 @@ Ayrıntı (disk notları dahil): [[.ai/WORKFLOW.md]] §8.10 · bağlayıcı öze
 
 ## Skill Noktaları (Süreç Adımı → Zorunlu Skill)
 
-Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry (**13 proje skill**, `.claude/skills/` — 2026-10-10 disk ölçümü; `C:\.claude\skills` ve `.opencode/skills` diskte YOK). Her noktada eşleşme varsa **ilk işlem** Skill tool ile o skill'i yüklemektir (Skill Usage Mandate §2); istisnalar mandate §4'tedir.
+Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry (**13 proje skill**, `.claude/skills/` — 2026-10-10 disk ölçümü; `C:\.claude\skills` ve `.opencode/skills` bu makinede diskte YOK — `C:\.claude\skills` **diğer PC/server'da mevcut, referanslar silinmez** · kullanıcı notu 2026-10-23). Her noktada eşleşme varsa **ilk işlem** Skill tool ile o skill'i yüklemektir (Skill Usage Mandate §2); istisnalar mandate §4'tedir.
 
 | Süreç Adımı | Zorunlu Skill |
 |---|---|

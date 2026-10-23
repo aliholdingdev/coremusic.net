@@ -19,7 +19,7 @@ depends-on: [".ai/CLAUDE.md"]
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** Registry → kök `CLAUDE.md` §Skill Registry (13 proje `.claude/skills/` + 0 global — `C:\.claude\skills` diskte YOK, 2026-10-23 sayımı · Claude Skill v3.0 · kullanım zorunlu — §Skill Usage Mandate). `.opencode/skills/` kapatıldı (2026-10-07, merge/port edildi). Guardrail #16 (şablon) + skill-maker v3.0 şeması zorunlu.
+**Skills:** Registry → kök `CLAUDE.md` §Skill Registry (13 proje `.claude/skills/` + 0 global — `C:\.claude\skills` **bu makinede (dev) diskte YOK, diğer PC/server'da mevcut (~348 dizin envanter); kullanıcı notu 2026-10-23: bu yoldaki referanslar SİLİNMEZ**, 2026-10-23 sayımı · Claude Skill v3.0 · kullanım zorunlu — §Skill Usage Mandate). `.opencode/skills/` kapatıldı (2026-10-07, merge/port edildi). Guardrail #16 (şablon) + skill-maker v3.0 şeması zorunlu.
 
 ---
 
@@ -175,7 +175,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 
 ### §14 Skills (Pointer — SSOT: kök CLAUDE.md §Skill Registry)
 
-> **Registry SSOT: kök `CLAUDE.md` §Skill Registry** (13 proje + 0 global = 13, Claude Skill v3.0 — 2026-10-23 disk sayımı: `.claude/skills/` 13 SKILL.md; `C:\.claude\skills` YOK). Bu bölümde liste kopyalanmaz; kullanım zorunluluğu kök `CLAUDE.md` §Skill Usage Mandate'dedir (hook: `.claude/settings.json → UserPromptSubmit`).
+> **Registry SSOT: kök `CLAUDE.md` §Skill Registry** (13 proje + 0 global = 13 bu makinede, Claude Skill v3.0 — 2026-10-23 disk sayımı: `.claude/skills/` 13 SKILL.md; `C:\.claude\skills` bu makinede YOK — **diğer PC/server'da mevcut; kullanıcı notu 2026-10-23: silinmez**). Bu bölümde liste kopyalanmaz; kullanım zorunluluğu kök `CLAUDE.md` §Skill Usage Mandate'dedir (hook: `.claude/settings.json → UserPromptSubmit`).
 >
 > **Tarihsel not:** eski "Mandatory 5 Skills (ADR-042/C4)" tablosu ve ".opencode/skills 8 aktif" envanteri 2026-10-07'de kaldırıldı — `.opencode/skills/` kapatıldı (içerik merge/port edildi: orchestration→agent-orchestrator, db-engine→database-normalize-maker, truth-engine 3-way merge→global, verify-loop/agent-debate/context-report→global port). `/brainstorming` hâlâ sistem becerisi (klasör yok); `/vault-sync` → `.workflows/vault-sync.md` akışı + `vault-sync-post` skill. `Template Mandatory` (Guardrail #16) + skill-maker v3.0 şeması her dosya üretiminde geçerlidir.
 

@@ -91,7 +91,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 # CoreMusic — Skill Registry (SSOT)
 
-> **Disk kanıtı (2026-10-23 sayımı):** `.claude/skills/` = **13 SKILL.md** · `C:\.claude\skills` **YOK** · `.opencode/skills/` kapalı (2026-10-07 merge/port). Eski "12 proje + 5 global = 17" envanteri **bayattı** (5 global dizin diskte hiç yoktu); bu tablo tek kaynaktır.
+> **Disk kanıtı (2026-10-23 sayımı — bu makine/dev):** `.claude/skills/` = **13 SKILL.md** · `C:\.claude\skills` **bu makinede YOK** (kullanıcı notu 2026-10-23: envanter **diğer PC/server'da mevcut** — bu yoldaki referanslar **silinmez**) · `.opencode/skills/` kapalı (2026-10-07 merge/port). Eski "12 proje + 5 global = 17" envanteri **bu makinede bayattı** (5 global dizin bu diskte hiç yoktu); bu tablo bu makine için tek kaynaktır.
 
 | # | Skill | Tetikleyici (özet — tam tetikleyiciler skill'dedir) |
 |---|-------|------|

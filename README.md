@@ -177,7 +177,7 @@ CoreMusic'te AI ajanları **Skill Usage Mandate** ile çalışır. Mandate özet
 4. İstisna: kullanıcı açıkça "skill kullanma" derse veya görev skill'lerle ilgisizse (sohbet, aritmetik); belirsizse 1 kısa soru sorulur.
 5. Yetenek yoksa kopyala-yapıştır yapılmaz; `skill-maker` ile skill üretilir (Guardrail #16 + v3.0 şeması).
 
-* **Kayıt defteri (SSOT):** [`CLAUDE.md`](CLAUDE.md) §Skill Registry — **13 proje skill'i** (`.claude/skills/`, 2026-10-10 disk ölçümü). ⚠️ Eski "12 proje + 5 global = 17" kaydı düzeltildi: `C:\.claude\skills\` **diskte YOK** (Test-Path = False) → 0 global skill. `learning-prompts` kayıtsızdı, Registry'ye eklendi. Bu dosyada liste tekrarlanmaz; ayrıca ~340 üçüncü-parti global skill grubu harness available-skills listesiyle gelir.
+* **Kayıt defteri (SSOT):** [`CLAUDE.md`](CLAUDE.md) §Skill Registry — **13 proje skill'i** (`.claude/skills/`, 2026-10-10 disk ölçümü). ⚠️ Eski "12 proje + 5 global = 17" kaydı düzeltildi: `C:\.claude\skills\` **bu makinede diskte YOK** (Test-Path = False) → bu makinede 0 global skill (kullanıcı notu 2026-10-23: envanter **diğer PC/server'da mevcut** — bu yoldaki referanslar silinmez). `learning-prompts` kayıtsızdı, Registry'ye eklendi. Bu dosyada liste tekrarlanmaz; ayrıca ~340 üçüncü-parti global skill grubu harness available-skills listesiyle gelir.
 * **Uygulama (2 katman):** (1) yazılı mandate — kök `CLAUDE.md` §Skill Kullanım Zorunluluğu; (2) hook — `.claude/settings.json → UserPromptSubmit` her prompt'ta kısa hatırlatma + proje skill isimlerini enjekte eder.
 * **Yeni skill ekleme yolu:** `skill-maker` çalıştırılır → v3.0 şeması + format otoritesi `.claude/skills/skill-maker/` (şablon + kurallar) → üretilen skill `CLAUDE.md` §Skill Registry'ye satır olarak eklenir.
 

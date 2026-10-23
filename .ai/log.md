@@ -305,3 +305,15 @@ updated: 2026-10-02
 **Sonraki adım:** Kullanıcıdan: (a) MEMORY mojibake düzeltme izni (E/H), (b) commit onayı (2026-10-23 hizalama + Adım 4 + önceki oturumun ADR-097/108/109/110 taşımaları). Master Prompt v4.0.0 PROMPT 2/3 kapsamı bu oturumla **tamamlandı**.
 
 [MO][P0][2026-10-23] vault-sync-post | session: 2026-10-23-vault-revizyon-hizalama | Adım 4: 4 dosya edit (brain/TODO/MEMORY + G:README 7) | 0 ADR | 0 commit
+
+## 2026-10-23 ~17:30 — Kullanıcı notu: `C:\.claude\skills` kapsam düzeltmesi (vault-sync-post ek)
+
+**Kullanıcı kararı (2026-10-23):** `C:\.claude\skills` bu makinede (dev) YOK ama **diğer PC/server'da mevcut** (~348 dizin envanteri — `.ai/index.md` §Skills 2026-10-12 ölçümü) — bu yoldaki vault referansları **SİLİNMEZ**, yalnız "bu makinede YOK" scope'u taşır.
+
+**Yapılan (9 dosya / 11 satır edit):** `.ai/AGENTS.md` §Skills + §14 · kök `CLAUDE.md` L94 · `WORKFLOW.md` L68 · `.ai/RAG.md` §3/13 · `.ai/TODO.md` §4 · `README.md` L180 · `GEMINI.md` L91 · `.ai/index.md` §Skills (348 notu scopelandı) · `MEMORY.md` §20 + auto-block (commits 961244a/96eb63f/f0e15eb işlendi).
+
+**Dokunulmayanlar (append-only / tarihsel):** `WORKFLOW.md` L97 changelog · `log.md` L270 · `SESSIONS/2026-10-23-...` L48 · `.claude/CONTEXT.md` L49 · skill-maker pointer örnekleri · `--/architecture/03-contracts/*` truth-engine referansları (zaten korunuyor — silinmez).
+
+**Sonraki adım:** açık maddeler — MEMORY mojibake kararı (kullanıcı, ADR-042 izni) · PROMPT 4 kodlama kapsamı (kullanıcı onayı sonrası).
+
+[MO][P0][2026-10-23] vault-sync-post | session: 2026-10-23-vault-revizyon-hizalama | kapsam notu: 9 dosya/11 edit | 0 ADR | 0 kod
