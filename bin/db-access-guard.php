@@ -7,15 +7,20 @@ declare(strict_types=1);
  *
  * Kural (ADR-002 + kullanıcı kuralı "db'ye erişim yasak controller'dan ve index'ten"):
  *
- *  1) PREZENTASYON yuzeyleri (index.php Controller/ pages/ alt dizinleri)
+ *  1) PREZENTASYON yuzeyleri (tum index.php girisleri — v2/ dahil ·
+ *     Controller/ pages/ config/ alt dizinleri · bootstrap*.php · routes*.php)
  *     DB bağlantısı AÇAMAZ ve SQL çalıştıramaz.
  *        yasak: new DatabaseManager · new DatabaseConfig · new \PDO ·
- *               ConnectionFactory · getPdo( · ->prepare( · ->query( · beginTransaction(
+ *               ConnectionFactory · DatabaseRegistry · IDatabaseManager ·
+ *               getPdo( · ->prepare( · ->query( · ->execute( · beginTransaction(
  *
  *  2) REPOSITORY yuzeyleri (Repository/ alt dizinleri)
- *     DB bağlantısını KENDİSİ KURAMAZ — yalnız DI ile enjekte edilen
- *     IDatabaseManager üzerinden okur/yazar.
+ *     DB bağlantısını KENDİSİ KURAMAZ.
  *        yasak: new DatabaseManager · new DatabaseConfig · new \PDO
+ *        serbest (tek kaynak kurali): ConnectionFactory::getInstance()
+ *          get-or-register — mevcut registry kaydini OKUR, yeni baglanti
+ *          KURMAZ (onay 2026-10-24, home Music/PlaylistRepository ornegi).
+ *        DI ile enjekte edilen IDatabaseManager tercih edilen yoldur.
  *
  * Kullanım:  php bin/db-access-guard.php
  * Çıkış:     0 = temiz (PASS) · 1 = ihlal var (BLOCK) · ihlaller dosya:satır listelenir.
@@ -38,9 +43,12 @@ $prezentasyonDesenleri = [
     'new\s+DatabaseConfig\s*\(',
     'new\s+\\\\?PDO\s*\(',
     'ConnectionFactory',
+    'DatabaseRegistry',
+    'IDatabaseManager',
     '->\s*getPdo\s*\(',
     '->\s*prepare\s*\(',
     '->\s*query\s*\(',
+    '->\s*execute\s*\(',
     '->\s*beginTransaction\s*\(',
 ];
 
@@ -108,9 +116,27 @@ function yuzeyDosyalari(string $dizin, string $yuzey): array
 
     $dosyalar = [];
     if ($yuzey === 'index') {
-        $index = $dizin . '/index.php';
-        if (is_file($index)) {
-            $dosyalar[] = $index;
+        // Tum giris noktalari: her index.php (v2/ dahil) + boot/route dosyalari
+        // + config/ alt dizini. vendor/ haric tutulur (yeni genis tarama).
+        $it = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dizin, FilesystemIterator::SKIP_DOTS)
+        );
+        foreach ($it as $file) {
+            if (!$file->isFile() || $file->getExtension() !== 'php') {
+                continue;
+            }
+            $yol = str_replace('\\', '/', $file->getPathname());
+            if (str_contains($yol, '/vendor/') || str_contains($yol, '/node_modules/')) {
+                continue;
+            }
+            $ad = $file->getFilename();
+            if (
+                $ad === 'index.php'
+                || preg_match('/^(bootstrap|routes)[\w-]*\.php$/', $ad) === 1
+                || str_contains($yol, '/config/')
+            ) {
+                $dosyalar[] = $file->getPathname();
+            }
         }
         return $dosyalar;
     }
