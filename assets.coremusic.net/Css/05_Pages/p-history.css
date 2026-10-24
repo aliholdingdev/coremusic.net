@@ -1177,16 +1177,20 @@
         height: calc(100% - 54px);
     }
 
+    /* Figma 3180:3448 'Playlist Items Mini history': h=21, Δy=29 →
+       satırlar ÜSTE toplanır (flex yayma YOK), panelin altı boş kalır. */
     .page-history--wide .history-list__item {
-        flex: 1 1 auto;
+        flex: 0 0 auto;
         display: flex;
-        min-height: 46px;
+        height: 21px;
+        min-height: 0;
+        /* gap:8px (.history-col__items) → pitch = 21+8 = 29 (Figma) */
     }
 
     .page-history--wide .history-row--mini {
         flex: 0 1 auto;          /* yatay büyüme YOK — width:calc(100% - 40px) korunur (Süre hizası) */
-        height: auto;
-        min-height: 46px;
+        height: 21px;
+        min-height: 0;
         font-size: 14px;
         line-height: 18px;
         /* başlık bandıyla aynı 1. kolon genişliği — "textleri eşitle" */
@@ -1195,7 +1199,7 @@
 
     .page-history--wide .history-row__disc {
         width: 30px;
-        height: 26px;
+        height: 21px;
     }
 
     .page-history--wide .history-row__duration {

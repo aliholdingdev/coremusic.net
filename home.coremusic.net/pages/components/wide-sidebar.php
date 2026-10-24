@@ -29,6 +29,8 @@ $sbArtistsUrl = $this->artistsHref;
 ?>
 <aside class="page-sidebar--figma-wide" aria-label="Şu an çalan">
 
+    <!-- ══ GRUP 1) PROFİL + ÖNERİLER — Figma: Sağ Panel çerçevesi (4→3 grup) ══ -->
+    <div class="page-sidebar__group page-sidebar__group--main">
     <!-- ══ 1) PROFİL KARTI — dairesel avatar + şarkı + 5 aksiyon butonu ══ -->
     <div class="page-sidebar__profile-card">
         <div class="page-sidebar__art">
@@ -89,6 +91,7 @@ $sbArtistsUrl = $this->artistsHref;
             </div>
         <?php endforeach; ?>
     </div>
+    </div><!-- /GRUP 1: profil + öneriler -->
 
     <?php if ($sbShowStatus): ?>
     <!-- ══ 3) DURUM KARTI — Figma bilgi (1681,328) 218×114 (yalnız 1920 / 3840) ══ -->

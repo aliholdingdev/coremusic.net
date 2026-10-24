@@ -2472,7 +2472,9 @@ html body .page-history--wide.page-layout {
     right: 24px;
     top: 29px;
     bottom: 22px;
-    width: 240px;
+    /* Figma 4K status kartı w=224 + padding 12×2 + border 2 → 250 min.
+       Eski 240'da 224 kart 8px taşıyor, flex shrink → scrollbar çıkıyordu. */
+    width: 252px;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -2490,6 +2492,16 @@ html body .page-history--wide.page-layout {
     border-top: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: 8px;
     box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+/* ── GRUP 1) PROFİL + ÖNERİLER sarmalayıcısı — 4 kart → 3 grup ── */
+:is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__group--main {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
 }
 
 /* ── 1) PROFİL KARTI — dairesel avatar + şarkı + 5 aksiyon butonu ── */
@@ -2559,15 +2571,16 @@ html body .page-history--wide.page-layout {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    /* 5 buton: 5×40 + 4×6 = 224 ≤ içerik (226) → yatay taşma/scrollbar yok */
+    gap: 6px;
     margin-top: 14px;
     flex-shrink: 0;
 }
 
 :is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-action-btn {
-    width: 44px;
+    width: 40px;
     height: 40px;
-    min-width: 44px;
+    min-width: 40px;
     min-height: 40px;
     padding: 0;
     border-radius: 9px;
@@ -2638,7 +2651,9 @@ html body .page-history--wide.page-layout {
 
 :is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* minmax(0,1fr) — 1fr'ın default min-width:auto değeri hücreyi içerik
+       kadar şişirip 4 hücreyi 226px dışına taşıyordu (yatay scrollbar) */
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
     text-align: center;
 }
@@ -2670,8 +2685,12 @@ html body .page-history--wide.page-layout {
 
 :is(.page-player--wide, .page-player--embedded, .page-history--wide) .page-sidebar__artist-thumb {
     display: block;
-    width: 52px;
-    height: 52px;
+    /* hücre içi: (226 - 3×8) / 4 = 50.5px → 52px thumb 2px taşıp scrollbar
+       üretiyordu; 100% + aspect-ratio her genişlikte sığar */
+    width: 100%;
+    max-width: 50px;
+    aspect-ratio: 1;
+    height: auto;
     border-radius: 50%;
     overflow: hidden;
     border: 2px solid rgba(255, 79, 216, 0.6);
@@ -3296,16 +3315,19 @@ html body .page-history--wide.page-layout {
         padding-top: 12px;
     }
 
+    /* Figma 3180:6567 Playlist Items: h=21, pitch=28.5 (Δy 28.5) — 27 satır
+       ÜSTE toplanır, panele yayılmaz (panel altı cam boş kalır + scrollbar). */
     .page-player--wide .player-row {
-        flex: 1 1 auto;
-        height: auto;
-        min-height: 54px;
-        margin-bottom: 8px;
+        flex: 0 0 auto;
+        height: 21px;
+        min-height: 0;
+        margin-bottom: 7.5px;
     }
 
     .page-player--wide .player-row td {
-        height: auto;
+        height: 21px;
         font-size: 15px;
+        line-height: 20px;
     }
 
     /* vurgu bandı sabit 21px idi → uzayan satırda tam yükseklik */
@@ -3328,11 +3350,17 @@ html body .page-history--wide.page-layout {
         height: 22px;
     }
 
-    /* ── Sağ kenar çubuğu — kartlar panele yayılır ──
-       status kartı esnek ama max-height 507px (Figma) ile sınırlı; kalan
-       boşluk justify-content ile kart ARALARINDA eşit bölüşülür →
-       panelin altında ölu (dolu olmayan) cam şerit kalmaz. */
+    /* ── Sağ kenar çubuğu — Figma 4K: gap 15px SABIT (space-between YOK) ──
+       Grup1 profil+öneriler · Grup2 bilgi · Grup3 durum; boşluk yalnız
+       status kartının İÇİNDE emilir → kart arası 15px, altında ölü şerit yok. */
     :is(.page-player--wide, .page-history--wide) .page-sidebar--figma-wide {
-        justify-content: space-between;
+        justify-content: flex-start;
+        gap: 15px;
+    }
+
+    /* Figma 4K status h=1155 → panel dibine kadar uzanır; 1920'deki
+       max-height:507 4K'ta altında 728px ölü cam şerit bırakıyordu. */
+    :is(.page-player--wide, .page-history--wide) .page-sidebar__status-card {
+        max-height: none;
     }
 }
