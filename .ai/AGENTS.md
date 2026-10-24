@@ -5,7 +5,7 @@ category: agent-registry
 version: 22.2.0
 status: active
 authority: SSOT
-updated: 2026-10-12
+updated: 2026-10-24
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
 tier: 2
 domain: rules
@@ -586,7 +586,7 @@ Her dosya için kontrol et:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.0.8 |
+| Version | 22.2.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | Agent Count | 11 (1 MO + 10 specialist) |
@@ -704,7 +704,7 @@ Her dosya için kontrol et:
 
 ### §3 Terminology (Stub)
 
-> 📌 **Stub:** Aşağıdaki 12 terim bu dosyaya özgüdür ve satır içinde tutulur; son 3 terim eski §22 Glossary tablosundan birleştirildi (SSOT dedup, 2026-09-23). ⚠️ VERIFICATION REQUIRED: Hiçbiri glossary.md'de yer almıyor — sonraki fazda eklenmeli. Tam terim sözlüğü: [[glossary]].
+> 📌 **Not (2026-10-24):** Bu §3'teki 12 terimin tamamı **[[glossary]] §2'ye eklendi** (v2.5.0, 2026-10-24 — kaynak notu "AGENTS §3" ile); tablo SSOT değildir, referans olarak korunur. Son 3 terim eski §22 Glossary tablosundan birleştirilmişti (SSOT dedup, 2026-09-23). Tam terim sözlüğü: [[glossary]] (112 terim).
 
 | Terim | Tanım |
 |-------|-------|

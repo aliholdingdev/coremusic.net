@@ -2,10 +2,10 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.5.0
+version: 27.6.0
 status: active
 authority: SSOT
-updated: 2026-10-12
+updated: 2026-10-24
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
 tier: 1
 domain: governance
@@ -558,7 +558,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 #### §7.2 Footnote — Guardrail #15 → #2 Merge
 
 - Eski Guardrail #15 (Vault-First Mandatory), #2 (Vault First) ile birleştirildi (2026-09-23, Vault Refactor Engine v27.0.0). Toplam: 17 → 16 madde; satır numaraları 1-14, 16, 17 olarak korundu.
-- ⚠️ VERIFICATION REQUIRED: [[ROLE.md]] §435 hâlâ "Guardrail #15" referansı içerir — ROLE.md bu revizyon kapsamı dışıdır; referansın #2'ye güncellenmesi gerekir.
+- ✅ Düzeltildi (2026-10-24): [[ROLE.md]] L442 "Guardrail #15" referansı #2'ye güncellendi (bu revizyon kapsamında) — ROLE.md'de başka "Guardrail #15" kalmadı.
 - Kontrol (2026-09-24): [[ROLE.md]] §11.3 "Revert + CLAUDE.md §5 kuralı" satırı doğrulandı — §5 içindeki §5.1 Layer Dependency Matrix ("Layer Violation İhlali: derhal revert + log CRITICAL") ile eşleşir; referans geçerlidir, daha dar alternatif Guardrail #1 (Zero Code Before Plan) / #14 (Human Approval Gate) olurdu. ROLE.md kapsam dışı — satır değiştirilmedi.
 
 ---
@@ -620,7 +620,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 |---|-------|----------------|------|
 | 1 | %80 test coverage | Geçici %75, teknik borç kabulü | Tech Lead |
 | 2 | 30s timeout | Uzun batch işlemi (60s'e kadar) | Tech Lead |
-| 3 | Coverage raporlama esnekliği | Bu satır orijinal listede yok — bilinçli silme mi eksiklik mi belirsiz | DOĞRULAMA GEREKLİ (Vault Steward) |
+| 3 | Coverage raporlama esnekliği | Kullanıcı onayıyla kabul edildi (2026-10-24) — not kaldırıldı | Vault Steward |
 | 4 | BypassAuth devre dışı | Test ortamında aktif edilebilir | Security Engineer |
 
 ---
@@ -774,7 +774,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | Audio Divisions | 5 |
 | ADR Coverage | **101 karar** (accepted 84 · rejected 10 · draft 6 · active 49 — SSOT: `.ai/.decisions/index.md` v1.5.2, 2026-10-23 disk sayımı; draft: 103/104/107/108/109/110) → sonraki yeni numara **111**; kabul serisi `accepted/` dizininde + kökteki ADR-091 (template-engine) · *(eski kayıtlar korundu: 2026-09-27 "46 fiziksel dosya → next 091 · 044-080/082-088 brain.md metnindedir" ve "001-089 — 80 karar: 37 Frozen + 31 Active + 12 Rejected" — ikisi de 2026-10-23 sayımıyla günceldir; Vault Steward onaylı hizalama)* |
 | Cross References | 11 |
-| Glossary Terms | 94 (ölçüm 2026-10-06: §2 32 kanonik + §2.1 11 ekosistem + §3 51 teknoloji; SSOT: [[glossary]]) |
+| Glossary Terms | 112 (ölçüm 2026-10-24: §2 50 + §2.1 11 + §3 51; SSOT: [[glossary]] v2.5.0) |
 | Forbidden Patterns | 14 |
 | Edge Cases | 9 |
 | Skills | 10 |
@@ -790,7 +790,7 @@ Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
 | # | Düzeltme | Konum | Kanıt |
 |---|----------|-------|-------|
 | 1 | ADR kapsamı 038-087 → 038-088 (79 karar) | §3, §29, §26 | decisions/ sayımı |
-| 2 | 18 → 19 PNG (12+1+6) | Guardrail #11, §12A | .ai/.png/ sayımı |
+| 2 | 18 → 19 PNG (12+1+6) | Guardrail #11, [[ui-design/01-mockup-index]] | .ai/.png/ sayımı |
 | 3 | Redis L0 hedef→PLANNED notu | §5 | CacheManager kod okuma (L335 satırı 2026-09-24'te ADR-007 şart 1 ile hizalandı) |
 | 4 | Glossary 32 → 75 terim | §26, §28 | glossary.md v2.0.0 |
 | 5 | Soft Constraints #3 eksik satırı işaretlendi | §8 | Truth Mode — DOĞRULAMA GEREKLİ |
@@ -799,7 +799,7 @@ Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
 
 İlke: Bu dosya anayasadır — içerik ekleme/düzeltme yapılırken Guardrail #4 (In-Place) ve #14 (Human Approval) korunmuştur; bu revizyon kullanıcı direktifiyle (2026-09-08, "tüm vault'u satır satır revize et") yetkilendirilmiştir.
 
-> ⚠️ VERIFICATION REQUIRED: Tabloda "§12A" referansı geçiyor — CLAUDE.md'de §12A yok (§18'i mi kastettiği belirsiz; §27 ve §31'de de geçer).
+> ✅ Çözüldü (2026-10-24, kullanıcı onayı): Tablodaki "§12A" referansı CLAUDE.md'de bölüm olmadığı için [[ui-design/01-mockup-index]] wiki-link'e çevrildi — VERIFICATION REQUIRED kaldırıldı.
 
 ---
 
@@ -848,7 +848,7 @@ Bu dosya ikinci kaynak değildir; gömülü Master Engineering System bağlamı 
 
 ### §3 Terminology (Stub)
 
-> 📌 **Stub:** Terimlerin tamamı için bkz: [[glossary]] (75 terim). Aşağıdaki 5 terim bu dosyaya özgüdür ve satır içi tutulur. ⚠️ VERIFICATION REQUIRED: Bu 5 terim glossary.md'de henüz yer almıyor (WASAPI sadece tesadüfi geçiyor) — sonraki fazda eklenmeli.
+> 📌 **Not (2026-10-24):** Terimlerin tamamı için bkz: [[glossary]] (112 terim). Aşağıdaki 5 terimden **4'ü (Hard Gate · Zero Code Before Plan · Layer Violation · WASAPI) [[glossary]] §2'ye eklendi** (v2.5.0); "Zero Hallucination" zaten [[glossary]] §2'de "Zero-Hallucination" olarak vardı (duplike edilmedi). Tablo referans olarak korunur.
 
 | Terim | Tanım |
 |-------|-------|
@@ -897,7 +897,7 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 | [[archives/prompt1-spa-router-2026-09-01]] | SPA Router mimarisi promptu |
 | [[archives/prompt2-auth-2026-09-01]] | Authentication sistemi promptu |
 | [[archives/prompt3-api-2026-09-01]] | API mimarisi promptu |
-| [[glossary]] | Teknik terimler sözlüğü (75 terim) |
+| [[glossary]] | Teknik terimler sözlüğü (112 terim) |
 
 #### §26.1 Prompt Integration (prompt0-3)
 
@@ -983,7 +983,7 @@ Agent listesi ve profil tablosu (11 agent): [[AGENTS.md]] §4 (Agent Overview) v
 
 ### §28 Glossary
 
-> Detaylı sözlük için bkz: [[glossary]] (75 terim)
+> Detaylı sözlük için bkz: [[glossary]] (112 terim)
 
 ---
 

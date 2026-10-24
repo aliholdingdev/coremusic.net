@@ -405,3 +405,25 @@ updated: 2026-10-02
 **Çelişki bulgusu (dokunulmadı — raporlandı):** §5'te #22 `auth/include` · #23 `migrations` · #24 `shared/config` · #25 `.ai/.sql` · #26 `.ai/ui-design` · #27 `.ai/.decisions` satırlarına karşılık gelen **6 `PRD.md` diskte YOK** (dizinler mevcut, dosya yok — 2026-10-23 `Test-Path` ölçümü). Kapsam dışı olduğu için üretilmedi; sonraki üretim turuna madde.
 
 **Yasak uyumu:** `git commit` YOK (tüm değişiklikler uncommitted — orkestratör/kullanıcı onayı bekliyor) · silme YOK · kod yüzeyi (`*.php/js/css/sql`) yazılmaz · frozen ADR dokunulmaz · secret `.md`'ye yazılmaz · `.ai/log.md`'ye yalnız append.
+
+## 2026-10-24 — .ai/ vault tamamlama (PROMPT 2+3: revizyon uygulaması + doğrulama)
+
+**Kapsam:** eksik/kalan yerlerin tamamlanması — sözlük stub birleştirme + 5 dosya hizalama (kullanıcı onaylı plan; PROMPT 1 keşif tamamdı).
+
+**Değişiklikler (hepsi in-place, uncommitted):
+
+1. .ai/glossary.md **v2.4.0 → v2.5.0** — AGENTS §3 stub'ından 12 + CLAUDE §27 stub'ından 4 = **+16 terim §2'ye eklendi** (alfabetik sıra korundu, her terime kaynak notu) → §2 50 · §2.1 11 · §3 51 = **toplam 112** (doğrulama: ham disk tablo sayımı). 'Zero Hallucination' duplike edilmedi (§2'de 'Zero-Hallucination' vardı). §12 changelog + footer 2026-10-24.
+2. .ai/AGENTS.md v22.2.0 — §3 stub notu: 12 terimin glossary §2'ye eklendiği işaretlendi (VR kaldırıldı) + QR Version 22.0.8 → 22.2.0 + updated 2026-10-24.
+3. .ai/ROLE.md v6.1.1 — L442 'Guardrail #15' → '#2 (Vault First birleşimi)' + updated 2026-10-24.
+4. .ai/CLAUDE.md **v27.5.0 → v27.6.0** — 8 edit: §7.2 ROLE #15 notu ✅ kapatıldı · §8 Soft Constraint #3 kabul edildi (onay) · Glossary Terms 94 → 112 · §31 tablo §12A → [[ui-design/01-mockup-index]] wiki-link (kullanıcı onayı) + VR notu ✅ · §27 stub notu 4/5 terim eklendi (VR kaldırıldı) · §28/§33 '75 terim' → 112 (2 yer).
+5. .ai/TODO.md v1.4.0 → v1.5.0 — 5 madde kapatıldı: app-cpp-projects sınıflandırma (git ls-files 5 md tracked) · Soft #3 · 2 geçersiz referans (#15→#2 + §12A) · Nva PRD commit (a44c567) · Yüzey seti commit (a44c567).
+
+**Doğrulama:**
+
+- wiki-link-check.ps1 (kökten): **389 link / 6 kırık = hepsi §13.7 bilinen sahte → gerçek kırık 0**
+- glossary §2/§2.1/§3 sayımı ham diskten: 50/111/51 = 112
+- 16 yeni terimin tamamı diskte mevcut (eksik 0)
+
+**Çelişki kaydı (Truth Mode):** ead tool'u bu oturumda .ai/glossary.md için diskte olmayan farklı bir belge döndürdü ('Terimler Sözlüğü (SSOT)') — sayılar tesadüfen uyuştu, içerik uyuşmadı → **disk kazandı**, plan ham diske göre yeniden kuruldu. Tüm edit'ler ham disk anchor'larıyla yapıldı.
+
+**Yasak uyumu:** commit YOK (orkestratörde) · silme YOK · yeni dosya YOK (SESSIONS kapanış kaydı hariç) · kod yüzeyi dokunulmaz · frozen ADR dokunulmaz.

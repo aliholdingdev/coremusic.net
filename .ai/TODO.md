@@ -2,10 +2,10 @@
 title: "CoreMusic — Proje TODO Listesi"
 type: todo
 category: project-tracking
-version: 1.4.0
+version: 1.5.0
 status: active
 authority: SSOT
-updated: 2026-10-23
+updated: 2026-10-24
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
 tier: 5
 domain: task-state
@@ -42,7 +42,7 @@ Depodaki gerçek iş kalemlerini (açık commit'ler, eksik testler, vault tutars
 - [x] **auth testlerindeki çift ağacı tek ağaç yap** — KAPANDI 2026-10-23 — `git ls-files`: `tests/Domain/**`=0 · `tests/Unit/Domain/**`=227 tracked (tek ağaç); eski 4 dosya worktree'de silinmiş ve silinmesi commit'lenmiş — Kaynak: `git ls-files auth.coremusic.net/tests` 2026-10-23
 - [x] **Kökteki stash/artık dosyaları temizle** — KAPANDI 2026-10-23 — `.ai.zip` karar verildi: **SİLİNMEDİ** (`.gitignore:77`'de, REDACTED taraması: 1764 metin dosyası → gerçek secret 0; 16 isabet = presigned-S3/Figma AKIA'sı); `coremusic.net.zip`/`aaa.md`/`output.md` kökten gitmiş (`aaa.md` → `--\aaa.md` altında) — Kaynak: `Test-Path` + `git check-ignore` 2026-10-23
 - [x] **Untracked kaynak varlıklarını commit et** — KAPANDI 2026-10-23 — `git ls-files`: `.gitleaks.toml` tracked (`43e6763`) · `ADR-048/049/050` (3 dosya) tracked · `home.coremusic.net/include/Repository/` 2 file · `shared/src/OAuth/OAuthRepository.php` 1 file → 4 küme de commit'lenmiş — Kaynak: `git ls-files` 2026-10-23
-- [ ] **`app-cpp-projects/` sınıflandır** — kökte untracked `??` → commit / `.gitignore` / taşıma kararı — Kaynak: `git status --porcelain` + `ls -R` 2026-10-23 — **NOT 2026-10-23 (yeniden ölçüm):** klasörde artık yalnız 5 doküman md'si var (AGENTS/CLAUDE/CONTEXT/PRD/TODO — bu oturum yazıldı); C++ kodu `--/neva-engine/`'dedir (commit `9fd9991`); "163 dosya / 16.6 MB" iddiası şu an disk ile ÇELİŞİYOR → madde `app-cpp-projects/TODO.md` üzerinden yeniden ölçülüp kapatılabilir
+- [x] **`app-cpp-projects/` sınıflandır** — KAPANDI 2026-10-24 — `git ls-files app-cpp-projects` = **5 md** (AGENTS/CLAUDE/CONTEXT/PRD/TODO) hepsi tracked → sınıflandırma tamam (commit edilmiş); C++ kodu `--/neva-engine/`'dedir (commit `9fd9991`) — Kaynak: `git ls-files` 2026-10-24
 
 ### §3 P1 — Vault tutarlılığı & karar bekleyenler
 
@@ -63,15 +63,15 @@ Depodaki gerçek iş kalemlerini (açık commit'ler, eksik testler, vault tutars
 
 - [ ] **Coverage ölçümü yok:** son phpunit sayıları `shared 216/545`, `auth unit 31/59`, `home 23/54` (geçen/toplam — coverage yüzdesi log'ta yok → `VERIFICATION REQUIRED`) → coverage raporu üretilip §17 hedefi (≥%80) karşılaştırılacak — Kaynak: `.ai/log.md` 2026-09-29 · `.ai/CLAUDE.md` §17
 - [ ] **`/stream` endpoint'i için PHPUnit HTTP testi yok** (curl kanıtı logta, suite'e dokunulmadı) — Kaynak: `.ai/log.md` 2026-09-29 "Acik konular"
-- [ ] **`.ai/CLAUDE.md` §8 Soft Constraint #3** "DOĞRULAMA GEREKLİ (Vault Steward)" → satır eklenecek ya da madde kaldırılacak — Kaynak: `.ai/CLAUDE.md` §8 · §31-5
-- [ ] **`.ai/CLAUDE.md` içindeki 2 geçersiz referans:** §7.2 "ROLE.md §435 → Guardrail #15" (→ #2 güncellenmeli) ve §31 "§12A" (CLAUDE.md'de §12A yok) — ikisi de kapsam dışı bırakılmış VR — Kaynak: `.ai/CLAUDE.md` §7.2 · §31 notu
+- [x] **`.ai/CLAUDE.md` §8 Soft Constraint #3** "DOĞRULAMA GEREKLİ (Vault Steward)" → KAPANDI 2026-10-24 — kullanıcı onayı: "Kabul et, notu kaldır"; §8 L623 satırı "Kullanıcı onayıyla kabul edildi (2026-10-24) — not kaldırıldı" olarak güncellendi — Kaynak: `.ai/CLAUDE.md` §8 · §31-5
+- [x] **`.ai/CLAUDE.md` içindeki 2 geçersiz referans:** §7.2 "ROLE.md §435 → Guardrail #15" (→ #2) ve §31 "§12A" → KAPANDI 2026-10-24 — ikisi de düzeltildi: `.ai/ROLE.md` L442 #15 → #2 (Vault First birleşimi) + `.ai/CLAUDE.md` §7.2 notu ✅ ile kapatıldı; §31 tablo hücresi §12A → `[[ui-design/01-mockup-index]]` wiki-link'e çevrildi + §31 VR notu ✅ ile kapatıldı (kullanıcı onaylı) — Kaynak: `.ai/CLAUDE.md` §7.2 · §31 · `.ai/ROLE.md` L442 2026-10-24
 - [ ] **Vault metin hijyeni:** `log.md` içinde mojibake 6 / CJK 12 + **423 dosyada frontmatter yok** (zorla eklenmedi) → temizlik kararı — Kaynak: `MEMORY.md` §20 Known Issue · `.ai/log.md` 2026-09-29
 - [ ] **14 case-variant duplicate başlık + süreler NULL (ffprobe yok)** → MVP'de kabul edildi, ileride import pass — Kaynak: `.ai/log.md` 2026-09-29 "Acik konular"
 - [ ] **`.ai/index.md` §3 satır 15:** `TECHNICAL_DOCUMENTATION.md` "diskte yok" (dosyanın kendi VR notu) → kayıt düzeltilecek — Kaynak: `.ai/index.md` §3
 - [ ] **Neva M0 faz kapısı:** PRD'ler K-6 onaylı (2026-10-23) ama M0 yalnız **K-1 (architect) + K-5 (ürün sahibi)** kapıları geçtikten sonra açılır — Kaynak: `.ai/projects/NevaEngine/coremusic-neva-engine-prd.md` §20.1 · player §20.1
 - [ ] **Player kritik açık maddeler (M4/PAKET'i bloke eder):** T-P01 UI toolkit ADR (§18.1) · T-P02 mockup gate (§18.7) · T-P03 ADR-0105 dosya iadesi (§18.14) — sahiplendirme + onay bekliyor — Kaynak: player PRD §18
-- [ ] **Nva PRD commit'i:** vault kopyaları (2 dosya) + kök `PRD.md` §5.1 + `AGENTS.md` §9 + `MEMORY.md` §20 + `TODO.md` + session kaydı + log append — commit orkestratörde bekliyor — Kaynak: `git status` 2026-10-23
-- [ ] **Yüzey doküman seti + TODO ailesi commit'i (2026-10-23):** 16 PRD (admin 5 · app-nodejs 4 · app-cpp 4 · `.claude`/`.opencode`/`.workflows` 3) + revizyonlar (kök `PRD.md` v1.2.0 §5 34 satır · `.ai/PRD.md` v1.0.1 · `admin/PRD.md` §11 · `.ai/index.md` L104 · `.ai/log.md` append) + TODO ailesi (kök `TODO.md` aile indeksi + 9 yüzey `TODO.md` + bu dosya v1.4.0) — hepsi UNCOMMITTED, commit orkestratörde — Kaynak: `git status` 2026-10-23
+- [x] **Nva PRD commit'i:** KAPANDI 2026-10-24 — commit `a44c567` ("docs: PRD+TODO ailesi ... + Neva PRD vault kopyalari + vault index/log/CONTEXT senkronu") — Kaynak: `git log a44c567` 2026-10-24
+- [x] **Yüzey doküman seti + TODO ailesi commit'i (2026-10-23):** KAPANDI 2026-10-24 — commit `a44c567` (16 PRD + revizyonlar + TODO ailesi) — Kaynak: `git log a44c567` 2026-10-24
 - [ ] **6 eksik PRD (#22–#27) üretimi:** `auth/include` · `shared/database/migrations` · `shared/config` · `.ai/.sql` · `.ai/ui-design` · `.ai/.decisions` — kök `PRD.md` §5 tablolarında satır var, dosya diskte YOK (çelişki 2026-10-23 tespit edildi, kapsam dışı bırakıldı) → üretilince ilgili yüzey TODO'suna + kök `TODO.md` §2'ye bağlanır — Kaynak: glob + `PRD.md` §5 2026-10-23
 
 ---

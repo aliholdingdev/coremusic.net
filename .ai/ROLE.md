@@ -4,9 +4,9 @@ type: system
 category: agent-role
 title: "CoreMusic — Senior Software Architect Role Definition"
 date: 2026-08-19
-updated: 2026-10-12
+updated: 2026-10-24
 status: active
-version: 6.1.0
+version: 6.1.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
@@ -439,7 +439,7 @@ Middleware sırası değiştirme, SELECT *, hardcoded secret, PCM5122 kullanım�
 |---|-------|-------|-----------|
 | 1 | Middleware sırasını değiştirme | Pipeline güvenlik hattı sıraya bağımlı: SecurityHeaders → Auth → Csrf → RateLimiter benzeri gerçek akış | Mevcut sırayı oku, ADR'siz değiştirme |
 | 2 | SELECT * yasak | Sütun kayması + gereksiz veri; PDO hattında açık sütun listesi | İstek bazlı sütun seçimi |
-| 3 | Hardcoded secret yasak | `.env` (vlucas/phpdotenv) dışına secret yazmak Guardrail #15 ihlali | ENV-only |
+| 3 | Hardcoded secret yasak | `.env` (vlucas/phpdotenv) dışına secret yazmak Guardrail #2 (Vault First — eski #15 birleşimi, 2026-09-23) ihlali | ENV-only |
 | 4 | PCM5122 kullanımı | ADR-038 PCM3168A'yı seçti; PCM5122 eski/alternatif çip | ADR-038'e uy |
 | 5 | Plansız kod | "Zero code before plan" — analiz öncesi kod CLAUDE.md §12 ihlali | ANALİZ → PLAN → UYGULAMA |
 

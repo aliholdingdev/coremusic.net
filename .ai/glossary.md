@@ -4,9 +4,9 @@ type: system
 category: reference
 title: "CoreMusic — Glossary"
 date: 2026-08-19
-updated: 2026-10-23
+updated: 2026-10-24
 status: active
-version: 2.4.0
+version: 2.5.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -54,13 +54,14 @@ Bu sürüm (v2.0.0) Faz 1 vault revizyonu ile genişletilmiştir:
 
 ## Scope
 
-### §2 Sözlük (Kanonik 34 Terim — ölçüm 2026-10-06: §2 32 · §2.1 11 · §3 51 → toplam 94; **2026-10-23 ekleme: +2 — Truth Mode · Zero-Hallucination (Adım 9) → §2 34 · toplam 96**; CLAUDE §29 ile hizalı)
+### §2 Sözlük (Kanonik 50 Terim — ölçüm 2026-10-06: §2 32 · §2.1 11 · §3 51 → toplam 94; **2026-10-23 ekleme: +2 — Truth Mode · Zero-Hallucination (Adım 9) → §2 34 · toplam 96**; **2026-10-24 ekleme: +16 — AGENTS §3 stub 12 + CLAUDE §27 stub 4 → §2 50 · toplam 112**; CLAUDE §29 ile hizalı)
 
 | Terim | Tanım |
 |-------|-------|
 | **ACL** | Access Control List — Erişim kontrol listesi |
 | **ADR** | Architecture Decision Record — Mimari karar kaydı |
 | **AES-256-GCM** | Advanced Encryption Standard, 256-bit, Galois/Counter Mode |
+| **Agent** | CoreMusic ekosisteminde belirli bir alanda uzmanlaşmış yapay zeka birimi — AGENTS §3 |
 | **ALSA** | Advanced Linux Sound Architecture |
 | **APCu** | APC User Cache — PHP önbellek sistemi |
 | **Argon2id** | Şifreleme algoritması (64MB/4/2) |
@@ -68,29 +69,44 @@ Bu sürüm (v2.0.0) Faz 1 vault revizyonu ile genişletilmiştir:
 | **BCNF** | Boyce-Codd Normal Form |
 | **BEM** | Block Element Modifier — CSS metodolojisi |
 | **BLE** | Bluetooth Low Energy |
+| **Context Lock** | Eşzamanlı dosya erişimini önlemek için kilitleme mekanizması — AGENTS §3 |
 | **CQRS** | Command Query Responsibility Segregation |
 | **CSP** | Content Security Policy |
 | **CSRF** | Cross-Site Request Forgery |
 | **DAC** | Digital-to-Analog Converter |
 | **DDD** | Domain-Driven Design |
+| **Domain Boundary** | Her ajanın yalnızca kendi alanında çalışması kuralı — AGENTS §3 |
 | **DSP** | Digital Signal Processing |
+| **Eskalasyon** | Bir sorunun çözülemediği durumda daha üst seviyeye çıkması — AGENTS §3 |
+| **Faz Kapanışı** | 8 maddelik kontrol listesi tamamı — engine §12.6 · AGENTS §3 |
 | **FLAC** | Free Lossless Audio Codec |
+| **Handover** | Bir ajanın görevi başka bir ajana transfer etmesi — AGENTS §3 |
+| **Hard Gate** | Kullanıcı onayı olmadan geçilemeyen kritik faz geçiş noktası — CLAUDE §27 |
+| **Health Check** | Ajanların çalışma durumunu kontrol eden mekanizma — AGENTS §3 |
 | **HSTS** | HTTP Strict Transport Security |
 | **ITCSS** | It's Time to Create Scaleable Stylesheets |
 | **JUCE** | Jules' Utility Class Extension — C++ audio framework |
+| **Layer Violation** | Mimari katman bağımlılık kurallarının ihlali — CLAUDE §27 |
 | **LFE** | Low Frequency Effects |
+| **Master Orchestrator (MO)** | Tüm ajanları koordine eden ana kontrol birimi — AGENTS §3 |
 | **MW** | Middleware |
 | **ORM** | Object-Relational Mapping (YASAK) |
 | **OWASP** | Open Web Application Security Project |
 | **PCM** | Pulse-Code Modulation |
+| **Pre-flight Check** | Görev başlamadan önce yapılan kontroller — AGENTS §3 |
 | **PSR** | PHP Standards Recommendations |
 | **RBAC** | Role-Based Access Control |
 | **SOLID** | Single Responsibility, Open/Closed, Liskov, Interface, Dependency |
 | **SPA** | Single Page Application |
 | **SSOT** | Single Source of Truth |
+| **Stack Etiketi** | IMPLEMENTED (kod kanıtlı) / PLANNED (hedef) ayırımı — engine §9.2 · AGENTS §3 |
+| **Task Queue** | Görevlerin öncelik sırasıyla beklediği kuyruk — AGENTS §3 |
 | **Truth Mode** | Kanıt zorunluluğu kipi — her iddia disk/commit kanıtıyla (gerçek dosya yolu + içerik) desteklenir; kod kanıtı dokümanın üstündedir, çelişki `log.md`'ye kaydedilir (`.ai/AGENTS.md` §3 · frontmatter `governance` satırı · bu dosya L51/L599 uygulaması) |
 | **TTFB** | Time To First Byte |
+| **Uncertainty Flag** | Alt agent belirsizlik raporu formatı — engine §6.4 · AGENTS §3 |
+| **WASAPI** | Windows Audio Session API — Windows ses oturum yönetimi — CLAUDE §27 |
 | **WCAG** | Web Content Accessibility Guidelines |
+| **Zero Code Before Plan** | Plan onayı olmadan kod yazma yasağı — CLAUDE §27 |
 | **Zero-Hallucination** | Repo, URL, API, class, method, dependency, version, config, skill, agent, dosya veya mimari kural asla uydurulmaz; bilinmeyen değer = `UNKNOWN`, doğrulanamayan iddia = `⚠️ VERIFICATION REQUIRED` (`.ai/AGENTS.md` §3) |
 
 ### §2.1 Ekosistem ve Vizyon Terimleri (Freelancer Technical Documentation v1.0)
@@ -710,6 +726,7 @@ ADR'ler frozen (001-037, değiştirilemez) veya active (038-089) olabilir; gloss
 | 2.0.0 | 2026-09-08 | Faz 1 revizyonu: +43 teknoloji terimi, 24 derin blok, kanıt haritası, kavram haritası, IMPLEMENTED/PLANNED etiket sistemi |
 | 2.1.0 | 2026-09-23 | Faz 3 (Vault Refactor Engine): §13 Doküman İskeleti eklendi (normalize minor+1; satır-edit + ekleme, ADR-042) |
 | 2.2.0 | 2026-09-23 | Faz 2-3 yeniden düzenleme: 7 İngilizce H2 iskeleti (Purpose-References), § başlık dönüşümü (`### §N` / `#### §N.x`), §13.1 eşleme İngilizce, §13.4 eklendi |
+| 2.5.0 | 2026-10-24 | Stub birleştirme (onaylı): AGENTS §3 stub'ından 12 + CLAUDE §27 stub'ından 4 = +16 terim §2'ye eklendi (kaynak notu satır sonunda) → §2 50 · toplam 112; "Zero Hallucination" (CLAUDE §27) duplike edilmedi — §2'de "Zero-Hallucination" olarak vardı |
 
 Geçmiş ilkesi: Kanonik 32 terim (§2) hiçbir sürümde değiştirilemez; yalnız kanıt sütunları genişler. Yeni terimler her zaman §3+'a eklenir.
 
@@ -718,5 +735,5 @@ Sürüm sorumlusu: Vault Steward; her terim eklemesi Faz kontrol listesinin (eng
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-10-06
+**Last Updated:** 2026-10-24
 **Mode:** Red Team · Human Mode · Truth Mode
