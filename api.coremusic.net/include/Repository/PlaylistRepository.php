@@ -117,10 +117,18 @@ final class PlaylistRepository implements IPlaylistRepository
             );
             $position = (int) ($rows[0]['max_pos'] ?? -1) + 1;
 
+            // Onarim 2026-10-24: playlist_tracks.id binary(16) NOT NULL ve
+            // default degeri YOK (MySQL 1364) — UUIDv7 uretilip INSERTe
+            // eklenir (playlists insert deseni ile ayni; UuidV7 deseni).
             $db->write(
-                'INSERT INTO playlist_tracks (playlist_id, music_id, position)
-                 VALUES (UNHEX(:pid), UNHEX(:mid), :position)',
-                ['pid' => $playlistId, 'mid' => $trackId, 'position' => $position]
+                'INSERT INTO playlist_tracks (id, playlist_id, music_id, position)
+                 VALUES (UNHEX(:id), UNHEX(:pid), UNHEX(:mid), :position)',
+                [
+                    'id'       => UuidV7::generateHex(),
+                    'pid'      => $playlistId,
+                    'mid'      => $trackId,
+                    'position' => $position,
+                ]
             );
 
             // Denormalize sayaç tutarlılığı (playlist_stats'a dokunulmaz — Faz 4 kapsamı dışı).

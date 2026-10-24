@@ -142,7 +142,13 @@ if ($requestUri === '') {
 }
 
 // Auth callback — redirect sorununu önlemek için kernel'den önce işle
-if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
+// Not: redirect_uri zinciri iki biçimde de gelir — '/auth/callback' (admin
+// route'u) ve '/admin/auth/callback' (SPA prefix'li). İkisi de aynı kapıdan
+// geçer; yalnız birini kabul etmek 404 üretiyordu (AdminAuthBridge'e hiç
+// ulaşılamıyordu). Normalizasyon yol içindedir, open-redirect yok:
+// auth_key yine AdminAuthBridge ile doğrulanır.
+$normalizedUri = '/' . ltrim($requestUri, '/');
+if ($normalizedUri === '/auth/callback' || $normalizedUri === '/admin/auth/callback') {
     $authKeyRaw = (string)($_GET['auth_key'] ?? '');
     $adminLogger = LoggerFactory::getInstance();
     $adminLogger->debug('[Admin] Auth callback triggered', [

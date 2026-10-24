@@ -313,6 +313,17 @@ final class HtmlShellRenderer
             if (isset($authJsMap[$authPageName])) {
                 echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/auth/' . $authJsMap[$authPageName] . '?v=' . $cacheBuster . '" defer></script>';
             }
+        } else {
+            // Admin auth formları (login/register): route 'admin/*' olduğundan
+            // isAuthRoute() bunları AUTH_ROUTES dışı sayar → yukarıdaki bloğa girmez.
+            // Bu sayfalar CSP `form-action 'self'` nedeniyle çapraz-origin native
+            // POST yapamaz; form yalnız admin-shell.js fetch ile API'ye
+            // (/v1/auth/login|register) gider (ADR-043/058). Script enjekte
+            // edilmezse submit sunucuya native POST olur ve boş shell döner.
+            $adminFormJs = ['admin/login', 'admin/register'];
+            if (in_array(ltrim($route, '/'), $adminFormJs, true)) {
+                echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/admin/admin-shell.js?v=' . $cacheBuster . '" defer></script>';
+            }
         }
 
         echo '<noscript><p>Bu uygulama JavaScript gerektirmektedir.</p></noscript>';

@@ -71,10 +71,24 @@ if (!defined('APP_PEPPER')) {
 /* --- Mode Flags --- */
 if (!defined('TEST_MODE')) {
     define('TEST_MODE', in_array(strtolower((string)$env('TEST_MODE', 'false')), ['true', '1', 'yes', 'on'], true));
-    define('FORCE_AUTH_BYPASS', in_array(strtolower((string)$env('FORCE_AUTH_BYPASS', 'false')), ['true', '1', 'yes', 'on'], true));
-    define('BYPASS_USER_UUID', $env('BYPASS_USER_UUID', '00000000000000000000000000000001'));
-    define('BYPASS_ROLE', $env('BYPASS_ROLE', 'test_user'));
-    define('BYPASS_USERNAME', $env('BYPASS_USERNAME', 'test_user'));
+
+    // Auth bypass — YALNIZ yerel yapılandırma (.env). Uzak HTTP fetch yasak (fail-closed).
+    // APP_ENV_MODE=production → bayrak hiç okunmaz (home paritesi — SEC-04).
+    $isProdEnv     = defined('APP_ENV_MODE') && APP_ENV_MODE === 'production';
+    $bypassRaw     = '';
+    $bypassUuid    = '';
+    $bypassRole    = '';
+    $bypassUsername= '';
+    if (!$isProdEnv) {
+        $bypassRaw      = (string)$env('FORCE_AUTH_BYPASS', 'false');
+        $bypassUuid     = (string)$env('BYPASS_USER_UUID', '00000000000000000000000000000001');
+        $bypassRole     = (string)$env('BYPASS_ROLE', 'test_user');
+        $bypassUsername = (string)$env('BYPASS_USERNAME', 'test_user');
+    }
+    define('FORCE_AUTH_BYPASS', !$isProdEnv && in_array(strtolower($bypassRaw), ['true', '1', 'yes', 'on'], true));
+    define('BYPASS_USER_UUID', $bypassUuid);
+    define('BYPASS_ROLE', $bypassRole);
+    define('BYPASS_USERNAME', $bypassUsername);
 }
 
 /* --- Trusted Proxies --- */
@@ -104,4 +118,7 @@ if (!defined('AUTH_URL')) {
     define('AUTH_URL', $env('AUTH_URL', COREMUSIC_SCHEME . '://auth.coremusic.net'));
     define('MUSIC_URL', $env('MUSIC_URL', COREMUSIC_SCHEME . '://home.coremusic.net'));
     define('ASSETS_URL', $env('ASSETS_URL', COREMUSIC_SCHEME . '://assets.coremusic.net'));
+}
+if (!defined('ADMIN_URL')) {
+    define('ADMIN_URL', $env('ADMIN_URL', COREMUSIC_SCHEME . '://admin.coremusic.net'));
 }

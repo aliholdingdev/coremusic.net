@@ -16,28 +16,17 @@ declare(strict_types=1);
 $pageTitle = 'Dashboard';
 $activeNav = 'admin-dashboard';
 
-use CoreMusic\Database\Config\DatabaseConfig;
-use CoreMusic\Database\DatabaseManager;
+use CoreMusic\Admin\Repository\AdminUserRepository;
 
 $assetsUrl = defined('ASSETS_URL') ? rtrim((string)ASSETS_URL, '/') : '';
 
-// Veritabanı sorgusu (güvenli fallback ile)
+// Veritabanı sorgusu — repository üzerinden (prezentasyonda DB kodu yasak; db-access-guard).
+// Boş kimlik bilgisi / hata → null: doğrulanmamış sayı üretilmez, sayfa boş-duruma düşer.
 $adminCount = null;
-if (defined('DB_USER') && DB_USER !== '' && defined('DB_PASSWORD') && DB_PASSWORD !== '') {
-    try {
-        $manager = new DatabaseManager(new DatabaseConfig(
-            DB_HOST,
-            DB_ADMIN_NAME,
-            DB_USER,
-            DB_PASSWORD,
-            DB_PORT,
-            DB_CHARSET
-        ));
-        $rows = $manager->execute('SELECT COUNT(*) AS c FROM admin_users WHERE is_deleted = 0');
-        $adminCount = isset($rows[0]['c']) ? (int)$rows[0]['c'] : null;
-    } catch (Throwable $e) {
-        error_log('[admin][dashboard] DB count query error: ' . $e->getMessage());
-    }
+try {
+    $adminCount = AdminUserRepository::fromEnvironment()->countActiveAdmins();
+} catch (Throwable $e) {
+    error_log('[admin][dashboard] DB count query error: ' . $e->getMessage());
 }
 
 // Parça listesi (katalog örneği - gerçek asset referanslarıyla)

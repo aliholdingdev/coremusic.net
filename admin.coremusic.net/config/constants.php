@@ -55,8 +55,10 @@ if (!defined('SESSION_NAME')) {
     define('RATE_LIMIT_WINDOW', (int)$env('RATE_LIMIT_WINDOW', 60));
 }
 
-// Session save path — php.ini'den oku, fallback sys_get_temp_dir
-$sessionPath = ini_get('session.save_path') ?: sys_get_temp_dir() . '/coremusic_sessions';
+// Session save path — auth.coremusic.net ile AYNI storage (.env → sabit fallback)
+// Neden: aynı SESSION_NAME (COREMUSIC_SESS) + aynı cookie domain (.coremusic.net)
+// kullanılıyor; farklı save_path = auth'da açılan oturum admin'de görünmez.
+$sessionPath = $env('SESSION_SAVE_PATH', '') ?: 'C:/temp/coremusic_sessions';
 if (!is_dir($sessionPath)) {
     @mkdir($sessionPath, 0750, true);
 }
@@ -97,5 +99,11 @@ if (!defined('DB_HOST')) {
 
 /* --- Auth Pepper (auth_key validate için) --- */
 if (!defined('APP_PEPPER')) {
-    define('APP_PEPPER', $env('APP_PEPPER', ''));
+    $pepper = $env('APP_PEPPER', '');
+    if ($pepper === '') {
+        http_response_code(500);
+        error_log('[CRITICAL] APP_PEPPER is empty — all password hashes would be identical. Set APP_PEPPER in .env');
+        exit('Server misconfiguration: APP_PEPPER not set.');
+    }
+    define('APP_PEPPER', $pepper);
 }

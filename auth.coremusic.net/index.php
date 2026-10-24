@@ -177,7 +177,13 @@ if ($method !== 'POST' && $pageName === 'login') {
 /* ─── 4. Default OAuth Redirect (GET only, missing params) ─── */
 $authPages = ['login', 'register', 'forgot-password', 'reset-password'];
 if ($method !== 'POST' && in_array($pageName, $authPages, true) && empty($_GET['client_id'])) {
-    $defaultRedirectUri = MUSIC_URL . '/auth/callback';
+    // Normal akışta kullanıcı geldiği yere döner (home/studio/music/pro).
+    // Mevcut redirect_uri / return KORUNUR (select-gender dönüşü client_id'siz
+    // gelir; eski kod burada redirect_uri'yi eziyordu → dönüş hedefi kayboluyordu).
+    $preservedRedirect = (string)($_GET['redirect_uri'] ?? $_GET['redirect'] ?? '');
+    $defaultRedirectUri = $preservedRedirect !== ''
+        ? $preservedRedirect
+        : (MUSIC_URL . '/auth/callback');
     $params = http_build_query([
         'client_id'     => 'coremusic-web',
         'response_type' => 'session',
@@ -188,15 +194,34 @@ if ($method !== 'POST' && in_array($pageName, $authPages, true) && empty($_GET['
 }
 
 $adminAuthPages = ['admin/login', 'admin/register', 'admin/forgot-password', 'admin/reset-password'];
-if ($method !== 'POST' && in_array($pageName, $adminAuthPages, true) && empty($_GET['client_id'])) {
-    $defaultRedirectUri = (defined('ADMIN_URL') ? ADMIN_URL : 'http://admin.coremusic.net:83') . '/auth/callback';
-    $params = http_build_query([
-        'client_id'     => 'coremusic-admin',
-        'response_type' => 'session',
-        'redirect_uri'  => $defaultRedirectUri,
-    ]);
-    header('Location: /' . $pageName . '?' . $params, true, 302);
-    exit;
+if ($method !== 'POST' && in_array($pageName, $adminAuthPages, true)) {
+    // Admin origin'i (fallback port 80 — ADMIN_URL ile senkron).
+    $adminOrigin = (defined('ADMIN_URL') && ADMIN_URL)
+        ? rtrim((string)ADMIN_URL, '/')
+        : 'http://admin.coremusic.net';
+
+    // Yönlendirme zinciri göreli path getirir (ör. 'admin/auth/callback').
+    // ReturnUrlPolicy::isAllowed() göreli path'i SAFE SAYMAZ (mutlak URL
+    // gerekir) → API fallback'i MUSIC_URL/home'a düşüyordu ve admin girişi
+    // admin.coremusic.net yerine home'a gidiyordu. Göreli hedefler admin
+    // origin'ine göre mutlaklaştırılır; mutlak hedeflere dokunulmaz
+    // (open-redirect koruması API'de ReturnUrlPolicy ile kalır).
+    $ru = (string)($_GET['redirect_uri'] ?? '');
+    if ($ru === '') {
+        $_GET['redirect_uri'] = $adminOrigin . '/auth/callback';
+    } elseif (!str_contains($ru, '://')) {
+        $_GET['redirect_uri'] = $adminOrigin . '/' . ltrim($ru, '/');
+    }
+
+    if (empty($_GET['client_id'])) {
+        $params = http_build_query([
+            'client_id'     => 'coremusic-admin',
+            'response_type' => 'session',
+            'redirect_uri'  => (string)$_GET['redirect_uri'],
+        ]);
+        header('Location: /' . $pageName . '?' . $params, true, 302);
+        exit;
+    }
 }
 
 /* ─── 5. Authenticated User Auto-Redirect ─── */

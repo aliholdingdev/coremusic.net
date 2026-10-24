@@ -212,6 +212,14 @@ span.home-song__mini-card__subtitle {
   padding: 0 var(--home-song-card-text-end, 8px) 0 var(--home-song-card-text-start, 17px);
 }
 
+/* Sanatçı metni (<p>), sağ-alt köşedeki mutlak konumlu süre etiketi kadar
+   sağdan yer ayırır → uzun metin ellipsis ile sürenin ÖNÜNDE kesilir,
+   süre ile çakışmaz. Yalnız <p>; süre <span> aynı class'ı taşır ama
+   absolute olduğu için padding'den etkilenmez. */
+.home-layout--wide p.home-song__mini-card__subtitle {
+  padding-right: var(--home-song-card-time-reserve, 44px);
+}
+
 .home-layout--wide span.home-song__mini-card__subtitle {
   position: absolute;
   top: auto;

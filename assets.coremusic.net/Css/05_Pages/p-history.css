@@ -793,7 +793,8 @@
     position: absolute;
     left: 24px;
     top: 29px;
-    right: 284px;
+    /* sidebar 252 @ right 24 → sol kenar vp-276; right 296 = 20px boşluk */
+    right: 296px;
     bottom: 22px;
     width: auto;
     height: auto;

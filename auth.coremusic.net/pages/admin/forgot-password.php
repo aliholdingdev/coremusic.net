@@ -19,7 +19,7 @@ $apiBase = ((defined('API_URL') && API_URL)
 $apiBase = rtrim($apiBase, '/');
 
 $assetsUrl = defined('ASSETS_URL') ? rtrim((string)ASSETS_URL, '/') : '';
-$adminUrl  = defined('ADMIN_URL') ? rtrim((string)ADMIN_URL, '/') : 'http://admin.coremusic.net:83';
+$adminUrl  = defined('ADMIN_URL') ? rtrim((string)ADMIN_URL, '/') : 'http://admin.coremusic.net';
 
 $figmaNote = 'Yönetici şifre sıfırlama işlemi kurumsal e-posta onayına tabidir. Doğrulama linki 15 dakika geçerlidir ve tek kullanımlıktır.';
 ?>

@@ -78,17 +78,35 @@ final class RateLimitMiddlewareTest extends TestCase
         $this->assertSame('Too many requests', $response['error']['message'] ?? null);
     }
 
-    public function testApiKeyAndIpGetSeparateCounters(): void
+    public function testApiKeyDoesNotBypassExhaustedIpRateLimit(): void
     {
         $middleware = $this->middleware(maxRequests: 1, windowSeconds: 60);
 
-        // IP anahtarını tüket.
+        // IP anahtarını tüket (header'sız istek).
         $middleware([], static fn (): array => ['ok' => true]);
         $limited = $middleware([], static fn (): array => ['ok' => true]);
         $this->assertSame('RATE_LIMIT_EXCEEDED', $limited['error']['code'] ?? null);
 
-        // API key farklı anahtar → hala izinli.
+        // SEC-01: API key eklemek IP sayacını atlatamaz — ip: bucket'ı her istekte taranır.
         $_SERVER['HTTP_X_API_KEY'] = 'test-api-key';
+        $called = false;
+        $response = $middleware([], function () use (&$called): array {
+            $called = true;
+
+            return ['ok' => true];
+        });
+
+        $this->assertFalse($called, 'API key, tükenmiş IP rate-limit\'i atlatamaz (SEC-01)');
+        $this->assertSame('RATE_LIMIT_EXCEEDED', $response['error']['code'] ?? null);
+    }
+
+    public function testFreshIpWithApiKeyStillPassesUnderLimit(): void
+    {
+        $middleware = $this->middleware(maxRequests: 1, windowSeconds: 60);
+
+        // Farklı IP + API key: ip: ve api: bucket'ları boş → limit altında geçer.
+        $_SERVER['REMOTE_ADDR'] = '203.0.113.9';
+        $_SERVER['HTTP_X_API_KEY'] = 'another-key';
         $called = false;
         $middleware([], function () use (&$called): array {
             $called = true;
@@ -96,6 +114,6 @@ final class RateLimitMiddlewareTest extends TestCase
             return ['ok' => true];
         });
 
-        $this->assertTrue($called, 'API key ayrı sayaca sahip olmalı');
+        $this->assertTrue($called, 'Tükenmemiş IP + API key isteği limit altında geçmeli');
     }
 }

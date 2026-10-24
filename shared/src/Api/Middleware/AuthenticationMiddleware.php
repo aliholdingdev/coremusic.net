@@ -107,7 +107,7 @@ final class AuthenticationMiddleware
      * başarılıysa `_auth_user` dizisi döner; aksi halde null — çağıran
      * public'te anonim devam eder, non-public'te 401 fail-closed üretir.
      *
-     * @return array{id: string, authenticated: bool, method: string}|null
+     * @return array{id: string, authenticated: bool, method: string, roles: string[], permissions: string[]}|null
      */
     private function tryAuthenticate(): ?array
     {
@@ -117,6 +117,9 @@ final class AuthenticationMiddleware
                 'id'            => $this->sessionManager->getUserId(),
                 'authenticated' => true,
                 'method'        => 'session',
+                // RBAC (AuthorizationMiddleware requiredRole/requiredPermission):
+                'roles'         => self::normalizeList($this->sessionManager->get('MM_UserRole')),
+                'permissions'   => self::normalizeList($this->sessionManager->get('MM_Permissions')),
             ];
         }
 
@@ -133,6 +136,9 @@ final class AuthenticationMiddleware
                         'id'            => (string) $claims['sub'],
                         'authenticated' => true,
                         'method'        => 'jwt',
+                        // RBAC (AuthorizationMiddleware requiredRole/requiredPermission):
+                        'roles'         => self::normalizeList($claims['roles'] ?? null),
+                        'permissions'   => self::normalizeList($claims['permissions'] ?? null),
                     ];
                 }
                 // revocation edilmiş jti → null döner (fail-closed)
@@ -140,6 +146,25 @@ final class AuthenticationMiddleware
         }
 
         return null;
+    }
+
+    /**
+     * RBAC liste normalizasyonu: tek string → tek elemanlı dizi (boş değilse),
+     * dizi → yalnız string elemanlar (sıra korunur), diğer tüm tipler → [].
+     *
+     * @return string[]
+     */
+    private static function normalizeList(mixed $value): array
+    {
+        if (is_string($value)) {
+            return $value === '' ? [] : [$value];
+        }
+
+        if (is_array($value)) {
+            return array_values(array_filter($value, 'is_string'));
+        }
+
+        return [];
     }
 
     /**

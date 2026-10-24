@@ -183,9 +183,14 @@ if (str_starts_with($requestUri, '/api/')) {
             $corsConfig
         );
         $csrfMiddleware = new CsrfMiddleware();
-        $apiCache       = (function_exists('apcu_enabled') && apcu_enabled())
+        $apcuAvailable  = function_exists('apcu_enabled') && apcu_enabled();
+        $apiCache       = $apcuAvailable
             ? new ApcuAdapter()
             : new MemoryAdapter();
+        if (!$apcuAvailable) {
+            // SEC-02: APCu yok → MemoryAdapter fail-open; sessiz kalmasın, gözlemlenir.
+            $logger->securityEvent('rate_limiter_unavailable', ['mode' => 'fail-open']);
+        }
 
         $pipeline = (new ApiMiddlewarePipeline())
             ->pipe(new ResponseNormalizationMiddleware())

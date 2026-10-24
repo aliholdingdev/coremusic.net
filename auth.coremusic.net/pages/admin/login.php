@@ -19,7 +19,7 @@ $apiBase = ((defined('API_URL') && API_URL)
 $apiBase = rtrim($apiBase, '/');
 
 $assetsUrl   = defined('ASSETS_URL') ? rtrim((string)ASSETS_URL, '/') : '';
-$adminUrl    = defined('ADMIN_URL') ? rtrim((string)ADMIN_URL, '/') : 'http://admin.coremusic.net:83';
+$adminUrl    = defined('ADMIN_URL') ? rtrim((string)ADMIN_URL, '/') : 'http://admin.coremusic.net';
 $redirectUri = $_GET['redirect_uri'] ?? ($adminUrl . '/auth/callback');
 $clientId    = $_GET['client_id'] ?? 'coremusic-admin';
 $responseType = $_GET['response_type'] ?? 'session';

@@ -14,7 +14,7 @@ $nonce = (string)($_SESSION['csp_nonce'] ?? '');
 $csrf  = (string)($_SESSION['csrf_token'] ?? '');
 
 $assetsUrl = defined('ASSETS_URL') ? rtrim((string)ASSETS_URL, '/') : '';
-$adminUrl  = defined('ADMIN_URL') ? rtrim((string)ADMIN_URL, '/') : 'http://admin.coremusic.net:83';
+$adminUrl  = defined('ADMIN_URL') ? rtrim((string)ADMIN_URL, '/') : 'http://admin.coremusic.net';
 
 $figmaNote = 'Yönetici oturumunuz ve aktif güvenlik anahtarlarınız başarıyla sonlandırılmıştır. Güvenliğiniz için tarayıcınızı kapatabilir veya yeniden giriş yapabilirsiniz.';
 ?>

@@ -107,6 +107,9 @@
   --home-song-card-img-w: 50px;
   --home-song-card-text-start: 17px;
   --home-song-card-text-end: 8px;
+  /* Süre etiketi mutlak konumlu (right:3px, max genişlik 38px) → sanatçı <p> sağdan
+     bu kadar yer ayırır ki metin (ellipsis) sürenin altına girmesin: 3+38+3 = 44px. */
+  --home-song-card-time-reserve: 44px;
 
   /* Şarkı şeridi hizası — üst satır (.home-layout__top--wide) ile aynı iç boşluk: x53 sol · x1825 sağ */
   --home-song-list-pad-start: 25px;

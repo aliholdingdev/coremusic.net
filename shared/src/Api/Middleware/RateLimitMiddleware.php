@@ -33,38 +33,49 @@ final class RateLimitMiddleware
      */
     public function __invoke(array $request, callable $next): array
     {
-        $key = $this->getRateLimitKey();
-        
-        // Check if rate limited
-        if ($this->rateLimiter->isLimited($key, $this->maxRequests, $this->windowSeconds)) {
-            header('Retry-After: ' . $this->windowSeconds);
-            return ApiResponse::error(
-                'RATE_LIMIT_EXCEEDED',
-                'Too many requests',
-                429
-            );
+        // SEC-01: ip: bucket'ı header'dan bağımsız HER istekte taranır; header
+        // mevcutsa ek olarak api: bucket'ı da eklenir. Böylece X-Api-Key header'ı
+        // döndürülerek IP rate-limit'i (login brute-force) atlatılamaz.
+        $keys = $this->getRateLimitKeys();
+
+        // Check if rate limited — her anahtar taranır.
+        foreach ($keys as $key) {
+            if ($this->rateLimiter->isLimited($key, $this->maxRequests, $this->windowSeconds)) {
+                header('Retry-After: ' . $this->windowSeconds);
+                return ApiResponse::error(
+                    'RATE_LIMIT_EXCEEDED',
+                    'Too many requests',
+                    429
+                );
+            }
         }
-        
-        // Increment rate limit counter
-        $this->rateLimiter->increment($key, $this->windowSeconds);
-        
+
+        // Increment rate limit counter — tüm anahtarlar sayılır.
+        foreach ($keys as $key) {
+            $this->rateLimiter->increment($key, $this->windowSeconds);
+        }
+
         return $next($request);
     }
 
     /**
-     * Get the rate limit key based on IP or API key.
+     * Get the rate limit keys: always the IP bucket; additionally the API-key
+     * bucket when the header is present. Both are scanned so a client cannot
+     * bypass the IP counter by rotating the X-Api-Key header (SEC-01).
+     *
+     * @return string[]
      */
-    private function getRateLimitKey(): string
+    private function getRateLimitKeys(): array
     {
-        // Use API key if available, otherwise use IP
+        $ip   = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+        $keys = ['ip:' . $ip];
+
         $apiKey = $_SERVER['HTTP_X_API_KEY'] ?? null;
         if ($apiKey !== null) {
-            return 'api:' . hash('sha256', $apiKey);
+            $keys[] = 'api:' . hash('sha256', $apiKey);
         }
-        
-        // Use IP address
-        $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
-        return 'ip:' . $ip;
+
+        return $keys;
     }
 
     /**

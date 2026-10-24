@@ -35,6 +35,11 @@ $subdomainler = [
     'auth.coremusic.net',
     'api.coremusic.net',
     'home.coremusic.net',
+    // 2026-10-24: admin kapsam dışıydı → dashboard'da prezentasyon katmanında
+    // direkt DB erişimi (new DatabaseManager) tespit edildi; repository'ye taşındı
+    // (include/Repository/AdminUserRepository.php) ve kapsam genişletildi.
+    // assets.coremusic.net BİLİNÇLİ kapsam dışı: statik asset, DB yok.
+    'admin.coremusic.net',
 ];
 
 /** Prezentasyon yüzeyi desenleri (bu dosyalar DB'ye dokunamaz). */
