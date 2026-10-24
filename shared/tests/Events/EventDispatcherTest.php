@@ -33,6 +33,35 @@ final class EventDispatcherTest extends TestCase
         $this->assertSame($listener, $listeners[0]);
     }
 
+    public function testFailingListenerDoesNotStopDispatchAndIsLogged(): void
+    {
+        $logger = new class extends \Psr\Log\AbstractLogger {
+            public array $records = [];
+            public function log($level, \Stringable|string $message, array $context = []): void
+            {
+                $this->records[] = [$level, (string) $message, $context];
+            }
+        };
+        $dispatcher = new EventDispatcher($logger);
+        $secondCalled = false;
+
+        $dispatcher->addListener(UserLoggedInEvent::class, function () {
+            throw new \RuntimeException('boom');
+        }, 10);
+        $dispatcher->addListener(UserLoggedInEvent::class, function () use (&$secondCalled) {
+            $secondCalled = true;
+        }, 0);
+
+        $event = new UserLoggedInEvent('user-1', '127.0.0.1', 'phpunit');
+        $result = $dispatcher->dispatch($event);
+
+        $this->assertSame($event, $result);
+        $this->assertTrue($secondCalled, 'Hata veren dinleyiciden sonraki dinleyici çalışmalı');
+        $this->assertCount(1, $logger->records);
+        $this->assertSame('error', $logger->records[0][0]);
+        $this->assertSame(\RuntimeException::class, $logger->records[0][2]['exception']);
+    }
+
     public function testListenerIsCalledOnDispatch(): void
     {
         $called = false;

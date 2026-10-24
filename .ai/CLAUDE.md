@@ -222,7 +222,7 @@ Tüm istemcilerin tek giriş noktası `api.coremusic.net`'tir. Gateway; routing,
 
 #### §6A.2 BFF (Backend for Frontend)
 
-Her istemci tipi kendi BFF'sini kullanır:
+Her istemci tipi kendi BFF'sini kullanır (tarihsel — ADR-084 decommission, 2026-10-18):
 
 | İstemci | BFF | Response |
 |---------|-----|----------|
@@ -262,13 +262,16 @@ SPA **asla** PDO, MySQL, Repository, Entity, Infrastructure, Filesystem, FFmpeg,
 
 ### §6B Shared Library — Hybrid Structure (ADR-085 v3.0)
 
-Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım. Tek Composer paketi: `coremusic/shared` — bu bir **composer paketidir**.
+Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım. Tek Composer paketi: `coremusic/shared-infrastructure` — bu bir **composer paketidir**.
 
 ```
 shared/
-├── composer.json              → Tek paket: coremusic/shared
+├── composer.json              → Tek paket: coremusic/shared-infrastructure
+├── config/
+├── database/
 ├── src/
-└── tests/
+├── tests/
+└── vendor/ (gitignored) + .md belgeler
 ```
 
 ---

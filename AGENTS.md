@@ -202,11 +202,11 @@ kararlarında en az 1 Expert + 1 Senior + 1 Junior görüşü zorunludur.
    doğrudan `.ai` path'i vermek de geçerlidir.
 3. **Yalnız ilgili** `.ai/.rules/` YOK — `.ai/.rules/` altında diskte **yalnız
    `senior-mode.md`** vardır (`error-recovery.md` YOK — bkz §7 adım 7).
-   İlgili kural `.ai/CLAUDE.md` §6 LINT'ten okunur.
+   İlgili kural `.ai/CLAUDE.md` §7 Hard Guardrails'ten okunur.
 4. Hedef dosya okunur.
 5. Kod yazılır.
-6. `.ai/CLAUDE.md` §6 LINT kontrolleri çalıştırılır.
-7. Hata → `.ai/CLAUDE.md` §6 LINT + `.ai/.rules/senior-mode.md` → düzelt → tekrar kontrol (error-recovery.md diskte MEVCUT DEĞİL).
+6. `.ai/CLAUDE.md` §7 Hard Guardrails kontrolleri çalıştırılır.
+7. Hata → `.ai/CLAUDE.md` §7 Hard Guardrails + `.ai/.rules/senior-mode.md` → düzelt → tekrar kontrol (error-recovery.md diskte MEVCUT DEĞİL).
 8. UI değişikliği → browser testi (gerçek sayfa, eleman/layout doğrulaması).
 9. Commit (subagent ATMAZ — orkestratöre aittir).
 
@@ -237,7 +237,7 @@ Diğer tüm görev türleri için geçerli kural §7 Execution Loop adım 0'dır
 |---|---|
 | Anayasa, guardrails, yasaklar | `@.ai/CLAUDE.md` |
 | ADR kararları, mühendislik kısıtları | `@.ai/.decisions/index.md` (`.ai/raw/` dizini diskte YOK — 2026-10-12) |
-| Kural dosyaları, LINT | `@.ai/CLAUDE.md` §6 · not: .ai/.rules/ yeni vault'ta YOK; error-recovery.md diskte hiçbir yerde MEVCUT DEĞİL |
+| Kural dosyaları, guardrail | `@.ai/CLAUDE.md` §7 Hard Guardrails · not: .ai/.rules/ yeni vault'ta YOK; error-recovery.md diskte hiçbir yerde MEVCUT DEĞİL |
 | Agent registry, routing, handover | `.ai/AGENTS.md` (SSOT) · profil indeksi `@.ai/.agents/AGENTS.md` · profiller `@.ai/.agents/*.md` (11 dosya) · eski `.ai/wiki/vault-agents.md` ve `.ai/raw/AGENTS.md` **diskte YOK** (2026-10-10) |
 | Vault-içi otorite | `@.ai/CLAUDE.md` §2 · not: `.ai.OLD/` dizini diskte YOK (2026-10-12), otorite sırası yalnız `.ai/CLAUDE.md` içindedir |
 | Süreç, faz, hard gate | `@.ai/WORKFLOW.md` · eski `.ai/wiki/vault-workflow.md` ve `.ai/raw/WORKFLOW.md` **diskte YOK** (2026-10-10) |

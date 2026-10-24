@@ -31,10 +31,10 @@ docType: context
 
 | Kapsam içi | Kapsam dışı |
 |---|---|
-| `src/` — 20 modül, 203 dosya (ölçüm §3.1) | `vendor/` içeriği — üçüncü taraf kod, elle düzenlenmez |
-| `tests/` — 56 dosya, 9 test grubu | `.phpunit.cache/`, `.phpunit.result.cache` — test artefaktı |
+| `src/` — 19 modül, 185 dosya (ölçüm §3.1) | `vendor/` içeriği — üçüncü taraf kod, elle düzenlenmez |
+| `tests/` — 64 dosya, 9 test grubu | `.phpunit.cache/`, `.phpunit.result.cache` — test artefaktı |
 | `config/` — 8 dosya (yapılandırma şablonları + JWT anahtar çifti) | Subdomain uygulama kodu (`api.coremusic.net/` vb.) |
-| `database/migrations/` — 3 migration dosyası | Frontend/CSS katmanı |
+| `database/migrations/` — 13 dosya (5 php + 7 sql + CLAUDE.md) | Frontend/CSS katmanı |
 | Paket dosyaları: `composer.json`, `composer.lock`, `phpunit.xml`, `test_bypass.php` | |
 
 > **eli10 (basit):** Bu dosya anlatıyor: `shared/` klasörünün içi ne, kim kullanır, kuralları neler. Anlatmıyor: klasördeki üçüncü taraf `vendor/` kodu ve test önbellekleri.
@@ -44,15 +44,15 @@ docType: context
 
 ## 3. Mimari
 
-### 3.1 Envanter (directory_tree ölçümü 2026-10-12: 15 kök girdi = 9 dosya + 6 dizin)
+### 3.1 Envanter (directory_tree ölçümü 2026-10-24: 17 kök girdi = 11 dosya + 6 dizin)
 
 | Katman/Dosya | Ne için | Neyden | Neden var | Ne zaman düzenlenir |
 |---|---|---|---|---|
-| `src/` — 203 dosya, 44 dizin, 20 alt dizin | Çekirdek kütüphane: AI, Api, Bootstrap, Cache, Component, Config, Contracts, Database, Device, Events, Exception, Log, Middleware, OAuth, PageRouter, Repository, Security, Session, Theme, ViewMode | `composer.json` PSR-4 tanımı | Alt domainlerde kod tekrarını önlemek için tek doğruluk kaynağı | Yeni modül/sınıf eklendiğinde; davranış değiştiğinde |
-| `tests/` — 56 dosya, 21 dizin, 9 alt dizin: Api, Component, Events, Fixtures, Middleware, OAuth, Repository, Security, Unit | PHPUnit testleri (44 PHP dosyası) | `src/` davranışları | Değişikliğin paketi bozmadığını kanıtlamak | `src/` davranış değiştirdiğinde |
+| `src/` — 185 dosya, 39 dizin, 19 alt dizin | Çekirdek kütüphane: Api, Bootstrap, Cache, Component, Config, Contracts, Database, Device, Events, Exception, Log, Middleware, OAuth, PageRouter, Repository, Security, Session, Theme, ViewMode | `composer.json` PSR-4 tanımı | Alt domainlerde kod tekrarını önlemek için tek doğruluk kaynağı | Yeni modül/sınıf eklendiğinde; davranış değiştiğinde |
+| `tests/` — 64 dosya, 20 dizin, 9 alt dizin: Api, Component, Events, Fixtures, Middleware, OAuth, Repository, Security, Unit | PHPUnit testleri (52 PHP dosyası) | `src/` davranışları | Değişikliğin paketi bozmadığını kanıtlamak | `src/` davranış değiştirdiğinde |
 | `config/` — 8 dosya: `routes.php` (131 satır), `auth-routes.php` (62), `oauth-platforms.php` (253), `domain.php` (19), `.env.example`, `CLAUDE.md`, `jwt/private.pem`, `jwt/public.pem` | Rota, alan adı, OAuth platform ve ortam şablonları; JWT anahtar çifti | Subdomain gereksinimleri | Konfigürasyonun paketle birlikte taşınması | Rota/OAuth/alan adı eklendiğinde |
-| `database/` — 4 dosya: 3 migration + `CLAUDE.md` | Şema geçmişi (ör. `migrations/oauth_connections_migration.php`) | Veritabanı değişiklikleri | Şemanın sürümlenmesi | Tablo/şema değiştiğinde |
-| `composer.json` — 50 satır | Paket sözleşmesi: ad `coremusic/shared-infrastructure`, sürüm 2.0.0, PHP >=8.4, 5 platform + 9 bağımlılık + 2 dev bağımlılık, PSR-4, scripts `test`/`phpstan` | Ekip kararı | Paketin kimliği ve bağımlılıkları | Bağımlılık/sürüm değiştiğinde |
+| `database/` — 1 dizin (`migrations/`): 13 dosya (5 php + 7 sql + `CLAUDE.md`) | Şema geçmişi (ör. `migrations/oauth_connections_migration.php`) | Veritabanı değişiklikleri | Şemanın sürümlenmesi | Tablo/şema değiştiğinde |
+| `composer.json` — 50 satır | Paket sözleşmesi: ad `coremusic/shared-infrastructure`, sürüm 2.0.0, PHP >=8.4, 5 platform + 9 bağımlılık + 2 dev bağımlılık, PSR-4, scripts `test`/`stan` | Ekip kararı | Paketin kimliği ve bağımlılıkları | Bağımlılık/sürüm değiştiğinde |
 | `composer.lock` — 2760 satır | Kilitli bağımlılıklar: 16 prod + 27 dev = 43 paket (content-hash `6f3426a6e4c5676411252cd4a6063caf`) | `composer update` | Ortamlar arası birebir aynı kurulum | Yalnızca `composer update` ile |
 | `phpunit.xml` — 39 satır | Test yapılandırması (bootstrap, test dizinleri) | PHPUnit kuralları | Test çalıştırma standardı | Test kapsamı değiştiğinde |
 | `test_bypass.php` — 28 satır | CLI smoke test: `BypassAuthMiddleware` + `SecurityHelper::isTestBypassActive` doğrulaması (`development`/`test_mode=true` ortamında) | Middleware davranışı | Bypass mantığını elle hızlı sınamak | Bypass davranışı değiştiğinde |
@@ -63,7 +63,7 @@ docType: context
 | `vendor/` — 2743 dosya, 325 dizin, 16 paket dizini + `autoload.php` | Bağımlılık kodu (2464 PHP dosyası) | `composer install` | Paketlerin yerel kurulumu | Elle asla — yalnız Composer |
 | `.phpunit.cache/` (1 dosya: `test-results`) + `.phpunit.result.cache` | Test önbelleği/artefaktı | PHPUnit çalıştırması | Geçmiş test sonucu hızlandırması | Elle asla |
 
-> **eli10 (basit):** 15 kök girdi var: 9 dosya + 6 klasör. Kod `src/`'te, test `tests/`'te, ayarlar `config/`'te, kurallar üç `.md` dosyasında, üçüncü taraf kod `vendor/`'da durur.
+> **eli10 (basit):** 17 kök girdi var: 11 dosya + 6 klasör. Kod `src/`'te, test `tests/`'te, ayarlar `config/`'te, kurallar üç `.md` dosyasında, üçüncü taraf kod `vendor/`'da durur.
 > **eli15 (detay):** Toplam 3024 dosya / 392 dizin (kök hariç); bunun 2743'ü `vendor/`'da olduğundan proje kodu gerçekte küçüktür: 217 PHP dosyası (src 165 + tests 44 + config 4 + database 3 + test_bypass 1). Proje dışı uzantı dağılımı: 52 `.md`, 6 `.pem` (2'si `config/jwt/` çifti, kalan 4'ün konumu ölçümden bilinmiyor), 1 `.json`, 1 `.lock`, 1 `.xml`, 1 `.example`, 1 `.cache`, 1 uzantısız. `src/` içindeki 20 modül Composer PSR-4 köküne görelidir; `tests/` 9 grubu `src/` modülleriyle birebir örtüşmez (Fixtures ayrı bir gruptur).
 
 ### 3.2 Composer Bağımlılıkları (`composer.json` 50 satır + `composer.lock` 2760 satır)
@@ -76,7 +76,7 @@ docType: context
 | Lock kaydı | 43 | 16 prod + 27 dev (lock, json'daki 9+2'den fazladır; transitive bağımlılıklar dahil) |
 
 > **eli10 (basit):** Paket, 9 eklenti + PHPUnit + PHPStan'e ihtiyaç duyar. `composer.lock` 43 paketin tam listesini kilitler.
-> **eli15 (detay):** Prod ağacının çekirdeği DI (`php-di`), JWT (`firebase/php-jwt`), PSR arayüzleri ve `symfony/event-dispatcher`'dır — yani `shared/` bir uygulama değil, uzantılara açık bir altyapı paketidir. Scripts: `composer test` (PHPUnit), `composer phpstan`. Lock'taki 43 sayı, transitive bağımlılıklarla şişer; güncelleme yalnızca `composer update` ile yapılır, lock elle dokunulmaz.
+> **eli15 (detay):** Prod ağacının çekirdeği DI (`php-di`), JWT (`firebase/php-jwt`), PSR arayüzleri ve `symfony/event-dispatcher`'dır — yani `shared/` bir uygulama değil, uzantılara açık bir altyapı paketidir. Scripts: `composer test` (PHPUnit), `composer stan`. Lock'taki 43 sayı, transitive bağımlılıklarla şişer; güncelleme yalnızca `composer update` ile yapılır, lock elle dokunulmaz.
 
 ### 3.3 Tüketici Subdomain'ler (composer.json `repositories` + `require` kontrolü)
 
@@ -158,7 +158,7 @@ docType: context
 | 1 | İhtiyaç belirlenir: hangi subdomain, hangi davranış | Değişiklik kapsamı |
 | 2 | `src/` ilgili modüle yazılır (mevcut pattern'lere uygun) | Yeni/değişen sınıf |
 | 3 | `tests/` ilgili gruba test eklenir | Regresyon güvencesi |
-| 4 | `composer test` + `composer phpstan` çalıştırılır | Yeşil test + 0 analiz hatası |
+| 4 | `composer test` + `composer stan` çalıştırılır | Yeşil test + 0 analiz hatası |
 | 5 | Gerekiyorsa `config/` veya `database/migrations/` güncellenir | Şema/ayar değişikliği |
 | 6 | Tüketici subdomain'de entegrasyon doğrulanır (path-repo symlink sayesinde yeniden kurulum gerekmez) | Uçtan uca doğrulama |
 
@@ -172,7 +172,7 @@ docType: context
 | Komut | Ne doğrular | Beklenen |
 |---|---|---|
 | `composer test` | 44 test dosyası (PHPUnit 10.5) | Yeşil, 0 hata |
-| `composer phpstan` | Statik analiz (PHPStan ^1.10) | 0 hata |
+| `composer stan` | Statik analiz (PHPStan ^1.10) | 0 hata |
 | `php test_bypass.php` | `BypassAuthMiddleware` + test bypass aktifliği (development) | 5 adım çıktısı, exception yok |
 | `composer validate` | `composer.json`/`lock` tutarlılığı | geçerli |
 | Dizin sayımı (directory_tree) | Envanter tablosu (§3.1) tazeliği | 15 kök girdi |

@@ -26,23 +26,23 @@ Tüm subdomainler bu kütüphaneye bağımlıdır. **Değişiklik yayılımı en
 
 ```
 shared/
-├── composer.json ← Tek paket: coremusic/shared
+├── composer.json ← Tek paket: coremusic/shared-infrastructure
 ├── config/ ← Route, domain, OAuth yapılandırması
 ├── database/migrations/ ← oauth_connections + oauth_states
 ├── src/ ← 20 alt klasör, tüm shared kaynak kodu
 │ ├── AI/ ← DECOMMISSIONED (ADR-030, 2026-10-18)
-│ ├── Api/ ← Gateway, BFF×4, DTO, Middleware×6, Registry, Versioning
+│ ├── Api/ ← Gateway, DTO, Middleware×6, Registry, Versioning (Bff DECOMMISSIONED — ADR-084)
 │ ├── Bootstrap/ ← RuntimeBootstrap.php
 │ ├── Cache/ ← Apcu, Memory, PageCache (ADR-007)
 │ ├── Component/ ← Paylaşılan UI bileşen katmanı
 │ ├── Config/ ← ConfigManager, DomainConfig, EnvParser (ADR-015)
 │ ├── Contracts/ ← Api + Events sözleşmeleri
 │ ├── Database/ ← DatabaseManager, DatabaseRegistry (ADR-003/022)
-│ ├── Device/ ← DeviceDetector, DeviceManager, DeviceCssMap
+│ ├── Device/ ← DeviceDetector, DeviceManager, DeviceCssMap, DeviceRenderer
 │ ├── Events/ ← EventDispatcher + 9 domain + 3 integration event (ADR-086)
 │ ├── Exception/ ← 8 exception (BaseCoreMusicException hiyerarşisi)
-│ ├── Log/ ← LoggerFactory, FileHandler
-│ ├── Middleware/ ← 11 dosya HTTP middleware + MiddlewarePipeline (CSRF, RateLimit, Security, Session...)
+│ ├── Log/ ← LoggerFactory, FileHandler, Redactor
+│ ├── Middleware/ ← 10 middleware + MiddlewarePipeline (11 dosya; CSRF, RateLimit, Security, Session...)
 │ ├── OAuth/ + Provider/ ← OAuthManager + 12 provider
 │ ├── PageRouter/ ← 14 dosya — SPA page router (ADR-021/083)
 │ ├── Repository/ ← Depo katmanı (ApiKey vb.)
@@ -68,7 +68,7 @@ shared/
 | API Middleware | 6 (Authentication, Authorization, RateLimit, RequestValidation, ResponseNormalization, Validator) |
 | API Versioning | ApiVersion, VersionRegistry, VersionResolver |
 | Test dizinleri | 9 (Api, Component, Events, Fixtures, Middleware, OAuth, Repository, Security, Unit) |
-| Bilinen risk | `Theme`/`ViewMode` tek dosyalık — test kapsamı dışında |
+| Bilinen risk | `Theme` kapsamda (ThemeManagerModeTest); `ViewModeManager` testi yok |
 
 ---
 

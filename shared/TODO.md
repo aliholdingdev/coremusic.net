@@ -15,11 +15,11 @@ updated: 2026-10-23
 **Kural (Zero-Hallucination):** Her madde PRD §7 / disk kanıtına dayanır; kanıtlanamayan madde yazılmaz. Durum: `[ ]` açık · `[x]` kapalı.
 
 **eli10:** Ortak çekirdeğin kalan işleri: alt PRD bağlantıları, migrations/config sözleşmesi, DECOMMISSIONED envanter notu.
-**eli15:** #9–#17, #23, #24 alt PRD'lerinin çoğu **diskte YOK** — bağlantı maddeleri o dosyalar üretilince kapanır (eksik-PRD listesi: `[[../TODO]]` §2).
+**eli15:** #9–#17 alt PRD'lerinin **9/9'u diskte mevcut** (2026-10-24 disk doğrulaması: `src/{PageRouter,Middleware,Api,Security,Database,OAuth,Events,Cache,Session}/PRD.md`); #23, #24 diskte YOK — bu iki bağlantı maddesi o dosyalar üretilince kapanır (eksik-PRD listesi: `[[../TODO]]` §2).
 
 ## Açık Maddeler
 
-- [ ] **Alt PRD bağlantıları** — #9–#17 (PageRouter · Middleware · Api · Security · Database · OAuth · Events · Cache · Session) bu dosyaya bağlanır (üretim durumuna göre) · Kaynak: `[[PRD.md]]` §7.1
+- [x] **Alt PRD bağlantıları** — #9–#17 (PageRouter · Middleware · Api · Security · Database · OAuth · Events · Cache · Session) · 2026-10-24 disk doğrulaması: **9/9 mevcut** (`src/{PageRouter,Middleware,Api,Security,Database,OAuth,Events,Cache,Session}/PRD.md`) · Kaynak: `[[PRD.md]]` §7.1
 - [ ] **#23 (`shared/database/migrations`) + #24 (`shared/config`) alt PRD'leri** — şema/konfigürasyon sözleşmesini derinleştirir (diskte YOK) · Kaynak: `[[PRD.md]]` §7.2
 - [ ] **DECOMMISSIONED envanter notu** — AI · Bff modülleri için not `[[CONTEXT.md]]` §3.5'e taşınır; geri ekleme yalnız ADR ile · Kaynak: `[[PRD.md]]` §7.3
 

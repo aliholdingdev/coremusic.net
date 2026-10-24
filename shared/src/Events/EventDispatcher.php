@@ -13,6 +13,7 @@ namespace CoreMusic\Events;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\StoppableEventInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Event Dispatcher implementation following PSR-14.
@@ -22,8 +23,14 @@ final class EventDispatcher implements EventDispatcherInterface
     private array $listeners = [];
     private array $sortedListeners = [];
 
+    public function __construct(private readonly ?LoggerInterface $logger = null)
+    {
+    }
+
     /**
      * Dispatch an event.
+     *
+     * Abone (listener) hatası yayıcıyı düşürmez: hata loglanır ve zincir sürer (PRD-EVT-003).
      */
     public function dispatch(object $event): object
     {
@@ -38,7 +45,11 @@ final class EventDispatcher implements EventDispatcherInterface
                 break;
             }
             
-            $listener($event);
+            try {
+                $listener($event);
+            } catch (\Throwable $e) {
+                $this->reportListenerFailure($eventName, $e);
+            }
         }
         
         return $event;
@@ -101,6 +112,18 @@ final class EventDispatcher implements EventDispatcherInterface
     public function hasListeners(string $eventName): bool
     {
         return !empty($this->listeners[$eventName]);
+    }
+
+    private function reportListenerFailure(string $eventName, \Throwable $e): void
+    {
+        $context = ['event' => $eventName, 'exception' => $e::class, 'message' => $e->getMessage()];
+
+        if ($this->logger !== null) {
+            $this->logger->error('Event listener failed', $context);
+            return;
+        }
+
+        error_log('[EventDispatcher] Event listener failed: ' . json_encode($context, JSON_UNESCAPED_UNICODE));
     }
 
     /**

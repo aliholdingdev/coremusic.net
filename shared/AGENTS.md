@@ -41,6 +41,7 @@ Paylaşılan PHP altyapısı (ADR-039): tüm subdomainlerin ortak middleware, ro
 | `src/Api/Versioning/` | ApiVersion, VersionRegistry, VersionResolver |
 | `src/Bootstrap/RuntimeBootstrap.php` | Ortak çalışma zamanı kurulumu |
 | `src/Cache/` | Apcu, Memory, PageCache adapter'ları (ADR-007) |
+| `src/Component/` | Paylaşılan UI bileşen katmanı — 3 dosya: AbstractComponent, ComponentInterface, TemplateEngine |
 | `src/Config/` | ConfigManager, DomainConfig, EnvParser (ADR-015), AuthRouteConfig |
 | `src/Contracts/` | TEK interface kok: Api, Events, AI, Auth, Config, Database, Middleware, Security + sözleşmeleri |
 | `src/Database/` | DatabaseManager, DatabaseRegistry (ADR-003/022) |
@@ -52,6 +53,7 @@ Paylaşılan PHP altyapısı (ADR-039): tüm subdomainlerin ortak middleware, ro
 | `src/Middleware/` | 10+ HTTP middleware (Auth, BypassAuth ADR-008, CSRF ADR-010, RateLimiter ADR-013, SecurityHeaders, Session, CORS, Origin, Permission) |
 | `src/OAuth/` + `Provider/` | OAuthManager + 12 provider (Base + Discord, Facebook, Instagram, LinkedIn, Pinterest, Reddit, Snapchat, TikTok, ...) |
 | `src/PageRouter/` | 14 dosya — SPA page router (ADR-021/083): Kernel, HtmlShellRenderer, AuthGuard, RouteRegistry, RequestNormalizer, ResponseEmitter, ... |
+| `src/Repository/` | Depo katmanı — 1 dosya: ApiKeyRepository |
 | `src/Security/` | CacheRateLimiter, ReturnUrlPolicy, SecurityHelper, SessionKeys, UuidV7 |
 | `src/Session/` | SessionBootstrapper, Config, Initializer, Lifecycle (ADR-011) |
 | `src/Theme/ThemeManager.php` | Tema motoru (ADR-044) |

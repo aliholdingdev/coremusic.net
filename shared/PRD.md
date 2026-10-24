@@ -36,9 +36,9 @@ Bu PRD, `shared/` paketinin (**`coremusic/shared-infrastructure` v2.0.0**) ortak
 | `src/**` modülleri (alt PRD'ler #9–#17 ile derinleştirilir) | `vendor/**` (Composer malı, elle düzenlenmez — 2743 dosya) |
 | `composer.json` / `composer.lock` (paket sözleşmesi, 43 kilitli paket) | Subdomain uygulama kodu (api/auth/home PRD'leri) |
 | `config/**` (routes · auth-routes · oauth-platforms · domain · `.env.example` · JWT çifti) | Frontend/CSS (assets PRD #3) |
-| `phpunit.xml` + `tests/**` (9 grup) · `database/migrations/**` (3 migration) | `.phpunit.cache/**` (artefakt) |
+| `phpunit.xml` + `tests/**` (9 grup) · `database/migrations/**` (13 dosya: 5 php + 7 sql + CLAUDE.md) | `.phpunit.cache/**` (artefakt) |
 
-- **Ölçüm (disk kanıtı, 2026-10-12):** kök **15 girdi = 9 dosya + 6 dizin**; `src/` 203 dosya / 20 modül — sayı `[[CONTEXT.md]]` §3.1'dedir, burada tekrarlanmaz. **Not:** `src/` 20 alt dizinden **19 aktiftir** — `AI/` ve `Api/Bff/` DECOMMISSIONED 2026-10-18 (ADR-030/ADR-084, 0 dış referans kanıtıyla silindi); eski "20 modül" sayımı tarihsel kayıttır.
+- **Ölçüm (disk kanıtı, 2026-10-24):** kök **17 girdi = 11 dosya + 6 dizin**; `src/` 185 dosya / 19 modül — sayı `[[CONTEXT.md]]` §3.1'dedir, burada tekrarlanmaz. **Not:** `src/` 19 alt dizinin tamamı aktiftir — `AI/` ve `Api/Bff/` DECOMMISSIONED 2026-10-18 (ADR-030/ADR-084, 0 dış referans kanıtıyla silindi); eski "20 modül / 203 dosya" sayımı tarihsel kayıttır.
 - **Ön koşul:** Tüketici matrisi — api/auth/home path-repo (`^2.0`) kullanır; **media ve assets kullanmaz**.
 - **Dokunulmaz:** `vendor/**` · `.phpunit.cache/**` · `config/jwt/*` anahtar çifti içeriği (private pem REDACTED) · frozen ADR metinleri.
 
@@ -57,7 +57,7 @@ Bu PRD, `shared/` paketinin (**`coremusic/shared-infrastructure` v2.0.0**) ortak
 | PRD-SHR-003 | DB erişimi yalnız `DatabaseManager` + PDO prepared (ADR-002/003) | İkinci bağlantı yok; `SELECT *` yasak; ORM yasak |
 | PRD-SHR-004 | Middleware ekleme `MiddlewarePipeline` kaydıyla olur | Kayıtsız middleware devrede değil; bypass kapsamı ADR'siz genişlemez (ADR-008) |
 | PRD-SHR-005 | Yeni domain event `src/Events/Domain/` + arayüz + test ile gelir | `DomainEventInterface` zorunlu; test yeşil |
-| PRD-SHR-006 | Test/PHPStan kapısı yeşil kalır | `composer test` + `composer phpstan` PASS; coverage hedefi ≥%80 (PRD-PLT-006) |
+| PRD-SHR-006 | Test/PHPStan kapısı yeşil kalır | `composer test` + `composer stan` PASS; coverage hedefi ≥%80 (PRD-PLT-006) |
 
 > **eli10 (basit):** Altı kural: tek sürüm, düz namespace, tek DB kapısı, kayıtlı middleware, testli event, yeşil kapı.
 > **eli15 (detay):** Kimlikler ayrı çünkü ortak paket ihlali üç siteye birden yansır; denetlenebilir olmalıdır.
@@ -72,7 +72,7 @@ Bu PRD, `shared/` paketinin (**`coremusic/shared-infrastructure` v2.0.0**) ortak
 | 1 | Paket | PRD-SHR-001/002 — sürüm + PSR-4 |
 | 2 | Veri | PRD-SHR-003 — DatabaseManager tek kapı (PRD-PLT-007) |
 | 3 | Güvenlik | PRD-SHR-004 — Security denetimi; bypass yalnız ADR ile (PRD-PLT-006) |
-| 4 | Test | PRD-SHR-005/006 — `composer test` + `composer phpstan` |
+| 4 | Test | PRD-SHR-005/006 — `composer test` + `composer stan` |
 | 5 | Kanıt | Ölçülmeyen modül/coverage iddiası `⚠️ VERIFICATION REQUIRED` (PRD-PLT-011) |
 
 > **eli10 (basit):** Beş kapı: paket, veri, güvenlik, test, kanıt.
