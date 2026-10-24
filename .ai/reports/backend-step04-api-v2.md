@@ -175,7 +175,7 @@ katmanının doğru çalıştığının kanıtıdır.
 ---
 
 **İlgili:** `backend-step01-sema-dogrulama.md` · `backend-step02-bcnf-denetim.md` ·
-`backend-step03-pdo-connection-factory.md` (yakında)
+`backend-step03-pdo-connection-factory.md` (2026-10-24 kapandı)
 
 **Sonraki adım:** Adım 05 — Prompt arşivinden `coremusic-backend-step05-*.md`
 okunarak devam.
