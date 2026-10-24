@@ -138,6 +138,25 @@ jobs:
           composer audit
         working-directory: home.coremusic.net
 
+  # ─── DB erişim guardrail (ADR-002) — onay: 2026-10-24 ─────────────
+  # Prezentasyon (index/Controller/pages) DB AÇAMAZ; repository kendi
+  # bağlantısını KURAMAZ (yalnız DI IDatabaseManager). Statik tarama,
+  # composer install gerektirmez. İhlal → exit 1 → job kırmızı.
+  db-access-guard:
+    name: DB Access Guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+
+      - name: DB access guard (statik tarama)
+        run: php bin/db-access-guard.php
+
   # ─── WP2/J1 (2026-10-07) — JS test altyapısı ─────────────────────
   js-test:
     name: JS Unit Tests

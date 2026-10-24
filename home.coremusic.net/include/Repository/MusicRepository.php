@@ -2,8 +2,8 @@
 
 namespace CoreMusic\Home\Repository;
 
-use CoreMusic\Database\Config\DatabaseConfig;
-use CoreMusic\Database\DatabaseManager;
+use CoreMusic\Contracts\Database\IDatabaseManager;
+use CoreMusic\Database\ConnectionFactory;
 
 /**
  * MusicRepository — coremusic_musics veri erişimi (stream + component ortak).
@@ -11,10 +11,13 @@ use CoreMusic\Database\DatabaseManager;
  * ADR-002: yalnız DatabaseManager üzerinden prepared statement; SELECT * yok.
  * Bağluk tembel (lazy): PDO ilk sorguda açılır — DB'siz ortamlarda (testler)
  * bağlantı denemesi yapılmaz.
+ *
+ * Bağlantı kaynağı TEKTTİR: shared ConnectionFactory registry (ADR-003/022) —
+ * repository kendi PDO/DatabaseManager'ını KURMAZ; aynı şemaya tek connection.
  */
 final class MusicRepository
 {
-    private ?DatabaseManager $db = null;
+    private ?IDatabaseManager $db = null;
 
     private function __construct(
         private readonly string $dbHost,
@@ -95,16 +98,29 @@ final class MusicRepository
         return $this->db()->execute($sql);
     }
 
-    /** Tembel bağlantı: ilk sorguda DatabaseManager + PDO oluşturulur. */
-    private function db(): DatabaseManager
+    /**
+     * Tembel bağlantı: ilk sorguda shared ConnectionFactory registry üzerinden
+     * DatabaseManager çözülür (kendi bağlantımızı KURMAYIZ — tek bağlantı kaynağı).
+     */
+    private function db(): IDatabaseManager
     {
-        return $this->db ??= new DatabaseManager(new DatabaseConfig(
-            $this->dbHost,
-            $this->dbName,
-            $this->dbUser,
-            $this->dbPassword,
-            $this->dbPort,
-            $this->dbCharset,
-        ));
+        if ($this->db === null) {
+            $factory = ConnectionFactory::getInstance();
+            $key     = 'home_' . $this->dbName;
+            if (!$factory->registry()->has($key)) {
+                $factory->registry()->registerMySql(
+                    $key,
+                    $this->dbHost,
+                    $this->dbName,
+                    $this->dbUser,
+                    $this->dbPassword,
+                    $this->dbPort,
+                    $this->dbCharset,
+                );
+            }
+            $this->db = $factory->registry()->get($key);
+        }
+
+        return $this->db;
     }
 }

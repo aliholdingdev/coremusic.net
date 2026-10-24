@@ -143,9 +143,19 @@ if (preg_match('#^(?:/api/v1)?/stream/([a-f0-9]{32})$#i', $requestUri, $matches)
 /* --- 2. API Gateway (/api/v1/*) --- */
 if (str_starts_with($requestUri, '/api/')) {
     // Auth uçları SSOT AuthService ile çalışır → $_SESSION şart (Faz 1b).
-    // Aynı SessionBootstrapper = auth.coremusic.net ile aynı cookie/save path.
-    if (preg_match('#^/api/v1/auth(/|$)#', $requestUri) === 1) {
-        \CoreMusic\Session\SessionBootstrapper::ensureStarted();
+    // Onarım 2026-10-24 (ADR-052/010/011): session yalnız /api/v1/auth/*'te
+    // açılıyordu → auth'lu uçlar (playlist/history/user) session-authenticated
+    // istemciyi tanıyamıyor, 401 dönüyordu (ApiSessionManager session_start()
+    // çağırmaz — ADR-052). Artık: auth route'ları HER durumda, diğer uçlar
+    // session cookie GELDİYSE oturum açar; cookie'siz stateless istemcilere
+    // (Bearer/curl) ek session cookie üretilmez (ADR-052 prensibi korunur).
+    // startOrExtend() csrf_token üretimini (ADR-010, SessionLifecycle:47) de
+    // tetikler. Middleware sırası ADR-020 DEĞİŞMEZ.
+    if (($method !== 'OPTIONS') && (
+        preg_match('#^/api/v1/auth(/|$)#', $requestUri) === 1
+        || isset($_COOKIE[\CoreMusic\Session\SessionConfig::fromEnvironment()->name])
+    )) {
+        (new \CoreMusic\Session\SessionLifecycle())->startOrExtend();
     }
 
     // Middleware pipeline'ının beklediği request formatı (Cors: server + method).

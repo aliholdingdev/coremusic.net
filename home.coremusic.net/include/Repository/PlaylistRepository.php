@@ -2,18 +2,20 @@
 
 namespace CoreMusic\Home\Repository;
 
-use CoreMusic\Database\Config\DatabaseConfig;
-use CoreMusic\Database\DatabaseManager;
+use CoreMusic\Contracts\Database\IDatabaseManager;
+use CoreMusic\Database\ConnectionFactory;
 
 /**
  * PlaylistRepository — coremusic_playlist şeması veri erişimi.
  *
  * ADR-002: yalnız DatabaseManager üzerinden prepared statement; SELECT * yok.
  * Tembel (lazy) bağlantı: ilk sorguda açılır.
+ * Bağlantı kaynağı TEKTTİR: shared ConnectionFactory registry — repository
+ * kendi DatabaseManager'ını KURMAZ (aynı şemaya tek connection).
  */
 final class PlaylistRepository
 {
-    private ?DatabaseManager $db = null;
+    private ?IDatabaseManager $db = null;
 
     public function __construct(
         private readonly string $dbHost,
@@ -64,19 +66,23 @@ final class PlaylistRepository
         }
     }
 
-    private function db(): DatabaseManager
+    private function db(): IDatabaseManager
     {
         if ($this->db === null) {
-            $this->db = new DatabaseManager(
-                new DatabaseConfig(
+            $factory = ConnectionFactory::getInstance();
+            $key     = 'home_' . $this->dbName;
+            if (!$factory->registry()->has($key)) {
+                $factory->registry()->registerMySql(
+                    $key,
                     $this->dbHost,
                     $this->dbName,
                     $this->dbUser,
                     $this->dbPassword,
                     $this->dbPort,
                     $this->dbCharset
-                )
-            );
+                );
+            }
+            $this->db = $factory->registry()->get($key);
         }
 
         return $this->db;

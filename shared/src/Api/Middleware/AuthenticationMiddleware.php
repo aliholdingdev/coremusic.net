@@ -22,6 +22,11 @@ use CoreMusic\Security\JwtService;
  * P1-9 (B-F-01): Bearer dalı artık gerçek RS256 doğrulama yapar (JwtService);
  * imza/exp/iss/aud geçerli VE (varsa) jti revocation kontrolü sağlarsa
  * `_auth_user.method = 'jwt'` ile devam eder. Aksi halde 401 (fail-closed).
+ *
+ * Onarım 2026-10-24: public route'larda optional authentication — başarılı
+ * deneme `_auth_user` set eder (servisler anonymous + authenticated
+ * birlikte destekleyebilir), başarısızlık 401 DEĞİL anonim akışla devam
+ * eder. Non-public yol fail-closed davranış korunur.
  */
 final class AuthenticationMiddleware
 {
@@ -63,20 +68,56 @@ final class AuthenticationMiddleware
             return $next($request);
         }
 
-        // Skip authentication for public routes
+        // Onarım 2026-10-24 — optional authentication: public route'larda da
+        // önce mevcut auth denemesi yapılır (session → Bearer JWT). Başarılıysa
+        // `_auth_user` set edilir; BAŞARISIZSA 401 DEĞİL anonim akışla devam
+        // edilir. Ek güvenlik kazancı: session-authenticated istemcide
+        // `_auth_user.method = 'session'` olduğu için CsrfMiddleware gate'i
+        // public state-changing uçlarda (ör. POST auth/set-gender) doğru
+        // devreye girer (A01:2011 kapatması).
         if ($this->isPublicRoute($request)) {
+            $authUser = $this->tryAuthenticate();
+            if ($authUser !== null) {
+                $request['_auth_user'] = $authUser;
+            }
             return $next($request);
         }
 
+        // Non-public route: auth başarısızsa 401 UNAUTHORIZED (fail-closed) —
+        // mevcut davranış birebir korunur.
+        $authUser = $this->tryAuthenticate();
+        if ($authUser !== null) {
+            $request['_auth_user'] = $authUser;
+            return $next($request);
+        }
+
+        // Not authenticated
+        return ApiResponse::error(
+            'UNAUTHORIZED',
+            'Authentication required',
+            401
+        );
+    }
+
+    /**
+     * Onarım 2026-10-24: mevcut istemci auth denemesi (optional auth çekirdeği).
+     *
+     * Önce session (ISessionManager::isAuthenticated), sonra Bearer JWT
+     * (P1-9: gerçek RS256 doğrulama + jti revocation). Herhangi biri
+     * başarılıysa `_auth_user` dizisi döner; aksi halde null — çağıran
+     * public'te anonim devam eder, non-public'te 401 fail-closed üretir.
+     *
+     * @return array{id: string, authenticated: bool, method: string}|null
+     */
+    private function tryAuthenticate(): ?array
+    {
         // Check if user is authenticated via session
         if ($this->sessionManager->isAuthenticated()) {
-            $userId = $this->sessionManager->getUserId();
-            $request['_auth_user'] = [
-                'id' => $userId,
+            return [
+                'id'            => $this->sessionManager->getUserId(),
                 'authenticated' => true,
-                'method' => 'session',
+                'method'        => 'session',
             ];
-            return $next($request);
         }
 
         // Check for JWT token in Authorization header (P1-9: gerçek RS256 doğrulama)
@@ -88,23 +129,17 @@ final class AuthenticationMiddleware
                 $revoked = $this->accessTokenValidator !== null
                     && !($this->accessTokenValidator)((string) $claims['jti']);
                 if (!$revoked) {
-                    $request['_auth_user'] = [
-                        'id'           => (string) $claims['sub'],
+                    return [
+                        'id'            => (string) $claims['sub'],
                         'authenticated' => true,
-                        'method'       => 'jwt',
+                        'method'        => 'jwt',
                     ];
-                    return $next($request);
                 }
-                // revocation edilmiş jti → 401'e düşer (fail-closed)
+                // revocation edilmiş jti → null döner (fail-closed)
             }
         }
 
-        // Not authenticated
-        return ApiResponse::error(
-            'UNAUTHORIZED',
-            'Authentication required',
-            401
-        );
+        return null;
     }
 
     /**

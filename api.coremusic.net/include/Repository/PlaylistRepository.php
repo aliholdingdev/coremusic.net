@@ -29,8 +29,11 @@ final class PlaylistRepository implements IPlaylistRepository
                     p.name               AS name,
                     p.description        AS description,
                     p.visibility         AS visibility,
-                    p.track_count        AS track_count,
-                    p.total_duration     AS total_duration,
+                    -- Onarım 2026-10-24: gerçek şema sütunları total_tracks /
+                    -- total_duration_sec (SHOW COLUMNS kanıtı); alias sözleşmeyi
+                    -- korur (service/contract == track_count / total_duration).
+                    p.total_tracks       AS track_count,
+                    p.total_duration_sec AS total_duration,
                     p.created_at         AS created_at
                FROM playlists p
               WHERE p.user_id = UNHEX(:uid)
@@ -48,12 +51,18 @@ final class PlaylistRepository implements IPlaylistRepository
 
         $rows = $this->db()->execute(
             'SELECT HEX(p.id)            AS playlist_id,
-                    HEX(p.user_id)       AS owner_id_hex,
+                    -- Onarim 2026-10-24: HEX() UPPER doner, session userId
+                    -- lowercase (/me kaniti) -> strict !== hep false, sahiplik
+                    -- kontrolu 404 olarak donuyordu. LOWER(HEX) = kanonik hex form.
+                    LOWER(HEX(p.user_id))  AS owner_id_hex,
                     p.name               AS name,
                     p.description        AS description,
                     p.visibility         AS visibility,
-                    p.track_count        AS track_count,
-                    p.total_duration     AS total_duration,
+                    -- Onarım 2026-10-24: gerçek şema sütunları total_tracks /
+                    -- total_duration_sec (SHOW COLUMNS kanıtı); alias sözleşmeyi
+                    -- korur (service/contract == track_count / total_duration).
+                    p.total_tracks       AS track_count,
+                    p.total_duration_sec AS total_duration,
                     p.created_at         AS created_at
                FROM playlists p
               WHERE p.id = UNHEX(:id)
@@ -116,7 +125,7 @@ final class PlaylistRepository implements IPlaylistRepository
 
             // Denormalize sayaç tutarlılığı (playlist_stats'a dokunulmaz — Faz 4 kapsamı dışı).
             $db->write(
-                'UPDATE playlists SET track_count = track_count + 1 WHERE id = UNHEX(:pid)',
+                'UPDATE playlists SET total_tracks = total_tracks + 1 WHERE id = UNHEX(:pid)',
                 ['pid' => $playlistId]
             );
 
@@ -146,7 +155,7 @@ final class PlaylistRepository implements IPlaylistRepository
 
             $db->write(
                 'UPDATE playlists
-                    SET track_count = GREATEST(track_count - 1, 0)
+                    SET total_tracks = GREATEST(total_tracks - 1, 0)
                   WHERE id = UNHEX(:pid)',
                 ['pid' => $playlistId]
             );
@@ -279,8 +288,12 @@ final class PlaylistRepository implements IPlaylistRepository
                     a.name            AS artist_name,
                     pt.position       AS position
                FROM playlist_tracks pt
-               JOIN musics m ON m.id = pt.music_id
-               JOIN artists a ON a.id = m.artist_id
+               -- Onarım 2026-10-24: musics/artists coremusic_musics şemasındadır
+               -- (SHOW COLUMNS kanıtı: coremusic_playlist şemasında yok → 1146).
+               -- Şema qualifier ile tek playlist baglantisindan JOIN (ADR-002
+               -- korunur: prepared statement, SELECT * yok).
+               JOIN coremusic_musics.musics  m ON m.id = pt.music_id
+               JOIN coremusic_musics.artists a ON a.id = m.artist_id
               WHERE pt.playlist_id = UNHEX(:pid)
                 AND pt.is_deleted = 0
                 AND m.is_deleted = 0

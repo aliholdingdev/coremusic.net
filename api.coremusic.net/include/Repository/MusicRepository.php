@@ -68,10 +68,15 @@ final class MusicRepository implements IMusicRepository
     public function findMany(int $limit, int $offset): array
     {
         // LIMIT/OFFSET int cast ile gömülür (native prepare bu alanlarda bind desteklemez).
+        // Onarim 2026-10-24: DISTINCT + ORDER BY m.created_at -> MySQL 3065
+        // (sutun SELECT listesinde olmali). created_at SELECTe eklenir; ORDER
+        // BY semantigi degismez, yanit alanina additive eklenir (tracks +
+        // header-data searchSuggestions ikisi de bu sorguyu kullanir).
         $sql = 'SELECT DISTINCT HEX(m.id)     AS music_hex,
                        m.title        AS title,
                        m.duration_sec AS duration_sec,
-                       a.name         AS artist_name
+                       a.name         AS artist_name,
+                       m.created_at   AS created_at
                   FROM musics m
                   JOIN artists a     ON a.id = m.artist_id
                   JOIN music_files f ON f.music_id = m.id
@@ -79,7 +84,7 @@ final class MusicRepository implements IMusicRepository
                    AND a.is_deleted = 0
                    AND f.is_deleted = 0
                    AND f.is_primary = 1
-                 ORDER BY m.created_at DESC, m.id ASC
+                 ORDER BY m.created_at DESC, HEX(m.id) ASC
                  LIMIT ' . (int) $limit . ' OFFSET ' . (int) $offset;
 
         return $this->db()->execute($sql);

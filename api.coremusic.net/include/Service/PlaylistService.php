@@ -44,8 +44,9 @@ final class PlaylistService implements IPlaylistService
         }
 
         // Ownership: private ise yalnız sahip görür; public/followers_only herkese.
+        // Onarım 2026-10-24: hex ID case-insensitive — strtolower().
         if (($playlist['visibility'] ?? 'private') === 'private'
-            && ($playlist['owner_id_hex'] ?? '') !== $userId
+            && strtolower((string) ($playlist['owner_id_hex'] ?? '')) !== strtolower($userId)
         ) {
             return null;
         }
@@ -162,7 +163,11 @@ final class PlaylistService implements IPlaylistService
     private function ownedPlaylist(string $playlistId, string $userId): ?array
     {
         $playlist = $this->playlists->findById($playlistId);
-        if ($playlist === null || ($playlist['owner_id_hex'] ?? '') !== $userId) {
+        // Onarım 2026-10-24: hex ID case-insensitive (HEX() UPPER vs session
+        // lowercase) — strtolower() ile normalize edilir.
+        if ($playlist === null
+            || strtolower((string) ($playlist['owner_id_hex'] ?? '')) !== strtolower($userId)
+        ) {
             return null;
         }
 

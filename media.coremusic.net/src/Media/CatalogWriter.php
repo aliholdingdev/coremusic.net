@@ -25,6 +25,12 @@ final class CatalogWriter
     /** Küçük harf hex sha256 (media.schema.json $defs/sha256). */
     private const HASH_DESEN = '^[a-f0-9]{64}$';
 
+    /**
+     * MySQL'e yazılan tablolar (ADR-002: dinamik tanımlayıcı yalnız allowlist'ten).
+     * Kullanıcı girdisi DEĞİL — sabit liste; bu listeden sapma bilinçli atlanır.
+     */
+    private const TABLO_ALLOWLIST = ['asset_tag', 'variant', 'asset', 'album', 'artist', 'koleksiyon'];
+
     /** @var list<array<string, mixed>> */
     private array $kayitlar = [];
 
@@ -184,8 +190,9 @@ final class CatalogWriter
         try {
             $pdo->beginTransaction();
             if ($rebuild) {
-                // FK sırası: çocuklar önce. Tablo adları sabit listeden gelir (kullanıcı girdisi DEĞİL).
-                foreach (['asset_tag', 'variant', 'asset', 'album', 'artist', 'koleksiyon'] as $tablo) {
+                // FK sırası: çocuklar önce. Tablo adları TABLO_ALLOWLIST'ten gelir
+                // (kullanıcı girdisi DEĞİL — ADR-002: dinamik tanımlayıcı allowlist).
+                foreach (self::TABLO_ALLOWLIST as $tablo) {
                     $pdo->prepare('DELETE FROM ' . $tablo)->execute();
                 }
             }
@@ -196,7 +203,10 @@ final class CatalogWriter
             $slugHarita = [];
             $siraHarita = [];
             if (!$rebuild) {
-                foreach ($pdo->query('SELECT slug, dosya_yolu, album_id, sira FROM asset') as $mevcut) {
+                // ADR-002: prepared statement — ham query() YOK.
+                $st = $pdo->prepare('SELECT slug, dosya_yolu, album_id, sira FROM asset');
+                $st->execute();
+                foreach ($st->fetchAll(\PDO::FETCH_ASSOC) as $mevcut) {
                     $slugHarita[(string) $mevcut['slug']] = (string) $mevcut['dosya_yolu'];
                     if ($mevcut['album_id'] !== null) {
                         $siraHarita[$mevcut['album_id'] . '|' . $mevcut['sira']] = (string) $mevcut['dosya_yolu'];
@@ -307,6 +317,11 @@ final class CatalogWriter
      */
     private static function upsertSql(string $tablo, array $sutunlar, array $pk): string
     {
+        // ADR-002: dinamik tablo tanımlayıcı yalnız allowlist'ten — savunma katmanı.
+        if (!in_array($tablo, self::TABLO_ALLOWLIST, true)) {
+            throw new \InvalidArgumentException('Tablo allowlist disi: ' . $tablo);
+        }
+
         $liste = implode(', ', $sutunlar);
         $yerTutucu = implode(', ', array_map(static fn (string $k): string => ':' . $k, $sutunlar));
         $guncelle = array_values(array_filter($sutunlar, static fn (string $k): bool => !in_array($k, $pk, true)));
