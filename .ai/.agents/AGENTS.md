@@ -3,10 +3,10 @@ title: "CoreMusic — Agent Alt-Registry (Profil İndeksi)"
 type: agent-registry
 category: agent-registry
 date: 2026-09-23
-updated: 2026-10-12
-version: 1.2.8
+updated: 2026-10-24
+version: 1.2.9
 status: active
-authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.8)"
+authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.2.0)"
 # Control Plane v2 (2026-10-07):
 tier: 4
 domain: agents
@@ -22,7 +22,7 @@ depends-on: [".ai/AGENTS.md"]
 
 ---
 
-> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.8). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
+> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.2.0). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
 
 ## §1 Amaç & Kapsam
 
@@ -43,8 +43,8 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 | Seviye | Dosya | Rol |
 |--------|-------|-----|
 | 0 (SSOT) | [[../CLAUDE.md]] | AI anayasası, 16 Hard Guardrail |
-| 1 (SSOT) | [[../AGENTS.md]] (v22.0.8) | Agent registry — routing/handover/escalation/öncelik tekelinde |
-| 2 (Alt Registry) | Bu dosya (v1.2.8) | Profil indeksi + yazım kuralları + boot bağlantısı |
+| 1 (SSOT) | [[../AGENTS.md]] (v22.2.0) | Agent registry — routing/handover/escalation/öncelik tekelinde |
+| 2 (Alt Registry) | Bu dosya (v1.2.9) | Profil indeksi + yazım kuralları + boot bağlantısı |
 | 3 (Profil) | `.ai/.agents/<agent>.md` | Tekil ajanın yetki belgesi (§1-§11 domain serisi) |
 
 ---
@@ -505,6 +505,7 @@ authority: SSOT
 | 1.2.6 | 2026-10-01 | fm bump (git `5a74b2a`) — §9 changelog satırı hiç yazılmadı, içerik [UNKNOWN] |
 | 1.2.7 | 2026-10-06 | Faz 4 (2026-10-06): authority v22.0.8 senkronu (3 nokta), fm+footer, §1.1 v1.2.7; profil type=profile standardizasyonu |
 | 1.2.8 | 2026-10-12 | Faz2B: §6.2 truth tablosu + §8 + §1.1 satırlarından silinmiş K-space fihrist/katman referansları temizlendi; fm+footer |
+| 1.2.9 | 2026-10-24 | Bayat-veri düzeltme turu: authority v22.0.8 → v22.2.0 senkronu (3 nokta: FM authority + §1 uyarı + §6.1 tablo) + self-ref v1.2.9 + fm+footer; kök AGENTS L69 hizalandı |
 
 ---
 
@@ -527,7 +528,7 @@ authority: SSOT
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-10-12
+**Last Updated:** 2026-10-24
 **Mode:** Red Team · Human Mode · Truth Mode
 
 ---

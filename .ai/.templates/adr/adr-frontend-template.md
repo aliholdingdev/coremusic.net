@@ -3,8 +3,8 @@ title: "CoreMusic — Frontend Architecture Decision Record Template"
 type: template
 category: adr
 date: 2026-09-23
-updated: 2026-09-29
-version: 1.0.1
+updated: 2026-10-24
+version: 1.0.2
 status: active
 authority: reference
 ---
@@ -506,7 +506,7 @@ grep -RE "[0-9]+px" "assets.coremusic.net/Css copy/04_Components" || echo "PASS:
 |--------|----------|
 | `[[adr-template]]` | Ana ADR iskeleti (DRY — §1-§7 birebir) |
 | `[[.templates/index]]` | Registry (§7.1.1 ADR Templates satırı) |
-| `[[../CLAUDE.md]]` | Guardrail #11, #16, #17; §12A UI Design |
+| `[[../CLAUDE.md]]` | Guardrail #11, #16, #17; §7.1 Frontend Mandatory Reading |
 | `[[../../AGENTS.md]]` | §6 routing (UI Designer), §7.2 pre-flight |
 | `[[../../brain.md]]` | §18A/§18B/§18C responsive & device kuralları |
 | `.ai/ui-design/01-mockup-index.md` · `02-component-inventory.md` · `00-device-matrix.md` · `04-accessibility-gaps.md` · `05-responsive-architecture.md` | Zorunlu okuma (glob ✅) |
@@ -514,5 +514,5 @@ grep -RE "[0-9]+px" "assets.coremusic.net/Css copy/04_Components" || echo "PASS:
 
 ---
 
-**Template Version:** 1.0.0 · **Last Updated:** 2026-09-29
+**Template Version:** 1.0.2 · **Last Updated:** 2026-10-24
 **Mode:** Red Team · Human Mode · Truth Mode

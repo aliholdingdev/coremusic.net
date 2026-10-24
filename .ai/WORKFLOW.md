@@ -2,10 +2,10 @@
 title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
-version: 22.3.0
+version: 22.4.0
 status: active
 authority: SSOT
-updated: 2026-10-12
+updated: 2026-10-24
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
 tier: 2
 domain: workflow
@@ -600,7 +600,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 9 | `engine.md` | Orkestrasyon motoru | ✅ Oku | ✅ Gerekirse güncelle |
 | 10 | `ROLE.md` | Rol tanımı | ✅ Oku | ✅ Gerekirse güncelle |
 | 11 | `ULTRA-THINKING.md` | Ultra düşünme protokolü | ✅ Oku | ✅ Gerekirse güncelle |
-| 12 | `glossary.md` | Terim sözlüğü (75 terim, kod-referanslı) | ✅ Oku | ✅ Gerekirse güncelle |
+| 12 | `glossary.md` | Terim sözlüğü (112 terim, kod-referanslı) | ✅ Oku | ✅ Gerekirse güncelle |
 | 13 | `VISION.md` | Vizyon ve yol haritası | ✅ Oku | ✅ Gerekirse güncelle |
 | 14 | `PROJECTS.md` | Proje envanteri | ✅ Oku | ✅ Gerekirse güncelle |
 
@@ -896,5 +896,5 @@ START
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-10-06
+**Last Updated:** 2026-10-24
 **Mode:** Red Team · Human Mode · Truth Mode

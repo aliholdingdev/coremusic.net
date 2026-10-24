@@ -427,3 +427,25 @@ updated: 2026-10-02
 **Çelişki kaydı (Truth Mode):** ead tool'u bu oturumda .ai/glossary.md için diskte olmayan farklı bir belge döndürdü ('Terimler Sözlüğü (SSOT)') — sayılar tesadüfen uyuştu, içerik uyuşmadı → **disk kazandı**, plan ham diske göre yeniden kuruldu. Tüm edit'ler ham disk anchor'larıyla yapıldı.
 
 **Yasak uyumu:** commit YOK (orkestratörde) · silme YOK · yeni dosya YOK (SESSIONS kapanış kaydı hariç) · kod yüzeyi dokunulmaz · frozen ADR dokunulmaz.
+
+## 2026-10-24 — .ai/ bayat-veri taraması + 7 madde düzeltme (commit sonrası)
+
+**Ön kayıt:** önceki vault tamamlama turu `5fdab26` ile commit'lendi (kullanıcı onayıyla — "git'e commit at"); bu giriş o commit'in devamıdır.
+
+**Kapsam:** kullanıcı isteği — `.ai/` genelinde yanlış/bayat veri taraması (ReadAllLines ham disk, 9 kalıp, tüm `.md` recursive).
+
+**Tarama sonucu:** 7 gerçek yanlış (güncel iddia taşıyan) · 11+ geçerli tarihsel kayıt DOKUNULMAZ (log.md kendi satırları · CLAUDE §31 "32→75" · PLAN changelog 1.2.0-1.4.0 · TODO L52 · AGENTS §26.2 · K015 ×4 · SESSIONS kayıtları · legacy-inventory §12A envanter satırı — hepsi tarihsel/kendi-bölüm kaydı) · 1 SAHTE anomali: ".agents L191 çift updated" iddiası = profil şablonu fenced code block içi (dokunulmadı).
+
+**Düzeltmeler (hepsi in-place, FM bump + footer 2026-10-24):**
+
+1. .ai/MEMORY.md **v25.3.0** — L320 boot listesi "75 terim"→112 + Quality Report (Version 25.1.3→25.3.0 · Last Updated · ADR Coverage → SSOT ptr: 101 karar, `.decisions/index.md` v1.5.2) + §20 düzeltme satırı + footer.
+2. .ai/WORKFLOW.md **v22.4.0** — §12 boot tablosu "75 terim"→112 + footer.
+3. .ai/.templates/coremusic-vault-template.md **v1.1.3** — "75 terim, CLAUDE.md §29" → "112 terim, CLAUDE.md §28" (§28 Glossary — CLAUDE L984 disk kanıtı).
+4. .ai/.agents/AGENTS.md **v1.2.9** — authority (v22.0.8)→(v22.2.0) 3 nokta (FM + §1 uyarı + §6.1 tablo) + §6.1 self-ref v1.2.9 + changelog 1.2.9 + footer.
+5. .ai/AGENTS.md (v22.2.0 korundu — K015/log/SESSIONS pin'leri aynı sürümde kalsın diye bilinçli olarak bump YOK) — L69: v1.2.7→v1.2.9 · authority (v22.2.0) · son senkron notu (2026-10-24; önceki v22.0.8 2026-10-06). Çelişki kaydı: ilk edit denemesi "authority: "Alt Registry..."" tırnaklı eşleşmedi → git diff ile ham disk incelendi, satırda tırnak YOK (disk kazandı), backtick'li kalıpla düzeltildi.
+6. .ai/PLAN.md **v1.5.0** — Adım 16 [x] (kapanış kanıtı: TODO L67 2026-10-24) + Toplam 13/19 → **6 açık** (P1 0 · P2 6) + changelog 1.5.0 + footer.
+7. .ai/.templates/adr/adr-frontend-template.md **v1.0.2** — L509 "§12A UI Design" (ölü atıf; CLAUDE'de §12A bölüm başlığı YOK — L537 §7.1 disk kanıtı) → "§7.1 Frontend Mandatory Reading" + FM + footer (footer "Template Version 1.0.0" FM 1.0.1 ile zaten uyumsuzdu — 1.0.2'ye hizalandı).
+
+**Doğrulama:** hedef kalıp yeniden taraması → "75 terim" 2 (ikisi tarihsel) · "v22.0.8" 7 (hepsi tarihsel/kayıt) · "§12A" 13 (hepsi tarihsel/kendi-bölüm/envanter) = **0 gerçek isabet** · wiki-link-check (kökten) = 389 link / 6 kırık = hepsi §13.7 bilinen sahte → **gerçek kırık 0**.
+
+**Yasak uyumu:** silme YOK · yeni dosya YOK · kod yüzeyi (`*.php/js/css/sql`) dokunulmaz · frozen ADR dokunulmaz · log.md append-only · commit bu turda da orkestratörde (kullanıcı onayı mevcut).

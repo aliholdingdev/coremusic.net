@@ -4,10 +4,10 @@
 title: "CoreMusic Vault — Proje Şablonu (Yeniden Kullanılabilir Vault İskeleti)"
 type: playbook
 category: templates
-version: "1.1.2"
+version: "1.1.3"
 status: active            # draft | proposed | approved | rejected | deprecated
 authority: super-primary  # SAHİP (kimin otoritesi) — öncelik katmanı DEĞİL
-updated: 2026-09-29
+updated: 2026-10-24
 # +6 alan (Control Plane — Q7 geniş şema; authority-critical dosyalarda zorunlu):
 tier: 3                   # 1=Governance+Security · 2=Global Rules · 3=Domain/Arch · 4=Agent · 5=Task · asset ise tier YOK (type: asset)
 domain: templates         # planner filtresi (ör. music, security, shared, workflow, agents)
@@ -282,7 +282,7 @@ References: §3 Terminology · §20 Critical ADRs · §26 Related Documents
 | `index.md` | Master Index (§2 Quick Reference, §3 SSOT Core 14 kök boot + 1 ek, §4 L0-L6, §6 10 Panel & 7 Servis, §11B Skills, §12 Vault Altyapısı, §20 Teknoloji Yığını) |
 | `brain.md` | Mimari kararlar / ADR notları (§18C sorumluluk sınırları referansı) |
 | `engine.md` | Orkestrasyon motoru (§6.4 Uncertainty Flag, §9.2 matris, §12.6/§12.7 faz kapanışı) |
-| `glossary.md` | Terim sözlüğü (SSOT — 75 terim, CLAUDE.md §29) |
+| `glossary.md` | Terim sözlüğü (SSOT — 112 terim, CLAUDE.md §28) |
 | `keys.md` | Keyword haritası |
 | `log.md` | Audit trail — **append-only** |
 | `PROJECTS.md` | Proje tanımı (10 yetenek, 6 kullanıcı, 6 sektör) |

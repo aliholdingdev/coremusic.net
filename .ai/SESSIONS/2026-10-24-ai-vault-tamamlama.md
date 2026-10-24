@@ -90,7 +90,7 @@ glossary.md v2.5.0 ile 16 gerçek stub terimi §2'ye eklendi (toplam 112); AGENT
 
 ### 3.7 Next Steps
 
-- [ ] Commit kararı — orkestratör/kullanıcı (tüm değişiklikler uncommitted)
+- [x] Commit `5fdab26` (2026-10-24, kullanıcı onayıyla atıldı) · bayat-veri düzeltme turu (aşağıdaki eklenti) sonraki commit — orkestratörde
 - [ ] PROMPT 4 kodlama — ayrı onay gate'i
 - [ ] TODO açık kalanlar: server PC canlı doğrulama (L58) · CLAUDE silinme önleme araştırması (L60)
 
@@ -104,7 +104,8 @@ glossary.md v2.5.0 ile 16 gerçek stub terimi §2'ye eklendi (toplam 112); AGENT
 
 - Doğrulama kanıtı: `wiki-link-check.ps1` (repo kökünden) = 389 link / 6 kırık = hepsi §13.7 bilinen sahte (01-login [[C]] · 04-select-gender [[V]] · 01-playback [[V]] · 04-general [[V]] · legacy-inventory [[link]] ×2) → gerçek kırık 0.
 - glossary sayımı ham diskten: §2 50 · §2.1 11 · §3 51 = 112; 16 yeni terimin tamamı diskte (eksik 0).
-- `git status` kapanışta: `.ai/{AGENTS,CLAUDE,ROLE,glossary,TODO,MEMORY,log}.md` + bu session dosyası = modified/added, hepsi uncommitted.
+- `git status` kapanışta: `.ai/{AGENTS,CLAUDE,ROLE,glossary,TODO,MEMORY,log}.md` + bu session dosyası = modified/added, hepsi uncommitted → **commit `5fdab26` ile kapandı** (2026-10-24, kullanıcı onayıyla).
+- **Eklenti (2026-10-24, commit sonrası):** `.ai/` genelinde ReadAllLines ile bayat-veri taraması (9 kalıp, tüm `.md` recursive) → **7 gerçek yanlış düzeltildi** (MEMORY/WORKFLOW/vault-template "75 terim"→112 · `.agents` authority→v22.2.0 fm 1.2.9 · kök AGENTS L69 hizası · PLAN Adım 16 [x] 13/19 + changelog 1.5.0 · adr-frontend-template §12A→§7.1 fm 1.0.2 · MEMORY Quality Report Version/ADR ptr) + 11+ geçerli tarihsel kayıt dokunulmadı + "çift updated" SAHTE çıktı (.agents L191 profil şablonu fenced block içi) — doğrulama: kalıp yeniden taraması 0 gerçek isabet · wiki-link-check 389/6 = gerçek kırık 0.
 
 ---
 

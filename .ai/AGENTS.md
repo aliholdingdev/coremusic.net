@@ -66,7 +66,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ### §2.1 Registry Authority
 
-Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.7**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.8)` (detay §26.2; alt registry'nin `v22.0.8` senkronu tamamlandı (2026-10-06)). Çelişkide kök dosya kazanır.
+Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.9**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.2.0)` (detay §26.2; alt registry'nin `v22.2.0` senkronu tamamlandı (2026-10-24; önceki `v22.0.8` senkronu 2026-10-06)). Çelişkide kök dosya kazanır.
 
 ---
 

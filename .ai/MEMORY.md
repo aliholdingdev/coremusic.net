@@ -4,9 +4,9 @@ title: "CoreMusic — Memory System Index"
 type: system
 category: memory-management
 date: 2026-08-13
-updated: 2026-10-12
+updated: 2026-10-24
 status: active
-version: 25.2.0
+version: 25.3.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -317,7 +317,7 @@ Backend (home.coremusic.net):
 | 3 | `.ai/WORKFLOW.md` | Surecler | P0 | 3s |
 | 4 | `.ai/index.md` | Master katalog | P1 | 4s |
 | 5 | `.ai/keys.md` | Anahtar kelime haritasi | P1 | 3s |
-| 6 | `.ai/glossary.md` | Terim sözlüğü — 75 terim, kod-referanslı | P1 | 3s |
+| 6 | `.ai/glossary.md` | Terim sözlüğü — 112 terim, kod-referanslı | P1 | 3s |
 | 7 | `.ai/brain.md` | Mimari kararlar | P1 | 4s |
 | 8 | `.ai/MEMORY.md` | Oturum hafizasi | P1 | 3s |
 | 9 | `.ai/log.md` | Aktivite gunlugu (son 20 satir) | P1 | 2s |
@@ -401,7 +401,8 @@ Backend (home.coremusic.net):
 ---
 
 ### §20 Current Session State
-- 2026-10-24: **.ai/ vault tamamlama (PROMPT 2+3)** — completed — sözlük stub birleştirme: glossary v2.5.0 **+16 terim** (AGENTS §3 stub 12 + CLAUDE §27 stub 4 → §2 50 · toplam **112**; 'Zero Hallucination' duplike edilmedi) + AGENTS §3/QR, ROLE L442 #15→#2, CLAUDE v27.6.0 8 edit (§7.2 ✅ · Soft#3 kabul · 94→112 · §12A→wiki-link ✅ · §27 stub ✅ · 75→112 ×2), TODO v1.5.0 5 kapanış (app-cpp 5 md · Soft#3 · 2 referans · commit a44c567 ×2) · doğrulama: wiki-link-check **389/6 sahte → gerçek 0** · **çelişki: `read` tool glossary için phantom belge döndürdü → disk kazandı, ham disk anchor'larıyla yazıldı** · commit YOK (orkestratörde) · sonraki: PROMPT 4 kodlama ayrı onay gate'i · session: `2026-10-24-ai-vault-tamamlama`
+- 2026-10-24: **.ai/ bayat-veri düzeltme turu (7 madde, commit 5fdab26 sonrası tarama)** — completed — ReadAllLines ile tüm `.md` recursive tarama (9 kalıp) → 7 gerçek yanlış: MEMORY/WORKFLOW/vault-template "75 terim"→112 (3 dosya) · `.agents` authority v22.0.8→**v22.2.0** (3 nokta) + fm 1.2.9 + changelog · kök AGENTS L69 hizası (v1.2.9 · v22.2.0 · son senkron notu) · PLAN Adım 16 [x] + Toplam **13/19 kapandı → 6 açık** + changelog 1.5.0 · adr-frontend-template §12A→§7.1 (ölü atıf) + fm 1.0.2 · MEMORY Quality Report (Version 25.1.3→25.3.0 · ADR Coverage → SSOT ptr 101 karar) · 5 dosya FM bump + footer 2026-10-24 · 11+ geçerli tarihsel kayıt DOKUNULMAZ (log.md/CLAUDE §31/PLAN changelog/TODO/§26.2/K015/legacy-inventory envanteri) · "çift updated" iddiası SAHTE çıktı (.agents L191 = profil şablonu fenced block içi) · doğrulama: kalıp yeniden taraması 0 gerçek isabet + wiki-link-check 389/6 sahte → gerçek 0
+- 2026-10-24: **.ai/ vault tamamlama (PROMPT 2+3)** — completed — sözlük stub birleştirme: glossary v2.5.0 **+16 terim** (AGENTS §3 stub 12 + CLAUDE §27 stub 4 → §2 50 · toplam **112**; 'Zero Hallucination' duplike edilmedi) + AGENTS §3/QR, ROLE L442 #15→#2, CLAUDE v27.6.0 8 edit (§7.2 ✅ · Soft#3 kabul · 94→112 · §12A→wiki-link ✅ · §27 stub ✅ · 75→112 ×2), TODO v1.5.0 5 kapanış (app-cpp 5 md · Soft#3 · 2 referans · commit a44c567 ×2) · doğrulama: wiki-link-check **389/6 sahte → gerçek 0** · **çelişki: `read` tool glossary için phantom belge döndürdü → disk kazandı, ham disk anchor'larıyla yazıldı** · commit `5fdab26` (2026-10-24, kullanıcı onayıyla atıldı) · sonraki: PROMPT 4 kodlama ayrı onay gate'i · session: `2026-10-24-ai-vault-tamamlama`
 - 2026-10-23: **Neva Engine + Neva Player PRD üretimi** — completed (paralel, 84 part dosyası → G:Coremusic'e birleşti; temp 84/84 temizlendi) · ENGINE 8004 satır/465314 bayt/182 gereksinim↔182 TC (22 §) · PLAYER 8006/458307/215↔215 (16 §) · disk-kanıtı düzeltmesi: `neva_session.h` 9 C ABI + enum 0-4 (uydurma "8 fonksiyon" → denetim izi engine C-01..C-09 · player P-C01..P-C04) · marker: ENGINE ⚠️VR 196 · PLAYER ⚠️VR 208 · **K-6 ONAY** (kullanıcı yanıtı "DEVAM ET", 2026-10-23) → vault kopyaları `.ai/projects/NevaEngine|NevaPlayer/coremusic-neva-*-prd.md` + kök `PRD.md` §5.1 + `AGENTS.md` §9 satırı · session: `2026-10-23-neva-engine-neva-player-prd-uretimi` · sonraki: M0 (K-1 architect + K-5 ürün sahibi kapıları) · **commit YOK** (orkestratörde; çalışma ağacında başka oturumların uncommitted işleri var)
 - 2026-10-23: Vault çekirdek revizyon + .ai/CLAUDE.md kurtarma — completed (Adım 1-3: 5 çelişki kapandı, beyin çekirdeği 14 edit, hafif boot 4 adım kanonik, ADR 101/active 49, skill 13) · Olay: .ai/CLAUDE.md çalışma ağacından silinmiş (git D 987 satır) → git checkout ile kurtarıldı (v27.5.0, 3×hash eşleşti) · session: 2026-10-23-vault-revizyon-hizalama · sonraki: Adım 4 G: Prompt Arşivi revizyonu (42 dosya) + brain.md L1130 kararı + MEMORY mojibake kararı → **Adım 4 TAMAM (~17:00):** G: arşiv kapanışı — README sayı hizası (41 içerik/accepted 84) + `miamri→mimari` rename teyidi + brain.md L1130 mutabakatı · **MEMORY mojibake KAPANDI (2026-10-23): 239→0, 842 run onarıldı, ADR-042 izni: kullanıcı "DEVAM ET"** · commit YAPILDI (961244a ADR + 96eb63f hizalama + f0e15eb session) · **Kullanıcı notu (2026-10-23):** `C:\.claude\skills` bu makinede YOK, **diğer PC/server'da mevcut (~348 dizin envanter)** — vault referansları **SİLİNMEZ**, yalnız "bu makinede YOK" notu taşır (9 dosya kapsamlandı)
 - 2026-10-22: Backend Rebuild Adım 08-11 + plan 01-11 kapanışı — completed (kod tarafı; commits 1e806d1 / 1f60449+27c568b / afe8634 / f3a6cc9) · PHP api 110/110 · JS 190/190 · rubrik 93/100 (Security 95) · KAPI-E kod kapandı · sonraki: server PC canlı curl (3 script) + KAPI-E browser (dev'de MySQL YOK)
@@ -463,12 +464,12 @@ Backend (home.coremusic.net):
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 25.1.3 |
+| Version | 25.3.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 7 H2 + 24 § |
 | SSOT Authority | Memory System Index |
-| Last Updated | 2026-10-06 |
-| ADR Coverage | ADR-001 through ADR-089 (37 Frozen + 31 Active + 12 Rejected) |
+| Last Updated | 2026-10-24 |
+| ADR Coverage | **101 karar** (accepted 84 · rejected 10 · draft 6 — SSOT: `.ai/.decisions/index.md` v1.5.2, 2026-10-23 disk sayımı; eski "001-089 / 37+31+12" kaydı CLAUDE.md §29'da korunuyor) |
 | Security Boundary | REDACTED policy |
 | Session History | 24 oturum |
 | Cross References | 12 capraz referans |
@@ -700,7 +701,7 @@ Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varl�
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-10-06
+**Last Updated:** 2026-10-24
 **Mode:** Red Team · Human Mode · Truth Mode
 
 <!-- vault-sync:auto-begin -->
