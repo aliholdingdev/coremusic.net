@@ -14,7 +14,7 @@ updated: 2026-10-23
 
 **Zorunlu Bağlantılar:** [[.ai/PRD.md]] · [[.ai/PROJECTS.md]] · [[.ai/VISION.md]] · [[CONTEXT.md]] · [[AGENTS.md]]
 
-> Bu dosya, **PRD ailesinin indeksidir (SSOT)**: 34 yüzeyin her birinin PRD'si bu tabloda kayıtlıdır.
+> Bu dosya, **PRD ailesinin indeksidir (SSOT)**: 34 satırın her biri bu tabloda kayıtlıdır (28 mevcut + 6 üretilmedi — Durum sütunu).
 > Ailesel bağlam (vizyon, 10 özellik, 6 kitle) `.ai/PROJECTS.md`'dedir; burada tekrarlanmaz, yalnız gösterilir.
 
 ---
@@ -40,7 +40,7 @@ taahhüdü) **yalnız burada** tanımlanır ve alt PRD'ler buna bağlanır.
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
 | Platform-ötesi gereksinimler (§4) | Yüzey-bazlı gereksinimler → ilgili alt PRD (§5 tablosu) |
-| PRD ailesi indeksi — 34 yüzey (§5) | Mimari kararlar → ADR'ler (`.ai/.decisions/`) |
+| PRD ailesi indeksi — 34 satır: 28 mevcut + 6 üretilmedi (§5) | Mimari kararlar → ADR'ler (`.ai/.decisions/`) |
 | Kabul kriteri kapıları (§6) | Uygulama kodu (`*.php/js/css/sql` — yazım yasak) |
 | ADR bağları (§7) | Vizyon/pazar metni → `.ai/VISION.md` (tekrar üretilmez) |
 
@@ -102,7 +102,7 @@ kurumsal dijital ses ve medya ekosistemidir. Offline-First mimari + kayıpsız f
 
 ---
 
-## 5. PRD Ailesi Indeksi (34 yüzey — SSOT)
+## 5. PRD Ailesi Indeksi (28 mevcut + 6 üretilmedi — SSOT)
 
 > **Durum sütunu:** `YENİ` = bu revizyonda üretiliyor · `YOK` = üretim dışı (bilgi yok/kanıt yok).
 > Yollar repo köküne göredir (`C:\www\coremusic.net`).
@@ -130,12 +130,12 @@ kurumsal dijital ses ve medya ekosistemidir. Offline-First mimari + kayıpsız f
 | 19 | JS router | `assets.coremusic.net/js/router/PRD.md` | ui | PLT-008 | YENİ |
 | 20 | JS coreplayer | `assets.coremusic.net/js/coreplayer/PRD.md` | ui | PLT-001/008 | YENİ |
 | 21 | CSS | `assets.coremusic.net/Css/PRD.md` | ui | PLT-009/010 | YENİ |
-| 22 | Auth include | `auth.coremusic.net/include/PRD.md` | security | PLT-004/006 | YENİ |
-| 23 | Migration | `shared/database/migrations/PRD.md` | data | PLT-002/007 | YENİ |
-| 24 | Config | `shared/config/PRD.md` | backend | PLT-005 | YENİ |
-| 25 | SQL şema kasası | `.ai/.sql/PRD.md` | data | PLT-002/007 | YENİ |
-| 26 | UI-Design vault | `.ai/ui-design/PRD.md` | ui | PLT-010 | YENİ |
-| 27 | Karar kasası | `.ai/.decisions/PRD.md` | MO | PLT-012 | YENİ |
+| 22 | Auth include | `auth.coremusic.net/include/PRD.md` | security | PLT-004/006 | YOK (dosya diskte yok — bkz TODO.md:43) |
+| 23 | Migration | `shared/database/migrations/PRD.md` | data | PLT-002/007 | YOK (dosya diskte yok — bkz TODO.md:43) |
+| 24 | Config | `shared/config/PRD.md` | backend | PLT-005 | YOK (dosya diskte yok — bkz TODO.md:43) |
+| 25 | SQL şema kasası | `.ai/.sql/PRD.md` | data | PLT-002/007 | YOK (dosya diskte yok — bkz TODO.md:43) |
+| 26 | UI-Design vault | `.ai/ui-design/PRD.md` | ui | PLT-010 | YOK (dosya diskte yok — bkz TODO.md:43) |
+| 27 | Karar kasası | `.ai/.decisions/PRD.md` | MO | PLT-012 | YOK (dosya diskte yok — bkz TODO.md:43) |
 | 28 | CI/CD | `.github/PRD.md` | devops | PLT-006/011 | YENİ |
 | 29 | Admin subdomain | `admin.coremusic.net/PRD.md` | backend (+security denetimi) | PLT-004/005/006 | YENİ |
 | 30 | Node.js yüzeyi | `app-nodejs-projects/PRD.md` | backend | PLT-011 | YENİ |

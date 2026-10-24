@@ -22,7 +22,7 @@ validation:
   - "2026-10-13 — frontmatter 9 alan + group, `parent:` yok, index 40–100 satır"
   - "2026-10-13 — URL tablosu HTTP 200, envanter kesişimi 0"
 open_questions:
-  - "`.gitleaks.toml` diskte YOK (workflow yorumu) ⚠️ VERIFICATION REQUIRED"
+  - "`.gitleaks.toml` kökte MEVCUT (`.gitleaks.toml` — 2026-10-24 disk kanıtı)"
   - "Üretimde secret rotasyonu prosedürü belgelenmemiş ⚠️ VERIFICATION REQUIRED"
 group: mimari
 ---
@@ -49,7 +49,7 @@ group: mimari
 | CI secret scanning (gitleaks) | var | workflow dosyası |
 | Log redaction (Redactor) | var | kod |
 | API anahtar üretimi (ApiKeyRepository) | var | kod |
-| `.gitleaks.toml` özel kural seti | yok | ⚠️ workflow yorumu: diskte YOK |
+| `.gitleaks.toml` özel kural seti | var | kökte MEVCUT (`.gitleaks.toml` — 2026-10-24 disk kanıtı) |
 | Ortam değişkeni sırrı `.env` | kısmi | `.gitignore` doğrulanacak |
 | Sızıntı yanıtı (rotasyon + ihbar) | yok | ⚠️ VERIFICATION REQUIRED |
 | Vault / HSM entegrasyonu | yok | ⚠️ KAPSAM DIŞI ARAŞTIRMA |

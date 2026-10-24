@@ -2,11 +2,11 @@
 
 > *"Hayatın ritmi sende gizli, müziğinle parla!"*  
 > **"Aynı Müzik Her Yerde Seninle" — Sınırların ötesinde bir müzik deneyimi.**  
-> *Software · Audio · Hardware · AI — Version 1.0*
+> *Software · Audio · Hardware · AI — Version 3.1.0*
 
 [![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?style=flat&logo=php&logoColor=white)](https://php.net)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2022%20Vanilla-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://tc39.es/ecma262/) [![C++](https://img.shields.io/badge/C++-20%20NevaEngine-00599C?style=flat&logo=cplusplus&logoColor=white)](https://isocpp.org/) [![MySQL](https://img.shields.io/badge/MySQL-9%20(18%20BCNF)-4479A1?style=flat&logo=mysql&logoColor=white)](https://dev.mysql.com/)
-[![Architecture](https://img.shields.io/badge/Architecture-21%20Layers%20(K000-K020)-blue)](.ai/architecture/00-master-index.md) [![License](https://img.shields.io/badge/License-Proprietary-red)](#lisans) [![Status](https://img.shields.io/badge/Status-Aktif%20Geli%C5%9Ftirme-brightgreen)](#proje-durumu)
+[![Architecture](https://img.shields.io/badge/Architecture-22%20Nodes%20(K000-K021)-blue)](.ai/architecture/index.md) [![License](https://img.shields.io/badge/License-Proprietary-red)](#lisans) [![Status](https://img.shields.io/badge/Status-Aktif%20Geli%C5%9Ftirme-brightgreen)](#proje-durumu)
 
 **🔍 Web Verification**: PHP 8.4 · C++20 · MySQL 9 · JUCE 9 · ASIO SDK 2.3.4 · PCM3168A · AK4458 · LM5122 — all verified 2026-10-07.
 
@@ -114,14 +114,15 @@ CoreMusic'in kalbinde, işletim sisteminin sesi bozan katmanları baypas eden C+
 
 ```bash
 # 1. Depoyu klonlayın
-git clone https://github.com/coremusic/coremusic.net.git
+git clone https://github.com/aliholdingdev/coremusic.net.git
 cd coremusic.net
 
-# 2. PHP Servisini Başlatın (Port 81)
-php -S localhost:81 -t public/
+# 2. PHP Servisini Başlatın (Port 81 — her subdomain kendi kökünde çalışır;
+#    public/ dizini YOK; örneği api için: php -S localhost:81 -t api.coremusic.net/)
+php -S localhost:81 -t api.coremusic.net/
 
-# 3. İndirme Servisini Başlatın (Port 3001)
-cd download-service && npm install && npm run dev
+# 3. Node.js test yüzeyi (kök package.json — download-service YOK; Node yüzeyi: app-nodejs-projects/nova-search-engine)
+npm install && npm run test:js
 
 # 4. Testleri Çalıştırın
 cd shared && vendor/bin/phpunit
@@ -177,7 +178,7 @@ CoreMusic'te AI ajanları **Skill Usage Mandate** ile çalışır. Mandate özet
 4. İstisna: kullanıcı açıkça "skill kullanma" derse veya görev skill'lerle ilgisizse (sohbet, aritmetik); belirsizse 1 kısa soru sorulur.
 5. Yetenek yoksa kopyala-yapıştır yapılmaz; `skill-maker` ile skill üretilir (Guardrail #16 + v3.0 şeması).
 
-* **Kayıt defteri (SSOT):** [`CLAUDE.md`](CLAUDE.md) §Skill Registry — **13 proje skill'i** (`.claude/skills/`, 2026-10-10 disk ölçümü). ⚠️ Eski "12 proje + 5 global = 17" kaydı düzeltildi: `C:\.claude\skills\` **bu makinede diskte YOK** (Test-Path = False) → bu makinede 0 global skill (kullanıcı notu 2026-10-23: envanter **diğer PC/server'da mevcut** — bu yoldaki referanslar silinmez). `learning-prompts` kayıtsızdı, Registry'ye eklendi. Bu dosyada liste tekrarlanmaz; ayrıca ~340 üçüncü-parti global skill grubu harness available-skills listesiyle gelir.
+* **Kayıt defteri (SSOT):** [`CLAUDE.md`](CLAUDE.md) §Skill Registry — **13 proje skill'i** (`.claude/skills/`, 2026-10-10 disk ölçümü). ⚠️ Eski "12 proje + 5 global = 17" kaydı düzeltildi: `C:\.claude\skills\` **bu makinede MEVCUT** (2026-10-24: 348 dizin / 502 SKILL.md — Test-Path = True) → global envanter, proje skill Registry'si değildir (proje: 13 SKILL.md). `learning-prompts` kayıtsızdı, Registry'ye eklendi. Bu dosyada liste tekrarlanmaz; ayrıca ~348 üçüncü-parti global skill grubu harness available-skills listesiyle gelir.
 * **Uygulama (2 katman):** (1) yazılı mandate — kök `CLAUDE.md` §Skill Kullanım Zorunluluğu; (2) hook — `.claude/settings.json → UserPromptSubmit` her prompt'ta kısa hatırlatma + proje skill isimlerini enjekte eder.
 * **Yeni skill ekleme yolu:** `skill-maker` çalıştırılır → v3.0 şeması + format otoritesi `.claude/skills/skill-maker/` (şablon + kurallar) → üretilen skill `CLAUDE.md` §Skill Registry'ye satır olarak eklenir.
 
@@ -185,7 +186,7 @@ CoreMusic'te AI ajanları **Skill Usage Mandate** ile çalışır. Mandate özet
 
 ## AI Agent Boot Özeti (Master Engineering System)
 
-1. **Boot okuma sırası:** root `CLAUDE.md` + `AGENTS.md` + `README.md` + `WORKFLOW.md` (ve `.ai/` karşılıkları) → `.ai/.rules/**` → ilgili `.ai/**` & `architecture/**` → mevcut dosya → kod → `.ai/.rules/**` çalıştır (hata: error-recovery → dosyayı sil + yeniden yaz → tekrar; temiz: UI değişikliği var mı → evet: browser test → hayır: commit). Ayrıntı: [`WORKFLOW.md`](WORKFLOW.md) §16 · [`.ai/WORKFLOW.md`](.ai/WORKFLOW.md) §8.10.
+1. **Boot okuma sırası:** root `CLAUDE.md` + `AGENTS.md` + `README.md` + `WORKFLOW.md` (ve `.ai/` karşılıkları) → `.ai/.rules/**` → ilgili `.ai/**` & `architecture/**` → mevcut dosya → kod → `.ai/.rules/**` çalıştır (hata: error-recovery → dosyayı sil + yeniden yaz → tekrar; temiz: UI değişikliği var mı → evet: browser test → hayır: commit). Ayrıntı: [`WORKFLOW.md`](WORKFLOW.md) §14 · [`.ai/WORKFLOW.md`](.ai/WORKFLOW.md) §8.10.
 2. **Yaşam döngüsü (15 aşama):** Understand → Discover → Research → Verify → Resolve Context → Analyze → Architect → Plan → Implement → Track → Test → Review → Secure → Verify → Document — analiz tamamlanmadan implementation başlatılmaz.
 3. **Zero-Hallucination:** repository/URL/API/class/method/dependency/version/config/skill/agent/dosya/mimari kural/benchmark/güvenlik iddiası asla uydurulmaz; doğrulanamayan = `⚠️ VERIFICATION REQUIRED`, bilinmeyen = `UNKNOWN`.
 4. **Final rule:** Understand → Research → Resolve → Decide → Implement → Track → Verify — riskli işlemede dur, onaysız büyük source-code değişikliği yok.
@@ -224,10 +225,10 @@ Aşağıdaki depolar harici referans/kaynak listesidir; proje tarafından kurulu
 - https://github.com/vakra-dev/awesome-ai-agents
 - https://github.com/hammond01/CleanArchitecture
 
-**Session Lifecycle:** Bu depoda her AI session'ı `.ai/CHECKLIST.md` §A/§B/§C ile yürütülür; hedef dosya seti **26'dır** (6 kök `.md` + 20 `.ai/` kök `.md` — sınıflandırma [[CHECKLIST]] §A0: CRITICAL 18 / ON-DEMAND 6 / LOG 2). Kapanışta `.workflows/vault-sync.md` Aşama 8 satır 5 ile değişen dosyalar güçlendirilir; sürekli güncelleme döngüsü `.ai/SYNC.md` (SSOT) ile yönetilir.
+**Session Lifecycle:** Bu depoda her AI session'ı `.ai/CHECKLIST.md` §A/§B/§C ile yürütülür; hedef dosya seti **26'dır** (6 kök `.md` + 20 `.ai/` kök `.md` — sınıflandırma [[CHECKLIST]] §A0: CRITICAL 18 / ON-DEMAND 3 / LOG 1 / KÖK POINTER 6; ayrıca `.ai/` kökünde 3 ek `.md`: `AGENT-BRIEFING.md` · `PRD.md` · `SYNC.md` — `.ai/` kök toplamı **23**). Kapanışta `.workflows/vault-sync.md` Aşama 8 satır 5 ile değişen dosyalar güçlendirilir; sürekli güncelleme döngüsü `.ai/SYNC.md` (SSOT) ile yönetilir.
 
 **Authority:** Bayram Ali / Vault Steward  
 **Kaynak Doküman:** Freelancer Technical Documentation v1.0 (CoreMusic: Software Audio Hardware AI)  
-**Last Updated:** 2026-10-10  
+**Last Updated:** 2026-10-24  
 **Version:** 3.1.0  
 **Mode:** Red Team · Human Mode · Truth Mode

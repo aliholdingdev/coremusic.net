@@ -57,7 +57,7 @@ updated: 2026-10-23
         · HAYIR → COMMIT
 ```
 
-Ayrıntı (disk notları dahil): [[.ai/WORKFLOW.md]] §8.10 · bağlayıcı özet: bu dosya §16.
+Ayrıntı (disk notları dahil): [[.ai/WORKFLOW.md]] §8.10 · bağlayıcı özet: bu dosya §14.
 
 ⚠️ **VERIFICATION REQUIRED**: `.ai/.rules/error-recovery.md` diskte YOK — adımlar 7-8 için **⚠️ VERIFICATION REQUIRED** (kural dosyası eklenmeden bu adım çalıştırılamaz).
 
@@ -65,7 +65,7 @@ Ayrıntı (disk notları dahil): [[.ai/WORKFLOW.md]] §8.10 · bağlayıcı öze
 
 ## Skill Noktaları (Süreç Adımı → Zorunlu Skill)
 
-Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry (**13 proje skill**, `.claude/skills/` — 2026-10-10 disk ölçümü; `C:\.claude\skills` ve `.opencode/skills` bu makinede diskte YOK — `C:\.claude\skills` **diğer PC/server'da mevcut, referanslar silinmez** · kullanıcı notu 2026-10-23). Her noktada eşleşme varsa **ilk işlem** Skill tool ile o skill'i yüklemektir (Skill Usage Mandate §2); istisnalar mandate §4'tedir.
+Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry (**13 proje skill**, `.claude/skills/` — 2026-10-10 disk ölçümü; `C:\.claude\skills` **bu makinede MEVCUT — 2026-10-24: 348 dizin / 502 SKILL.md, global envanter (proje Registry'si değil)** · `.opencode/skills` diskte YOK — kapatıldı 2026-10-07). Her noktada eşleşme varsa **ilk işlem** Skill tool ile o skill'i yüklemektir (Skill Usage Mandate §2); istisnalar mandate §4'tedir.
 
 | Süreç Adımı | Zorunlu Skill |
 |---|---|
@@ -77,14 +77,14 @@ Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry (**13 proje skill**, `.cl
 | C++ audio | `audio-engine-cpp` |
 | Donanım | `hardware-electronics` |
 | Güvenlik değişikliği | `security-hardening` |
-| Web kodu tamamlanma | `verify-loop` ⚠️ (skill dosyası diskte YOK — yalnız harness listesinde) |
+| Web kodu tamamlanma | `verify-loop` (global envanterde mevcut — proje Registry'sinde değil) |
 | İşlem kapanışı | `vault-sync-post` |
-| Çakışan karar | `agent-debate` ⚠️ (skill dosyası diskte YOK) |
+| Çakışan karar | `agent-debate` (global envanterde mevcut — proje Registry'sinde değil) |
 | Multi-agent görev | `agent-orchestrator` |
 | Composer / vendor | `composer-sync` |
-| Onay / iletişim | `human-mode` ⚠️ (skill dosyası diskte YOK) |
-| İddia doğruluğu | `truth-engine` ⚠️ (skill dosyası diskte YOK) |
-| Durum raporu | `context-report` ⚠️ (skill dosyası diskte YOK) |
+| Onay / iletişim | `human-mode` (global envanterde mevcut — proje Registry'sinde değil) |
+| İddia doğruluğu | `truth-engine` (global envanterde mevcut — proje Registry'sinde değil) |
+| Durum raporu | `context-report` (global envanterde mevcut — proje Registry'sinde değil) |
 | Yeni skill | `skill-maker` |
 | Konu öğrenme / sınav | `learning-prompts` (Registry'ye 2026-10-10 eklendi) |
 
@@ -94,7 +94,7 @@ Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry (**13 proje skill**, `.cl
 
 | Tarih | Sürüm | Değişiklik | Kaynak |
 |-------|-------|------------|--------|
-| 2026-10-10 | 3.2.0 | Mimari indeks → `00-master-index.md` (21 katman K000-K020); Skill Registry disk hizası 13 proje skill; 5 global skill `C:\.claude\skills` diskte YOK işaretlendi; `learning-prompts` eklendi | Disk ölçüm 2026-10-10 |
+| 2026-10-10 | 3.2.0 | Mimari indeks → `index.md` (22 K-space düğümü K000-K021); Skill Registry disk hizası 13 proje skill; 5 global skill `C:\.claude\skills` global envantere işaretlendi; `learning-prompts` eklendi | Disk ölçüm 2026-10-10 |
 | 2026-10-07 | 3.0.0 | Skill mandate + Skill Noktaları eklendi | Claude Skill v3.0 |
 | 2026-10-07 | 2.0.2 | Pointer dosyası — `.ai/WORKFLOW.md` bağlantısı düzeltildi, `.ai/` bağlantıları güncellendi | Vault Refactor Engine |
 | 2026-09-24 | 2.0.0 | §1-§14 bağlayıcı özet eklendi (K0-K20, A0-A5, adlandırma, sayım, tartışma, iki ADR serisi, yazım+senkron); pointer uyarısı + SSOT linkleri korundu | Vault iş akışı genişletme görevi |

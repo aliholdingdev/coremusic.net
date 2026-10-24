@@ -56,7 +56,7 @@ Session yaşam döngüsünün (başlangıç → orta → kapanış) her oturumda
 | ⚪ LOG | 1 | `.ai/log.md` — yalnız append; boot'ta yalnız son 20 satır okunur | Otomatik |
 | 📎 KÖK POINTER | 6 | kök `AGENTS.md` · `CLAUDE.md` · `README.md` · `WORKFLOW.md` · `CONTEXT.md` · `RAG.md` | Boot 1-4 (özet okuma) + kapanışta güçlendirme |
 
-⚠️ **DÜZELTME (2026-10-10):** Eski kayıt "20 hedef dosya (3 kök + 17 `.ai/` kök md · CRITICAL 16 / ON-DEMAND 3 / LOG 1)" idi. Disk ölçümü: `.ai/` kökünde **20 `.md`** vardır (`RAG.md` + `CONTEXT.md` artık boot setinde) · kökte **7 `.md`** var (`notes.md` hariç 6 hedef). Yeni set: **6 kök + 20 `.ai/` = 26**; sınıf: **CRITICAL 18 · ON-DEMAND 3 · LOG 1**.
+⚠️ **DÜZELTME (2026-10-10 · revize 2026-10-24):** Eski kayıt "20 hedef dosya (3 kök + 17 `.ai/` kök md · CRITICAL 16 / ON-DEMAND 3 / LOG 1)" idi. Disk ölçümü: `.ai/` kökünde **23 `.md`** vardır (20 hedef + 3 ek: `AGENT-BRIEFING.md` · `PRD.md` · `SYNC.md`) (`RAG.md` + `CONTEXT.md` artık boot setinde) · kökte **7 `.md`** var (`notes.md` hariç 6 hedef). Yeni set: **6 kök + 20 `.ai/` = 26**; sınıf: **CRITICAL 18 · ON-DEMAND 3 · LOG 1**.
 
 **Yasak:** A5 olmadan kod/plan yazma · boot dosyalarını atlayıp göreve başlama.
 
