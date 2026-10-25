@@ -10,7 +10,7 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 total-accepted: 84
 total-rejected: 10
-total-draft: 6
+total-draft: 7
 total-frozen: 36
 total-active: 49
 # Control Plane v2 (2026-10-07):
@@ -38,7 +38,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | **Frozen** | **36** | Değiştirilemez (ADR-001 → ADR-036 — diskte tam) |
 | **Active** | **49** | `accepted/` içindeki **48** (ADR-037 üzeri) + kökteki **ADR-091** (2026-10-23 disk sayımı: accepted 84 − frozen 36 = 48 + 1 kök) |
 | **Rejected** | **10** | `rejected/` 10 dosya (R-011/R-012'de dosya YOK — §5'te işaretli) |
-| **Draft** | **6** | `draft/ADR-103-…` + `draft/ADR-104-page-router-kernel-god-class-bolme-plani` + `draft/ADR-107-neva-engine-platform-ve-paketleme` + `draft/ADR-108-k-space-kimlik-duzeltmesi-…` + `draft/ADR-109-tur-taksonomi-genislemesi-5-dal` + `draft/ADR-110-soft-adr-notlari-…` (2026-10-23) — §4A | |
+| **Draft** | **7** | `draft/ADR-103-…` + `draft/ADR-104-page-router-kernel-god-class-bolme-plani` + `draft/ADR-107-neva-engine-platform-ve-paketleme` + `draft/ADR-108-k-space-kimlik-duzeltmesi-…` + `draft/ADR-109-tur-taksonomi-genislemesi-5-dal` + `draft/ADR-110-soft-adr-notlari-…` + `draft/ADR-111-amfi-urun-ailesi-power-governor-18650-bypass` (2026-10-25) — §4A | |
 | **Toplam** | **101** | 84 accepted + 10 rejected + 6 draft + 1 kök ADR | |
 
 > **Not (2026-10-23 — Prompt Arşivi Taraması Revizyonu):** Disk sayımı index ile hizalandı:
@@ -165,6 +165,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[draft/ADR-108-k-space-kimlik-duzeltmesi-disk-karsilastirmasi-ve-yeniden-numaralandirma]] | K-Space Kimlik Düzeltmesi, Disk Karşılaştırması ve Yeniden Numaralandırma (eski adı draft/ADR-098) | Architecture |
 | [[draft/ADR-109-tur-taksonomi-genislemesi-5-dal]] | K001 donanım-type Tür Taksonomisi Genişlemesi: 3 → 9 Bağlam (eski adı draft/ADR-102) | Architecture |
 | [[draft/ADR-110-soft-adr-notlari-select-star-samesite-position-itcss]] | Soft-ADR Notları: SELECT * İstisnası (admin/konsol), SameSite=Lax, Position Mekanizması Serbestliği, ITCSS 11-Katman SSOT | Security + CSS |
+| [[draft/ADR-111-amfi-urun-ailesi-power-governor-18650-bypass]] | Amfi Ürün Ailesi (9 SKU, azami 8 kanal/500 W) + Power Governor (empedans doğrulamalı watt kilidi) + 18650 Adaptör-Bypass Politikası | Electronics | Embedded + Audio HW + MO |
 
 ## 5. Reddedilen ADR'ler
 

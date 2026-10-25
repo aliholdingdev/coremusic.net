@@ -109,11 +109,19 @@ final class DatabaseManager implements IDatabaseManager
             return $result;
         } catch (\Throwable $e) {
             // commit() başarısızsa transaction açık kalabilir; rollback gerekir.
-            // @phpstan-ignore-next-line identical.alwaysFalse
-            if ($pdo->inTransaction()) {
-                $pdo->rollBack();
-            }
+            $this->rollBackIfActive($pdo);
             throw $e;
+        }
+    }
+
+    /**
+     * commit() başarısız olduğunda transaction açık kalmış olabilir; yalnız aktifse rollback yapar.
+     * Ayrı metotta tutulur: çağıranın önceki inTransaction() daraltması olmadan kontrol edilir.
+     */
+    private function rollBackIfActive(\PDO $pdo): void
+    {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
         }
     }
 }

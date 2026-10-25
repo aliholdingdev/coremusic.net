@@ -99,12 +99,18 @@ $logger->info("Request: {$method} {$requestUri}", [
 
 /* --- 1. Health --- */
 if ($requestUri === '/health') {
-    $jsonResponse([
+    // PRD-API-002: DB'ye dokunulmaz; yalnız süre ölçülüp log'a yazılır (yanıt sözleşmesi değişmez).
+    $healthStart = microtime(true);
+    $healthBody  = [
         'status'    => 'ok',
         'service'   => 'api.coremusic.net',
         'version'   => APP_VERSION,
         'timestamp' => (new \DateTimeImmutable())->format('c'),
+    ];
+    $logger->info('Health check', [
+        'duration_ms' => round((microtime(true) - $healthStart) * 1000, 3),
     ]);
+    $jsonResponse($healthBody);
 }
 
 /* --- 1.1 Audio & Video Stream (/stream/{id} veya /api/v1/stream/{id}) --- */

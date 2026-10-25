@@ -5,7 +5,7 @@ category: auth
 version: 1.0.0
 status: active
 authority: "Derived — SSOT: [[../PRD.md]] (platform + aile indeksi) · bağ: [[CONTEXT.md]] · [[AGENTS.md]]"
-updated: 2026-10-23
+updated: 2026-10-24
 ---
 
 # auth.coremusic.net — PRD
@@ -36,8 +36,8 @@ Bu PRD, `auth.coremusic.net/` yüzeyinin **tek kimlik doğrulama servisi** gerek
 |--------|-------------|
 | `pages/**` (login, register, reset/forgot, select/set-gender, logout) | `include/` modülünün iç yapısı → alt PRD #22 |
 | `include/` akış sözleşmesi (Controller → Handler → Service → Repository) | DB şeması `coremusic_auth.sql` → `.ai/.sql/**` (#25) |
-| `include/Middleware/**` (OriginCheck, RateLimit, SecurityHeaders, Session, Pipeline) | Ortak middleware paketi → `shared/src/Middleware/` (#10) |
-| OAuth uçları + `config/cors.php` | Panel UI → `assets` PRD (#3) |
+| Middleware kullanımı: `index.php:81` OriginCheckMiddleware, `index.php:97` RateLimiterMiddleware (kod `shared/src/Middleware/`; `include/Middleware/` diskte YOK — 2026-10-24) | Ortak middleware paketi → `shared/src/Middleware/` (#10) |
+| OAuth uçları + `auth.coremusic.net/config/cors.php` (diskte VAR — 2026-10-24) | Panel UI → `assets` PRD (#3) |
 
 - **Ölçüm (disk kanıtı, 2026-10-12):** yineleme **2032 dosya / 346 dizin / 2378 girdi** (`vendor/` dahil); kök **13 dosya + 7 dizin**; `vendor/` hariç **65 dosya / 37 PHP** — sayı `[[CONTEXT.md]]` §1'dedir, burada tekrarlanmaz.
 - **Ön koşul:** ADR-043 (Auth Subdomain Consolidation) — auth tek subdomain'de toplanmıştır.
@@ -55,7 +55,7 @@ Bu PRD, `auth.coremusic.net/` yüzeyinin **tek kimlik doğrulama servisi** gerek
 |----|-----------|----------------|
 | PRD-AUT-001 | Şifre hash'i yalnız Argon2id, `Password` ValueObject dışında üretilmez | Koda gömülü hash fonksiyonu yok; `Password` VO tek üretim noktası |
 | PRD-AUT-002 | CSRF (ADR-010) her form/POST'ta geçerli | Token doğrulamasız istek 403; `csrf_token` kuralı ihlal edilmez |
-| PRD-AUT-003 | Session yönetimi yalnız `SessionManager` üzerinden (ADR-011) | Superglobal/doğrudan `$_SESSION` yazımı yok; session değeri log'a yazılmaz |
+| PRD-AUT-003 | Session yönetimi yalnız `SessionManager` üzerinden (ADR-011) | Superglobal/doğrudan `$_SESSION` yazımı yok; session değeri log'a yazılmaz · **Durum: KARŞILANDI (2026-10-24)** — `index.php:170-171` ve `AutoRedirectHandler.php:53` yalnız `SessionManager` (`get`/`getCookieValue`/`getUserId`) üzerinden okur |
 | PRD-AUT-004 | Rate limit her auth ucunda aktif (ADR-013) | Sınır aşımı 429; `RateLimit` middleware'i Pipeline'da kayıtlı |
 | PRD-AUT-005 | Hexagonal akış bozulmaz: Controller → Handler → Service → Repository | `pages/**` içine iş mantığı gömülmez; Domain katmanında framework/superglobal yok |
 | PRD-AUT-006 | ORM yasak; Repository yalnız PDO prepared statement (ADR-002) | Ham SQL/dinamik string yok; `SELECT *` yasak |
@@ -123,4 +123,18 @@ Bu PRD, `auth.coremusic.net/` yüzeyinin **tek kimlik doğrulama servisi** gerek
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
-**Last Updated:** 2026-10-23
+**Last Updated:** 2026-10-24
+
+---
+
+## 8. Son denetim (2026-10-24)
+
+| Madde | Durum | Kanıt / Neden |
+|-------|-------|---------------|
+| PRD-AUT-003 superglobal | **KAPANDI** | `index.php:170-171` (`SessionManager::get`, `getCookieValue`); `include/Handler/AutoRedirectHandler.php:53` (`ISessionManager::getUserId`, constructor enjeksiyonu). Yeni okuma metodu: `SessionManager::getCookieValue()` (`include/Service/SessionManager.php`). Davranış: `getUserId` ile eski `is_string`/boş kontrolü aynı. Test: `tests/Unit/Handler/AutoRedirectHandlerTest.php` (3), `tests/Unit/Service/SessionManagerTest.php` (+2). |
+| §2 `include/Middleware/**` yolu | **KAPANDI** | Dizin diskte YOK (glob doğrulandı). Gerçek konum `shared/src/Middleware/` (CorsMiddleware, OriginCheckMiddleware, RateLimiterMiddleware, SecurityHeadersMiddleware, SessionManagerMiddleware, MiddlewarePipeline, …) — kullanım `index.php:81,97`. §2 satırı güncellendi. ⚠️ Not: `autoload.php:25` hâlâ `CoreMusic\Auth\Middleware\` → `include/Middleware/` eşlemesi taşıyor (ölü eşleme; kaldırma onayı gerekir). `AGENTS.md` §2 de `include/Middleware/` yazıyor (bu revizyonda değiştirilmedi). |
+| CORS `config/cors.php` | **KAPANDI** | Dosya VAR: `auth.coremusic.net/config/cors.php`. Maddeden kaldırılmadı; yol yazıldı. Not: `api.coremusic.net/v2/config/cors.php` ayrı dosya. |
+| PRD-OAU-004 (SSO) | **KISMEN — ⚠️ VERIFICATION REQUIRED** | Tanım: `shared/src/OAuth/PRD.md:50` (kök `PRD.md`'de yok). Kanıt olan: session anahtarları auth `SessionManager` ile shared `SessionKeys` ile aynı literaller (`MM_UserID`, `MM_Username`, `MM_Email`, `cm_gender`…) — ancak `SessionManager` sabit kullanmıyor, literal yazıyor; `SessionKeys` auth'ta hiç referanslanmıyor. OAuth: `handler/OAuthPostHandler.php` (root, `include/` dışı) state üretir (`:46` `random_bytes(16)`) ve `OAuthManager::validateState` (`:82`) kullanır; ancak `$userId` çağıran tarafından parametre olarak alınır — oturumdan okunduğu kanıtlanamadı. `OAuthPostHandler` `index.php`'de ve `shared/config/auth-routes.php`'de **rota değil** (0 eşleşme). Sonuç: auth içinde çalışan bir OAuth/SSO akışı yok; PRD-PLT-004 "tek kimlik" bu yüzeyde kanıtlanmadı. |
+| Test durumu | **KAPANDI** | `vendor\bin\phpunit --no-coverage` → `OK (51 tests, 152 assertions)` (baseline 46 + yeni 5). `php -l` (değişen 5 dosya) → hatasız. |
+
+**Önerilen sonraki adım (karar bekler):** (a) `OAuthPostHandler` için auth route kararı (bağla veya ADR ile kapat); (b) `$userId`'nin session'dan geldiğinin kanıtı veya bağlama; (c) `autoload.php:25` ölü eşlemesinin kaldırılması. Shared/admin dokunulmadı.

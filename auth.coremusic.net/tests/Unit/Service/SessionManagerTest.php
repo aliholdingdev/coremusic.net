@@ -36,6 +36,28 @@ final class SessionManagerTest extends TestCase
         ], $overrides);
     }
 
+    public function testGetCookieValue_returnsCookieOrDefault(): void
+    {
+        $_COOKIE = ['cm_gender' => 'female'];
+        try {
+            $this->assertSame('female', $this->session->getCookieValue('cm_gender'));
+            $this->assertSame('', $this->session->getCookieValue('missing'));
+            $this->assertSame('fallback', $this->session->getCookieValue('missing', 'fallback'));
+        } finally {
+            $_COOKIE = [];
+        }
+    }
+
+    public function testGetCookieValue_nonStringCookie_returnsDefault(): void
+    {
+        $_COOKIE = ['cm_gender' => ['array']];
+        try {
+            $this->assertSame('x', $this->session->getCookieValue('cm_gender', 'x'));
+        } finally {
+            $_COOKIE = [];
+        }
+    }
+
     public function testSetAuthUser_writesRoleAndPermissions(): void
     {
         $this->session->setAuthUser(self::baseUser([

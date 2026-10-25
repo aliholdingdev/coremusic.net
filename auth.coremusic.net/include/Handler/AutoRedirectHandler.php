@@ -7,6 +7,7 @@ namespace CoreMusic\Auth\Handler;
 use CoreMusic\Auth\Container\AuthContainer;
 use CoreMusic\Config\ConfigManager;
 use CoreMusic\Config\DomainConfig;
+use CoreMusic\Contracts\Auth\ISessionManager;
 use CoreMusic\Log\LoggerFactory;
 use CoreMusic\Session\SessionBootstrapper;
 
@@ -24,6 +25,7 @@ final class AutoRedirectHandler
     public function __construct(
         private readonly ConfigManager $config,
         private readonly DomainConfig $domainConfig,
+        private readonly ISessionManager $session,
     ) {}
 
     /**
@@ -48,8 +50,8 @@ final class AutoRedirectHandler
             return false;
         }
 
-        $userId = $_SESSION['MM_UserID'] ?? null;
-        if ($userId === null || !is_string($userId) || $userId === '') {
+        $userId = $this->session->getUserId();
+        if ($userId === null) {
             return false;
         }
 

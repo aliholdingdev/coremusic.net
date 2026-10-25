@@ -201,6 +201,19 @@ final class RouteConfigTest extends TestCase
         $this->assertStringContainsString('8', (string) ($response['error']['fields']['password'] ?? ''));
     }
 
+    /**
+     * PRD-API-006: controller'ı olmayan rota kayıtlı kalmaz.
+     * media/download handler'ları include/ altında yoktu ve hiçbir istemci kullanmıyordu
+     * (placeholder 200 üretiyordu) → rota kaldırıldı; 404 beklenir.
+     */
+    public function testMediaAndDownloadRoutesWithoutControllerAreNotRegistered(): void
+    {
+        foreach (['/api/v1/media', '/api/v1/download'] as $path) {
+            $result = $this->table->match($path, 'GET');
+            $this->assertSame(RouteTable::STATUS_NOT_FOUND, $result['status'], "{$path} kayıtlı olmamalı");
+        }
+    }
+
     public function testLogoutHasNoValidationRulesSoBodylessPostPasses(): void
     {
         $this->assertArrayNotHasKey('validation', $this->routes['POST']['/api/v1/auth/logout']);

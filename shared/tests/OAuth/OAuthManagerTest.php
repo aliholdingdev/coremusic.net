@@ -157,4 +157,84 @@ final class OAuthManagerTest extends TestCase
             $this->assertLessThanOrEqual($priorities[$i], $priorities[$i - 1]);
         }
     }
+
+    /**
+     * PRD-OAU-003: state doğrulama. Sahte PDO ile repository davranışı sürülür;
+     * süre kontrolü SQL'de (expires_at > NOW()) olduğundan yalnız SQL'in varlığı doğrulanır.
+     *
+     * @param \ArrayObject<int, array{sql: string, params: array}> $log
+     */
+    private function managerWithFetchResult(\ArrayObject $log, mixed $fetchResult): OAuthManager
+    {
+        $stmt = $this->createMock(\PDOStatement::class);
+        $stmt->method('execute')->willReturn(true);
+        $stmt->method('fetch')->willReturn($fetchResult);
+
+        $pdo = $this->createMock(\PDO::class);
+        $pdo->method('prepare')->willReturnCallback(function (string $sql) use ($stmt, $log): \PDOStatement {
+            $log->append(['sql' => $sql, 'params' => []]);
+            return $stmt;
+        });
+
+        return new OAuthManager($pdo, $this->platformConfig, 'test-key-32-bytes-long-for-aes256');
+    }
+
+    public function testValidateStateRejectsMissingState(): void
+    {
+        $log = new \ArrayObject();
+        $manager = $this->managerWithFetchResult($log, false);
+
+        $this->assertNull($manager->validateState('never-saved', 'discord', 1));
+        $this->assertCount(1, $log, 'Yalnız SELECT çalışmalı; state yoksa DELETE yapılmaz');
+        $this->assertStringContainsString('SELECT code_verifier FROM oauth_states', $log[0]['sql']);
+    }
+
+    public function testValidateStateRejectsWrongState(): void
+    {
+        $log = new \ArrayObject();
+        // Yanlış state için repository eşleşme bulamaz (hash farklı)
+        $manager = $this->managerWithFetchResult($log, false);
+
+        $this->assertNull($manager->validateState('wrong-state-value', 'discord', 1));
+        $this->assertCount(1, $log);
+    }
+
+    public function testStateIsHashedBeforeLookupEvenWhenRejected(): void
+    {
+        // Ham state değeri DB'ye gitmez; yalnız SHA-256 hash'i (saklanan biçim) aranır.
+        $raw = 'raw-state-token';
+        $stmt = $this->createMock(\PDOStatement::class);
+        $stmt->method('execute')->with($this->callback(
+            fn(array $p): bool => $p['state'] === hash('sha256', 'raw-state-token')
+                && $p['state'] !== 'raw-state-token'
+        ))->willReturn(true);
+        $stmt->method('fetch')->willReturn(false);
+
+        $pdo = $this->createMock(\PDO::class);
+        $pdo->method('prepare')->willReturn($stmt);
+
+        $manager = new OAuthManager($pdo, $this->platformConfig, 'test-key-32-bytes-long-for-aes256');
+        $this->assertNull($manager->validateState($raw, 'discord', 1));
+    }
+
+    public function testValidateStateSqlEnforcesExpiry(): void
+    {
+        $log = new \ArrayObject();
+        $manager = $this->managerWithFetchResult($log, false);
+
+        $this->assertNull($manager->validateState('expired-state', 'discord', 1));
+        $this->assertStringContainsString('expires_at > NOW()', $log[0]['sql']);
+    }
+
+    public function testValidateStateAcceptsValidStateAndDeletesIt(): void
+    {
+        $log = new \ArrayObject();
+        $manager = $this->managerWithFetchResult($log, ['code_verifier' => 'verifier-abc']);
+
+        $result = $manager->validateState('good-state', 'discord', 1);
+
+        $this->assertSame(['code_verifier' => 'verifier-abc'], $result);
+        $this->assertCount(2, $log, 'Geçerli state SELECT sonrası silinmeli (tek kullanımlık)');
+        $this->assertStringContainsString('DELETE FROM oauth_states', $log[1]['sql']);
+    }
 }

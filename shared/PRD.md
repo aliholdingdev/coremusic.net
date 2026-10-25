@@ -123,3 +123,10 @@ Bu PRD, `shared/` paketinin (**`coremusic/shared-infrastructure` v2.0.0**) ortak
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 **Last Updated:** 2026-10-23
+
+## PRD-SHR-006 Coverage Dogrulama Notu (2026-10-24)
+
+- Iddia: coverage hedefi >=%80 (PRD-PLT-006).
+- Kanit: php -m icinde pcov/xdebug YOK; coverage bu oturumda KOSTURULMADI.
+- Durum: >=%80 = VERIFICATION REQUIRED (olcum yapilmadan kabul edilmez).
+- Gecerli kanit: composer test (phpunit 457/457 yesil) + composer phpstan (level 5, 0 hata).

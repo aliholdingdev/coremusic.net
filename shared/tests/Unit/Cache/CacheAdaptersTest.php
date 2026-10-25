@@ -5,9 +5,23 @@ namespace CoreMusic\Test\Unit\Cache;
 use PHPUnit\Framework\TestCase;
 use CoreMusic\Cache\MemoryAdapter;
 use CoreMusic\Cache\PageCacheAdapter;
+use CoreMusic\Cache\ApcuAdapter;
 
 final class CacheAdaptersTest extends TestCase
 {
+    public function testApcuTtlZeroOrNegativeFallsBackToDefault(): void
+    {
+        $this->assertSame(ApcuAdapter::DEFAULT_TTL, ApcuAdapter::normalizeTtl(0));
+        $this->assertSame(ApcuAdapter::DEFAULT_TTL, ApcuAdapter::normalizeTtl(-5));
+        $this->assertSame(3600, ApcuAdapter::DEFAULT_TTL);
+    }
+
+    public function testApcuPositiveTtlIsPreserved(): void
+    {
+        $this->assertSame(600, ApcuAdapter::normalizeTtl(600));
+        $this->assertSame(1, ApcuAdapter::normalizeTtl(1));
+    }
+
     public function testMemoryAdapterSetGetHasDelete(): void
     {
         $cache = new MemoryAdapter();

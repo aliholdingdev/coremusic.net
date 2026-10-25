@@ -28,8 +28,6 @@ return [
         '/api/v1/user'     => ['service' => 'user',     'handler' => 'userController'],
         '/api/v1/music'    => ['service' => 'music',    'handler' => 'musicController'],
         '/api/v1/playlist' => ['service' => 'playlist', 'handler' => 'playlistController'],
-        '/api/v1/media'    => ['service' => 'media',    'handler' => 'mediaController'],
-        '/api/v1/download' => ['service' => 'download', 'handler' => 'downloadController'],
 
         // Public auth uçları — exact kayıt, prefix `/api/v1/auth` ile çakışmasın
         // Bu 4 uç POST-only'dir: GET implemented=false → 405 + Allow: POST, OPTIONS

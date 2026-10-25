@@ -4,6 +4,17 @@ namespace CoreMusic\Cache;
 
 final class ApcuAdapter implements CacheInterface
 {
+    /** ttl <= 0 çağrıları sonsuz kayıt üretmesin diye uygulanan varsayılan (saniye). */
+    public const DEFAULT_TTL = 3600;
+
+    /**
+     * Çağıran ttl<=0 verirse sonsuz kayıt yerine DEFAULT_TTL kullanılır.
+     */
+    public static function normalizeTtl(int $ttl): int
+    {
+        return $ttl > 0 ? $ttl : self::DEFAULT_TTL;
+    }
+
     public function get(string $key): mixed
     {
         if (!function_exists('apcu_fetch')) {
@@ -19,7 +30,7 @@ final class ApcuAdapter implements CacheInterface
         if (!function_exists('apcu_store')) {
             return false;
         }
-        return apcu_store($key, $value, $ttl);
+        return apcu_store($key, $value, self::normalizeTtl($ttl));
     }
 
     public function delete(string $key): bool

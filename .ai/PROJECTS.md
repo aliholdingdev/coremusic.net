@@ -4,9 +4,9 @@ type: project
 category: core
 title: "CoreMusic — Proje Tanımı, Yetenekler, Ekosistem Modeli ve Proje Envanteri"
 date: 2026-09-19
-updated: 2026-10-12
+updated: 2026-10-25
 status: active
-version: 3.1.0
+version: 3.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
@@ -378,6 +378,52 @@ CoreMusic, her sektörel ihtiyacı ayrı bir alt alan adı (*subdomain*) ile dik
 
 ---
 
+#### 7.2.7 Amfi Ürün Ailesi — SKU Matrisi
+Kaynak: [[electronic/amplifier/product-line-requirements]] §2 (KULLANICI KARARI 2026-10-25)
+
+| # | SKU | Kanal | Kanal gücü | Bas / +1 |
+|---|-----|-------|-----------|----------|
+| 1 | Mono küçük | 1 | 15 W | — |
+| 2 | Mono büyük | 1 | 35 W | — |
+| 3 | 2 kanal | 2 | 35 W/kanal | — |
+| 4 | 2+1 | 2 + 1 bas | 35 W/kanal ⚠️ NETLEŞTİRİLECEK | 10 W ⚠️ |
+| 5 | 4 kanal | 4 | 60 W/kanal | — |
+| 6 | 5+1 | 5 + 1 bas | 50 W/kanal | 20 W |
+| 7 | 6+1 | 6 + 1 bas | 80 W/kanal | 30 W |
+| 8 | 7+1 | 7 + 1 bas | 100 W/kanal | 50 W |
+| 9 | 8+1 | 8 + 1 bas | 500 W/kanal (azami tavan) | 50 W bas · opsiyonel 1000 W'lık kabin için 100 W kanal (kabin = rating dayanım, sürücü 100 W ile çalışır — kullanıcı açıklaması 2026-10-25) |
+
+Genel kurallar: azami 8 kanal · her çıkış azami 500 W · 8×50W Class AB studio/home SKU'su **ADR-089 kapsamındadır ve KORUNUR (değiştirilmez)** · 8+1 topolojisi + 2+1 okuması → ADR-111 (draft) · 1000 W kabin ↔ 100 W kanal bütçesi **KAPANDI 2026-10-25** (kullanıcı: kabin rating, alt sürüş — çelişki yok).
+Durum: TASARIM AŞAMASINDA (SKU kararı kayıtlı; topoloji/PSU hesabı ADR-111 bekliyor)
+
+#### 7.2.8 Power Governor — Yazılım Watt/Kanal Kontrol Paneli
+Kaynak: [[electronic/amplifier/product-line-requirements]] §3
+
+| Mod | Davranış |
+|-----|----------|
+| Otomatik (default) | Hoparlör profili → empedans doğrulaması → watt tavanı rating'e kilitlenir |
+| Manuel | Kanal başına watt slider'ı + empedans kilidi (4/8/16 Ω) |
+| Güvenlik | True Peak Brickwall Limiter + termal geri besleme + acil mute + audit log |
+
+Yüzey: UI `pro.coremusic.net` · API Audio service :9741/:9742 · hoparlör profili tablosu (BCNF, `coremusic_neva`) · mockup gate `.ai/ui-design/` (görsel okunmadan UI kodu YAZILMAZ).
+Durum: PLANNED (tasarım aşamasında — mockup + PRD satırı bekliyor)
+
+#### 7.2.9 18650 + Adaptör Besleme Politikası (Bas Cihazları)
+Kaynak: [[electronic/amplifier/product-line-requirements]] §4
+
+| Durum | Davranış |
+|-------|----------|
+| Boot | Şarj devresi beklemede — otomatik şarj BAŞLAMAZ |
+| Adaptör takıldı | Ekranda seçim: "Pili devre dışı bırak (bypass)" → güç yalnız adaptörden, şarj yok |
+| Adaptör takıldı | Ekranda seçim: "Şarj et" → balans şarj devrede |
+| Pil ile | Adaptör yok → pilden çalışma |
+
+Gerekçe: pil ömrü koruma · maliyet · üretim kalitesi · politika ortak katmanlı yazılımda kalır.
+⚠️ VERIFICATION REQUIRED: balans şarj + bypass MPN'leri, şarj akımı, pil ömrü hesabı (ölçüm/kaynak bekliyor).
+Durum: TASARIM AŞAMASINDA (politika kayıtlı; devre/MPN doğrulanmadı)
+
+---
+
 ### 7.3 Altyapı Projeleri
 
 #### 7.3.1 18 BCNF Veritabanı
@@ -707,7 +753,7 @@ jobs:
 | Total Lines | 500+ |
 | Cross References | 7 (Zorunlu Bağlantılar) |
 | Software Projects | 13 (detaylı) |
-| Hardware Projects | 6 (detaylı) |
+| Hardware Projects | 9 (detaylı) |
 | Infrastructure | 3 (detaylı) |
 | Target Users | 6 |
 | Sectors | 10 (subdomain) |

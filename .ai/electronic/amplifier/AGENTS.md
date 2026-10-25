@@ -17,7 +17,7 @@ authority: SSOT
 Amplifikatör mimarisi: class-AB, class-D, güç kaynağı, koruma devreleri, termal yönetim.
 
 ## 2. İçerik Envanteri
-6 dosya: `index.md`, `class-ab.md`, `class-d.md`, `power-supply.md`, `protection.md`, `thermal.md`
+10 dosya: `index.md`, `class-ab.md`, `class-d.md`, `power-supply.md`, `protection.md`, `thermal.md`, `product-line-requirements.md`, `coding-panel.md`, `power-governor-screen-spec.md`, `future-roadmap.md`
 
 ## 3. Kurallar
 1. Değerler (THD, güç) ölçüm kaynağı olmadan yazılmaz

@@ -95,3 +95,14 @@ Bu PRD, `PageRouter/` modülünün **SPA sayfa yönlendirme çekirdeği** gereks
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 **Last Updated:** 2026-10-23
+
+## PRD-PRT-004 Netlestirme (inline stil/script kurali)
+
+Tarih: 2026-10-24 | Kaynak kanit: src/PageRouter/HtmlShellRenderer.php satir 192 (inline style, nonce'li, body-bg CSS custom property), satir 263 (inline script, nonce'li window.CoreMusic.RouterConfig bootstrap, JSON_HEX_TAG/AMP/APOS/QUOT ile kacisli).
+
+Kural:
+- Inline <style> blogu SERBEST (nonce ile). Kapsam: yalniz --cm-* / body-bg gibi shell-seviyesi custom property tanimi. Sabit deger (ham hex/px) katman dosyasina yazilmaz; token 01_Abstracts'ta kalir.
+- Inline <script> YASAK. ISTISNA (mevcut kod): satir 263'teki tek RouterConfig bootstrap blogu; sadece JSON_HEX_* ile kacisli veri tasir, nonce zorunlu. Baska inline script eklenemez.
+- Yeni davranis icin inline script yerine src= ile yuklenen modul (assets/js) kullanilir (satir 281-325 ornegi).
+
+Durum: ISTISNA ONAYI = VERIFICATION REQUIRED (insan karari: RouterConfig bootstrap'i harici dosyaya tasinacak mi?).

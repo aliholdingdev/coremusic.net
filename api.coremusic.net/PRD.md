@@ -53,12 +53,14 @@ Bu PRD, `api.coremusic.net/` yüzeyinin **JSON-only API ağ geçidi** gereksinim
 
 | ID | Gereksinim | Kabul Kriteri |
 |----|-----------|----------------|
-| PRD-API-001 | Tüm uçlar JSON döndürür; HTML/SPA router kullanılmaz | Yanıt `Content-Type: application/json`; template çıktısı 0 |
+| PRD-API-001 | Tüm uçlar JSON döndürür; HTML/SPA router kullanılmaz | Yanıt `Content-Type: application/json`; template çıktısı 0. **İstisna: `/stream/{id}` binary stream** (dosya MIME, `StreamController.php:79`; JSON zarfı uygulanmaz — bkz. aşağıdaki not) |
 | PRD-API-002 | `/health` canlılık ucu ayrık ve ucuza mal olur | DB'ye dokunmadan 200 JSON; süre ölçümü log'da (`⚠️` eşiği: ölçülmediyse iddia yazılmaz) |
 | PRD-API-003 | Middleware sırası ADR-020'ye sadık kalınır | Sıra değişikliği yalnız ADR ile; `RouteConfigTest` yeşil |
-| PRD-API-004 | Hata yanıtı sızdırmaz (stack/SQL görünmez) | 5xx gövdesi yalnız `{code, message}`; Security denetimi PASS |
+| PRD-API-004 | Hata yanıtı sızdırmaz (stack/SQL görünmez) | 5xx gövdesi yalnız `{code, message}`; ⚠️ VERIFICATION REQUIRED — security-engineer denetimi bekliyor (PASS iddiası yok) |
 | PRD-API-005 | CORS yalnız `config/cors.php`'den yönetilir | Endpoint içinde header set edilmez; Security onayı yoksa değişiklik yok |
 | PRD-API-006 | Her yeni uç route + controller + test üçlüsüyle gelir | `composer test` yeşil (`SmokeTest` · `RouteConfigTest` · `AuthControllerTest` korunur) |
+
+> **Stream binary istisnası (PRD-API-001):** `/stream/{id}` (ve `/api/v1/stream/{id}`) ses/binary dosya akışı döndürür; JSON zarfı, `{data,meta}` ve `Content-Type: application/json` kuralı bu uç için **geçerli değildir**. İstisna yalnız bu uçla sınırlıdır; diğer tüm uçlar JSON kuralına tabidir. Kod: `index.php` (stream bloğu) → `StreamController::stream`. Kanıt: `StreamController.php:79` (`Content-Type: $mime`), `:80` (`Accept-Ranges`).
 
 > **eli10 (basit):** Altı kural: hep JSON, ucuz sağlık ucu, sabit sıra, sızıntısız hata, tek CORS kapısı, testli yeni uç.
 > **eli15 (detay):** Kimlikler ayrı çünkü API sözleşmesi ihlali müşteri tarafında kırılır ve denetlenebilir

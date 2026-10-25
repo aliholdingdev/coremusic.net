@@ -18,6 +18,7 @@ use CoreMusic\Auth\Container\AuthContainer;
 use CoreMusic\Auth\Handler\AuthPostHandler;
 use CoreMusic\Auth\Handler\AuthKeyRedirectHandler;
 use CoreMusic\Auth\Handler\AutoRedirectHandler;
+use CoreMusic\Auth\Service\SessionManager;
 use CoreMusic\PageRouter\PageRouterKernel;
 use CoreMusic\Log\LoggerFactory;
 use CoreMusic\Session\SessionBootstrapper;
@@ -165,8 +166,9 @@ if ($bypassActive && $method !== 'POST') {
 /* â”€â”€â”€ 4. Gender Gate: /login â†’ /select-gender if no gender â”€â”€â”€ */
 if ($method !== 'POST' && $pageName === 'login') {
     SessionBootstrapper::ensureStarted();
-    $sessionGender = $_SESSION['cm_gender'] ?? '';
-    $cookieGender  = $_COOKIE['cm_gender'] ?? '';
+    $sessionManager = new SessionManager();
+    $sessionGender  = $sessionManager->get('cm_gender', '');
+    $cookieGender   = $sessionManager->getCookieValue('cm_gender');
     if (empty($sessionGender) && empty($cookieGender)) {
         $params = http_build_query($_GET);
         header('Location: /select-gender' . ($params ? '?' . $params : ''), true, 302);
@@ -225,7 +227,7 @@ if ($method !== 'POST' && in_array($pageName, $adminAuthPages, true)) {
 }
 
 /* ─── 5. Authenticated User Auto-Redirect ─── */
-$autoHandler = new AutoRedirectHandler($config, $domainConfig);
+$autoHandler = new AutoRedirectHandler($config, $domainConfig, new SessionManager());
 $autoHandler->handle($pageName, $method);
 
 /* ─── 6. PageRouterKernel (normal sayfa akışı) ─── */

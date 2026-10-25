@@ -127,10 +127,7 @@ final class ConnectionFactory
             return $result;
         } catch (\Throwable $e) {
             // commit() başarısızsa transaction açık kalabilir; rollback gerekir.
-            // @phpstan-ignore-next-line identical.alwaysFalse
-            if ($pdo->inTransaction()) {
-                $pdo->rollBack();
-            }
+            $this->rollBackIfActive($pdo);
             throw $e;
         }
     }
@@ -184,6 +181,16 @@ final class ConnectionFactory
         }
         $value = getenv($key);
         return $value !== false ? (string) $value : $default;
+    }
+
+    /**
+     * commit() başarısız olduğunda transaction açık kalmış olabilir; yalnız aktifse rollback yapar.
+     */
+    private function rollBackIfActive(\PDO $pdo): void
+    {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
     }
 
     /**

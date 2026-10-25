@@ -14,7 +14,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 **Zorunlu Bağlantılar:** [[electronic/index]] · [[brain.md]] · [[dsp/index]] · [[hardware/index]]
 
-**Alt Dosyalar:** [[class-ab]] · [[class-d]] · [[power-supply]] · [[protection]] · [[thermal]]
+**Alt Dosyalar:** [[class-ab]] · [[class-d]] · [[power-supply]] · [[protection]] · [[thermal]] · [[product-line-requirements]] · [[coding-panel]] · [[power-governor-screen-spec]] · [[future-roadmap]]
 
 ## 1. Amaç
 
@@ -29,6 +29,9 @@ Amplifier Architecture, CoreMusic ELECTRONICS platformunun tüm amplifikatör ta
 | `power-supply.md` | 501 | Boost converter, filtre, regülatör, ripple | active |
 | `protection.md` | 530 | Aşırı akım, kısa devre, termal, DC offset, relay | active |
 | `thermal.md` | 515 | Termal direnç zinciri, heatsink, hava akışı, kapanma | active |
+| `product-line-requirements.md` | 123 | Amfi SKU matrisi + Power Governor + 18650 bypass politikası (kullanıcı kararı 2026-10-25) | active |
+| `coding-panel.md` | 67 | Amfi kodlama paneli — 11 görev kartı, hazır-prompt formatı (T-01..T-10 + T-PWR) | active |
+| `future-roadmap.md` | 74 | Amfi/PA gelecek yol haritası — 6 genişleme (G1-G6) + 6 yenilik (Y1-Y6) + faz bağlantıları | active || `power-governor-screen-spec.md` | 134 | Power Governor ekran spec'i (Kalıp D — PNG bekliyor, mockup gate kapalı) | draft |
 
 ## 3. Katman / Komşu İlişkisi
 

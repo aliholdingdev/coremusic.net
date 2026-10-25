@@ -4,9 +4,9 @@ title: "CoreMusic — Engineering Brain (Enterprise SSOT)"
 type: brain
 category: architecture-decisions
 date: 2026-08-08
-updated: 2026-10-12
+updated: 2026-10-25
 status: active
-version: 26.2.0
+version: 26.3.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -1128,3 +1128,16 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 4. **Soft-ADR kararları (P1-2 raporu onaylandı):** S1 SELECT * istisna (admin/konsol uçları) = SOFT · S2 SameSite=Strict → default Lax = SOFT · S3 playlist hard DELETE yasağı = HARD kaldı · S4 `<a href>` full-reload yasağı = HARD kaldı (OAuth/logout istisnası ADR-043/047 bağlamında değerlendirilecek) · S5 position mekanizması serbest (yarış koşulu reddi şartı hard) = SOFT · S6 ITCSS katman sayısı SSOT = css-template v4.0.0 / 11 katman.
 5. **Güvenlik:** `figma-ai-mcp-prompt-1.md` içinde düz metin Figma API token bulundu (L1/L13). Token yeniden yazımda çıkarıldı; kullanıcıya rotate tavsiyesi iletildi.
 6. **Prompt arşivi (G:):** Coremusic/ 14 dosya + üst dizin 7 dosya prompt-maker v4 formatında yeniden yazılacak; kopya dosyalara arşiv notu; boş `coremusic-katmanı-mimari-ses.md` yerine k-space ses katmanı promptu üretilecek. **Güncelleme (2026-10-23 Adım 4 kapanışı):** YENİDEN YAZIM TAMAMLANDI — disk: `G:…\Coremusic\` 41 içerik dosyası (+README = 42 md); stale 14+7 v4'e yazıldı + üst dizinden taşındı + 4 yeni üretim (adr103/104/107 + `katmanı-mimari-ses`); `miamri copy` rename'i bitti → `coremusic-katmanlı-mimari-olustur-ai-copy.md` (273 KB, 15:48). **Sayı mutabakatı:** "14+7" = yeniden yazım kapsamı (stale subset), "41/42" = toplam envanter (README hariç 41) — çelişki yok. README §4 "accepted 85" → **84** düzeltildi (vault SSOT).
+## 2026-10-25 | Amfi Ürün Ailesi + Power Governor + ADR-111 (taslak)
+
+**Karar mercii:** Bayram Ali (2026-10-25 — 9 SKU, azami 8 kanal / çıkış max 500 W, Power Governor otomatik+manuel, 18650 adaptör-bypass politikası).
+
+1. **ADR-111 draft YAZILDI** (`draft/ADR-111-amfi-urun-ailesi-power-governor-18650-bypass.md`, debate PENDING) — ADR-089 (8×50W studio/home) **dokunulmaz korundu**; ADR-090 (kanal varyant ürün ailesi) ile sınırlandırıldı; `.decisions/index.md` total-draft **6→7**, next **111→112** (PRD.md §7 hizalı).
+2. **1000 W kabin çelişkisi KAPANDI:** 1000 W = kabin rating (dayanım), sürücü **100 W alt sürüş** ile çalışır — kullanıcı açıklaması. P0 yalnız **T-07 (8+1 topoloji)** kaldı; index §4 Class D'yi öne çıkarır.
+3. **Yeni vault kayıtları (`electronic/amplifier/`):** product-line-requirements v1.0.0 · coding-panel v1.0.0 (**16 görev kartı**, hazır-prompt) · power-governor-screen-spec v0.1.0 (Kalıp D, **PNG gate kapalı**) · future-roadmap v1.0.0 (G1-G6 genişleme + Y1-Y6 yenilik + faz bağlantıları).
+4. **Belge revizyonu:** PROJECTS §7.2.7-7.2.9 + §17 sayaç 6→9 (v3.2.0) · VISION §6 +PA · §10.2 +2 SKU · §16.2 +2 gelecek satırı (v3.2.0) · PRD.md **v1.3.1** (ADR-111 satırı + 35. satır `pro` yüzeyi, sayaç 34→35) · root TODO §2 `pro` maddesi · MEMORY/log/SESSIONS (+4 kayıt).
+5. **Açık:** T-07 P0 topoloji · T-08 `pro` PRD dosyası (yeni dizin = onay) · T-09 `.ai/index.md`+`keys.md` katalog satırı · ADR-111 debate + kullanıcı onayı.
+
+Kaynak: `.ai/log.md` 2026-10-25 (3 satır) · `git status` 9 M + 6 yeni · amplifier scan 0 bozukluk.
+
+---

@@ -2,10 +2,10 @@
 title: "assets.coremusic.net — TODO Listesi"
 type: todo
 category: project-tracking
-version: 1.0.0
+version: 1.2.0
 status: active
 authority: SSOT
-updated: 2026-10-23
+updated: 2026-10-25
 ---
 
 # assets.coremusic.net — TODO Listesi
@@ -23,7 +23,63 @@ updated: 2026-10-23
 - [ ] **Token/ekran çapraz kontrolü** — gereksinimler #26 (`.ai/ui-design` PRD — **diskte YOK**, bkz. `[[../TODO]]` §2 eksik-PRD maddesi) ile karşılaştırılır · Kaynak: `[[PRD.md]]` §7.2
 - [ ] **Erişilebilirlik denetimi** — `accessibility-tester` → PASS kaydı bu PRD §4 kapısına eklenir · Kaynak: `[[PRD.md]]` §7.3
 
-## Referanslar
+## TAM Madde Listesi — Küçükten Büyüğe (Geçmiş · Açık · Gelecek) — 2026-10-25
+
+> Tek doğruluk listesi; `## Geçmiş & Mikro Ölçek` kanıt detayıdır. Sıra: MICRO → ORTA → EPIC.
+
+### A. GEÇMİŞ — TAMAMLANAN
+- [x] MICRO: 5 hata düzeltmesi (CatID + şablon disk gerçeği) — `04764f9`
+- [x] MICRO: CSS template v4.0.0 (11 katman) hizası — `f86a488` + kök CLAUDE §10
+- [x] ORTA: Figma token SSOT (`.env.figma` + gitignore, betikte sabit anahtar yok) — `cdd5665` `f02d02b`
+- [x] ORTA: screens frontmatter Kalıp D (13 dosya) — `1042cf4`
+- [x] ORTA: reference+flow+prompt Kalıp A/B/C (70 dosya) — `02a98b9`
+- [x] ORTA: kök 6 md yeniden yazım + PNG 149/151 + envanter SSOT — `21f357d`
+- [x] EPIC: ui-design vault yeniden yazım Faz 0-7 (21 ekran, 151 hedef/136 indirilen/15 gizli) — `cdd5665 → f86a488` · **Faz 8 QA ⏳**
+
+### B. AÇIK — EKSİK / YARIM (küçükten büyüğe)
+- [ ] MICRO: F-1a — #18-#21 dosyalarının disk varlığını `Test-Path` ile doğrula
+- [ ] MICRO: F-3a — `accessibility-tester`'ı tek ekranda (login) çalıştır
+- [ ] MICRO: F-4a — `power-governor-screen-spec.md` içindeki `⚠️` say → açık gate sayısı
+- [ ] MICRO: `Css/01_Abstracts/` kopya artığı (`a-layout-tokens copy*.css`) temizlik kararı (onay ister)
+- [ ] MICRO: `a-layout-tokens.css` (eski BASE) YOK → BASE `a-layout-tokens-1024.css` envanter notu korunur
+- [ ] ORTA: F-1 Alt PRD bağlantıları #18-#21 (js/coreplayer · js/router · js çekirdek · Css)
+- [ ] ORTA: F-2 **#26 `.ai/ui-design` PRD ÜRET** (diskte YOK) + token/ekran çapraz kontrol
+- [ ] ORTA: F-3 Erişilebilirlik denetimi → PASS kaydı PRD §4 kapısı
+- [ ] EPIC: F-4 Power Governor panel ekranı (PNG gate → `ui-design/screens/pro/`)
+- [ ] EPIC: ui-design **Faz 8 QA** (`reference/04-verification`) — ailenin tek açık kapısı
+
+### C. GELECEK — SIRADAKİ BÜYÜK İŞLER (öncelik sırası)
+| Sıra | EPIC iş | İlk MICRO adım |
+|---|---|---|
+| 1 | F-1 + F-2 PRD hattı (7 eksikten biri #26) | Test-Path doğrulama |
+| 2 | F-3 a11y PASS kanıtı | login ekranı denetimi |
+| 3 | PNG üretil → panel ekran kodu (mockup gate) | PNG üretimi onayı |
+| 4 | Faz 8 QA kapanışı | `04-verification` akışı |## Adım Adım Yürütme (2026-10-25 güçlendirme)
+
+**Kural:** Her adım tek oturum · `[ ]` → çalış · `[x]` + kanıt → kapanır · **YAPMA** bağlayıcı · komutu gönder → agent yapar.
+
+| # | Adım | Ne yapılacak (kaynak) | YAPMA | Hazır komut |
+|---|---|---|---|---|
+| F-1 | [ ] | Alt PRD bağlantıları #18–#21 (js/coreplayer · js/router · js çekirdek · Css) bu dosyaya bağlanır | bağlantı kırma/şablon bozma | `F-1: #18-#21 alt PRD'lerini assets/TODO'ya wiki-link ile bağla` |
+| F-2 | [ ] | Token/ekran çapraz kontrol — #26 (`ui-design` PRD, **diskte YOK**) → üret veya bağla | uydurma token/ölçü | `F-2: .ai/ui-design PRD'sini üret (#26) sonra token/ekran çapraz kontrolü yap` |
+| F-3 | [ ] | Erişilebilirlik denetimi `accessibility-tester` → PASS kaydı PRD §4 kapısına | PASS kanıtsız "geçti" yazımı | `F-3: accessibility-tester ile assets denetimi çalıştır, PASS kanıtıyla PRD §4'e yaz` |
+| F-4 | [ ] | Power Governor paneli (T-05 spec hazır: `power-governor-screen-spec.md`) — **PNG gelince** ekran koduna geç | **PNG yokken UI kodu** (mockup gate) | `F-4: T-05 panel spec'ini Kalıp D ile ui-design/screens'e taşı — PNG BEKLİYOR notunu koru, kod YAZMA` |
+
+**Yüzey yasakları:** framework (ADR-001) · katman dışı ham hex/px (token yalnız `01_Abstracts`) · `Css/07_Vendors/` dışı vendor · inline style/script (CSP) · font/image onaysız silme · commit.
+## Geçmiş & Mikro Ölçek — Tam Liste (2026-10-25)
+
+**Geçmiş — tamamlanan (kanıtlı):**
+- [x] `[EPİK]` Figma 15 sayfa çekim + token yeniden üretimi (7 breakpoint, FAIL=0) — `f02d02b`
+- [x] `[EPİK]` Kök 6 md yeniden yazım + PNG 149/151 + env SSOT — `21f357d`
+- [x] `[ORTA]` screens frontmatter Kalıp D (13 dosya) — `1042cf4` · reference/flow/prompt Kalıp A/B/C (70 dosya) — `02a98b9`
+- [x] `[MİKRO]` 5 hata düzeltmesi (CatID + şablon disk gerçeği) — `04764f9`
+- [x] `[MİKRO]` CSS template v4.0.0 (11 katman) hizası — `f86a488` + kök CLAUDE §10
+
+**Mikro işler (en küçük → büyük):**
+- [ ] `[MİKRO]` F-1 altı: #18-#21 dosyalarının disk varlığını `Test-Path` ile doğrula (5 sn)
+- [ ] `[MİKRO]` F-3 altı: `accessibility-tester`'ı tek ekran (login) üzerinde çalıştır
+- [ ] `[MİKRO]` F-4 altı: `power-governor-screen-spec.md` içindeki `⚠️` sayısını say → kaç gate açık
+- [ ] `[ORTA]` F-1 bağlama → F-2 (#26 PRD üret) → `[EPİK]` F-3 PASS kanıtı + panel ekranı (PNG gate)## Referanslar
 
 - `[[PRD.md]]` (§7 Sonraki Adım) · `[[CONTEXT.md]]` · `[[WORKFLOW.md]]` · `[[AGENTS.md]]` · `[[CLAUDE.md]]`
 - Aile indeksi: `[[../TODO]]` · `[[../PRD.md]]` · Vault TODO: `[[../.ai/TODO.md]]`

@@ -5,7 +5,7 @@ category: workflow
 version: 3.2.0
 status: active
 authority: "SSOT: .ai/WORKFLOW.md — Full workflows read via `.ai/WORKFLOW.md`"
-updated: 2026-10-23
+updated: 2026-10-25
 ---
 
 # ⚠️ CoreMusic Workflow Configuration (Vault SSOT Pointer)

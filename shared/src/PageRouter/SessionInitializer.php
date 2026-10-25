@@ -2,6 +2,7 @@
 
 namespace CoreMusic\PageRouter;
 
+use CoreMusic\Session\SessionBootstrapper;
 use CoreMusic\Session\SessionConfig;
 
 final class SessionInitializer
@@ -20,19 +21,19 @@ final class SessionInitializer
             if ($this->isSessionExpired()) {
                 $result['lifetimeTimedOut'] = true;
                 $this->destroy();
-                session_start();
+                SessionBootstrapper::ensureStarted();
                 $this->initSessionKeys();
                 $result['started'] = true;
             } else {
                 $this->extendSession();
             }
         } else {
-            session_start();
+            SessionBootstrapper::ensureStarted();
             $result['started'] = true;
             if ($this->isIdleTimedOut()) {
                 $result['idleTimedOut'] = true;
                 $this->destroy();
-                session_start();
+                SessionBootstrapper::ensureStarted();
                 $this->initSessionKeys();
                 $result['started'] = true;
             }
@@ -72,7 +73,7 @@ final class SessionInitializer
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - SessionConfig::COOKIE_EXPIRY, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
         }
-        session_start();
+        SessionBootstrapper::ensureStarted();
         session_regenerate_id(true);
         $this->initSessionKeys();
     }
@@ -116,7 +117,7 @@ final class SessionInitializer
         }
         if ((time() - (int)$createdAt) >= SessionConfig::MAX_LIFETIME) {
             $this->destroy();
-            session_start();
+            SessionBootstrapper::ensureStarted();
             $this->initSessionKeys();
         }
     }

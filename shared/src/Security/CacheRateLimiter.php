@@ -37,6 +37,8 @@ final class CacheRateLimiter implements IRateLimiter
         if (!$this->cache->set($cacheKey, 1, $windowSeconds)) {
             // Fail-safe: sayaç tutulamazsa istekler fail-open akar — sessiz değil, gözlemlenir.
             \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('rate_limiter_increment_failed', ['key' => $cacheKey]);
+            // PRD-SEC-004 fail-closed: sayaç yazılamazsa istek sayılamaz, sessizce geçirilmez.
+            throw new RateLimiterUnavailableException('Rate limiter counter could not be stored');
         }
     }
 

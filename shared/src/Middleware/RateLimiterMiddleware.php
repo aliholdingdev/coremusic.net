@@ -88,7 +88,24 @@ final class RateLimiterMiddleware implements IMiddleware
             ];
         }
 
-        $limiter->increment($key, $this->windowSeconds);
+        try {
+            $limiter->increment($key, $this->windowSeconds);
+        } catch (\CoreMusic\Security\RateLimiterUnavailableException) {
+            $path = $this->resolveRequestPath($request);
+            if (in_array($path, $this->failClosedPaths, true)) {
+                // PRD-SEC-004: auth yolu sayaç yokken reddedilir.
+                \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('rate_limiter_unavailable', ['path' => $path, 'mode' => 'fail-closed']);
+                return [
+                    'httpStatus' => 503,
+                    'type'       => 'json',
+                    'body'       => ['error' => 'rate_limiter_unavailable'],
+                    'headers'    => ['Retry-After' => (string)$this->windowSeconds],
+                    'halt'       => true,
+                ];
+            }
+            // Genel yollar: ADR-013 hizmet sürekliliği (fail-open, gözlemlenebilir). Karar UNKNOWN → raporda işaretli.
+            \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('rate_limiter_unavailable', ['path' => $path, 'mode' => 'fail-open']);
+        }
 
         return $next($request);
     }

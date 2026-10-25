@@ -51,8 +51,18 @@ final class RateLimitMiddleware
         }
 
         // Increment rate limit counter — tüm anahtarlar sayılır.
-        foreach ($keys as $key) {
-            $this->rateLimiter->increment($key, $this->windowSeconds);
+        try {
+            foreach ($keys as $key) {
+                $this->rateLimiter->increment($key, $this->windowSeconds);
+            }
+        } catch (\CoreMusic\Security\RateLimiterUnavailableException) {
+            // PRD-SEC-004 fail-closed: sayaç yazılamadı → API isteği reddedilir.
+            header('Retry-After: ' . $this->windowSeconds);
+            return ApiResponse::error(
+                'RATE_LIMITER_UNAVAILABLE',
+                'Rate limiter unavailable',
+                503
+            );
         }
 
         return $next($request);

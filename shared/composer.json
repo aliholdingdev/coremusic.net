@@ -45,6 +45,7 @@
     },
     "scripts": {
         "test": "phpunit",
-        "stan": "phpstan analyse src --level=5"
+        "phpstan": "phpstan analyse src --level=5 --no-progress",
+        "stan": "@phpstan"
     }
 }

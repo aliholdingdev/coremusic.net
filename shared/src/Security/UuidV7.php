@@ -22,13 +22,15 @@ final class UuidV7
         $time = pack('N', ($ms >> 16) & 0xFFFFFFFF)
               . pack('n', $ms & 0xFFFF);
 
-        // 2-byte clock_seq (version + variant)
-        $clockSeq = random_bytes(2);
-        $clockSeq[0] = chr((ord($clockSeq[0]) & 0x0F) | 0x70); // version 7
-        $clockSeq[1] = chr((ord($clockSeq[1]) & 0x3F) | 0x80); // variant 1
+        // 2-byte rand_a (version nibble = byte 6 üst 4 bit)
+        $randA = random_bytes(2);
+        $randA[0] = chr((ord($randA[0]) & 0x0F) | 0x70); // version 7
 
-        // 8-byte random
-        return $time . $clockSeq . random_bytes(8);
+        // 8-byte rand_b (variant = byte 8 üst 2 bit, RFC 9562: 10xx)
+        $randB = random_bytes(8);
+        $randB[0] = chr((ord($randB[0]) & 0x3F) | 0x80); // variant 10xx
+
+        return $time . $randA . $randB;
     }
 
     /**

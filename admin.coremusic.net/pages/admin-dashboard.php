@@ -19,6 +19,7 @@ $activeNav = 'admin-dashboard';
 use CoreMusic\Admin\Repository\AdminUserRepository;
 
 $assetsUrl = defined('ASSETS_URL') ? rtrim((string)ASSETS_URL, '/') : '';
+$h = static fn(string $v): string => htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
 // Veritabanı sorgusu — repository üzerinden (prezentasyonda DB kodu yasak; db-access-guard).
 // Boş kimlik bilgisi / hata → null: doğrulanmamış sayı üretilmez, sayfa boş-duruma düşer.
@@ -362,22 +363,22 @@ ob_start();
                             <tr>
                                 <td>
                                     <div class="adm-dash__track-info">
-                                        <img src="<?= htmlspecialchars($track['cover'], ENT_QUOTES, 'UTF-8') ?>" alt="" class="adm-dash__cover" width="38" height="38">
+                                        <img src="<?= $h($track['cover']) ?>" alt="" class="adm-dash__cover" width="38" height="38">
                                         <div>
-                                            <div class="adm-dash__track-name"><?= htmlspecialchars($track['title'], ENT_QUOTES, 'UTF-8') ?></div>
-                                            <div class="adm-dash__track-artist"><?= htmlspecialchars($track['artist'], ENT_QUOTES, 'UTF-8') ?> &bull; <?= htmlspecialchars($track['album'], ENT_QUOTES, 'UTF-8') ?></div>
+                                            <div class="adm-dash__track-name"><?= $h($track['title']) ?></div>
+                                            <div class="adm-dash__track-artist"><?= $h($track['artist']) ?> &bull; <?= $h($track['album']) ?></div>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="adm-dash__pill-fmt adm-dash__pill-fmt--<?= $track['badge'] ?>">
-                                        <?= htmlspecialchars($track['format'], ENT_QUOTES, 'UTF-8') ?>
+                                    <span class="adm-dash__pill-fmt adm-dash__pill-fmt--<?= $h($track['badge']) ?>">
+                                        <?= $h($track['format']) ?>
                                     </span>
                                 </td>
-                                <td class="adm-dash__num"><?= htmlspecialchars($track['plays'], ENT_QUOTES, 'UTF-8') ?></td>
-                                <td class="adm-dash__time"><?= htmlspecialchars($track['duration'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td class="adm-dash__num"><?= $h($track['plays']) ?></td>
+                                <td class="adm-dash__time"><?= $h($track['duration']) ?></td>
                                 <td>
-                                    <span class="adm-dash__status-tag"><?= htmlspecialchars($track['status'], ENT_QUOTES, 'UTF-8') ?></span>
+                                    <span class="adm-dash__status-tag"><?= $h($track['status']) ?></span>
                                 </td>
                                 <td>
                                     <div class="adm-dash__actions">
@@ -409,9 +410,9 @@ ob_start();
             <div class="adm-dash__logs-stream">
                 <?php foreach ($systemLogs as $log): ?>
                     <div class="adm-dash__log-item">
-                        <span class="adm-dash__log-time"><?= htmlspecialchars($log['time'], ENT_QUOTES, 'UTF-8') ?></span>
-                        <span class="adm-dash__log-tag adm-dash__log-tag--<?= $log['level'] ?>"><?= htmlspecialchars($log['tag'], ENT_QUOTES, 'UTF-8') ?></span>
-                        <span class="adm-dash__log-text"><?= htmlspecialchars($log['text'], ENT_QUOTES, 'UTF-8') ?></span>
+                        <span class="adm-dash__log-time"><?= $h($log['time']) ?></span>
+                        <span class="adm-dash__log-tag adm-dash__log-tag--<?= $h($log['level']) ?>"><?= $h($log['tag']) ?></span>
+                        <span class="adm-dash__log-text"><?= $h($log['text']) ?></span>
                     </div>
                 <?php endforeach; ?>
             </div>

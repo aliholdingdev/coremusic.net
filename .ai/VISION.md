@@ -6,7 +6,7 @@ title: "CoreMusic — Vizyon, Felsefe, Pazar Analizi ve Stratejik Yol Haritası"
 date: 2026-09-19
 updated: 2026-10-12
 status: active
-version: 3.1.0
+version: 3.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
@@ -141,6 +141,7 @@ CoreMusic, 10 bağımsız alan adı (*subdomain*) üzerinden özelleşmiş sekt�
 4. **Odyofil ve High-End Hi-Fi Donanımları:** Windows mikserini tamamen baypas eden Bit-Perfect aktarım, XMOS XU316 USB Audio Class 2.0 işlemcisi, AK4458 DAC, PCM3168A ADC ve 8 kanallı discrete Class AB 50W analog amfi ile 112dB SNR performansı.
 5. **Offline Arşivleme ve Karasal Medya Dağıtımı (`download.coremusic.net`):** Yat/tekne seyahatleri ve internetsiz kamplar için FAT32/exFAT disklere tek tıkla hiyerarşik müzik aktarımı, gömülü ID3v2 albüm kapakları, eski araçlar ve müzik setleri için Optik CD (Red Book) ve MP3 CD yazma yeteneği.
 6. **Merkezi Medya Yönetimi ve Streaming (`media.coremusic.net`):** Çok kaynaklı otonom indirme (YouTube, YouTube Music, Deezer FLAC stüdyo kalitesi), kayıpsız format dönüştürme ve merkezi ev/ofis medya arşivi.
+7. **Açık Alan Seslendirme (PA):** Konser, festival, spor alanı ve etkinlik seslendirme — 8 kanal / çıkış başına azami 500 W tavanlı amfi ailesi (mono → 8+1 SKU), Power Governor ile hoparlör empedans/watt kilidi, 18650+adaptör ile saha besleme esnekliği. Subdomain: **UNKNOWN (atanmadı)** · Durum: TASARIM AŞAMASINDA (SKU kararı 2026-10-25; fiyat/pazar verisi ⚠️ VERIFICATION REQUIRED).
 
 ---
 
@@ -267,6 +268,8 @@ ELDE EDİLEBİLİR PAZAR (SOM): $180M-350M (2028) — İlk 3 yıl hedefi
 | Ürün | Fiyat Aralığı | Marj | Hedef |
 |------|--------------|------|-------|
 | Class AB Amplifikatör (8 kanal) | $599-$899 | %35-45 | Odyofil |
+| Amfi Ürün Ailesi (9 SKU: mono 15/35W → 8+1 500W/kanal) — [[electronic/amplifier/product-line-requirements]] §2 | UNKNOWN (karar bekliyor) | UNKNOWN (karar bekliyor) | Bireysel + Stüdyo + Açık Alan ⚠️ VERIFICATION REQUIRED |
+| Power Governor Kontrol Paneli (`pro.coremusic.net`) | UNKNOWN (karar bekliyor) | UNKNOWN (karar bekliyor) | Stüdyo / entegratör ⚠️ VERIFICATION REQUIRED |
 | XMOS XU316 USB DAC | $199-$299 | %40-50 | Hi-Fi |
 | RPi5 Audio Kit | $149-$199 | %30-40 | Ev Medya |
 | Complete Audio System | $1,499-$2,499 | %25-35 | Stüdyo |
@@ -469,6 +472,8 @@ ELDE EDİLEBİLİR PAZAR (SOM): $180M-350M (2028) — İlk 3 yıl hedefi
 | EV'lerde standart multi-hoparlör | Araç içi ses pazarını büyütür | Car paneli + Class AB |
 | Uzay sesi (Atmos) standardı | Ev sinemasında yaygınlaşma | 8.1 → Atmos genişletme planı |
 | Kişisel AI müzik asistanı | Doğal dil etkileşimi | AI Voice integration yol haritası |
+| Aktif hoparlör (amfi+DSP+koruma tek kutu) | Ev/PA kurulumunda ayrı amfi ihtiyacı kalkar | Power Governor yerleşik SKU — `electronic/amplifier/future-roadmap` §3 (Y1) · ADR-111 |
+| Ölçekli üretimde ölçüm otomasyonu | Elle THD/SNR ölçümü ölçeklenmez | AES17 / THD+N / SNR otomatik test hattı — `electronic/amplifier/future-roadmap` §3 (Y5), PLANNED ⚠️ |
 | Blockchain tabanlı telif | Sanatçı ödemelerinde devrim | Metadata + telif izleme |
 
 ---

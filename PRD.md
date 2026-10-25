@@ -2,10 +2,10 @@
 title: "CoreMusic — Platform PRD (Ürün Gereksinim Belgesi)"
 type: prd
 category: core
-version: 1.2.0
+version: 1.3.1
 status: active
 authority: "Derived — SSOT: .ai/PROJECTS.md (ürün tanımı) + .ai/PRD.md (PRD sistemi)"
-updated: 2026-10-23
+updated: 2026-10-25
 ---
 
 # CoreMusic — Platform PRD
@@ -14,14 +14,14 @@ updated: 2026-10-23
 
 **Zorunlu Bağlantılar:** [[.ai/PRD.md]] · [[.ai/PROJECTS.md]] · [[.ai/VISION.md]] · [[CONTEXT.md]] · [[AGENTS.md]]
 
-> Bu dosya, **PRD ailesinin indeksidir (SSOT)**: 34 satırın her biri bu tabloda kayıtlıdır (28 mevcut + 6 üretilmedi — Durum sütunu).
+> Bu dosya, **PRD ailesinin indeksidir (SSOT)**: 35 satırın her biri bu tabloda kayıtlıdır (28 mevcut + 7 üretilmedi — Durum sütunu).
 > Ailesel bağlam (vizyon, 10 özellik, 6 kitle) `.ai/PROJECTS.md`'dedir; burada tekrarlanmaz, yalnız gösterilir.
 
 ---
 
 ## 1. Amaç
 
-Bu PRD, CoreMusic platformunun **sektör-ötesi ürün gereksinimlerini** tek belgede toplar ve 33 alt PRD'nin
+Bu PRD, CoreMusic platformunun **sektör-ötesi ürün gereksinimlerini** tek belgede toplar ve 34 alt PRD'nin
 ne içermediğini (kapsam sınırı) tanımlar. Her alt PRD (subdomain, modül, vault yüzeyi) yalnızca kendi
 yüzeyinin gereksinimlerini taşır; platform-ötesi gereksinimler (hibrit mimari, veri mülkiyeti, ses kalitesi
 taahhüdü) **yalnız burada** tanımlanır ve alt PRD'ler buna bağlanır.
@@ -40,7 +40,7 @@ taahhüdü) **yalnız burada** tanımlanır ve alt PRD'ler buna bağlanır.
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
 | Platform-ötesi gereksinimler (§4) | Yüzey-bazlı gereksinimler → ilgili alt PRD (§5 tablosu) |
-| PRD ailesi indeksi — 34 satır: 28 mevcut + 6 üretilmedi (§5) | Mimari kararlar → ADR'ler (`.ai/.decisions/`) |
+| PRD ailesi indeksi — 35 satır: 28 mevcut + 7 üretilmedi (§5) | Mimari kararlar → ADR'ler (`.ai/.decisions/`) |
 | Kabul kriteri kapıları (§6) | Uygulama kodu (`*.php/js/css/sql` — yazım yasak) |
 | ADR bağları (§7) | Vizyon/pazar metni → `.ai/VISION.md` (tekrar üretilmez) |
 
@@ -93,7 +93,7 @@ kurumsal dijital ses ve medya ekosistemidir. Offline-First mimari + kayıpsız f
 | PRD-PLT-009 | ITCSS + BEM + `--cm-*` token disiplini | Ham hex/px katman dosyasına yazılmaz; token yalnız `01_Abstracts` | #21 (Css), #18-20 |
 | PRD-PLT-010 | WCAG 2.2 AA minimum · touch ≥24×24px · görünür focus 3px | Component State Matrix (8 durum) eksiksiz; `accessibility-tester` PASS | #18-21, #26 (ui-design) |
 | PRD-PLT-011 | Zero-hallucination: kanıtsız iddia dosyaya girmez | Bilinmeyen `UNKNOWN` / doğrulanamayan `⚠️ VERIFICATION REQUIRED` | Tüm PRD ailesi |
-| PRD-PLT-012 | ADR izlenebilirliği: her gereksinim kararı ADR'ye bağlanır | Yeni ADR numarası `.ai/.decisions/index.md`'den alınır (next: 111) | #27 (.decisions) |
+| PRD-PLT-012 | ADR izlenebilirliği: her gereksinim kararı ADR'ye bağlanır | Yeni ADR numarası `.ai/.decisions/index.md`'den alınır (next: 112) | #27 (.decisions) |
 
 > **eli10 (basit):** Bunlar, hiçbir sayfada veya modülde değişmeyecek 12 ana kuraldır.
 > **eli15 (detay):** Tablo ayrı yazıldı çünkü alt PRD'ler buraya bağlanır ve her gereksinim tek kimlikle
@@ -102,7 +102,7 @@ kurumsal dijital ses ve medya ekosistemidir. Offline-First mimari + kayıpsız f
 
 ---
 
-## 5. PRD Ailesi Indeksi (28 mevcut + 6 üretilmedi — SSOT)
+## 5. PRD Ailesi Indeksi (28 mevcut + 7 üretilmedi — SSOT)
 
 > **Durum sütunu:** `YENİ` = bu revizyonda üretiliyor · `YOK` = üretim dışı (bilgi yok/kanıt yok).
 > Yollar repo köküne göredir (`C:\www\coremusic.net`).
@@ -143,6 +143,7 @@ kurumsal dijital ses ve medya ekosistemidir. Offline-First mimari + kayıpsız f
 | 32 | Claude araç kurulumu | `.claude/PRD.md` | MO | PLT-011 | YENİ |
 | 33 | OpenCode çalışma ortamı | `.opencode/PRD.md` | MO | PLT-011 | YENİ |
 | 34 | Süreç akışları | `.workflows/PRD.md` | MO | PLT-011/012 | YENİ |
+| 35 | Pro panel (Power Governor yüzeyi) | `pro.coremusic.net/PRD.md` | ui + backend (+security denetimi) | PLT-006/010 · ADR-111 | YOK (dosya diskte yok — T-08) |
 
 > **eli10 (basit):** Projede 34 ayrı "gereksinim dosyası" var; hangi klasörde hangisi olduğu bu listede.
 > **eli15 (detay):** Indeks ayrı taşındı çünkü ailenin tek kopyasıdır; her alt PRD'de kopyalansa sürüm
@@ -160,7 +161,7 @@ kurumsal dijital ses ve medya ekosistemidir. Offline-First mimari + kayıpsız f
 | N1 | NEVA ENGINE (C++20 ses motoru) | `[[.ai/projects/NevaEngine/coremusic-neva-engine-prd]]` | `G:\Drive'ım\Projelerim\Project-notes\Bayram Ali Prompt Arşivi & Notlar\Coremusic\coremusic-neva-engine-prd.md` | 8004 satır · 465314 bayt · 182 gereksinim ↔ 182 TC | K-6 ONAY (2026-10-23) |
 | N2 | NEVA PLAYER (uçtan uca oynatıcı) | `[[.ai/projects/NevaPlayer/coremusic-neva-player-prd]]` | `G:\Drive'ım\Projelerim\Project-notes\Bayram Ali Prompt Arşivi & Notlar\Coremusic\coremusic-neva-player-prd.md` | 8006 satır · 458307 bayt · 215 gereksinim ↔ 215 TC | K-6 ONAY (2026-10-23) |
 
-> **Not:** Bu iki PRD bir repo yüzeyinin değil, **ürünün tamamının** gereksinim belgesidir — §5 tablosundaki 34 yüzeyin dışındadır (başlıkları ürün adıyla açılır). Vault kopyaları SSOT'tur; arşiv nüshaları kullanıcının kişisel not deposunda. Yeni Neva kararı `.ai/.decisions/`'e ADR olarak girer, bu PRD'lere gömülmez.
+> **Not:** Bu iki PRD bir repo yüzeyinin değil, **ürünün tamamının** gereksinim belgesidir — §5 tablosundaki 35 yüzeyin dışındadır (başlıkları ürün adıyla açılır). Vault kopyaları SSOT'tur; arşiv nüshaları kullanıcının kişisel not deposunda. Yeni Neva kararı `.ai/.decisions/`'e ADR olarak girer, bu PRD'lere gömülmez.
 
 ---
 
@@ -190,7 +191,8 @@ kurumsal dijital ses ve medya ekosistemidir. Offline-First mimari + kayıpsız f
 | DSP donanım modu | ADR-017 (frozen) | PLT-003 |
 | BFF/AI decommission | ADR-030 · ADR-084 (2026-10-18, 0 dış referans kanıtı) | alt PRD #7/#11 |
 | Native media stack | ADR-0105 (draft → accepted 2026-10-19) | PLT-003 · arşiv engine PRD |
-| Yeni ADR numarası | `.ai/.decisions/index.md` v1.5.2 — next: **111** | PLT-012 |
+| Amfi Ürün Ailesi + Power Governor + 18650 bypass | ADR-111 (draft, debate PENDING — 2026-10-25) | PLT-003 · elektronik | 
+| Yeni ADR numarası | `.ai/.decisions/index.md` v1.5.2 — next: **112** | PLT-012 |
 
 > **eli10 (basit):** Önemli teknik kararlar ADR dosyalarındadır; bu PRD onlara bağ verir, tekrar etmez.
 > **eli15 (detay):** Bağlar ayrı çünkü ADR metni frozen'dır (dokunulmaz); PRD karar metnini kopyalasa iki

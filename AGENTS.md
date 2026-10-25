@@ -5,7 +5,7 @@ category: agent-registry
 version: 1.2.0
 status: active
 authority: "SSOT: .ai/AGENTS.md — Full registry read @.ai/AGENTS.md (v22.2.0)"
-updated: 2026-10-23
+updated: 2026-10-25
 ---
 # .ai gizli dizin, hidden: true ile tarıyorum:
 ## .ai/README.md okuması (gerekirse)

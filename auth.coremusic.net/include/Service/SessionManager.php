@@ -168,6 +168,13 @@ final class SessionManager implements ISessionManager
         }
     }
 
+    /** İstek cookie'si okur (PRD-AUT-003: superglobal erişimi bu sınıfta kalır). */
+    public function getCookieValue(string $name, string $default = ''): string
+    {
+        $value = $_COOKIE[$name] ?? $default;
+        return is_string($value) ? $value : $default;
+    }
+
     public function getCookieParams(): array
     {
         return session_get_cookie_params();

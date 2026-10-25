@@ -276,4 +276,34 @@ final class AdminMarkupContractTest extends TestCase
         self::assertStringContainsString('is-loading', $js);
         self::assertStringContainsString('redirect_uri', $js);
     }
+
+    /**
+     * PRD-ADM-005: dashboard çıktıları $h ile escape edilir.
+     * Dashboard verisi sabit dizilerden gelir (kullanıcı girdisi yok), bu yüzden
+     * escaping kanıtı kaynak sözleşmesi üzerinden alınır: her <?= ?> ifadesi
+     * (int) cast'i veya $h(...) sarmalayıcısı kullanmalıdır.
+     */
+    public function testDashboardEscapesAllDynamicOutput(): void
+    {
+        $file = dirname(__DIR__, 2) . '/pages/admin-dashboard.php';
+        $src = (string) file_get_contents($file);
+
+        self::assertStringContainsString(
+            "\$h = static fn(string \$v): string => htmlspecialchars(\$v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');",
+            $src,
+            'dashboard $h tanımı eksik'
+        );
+
+        preg_match_all('/<\?=\s*(.+?)\s*\?>/s', $src, $m);
+        self::assertNotEmpty($m[1], 'dashboard dinamik çıktı bulunamadı (regex kontrolü)');
+        foreach ($m[1] as $expr) {
+            $ok = str_starts_with($expr, '$h(') || str_starts_with($expr, '(int)');
+            self::assertTrue($ok, 'kaçışsız <?= ?> çıktısı: ' . $expr);
+        }
+        self::assertDoesNotMatchRegularExpression('/htmlspecialchars\(\$track|htmlspecialchars\(\$log/', $src);
+
+        // Çalışma zamanı: render hatasız ve ham <script> çıkmıyor
+        $out = $this->render('admin-dashboard');
+        self::assertStringNotContainsString('<script', $out);
+    }
 }
