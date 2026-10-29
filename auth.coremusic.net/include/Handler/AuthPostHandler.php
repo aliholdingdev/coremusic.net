@@ -2,7 +2,7 @@
 
 namespace CoreMusic\Auth\Handler;
 
-use CoreMusic\Auth\Controller\AuthController;
+use CoreMusic\Contracts\Auth\IAuthController;
 
 /**
  * Auth POST Handler — PageRouter handler adaptörü
@@ -13,7 +13,7 @@ use CoreMusic\Auth\Controller\AuthController;
 final class AuthPostHandler
 {
     public function __construct(
-        private readonly AuthController $controller,
+        private readonly IAuthController $controller,
     ) {}
 
     /**

@@ -23,7 +23,7 @@ use CoreMusic\Api\Service\PlaylistService;
 use CoreMusic\Api\Service\UserHeaderService;
 use CoreMusic\Api\Service\UserService;
 use CoreMusic\Contracts\Database\IDatabaseRegistry;
-use CoreMusic\Database\DatabaseRegistry;
+use CoreMusic\Database\ConnectionFactory;
 
 /**
  * ApiContainer — Faz 4: route['handler'] → controller dispatch + müzik/playlist/profil
@@ -139,17 +139,18 @@ final class ApiContainer
     {
         if (self::$musicRepository === null) {
             if (self::$musicRegistry === null) {
-                $registry = new DatabaseRegistry();
-                $registry->registerMySql(
+                $factory = ConnectionFactory::getInstance();
+                $factory->getOrRegister(
                     'music',
+                    $factory->providerFor('music'),
                     DB_HOST,
                     (string) ($_ENV['DB_MUSIC_NAME'] ?? (defined('DB_MUSIC_NAME') ? DB_MUSIC_NAME : 'coremusic_musics')),
                     DB_USER,
                     DB_PASSWORD,
-                    DB_PORT,
+                    (int) DB_PORT,
                     DB_CHARSET,
                 );
-                self::$musicRegistry = $registry;
+                self::$musicRegistry = $factory->registry();
             }
 
             self::$musicRepository = new MusicRepository(self::$musicRegistry);
@@ -162,18 +163,19 @@ final class ApiContainer
     {
         if (self::$playlistRepository === null) {
             if (self::$playlistRegistry === null) {
-                $registry = new DatabaseRegistry();
-                $registry->registerMySql(
+                $factory = ConnectionFactory::getInstance();
+                $factory->getOrRegister(
                     'playlist',
+                    $factory->providerFor('playlist'),
                     DB_HOST,
                     // Şema adı migration kanıtı (20261021_create_playlist_tables.sql).
                     (string) ($_ENV['DB_PLAYLIST_NAME'] ?? 'coremusic_playlist'),
                     DB_USER,
                     DB_PASSWORD,
-                    DB_PORT,
+                    (int) DB_PORT,
                     DB_CHARSET,
                 );
-                self::$playlistRegistry = $registry;
+                self::$playlistRegistry = $factory->registry();
             }
 
             self::$playlistRepository = new PlaylistRepository(self::$playlistRegistry);
@@ -197,19 +199,20 @@ final class ApiContainer
             // self::$musicRegistry'nin register edilmiş olmasını garanti et
             self::musicRepository();
 
-            $userRegistry = new DatabaseRegistry();
-            $userRegistry->registerMySql(
+            $factory = ConnectionFactory::getInstance();
+            $factory->getOrRegister(
                 'user',
+                $factory->providerFor('user'),
                 DB_HOST,
                 (string) ($_ENV['DB_USER_NAME'] ?? 'coremusic_user'),
                 DB_USER,
                 DB_PASSWORD,
-                DB_PORT,
+                (int) DB_PORT,
                 DB_CHARSET,
             );
 
             self::$historyRepository = new HistoryRepository(
-                $userRegistry,
+                $factory->registry(),
                 self::$musicRegistry
             );
         }
@@ -225,18 +228,19 @@ final class ApiContainer
     private static function notificationRepository(): INotificationRepository
     {
         if (self::$notificationRepository === null) {
-            $systemRegistry = new DatabaseRegistry();
-            $systemRegistry->registerMySql(
+            $factory = ConnectionFactory::getInstance();
+            $factory->getOrRegister(
                 'system',
+                $factory->providerFor('system'),
                 DB_HOST,
                 (string) ($_ENV['DB_SYSTEM_NAME'] ?? 'coremusic_system'),
                 DB_USER,
                 DB_PASSWORD,
-                DB_PORT,
+                (int) DB_PORT,
                 DB_CHARSET,
             );
 
-            self::$notificationRepository = new NotificationRepository($systemRegistry);
+            self::$notificationRepository = new NotificationRepository($factory->registry());
         }
 
         return self::$notificationRepository;

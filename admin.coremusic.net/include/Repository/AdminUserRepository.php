@@ -76,20 +76,20 @@ final class AdminUserRepository
     private function db(): IDatabaseManager
     {
         if ($this->db === null) {
+            // getOrRegister + providerFor('admin'): DB_PROVIDER_ADMIN > DB_PROVIDER >
+            // 'mysql' sırasıyla sürücü çözülür; kayıt tek kaynak (db-access-guard).
             $factory = ConnectionFactory::getInstance();
             $key     = 'admin_' . $this->dbName;
-            if (!$factory->registry()->has($key)) {
-                $factory->registry()->registerMySql(
-                    $key,
-                    $this->dbHost,
-                    $this->dbName,
-                    $this->dbUser,
-                    $this->dbPassword,
-                    $this->dbPort,
-                    $this->dbCharset,
-                );
-            }
-            $this->db = $factory->registry()->get($key);
+            $this->db = $factory->getOrRegister(
+                $key,
+                $factory->providerFor('admin'),
+                $this->dbHost,
+                $this->dbName,
+                $this->dbUser,
+                $this->dbPassword,
+                $this->dbPort,
+                $this->dbCharset
+            );
         }
 
         return $this->db;

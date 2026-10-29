@@ -10,7 +10,7 @@ use CoreMusic\Cache\CacheManager;
 use CoreMusic\Contracts\Auth\IAuthService;
 use CoreMusic\Contracts\Auth\ISessionManager;
 use CoreMusic\Contracts\Auth\IUserRepository;
-use CoreMusic\Database\DatabaseRegistry;
+use CoreMusic\Database\ConnectionFactory;
 use CoreMusic\Security\CacheRateLimiter;
 use CoreMusic\Security\JwtService;
 
@@ -57,18 +57,19 @@ final class ApiAuthContainer
     public static function authRegistry(): \CoreMusic\Contracts\Database\IDatabaseRegistry
     {
         if (self::$authRegistry === null) {
-            $registry = new DatabaseRegistry();
-            $registry->registerMySql(
+            $factory = ConnectionFactory::getInstance();
+            $factory->getOrRegister(
                 'auth',
+                $factory->providerFor('auth'),
                 DB_HOST,
                 DB_NAME,
                 DB_USER,
                 DB_PASSWORD,
-                DB_PORT,
+                (int) DB_PORT,
                 DB_CHARSET,
             );
 
-            self::$authRegistry = $registry;
+            self::$authRegistry = $factory->registry();
         }
 
         return self::$authRegistry;

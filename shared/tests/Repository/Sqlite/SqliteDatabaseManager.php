@@ -2,15 +2,15 @@
 
 namespace CoreMusic\Test\Repository\Sqlite;
 
-use CoreMusic\Contracts\Database\IDatabaseManager;
+use CoreMusic\Contracts\Database\ISqlDatabaseManager;
 
 /**
- * Test double: SQLite in-memory `IDatabaseManager`.
+ * Test double: SQLite in-memory `ISqlDatabaseManager`.
  *
  * ADR-002 uyumu korunur (PDO prepared statement) — canlı MySQL'e bağlanmadan
  * `coremusic_auth.api_keys` şemasının birebir SQL sözleşmesi sınanır.
  */
-final class SqliteDatabaseManager implements IDatabaseManager
+final class SqliteDatabaseManager implements ISqlDatabaseManager
 {
     private \PDO $pdo;
 

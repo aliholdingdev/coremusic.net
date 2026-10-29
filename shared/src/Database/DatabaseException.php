@@ -65,4 +65,32 @@ final class DatabaseException extends BaseCoreMusicException
             'DB_REGISTRY_TYPE_MISMATCH'
         );
     }
+
+    /**
+     * Bağlantı dışı bir veritabanı işlemi (okuma/yazma) başarısız oldu.
+     * MongoDbManager execute()/write() fail-closed: sessiz false yerine bu yükselir.
+     * Ayrıntı asla mesajda taşınmaz ([REDACTED]); orijinal hata $previous'tadır.
+     */
+    public static function operationFailed(string $dbType, string $operation, ?\Throwable $previous = null): self
+    {
+        return new self(
+            sprintf('%s %s işlemi başarısız: %s', $dbType, $operation, self::REDACTED),
+            'DB_OPERATION_FAILED',
+            $previous
+        );
+    }
+
+    /**
+     * Sürücü PDO sözleşmesini desteklemiyor (örn. MongoDB).
+     * ConnectionFactory::get() LogicException'ı buraya sarar — çağıran tek
+     * kontrollü domain exception görür (hard RFC-B9.3 wrap).
+     */
+    public static function unsupportedDriver(string $dbKey, ?\Throwable $previous = null): self
+    {
+        return new self(
+            sprintf("Veritabanı '%s' PDO desteklemiyor (sürücü ayrıntısı: %s)", $dbKey, self::REDACTED),
+            'DB_UNSUPPORTED_DRIVER',
+            $previous
+        );
+    }
 }

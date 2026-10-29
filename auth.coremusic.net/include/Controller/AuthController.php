@@ -4,6 +4,7 @@ namespace CoreMusic\Auth\Controller;
 
 use CoreMusic\Auth\Domain\DTO\LoginRequest;
 use CoreMusic\Auth\Domain\DTO\RegisterRequest;
+use CoreMusic\Contracts\Auth\IAuthController;
 use CoreMusic\Contracts\Auth\IAuthService;
 use CoreMusic\Contracts\Auth\ISessionManager;
 use CoreMusic\Exception\AuthenticationException;
@@ -22,7 +23,7 @@ use CoreMusic\Security\SecurityHelper;
  *
  * Redirect validation: SecurityHelper → ReturnUrlPolicy (SSOT)
  */
-final class AuthController
+final class AuthController implements IAuthController
 {
     public function __construct(
         private readonly IAuthService $authService,

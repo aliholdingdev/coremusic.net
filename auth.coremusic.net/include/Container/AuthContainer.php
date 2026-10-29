@@ -10,7 +10,7 @@ use CoreMusic\Contracts\Auth\ISessionManager;
 use CoreMusic\Contracts\Auth\IUserRepository;
 use CoreMusic\Contracts\Database\IDatabaseRegistry;
 use CoreMusic\Contracts\Security\IRateLimiter;
-use CoreMusic\Database\DatabaseRegistry;
+use CoreMusic\Database\ConnectionFactory;
 use CoreMusic\Security\CacheRateLimiter;
 use CoreMusic\Auth\Service\AuthService;
 use CoreMusic\Auth\Service\SessionManager;
@@ -36,17 +36,18 @@ final class AuthContainer
     {
         return [
             IDatabaseRegistry::class => function () {
-                $registry = new DatabaseRegistry();
-                $registry->registerMySql(
+                $factory = ConnectionFactory::getInstance();
+                $factory->getOrRegister(
                     'auth',
+                    $factory->providerFor('auth'),
                     DB_HOST,
                     DB_AUTH_NAME,
                     DB_USER,
                     DB_PASSWORD,
-                    DB_PORT,
+                    (int) DB_PORT,
                     DB_CHARSET
                 );
-                return $registry;
+                return $factory->registry();
             },
 
             ISessionManager::class => function () {

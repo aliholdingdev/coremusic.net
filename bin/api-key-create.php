@@ -47,6 +47,8 @@ namespace CoreMusic\Console {
 
     use CoreMusic\Contracts\Database\IDatabaseManager;
     use CoreMusic\Contracts\Database\IDatabaseRegistry;
+    use CoreMusic\Contracts\Database\ISqlDatabaseManager;
+    use CoreMusic\Contracts\Database\INoSqlDatabaseManager;
     use CoreMusic\Database\DatabaseRegistry;
     use CoreMusic\Repository\ApiKeyRepository;
     use CoreMusic\Security\UuidV7;
@@ -57,13 +59,13 @@ namespace CoreMusic\Console {
     /**
      * Dosya tabanlı SQLite registry + manager (offline uçtan test / CI).
      *
-     * Aynı nesne hem IDatabaseManager hem IDatabaseRegistry'dir: CLI tek
+     * Aynı nesne hem ISqlDatabaseManager hem IDatabaseRegistry'dir: CLI tek
      * kayıt (`auth`) üzerinden ApiKeyRepository'ye servis eder.
      *
      * Şema, `coremusic_auth.api_keys` canlı şemasının birebir aynısıdır
      * (BINARY(16) → TEXT olarak saklanır; repository bunu UuidV7 ile çözer).
      */
-    final class SqliteFileGateway implements IDatabaseManager, IDatabaseRegistry
+    final class SqliteFileGateway implements ISqlDatabaseManager, IDatabaseRegistry
     {
         private \PDO $pdo;
 
@@ -110,7 +112,7 @@ namespace CoreMusic\Console {
             $this->pdo->exec('CREATE INDEX IF NOT EXISTS idx_apikeys_user   ON api_keys(user_id)');
         }
 
-        /* --- IDatabaseManager --- */
+        /* --- ISqlDatabaseManager (extends IDatabaseManager) --- */
 
         public function execute(string $sql, array $params = []): array
         {
@@ -147,6 +149,11 @@ namespace CoreMusic\Console {
             return $this->pdo->rollBack();
         }
 
+        public function getPdo(): \PDO
+        {
+            return $this->pdo;
+        }
+
         /* --- IDatabaseRegistry --- */
 
         public function registerMySql(
@@ -161,9 +168,32 @@ namespace CoreMusic\Console {
             // SQLite gateway — MySQL kaydı yok.
         }
 
-        public function get(string $key): IDatabaseManager
+        public function registerProvider(
+            string $key,
+            string $providerType,
+            string $host,
+            string $dbName,
+            string $user,
+            string $password,
+            int $port = 3306,
+            string $charset = 'utf8mb4'
+        ): void {
+            // SQLite gateway — generic provider kaydı yok.
+        }
+
+        public function get(string $key): IDatabaseManager|ISqlDatabaseManager|INoSqlDatabaseManager
         {
             return $this;
+        }
+
+        public function getSql(string $key): ISqlDatabaseManager
+        {
+            return $this;
+        }
+
+        public function getNoSql(string $key): INoSqlDatabaseManager
+        {
+            throw new \RuntimeException("SqliteFileGateway does not support NoSQL databases.");
         }
 
         public function has(string $key): bool
@@ -456,7 +486,7 @@ namespace CoreMusic\Console {
          */
         private static function findServiceUser(IDatabaseRegistry $registry): ?string
         {
-            $rows = $registry->get(ApiKeyRepository::DB_KEY)->execute(
+            $rows = $registry->getSql(ApiKeyRepository::DB_KEY)->execute(
                 'SELECT u.id AS id FROM users u '
                 . 'INNER JOIN user_assigned_roles ar ON ar.user_id = u.id '
                 . 'INNER JOIN user_roles r ON r.id = ar.role_id '
