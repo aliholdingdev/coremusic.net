@@ -195,7 +195,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 7px;
-  color: #FFFFFF;
+  color: var(--cm-white);
   font-size: 24px;
   letter-spacing: 0.08em;
   line-height: 1;
@@ -338,7 +338,7 @@
 }
 
 .lgn-hero__foot a:hover {
-  color: #FFFFFF;
+  color: var(--cm-white);
 }
 
 .lgn-hero__foot .dot {
@@ -450,7 +450,7 @@
   font-size: 13.5px;
   font-weight: 700;
   line-height: 16px;
-  color: #FFFFFF;
+  color: var(--cm-white);
   margin: 0 0 4px 0;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.95);
 }
@@ -643,7 +643,7 @@
   padding: 0 11px;
   font-size: 11px;
   font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
-  color: #FFFFFF;
+  color: var(--cm-white);
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: 5px;
@@ -677,7 +677,7 @@
   background: rgba(255, 255, 255, 0.12) !important;
   border: 1px solid rgba(255, 255, 255, 0.32) !important;
   border-radius: 5px !important;
-  color: #ffffff !important;
+  color: var(--cm-white) !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
 }
 
@@ -737,7 +737,7 @@
 .lgn-form__pw-eye svg {
   width: 16px;
   height: 16px;
-  fill: #FFFFFF;
+  fill: var(--cm-white);
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .5));
 }
 
@@ -760,7 +760,7 @@
 }
 
 .lgn-form__check input {
-  accent-color: #ff00c8;
+  accent-color: var(--cm-pink-primary-button);
   width: 13px;
   height: 13px;
   cursor: pointer;
@@ -776,7 +776,7 @@
 }
 
 .lgn-form__link:hover {
-  color: #ff4fd8;
+  color: var(--cm-accent);
   text-shadow: 0 0 10px rgba(255, 79, 216, 0.8);
 }
 
@@ -796,7 +796,7 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #FFFFFF;
+  color: var(--cm-white);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.50);
   border-radius: 5px;
@@ -933,23 +933,23 @@
   border-radius: 6px !important;
 }
 
-.lgn-social__btn--apple { background: #000000 !important; color: #fff !important; border: 1px solid #000000 !important; }
-.lgn-social__btn--google { background: rgba(255, 255, 255, 0.70) !important; color: #000 !important; border: 1px solid rgba(255, 255, 255, 0.40) !important; backdrop-filter: blur(4px) !important; }
-.lgn-social__btn--facebook { background: #1877F2 !important; color: #fff !important; border: 1px solid #1877F2 !important; }
-.lgn-social__btn--spotify { background: #1DB954 !important; color: #fff !important; border: 1px solid #1DB954 !important; }
-.lgn-social__btn--instagram { background: linear-gradient(135deg, #F58529, #DD2A7B, #8134AF) !important; color: #fff !important; border: none !important; }
-.lgn-social__btn--tiktok { background: #010101 !important; color: #fff !important; border: 1px solid #010101 !important; }
-.lgn-social__btn--github { background: #333333 !important; color: #fff !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; }
-.lgn-social__btn--whatsapp { background: #25D366 !important; color: #fff !important; border: 1px solid #25D366 !important; }
+.lgn-social__btn--apple { background: var(--color-social-apple) !important; color: var(--cm-white) !important; border: 1px solid var(--color-social-apple) !important; }
+.lgn-social__btn--google { background: rgba(255, 255, 255, 0.70) !important; color: var(--cm-color-000) !important; border: 1px solid rgba(255, 255, 255, 0.40) !important; backdrop-filter: blur(4px) !important; }
+.lgn-social__btn--facebook { background: var(--color-info-600) !important; color: var(--cm-white) !important; border: 1px solid var(--color-info-600) !important; }
+.lgn-social__btn--spotify { background: var(--color-social-spotify) !important; color: var(--cm-white) !important; border: 1px solid var(--color-social-spotify) !important; }
+.lgn-social__btn--instagram { background: linear-gradient(135deg, var(--cm-accent), var(--cm-pink), var(--color-violet-600)) !important; color: var(--cm-white) !important; border: none !important; }
+.lgn-social__btn--tiktok { background: var(--color-social-tiktok) !important; color: var(--cm-white) !important; border: 1px solid var(--color-social-tiktok) !important; }
+.lgn-social__btn--github { background: var(--color-neutral-800) !important; color: var(--cm-white) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; }
+.lgn-social__btn--whatsapp { background: var(--color-green-500) !important; color: var(--cm-white) !important; border: 1px solid var(--color-green-500) !important; }
 
 .lgn-social__btn--F[data-provider="spotify"],
-[data-gender="female"] .lgn-social__btn--spotify { background: #1DB954 !important; border-color: #1DB954 !important; }
-.lgn-social__btn--F[data-provider="instagram"] { background: linear-gradient(135deg, #F58529, #DD2A7B, #8134AF) !important; }
-.lgn-social__btn--F[data-provider="tiktok"] { background: #010101 !important; }
-.lgn-social__btn--F[data-provider="github"] { background: #333333 !important; }
-.lgn-social__btn--M[data-provider="x"] { background: #000; color: #fff; border-color: #000; }
-.lgn-social__btn--M[data-provider="discord"] { background: var(--cm-social-discord); color: #fff; border-color: var(--cm-social-discord); }
-.lgn-social__btn--M[data-provider="reddit"] { background: var(--cm-social-reddit); color: #fff; border-color: var(--cm-social-reddit); }
+[data-gender="female"] .lgn-social__btn--spotify { background: var(--color-social-spotify) !important; border-color: var(--color-social-spotify) !important; }
+.lgn-social__btn--F[data-provider="instagram"] { background: linear-gradient(135deg, var(--cm-accent), var(--cm-pink), var(--color-violet-600)) !important; }
+.lgn-social__btn--F[data-provider="tiktok"] { background: var(--color-social-tiktok) !important; }
+.lgn-social__btn--F[data-provider="github"] { background: var(--color-neutral-800) !important; }
+.lgn-social__btn--M[data-provider="x"] { background: var(--cm-color-000); color: var(--cm-white); border-color: var(--cm-color-000); }
+.lgn-social__btn--M[data-provider="discord"] { background: var(--cm-social-discord); color: var(--cm-white); border-color: var(--cm-social-discord); }
+.lgn-social__btn--M[data-provider="reddit"] { background: var(--cm-social-reddit); color: var(--cm-white); border-color: var(--cm-social-reddit); }
 .lgn-social__btn--apple,
 .lgn-social__btn--google,
 .lgn-social__btn--facebook { display: flex !important; }
@@ -991,7 +991,7 @@
   display: block;
   background: rgba(80, 200, 120, .20);
   border: 1px solid rgba(80, 200, 120, .50);
-  color: #7fdfa0;
+  color: var(--cm-success-light);
   text-shadow: 0 1px 3px rgba(0, 0, 0, .8);
 }
 
@@ -999,12 +999,12 @@
   display: block;
   background: rgba(255, 80, 80, .20);
   border: 1px solid rgba(255, 80, 80, .50);
-  color: #ff9e9e;
+  color: var(--cm-danger-light);
   text-shadow: 0 1px 3px rgba(0, 0, 0, .8);
 }
 
 .form-message--error a {
-  color: #FFFFFF;
+  color: var(--cm-white);
   font-weight: 600;
   text-decoration: underline;
 }
@@ -1020,7 +1020,7 @@
 }
 
 .lgn-foot-link a {
-  color: #FFFFFF;
+  color: var(--cm-white);
   font-weight: 700;
   text-decoration: underline;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);

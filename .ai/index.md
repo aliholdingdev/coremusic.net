@@ -30,7 +30,7 @@ depends-on: []
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]] · [[SYNC]] · [[CONTEXT]] · [[RAG]]
 
-**Skills:** Registry SSOT = kök `CLAUDE.md` §Skill Registry — **13 proje skill'i** (`.claude/skills/`, 2026-10-12 disk ölçümü). Global skill envanteri `C:\.claude\skills` (**bu makinede MEVCUT** — 2026-10-24: 348 dizin / 502 SKILL.md, proje dışı envanter). `.opencode/skills/` diskte YOK (kapatıldı).
+**Skills:** Registry SSOT = kök `CLAUDE.md` §Skill Registry — **14 proje skill'i** (`.claude/skills/`, 2026-11-01 disk ölçümü: `karpathy-guidelines` dahil 14 SKILL.md). Global skill envanteri `C:\.claude\skills` (**bu makinede MEVCUT** — 2026-10-24: 348 dizin / 502 SKILL.md, proje dışı envanter). Cursor kuralı: `CURSOR.md` ve `.cursor/rules/karpathy-guidelines.mdc`. `.opencode/skills/` diskte YOK (kapatıldı).
 
 ---
 
@@ -57,6 +57,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | Mimari kararlar (özet) | [[brain.md]] |
 | Mimari kararlar (ADR arşivi) | `.ai/.decisions/index.md` (101 ADR: 84/10/6 · v1.5.2) |
 | Ajan yetkileri | [[AGENTS.md]] |
+| Cursor & Karpathy Standartları | [[../CURSOR.md]] · [[../.cursor/rules/karpathy-guidelines.mdc]] |
 | Agent profilleri | [[.agents/AGENTS]] (11 profil) |
 | Süreçler | [[WORKFLOW.md]] |
 | Bellek yönetimi | [[MEMORY.md]] |
@@ -110,7 +111,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 ⚠️ **DÜZELTİLDİ (2026-10-10):**
 - `[[TECHNICAL_DOCUMENTATION.md]]` satırı **kaldırıldı** — `.ai/` kökünde diskte YOK (0 dosya).
 - `[[broken-links-report.md]]` satırı **kaldırıldı** — `.ai/` kökünde diskte YOK.
-- `.opencode/skills/` (8 aktif skill) notu **kaldırıldı** — dizin diskte YOK; Registry SSOT kök `CLAUDE.md`'ye taşındı (13 proje skill).
+- `.opencode/skills/` (8 aktif skill) notu **kaldırıldı** — dizin diskte YOK; Registry SSOT kök `CLAUDE.md`'ye taşındı (14 proje skill).
 - `total_files: 720` / `total_adr: 80` → 2026-10-10: **804 dosya / 97 ADR** → 2026-10-12: **665 dosya / 91 ADR** (K-space kaldırımı sonrası yeniden ölçüm).
 
 ---
@@ -216,7 +217,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | 3 | Dizin sayımı | 21 depth-1 dizin (2026-10-23 disk ölçümü; `.agents .decisions .obsidian .personas .png .rules .sql .templates architecture ecosystem electronic index projects prompts reports research scripts servers SESSIONS tmp ui-design` — `prompts/` yeniden mevcut (4 md); yalnız `.diagram/` YOK) |
 | 4 | Recursive | 2527 dosya · 2236 md · 394 dizin (2026-10-23 disk ölçümü; eski "665·435·72" ve "1974·1745" tabanları bayat — `architecture/` dahil doğrudan ölçüm) |
 | 5 | ADR | 101 (84 kabul / 10 red / 6 taslak + kökteki ADR-091 — `.decisions/index.md` v1.5.2 ile hizalı; 2026-10-23 disk sayımı: `accepted/` 84 + `rejected/` 10 + `draft/` 6 + kök 1) |
-| 6 | Skill Registry | 13 proje skill — kök `CLAUDE.md` §Skill Registry ile hizalı |
+| 6 | Skill Registry | 14 proje skill — kök `CLAUDE.md` §Skill Registry ile hizalı |
 | 7 | K-space | `architecture/` diskte **MEVCUT** (2026-10-15 16:09: 1187 md · 28 alt dizin · K000-K020 · kök index/README — eski "diskte YOK / kaldırım 2026-10-12" iddiası **geçersizdir**; yedek `C:\temp\opencode\vault-backup-2026-10-12` referansı tarihi kayıt) |
 | 8 | Ölü referans | `TECHNICAL_DOCUMENTATION.md` · `broken-links-report.md` · `.opencode/skills` — üçü de kaldırıldı |
 | 9 | Hub | §4 alt sayfalar diskte (index/01-05) |

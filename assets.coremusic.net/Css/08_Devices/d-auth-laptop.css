@@ -24,7 +24,7 @@
 /* 05_Pages — Auth Pages */
 @import url("../05_Pages/p-select-gender.css?v=2.2.0");
 @import url("../05_Pages/p-login-view.css?v=2.2.0");
-@import url("../05_Pages/p-admin-auth-light.css?v=2.2.0");
+@import url("../05_Pages/p-admin-auth-light.css?v=2.4.0");
 
 /* 06_Utilities — Helpers */
 @import url("../06_Utilities/u-helpers-utility.css?v=2.2.0");

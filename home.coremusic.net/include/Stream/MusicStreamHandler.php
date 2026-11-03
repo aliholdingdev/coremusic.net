@@ -3,6 +3,7 @@
 namespace CoreMusic\Home\Stream;
 
 use CoreMusic\Home\Repository\MusicRepository;
+use CoreMusic\Home\Session\HomeSessionManager;
 use CoreMusic\PageRouter\PageRouterHelper;
 use CoreMusic\Session\SessionBootstrapper;
 
@@ -129,10 +130,13 @@ final class MusicStreamHandler
             $role = defined('BYPASS_ROLE') ? (string)BYPASS_ROLE : '';
             $user = defined('BYPASS_USERNAME') ? (string)BYPASS_USERNAME : '';
             if ($uuid !== '' && $role !== '' && $user !== '') {
-                $_SESSION['MM_UserID']      = $uuid;
-                $_SESSION['MM_UserRole']    = $role;
-                $_SESSION['MM_Username']    = $user;
-                $_SESSION['MM_Permissions'] = [];
+                // Yazım session API üzerinden (ISessionManager::set) —
+                // doğrudan $_SESSION[] ataması yok (bypass yüzeyi tek dil).
+                $session = new HomeSessionManager();
+                $session->set('MM_UserID', $uuid);
+                $session->set('MM_UserRole', $role);
+                $session->set('MM_Username', $user);
+                $session->set('MM_Permissions', []);
             }
         }
 
@@ -150,7 +154,10 @@ final class MusicStreamHandler
     {
         // B-F-05: prod'da bypass ASLA aktif olmaz — SecurityHelper::isTestBypassActive
         // ile aynı kural (tek katman değil, savunma derinliği).
-        if (defined('APP_ENV_MODE') && APP_ENV_MODE === 'production') {
+        // P0 (2026-10-30): APP_ENV_MODE TANIMLI DEĞİLSE de fail-closed —
+        // eski koşul (`defined && === 'production'`) tanımsız ortamda bypass'ı
+        // açık bırakıyordu (FORCE/TEST bayrağı yetiyordu).
+        if (!defined('APP_ENV_MODE') || APP_ENV_MODE === 'production') {
             return false;
         }
         $force = defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS;
@@ -189,6 +196,12 @@ final class MusicStreamHandler
         $real = realpath($trimmed);
         if ($real === false || !is_file($real)) {
             $this->fail(404, 'Dosya bulunamadı');
+        }
+
+        // P0-3 (2026-10-30): boş kütüphane YOLU guard'ı — realpath('') CWD döndürür
+        // (repo kökü), o zaman prefix kontrolü repo içi dosyalara izin verirdi.
+        if (trim($this->libraryPath) === '') {
+            $this->fail(404, 'Kütüphane bulunamadı');
         }
 
         $root = realpath($this->libraryPath);
@@ -370,10 +383,11 @@ final class MusicStreamHandler
 
     private static function libraryPath(): string
     {
-        $path = defined('MUSIC_LIBRARY_PATH')
+        // P0-3 (2026-10-30): sabit kullanıcı yolu (C:\Users\...) kaldırıldı —
+        // PII sızıntısı + makineye özel fallback. Boş path artık BOŞ döner;
+        // resolvePath() bunu açıkça 404 ile reddeder (bkz. realpath('') notu).
+        return defined('MUSIC_LIBRARY_PATH')
             ? (string)MUSIC_LIBRARY_PATH
             : (string)(($_ENV['MUSIC_LIBRARY_PATH'] ?? getenv('MUSIC_LIBRARY_PATH')) ?: '');
-
-        return $path !== '' ? $path : 'C:\\Users\\Bayram Ali\\Music';
     }
 }

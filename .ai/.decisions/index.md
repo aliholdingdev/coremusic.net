@@ -3,16 +3,16 @@ type: index
 category: decisions
 title: "CoreMusic — Decisions Index"
 date: 2026-08-15
-updated: 2026-10-23
+updated: 2026-11-01
 status: active
-version: 1.5.2
+version: 1.5.3
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total-accepted: 84
+total-accepted: 85
 total-rejected: 10
-total-draft: 7
+total-draft: 11
 total-frozen: 36
-total-active: 49
+total-active: 50
 # Control Plane v2 (2026-10-07):
 tier: 3
 domain: decisions
@@ -30,16 +30,17 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 ## 2. Genel Bakış
 
-> **Disk ölçümü (2026-10-12 · güncelleme 2026-10-17):** `accepted/` = **80** ADR dosyası · `rejected/` = **10** R dosyası · `draft/` = **3** (ADR-097, 2026-10-12 + ADR-102, 2026-10-13 + **ADR-103** medya-sağlayıcı auth gate, 2026-10-17 eklendi) · kökte **1** ADR (`ADR-091-template-engine-no-eval.md` — yanlış konumda, §4'te bağlantılandı) → **gerçek toplam 94**.
-> Önceki 2026-10-10 sayımı (accepted 83 / rejected 12 / draft 1 / toplam 96) disk gerçeğiyle **çelişiyordu** ve §2/§6 tabloları 78-96 arasında değişiyordu; sayılar bugün dosya sayısından yeniden yazıldı.
+> **Disk ölçümü (2026-11-01 — v1.5.3):** `accepted/` = **85** (2026-10-24 `377224f`: ADR-110-CSP accepted'a girdi; FM v1.5.2 kaydı 84'tü) · `rejected/` = **10 R dosyası** (R-001..R-010; klasörde ayrıca 2 helper dosya `CLAUDE.md`/`index.md` — ham `*.md` sayımı 12 verir, karar kaydı değildirler) · `draft/` = **11** (ADR-103/104/107/108/109/111 + **ADR-112/113/114/115** + **ADR-116**) · kökte **1** (`ADR-091`) → **gerçek toplam 107**.
+> Uyarı: 2026-11-01 ham sayımında `rejected=12` çıkmıştı — helper dosyalar karışmıştı; R dosyası 10'dur (disk kazanır kuralı).
+> **Numara çakışması (ÇÖZÜLDÜ 2026-11-02):** `accepted/ADR-110-csp-style-src-attr-unsafe-inline-kabul` (2026-10-24) ile çakışan taslak dosya `draft/ADR-116-soft-adr-notlari-…` olarak yeniden numaralandırıldı; çakışma kalmadı.
 
 | Durum | Sayı | Açıklama |
 |-------|------|----------|
 | **Frozen** | **36** | Değiştirilemez (ADR-001 → ADR-036 — diskte tam) |
-| **Active** | **49** | `accepted/` içindeki **48** (ADR-037 üzeri) + kökteki **ADR-091** (2026-10-23 disk sayımı: accepted 84 − frozen 36 = 48 + 1 kök) |
-| **Rejected** | **10** | `rejected/` 10 dosya (R-011/R-012'de dosya YOK — §5'te işaretli) |
-| **Draft** | **7** | `draft/ADR-103-…` + `draft/ADR-104-page-router-kernel-god-class-bolme-plani` + `draft/ADR-107-neva-engine-platform-ve-paketleme` + `draft/ADR-108-k-space-kimlik-duzeltmesi-…` + `draft/ADR-109-tur-taksonomi-genislemesi-5-dal` + `draft/ADR-110-soft-adr-notlari-…` + `draft/ADR-111-amfi-urun-ailesi-power-governor-18650-bypass` (2026-10-25) — §4A | |
-| **Toplam** | **101** | 84 accepted + 10 rejected + 6 draft + 1 kök ADR | |
+| **Active** | **50** | accepted/ içindeki **49** (ADR-037 üzeri; accepted 85 − frozen 36 = 49) + kökteki **ADR-091** (2026-11-01 disk sayımı) |
+| **Rejected** | **10** | R-001..R-010 dosyası (R-011/R-012 kayıt YOK); klâsörde 2 helper dosya (CLAUDE.md/index.md) sayılmaz |
+| **Draft** | **11** | ADR-103 + ADR-104 + ADR-107 + ADR-108 + ADR-109 + ADR-111 + **ADR-112/113/114/115** + **ADR-116(soft)** — §4A | |
+| **Toplam** | **107** | 85 accepted + 10 rejected + 11 draft + 1 kök ADR (2026-11-01 disk ölçümü) | |
 
 > **Not (2026-10-23 — Prompt Arşivi Taraması Revizyonu):** Disk sayımı index ile hizalandı:
 > `accepted/` 83 → **84** (**ADR-097 K-Space V3 `draft/` → `accepted/`'e terfi** — üretim diskte tam, kullanıcı onayı 2026-10-23) ·
@@ -156,6 +157,8 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 ## 4A. Draft ADR'ler
 
 > **2026-10-23 notu:** ADR-097 accepted'a terfi etti; ADR-098-draft → **ADR-108**, ADR-102-draft → **ADR-109** olarak yeniden numaralandırıldı (numara çakışması giderildi). ADR-104/ADR-107 bu tabloya ilk kez eklendi.
+> **2026-11-01 notu:** ADR-112/113/114/115 bu oturumda draft yazıldı (tümü kullanıcı kararı ALINDI — accepted geçiş şartı ilgili ADR §6'da).
+> **2026-11-02 notu:** Draft **ADR-110 (soft-ADR)** numarası `accepted/ADR-110-csp` (2026-10-24) ile çakıştığı için kullanıcı onayıyla **ADR-116** olarak yeniden numaralandırıldı; numara çakışması tamamen çözüldü.
 
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
@@ -164,8 +167,12 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[draft/ADR-107-neva-engine-platform-ve-paketleme]] | Neva Engine Platform ve Paketleme | Audio |
 | [[draft/ADR-108-k-space-kimlik-duzeltmesi-disk-karsilastirmasi-ve-yeniden-numaralandirma]] | K-Space Kimlik Düzeltmesi, Disk Karşılaştırması ve Yeniden Numaralandırma (eski adı draft/ADR-098) | Architecture |
 | [[draft/ADR-109-tur-taksonomi-genislemesi-5-dal]] | K001 donanım-type Tür Taksonomisi Genişlemesi: 3 → 9 Bağlam (eski adı draft/ADR-102) | Architecture |
-| [[draft/ADR-110-soft-adr-notlari-select-star-samesite-position-itcss]] | Soft-ADR Notları: SELECT * İstisnası (admin/konsol), SameSite=Lax, Position Mekanizması Serbestliği, ITCSS 11-Katman SSOT | Security + CSS |
+| [[draft/ADR-116-soft-adr-notlari-select-star-samesite-position-itcss]] | Soft-ADR Notları: SELECT * İstisnası (admin/konsol), SameSite=Lax, Position Mekanizması Serbestliği, ITCSS 11-Katman SSOT (eski adı draft/ADR-110) | Security + CSS |
 | [[draft/ADR-111-amfi-urun-ailesi-power-governor-18650-bypass]] | Amfi Ürün Ailesi (9 SKU, azami 8 kanal/500 W) + Power Governor (empedans doğrulamalı watt kilidi) + 18650 Adaptör-Bypass Politikası | Electronics | Embedded + Audio HW + MO |
+| [[draft/ADR-112-media-soft-delete-canli-dump-hizalama]] | media_access/media_audit Soft-Delete Kolonları — Canlı Şema Dump SSOT'a Hizalanır (kullanıcı kararı 2026-11-01, seçenek A) | Data |
+| [[draft/ADR-113-api-v2-paralel-kurumsallasma]] | API Sürüm Stratejisi — V1/V2 Paralel Kurumsallaşma (kullanıcı kararı 2026-11-01, seçenek C) | Architecture |
+| [[draft/ADR-114-repository-pattern-standarti-yeni-kod-kurali]] | Repository Pattern Standardı — Yeni Kod İçin Kural (Kod Donduruldu; mevcut repo'lar dokunulmaz) | Architecture |
+| [[draft/ADR-115-media-yonetimi-adminde-faz3-gui-iptal]] | Media Yönetimi Admin Panelde — media Faz 3 Web Paneli İPTAL (faz3-gui-spec superseded 0.1.1) | Architecture |
 
 ## 5. Reddedilen ADR'ler
 
@@ -178,15 +185,15 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[rejected/R-005-rest-only-api]] | REST-Only | WebSocket gerekli |
 | [[rejected/R-006-laravel-eloquent-orm]] | Eloquent ORM | ORM yasak |
 | [[rejected/R-007-firebase-authentication]] | Firebase Auth | Harici bağımlılık |
-| R-008-mysql-myisam-engine | MyISAM | Transaction eksik <!-- NO FILE on disk 2026-10-06 --> |
-| R-009-single-database-architecture | Single DB | Güvenlik/performans <!-- NO FILE on disk 2026-10-06 --> |
-| R-010-nodejs-backend-fullstack | Node.js Full Stack | PHP zorunlu <!-- NO FILE on disk 2026-10-06 --> |
-| R-011-graphql-api | GraphQL | Over-engineering <!-- NO FILE on disk 2026-10-06 --> |
-| R-012-microservices-architecture | Microservices | Erken optimizasyon <!-- NO FILE on disk 2026-10-06 --> |
+| [[rejected/R-008-mysql-myisam-engine]] | MyISAM | Transaction eksik <!-- dosya VAR — 2026-11-01 disk ölçümü --> |
+| [[rejected/R-009-single-database-architecture]] | Single DB | Güvenlik/performans <!-- dosya VAR — 2026-11-01 disk ölçümü --> |
+| [[rejected/R-010-nodejs-backend-fullstack]] | Node.js Full Stack | PHP zorunlu <!-- dosya VAR — 2026-11-01 disk ölçümü --> |
+| R-011-graphql-api | GraphQL | Over-engineering <!-- NO FILE on disk 2026-11-01 --> |
+| R-012-microservices-architecture | Microservices | Erken optimizasyon <!-- NO FILE on disk 2026-11-01 --> |
 
 ## 6. Kategori Haritası
 
-> **Yeniden ölçüm (2026-10-12 — dosya sayımı, §6 eski 78 satırı geçersizdir).** Yalnız **diskte dosyası olan** ADR'ler sayıldı (`accepted/` 80 + kökteki ADR-091 = 81); `<!-- NO FILE -->` işaretli ADR-083/087/088 bu tabloya **alınmadı**. Rejected (10) §5'tedir, bu tabloda değildir. **Artış (2026-10-20):** ADR-106 accepted'a eklendi → `accepted/` 81 + ADR-091 = **82** (Audio Active 2→3).
+> **Yeniden ölçüm (2026-10-12 — dosya sayımı, §6 eski 78 satırı geçersizdir).** Yalnız **diskte dosyası olan** ADR'ler sayıldı (`accepted/` 80 + kökteki ADR-091 = 81); `<!-- NO FILE -->` işaretli ADR-083/087/088 bu tabloya **alınmadı**. Rejected (10) §5'tedir, bu tabloda değildir. **Artış (2026-10-20):** ADR-106 accepted'a eklendi → `accepted/` 81 + ADR-091 = **82** (Audio Active 2→3). **Artış (2026-10-24):** ADR-110-CSP accepted (`377224f`) → accepted 85 + ADR-091 = **86**. TOPLAM satırı 36+49=85, 2026-11-01 accepted ölçümüyle kazara eşleşir; kategori satırları ayrı ölçümde yeniden sayılır.
 
 | Kategori | Frozen | Active | Toplam |
 |----------|--------|--------|--------|
@@ -209,7 +216,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 ---
 
-*Decisions Index v1.5.0 — CoreMusic Vault*
+*Decisions Index v1.5.3 — CoreMusic Vault*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-10-20*
+*Last Updated: 2026-11-01*
 *Mode: Red Team · Human Mode · Truth Mode*

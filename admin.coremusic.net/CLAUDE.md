@@ -84,7 +84,7 @@ Bu dosya `admin.coremusic.net/` klasöründe çalışırken uyulacak kuralları 
 | 4 | **Auth formları bu klasöre taşınmaz** (ADR-043) | Tek kimlik akışı (PRD-PLT-004) | Formlar `auth.coremusic.net/admin/`'dedir | ADR-043 + `AuthAliasRedirector.php:29-34` |
 | 5 | **CSRF token her state-changing formda zorunlu** | CSRF yüzeyi | `$_SESSION['csrf_token']` gizli input deseni | `admin-settings.php:14,20`, `admin-song-add.php:15,32`, `admin-playlist.php:15` |
 | 6 | **Tüm çıktı `$h` (htmlspecialchars ENT_QUOTES\|ENT_SUBSTITUTE, UTF-8) ile geçer** | XSS yüzeyi | Tek sarmalayıcı = tek savunma hattı | `pages/layout.php:27` |
-| 7 | **`/dev-login` yalnız `DEBUG_MODE`** | Yetki | Debug backdoor production'a sızarsa panel açık demektir | `bootstrap.php:91-105` |
+| 7 | **`/dev-login` yalnız dev/test + `DEBUG_MODE`** — P0 gate `DevLoginGate`: production → 404 (DEBUG açık olsa bile), dev/test + DEBUG → session + 302, dev/test + DEBUG kapalı → kernel'e bırakılır | Yetki | Debug backdoor production'a sızarsa panel açık demektir | `config/bootstrap.php:91-98` → `include/Routing/DevLoginGate.php` + `tests/Unit/DevLoginGateTest.php` |
 | 8 | **`AdminAuthBridge` yalnız Security onayıyla değişir** | Auth doğrulama + session fixation savunması | validate-key retry/timeout + `session_regenerate_id(true)` | `AdminAuthBridge.php:26-28,83` |
 | 9 | **Secret yalnız `.env`** (`.env.example` placeholder) | Anahtar sızıntısı | `APP_PEPPER` gibi sabitler vault'a/md'ye yazılmaz | `config/.env.example` (CHANGE_ME) |
 | 10 | **Erişim kapatma korunur**: `config|include|pages`, non-index `.php`, `.env/.md/.log/...` → 403 | Bilgi sızıntısı | Sunucu kuralı uygulama kodundan ayrı güvenlik katmanıdır | `.htaccess:18-36`, `web.config:20-31` |

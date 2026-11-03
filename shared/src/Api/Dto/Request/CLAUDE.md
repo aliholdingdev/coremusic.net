@@ -19,7 +19,7 @@ Kod/sablon klasoru - amac dosya adlarindan turetildi (dogrulama onerilir)
 ## 2. Mevcut Durum
 | Durum | Deger |
 |-------|-------|
-| Dosya | 6 |
+| Dosya | 2 (LoginRequest · RegisterRequest — F7 ölü DTO temizliği 2026-10-30: MusicSearch/PlaylistAddTrack/PlaylistCreate/UserUpdate silindi, 0 PHP atıf) |
 | Konum | C:\www\coremusic.net\shared\src\Api\Dto\Request |
 
 ## 3. Komsu Iliskiler

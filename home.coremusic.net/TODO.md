@@ -2,10 +2,10 @@
 title: "home.coremusic.net — TODO Listesi"
 type: todo
 category: project-tracking
-version: 1.2.0
+version: 1.3.0
 status: active
 authority: SSOT
-updated: 2026-10-25
+updated: 2026-10-30
 ---
 
 # home.coremusic.net — TODO Listesi
@@ -22,6 +22,7 @@ updated: 2026-10-25
 - [ ] **#20 (coreplayer) Offline-First çapraz kontrolü** — oynatma akışı (PRD-PLT-001) doğrulanır · Kaynak: `[[PRD.md]]` §7.1
 - [ ] **#10/#9 (Middleware/PageRouter) router/kernel sözleşmesi** — doğrulama · Kaynak: `[[PRD.md]]` §7.2
 - [ ] **Faz 3 GUI spec kapısı** — `media.coremusic.net/docs/faz3-gui-spec.md` bu panelin genişlemesi ise kapıya eklenir · Kaynak: `[[PRD.md]]` §7.3
+- [ ] **ORTA: `MusicStreamHandler` ↔ ADR-112 stream mimarisi hizası** — `include/Stream/MusicStreamHandler.php` (byte-range + auth guard + path traversal koruması) yerel/offline akış sözleşmesi (opak ticket · üye oturumu zorunlu · API asla `file_path` vermez) ile karşılaştırılır; sapma raporlanır, pipeline sırası değiştirilmez · Kaynak: ADR-112 (Faz 6) + `include/Stream/MusicStreamHandler.php`
 
 ## TAM Madde Listesi — Küçükten Büyüğe (Geçmiş · Açık · Gelecek) — 2026-10-25
 

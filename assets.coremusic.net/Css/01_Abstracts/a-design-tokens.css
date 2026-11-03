@@ -651,11 +651,11 @@
    ============================================================ */
 :root {
   --backdrop-blur-sm: blur(4px);
-  --backdrop-blur: blur(8px);
-  --backdrop-blur-lg: blur(20px);
+  --backdrop-blur: blur(2px);
+  --backdrop-blur-lg: blur(2px);
   --backdrop-blur-xl: blur(40px);
   --backdrop-saturate: saturate(180%);
-  --backdrop-glass: blur(20px) saturate(180%);
+  --backdrop-glass: blur(2px) saturate(120%);
 }
 
 /* ============================================================

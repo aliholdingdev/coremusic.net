@@ -293,6 +293,34 @@ final class UserRepositoryTest extends TestCase
         $this->assertNull($this->repository->findValidResetToken('invalid-hash'));
     }
 
+    /**
+     * Tek-kullanımlık token sözleşmesi — kullanılan/geçmiş token SQL'de elenir.
+     *
+     * Sorgu: include/Repository/UserRepository.php:233
+     *   `ut.used_at IS NULL AND ut.expires_at > NOW() AND ut.token_type = 'password_reset'`
+     * Bu filtre düşerse aynı sıfırlama linki ikinci kez kullanılabilir (CWE-640).
+     */
+    public function testFindValidResetToken_sqlFiltersUsedAndExpiredTokens(): void
+    {
+        $tokenHash = hash('sha256', 'token');
+        $capturedSql = '';
+
+        $this->db->expects($this->once())
+            ->method('execute')
+            ->willReturnCallback(function ($sql, $params) use (&$capturedSql, $tokenHash) {
+                $capturedSql = (string) $sql;
+                $this->assertSame(['token_hash' => $tokenHash], $params);
+                return [];
+            });
+
+        $this->repository->findValidResetToken($tokenHash);
+
+        $this->assertStringContainsString('ut.used_at IS NULL', $capturedSql);
+        $this->assertStringContainsString('ut.expires_at > NOW()', $capturedSql);
+        $this->assertStringContainsString("ut.token_type = 'password_reset'", $capturedSql);
+        $this->assertStringNotContainsString('SELECT *', $capturedSql);
+    }
+
     public function testUpdatePassword_updatesHashAndTimestamp(): void
     {
         $userId = 'a'.str_repeat('b', 31);

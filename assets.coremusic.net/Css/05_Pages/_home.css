@@ -8,7 +8,7 @@
  *   uygulanmamasına yol açıyordu)
  */
 
-@import '../03_Layout/_home-layout.css?v=20261022';
+@import '../03_Layout/_home-layout.css?v=20261101';
 @import '../04_Components/_home-components.css?v=20261007';
 @import './_home-inline.css?v=20261007';
 
@@ -101,8 +101,8 @@
   margin: 0 0 var(--space-2, 8px);
 }
 
-.home-song-btn-list-div{
-    margin-top:30px;
+.home-song-btn-list-div {
+  margin-top: 30px;
 }
 
 /* Wide/4K: şarkı şeridi üst satır hizasına bağlanır — sol kenar Player Info ile (x53),

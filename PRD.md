@@ -2,17 +2,17 @@
 title: "CoreMusic — Platform PRD (Ürün Gereksinim Belgesi)"
 type: prd
 category: core
-version: 1.3.1
+version: 1.3.2
 status: active
 authority: "Derived — SSOT: .ai/PROJECTS.md (ürün tanımı) + .ai/PRD.md (PRD sistemi)"
-updated: 2026-10-25
+updated: 2026-11-01
 ---
 
 # CoreMusic — Platform PRD
 
 **docType:** prd · **Konum:** depo kökü (`C:\www\coremusic.net`) · **Sorumlu:** MO (vault-updater) + product-owner rolü (kullanıcı)
 
-**Zorunlu Bağlantılar:** [[.ai/PRD.md]] · [[.ai/PROJECTS.md]] · [[.ai/VISION.md]] · [[CONTEXT.md]] · [[AGENTS.md]]
+**Zorunlu Bağlantılar:** [[TODO.md]] · [[.workflows/design.md]] · [[.workflows/workflow.md]] · [[.workflows/tasks.md]] · [[RAG.md]] · [[RAG-KILAVUZU.md]] · [[CONTEXT.md]] · [[.ai/PRD.md]] · [[.ai/PROJECTS.md]] · [[.ai/VISION.md]] · [[AGENTS.md]] · [[CLAUDE.md]] · [[GEMINI.md]] · [[.ai/durum.md]] · [[.ai/.rules/kurallar.md]] · [[.ai/.rules/senior-mode.md]] · [[.ai/.env.figma]]
 
 > Bu dosya, **PRD ailesinin indeksidir (SSOT)**: 35 satırın her biri bu tabloda kayıtlıdır (28 mevcut + 7 üretilmedi — Durum sütunu).
 > Ailesel bağlam (vizyon, 10 özellik, 6 kitle) `.ai/PROJECTS.md`'dedir; burada tekrarlanmaz, yalnız gösterilir.
@@ -94,6 +94,9 @@ kurumsal dijital ses ve medya ekosistemidir. Offline-First mimari + kayıpsız f
 | PRD-PLT-010 | WCAG 2.2 AA minimum · touch ≥24×24px · görünür focus 3px | Component State Matrix (8 durum) eksiksiz; `accessibility-tester` PASS | #18-21, #26 (ui-design) |
 | PRD-PLT-011 | Zero-hallucination: kanıtsız iddia dosyaya girmez | Bilinmeyen `UNKNOWN` / doğrulanamayan `⚠️ VERIFICATION REQUIRED` | Tüm PRD ailesi |
 | PRD-PLT-012 | ADR izlenebilirliği: her gereksinim kararı ADR'ye bağlanır | Yeni ADR numarası `.ai/.decisions/index.md`'den alınır (next: 112) | #27 (.decisions) |
+| PRD-PLT-013 | Kalıcı hafıza ve oturum devri: `.ai/durum.md` her oturumda güncellenir | AI her oturum başında `.ai/durum.md` okur, kapanışta durum.md, log.md, MEMORY.md günceller | #1, tüm alt PRD'ler |
+| PRD-PLT-014 | Tema zorunluluğu: YALNIZCA LIGHT MODE (Dark mode henüz yoktur) | Tüm ekranlar ve bileşenler light mode tokenleriyle tasarlanır; dark mode varsayımı yasak | #21 (Css), #26 (ui-design) |
+| PRD-PLT-015 | Amplifikatör topolojisi: Kesinlikle Class AB | Donanım ve DSP modelleri discrete Class AB amfi mimarisine sadık kalır (Class D yasak) | #10 (audio), #11 (hardware) |
 
 > **eli10 (basit):** Bunlar, hiçbir sayfada veya modülde değişmeyecek 12 ana kuraldır.
 > **eli15 (detay):** Tablo ayrı yazıldı çünkü alt PRD'ler buraya bağlanır ve her gereksinim tek kimlikle

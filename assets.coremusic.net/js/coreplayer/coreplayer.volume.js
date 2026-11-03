@@ -99,21 +99,56 @@
         toggleMute: this._toggleMute.bind(this),
         toggleMuteKey: this._toggleMuteKey.bind(this),
       };
-      this._containerEl = null;
-      this._config = { container: '.footer-player__volume', fillSelector: '#volume2', percentSelector: '.footer-player__volume-value', iconSelector: '#volumeIcon', iconBasePath: this.#resolveThemePath(), trackSelector: '#volumeclick' };
+      this._config = { container: '.footer-player__volume', fillSelector: '#volume2', percentSelector: '.footer-player__volume-value', iconSelector: '#volumeIcon', iconBasePath: '', trackSelector: '#volumeclick' };
     }
 
-    /** Resolve theme image path from data-gender attribute on <html>. */
+    #isInvalidBasePath(path) {
+      if (!path || typeof path !== 'string') return true;
+      if (path.includes('res-default') || path.includes('res-blue')) return true;
+      if (typeof window !== 'undefined' && window.location && window.location.port) {
+        if (path.startsWith('//') && !path.includes(':' + window.location.port)) return true;
+      }
+      return false;
+    }
+
+    /** Resolve theme image path from icon dataset, DOM src, router config, or fallback. */
     #resolveThemePath() {
-      const gender = document.documentElement?.getAttribute('data-gender') || 'neutral';
-      const THEME_ASSET_MAP = Object.freeze({ female: 'res-pink', male: 'res-blue', neutral: 'res-default' });
-      const folder = THEME_ASSET_MAP[gender] || 'res-default';
-      return `//assets.coremusic.net/Image/${folder}/`;
+      const icon = this._iconEl || (typeof document !== 'undefined' ? document.querySelector(this._config?.iconSelector || '#volumeIcon') : null);
+      if (icon) {
+        if (icon.dataset && icon.dataset.basePath && !this.#isInvalidBasePath(icon.dataset.basePath)) {
+          return icon.dataset.basePath;
+        }
+        const src = icon.getAttribute('src');
+        if (src && src.includes('/') && !this.#isInvalidBasePath(src)) {
+          return src.slice(0, src.lastIndexOf('/') + 1);
+        }
+      }
+
+      const assetsUrl = (typeof window !== 'undefined' && window.CoreMusic?.RouterConfig?.assetsUrl) || '';
+      if (assetsUrl) {
+        return `${assetsUrl.replace(/\/+$/, '')}/Image/res-pink/`;
+      }
+
+      const port = (typeof window !== 'undefined' && window.location && window.location.port) ? `:${window.location.port}` : '';
+      const scheme = (typeof window !== 'undefined' && window.location && window.location.protocol) ? window.location.protocol : 'http:';
+      return `${scheme}//assets.coremusic.net${port}/Image/res-pink/`;
+    }
+
+    _getIconBasePath() {
+      if (this._config.iconBasePath && !this.#isInvalidBasePath(this._config.iconBasePath)) {
+        return this._config.iconBasePath;
+      }
+      return this.#resolveThemePath();
     }
 
     init(config) {
       if (this._initialized) return;
-      if (config) Object.assign(this._config, config);
+      if (config) {
+        Object.assign(this._config, config);
+        if (this.#isInvalidBasePath(this._config.iconBasePath)) {
+          this._config.iconBasePath = '';
+        }
+      }
 
       const el = (this._containerEl = document.querySelector(this._config.container));
       if (!el) {
@@ -147,6 +182,9 @@
       const icon = el.querySelector(this._config.iconSelector);
       if (icon) {
         this._iconEl = icon;
+        if (!this._config.iconBasePath || this.#isInvalidBasePath(this._config.iconBasePath)) {
+          this._config.iconBasePath = this.#resolveThemePath();
+        }
         /* A11y: bir kez, ikon bind edilirken — erişilebilir adın tek kaynağı aria-label; alt dekoratif */
         icon.setAttribute('role', 'button');
         icon.setAttribute('tabindex', '0');
@@ -313,13 +351,15 @@
     }
 
     _updateVolumeIcon(value) {
-      const icon = this._iconEl || document.querySelector(this._config.iconSelector);
+      const icon = this._iconEl || (typeof document !== 'undefined' ? document.querySelector(this._config.iconSelector) : null);
       if (icon) {
         /* src cache: aynı ikon adında DOM yazımı yok (dataset karşılaştırması) */
         const iconName = VolumeCalculator.getIconName(value);
         if (icon.dataset.iconName !== iconName) {
           icon.dataset.iconName = iconName;
-          icon.src = this._config.iconBasePath + iconName;
+          const basePath = this._getIconBasePath();
+          this._config.iconBasePath = basePath;
+          icon.src = basePath + iconName;
         }
         /* A11y: label yalnız mute ↔ sesli DURUM DEĞİŞİMİNDE yazılır */
         const label = value === 0 ? 'Sesi aç' : 'Sesi kapat';

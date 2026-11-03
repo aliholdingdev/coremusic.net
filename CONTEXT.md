@@ -3,10 +3,10 @@ title: "CoreMusic — Depo Kökü Context"
 type: docs
 category: docs
 date: 2026-10-12
-updated: 2026-10-12
-version: 2.0.0
+updated: 2026-11-01
+version: 2.1.0
 status: active
-authority: "Derived — SSOT: .ai/CONTEXT.md (vault context) + kök AGENTS.md"
+authority: "Derived — SSOT: .ai/CONTEXT.md (vault context) + kök AGENTS.md + kök CLAUDE.md"
 docType: context
 ---
 
@@ -14,7 +14,7 @@ docType: context
 
 **docType:** context · **Konum:** depo kökü (`C:\www\coremusic.net`) · **Sorumlu:** MO (vault-updater)
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[.ai/CONTEXT.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[GEMINI.md]] · [[CURSOR.md]] · [[WORKFLOW.md]] · [[TODO.md]] · [[PRD.md]] · [[.workflows/design.md]] · [[.workflows/tasks.md]] · [[.workflows/workflow.md]] · [[RAG.md]] · [[RAG-KILAVUZU.md]] · [[.ai/durum.md]] · [[.ai/.rules/kurallar.md]] · [[.ai/.rules/hata-listesi.md]] · [[.ai/.rules/karar-kurallari.md]] · [[.ai/.rules/senior-mode.md]] · [[.ai/.env.figma]] · [[.ai/CONTEXT.md]]
 
 ---
 
@@ -27,12 +27,12 @@ Not: Önceki sürümün K-space katman mimarisi atıfları bu revizyonda kaldır
 | Karar | Kaynak (disk) |
 |-------|---------------|
 | Top-level envanter: **17 dizin, 19 dosya, 36 giriş** | `list_directory` ölçümü, 2026-10-12 |
-| Kök `.md` dosyası: **7** (`AGENTS` · `CLAUDE` · `CONTEXT` · `README` · `RAG` · `WORKFLOW` · `notes`) | aynı ölçüm, 2026-10-12 |
-| Alt alan adı dizinleri: **5** (`api` · `assets` · `auth` · `home` · `media`) | `list_directory` + her birinde `CONTEXT.md` bulunduğu glob ile doğrulandı (2026-10-12) |
+| Kök `.md` dosyası: **10** (`AGENTS` · `CLAUDE` · `CONTEXT` · `CURSOR` · `GEMINI` · `PRD` · `README` · `RAG` · `RAG-KILAVUZU` · `WORKFLOW`) | 2026-11-01 revizyonu |
+| Modüler Tek Sayfa Hafıza: **12 Yüzey** (`home`, `api`, `shared`, `auth`, `admin`, `assets`, `media`, `app-cpp-projects`, `app-nodejs-projects`, `bin`, `.agents`, `.workflows`) | Her birinde bağımsız `durum.md` (2026-11-01) |
+| Alt alan adı dizinleri: **6** (`admin` · `api` · `assets` · `auth` · `home` · `media`) | `list_directory` ölçümü (2026-11-01) |
 | PRD ailesi: **28 yüzey** — kök `PRD.md` (SSOT indeksi) + `.ai/PRD.md` (vault) + 26 alt PRD | 2026-10-23 revizyonu — indeks: `[[PRD.md]]` §5 |
-| **2026-10-23 düzeltme notu:** diskte **6** alt alan adı dizini var (`admin` · `api` · `assets` · `auth` · `home` · `media`); `admin.coremusic.net/` boot seti (CONTEXT/AGENTS/CLAUDE) **YOK** — üstteki "5" ölçümü 2026-10-12 tarihlidir, `admin` o tarihte ölçülmemiş olabilir | `list_directory` ölçümü 2026-10-23 |
+| RAG ve Retrieval: **`RAG.md` + `RAG-KILAVUZU.md` (DOGE DOC) + `.ai/RAG.md`** | RAG retrieval router + kullanıcı rehberi |
 | `bin/` **1 dosya** · `shared/` **15 üst düzey giriş** · `node_modules/` **85 üst düzey giriş** | `list_directory` ölçümü, 2026-10-12 |
-| `--/` **297 dosya, 65 dizin** (içerik sayılmadı, yalnız adet) | `directory_tree` ölçümü, 2026-10-12 (iki ayrı sayım aynı sonucu verdi) |
 | Kök `CLAUDE`/`WORKFLOW`/`RAG` dosyaları **pointer**'dır | frontmatter `authority` okuması, 2026-10-12 |
 | Vault context SSOT: **`.ai/CONTEXT.md`** | kök `AGENTS.md` §9 + `.ai/CONTEXT.md` disk varlığı |
 
@@ -67,6 +67,7 @@ Not: Önceki sürümün K-space katman mimarisi atıfları bu revizyonda kaldır
 |--------------|---------|--------|-----------|---------------------|
 | `CONTEXT.md` (bu dosya) | Kök envanteri + boot özeti + otorite tablosu | 7 bölüm, 5 sütunlu tablo, bu oturum ölçümü | Sayılar tek yerde ve ölçümle dursun | Envanter ölçümü değişince |
 | `CLAUDE.md` (kök) | Boot talimatı + Skill Registry SSOT | pointer (frontmatter: `SSOT: .ai/CLAUDE.md` · v3.3.0) | Anayasa ayrı, boot köprüsü ayrı dursun | Yalnız vault-sync (MO) |
+| `CURSOR.md` (kök) | Cursor IDE kuralları + Karpathy yönergeleri | pointer (frontmatter: `.cursor/rules/karpathy-guidelines.mdc` · v1.1.0) | Cursor IDE ve Karpathy standartları tek noktada | Cursor / Karpathy kuralı değişince |
 | `AGENTS.md` (kök) | Ana agent kuralları: akış, execution loop, persona hiyerarşisi | master kurallar (frontmatter: `v1.2.0`) | Kanonik kök kural tek dosyada olsun | Kural revizyonu (kullanıcı onayı) |
 | `WORKFLOW.md` (kök) | Süreç pointer'ı | pointer (frontmatter: `SSOT: .ai/WORKFLOW.md` · v3.2.0) | Uzun süreç kökte tekrarlanmasın | Yalnız vault-sync (MO) |
 | `README.md` (kök) | İnsan okuru için proje tanıtımı | bölümlü readme (başlık + teknoloji rozetleri) | Proje ilk buradan tanıtılır | Tanıtım/teknoloji değişince |
@@ -148,9 +149,11 @@ Kaynak: kök `AGENTS.md` §7 (Execution Loop) + §14 (Boot Zinciri) — okuma ö
 ```text
 1) kök AGENTS.md — ana kurallar (akış, zero-hallucination, execution loop)
 2) kök CLAUDE.md — Skill Registry + vault bağlantıları (boot zincirinde birlikte okunur)
-3) SKILL EŞLEŞMESİ — kök CLAUDE.md §Skill Registry; eşleşme varsa ilk işlem Skill tool ile yüklemek
-4) görevle ilgili .ai/ dosyası — yalnız ihtiyaç anında @ ile (toplu okuma yasak)
-5) hedef dosya → üretim → doğrulama → .ai/log.md (append) → kapanış .ai/SYNC.md
+3) .ai/durum.md — oturum başı durum devri ve kalıcı hafıza kontrolü (her oturumda ZORUNLU)
+4) .ai/.rules/kurallar.md & .ai/.rules/senior-mode.md — kullanıcı kuralları ve 16 analiz adımı
+5) SKILL EŞLEŞMESİ — kök CLAUDE.md §Skill Registry; eşleşme varsa ilk işlem Skill tool ile yüklemek
+6) görevle ilgili .ai/ dosyası — yalnız ihtiyaç anında @ ile (toplu okuma yasak)
+7) hedef dosya → üretim → doğrulama → .ai/durum.md + .ai/log.md + .ai/MEMORY.md güncelleme → kapanış
 ```
 
 | Bu kök dosyası | Gösterdiği vault dosyası | Ne taşır |
@@ -161,6 +164,15 @@ Kaynak: kök `AGENTS.md` §7 (Execution Loop) + §14 (Boot Zinciri) — okuma ö
 | `RAG.md` | `[[.ai/RAG.md]]` · `[[.ai/keys.md]]` | Konu → dosya indeksi + keyword haritası |
 | `AGENTS.md` | `[[.ai/AGENTS.md]]` | Agent registry (routing, handover, escalation) |
 | `README.md` | — (pointer değil, özgün içerik) | İnsan okuru tanıtımı |
+| — | `[[.ai/durum.md]]` | Tek sayfalık oturum durum devri ve kalıcı hafıza SSOT |
+| — | `[[.ai/.rules/kurallar.md]]` | Kullanıcı kimliği (Bayram Ali), hybrid dil, Light Mode, Class AB |
+| — | `[[.ai/.rules/senior-mode.md]]` | Bütün proje kuralları, 16 analiz adımı |
+
+> **Kritik Kısıtlar (Core Constraints):**
+> 1. **Tema (YALNIZCA LIGHT MODE):** CoreMusic'te ŞU ANDA YALNIZCA LIGHT MODE MEVCUTTUR. Dark mode henüz yapılmamıştır/yoktur!
+> 2. **Amplifikatör:** Kesinlikle Class AB topolojisi (Class D yasaktır).
+> 3. **Hafıza Devri:** AI her oturumda `.ai/durum.md` okur, değişiklikleri `.ai/durum.md`, `.ai/log.md` ve `.ai/MEMORY.md` dosyalarına işler.
+> 4. **Git Commit:** Subagent asla `git commit` atamaz (orkestratöre aittir).
 
 > **eli10 (basit):** Okuma sırası: önce ana kurallar, sonra beceri listesi, en son yalnız ihtiyaç olan vault dosyası.
 > **eli15 (detay):** İlişki ayrı tabloda çünkü çelişkide hangi kaynağa bakılacağı belli olsun: kök dosyalar türevdir, vault kazanır. Okunması, boot sırasında sırayı ve otorite zincirini gösterir. Yazılması, kök dosyaların ikinci SSOT sanılmasını engeller. Tablo unutulursa her dosya kendi iddiasıyla bağımsız okunur ve bilgi ayrışır.

@@ -68,7 +68,7 @@ CREATE TABLE `payment_methods` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7',
   `user_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_auth.users.id (UUID v7)',
   `gateway` enum('stripe','iyzico','apple_iap','google_play','manual') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'stripe',
-  `external_payment_method_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Stripe pm_xxx veya Iyzico token',
+  `external_payment_method_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Stripe pm_xxx veya Iyzico external ID',
   `card_brand` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'visa, mastercard, troy, amex',
   `card_last_four` varchar(4) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `exp_month` tinyint unsigned DEFAULT NULL,
@@ -203,7 +203,7 @@ CREATE TABLE `device_playback_sessions` (
   `id` binary(16) NOT NULL COMMENT 'UUID v7',
   `user_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_auth.users.id (UUID v7)',
   `device_id` binary(16) NOT NULL COMMENT 'FK -> coremusic_media.devices.id',
-  `session_token` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `session_token_hash` char(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'SHA-256 hash of session token',
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
   `playback_state` enum('playing','paused','buffering','stopped') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'playing',
   `current_track_id` binary(16) DEFAULT NULL COMMENT 'FK -> coremusic_musics.musics.id',
@@ -215,7 +215,7 @@ CREATE TABLE `device_playback_sessions` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_dps_token` (`session_token`),
+  UNIQUE KEY `uq_dps_token` (`session_token_hash`),
   KEY `idx_dps_user_active` (`user_id`,`is_active`),
   KEY `idx_dps_heartbeat` (`last_heartbeat`),
   CONSTRAINT `fk_dps_user` FOREIGN KEY (`user_id`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -278,6 +278,75 @@ CREATE TABLE `royalty_payout_ledger` (
   KEY `idx_rpl_status` (`payout_status`),
   CONSTRAINT `fk_rpl_artist` FOREIGN KEY (`artist_id`) REFERENCES `coremusic_musics`.`artists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Aylik streaming havuzundan sanatcilara odenen hak edis defteri';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `user_subscriptions_audit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_subscriptions_audit` (
+  `id` binary(16) NOT NULL COMMENT 'UUID v7',
+  `subscription_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ user_subscriptions.id',
+  `action` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Action performed (create, update, cancel, pause, resume, payment_failed)',
+  `old_values` json DEFAULT NULL COMMENT 'Previous state (JSON)',
+  `new_values` json DEFAULT NULL COMMENT 'New state (JSON)',
+  `changed_by` binary(16) DEFAULT NULL COMMENT 'FK ÔåÆ coremusic_auth.users.id ÔÇö who made the change',
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Client IP (IPv4/IPv6)',
+  `user_agent` text COLLATE utf8mb4_unicode_ci COMMENT 'Client user agent string',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Audit event timestamp',
+  PRIMARY KEY (`id`),
+  KEY `idx_sub_audit_sub` (`subscription_id`) COMMENT 'Subscription audit lookup',
+  KEY `idx_sub_audit_action` (`action`) COMMENT 'Action type filtering',
+  KEY `idx_sub_audit_created` (`created_at`) COMMENT 'Time-based audit queries',
+  KEY `idx_sub_audit_by` (`changed_by`) COMMENT 'Actor lookup',
+  CONSTRAINT `fk_sub_audit_sub` FOREIGN KEY (`subscription_id`) REFERENCES `user_subscriptions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_sub_audit_by` FOREIGN KEY (`changed_by`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Subscription audit trail ÔÇö lifecycle, status changes, payment failures';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `payment_transactions_audit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payment_transactions_audit` (
+  `id` binary(16) NOT NULL COMMENT 'UUID v7',
+  `transaction_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ payment_transactions.id',
+  `action` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Action performed (create, update, refund, dispute, partial_refund)',
+  `old_values` json DEFAULT NULL COMMENT 'Previous state (JSON)',
+  `new_values` json DEFAULT NULL COMMENT 'New state (JSON)',
+  `changed_by` binary(16) DEFAULT NULL COMMENT 'FK ÔåÆ coremusic_auth.users.id ÔÇö who made the change',
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Client IP (IPv4/IPv6)',
+  `user_agent` text COLLATE utf8mb4_unicode_ci COMMENT 'Client user agent string',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Audit event timestamp',
+  PRIMARY KEY (`id`),
+  KEY `idx_pt_audit_tx` (`transaction_id`) COMMENT 'Transaction audit lookup',
+  KEY `idx_pt_audit_action` (`action`) COMMENT 'Action type filtering',
+  KEY `idx_pt_audit_created` (`created_at`) COMMENT 'Time-based audit queries',
+  KEY `idx_pt_audit_by` (`changed_by`) COMMENT 'Actor lookup',
+  CONSTRAINT `fk_pt_audit_tx` FOREIGN KEY (`transaction_id`) REFERENCES `payment_transactions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_pt_audit_by` FOREIGN KEY (`changed_by`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Payment transaction audit trail ÔÇö refunds, disputes, status changes';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `invoices_audit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `invoices_audit` (
+  `id` binary(16) NOT NULL COMMENT 'UUID v7',
+  `invoice_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ invoices.id',
+  `action` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Action performed (create, update, pay, void, refund)',
+  `old_values` json DEFAULT NULL COMMENT 'Previous state (JSON)',
+  `new_values` json DEFAULT NULL COMMENT 'New state (JSON)',
+  `changed_by` binary(16) DEFAULT NULL COMMENT 'FK ÔåÆ coremusic_auth.users.id ÔÇö who made the change',
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Client IP (IPv4/IPv6)',
+  `user_agent` text COLLATE utf8mb4_unicode_ci COMMENT 'Client user agent string',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Audit event timestamp',
+  PRIMARY KEY (`id`),
+  KEY `idx_inv_audit_inv` (`invoice_id`) COMMENT 'Invoice audit lookup',
+  KEY `idx_inv_audit_action` (`action`) COMMENT 'Action type filtering',
+  KEY `idx_inv_audit_created` (`created_at`) COMMENT 'Time-based audit queries',
+  KEY `idx_inv_audit_by` (`changed_by`) COMMENT 'Actor lookup',
+  CONSTRAINT `fk_inv_audit_inv` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_inv_audit_by` FOREIGN KEY (`changed_by`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Invoice audit trail ÔÇö payments, refunds, voids, status changes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

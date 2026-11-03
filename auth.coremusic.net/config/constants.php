@@ -114,11 +114,34 @@ if (!defined('COREMUSIC_SCHEME')) {
     ) ? 'https' : 'http';
     define('COREMUSIC_SCHEME', $detectedScheme);
 }
+
+$portSuffix = '';
+if (!empty($_SERVER['HTTP_HOST']) && str_contains($_SERVER['HTTP_HOST'], ':')) {
+    $parts = explode(':', $_SERVER['HTTP_HOST']);
+    $portSuffix = ':' . end($parts);
+} elseif (!empty($_SERVER['SERVER_PORT']) && !in_array((int)$_SERVER['SERVER_PORT'], [80, 443], true)) {
+    $portSuffix = ':' . $_SERVER['SERVER_PORT'];
+}
+
+$withPort = static function (string $url, string $portSuffix): string {
+    if ($portSuffix === '') {
+        return $url;
+    }
+    $parts = parse_url($url);
+    if (!isset($parts['port']) && isset($parts['host'])) {
+        $scheme = $parts['scheme'] ?? 'http';
+        $host = $parts['host'];
+        $path = $parts['path'] ?? '';
+        return $scheme . '://' . $host . $portSuffix . $path;
+    }
+    return $url;
+};
+
 if (!defined('AUTH_URL')) {
-    define('AUTH_URL', $env('AUTH_URL', COREMUSIC_SCHEME . '://auth.coremusic.net'));
-    define('MUSIC_URL', $env('MUSIC_URL', COREMUSIC_SCHEME . '://home.coremusic.net'));
-    define('ASSETS_URL', $env('ASSETS_URL', COREMUSIC_SCHEME . '://assets.coremusic.net'));
+    define('AUTH_URL', $withPort((string)$env('AUTH_URL', COREMUSIC_SCHEME . '://auth.coremusic.net'), $portSuffix));
+    define('MUSIC_URL', $withPort((string)$env('MUSIC_URL', COREMUSIC_SCHEME . '://home.coremusic.net'), $portSuffix));
+    define('ASSETS_URL', $withPort((string)$env('ASSETS_URL', COREMUSIC_SCHEME . '://assets.coremusic.net'), $portSuffix));
 }
 if (!defined('ADMIN_URL')) {
-    define('ADMIN_URL', $env('ADMIN_URL', COREMUSIC_SCHEME . '://admin.coremusic.net'));
+    define('ADMIN_URL', $withPort((string)$env('ADMIN_URL', COREMUSIC_SCHEME . '://admin.coremusic.net'), $portSuffix));
 }

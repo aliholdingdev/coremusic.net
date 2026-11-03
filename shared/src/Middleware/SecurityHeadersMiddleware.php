@@ -24,18 +24,19 @@ final class SecurityHeadersMiddleware implements IMiddleware
         $isHttps = $this->domainConfig?->isHttps() ?? false;
 
         $headers = [
-            'X-Content-Type-Options'         => 'nosniff',
-            'X-Frame-Options'                => 'DENY',
-            'X-XSS-Protection'               => '0',
-            'Referrer-Policy'                => 'strict-origin-when-cross-origin',
-            'Content-Security-Policy'        => $csp,
-            'Require-Trusted-Types-For'      => "'script'",
-            'Cross-Origin-Resource-Policy'   => 'cross-origin',
-            'Permissions-Policy'             => 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+            'X-Content-Type-Options'            => 'nosniff',
+            'X-Frame-Options'                   => 'DENY',
+            'X-XSS-Protection'                  => '0',
+            'Referrer-Policy'                   => 'strict-origin-when-cross-origin',
+            'Content-Security-Policy'           => $csp,
+            'Require-Trusted-Types-For'         => "'script'",
+            'Cross-Origin-Resource-Policy'      => 'cross-origin',
+            'Permissions-Policy'                => 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
             'X-Permitted-Cross-Domain-Policies' => 'none',
         ];
 
         if ($isHttps) {
+            $headers['Strict-Transport-Security']    = 'max-age=31536000; includeSubDomains; preload';
             $headers['Cross-Origin-Opener-Policy']   = 'same-origin';
             $headers['Cross-Origin-Embedder-Policy'] = 'require-corp';
         }
@@ -48,7 +49,8 @@ final class SecurityHeadersMiddleware implements IMiddleware
     private function buildCsp(array $request): string
     {
         $assetsOrigin = $this->resolveAssetsOrigin($request);
-        $apiOrigin     = $this->resolveApiOrigin($request);
+        $apiOrigin    = $this->resolveApiOrigin($request);
+        $mediaOrigin  = $this->resolveMediaOrigin($request);
         $nonce        = $request['_csp_nonce'] ?? '';
 
         $scriptSrc = $nonce !== ''
@@ -63,11 +65,12 @@ final class SecurityHeadersMiddleware implements IMiddleware
             "default-src 'self'; " .
             "script-src {$scriptSrc}; " .
             "style-src {$styleSrc}; " .
+            // ADR-110 — style-src-attr unsafe-inline KABUL EDİLMİŞ RİSK (kullanıcı onayı 2026-10-30, batch #2)
             "style-src-attr 'unsafe-inline'; " .
-            "img-src 'self' data: {$assetsOrigin}; " .
+            "img-src 'self' data: {$assetsOrigin} {$mediaOrigin}; " .
             "font-src 'self' {$assetsOrigin} fonts.gstatic.com; " .
-            "connect-src 'self' {$assetsOrigin} {$apiOrigin}; " .
-            "media-src 'self' {$assetsOrigin}; " .
+            "connect-src 'self' {$assetsOrigin} {$apiOrigin} {$mediaOrigin}; " .
+            "media-src 'self' {$assetsOrigin} {$mediaOrigin}; " .
             "frame-ancestors 'none'; " .
             "base-uri 'self'; " .
             "form-action 'self'";
@@ -76,6 +79,11 @@ final class SecurityHeadersMiddleware implements IMiddleware
     private function resolveAssetsOrigin(array $request): string
     {
         return $this->resolveOrigin('assets', 'https://assets.coremusic.net');
+    }
+
+    private function resolveMediaOrigin(array $request): string
+    {
+        return $this->resolveOrigin('media', 'https://media.coremusic.net');
     }
 
     /** connect-src — API origin (auth sayfaları fetch -> api.coremusic.net). */

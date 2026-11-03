@@ -59,13 +59,23 @@
     /* VolumeController */
     if (window.VolumeController && typeof VolumeController.init === 'function') {
       try {
-        /* iconBasePath override: res-default klasörü assets'te yok — theme varsa onu, yoksa res-pink */
-        const _gender = document.documentElement?.getAttribute('data-gender') || 'female';
-        const _themeMap = { female: 'res-pink', male: 'res-blue' };
-        VolumeController.init({
+        const volIcon = document.querySelector('#volumeIcon');
+        const iconBasePath = volIcon?.dataset?.basePath
+          || (volIcon?.getAttribute('src') && volIcon.getAttribute('src').includes('/')
+              ? volIcon.getAttribute('src').slice(0, volIcon.getAttribute('src').lastIndexOf('/') + 1)
+              : null)
+          || (window.CoreMusic?.RouterConfig?.assetsUrl
+              ? window.CoreMusic.RouterConfig.assetsUrl.replace(/\/+$/, '') + '/Image/res-pink/'
+              : null);
+
+        const config = {
           percentSelector: '.footer-player__volume-value',
-          iconBasePath: '//assets.coremusic.net/Image/' + (_themeMap[_gender] || 'res-pink') + '/',
-        });
+        };
+        if (iconBasePath) {
+          config.iconBasePath = iconBasePath;
+        }
+
+        VolumeController.init(config);
       } catch (e) {
         if (window.dbg) window.dbg.warn('[footer.init] VolumeController.init error:', e);
       }

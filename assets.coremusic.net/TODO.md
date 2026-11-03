@@ -2,10 +2,10 @@
 title: "assets.coremusic.net — TODO Listesi"
 type: todo
 category: project-tracking
-version: 1.2.0
+version: 1.3.0
 status: active
 authority: SSOT
-updated: 2026-10-25
+updated: 2026-10-30
 ---
 
 # assets.coremusic.net — TODO Listesi
@@ -22,6 +22,10 @@ updated: 2026-10-25
 - [ ] **Alt PRD bağlantıları** — #18–#20 (js/coreplayer · js/router · js çekirdek) ve #21 (Css) alt PRD'leri bu dosyaya bağlanır · Kaynak: `[[PRD.md]]` §7.1
 - [ ] **Token/ekran çapraz kontrolü** — gereksinimler #26 (`.ai/ui-design` PRD — **diskte YOK**, bkz. `[[../TODO]]` §2 eksik-PRD maddesi) ile karşılaştırılır · Kaynak: `[[PRD.md]]` §7.2
 - [ ] **Erişilebilirlik denetimi** — `accessibility-tester` → PASS kaydı bu PRD §4 kapısına eklenir · Kaynak: `[[PRD.md]]` §7.3
+- [ ] **ORTA: `package.json` ikiliği SSOT kararı** — `assets.coremusic.net/package.json` (playwright `1.63.0` sabit) + kök `package.json` (`^1.63.0`) aynı devDependencies'i tutuyor, sürüm spec'leri farklı (disk 2026-10-30) → SSOT tek dosya + spec birleşimi; **canlı semptom:** kökten `npx playwright test -c assets/...` = "did not expect test.describe()" (çift `@playwright/test`), assets içinden lokal binary yeşil · Kaynak: glob + e2e koşusu 2026-10-30
+- [ ] **MICRO: `WORKFLOW.md` bayat "package.json YOK" iddiaları** — §1/§10/§304 "package.json YOK · komut yolu görev başında doğrulanır" diyor; diskte VAR (glob 2026-10-30) → satırlar güncellenir · Kaynak: glob 2026-10-30
+- [ ] **MICRO: test-artifact gitignore** — `test-results/` + `playwright-report/` diskte; kök `.gitignore` yalnız `.playwright-mcp/` içeriyor (`git check-ignore` 0 isabet) ve assets'te `.gitignore` YOK → üretilir · Kaynak: `git check-ignore` 2026-10-30
+- [x] **ORTA: e2e WCAG alt-text başarısızlığı** — 2026-10-30 tekrar: 1 kırmızı (`player-info.spec.ts:274`, alt length 0) → kök neden: test dekoratif görsel kalıbını (`alt=""` + `aria-hidden="true"` — `home.coremusic.net/pages/components/player-info.php:37-38`, WCAG 1.1.1 doğru kalıp) reddediyordu → **test** WCAG'ye hizalandı (boş `alt` yalnız `aria-hidden` ile geçerli; attribute her görselde zorunlu) → `npx playwright test` **18/18 passed** · Kaynak: e2e koşusu 2026-10-30
 
 ## TAM Madde Listesi — Küçükten Büyüğe (Geçmiş · Açık · Gelecek) — 2026-10-25
 

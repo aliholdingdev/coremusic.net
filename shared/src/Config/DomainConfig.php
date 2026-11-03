@@ -93,7 +93,7 @@ final class DomainConfig
         if ($host === null) {
             return $this->getPrimaryUrl();
         }
-        return $this->buildUrl($this->getScheme(), $host, $this->getSubdomainPort());
+        return $this->buildUrl($this->getScheme(), $host, $this->getSubdomainPortByName($name));
     }
 
     public function getHost(): string

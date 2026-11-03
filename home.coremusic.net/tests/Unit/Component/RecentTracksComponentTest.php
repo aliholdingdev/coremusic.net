@@ -53,6 +53,10 @@ final class RecentTracksComponentTest extends TestCase
         $this->assertCount(10, $fourK->cards);
         $this->assertCount(6, $wide->playlistCards);
         $this->assertNull($wide->nextCard);
+        $this->assertCount(0, $wide->recentAlbumCards);
+        $this->assertCount(10, $fourK->recentAlbumCards);
+        $this->assertCount(10, $fourK->recommendedArtistCards);
+        $this->assertCount(10, $fourK->recommendedAlbumCards);
     }
 
     public function testConstructor_overrideData_truncatesToFourOnEmbedded(): void

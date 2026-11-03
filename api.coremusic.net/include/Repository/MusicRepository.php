@@ -95,6 +95,14 @@ final class MusicRepository implements IMusicRepository
         // LIKE wildcard kaçışı: kullanıcı girdisinde % _ \ etkisizleşir.
         $like = '%' . addcslashes($query, '%_\\') . '%';
 
+        // Onarim 2026-10-29:
+        // (1) DISTINCT + ORDER BY m.id -> MySQL 3065 (parse'ta kontrol; sutun
+        //     SELECT listesinde olmali) -> HEX(m.id) ASC (music_hex SELECTte
+        //     var; findMany kaliibi; sabit 32 hex siralama = binary).
+        // (2) 3065 gecince aciga cikan ikinci katman: emulation KAPALI
+        //     AbstractPdoDatabaseManager L55 -> ayni marker ikilenemez
+        //     (HY093 Invalid parameter number, :68). Ikinci olay :q2 ile
+        //     ayni deger iki kez baglanir; OR semantigi korunur.
         $sql = 'SELECT DISTINCT HEX(m.id)     AS music_hex,
                        m.title        AS title,
                        m.duration_sec AS duration_sec,
@@ -106,11 +114,11 @@ final class MusicRepository implements IMusicRepository
                    AND a.is_deleted = 0
                    AND f.is_deleted = 0
                    AND f.is_primary = 1
-                   AND (m.title LIKE :q OR a.name LIKE :q)
-                 ORDER BY m.title ASC, m.id ASC
+                   AND (m.title LIKE :q OR a.name LIKE :q2)
+                 ORDER BY m.title ASC, HEX(m.id) ASC
                  LIMIT ' . (int) $limit;
 
-        return $this->db()->execute($sql, ['q' => $like]);
+        return $this->db()->execute($sql, ['q' => $like, 'q2' => $like]);
     }
 
     public function count(): int

@@ -99,7 +99,27 @@ final class PageRouter
             return RouteResult::notFound($uri);
         }
 
-        $container = $this->renderPage($pageFile, $csrfToken, $route->meta);
+        if ($route->cacheable && $this->pageCache !== null && $this->pageCache->isPageCacheEnabled()) {
+            $auth = $this->authHelper->checkAuthenticated();
+            $cacheKey = $this->pageCache->pageKey($uri, $auth);
+            $ttl = $route->cacheTtl ?? $this->pageCache->ttlPage();
+
+            $container = (string) $this->pageCache->remember($cacheKey, $ttl, function () use ($pageFile, $route): string {
+                return $this->renderPage($pageFile, '__CSRF_TOKEN_PLACEHOLDER__', $route->meta);
+            });
+
+            if ($csrfToken !== '') {
+                $safeCsrf = htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8');
+                $container = str_replace(
+                    ['__CSRF_TOKEN_PLACEHOLDER__', htmlspecialchars('__CSRF_TOKEN_PLACEHOLDER__', ENT_QUOTES, 'UTF-8')],
+                    $safeCsrf,
+                    $container
+                );
+            }
+        } else {
+            $container = $this->renderPage($pageFile, $csrfToken, $route->meta);
+        }
+
         return RouteResult::ok($container, $this->buildMeta($route), $csrfToken, $uri);
     }
 

@@ -83,6 +83,18 @@ return [
         title: 'Şimdi Oynatılıyor',
         cacheable: true,
     ),
+    'playlist' => new SpaRoute(
+        page: 'playlist',
+        requiresAuth: true,
+        title: 'Çalma Listesi',
+        cacheable: true,
+    ),
+    'playlist/video' => new SpaRoute(
+        page: 'nowplaying',
+        requiresAuth: true,
+        title: 'Playlist Video',
+        cacheable: true,
+    ),
 
     // Full-screen disk player (Headless Rotating Vinyl Player)
     'diskplayer' => new SpaRoute(
@@ -100,14 +112,20 @@ return [
         cacheable: true,
     ),
 
-    // Placeholder rotalar (yakında implemente edilecek)
+    // Keşfet / Explore rotası
     'kesfet' => new SpaRoute(
-        page: 'home',
+        page: 'kesfet',
         requiresAuth: true,
         title: 'Keşfet',
         cacheable: true,
     ),
     'albumler' => new SpaRoute(
+        page: 'albums',
+        requiresAuth: true,
+        title: 'Albümler',
+        cacheable: true,
+    ),
+    'albums' => new SpaRoute(
         page: 'albums',
         requiresAuth: true,
         title: 'Albümler',
@@ -119,7 +137,19 @@ return [
         title: 'Albüm Detayı',
         cacheable: true,
     ),
+    'album-detail' => new SpaRoute(
+        page: 'album-detail',
+        requiresAuth: true,
+        title: 'Albüm Detayı',
+        cacheable: true,
+    ),
     'sanatcilar' => new SpaRoute(
+        page: 'artists',
+        requiresAuth: true,
+        title: 'Sanatçılar',
+        cacheable: true,
+    ),
+    'artists' => new SpaRoute(
         page: 'artists',
         requiresAuth: true,
         title: 'Sanatçılar',
@@ -131,9 +161,46 @@ return [
         title: 'Playlist',
         cacheable: true,
     ),
+    'browse' => new SpaRoute(
+        page: 'browse',
+        requiresAuth: true,
+        title: 'Dosya Yöneticisi',
+        cacheable: true,
+    ),
+    'gozat' => new SpaRoute(
+        page: 'browse',
+        requiresAuth: true,
+        title: 'Göz At',
+        cacheable: true,
+    ),
     'ayarlar' => new SpaRoute(
-        page: 'home',
+        page: 'settings',
         requiresAuth: true,
         title: 'Ayarlar',
+        cacheable: true,
+    ),
+    'settings' => new SpaRoute(
+        page: 'settings',
+        requiresAuth: true,
+        title: 'Ayarlar',
+        cacheable: true,
+    ),
+    'terminal' => new SpaRoute(
+        page: 'terminal',
+        requiresAuth: true,
+        title: 'Core AI Terminal',
+        cacheable: false,
+    ),
+    'wizard' => new SpaRoute(
+        page: 'wizard',
+        requiresAuth: false,
+        title: 'Kurulum Sihirbazı',
+        cacheable: false,
+    ),
+    'setup' => new SpaRoute(
+        page: 'wizard',
+        requiresAuth: false,
+        title: 'Kurulum Sihirbazı',
+        cacheable: false,
     ),
 ];

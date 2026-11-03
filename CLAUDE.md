@@ -1,322 +1,158 @@
 ---
-title: "CoreMusic — Boot Instruction (Pointer)"
+title: "CoreMusic — Claude Code Boot Instruction (Pointer)"
 type: pointer
 category: boot
-version: 3.3.0
+version: 3.5.0
 status: active
 authority: "SSOT: .ai/CLAUDE.md (tam anayasa) · bu dosya §Skill Registry (Skill Registry SSOT)"
-updated: 2026-10-25
+updated: 2026-11-02
 ---
 
-# .ai gizli dizin, hidden: true ile tarıyorum:
-## .ai/README.md okuması (gerekirse)
+# CoreMusic — CLAUDE.md (Claude Code Boot Instruction Pointer)
 
-**Gerekirse oku:** Bu dosya, .ai içindeki tüm agent'lar, skill'ler ve konvansiyonlar için tek referans noktasıdır. Herhangi bir agent veya skill'in spesifik davranış kurallarını, dosya organizasyonunu veya özel çalışma prensiplerini anlamak için bu dosyayı oku.   
+> **Kanonik eşik:** Claude Code bu dosyayı kök boot dosyası olarak okur.  
+> **OpenCode V2:** [`AGENTS.md`](AGENTS.md) dosyasını kök boot dosyası olarak okur (CLAUDE.md V2 tarafından yok sayılır).  
+> **Çift Yönlü Boot Paketi:** Her session/görev başında [`CLAUDE.md`](CLAUDE.md) ve [`AGENTS.md`](AGENTS.md) birlikte okunur, bu iki dosya ayrılmaz bir çifttir.  
+> **SSOT (Tek Doğruluk Kaynağı):** Tüm detaylı anayasa, kurallar ve mimari kararlar `.ai/` kasasındadır. Kök `.md` dosyaları **boot protokolü ve yönlendirici (pointer)** olarak görev yapar.  
+> **Skill Registry SSOT:** Bu dosyanın §Skill Registry bölümüdür — başka dosyada liste kopyalanmaz.
 
-## CLAUDE.md okuması (gerekirse)
-
-**Gerekirse oku:** Bu dosya, .ai içindeki tüm agent'lar, skill'ler ve konvansiyonlar için tek referans noktasıdır. Herhangi bir agent veya skill'in spesifik davranış kurallarını, dosya organizasyonunu veya özel çalışma prensiplerini anlamak için bu dosyayı oku.   
-
-## .ai/CLAUDE.md okuması (gerekirse)
-
-**Gerekirse oku:** Bu dosya, .ai içindeki tüm agent'lar, skill'ler ve konvansiyonlar için tek referans noktasıdır. Herhangi bir agent veya skill'in spesifik davranış kurallarını, dosya organizasyonunu veya özel çalışma prensiplerini anlamak için bu dosyayı oku.   
-
-# CLAUDE.md
-
-Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
-
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
-
-## 1. Think Before Coding
-
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
-
-Before implementing:
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
-
-## 2. Simplicity First
-
-**Minimum code that solves the problem. Nothing speculative.**
-
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
-
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
-
-## 3. Surgical Changes
-
-**Touch only what you must. Clean up only your own mess.**
-
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
-
-The test: Every changed line should trace directly to the user's request.
-
-## 4. Goal-Driven Execution
-
-**Define success criteria. Loop until verified.**
-
-Transform tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
-
-For multi-step tasks, state a brief plan:
-```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
-```
-
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+⚠️ **VERIFICATION REQUIRED**: `.ai/CLAUDE.md` v27.6.0 diskte MEVCUTTUR — kod yazmadan önce tam anayasa okunur (Guardrail #2).
 
 ---
 
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
-
----
-
-# CoreMusic — Skill Registry (SSOT)
-
-> **Disk kanıtı (2026-10-24 sayımı — bu makine/dev):** `.claude/skills/` = **13 SKILL.md** · `C:\.claude\skills` **bu makinede MEVCUT** (2026-10-24: 348 dizin / 502 SKILL.md — global envanter, proje skill Registry'si değildir; proje: 13 SKILL.md) · `.opencode/skills/` kapalı (2026-10-07 merge/port). Eski "12 proje + 5 global = 17" envanteri **bu makinede bayattı**; bu tablo bu makine için tek kaynaktır.
-
-| # | Skill | Tetikleyici (özet — tam tetikleyiciler skill'dedir) |
-|---|-------|------|
-| 1 | `agent-orchestrator` | görev ata · koordine et · handover · dispatch · routing |
-| 2 | `audio-engine-cpp` | Neva Engine · JUCE 9 · ASIO · DSP chain · realtime C++ |
-| 3 | `composer-sync` | composer · vendor · autoload · junction · class not found |
-| 4 | `database-normalize-maker` | normalize · BCNF · schema · migration · SQL yaz |
-| 5 | `hardware-electronics` | amfi tasarımı · güç kaynağı · termal · PCB/BOM |
-| 6 | `learning-prompts` | sokratik · Feynman · şeytanın avukatı · aktif hatırlama |
-| 7 | `php-backend-standards` | PHP kodla · middleware ekle · endpoint yaz · PDO sorgusu |
-| 8 | `prompt-maker` | prompt oluştur/yaz · system prompt · MASTER PROMPT · rules yaz · CLAUDE.md yaz |
-| 9 | `security-hardening` | güvenlik değişikliği · CSRF ekle · CSP ayarı · auth kodu |
-| 10 | `skill-maker` | yeni skill · skill oluştur/güncelle · SKILL.md yaz · skill audit |
-| 11 | `ui-analyzer` | UI analiz · arayüz denetimi · tasarım sistemi kontrol · mockup karşılaştırma |
-| 12 | `ui-code-generator` | html css js · responsive design · bileşen oluştur · ITCSS/BEM/token |
-| 13 | `vault-sync-post` | vault güncelle · session kapat · senkronize · log yaz |
-
-**Skill Usage Mandate (bağlayıcı):** Görev bir skill ile eşleşiyorsa **İLK işlem Skill tool ile o skill'i yüklemektir** (kök `AGENTS.md` §7 adım 0). Skill üretimi → `skill-maker` · prompt üretimi → `prompt-maker` · `.ai/` yazımı yalnız orkestratörde · skill "kod yazar" ama domain kodu domain agent'ındır.
-
-
-# CoreMusic — AGENTS.md (Master Agent Rules)
-
-> **OpenCode V2 bu dosyayı kök boot dosyası olarak okur (CLAUDE.md V2 tarafından yok sayılır).**
-> Uzun referanslar `.ai/` vault'tadır ve **yalnızca ihtiyaç anında** `@` ile okunur.
-> "Başta tüm vault'u oku" YASAKTIR.
-
-> **Boot kuralı (her zaman):** Her session/görev başında sırayla → **(1) [`CLAUDE.md`](CLAUDE.md)** (kök pointer — Skill Registry SSOT, vault bağlantıları) → **(2) `@.ai/AGENTS.md`** (SSOT tam agent registry) → **(3)** yalnız görevin gerektirdiği `@.ai/` dosyaları. CLAUDE.md bu dosyaya bağlıdır ve **her zaman okunur** (bkz. §14).
-
-Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry.
-
-## 1. İş Akışı (Flow)
-
-```
-USER → KNOWLEDGE MODEL → ASKING QUESTIONS → .AI SECOND BRAIN → ASKING QUESTIONS
-→ AGENT SYSTEM INSTRUCTIONS → DISCOVERY/ANALYSIS/VALIDATION
-  (FILE INDEX / CODE INDEX / EVIDENCE)
-→ REQUIREMENT ENGINE → ASKING QUESTIONS → ARCHITECTURE → ASKING QUESTIONS
-→ APPROVAL → IMPLEMENTATION
-```
-
-Her "ASKING QUESTIONS" kapısı onaysız sonraki aşamaya geçmez.
-
-## 2. Otonom Yaşam Döngüsü
-
-```
-Understand → Discover → Research → Verify → Resolve Context → Analyze
-→ Architect → Plan → Implement → Track → Test → Review → Secure
-→ Verify → Document
-```
-
-VERIFICATION REQUIRED: görev tanımı bu zinciri "13-step" diye adlandırır;
-zincirde 15 adım vardır (Verify iki kez) — sayı uydurulmaz.
-
-## 3. ZERO-HALLUCINATION POLICY
-
-1. Repo, URL, API, class, method, dependency, version, config, skill, agent,
-   dosya veya mimari kural **ASLA uydurulmaz**.
-2. Bilinmeyen değer = `UNKNOWN` · doğrulanamayan iddia = `VERIFICATION REQUIRED`.
-3. Her iddia disk kanıtı olmadan yazılmaz (gerçek dosya yolu + içerik).
-4. Model hafızası ve web, vault'un altındadır.
-
-## 4. Birincil Mühendislik Kuralı (Kod Öncesi)
-
-Kod yazmadan önce repo'yu incele: dizin yapısı, mimari katmanlar, bağımlılıklar,
-pattern'ler, build/test/config/logging/security/db/api/frontend konvansiyonları,
-duplicate abstraction'lar, teknik borç.
-
-**Faz 1 (keşif fazı) — onaysız YOK:**
-kod değişikliği · yeni dosya · yeni klasör · yeni bağımlılık · büyük yapısal değişiklik.
-
-## 6. Multi-Agent Swarm
+## 1. Master Engineering System (15 Aşama)
 
 ```text
-USER → ORCHESTRATOR (MO)
-         ├─→ ARCHITECT ─┐
-         ├─→ DEVELOPER ─┼→ REVIEWER → SECURITY → TEST → VERIFY ──rapor──→ USER
-         └─→ RESEARCHER ─┘
+Understand → Discover → Research → Verify → Resolve Context → Analyze
+→ Architect → Plan → Implement → Track → Test → Review → Secure → Verify → Document
 ```
 
-Her aşama bir öncekinin çıktısını doğrular; VERIFY başarısızsa ORCHESTRATOR
-görevi ilgili role geri döndürür.
-
-### §6.1 Persona Hiyerarşisi — Expert 5 / Senior 5 / Junior 10 (toplam 20)
-
-Tartışma/inceleme turları (WORKFLOW §6: 3 tur / 20 persona) bu 20 persona ile
-yürütülür. **Hiyerarşi: Expert > Senior > Junior.** Karar (evidence-öncelikli):
-kanıt gücü > seviye; eşit kanıtta Expert > Senior > Junior; **oy çokluğu yoktur.**
-
-| Seviye | # | Persona (agent) | Sorumluluk |
-|---|---|---|---|
-| **Expert (5)** | 1 | `architect` | Sistem tasarımı, katman sınırı, ADR |
-| | 2 | `security-engineer` | OWASP, auth, CSRF/CSP/XSS, denetim |
-| | 3 | `data-engineer` | Şema, BCNF, migration, MySQL/PDO |
-| | 4 | `embedded-engineer` | DSP/ASIO/WASAPI, firmware, Class AB donanım |
-| | 5 | `qa-engineer` | Test stratejisi, coverage, kabul kriteri |
-| **Senior (5)** | 6 | `backend-architect` | PHP/API/middleware/controller |
-| | 7 | `ui-designer` | ITCSS/BEM/token, ekran, WCAG |
-| | 8 | `devops-engineer` | CI/CD, Docker, deploy, altyapı |
-| | 9 | `performance-engineer` | Profil, latency, bellek, Core Web Vitals |
-| | 10 | `code-reviewer` | SOLID, code smell, bakım |
-| **Junior (10)** | 11 | `explore` | Dosya/sembol keşfi |
-| | 12 | `docs-writer` | README, API dokümanı |
-| | 13 | `test-writer` | Test senaryosu taslağı |
-| | 14 | `refactorer` | Okunabilirlik, davranış-koruyucu düzeltme |
-| | 15 | `research-analyst` | Kaynak toplama, çapraz doğrulama |
-| | 16 | `debugger` | Log/stack-trace kök-neden analizi |
-| | 17 | `business-analyst` | Gereksinim, user story |
-| | 18 | `technical-writer` | Kılavuz, tutorial |
-| | 19 | `dependency-manager` | Paket/sürüm/licence denetimi |
-| | 20 | `error-coordinator` | Hata yayılımı, eskalasyon |
-
-**Tur kuralı (WORKFLOW §6)**: Tur 1 = her persona kendi önerisini yazar (kaynaklı);
-Tur 2 = çapraz eleştiri (en az 1 karşı öneri); Tur 3 = uzlaşma + ADR. Uzlaşma yoksa
-`VERIFICATION REQUIRED` + üst karar. Her öneri **gerekçe + dosya/satır kanıtı**
-taşıır; kaynaksız öneri sayılmaz.
-
-**Dispatch kuralı**: tek seviyeli karar bağlayıcı olamaz; mimari/katman/sayım
-kararlarında en az 1 Expert + 1 Senior + 1 Junior görüşü zorunludur.
-
-## 7. Execution Loop (her görevde)
-
-0. SKILL EŞLEŞMESİ KONTROLÜ — kök CLAUDE.md §Skill Registry + available-skills
-   listesi taranır; görev bir skill ile eşleşiyorsa İLK işlem Skill tool ile
-   o skill'i yüklemektir (Skill Usage Mandate §2).
-1. Kök `AGENTS.md` (bu dosya) okunur.
-2. Görevle ilgili **yalnız** `.ai/` vault dosyaları okunur — DÜZELTME
-   (2026-10-10): eski "`62 `.ai/wiki/` sayfası`" yönergesi geçersiz —
-   **`.ai/wiki/` diskte YOK** (0 dizin). Konuya göre hedef: `.ai/RAG.md` §3
-   (konu→dosya indeksi) → `.ai/keys.md` (keyword) → `.ai/index.md` (katalog).
-   **ARAMA KURALI (2026-10-10):** `.ai/` gizli (nokta) dizindir — glob/grep
-   aramasında `hidden: true` kullanılır (`hidden:false` → `.ai/**` ve
-   `.ai/.decisions/**` sahte "0 sonuç" üretir, ADR'ler "görünmez" görünür);
-   doğrudan `.ai` path'i vermek de geçerlidir.
-3. **Yalnız ilgili** `.ai/.rules/` YOK — `.ai/.rules/` altında diskte **yalnız
-   `senior-mode.md`** vardır (`error-recovery.md` YOK — bkz §7 adım 7).
-   İlgili kural `.ai/CLAUDE.md` §6 LINT'ten okunur.
-4. Hedef dosya okunur.
-5. Kod yazılır.
-6. `.ai/CLAUDE.md` §6 LINT kontrolleri çalıştırılır.
-7. Hata → `.ai/CLAUDE.md` §6 LINT + `.ai/.rules/senior-mode.md` → düzelt → tekrar kontrol (error-recovery.md diskte MEVCUT DEĞİL).
-8. UI değişikliği → browser testi (gerçek sayfa, eleman/layout doğrulaması).
-9. Commit (subagent ATMAZ — orkestratöre aittir).
-
-## 8. Prompt-maker Kuralı
-
-Kullanıcı hammadde (raw) prompt gönderdiğinde **İLK** işlem `/prompt-maker`'dır:
-questions modu çalışır; sağlayıcı/sabit model yok — OpenCode'un o an seçtiği model
-kullanılır (free modellerde de çalışır).
-
-Diğer tüm görev türleri için geçerli kural §7 Execution Loop adım 0'dır (Skill Usage Mandate).
-
-Şablon çıktısı (sırasıyla):
-
-1. eli10 paragraf açıklama
-2. İstenen şey (ne isteniyor)
-3. Vault referansları
-4. Proje kod referansları
-5. Kullanıcı kararları / cevapları
-6. Orijinal prompt
-7. Görev dökümü (task breakdown)
-8. `Prompt Cevaplarla İşlendi | Dil: Türkçe | Görev Sayısı: [n]`
-
-Çıktı onaylanır → **sonra** session başlatılır.
-
-## 9. On-Demand Vault Referansları (Ağır Detaylar)
-
-| İhtiyaç | Dosya (`@` ile okunur) |
-|---|---|
-| Anayasa, guardrails, yasaklar | `@.ai/CLAUDE.md` |
-| ADR kararları, mühendislik kısıtları | `@.ai/.decisions/index.md` (`.ai/raw/` dizini diskte YOK — 2026-10-12) |
-| Kural dosyaları, LINT | `@.ai/CLAUDE.md` §6 · not: .ai/.rules/ yeni vault'ta YOK; error-recovery.md diskte hiçbir yerde MEVCUT DEĞİL |
-| Agent registry, routing, handover | `.ai/AGENTS.md` (SSOT) · profil indeksi `@.ai/.agents/AGENTS.md` · profiller `@.ai/.agents/*.md` (11 dosya) · eski `.ai/wiki/vault-agents.md` ve `.ai/raw/AGENTS.md` **diskte YOK** (2026-10-10) |
-| Vault-içi otorite | `@.ai/CLAUDE.md` §2 · not: `.ai.OLD/` dizini diskte YOK (2026-10-12), otorite sırası yalnız `.ai/CLAUDE.md` içindedir |
-| Süreç, faz, hard gate | `@.ai/WORKFLOW.md` · eski `.ai/wiki/vault-workflow.md` ve `.ai/raw/WORKFLOW.md` **diskte YOK** (2026-10-10) |
-| Retrieval — "hangi soru → hangi dosya" | `@.ai/RAG.md` (§3 indeks · §4 pipeline PLANNED — ADR-030) · keyword: `@.ai/keys.md` |
-
-**Kural**: bu dosyalar yalnız görevin gerektirdiği anda okunur; boot'ta toplu
-okuma, "tüm vault'u oku", "önce tüm .ai/ oku" talimatları geçersizdir.
-Çelişkide `.ai/` kazanır (SSOT). Vault-içi dosya otorite sırası:
-`.ai/CLAUDE.md` §2.1 (CLAUDE > AGENTS > WORKFLOW > brain > index > templates).
+- **Kural:** Analiz tamamlanmadan uygulama (implementation) başlatılmaz.
+- **Kod Öncesi 16 Adım:** Dosya yapısı, mimari katmanlar, bağımlılıklar, pattern'ler, build/test/config/logging/security/veritabanı/API/frontend yüzeyleri, duplicate analizleri ve teknik borç incelenir (detay: [`.ai/.rules/senior-mode.md`](.ai/.rules/senior-mode.md) §3).
+- **YASAKLAR:** Keyfi dosya/klasör açma, mevcut dosyayı incelemeden yeniden yazma, mimariyi bozma, duplicate abstraction, doğrulanmamış API, olmayan sınıf/paket/fonksiyon varsayma, test/build çalıştırmadan "bitti" deme.
+- **Zero-Hallucination:** Repository, URL, API, sınıf, metod, versiyon, config, skill, agent asla uydurulmaz. Bilinmeyen = `UNKNOWN`, doğrulanamayan = `⚠️ VERIFICATION REQUIRED`.
 
 ---
 
-## 10. CSS Writing Rules (Templates)
+## 2. Behavioral Guidelines (Claude Code & Karpathy Standartları)
 
-Her CSS görevinden önce `.ai/.templates/frontend/` altındaki kanonik şablonlar okunur: `css-template.md` (v4.0.0, 11 katman — 2026-10-23 disk kanıtı: `.ai/.templates/frontend/css-template.md` frontmatter `version: 4.0.0`; eski "v3.0.0" bayattı) · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md`.
+> **Resmi Skill:** [`.claude/skills/karpathy-guidelines/SKILL.md`](.claude/skills/karpathy-guidelines/SKILL.md) · **Cursor Rule:** [`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc) · [`CURSOR.md`](CURSOR.md) · **Kod Örnekleri:** [`.claude/skills/karpathy-guidelines/references/EXAMPLES.md`](.claude/skills/karpathy-guidelines/references/EXAMPLES.md)  
+> Andrej Karpathy'nin LLM kodlama zaafları üzerine gözlemlerinden türetilmiş 4 temel davranış ilkesi CoreMusic'te bağlayıcıdır:
 
-**Ölü atıf düzeltildi (2026-10-06):** `.ai/.templates/` **kökündeki** özet dosyalar `css-structure.md` (01→11 klasör sırası) · `css-token.md` · `css-component.md` · `css-page.md` · `css-imports.md` **çalışma ağacında diskte YOK (0 glob isabeti)** → beş referans kaldırıldı; özet içerik `css-template.md` içindedir. (`.ai/.templates/` kökü: `CLAUDE.md` · `coremusic-vault-template.md` · `index.md` · `session-log-template.md`. Not: bu beş dosya HEAD'de var, çalışma ağacından silinmesi **commit edilmedi** — `git status: D`.)
+### 2.1 Think Before Coding
+- **Varsayım yapma, kafa karışıklığını gizleme, ödünleşimleri açıkla.**
+- Başlamadan önce varsayımlarını açıkça belirt. Şüphe varsa sor.
+- Birden fazla yorumlama varsa sessizce seçme, seçenekleri sun.
+- Daha basit bir çözüm varsa belirt. Gerekirse itiraz et (push back).
 
-Sıra kuralı: 01_Abstracts(token) → 02_Base → 03_Layout → 04_Components → 05_Pages → 06_Utilities → 07_Vendors → 08_Devices → 09_ViewModes → 10_Helpers → 11_OAuth.
-Token kuralı: sabit değer yalnız `01_Abstracts/a-*.css` içinde `--cm-*` ile; `@media` içinde `var()` ile okuma yasak; ham hex/px katman dosyasına yazılmaz.
-**Taşıma/silme YOK:** mevcut CSS dosyası adlandırması ve import zinciri değiştirilmez; yanlış yerleşim yalnız raporlanır (onay + ADR olmadan taşıma yasak).
+### 2.2 Simplicity First
+- **Sorunu çözen minimum kod. Spekülatif hiçbir şey yok.**
+- İstenenden fazlasını ekleme. Tek kullanımlık kod için soyutlama (abstraction) üretme.
+- İstenmeyen esneklik veya konfigürasyon ekleme.
+- 200 satır yazıp 50 satırda çözülebiliyorsa yeniden yaz ve sadeleştir.
 
-## 13. Reading Order & Mockup Gate
+### 2.3 Surgical Changes
+- **Yalnızca dokunman gereken yere dokun. Kendi izini temizle.**
+- İlgisiz çevre kodları, yorumları veya formatları "geliştirmeye" kalkma.
+- Bozuk olmayan şeyi refactor etme. Mevcut koda ve stile birebir uy.
+- İlgisiz ölü kod görürsen silme, raporla. Kendi değişikliklerinden kalan yetim import ve değişkenleri temizle.
 
-**Kurallar:**
+### 2.4 Goal-Driven Execution
+- **Başarı kriterini tanımla. Doğrulanana kadar döngüde kal.**
+- Görevleri doğrulanabilir hedeflere dönüştür. Çok adımlı işlerde kısa plan belirt (`[Step] → verify: [check]`).
 
-1. P0 → P1 → P2 → P3 sırasıyla okunur
-2. Fallback: `index.md`
-3. Token aşımı önlenir: gereksiz dosya okunmaz
-4. **İstisna**: Görsel referanslar (`.ai/ui-design/screens/**`, `.ai/.png/**`)
-5. **Şablon Zorunlu Okuma (Guardrail #16)**: `.ai/ui-design/**` içine dosya yazmadan ÖNCE `.ai/.templates/ui-design/` altındaki kalıp şablonu okunur — referans/tokens/index → `[[.templates/ui-design/reference-template]]` (Kalıp A) · flow → `[[.templates/ui-design/flow-template]]` (Kalıp B) · prompt → `[[.templates/ui-design/prompt-template]]` (Kalıp C) · screens → `[[.templates/ui-design/screen-spec-template]]` (Kalıp D). Şablonsuz ui-design dosyası üretilmez (§7.3).
-6. **Gate Script Çalıştırma Yeri (Faz 7)**: `.ai/scripts/*.ps1` doğrulama scriptleri yalnızca **repo kökünden** (`C:\www\coremusic.net`) çalıştırılır — `screens-frontmatter-check.ps1` göreli yolları `.ai/` içinden çözemediği için **19 adet sahte "PNG yok"** üretir. 2026-09-29 kök ölçümü: frontmatter `21 ekran / 0 sorunlu` · `kalip-abc-check` `A:21·0 / B:21·0 / C:51·0 → GECTI` · `wiki-link-check` `227 link / 6 raporlanan` = **gerçek kırık 0** (6'sı §13.7 sahte).
-7. **Bilinen 6 Sahte Kırık Link (düzeltme YASAK)**: `flow/auth/01-login.md [[C]]` · `flow/auth/04-select-gender.md [[V]]` · `flow/music/01-playback.md [[V]]` · `flow/settings/04-general.md [[V]]` · `reference/legacy-inventory.md [[link]]` ×2 (L225, ```` ```yaml ```` bloğu içinde). Bunlar şablon değişkeni/kaçış dizgesidir, gerçek kırık link değildir; "onarmaya" kalkışmak şablonu bozar. Sayım 6'da kalır ve kusur sayılmaz.
+### 2.5 Core Project Mandates (Değiştirilemez Kurallar)
+- **Tema Kuralı (YALNIZCA LIGHT MODE):** CoreMusic'te ŞU ANDA YALNIZCA LIGHT MODE MEVCUTTUR. Dark mode henüz yapılmamıştır/yoktur! Tüm CSS/UI tasarımları istisnasız Light Mode'a göre tasarlanır; dark mode varsayımı veya dark mode kodu yazmak KESİNLİKLE YASAKTIR.
+- **Kalıcı Hafıza Devri (.ai/durum.md):** AI her oturum/görev başında [`.ai/durum.md`](.ai/durum.md) dosyasını okur; oturum boyunca ve kapanışta [`.ai/durum.md`](.ai/durum.md), [`.ai/log.md`](.ai/log.md) ve [`.ai/MEMORY.md`](.ai/MEMORY.md) dosyalarını günceller.
+- **Kullanıcı Kuralları:** [`.ai/.rules/kurallar.md`](.ai/.rules/kurallar.md) (Kendini Bir Kere Anlat) ve [`.ai/.rules/senior-mode.md`](.ai/.rules/senior-mode.md) kurallarına eksiksiz uyulur.
+- **Donanım Amfi Topolojisi:** Amplifikatör mimarisi kesinlikle Class AB'dir (Class D yasaktır).
+- **Subagent Commit Yasağı:** `git commit` subagent tarafından ASLA ATILMAZ — orkestratöre aittir.
 
-**Mockup Before Frontend**: CSS/HTML/JS/layout/bileşen görevlerinde `.ai/ui-design/` altındaki ilgili görsel okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir.
+---
 
-## 16. Değiştirilemez Kullanıcı Kuralları (Faz 7 kaydı — bağlayıcı)
+## 3. Skill Kullanım Zorunluluğu (Skill Usage Mandate)
 
-1. **Widget grid kanonik kuralı** (Figma API çıktısından **önceliklidir**): `1024` → satır1 **2×2**, satır2 **1×5**, satır3 **1×5** = 12 slot · `1920` → satır1 **4×4**, satır2 **1×8**, satır3 **1×8** = 20 slot. Bu kurala aykırı sayım/render revize edilir, kural değil.
-2. **İsimlendirme yasağı**: `ui-design/screens/T07-embedded/` dizin adı **DEĞİŞTİRİLMEZ** (~489 wiki-link buna bağlı); tier/ CatID ayrıştırması dosya yolu yerine **`CatID` sütunuyla** yapılır.
-3. **Figma token SSOT**: `FIGMA_TOKEN` / `FIGMA_FILE_KEY` **yalnız** `.ai/.env.figma`'dan okunur (`.gitignore:69`); anahtar asla `.md` / `.json` / `.log` içine yazılmaz. `figma-extract.ps1` ve `figma-tokens.ps1` bu kuraldadır — betikte sabit anahtar yoktur.
-4. **Dokunulmaz yüzeyler**: `.ai/.png/**` (salt-okunur SSOT) · frozen ADR'ler · `*.php` / `*.js` / `*.css` / `*.sql` kaynak kod (bu revizyon Markdown dışı **yazmaz**).
-5. **Üretim ve kapanış**: yeni `.md` dosyaları `.ai/.templates/ui-design/` Kalıp A–D'ye uyar (Guardrail #16); **`git commit` subagent tarafından ATILMAZ — orkestratöre aittir**.
+1. Her görev başında aşağıdaki Skill Registry taranır ve eşleşme kontrol edilir.
+2. Görev bir skill ile eşleşiyorsa İLK işlem Skill tool ile o skill'i yüklemektir ([`AGENTS.md`](AGENTS.md) §7 adım 0).
+3. Eşleşme varken skill'siz işlem başlatmak YASAKTIR. Birden fazla eşleşmede en dar (domain-specific) olan yüklenir.
+4. Yetenek yoksa kopyala-yapıştır yapılmaz; `skill-maker` ile skill üretilir.
 
-## 14. Boot Zinciri & Özet
+---
 
-**Boot = her session başında otomatik okunan dosya paketi.** Sıra (bağlayıcı):
+## 4. Skill Registry (SSOT)
 
-| # | Dosya | Ne verir | Ne zaman |
-|---|-------|----------|----------|
-| 1 | [`AGENTS.md`](AGENTS.md) (bu dosya) | Ana kurallar: akış, zero-hallucination, execution loop, persona hiyerarşisi | Her zaman (harness boot'u) |
-| 2 | [`CLAUDE.md`](CLAUDE.md) | Skill Registry (SSOT) · vault bağlantı tablosu · mimari referans · web doğrulama | **Her zaman** — bu dosyadan linklenir, atlanmaz |
-| 3 | `@.ai/AGENTS.md` | Tam agent registry (11 agent routing — profil indeksi `.ai/.agents/*.md` 11 dosya) | Her görevde |
-| 4 | `@.ai/` diğer dosyalar (CLAUDE/WORKFLOW/RAG/...) | Anayasa, süreç, retrieval | **Yalnız ihtiyaç anında** (`@` ile) |
+> **Disk kanıtı (2026-11-02 sayımı):** `.claude/skills/` = **14 SKILL.md** (bu makinede doğrulanmış proje skill seti).  
+> Global envanter `C:\.claude\skills` makinede mevcuttur (348 dizin / 502 SKILL.md), ancak proje SSOT'u bu 14 skill'dir.
 
-**Çift yönlü bağlantı (her iki dosya birbirini bağlar):**
-`AGENTS.md` → `CLAUDE.md` (Skill Registry + vault) · `CLAUDE.md` → `AGENTS.md` (ana kurallar SSOT) → ikisi tek boot paketidir, biri diğerinin yerine geçmez.
+| # | Skill | Kapsam | Yol | Kullanım Amacı (Use when) | Durum |
+|---|-------|--------|-----|---------------------------|-------|
+| 1 | `prompt-maker` | project | `.claude/skills/prompt-maker/SKILL.md` | Ham prompt'u yapısal prompt'a çevirir (P0–P3 soru ağacı) | upgraded |
+| 2 | `skill-maker` | project | `.claude/skills/skill-maker/SKILL.md` | Skill üretir / günceller (format otoritesi) | upgraded |
+| 3 | `ui-analyzer` | project | `.claude/skills/ui-analyzer/SKILL.md` | UI denetimi / tasarım incelemesi / mockup kontrolü | upgraded |
+| 4 | `ui-code-generator` | project | `.claude/skills/ui-code-generator/SKILL.md` | Frontend (HTML/CSS/JS) kod üretimi (ITCSS/BEM/token) | upgraded |
+| 5 | `agent-orchestrator` | project | `.claude/skills/agent-orchestrator/SKILL.md` | Çok-ajan görev dağıtımı, handover, koordinasyon | restored/merged |
+| 6 | `database-normalize-maker` | project | `.claude/skills/database-normalize-maker/SKILL.md` | BCNF şema tasarımı, normalizasyon, migration | restored/merged |
+| 7 | `composer-sync` | project | `.claude/skills/composer-sync/SKILL.md` | Composer / vendor senkronu, autoload onarımı | restored/merged |
+| 8 | `vault-sync-post` | project | `.claude/skills/vault-sync-post/SKILL.md` | İşlem sonrası vault senkronu ve loglama | restored/merged |
+| 9 | `php-backend-standards` | project | `.claude/skills/php-backend-standards/SKILL.md` | PHP 8.4 / strict_types / middleware / raw PDO | new |
+| 10 | `audio-engine-cpp` | project | `.claude/skills/audio-engine-cpp/SKILL.md` | C++20 / JUCE 9 / ASIO / DSP / Neva Engine | new |
+| 11 | `hardware-electronics` | project | `.claude/skills/hardware-electronics/SKILL.md` | Class AB amfi / PSU / termal / PCB / BOM | new |
+| 12 | `security-hardening` | project | `.claude/skills/security-hardening/SKILL.md` | Auth / CSRF / CSP / şifreleme / OWASP 2025 | new |
+| 13 | `learning-prompts` | project | `.claude/skills/learning-prompts/SKILL.md` | Sokratik / Feynman / aktif hatırlama teknikleri | new |
+| 14 | `karpathy-guidelines` | project | `.claude/skills/karpathy-guidelines/SKILL.md` | LLM kodlama zaaflarını önleme, Andrej Karpathy 4 ilkesi | new |
+
+---
+
+## 5. 🔗 .ai/ Vault ve Proje Kural Bağlantıları
+
+Kök dosyalar yalnızca yönlendiricidir; tüm iş mantığı ve mimari kararlar `.ai/` kasasındadır:
+
+| İhtiyaç / Kapsam | Dosya Yolu | Açıklama |
+|---|---|---|
+| **Ana AI Anayasası & Guardrails** | [`.ai/CLAUDE.md`](.ai/CLAUDE.md) | 16 Hard Guardrail, LINT, güvenlik kuralları |
+| **Agent Registry & Koordinasyon** | [`.ai/AGENTS.md`](.ai/AGENTS.md) | 11 agent, routing, swarm, yetki sınırları |
+| **Kullanıcı Kuralları (Genel & Kimlik)** | [`.ai/.rules/kurallar.md`](.ai/.rules/kurallar.md) | Kullanıcı kimliği (Bayram Ali), hybrid dil, Light Mode ve amfi kuralları |
+| **Bütün Proje Kuralları (Senior Mode)** | [`.ai/.rules/senior-mode.md`](.ai/.rules/senior-mode.md) | Kod öncesi 16 analiz adımı, sıfır halüsinasyon, kodlama kuralları |
+| **Cursor IDE Kuralları & Karpathy** | [`CURSOR.md`](CURSOR.md) · [`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc) | Cursor kuralı ve Karpathy ilkeleri |
+| **Figma API Erişim Tokeni** | [`.ai/.env.figma`](.ai/.env.figma) | `FIGMA_TOKEN` / `FIGMA_FILE_KEY` SSOT (.gitignore:69) |
+| **İş Akışları & Fazlar** | [`.ai/WORKFLOW.md`](.ai/WORKFLOW.md) | 7 fazlı teslimat döngüsü, onay kapıları |
+| **Dizin & Dosya Envanteri** | [`.ai/CONTEXT.md`](.ai/CONTEXT.md) | Depo envanteri, dosya haritası |
+| **Retrieval & Konu İndeksi** | [`.ai/RAG.md`](.ai/RAG.md) | Hangi soru → hangi dosya rehberi |
+| **Mimari Kararlar (ADR)** | [`.ai/brain.md`](.ai/brain.md) + [`.ai/.decisions/`](.ai/.decisions/) | ADR-001..ADR-089 kayıtları |
+| **Platform Tanımı & Yetenekler** | [`.ai/PROJECTS.md`](.ai/PROJECTS.md) | 10 temel yetenek, 6 hedef kitle |
+| **Vizyon & Mülkiyet Felsefesi** | [`.ai/VISION.md`](.ai/VISION.md) | "Aynı Müzik Her Yerde Seninle" manifestosu |
+| **İcra & Orkestrasyon Matrisi** | [`.ai/engine.md`](.ai/engine.md) | Faz yürütme motoru |
+| **Kolektif Hafıza & Notlar** | [`.ai/MEMORY.md`](.ai/MEMORY.md) | Oturumlar arası kalıcı hafıza |
+| **Oturum Günlüğü & Denetim** | [`.ai/log.md`](.ai/log.md) | Değişiklik ve işlem denetim kayıtları |
+| **Oturum Durum & Devir Hafızası** | [`.ai/durum.md`](.ai/durum.md) | Tek sayfalık oturum hafızası, son durum ve devir kalıbı |
+| **24 Kök Vault Dosyası İndeksi** | [`.ai/index.md`](.ai/index.md) | `.ai/` kökündeki 24 ana belgenin kataloğu |
+| **Kök Boot Eşi (OpenCode V2)** | [`AGENTS.md`](AGENTS.md) | OpenCode V2 kök master agent kuralları |
+
+---
+
+## 6. Oturum Sonu Kontrol & Temizlik Protokolü (Session-End Check & Clean)
+
+Her oturumun sonunda veya değişiklik tamamlandığında:
+1. **Sözdizimi ve Bozuk Satır Kontrolü:** Kök `.md` dosyalarının (özellikle `CLAUDE.md` ve `AGENTS.md`) başlık ve gövdesinde kazara yapıştırılmış, yarım kalmış veya bozulmuş karakter/metin bulunmadığı doğrulanır.
+2. **Çift Yönlü Link Bütünlüğü:** Kök dosyalar ile `.ai/` vault SSOT dosyaları arasındaki linklerin kırılmadığı teyit edilir.
+3. **Format Temizliği:** Dosyalar gereksiz kopyalamalardan (duplicate bloklar) arındırılır, Markdown geçerliliği ve frontmatter şeması korunur.
+4. **Log Güncellemesi:** Yapılan kritik değişiklikler `.ai/log.md` dosyasına timestamp ile eklenir (`vault-sync-post`).
+
+---
+
+## 7. 🔍 Web Verification Status (2026-10-07)
+
+| Teknoloji | Versiyon | Web Doğrulama | Kaynak |
+|---|---|:---:|---|
+| PHP | 8.4.22 | ✅ | [php.net](https://php.net) |
+| C++ | C++20 (ISO/IEC 14882:2020) | ✅ | [cppreference](https://en.cppreference.com/w/cpp/20) |
+| MySQL | 9.0.1 | ✅ | [Oracle docs](https://dev.mysql.com/doc/relnotes/mysql/9.7/en/news-9-0-0.html) |
+| JUCE | 9.0.0 | ✅ | [forum.juce.com](https://forum.juce.com/t/juce-9-is-available-now/69175) |
+| ASIO SDK | 2.3.4 | ✅ | [steinberg.net](https://www.steinberg.net/developers/asiosdk-open/) |
+| LM5122 | Boost Converter | ✅ | [ti.com](https://www.ti.com/product/LM5122) |
+| AK4458 | 32-bit 8ch DAC | ✅ | [akm.com](https://www.akm.com/us/en/products/audio/audio-dac/ak4458vn/) |
+| PCM3168A | Codec (ADC+DAC) | ✅ | [ti.com](https://www.ti.com/product/PCM3168A) |
+| MJL21194/93 | Power Audio Trans. | ✅ | [onsemi.com](https://www.onsemi.com) |
+| XMOS XU316 | USB Audio SoC | ✅ | [xmos.com](https://www.xmos.com/processors/xu316) |
+
+*CoreMusic Claude Code Boot Instruction Pointer v3.4.0 — SSOT: `.ai/` — Last Updated: 2026-11-01*

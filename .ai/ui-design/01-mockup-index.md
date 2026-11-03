@@ -1,12 +1,12 @@
 ---
 reference_doc: CoreMusic UI Design System
-title: "CoreMusic — Mockup Index (26 PNG)"
+title: "CoreMusic — Mockup Index (27 PNG)"
 type: index
 category: ui-design
 date: 2026-09-20
-updated: 2026-10-18
+updated: 2026-10-28
 status: active
-version: 6.4.0
+version: 6.5.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -14,7 +14,7 @@ reference:
   source_of_truth: ".ai/.png/home-1024/ · .ai/.png/home-1920/ · .ai/.png/shared-1024/ · .ai/.png/admin-1920/ · .ai/.png/home-3840/"
 ---
 
-# CoreMusic — Mockup Index (26 PNG)
+# CoreMusic — Mockup Index (27 PNG)
 
 **Zorunlu Bağlantılar:** [[00-device-matrix]] · [[02-component-inventory]] · [[05-responsive-architecture]]
 
@@ -54,8 +54,9 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 26 PNG
 │   ├── Admin - layout.png
 │   ├── Admin - Login.png
 │   └── Admin - Register.png
-├── home-3840/          ← 1 PNG (Linux 4K 3840×2160)
-│   └── Linux 3840 - Home.png
+├── home-3840/          ← 2 PNG (Linux 4K 3840×2160)
+│   ├── Linux 3840 - Home.png
+│   └── Linux 3840 - Playlist Page.png
 └── shared-1024/        ← 6 PNG (Auth ekranları 1024×600)
     ├── Linux  1024 - Select Gender.png
     ├── Linux  1024 - Select Gender - selected.png
@@ -66,7 +67,7 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 26 PNG
 ```
 
 > **İki PNG kaynağı (disk kanıtı, 2026-10-18):**
-> - **Vault mockup'ı (SSOT):** `.ai/.png/` → **26 PNG** (12 `home-1024` + 4 `home-1920` + 6 `shared-1024` + 3 `admin-1920` + 1 `home-3840`; klasörlerde ayrıca `CLAUDE.md` vardır, PNG sayılmaz).
+> - **Vault mockup'ı (SSOT):** `.ai/.png/` → **27 PNG** (12 `home-1024` + 4 `home-1920` + 6 `shared-1024` + 3 `admin-1920` + 2 `home-3840`; klasörlerde ayrıca `CLAUDE.md` vardır, PNG sayılmaz).
 > - **Figma çekim arşivi:** `.ai/ui-design/reference/figma/png/` → **154 PNG** (2026-09-29 tam çekim 149 + 2026-10-18 taze export 5: 4× `home-1920` frame adıyla + 1× `3175-13502-Linux-3840---Home`). Bu arşiv ham referanstır; Mockup Before Frontend gate'i **önce `.ai/.png/`** için geçerlidir.
 >
 > **Not (✅ KAPANDI — 2026-10-18):** `home-1920/` içindeki `Geçmiş` / `Göz At` / `Playlist` 3 PNG ve `home-3840/Linux 3840 - Home.png` artık **spec'lidir** (`screens/00-ascii-art-index.md` §7 madde 6 kapandı): `T17-monitor-22fhd/{history,browse,playlist}` + yeni dizin `T20-monitor-4k/home-dashboard`. 26/26 PNG'nin spec'i var.

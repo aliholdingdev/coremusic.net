@@ -753,7 +753,22 @@ html:not(.sidebar-collapsed) .home-layout {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1.35fr);
   gap: 28px;
   align-items: stretch;
-  min-height: 320px;
+  height: var(--cm-player-info-h, 184px);
+  min-height: var(--cm-player-info-h, 184px);
+  max-height: var(--cm-player-info-h, 184px);
+}
+
+.home-layout--4k .player-info,
+.home-layout--4k .welcome-banner,
+.home-layout--4k .widget-grid {
+  height: var(--cm-player-info-h, 184px);
+  min-height: var(--cm-player-info-h, 184px);
+  max-height: var(--cm-player-info-h, 184px);
+}
+
+.home-layout--4k .widget-card.widget-card--tall {
+  height: var(--cm-player-info-h, 184px);
+  max-height: var(--cm-player-info-h, 184px);
 }
 
 .home-layout--4k .home-layout__bottom--4k {

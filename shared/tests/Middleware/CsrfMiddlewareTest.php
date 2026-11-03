@@ -92,7 +92,8 @@ final class CsrfMiddlewareTest extends TestCase
         );
 
         $this->assertSame(403, $result['httpStatus']);
-        $this->assertSame('csrf_invalid', $result['body']['error']);
+        $this->assertSame('CSRF_TOKEN_INVALID', $result['body']['error']['code']);
+        $this->assertArrayHasKey('message', $result['body']['error']);
         $this->assertTrue($result['halt'] ?? false);
     }
 
@@ -211,7 +212,8 @@ final class CsrfMiddlewareTest extends TestCase
 
         $this->assertFalse($coreCalled, 'set-gender route CSRF token olmadan geçmemeli');
         $this->assertSame(403, $result['httpStatus']);
-        $this->assertSame('csrf_invalid', $result['body']['error']);
+        $this->assertSame('CSRF_TOKEN_INVALID', $result['body']['error']['code']);
+        $this->assertArrayHasKey('message', $result['body']['error']);
         $this->assertTrue($result['halt'] ?? false, 'akış durdurulmalı');
     }
 

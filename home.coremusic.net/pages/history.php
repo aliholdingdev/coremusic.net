@@ -34,7 +34,7 @@ if (!isset($dm)) {
 }
 
 /* --- Layout kararları --- */
-$is4k        = $dm->shouldRender4kLayout();
+$is4k        = $dm->is4k();
 $isWide      = $dm->shouldRenderWideLayout() || $is4k;
 $variant     = HomeLayoutVariant::fromFlags($isWide, $is4k);
 $loader      = new ComponentLoader();
@@ -92,6 +92,15 @@ if ($tracks === []) {
         ['t' => 'Barış Manco - Gulpembe', 'a' => 'Barış Manco', 'd' => '00:04:01', 'stream' => ''],
     ];
 }
+
+/* Dikey scrollbar aktivasyonu için en az 24 parça olmalı */
+if (count($tracks) < 24 && !empty($tracks)) {
+    $origTracks = $tracks;
+    $origCount  = count($origTracks);
+    for ($i = $origCount; $i < 24; $i++) {
+        $tracks[] = $origTracks[$i % $origCount];
+    }
+}
 ?>
 <?php if ($isWide): ?>
     <!-- ════════════════════════════════════════════════════════════
@@ -114,7 +123,7 @@ if ($tracks === []) {
         }
     }
     ?>
-    <div class="page-history page-history--wide page-layout <?= $h($dm->allClasses()) ?>"
+    <div class="page-history page-history--wide <?= $is4k ? 'page-history--4k' : '' ?> page-layout <?= $h($dm->allClasses()) ?>"
          <?= $dm->dataAttributes() ?>
          data-cm-component="cm-history">
 

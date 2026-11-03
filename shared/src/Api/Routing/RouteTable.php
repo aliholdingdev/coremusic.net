@@ -88,6 +88,11 @@ final class RouteTable
      * Gateway constructor'a route verilmediğinde kullanılan varsayılan tablo
      * (eski hardcoded GET prefix kayıtları — kök uçlar aynen eşleşir;
      * tanımsız alt yollar 404).
+     *
+     * F4: `media` / `download` VARSAYILAN satırları silindi —
+     * `api.coremusic.net/config/routes.php` içinde bu iki yola ait route YOK
+     * (grep: 0 kayıt), controller'ları da yok → fallback tablo sahte kapı
+     * üretiyordu. pending media handler (Faz 2)
      */
     public static function defaults(): self
     {
@@ -97,8 +102,6 @@ final class RouteTable
                 '/api/v1/user'     => ['service' => 'user',     'handler' => 'userController'],
                 '/api/v1/music'    => ['service' => 'music',    'handler' => 'musicController'],
                 '/api/v1/playlist' => ['service' => 'playlist', 'handler' => 'playlistController'],
-                '/api/v1/media'    => ['service' => 'media',    'handler' => 'mediaController'],
-                '/api/v1/download' => ['service' => 'download', 'handler' => 'downloadController'],
             ],
         ]);
     }

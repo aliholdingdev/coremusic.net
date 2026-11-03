@@ -44,7 +44,10 @@ if (!defined('TEST_MODE')) {
     $bypassUsername= '';
     if (!$isProdEnv) {
         $bypassRaw      = (string)$env('FORCE_AUTH_BYPASS', 'false');
-        $bypassUuid     = (string)$env('BYPASS_USER_UUID', '00000000000000000000000000000001');
+        // P0 (2026-10-30): hardcoded UUID varsayılanı '' yapıldı — bypass ancak
+        // .env açıkça BYPASS_USER_UUID verirse aktif olur (fail-closed; dev'de
+        // .env anahtarı mevcut → davranış aynı, bkz. bootstrap.php koşulu).
+        $bypassUuid     = (string)$env('BYPASS_USER_UUID', '');
         $bypassRole     = (string)$env('BYPASS_ROLE', 'test_user');
         $bypassUsername = (string)$env('BYPASS_USERNAME', 'test_user');
     }

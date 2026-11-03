@@ -4,13 +4,13 @@ namespace CoreMusic\Api\Controller;
 
 use CoreMusic\Contracts\Auth\IAuthService;
 use CoreMusic\Contracts\Auth\ISessionManager;
-use CoreMusic\Contracts\Auth\IUserRepository;
+use CoreMusic\Api\Service\ITokenService;
+use CoreMusic\Api\Service\IRedirectService;
+use CoreMusic\Api\Service\IUserTransformer;
 use CoreMusic\Exception\AuthenticationException;
 use CoreMusic\Exception\ConflictException;
 use CoreMusic\Exception\RateLimitException;
 use CoreMusic\Exception\ValidationException;
-use CoreMusic\Security\SecurityHelper;
-use CoreMusic\Security\JwtService;
 
 /**
  * AuthController — /v1/auth/* uçlarını AuthService'e (SSOT) bağlar.
@@ -23,6 +23,9 @@ use CoreMusic\Security\JwtService;
  * Sözleşme (Faz 3a UI — DEĞİŞTİRİLEMEZ):
  *   başarı → {success:true, data:{...}}   (forgot/reset → {success:true, message})
  *   hata   → {error:{code,message}}       (422 → + error.fields)
+ *
+ * Refactored (Phase 2): TokenService, RedirectService, UserTransformer kullanır.
+ * JWT, redirect, user shaping mantığı servislerde (SRP).
  */
 final class AuthController extends AbstractController
 {
@@ -32,10 +35,9 @@ final class AuthController extends AbstractController
     public function __construct(
         private readonly IAuthService $authService,
         private readonly ISessionManager $session,
-        private readonly string $musicUrl,
-        private readonly string $authUrl,
-        private readonly ?JwtService $jwt = null,
-        private readonly ?IUserRepository $users = null,
+        private readonly ITokenService $tokenService,
+        private readonly IRedirectService $redirectService,
+        private readonly IUserTransformer $userTransformer,
     ) {}
 
     /**
@@ -90,7 +92,7 @@ final class AuthController extends AbstractController
 
         $result = $this->authService->login($identity, $password, $this->visitorGender($body), $ip);
 
-        return $this->success($this->authPayload($result, $body));
+        return $this->success($this->buildAuthPayload($result, $body));
     }
 
     /** @param array<string, mixed> $body */
@@ -98,7 +100,7 @@ final class AuthController extends AbstractController
     {
         $result = $this->authService->register($body, $ip, $this->visitorGender($body));
 
-        return $this->success($this->authPayload($result, $body));
+        return $this->success($this->buildAuthPayload($result, $body));
     }
 
     /** @param array<string, mixed> $body */
@@ -115,7 +117,7 @@ final class AuthController extends AbstractController
 
         return $this->success([
             'gender'   => $gender,
-            'redirect' => $this->safeRedirect((string) ($body['redirect_uri'] ?? ''), '/login'),
+            'redirect' => $this->redirectService->resolveRedirect($body),
         ]);
     }
 
@@ -151,7 +153,7 @@ final class AuthController extends AbstractController
     {
         $this->authService->logout();
 
-        return $this->success(['redirect' => $this->authUrl . '/login']);
+        return $this->success(['redirect' => $this->redirectService->getDefaultFallback() . '/login']);
     }
 
     private function me(): array
@@ -162,28 +164,30 @@ final class AuthController extends AbstractController
         }
 
         return $this->success([
-            'user'       => $this->shapeUser($user),
+            'user'       => $this->userTransformer->transform($user),
             'csrf_token' => $this->csrfToken(),
         ]);
     }
 
-    // ─── Contract shaping ───
+    // ─── Payload building ───
 
     /**
      * Login/register servis sonucunu sözleşmenin `data` gövdesine çevirir.
      *
-     * @param array<string, mixed> $result AuthService::login/register toArray()
+     * @param array<string, mixed> $result AuthService::login/register sonucu
      * @param array<string, mixed> $body
      * @return array<string, mixed>
      */
-    private function authPayload(array $result, array $body): array
+    private function buildAuthPayload(array $result, array $body): array
     {
         $authKey = (string) ($result['auth_key'] ?? '');
 
         $payload = [
             'auth_key'   => $authKey,
-            'redirect'   => $this->resolveRedirect($body, $authKey),
-            'user'       => $this->shapeUser(is_array($result['user'] ?? null) ? $result['user'] : []),
+            'redirect'   => $this->redirectService->resolveRedirect($body, $authKey),
+            'user'       => $this->userTransformer->transform(
+                is_array($result['user'] ?? null) ? $result['user'] : []
+            ),
             // Faz 3: hibrit CSRF dağıtımı — login sonrası istemci x-csrf-token
             // başlığını bu değerle gönderir (SessionLifecycle üretir; middleware okur).
             'csrf_token' => $this->csrfToken(),
@@ -193,38 +197,12 @@ final class AuthController extends AbstractController
         // jti user_tokens'ta saklanır (sha256) → logout ile revocation edilebilir.
         // Hata durumunda login YINE de başarılıdır; token alanı eklenmez (fail-safe
         // hata: imzalı token DB'ye yazılamadan dağıtılmaz).
-        $userId = (string) ($payload['user']['id'] ?? '');
-        if ($this->jwt !== null && $this->users !== null && $userId !== '') {
-            $issued = $this->jwt->issue($userId);
-            $this->users->saveAccessToken(
-                $userId,
-                $issued['jti'],
-                date('Y-m-d H:i:s', time() + $issued['expires_in'])
-            );
-            $payload['access_token'] = $issued['token'];
-            $payload['token_type']   = $issued['token_type'];
-            $payload['expires_in']   = $issued['expires_in'];
+        $tokenData = $this->tokenService->buildAuthPayload($result, $body);
+        if ($tokenData !== []) {
+            $payload = array_merge($payload, $tokenData);
         }
 
         return $payload;
-    }
-
-    /**
-     * Sözleşme kullanıcı gövdesi: {id, username, email, gender}.
-     *
-     * @param array<string, mixed> $user
-     * @return array{id: string, username: string, email: string, gender: string}
-     */
-    private function shapeUser(array $user): array
-    {
-        $gender = (string) ($user['gender'] ?? 'neutral');
-
-        return [
-            'id'       => (string) ($user['id'] ?? ($user['user_id'] ?? '')),
-            'username' => (string) ($user['username'] ?? ''),
-            'email'    => (string) ($user['email'] ?? ''),
-            'gender'   => $gender !== '' ? $gender : 'neutral',
-        ];
     }
 
     /** Session'daki CSRF token (SessionLifecycle üretir; boşsa boş döner). */
@@ -233,39 +211,6 @@ final class AuthController extends AbstractController
         $token = $this->session->get('csrf_token');
 
         return is_string($token) ? $token : '';
-    }
-
-    /**
-     * §3.1: doğrulanmış redirect_uri → aksi halde {MUSIC_URL}/home; auth_key eklenir.
-     *
-     * @param array<string, mixed> $body
-     */
-    private function resolveRedirect(array $body, string $authKey): string
-    {
-        $candidate = (string) ($body['redirect_uri'] ?? '');
-        if ($candidate === '') {
-            $candidate = (string) ($body['redirect'] ?? '');
-        }
-        if ($candidate === '') {
-            $candidate = (string) ($_GET['redirect_uri'] ?? $_GET['redirect'] ?? '');
-        }
-
-        return $this->safeRedirect($candidate, $this->musicUrl . '/home', $authKey);
-    }
-
-    /** Open-redirect koruması SSOT: SecurityHelper → ReturnUrlPolicy. */
-    private function safeRedirect(string $candidate, string $fallback, string $authKey = ''): string
-    {
-        $target = ($candidate !== '' && SecurityHelper::isRedirectUriSafe($candidate))
-            ? $candidate
-            : $fallback;
-
-        if ($authKey !== '') {
-            $separator = str_contains($target, '?') ? '&' : '?';
-            $target   .= $separator . 'auth_key=' . urlencode($authKey);
-        }
-
-        return $target;
     }
 
     /** @param array<string, mixed> $body */

@@ -31,6 +31,7 @@
     /* --- 4K Sol Hizalı Scale Token'ları --- */
     --layout-scale-4k: 0.85;
     --scale-home: 0.85;
+    --scale-player-wide: 0.85;
     --layout-origin-4k: top left;
 
     /* --- Touch targets: 10ft UI için büyük --- */

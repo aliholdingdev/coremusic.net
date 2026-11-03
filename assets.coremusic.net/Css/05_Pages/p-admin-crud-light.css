@@ -1,20 +1,21 @@
 /**
  * Dosya: p-admin-crud-light.css
- * Katman: 05_Pages — Admin CRUD ve Yönetim Sayfaları (Light Theme)
+ * Katman: 05_Pages — Admin CRUD ve Yönetim Sayfaları (Figma Dark Translucent Glass SSOT)
  * Konum: assets.coremusic.net/Css/05_Pages/p-admin-crud-light.css
  * Standart: ITCSS 11 Katman, WCAG 2.2 AA, html[data-mode="light"]
+ * Otorite: .ai/.png/admin-1920/ SSOT — Tüm yazılar saf beyaz (var(--cm-white)), koyu stüdyo camı
  */
 
-/* ─── Ortak Kart Yapısı (Light Glass) ─── */
+/* ─── Ortak Kart Yapısı (Crystal Light Glass SSOT) ─── */
 .adm-card--light,
 .adm-table-card--light {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: var(--adm-theme-card-bg, rgba(255, 255, 255, 0.14)) !important;
+  backdrop-filter: blur(24px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 255, 255, 0.35)) !important;
   border-radius: 20px;
-  box-shadow: 0 12px 36px -8px rgba(99, 102, 241, 0.09),
-              0 1px 3px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.12),
+              inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
   padding: 24px;
 }
 
@@ -24,19 +25,20 @@
   justify-content: space-between;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(26, 16, 37, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .adm-card__title {
   font-size: 18px;
   font-weight: 700;
-  color: #1a1025;
+  color: var(--cm-white);
   margin: 0 0 4px 0;
+  text-shadow: none;
 }
 
 .adm-card__subtitle {
   font-size: 13px;
-  color: rgba(26, 16, 37, 0.6);
+  color: var(--adm-theme-text-secondary, rgba(255, 255, 255, 0.75));
   margin: 0;
 }
 
@@ -44,12 +46,14 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: rgba(99, 102, 241, 0.08);
+  background: var(--adm-theme-accent-subtle, rgba(255, 0, 200, 0.15));
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 0, 200, 0.30));
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   margin-right: 14px;
+  color: var(--adm-theme-primary, #FF00C8);
 }
 
 /* ─── CRUD Toolbar (Üst Arama & Aksiyon Barı) ─── */
@@ -60,11 +64,12 @@
   gap: 16px;
   margin-bottom: 24px;
   padding: 16px 20px;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: var(--adm-theme-card-bg, rgba(255, 255, 255, 0.14)) !important;
+  backdrop-filter: blur(16px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 255, 255, 0.35)) !important;
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.30) !important;
 }
 
 .adm-crud-toolbar__search {
@@ -78,7 +83,7 @@
 .adm-crud-toolbar__icon {
   position: absolute;
   left: 14px;
-  color: rgba(26, 16, 37, 0.4);
+  color: rgba(255, 255, 255, 0.65);
   display: flex;
   align-items: center;
   pointer-events: none;
@@ -88,18 +93,23 @@
   width: 100%;
   height: 42px;
   padding: 0 16px 0 42px;
-  background: #ffffff;
-  border: 1.5px solid rgba(26, 16, 37, 0.1);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
   border-radius: 10px;
   font-size: 14px;
-  color: #1a1025;
+  color: var(--cm-white);
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.adm-crud-toolbar__input::placeholder {
+  color: rgba(255, 255, 255, 0.60);
+}
+
 .adm-crud-toolbar__input:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  border-color: var(--adm-theme-primary, #FF00C8);
+  box-shadow: 0 0 0 3px rgba(255, 0, 200, 0.25);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .adm-crud-toolbar__actions {
@@ -111,13 +121,18 @@
 .adm-crud-toolbar__select {
   height: 42px;
   padding: 0 14px;
-  background: #ffffff;
-  border: 1.5px solid rgba(26, 16, 37, 0.1);
+  background: rgba(20, 16, 36, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
   border-radius: 10px;
   font-size: 13px;
-  color: #1a1025;
+  color: var(--cm-white);
   outline: none;
   cursor: pointer;
+}
+
+.adm-crud-toolbar__select option {
+  background: #141024;
+  color: #ffffff;
 }
 
 /* ─── Tablo Stilleri ─── */
@@ -129,7 +144,7 @@
 }
 
 .adm-table thead tr {
-  border-bottom: 2px solid rgba(26, 16, 37, 0.08);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.16);
 }
 
 .adm-table th {
@@ -138,14 +153,14 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: rgba(26, 16, 37, 0.6);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .adm-table td {
   padding: 14px 16px;
-  border-bottom: 1px solid rgba(26, 16, 37, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   vertical-align: middle;
-  color: #1a1025;
+  color: var(--cm-white);
 }
 
 .adm-table tbody tr {
@@ -153,7 +168,7 @@
 }
 
 .adm-table tbody tr:hover {
-  background-color: rgba(99, 102, 241, 0.035);
+  background-color: rgba(255, 255, 255, 0.06);
 }
 
 .adm-table__cell-song {
@@ -165,20 +180,20 @@
 .adm-table__cover {
   border-radius: 8px;
   object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .adm-table__song-info strong {
   display: block;
   font-size: 14px;
   font-weight: 700;
-  color: #1a1025;
+  color: var(--cm-white);
 }
 
 .adm-table__song-info span {
   display: block;
   font-size: 12px;
-  color: rgba(26, 16, 37, 0.55);
+  color: rgba(255, 255, 255, 0.70);
 }
 
 /* ─── Rozetler & Durum Hapları ─── */
@@ -194,21 +209,21 @@
 }
 
 .adm-badge--flac {
-  background: rgba(99, 102, 241, 0.1);
-  color: #4f46e5;
-  border: 1px solid rgba(99, 102, 241, 0.25);
+  background: rgba(0, 180, 216, 0.15);
+  color: var(--color-info-400, #38bdf8);
+  border: 1px solid rgba(0, 180, 216, 0.35);
 }
 
 .adm-badge--master {
-  background: rgba(236, 72, 153, 0.1);
-  color: #db2777;
-  border: 1px solid rgba(236, 72, 153, 0.25);
+  background: rgba(255, 0, 200, 0.15);
+  color: var(--adm-theme-primary, #FF00C8);
+  border: 1px solid rgba(255, 0, 200, 0.35);
 }
 
 .adm-badge--mp3 {
-  background: rgba(16, 185, 129, 0.1);
-  color: #059669;
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  background: rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.90);
+  border: 1px solid rgba(255, 255, 255, 0.20);
 }
 
 .adm-status-pill {
@@ -222,16 +237,16 @@
 }
 
 .adm-status-pill--active {
-  background: #ecfdf5;
-  color: #065f46;
-  border: 1px solid #a7f3d0;
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-green-400, #34d399);
+  border: 1px solid rgba(16, 185, 129, 0.35);
 }
 
 .adm-status-pill__dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: #10b981;
+  background-color: var(--color-green-400, #34d399);
 }
 
 /* ─── İşlem Butonları ─── */
@@ -239,9 +254,9 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  border: 1px solid rgba(26, 16, 37, 0.1);
-  background: #ffffff;
-  color: rgba(26, 16, 37, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cm-white);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -251,15 +266,16 @@
 }
 
 .adm-action-btn:hover {
-  border-color: #6366f1;
-  color: #6366f1;
-  background: #f5f3ff;
+  border-color: var(--adm-theme-primary, #FF00C8);
+  color: var(--cm-white);
+  background: var(--adm-theme-accent-subtle, rgba(255, 0, 200, 0.20));
+  box-shadow: 0 0 8px rgba(255, 0, 200, 0.25);
 }
 
 .adm-action-btn--danger:hover {
-  border-color: #ef4444;
-  color: #ef4444;
-  background: #fef2f2;
+  border-color: var(--color-error-400, #f87171);
+  color: var(--cm-white);
+  background: rgba(239, 68, 68, 0.25);
 }
 
 /* ─── Sayfalama ─── */
@@ -269,9 +285,9 @@
   justify-content: space-between;
   margin-top: 20px;
   padding-top: 16px;
-  border-top: 1px solid rgba(26, 16, 37, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 13px;
-  color: rgba(26, 16, 37, 0.6);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .adm-pagination {
@@ -283,19 +299,27 @@
   min-width: 32px;
   height: 32px;
   padding: 0 8px;
-  border: 1px solid rgba(26, 16, 37, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 6px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
   font-size: 13px;
   font-weight: 600;
-  color: #1a1025;
+  color: var(--cm-white);
   cursor: pointer;
+  transition: all 0.15s;
+}
+
+.adm-pagination__btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.30);
+  color: var(--cm-white);
 }
 
 .adm-pagination__btn--active {
-  background: #6366f1;
-  color: #ffffff;
-  border-color: #6366f1;
+  background: var(--adm-theme-primary, #FF00C8);
+  color: var(--cm-white);
+  border-color: var(--adm-theme-primary, #FF00C8);
+  box-shadow: 0 0 10px rgba(255, 0, 200, 0.35);
 }
 
 /* ─── Şarkı Ekle Form Düzeni ─── */
@@ -315,35 +339,42 @@
 .adm-form__textarea {
   width: 100%;
   padding: 10px 14px;
-  background: #ffffff;
-  border: 1.5px solid rgba(26, 16, 37, 0.12);
+  background: rgba(20, 16, 36, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
   border-radius: 10px;
   font-size: 14px;
-  color: #1a1025;
+  color: var(--cm-white);
   outline: none;
   font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.adm-form__select option {
+  background: #141024;
+  color: #ffffff;
 }
 
 .adm-form__select:focus,
 .adm-form__textarea:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  border-color: var(--adm-theme-primary, #FF00C8);
+  box-shadow: 0 0 0 3px rgba(255, 0, 200, 0.25);
+  background: rgba(26, 20, 46, 0.95);
 }
 
 .adm-dropzone--light {
-  border: 2px dashed rgba(99, 102, 241, 0.3);
+  border: 2px dashed rgba(255, 255, 255, 0.25);
   border-radius: 14px;
   padding: 32px 20px;
   text-align: center;
-  background: rgba(248, 247, 252, 0.7);
+  background: rgba(255, 255, 255, 0.05);
   position: relative;
   cursor: pointer;
   transition: border-color 0.2s, background-color 0.2s;
 }
 
 .adm-dropzone--light:hover {
-  border-color: #6366f1;
-  background: rgba(99, 102, 241, 0.04);
+  border-color: var(--adm-theme-primary, #FF00C8);
+  background: rgba(255, 0, 200, 0.08);
 }
 
 .adm-dropzone__file-input {
@@ -359,13 +390,13 @@
   display: block;
   font-size: 14px;
   font-weight: 700;
-  color: #1a1025;
+  color: var(--cm-white);
   margin: 10px 0 4px 0;
 }
 
 .adm-dropzone__desc {
   font-size: 12px;
-  color: rgba(26, 16, 37, 0.55);
+  color: rgba(255, 255, 255, 0.70);
   margin: 0;
 }
 
@@ -374,15 +405,15 @@
   align-items: center;
   gap: 16px;
   padding: 14px;
-  background: rgba(248, 247, 252, 0.7);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 12px;
-  border: 1px solid rgba(26, 16, 37, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .adm-cover-upload__preview img {
   border-radius: 10px;
   object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .adm-song-form__footer {
@@ -391,7 +422,7 @@
   justify-content: space-between;
   margin-top: 32px;
   padding-top: 20px;
-  border-top: 1px solid rgba(26, 16, 37, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .adm-song-form__footer-right {
@@ -400,14 +431,16 @@
 }
 
 .adm-btn--secondary {
-  background: #ffffff;
-  color: #1a1025;
-  border: 1.5px solid rgba(26, 16, 37, 0.15);
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--cm-white);
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  transition: all 0.15s;
 }
 
 .adm-btn--secondary:hover {
-  border-color: rgba(26, 16, 37, 0.3);
-  background: #f8f7fc;
+  border-color: rgba(255, 255, 255, 0.40);
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--cm-white);
 }
 
 .adm-btn--sm {
@@ -435,19 +468,26 @@
   align-items: center;
   gap: 16px;
   padding: 16px;
+  background: var(--adm-theme-card-bg, rgba(255, 255, 255, 0.14)) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--adm-theme-card-border, rgba(255, 255, 255, 0.30)) !important;
+  border-radius: 16px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .adm-pl-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(99, 102, 241, 0.12);
+  background: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  border-color: rgba(255, 255, 255, 0.50) !important;
 }
 
 .adm-pl-card--active {
-  border-color: #6366f1;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  border-color: var(--adm-theme-primary, #FF00C8) !important;
+  background: rgba(255, 56, 227, 0.20) !important;
+  box-shadow: 0 0 0 2px var(--adm-theme-primary, #FF00C8) !important;
 }
 
 .adm-pl-card__cover {
@@ -463,12 +503,12 @@
   display: block;
   font-size: 15px;
   font-weight: 700;
-  color: #1a1025;
+  color: var(--cm-white);
 }
 
 .adm-pl-card__desc {
   font-size: 12px;
-  color: rgba(26, 16, 37, 0.6);
+  color: rgba(255, 255, 255, 0.70);
   margin: 3px 0 8px 0;
   line-height: 1.4;
 }
@@ -478,14 +518,14 @@
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: rgba(26, 16, 37, 0.5);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .adm-pl-card__meta .dot {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: rgba(26, 16, 37, 0.3);
+  background: rgba(255, 255, 255, 0.40);
 }
 
 .adm-pl-track-list {
@@ -500,20 +540,21 @@
   align-items: center;
   gap: 12px;
   padding: 10px 14px;
-  background: #ffffff;
-  border: 1px solid rgba(26, 16, 37, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 10px;
   font-size: 13px;
+  color: var(--cm-white);
 }
 
 .adm-pl-track-row__handle {
-  color: rgba(26, 16, 37, 0.3);
+  color: rgba(255, 255, 255, 0.40);
   cursor: grab;
 }
 
 .adm-pl-track-row__order {
   font-weight: 700;
-  color: #6366f1;
+  color: var(--adm-theme-primary, #FF00C8);
   min-width: 18px;
 }
 
@@ -523,16 +564,16 @@
 
 .adm-pl-track-row__details strong {
   display: block;
-  color: #1a1025;
+  color: var(--cm-white);
 }
 
 .adm-pl-track-row__details small {
   display: block;
-  color: rgba(26, 16, 37, 0.5);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .adm-pl-track-row__duration {
-  color: rgba(26, 16, 37, 0.6);
+  color: rgba(255, 255, 255, 0.75);
   font-size: 12px;
 }
 
@@ -560,7 +601,7 @@
   gap: 14px;
   margin-top: 28px;
   padding-top: 20px;
-  border-top: 1px solid rgba(26, 16, 37, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 /* ─── Responsive Kırılımlar ─── */

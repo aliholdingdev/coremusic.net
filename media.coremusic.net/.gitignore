@@ -6,6 +6,8 @@ reports/
 # PHP çalışma artıkları (faz 2 ortamında oluşur)
 vendor/
 *.log
+# PHPUnit test önbelleği (tests/ + phpunit.xml — Faz 2 test altyapısı)
+.phpunit.cache/
 # src/Media/ kod dizinidir — media/ kuralına yanlışlıkla yakalanmasın (ADR-092'nin hedefi kök media/ arşividir)
 !src/Media/
 !src/Media/**

@@ -1,135 +1,167 @@
 ---
-title: "CoreMusic — Kök TODO Aile İndeksi"
+title: "CoreMusic — Master TODO & Task Execution Plan (Kiro Tasks Spec)"
 type: todo
 category: project-tracking
-version: 1.3.0
+version: 2.0.0
 status: active
-authority: SSOT
-updated: 2026-10-25
+authority: "SSOT: TODO.md · companion: .workflows/tasks.md · .workflows/design.md · .workflows/workflow.md"
+updated: 2026-11-01
 ---
 
-# CoreMusic — Kök TODO Aile İndeksi
+# CoreMusic — Master TODO & Task Execution Plan (Kiro Tasks Spec)
 
-**Zorunlu Bağlantılar:** [[PRD.md]] · [[CLAUDE.md]] · [[AGENTS.md]] · [[.ai/TODO.md]] · [[.ai/PRD.md]]
+> **Kiro IDE / Agentic Spec Standardı:**  
+> Bu dosya, yapay zekanın (AI) ve geliştiricinin projede neyi, hangi sırayla ve hangi kabul kriterleriyle yapacağını belirleyen aşamalandırılmış (phased), gruplandırılmış ve bağımlılık zincirine bağlanmış ana görev defteridir.
 
-**Kural (Zero-Hallucination):** Her madde disk kanıtına dayanır; kanıtlanamayan madde yazılmaz. Durum: `[ ]` açık · `[x]` kapalı.
-
-**eli10:** Bu dosya, her yüzeyin TODO.md'sine giden merkezi dizindir — PRD aile indeksi (`PRD.md` §5) ile aynı mantık.
-**eli15:** Yüzey seviyesi maddeler kendi yüzey TODO'sunda; vault/depо geneli maddeler [[.ai/TODO.md]] §2–§4'te. Bir madde iki yerdeyse kapanışta ikisi de işaretlenir. Yüzey TODO'su maddeyi kendi PRD §7/§11'inden türetir — burada madde tekrarı yapılmaz.
-
----
-
-## §1 Yüzey TODO Aile İndeksi
-
-| # | Yüzey | TODO | PRD | Açık madde |
-|---|---|---|---|---|
-| — | **kök (bu dosya)** | `TODO.md` | [[PRD.md]] | 3 |
-| 1 | admin.coremusic.net | [[admin.coremusic.net/TODO]] | [[admin.coremusic.net/PRD]] | 3 |
-| 2 | api.coremusic.net | [[api.coremusic.net/TODO]] | [[api.coremusic.net/PRD]] | 3 |
-| 3 | assets.coremusic.net | [[assets.coremusic.net/TODO]] | [[assets.coremusic.net/PRD]] | 3 |
-| 4 | auth.coremusic.net | [[auth.coremusic.net/TODO]] | [[auth.coremusic.net/PRD]] | 3 |
-| 5 | home.coremusic.net | [[home.coremusic.net/TODO]] | [[home.coremusic.net/PRD]] | 3 |
-| 6 | media.coremusic.net | [[media.coremusic.net/TODO]] | [[media.coremusic.net/PRD]] | 3 |
-| 7 | shared | [[shared/TODO]] | [[shared/PRD]] | 3 |
-| 8 | app-nodejs-projects | [[app-nodejs-projects/TODO]] | [[app-nodejs-projects/PRD]] | 5 |
-| 9 | app-cpp-projects | [[app-cpp-projects/TODO]] | [[app-cpp-projects/PRD]] | 3 |
-
-> Modül seviyesi alt PRD'ler (`assets/js/*`, `shared/config`, `nova-search-engine/docs` …) kendi yüzey TODO'su üzerinden izlenir; ayrı TODO.md'si yoktur.
+**🔗 Kiro Spec Ailesi & Zorunlu Bağlantılar:**
+- **İş Akışı Kılavuzu:** [`.workflows/workflow.md`](file:///c:/www/coremusic.net/.workflows/workflow.md)
+- **Teknik Tasarım Belgesi:** [`.workflows/design.md`](file:///c:/www/coremusic.net/.workflows/design.md)
+- **Ayrıntılı Görev Şartnamesi:** [`.workflows/tasks.md`](file:///c:/www/coremusic.net/.workflows/tasks.md)
+- **Ürün Gereksinimleri:** [`PRD.md`](file:///c:/www/coremusic.net/PRD.md)
+- **RAG & Akıllı Arama:** [`RAG.md`](file:///c:/www/coremusic.net/RAG.md) · [`RAG-KILAVUZU.md`](file:///c:/www/coremusic.net/RAG-KILAVUZU.md)
+- **Depo Envanteri:** [`CONTEXT.md`](file:///c:/www/coremusic.net/CONTEXT.md)
+- **Tek Sayfalık Hafıza & Durum:** [`.ai/durum.md`](file:///c:/www/coremusic.net/.ai/durum.md)
+- **Temel Direktifler:** [`.ai/.rules/kurallar.md`](file:///c:/www/coremusic.net/.ai/.rules/kurallar.md) (`KURAL-01..10`)
+- **Hata Önleme Kataloğu:** [`.ai/.rules/hata-listesi.md`](file:///c:/www/coremusic.net/.ai/.rules/hata-listesi.md) (`HL-01..12`)
 
 ---
 
-## §2 Kök Seviye Açık Maddeler
+## 🧭 İŞ AKIŞI PRENSİBİ (KIRO TRIAD)
 
-- [ ] **7 eksik PRD (#22–#27 + pro yüzeyi):** kök `[[PRD.md]]` §5 tablosunda satır var ama dosya diskte **YOK** — `auth/include` · `shared/database/migrations` · `shared/config` · `.ai/.sql` · `.ai/ui-design` · `.ai/.decisions` · `pro.coremusic.net/PRD.md` → üretilmeli (üretim sonunda ilgili yüzey TODO'suna bağlanır) · Kaynak: glob 2026-10-23
-- [x] **Yüzey doküman turu + TODO ailesi commit kapandi (2026-10-24, a44c567):** 16 PRD + revizyonlar (kök `PRD.md` v1.2.0 · `.ai/PRD.md` v1.0.1 · `admin/PRD.md` §11 · `.ai/index.md`) + bu TODO ailesi (bu dosya + 9 yüzey TODO + `.ai/TODO.md` v1.4.0) — commit orkestratörde · Kaynak: `git status` 2026-10-23
-- [x] **Neva PRD commit kapandi (2026-10-24, a44c567)** (eski madde: bekliyor) — vault kopyaları + kök `PRD.md` §5.1 + `AGENTS.md` §9 … (detay: `[[.ai/TODO.md]]` §3) · Kaynak: `git status` 2026-10-23
+```text
+[PRD.md (Gereksinim)] ──► [.workflows/design.md (Tasarım)] ──► [TODO.md (Görevler)]
+                                                                       │
+[durum.md (Durum Devri)] ◄── [Test & Doğrulama (994/994)] ◄────────────┘
+```
 
----
-
-- [ ] **`pro.coremusic.net` yüzeyi (T-08):** PRD satırı `PRD.md` §5'e eklendi (35. satır, Durum YOK) — PRD dosyası + TODO diskte YOK → üretilmeli (yeni dizin = Human Approval Gate); Power Governor paneli bu yüzeyde yaşar · Kaynak: kullanıcı direktifi 2026-10-25
-## §3 Çalışma Kuralı
-
-1. Yeni iş doğar → önce ilgili **yüzey TODO'suna** yazılır (kanıt satırıyla); kök/seviye atlama yalnız depo geneli işler içindir.
-2. Madde kapanır → `[x]` + kanıt (commit/dosya/ölçüm) + tarih; PRD §4 kapı maddesi de güncellenirse PRD sürümü bump edilir.
-3. Vault/depо geneli madde → `[[.ai/TODO.md]]` §2–§4 (SSOT); bu dosya yalnız indeks + kök maddeler.
+1. **Önce Plan, Sonra Kod:** Analiz ve görev maddesi olmadan kod yazılmaz.
+2. **Kanıt Zorunluluğu:** Tamamlanan her madde disk ve test kanıtıyla `[x]` yapılır.
+3. **Tek Sayfa İlkesi:** Oturum başında yalnızca ilgili modülün `durum.md` dosyası okunur.
+4. **Kırmızı Çizgiler:** Yalnızca Light Mode (`HL-01`), Discrete Class AB Amfi (`HL-02`), Subagent commit yasağı (`HL-03`).
 
 ---
 
-## Faz/Part Çalışma Planı — Özet (SSOT: `[[../.ai/TODO.md]]` §4A)
+## 📋 AŞAMALANDIRILMIŞ GÖREV PLANI (PHASED TASKS)
 
-> Her PART tek oturumda toplu çalıştırılır. Sıra: **A∥B → C → D → E → F**; **G** en sonda.
+### 🟢 FAZ 1: Çekirdek Arayüz, Sayfalar & Figma Hizalaması (TAMAMLANDI)
 
-| PART | Oturum | Ne | Toplu komut öneki | Onay |
-|---|---|---|---|---|
-| **A** | 1 | 22 mikro ölç/oku — **hepsi paralel** | `PART A: mikro adımları paralel yap, raporla` | onaysız |
-| **B** | 2 | 8 karar (T-07 P0 + 2+1 + G-4 + N-3 + M-2 + C-1 + P-4 + M-3) | `PART B: 8 kararı öner, onayımı al, işle` | **senin onayın** |
-| **C** | 3 | Power Governor kodu: S-3 migration → S-4 API 7 uç (sıralı) | `PART C: sırayla uygula, test yeşil → dur` | test + rapor |
-| **D** | 4 | 7 PRD + F-1 bağlama + ADR-111 debate → accepted | `PART D: PRD üret + debate çalıştır, onaya sun` | ADR terfi |
-| **E** | 5 | Doğrulama: coverage + curl×3 + KAPI-E + audit (server PC) | `PART E: server PC turu, kanıtları PRD'ye yaz` | — |
-| **F** | 6 | 34 commit + `[x]` kapanış + vault sync + **Faz 8 QA** | `PART F: commit mesajları hazırla, onayımı al` | **commit** |
-| **G** | 3+ | Büyük işler: Neva M0 · Faz 2 prototip · 6 yüzey · DB paketi · streaming | ayrı proje açılışı | her aşama |
+- [x] **TASK-00: Andrej Karpathy Yönergeleri & Cursor IDE Entegrasyonu (TAMAMLANDI)**
+  - **Hedef:** `.claude/skills/karpathy-guidelines/`, `.cursor/rules/karpathy-guidelines.mdc`, `CURSOR.md`
+  - **Kapsam:** Karpathy'nin 4 temel kuralının (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) projeye ve tüm root/vault MD dosyalarına entegrasyonu.
+  - **Doğrulama:** 14 SKILL.md disk ölçümü, Cursor `alwaysApply: true`, referans kod örnekleri (`references/EXAMPLES.md`).
+*Hedef: Tüm sayfaların Figma SSOT'ları ile 1024 / 1920 / 3840 çözünürlüklerde uyumu ve 0 raw hex token purity.*
 
-**Yerel kurallar:** PART atlamak yasak (Faz 8 = E'den sonra) · kanıtsız `[x]` yasak · migration çalıştırma/commit/onaysız dizin yasak · detay + tam komut metinleri: `.ai/TODO.md` §4A.## TAM Madde Listesi — Kök · Küçükten Büyüğe (Geçmiş · Açık · Gelecek) — 2026-10-25
+- [x] **TASK-01: Terminal & Telemetri Sayfası Entegrasyonu**
+  - **Hedef:** `home.coremusic.net/pages/terminal.php`, `assets.coremusic.net/Css/04_Components/c-terminal.css`
+  - **Kapsam:** Figma `2135:24715` (1024) ve `1760:14599` (1920) telemetri panelleri. CPU, GPU, RAM, AK4458 DAC ve Class AB telemetri LED'leri.
+  - **Doğrulama:** E2E ve birim testler %100 yeşil.
 
-> Aile indeksinin tam listesi; SSOT detay: `[[../.ai/TODO.md]]`. Sıra: MICRO → ORTA → EPIC.
+- [x] **TASK-02: Göz At (Browse) & Drill-Down Dosya Gezgini**
+  - **Hedef:** `home.coremusic.net/pages/browse.php`, `assets.coremusic.net/Css/05_Pages/p-browse.css`
+  - **Kapsam:** Figma `1976:11757` Drill-down dosya gezgini, `#btn-browse-open` tetikleyicisi.
+  - **Doğrulama:** 1024 ve 1920 çözünürlüklerde sorunsuz navigasyon.
 
-### A. GEÇMİŞ — TAMAMLANAN
-- [x] MICRO: 2 bayat madde kapandı (kanıt `a44c567`) · eksik PRD sayacı 6→7 (+`pro`)
-- [x] ORTA: Yüzey doküman + TODO ailesi commit — `a44c567` (2026-10-24)
-- [x] ORTA: Neva PRD vault kopyaları commit — `a44c567` (2026-10-24)
-- [x] ORTA: PRD ailesi 34→**35 satır** · v1.3.1 · ADR-111 satırı + next 112 (2026-10-25)
-- [x] ORTA: TODO 11 dosya güçlendirme (adım + geçmiş bölümleri, 56 işlem 0 hata) (2026-10-25)
-- [x] EPIC: PRD+TODO ailesi 34 yüzey indeksi v1.2.0 — `a44c567`
-- [x] EPIC: 105 değişiklik commit serisi — `961244a → 96eb63f → f0e15eb → af5ea57 → 2017410` (2026-10-23)
-- [x] EPIC: amfi 11 vault md + ADR-111 draft + brain v26.3.0 (2026-10-25)
+- [x] **TASK-03: Albüm Detay Sayfası & Şarkı Tablosu**
+  - **Hedef:** `home.coremusic.net/pages/album-detail.php`, `assets.coremusic.net/Css/05_Pages/p-album-detail.css`
+  - **Kapsam:** Sol cam özet kartı (743px), sağ detay paneli (224px), 0 raw hex (%100 token purity).
+  - **Doğrulama:** Playwright E2E passed.
 
-### B. AÇIK — EKSİK / YARIM (küçükten büyüğe)
-- [ ] MICRO: `log.md` mojibake 6 / CJK 12 hijyen kararı (`.ai/TODO` §4)
-- [ ] MICRO: 423 dosyada frontmatter yok → zorla ekleme kararı
-- [ ] MICRO: `.ai/index.md` §3 L15 `TECHNICAL_DOCUMENTATION.md` kayıt düzeltmesi
-- [ ] ORTA: **7 eksik PRD** (#22-#27 + `pro.coremusic.net`) üretimi
-- [ ] ORTA: T-09 `.ai/index.md` + `keys.md` katalog/keyword kayıtları
-- [ ] EPIC: **34 kod değişikliği commit** (28 M + 6 yeni — onay → MO)
-- [ ] EPIC: Coverage ≥%80 + Backend 09-11 canlı doğrulama (server PC)
+- [x] **TASK-04: Keşfet (Spotlight & Ruh Hali) Sayfası**
+  - **Hedef:** `home.coremusic.net/pages/kesfet.php`, `assets.coremusic.net/Css/05_Pages/p-kesfet.css`
+  - **Kapsam:** Hero Spotlight, 6 Ruh Hali Kartı, Top 10 Şarkı Tablosu.
+  - **Doğrulama:** Light Mode ve responsive grid stabil.
 
-### C. GELECEK — SIRADAKİ BÜYÜK İŞLER (öncelik sırası — SSOT: `.ai/TODO` §4C)
-| Sıra | İş | Ölçek |
-|---|---|---|
-| 1 | T-07 topoloji kararı (tek P0) → ADR-111 kapanışı | MICRO |
-| 2 | S-3 migration · N-1 dev-login · P-1 turbo · C-2 ctest | MICRO |
-| 3 | T-04 API 7 uç + T-03 migration + G-4 yüzey kararı | ORTA |
-| 4 | Commit paketi (34 değişiklik) | ORTA |
-| 5 | Coverage + canlı curl ×3 + KAPI-E (server PC) | ORTA |
-| 6 | 7 PRD + T-09 katalog + pro yüzeyi (dizin onayı) | ORTA |
-| 7 | Power Governor ürünleşmesi · Neva M0 | EPIC |
-| 8 | Faz 2 prototip · eksik 6 yüzey · DB paketi (ADR-072-079) · Faz 3 OEM | EPIC |## §4 Küresel Yürütme Sırası (2026-10-25 — özet; SSOT: `.ai/TODO.md` §4B)
+- [x] **TASK-05: İlk Kurulum Sihirbazı (Wizard)**
+  - **Hedef:** `home.coremusic.net/pages/wizard.php`, `assets.coremusic.net/Css/05_Pages/p-wizard.css`
+  - **Kapsam:** 6 adımlı erişilebilir kurulum akışı (Dil, Ağ, Disk, Ses Cihazı, Profil, Özet).
+  - **Doğrulama:** Form doğrulama ve adım geçişleri tamamlandı.
 
-| Sıra | Adım | Durum |
-|---|---|---|
-| 1 | T-07 P0 topoloji kararı → ADR-111 kapanışı | [ ] |
-| 2 | T-10 kod paketi (Power Governor: migration → API → panel, mockup gate) | [ ] |
-| 3 | Commit paketi: 28 M + 6 yeni kod değişikliği (MO/onay ile) | [ ] |
-| 4 | T-08 `pro` PRD + T-09 index/keys katalog | [ ] |
-| 5 | Backend 09-11 canlı doğrulama (server PC) | [ ] |
-
-> Adım detayı, YAPMA listesi ve hazır komutlar: `[[../.ai/TODO.md]]` §4B (SSOT) · kodlama kartları: `[[../.ai/electronic/amplifier/coding-panel.md]]`.
-## Geçmiş & Mikro Ölçek — Özet (2026-10-25; tam liste: `.ai/TODO.md` §4C)
-
-**Geçmiş — tamamlanan (kök seviye):**
-- [x] `[EPİK]` PRD ailesi 34→35 satır (v1.3.1, ADR-111 + pro satırı) · TODO 11 dosya güçlendirme · amfi 11 vault md — 2026-10-25
-- [x] `[EPİK]` Yüzey doküman + TODO ailesi commit'i (`a44c567`) · Neva PRD commit'i (`a44c567`) — KAPANDI 2026-10-24
-- [x] `[MİKRO]` 2 bayat kök madde kapatıldı · eksik PRD 6→7 — bugün
-
-**Yarım (kök seviye):**
-- [ ] `[EPİK]` 34 kod değişikliği commit'i (onay bekliyor) · 7 eksik PRD · coverage · canlı doğrulama
-- [ ] `[MİKRO]` log.md mojibake/CJK hijyeni · 423 dosyada frontmatter kararı
-
-**Gelecek sırası (küçük→büyük):** T-07 → S-3/N-1/P-1/C-2 mikro kapılar → T-04/T-03/T-05 Power Governor → 7 PRD + coverage → Neva M0 → Faz 2 prototip → 6 eksik yüzey → DB paketi (ADR-072-079) → Faz 3 OEM. **SSOT: `[[../.ai/TODO.md]]` §4C.**## Referanslar
-
-- PRD aile indeksi: `[[PRD.md]]` (§5 · §5.1 Neva) · Vault TODO SSOT: `[[.ai/TODO.md]]` · Vault PRD: `[[.ai/PRD.md]]`
-- Boot: `[[CLAUDE.md]]` · `[[AGENTS.md]]` · Süreç: `[[.ai/WORKFLOW.md]]`
+- [x] **TASK-06: Hızlı Ağ & Ayarlar Modal Bileşenleri**
+  - **Hedef:** `home.coremusic.net/pages/components/quick-settings-modal.php`, `quick-network-panels.php`
+  - **Kapsam:** Header Wi-Fi, Bluetooth ve Genel Hızlı Ayarlar panelleri.
+  - **Doğrulama:** ESC ile kapatma, backdrop focus trapping, z-index hiyerarşisi stabil.
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
-**Last Updated:** 2026-10-23
+### 🟢 FAZ 2: RAG Sistemi, Token Optimizasyonu & Modüler Hafıza (TAMAMLANDI)
+*Hedef: Token tükenmesini engelleyen modüler durum devri ve her klasöre otonom RAG ve bağlam haritası.*
+
+- [x] **TASK-07: 12 Alt Modül İçin Tek Sayfalık DURUM.md Hafızası**
+  - **Hedef:** `home`, `api`, `auth`, `admin`, `assets`, `media`, `shared`, `app-cpp-projects`, `app-nodejs-projects`, `bin`, `.agents`, `.workflows`.
+  - **Kapsam:** PDF limit sistemi standartlarında tek sayfalık durum devir dosyaları mühürlendi.
+  - **Doğrulama:** 12 dizinde `durum.md` dosyaları mevcut.
+
+- [x] **TASK-08: Kurumsal Mühendislik Direktifleri (KURAL-01..10)**
+  - **Hedef:** `.ai/.rules/kurallar.md`, `.ai/.rules/hata-listesi.md`, `.ai/.rules/karar-kurallari.md`
+  - **Kapsam:** Gayriresmi video-editör etiketleri kaldırıldı; kurumsal direktif kodları (`KURAL-01..10`, `HL-01..12`) devreye alındı.
+  - **Doğrulama:** Aktif dinleme ve denetim modunda.
+
+- [x] **TASK-09: 12 Alt Modülün Tamamına CONTEXT.md ve RAG.md Dağıtımı**
+  - **Hedef:** 12 proje klasörünün tamamı.
+  - **Kapsam:** Her klasöre bağımsız `CONTEXT.md` (alan envanteri/bağlamı) ve `RAG.md` (hızlı rota sözlüğü) yerleştirildi.
+  - **Doğrulama:** Disk üzerinde 12 `CONTEXT.md` ve 12 `RAG.md` doğrulandı.
+
+- [x] **TASK-10: Merkezi Kullanıcı RAG Kılavuzu (DOGE DOC)**
+  - **Hedef:** [`RAG-KILAVUZU.md`](file:///c:/www/coremusic.net/RAG-KILAVUZU.md)
+  - **Kapsam:** Kullanıcı ve AI için token tasarruflu RAG sorgulama, hazır prompt kalıpları ve 4 kırmızı çizgi.
+  - **Doğrulama:** Kök dizinde oluşturuldu ve belgelere bağlandı.
+
+- [x] **TASK-10b: Kiro IDE Spec Standardı Entegrasyonu (.workflows)**
+  - **Hedef:** `.workflows/design.md`, `.workflows/tasks.md`, `.workflows/workflow.md`
+  - **Kapsam:** Kiro spec standardında teknik tasarım, görev matrisi ve yürütme iş akışı üretildi.
+  - **Doğrulama:** Belgeler oluşturuldu ve `TODO.md`, `PRD.md`, `RAG.md` ile bağlandı.
+
+---
+
+### 🟢 FAZ 3: Backend Sözleşmeleri, API & Şema Hizalama (TAMAMLANDI)
+*Hedef: ADR-112, 113, 114 kararlarının backend kod tabanında tam kurumsallaştırılması.*
+
+- [x] **TASK-11: Canlı Şema Hizalama Migration Paketi (ADR-112)**
+  - **Hedef:** shared/database/migrations/, media.coremusic.net/
+  - **Kapsam:** media_access ve media_audit soft-delete (is_deleted, deleted_at, updated_at) kolonlarının canlı DB'ye migration ile eklenmesi.
+  - **Doğrulama:** Yedek dump alındı (shared/database/backups/20261102_media_pre_migration.sql), forward migration canlı DB'ye uygulandı, SHOW COLUMNS ve media.coremusic.net testleri (75/75) doğrulandı; ADR-112 accepted yapıldı.
+
+- [x] **TASK-12: API V1 & V2 Paralel Route Test Paritesi (ADR-113)**
+  - **Hedef:** api.coremusic.net/config/routes.php, api.coremusic.net/include/Container/V2Container.php
+  - **Kapsam:** /api/{version}/ rotalarında V1 default ve V2 paralel çalışma paritesinin test edilmesi.
+  - **Doğrulama:** RouteConfigTest ve VersionResolverTest parite testleri %100 yeşil (141 test / 696 assertion).
+
+- [x] **TASK-13: Repository Standart Şablon İzolasyonu (ADR-114)**
+  - **Hedef:** api.coremusic.net/include/Repository/, shared/src/Repository/
+  - **Kapsam:** Yeni yazılacak repository'lerin I* interface + final class standardına bağlanması; mevcut repo'ların dondurulması.
+  - **Doğrulama:** Yeni repository'lerde 0 ORM, 0 SELECT *, zorunlu constructor injection (.ai/.rules/karar-kurallari.md §3).
+
+---
+
+### 🟢 FAZ 4: DSP Ses Motoru & Donanım Amfi Entegrasyonu (TAMAMLANDI)
+*Hedef: Discrete Class AB amplifikatör ve Neva ses motorunun donanım/DSP katmanının tamamlanması.*
+
+- [x] **TASK-14: Discrete Class AB Amfi Telemetri Köprüsü (ADR-038 / ADR-089) (TAMAMLANDI)**
+  - **Hedef:** app-cpp-projects/, home.coremusic.net/pages/terminal.php
+  - **Kapsam:** Neva Engine C ABI üzerinden donanım amfi sıcaklık, akım ve koruma telemetrisinin web paneline aktarılması.
+  - **Doğrulama:** SNR > 105 dB, THD+N < 0.003%, lock-free ring buffer akışı, Discrete Class AB push-pull transistör (MJL21194/93) ve AK4458 DAC durum denetimi. Unit testleri %100 yeşil.
+
+- [x] **TASK-15: 31-Bant Parametrik/Grafik Hibrit EQ Entegrasyonu (TAMAMLANDI)**
+  - **Hedef:** app-cpp-projects/src/DSP/, home.coremusic.net/pages/settings.php (ayarlar.php), assets.coremusic.net/Css/05_Pages/p-settings.css
+  - **Kapsam:** ISO 266 1/3-oktav 31-bant biquad peaking filtre rafı, 10-bant ISO standart alt küme maskesi (eq_grids.h), 9 tür ön tanım (preset), pre-amp kazancı, bypass anahtarı ve localStorage kalıcı durum saklama.
+  - **Doğrulama:** %100 token saflığı (0 raw hex), 1024/1440/1920 responsive esneme, canlı filtreleme parametreleri. Unit testleri %100 yeşil (testSettingsPage_rendersLayoutAndSections, testSettingsPage_rendersWideLayout).
+
+---
+
+## 🛠️ TEST VE DOĞRULAMA ÇALIŞTIRMA KILAVUZU
+
+```bash
+# 1. Playwright E2E UI Testleri (38/38)
+npx playwright test tests/e2e/pages.spec.ts
+
+# 2. Vitest Bileşen Testleri (199/199)
+npm run test
+
+# 3. PHPUnit Backend Testleri (757/757)
+vendor/bin/phpunit
+```
+
+---
+
+*CoreMusic Master TODO Spec v2.0.0 — SSOT: [`TODO.md`](file:///c:/www/coremusic.net/TODO.md) — Last Updated: 2026-11-01*
+

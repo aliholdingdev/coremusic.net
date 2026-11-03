@@ -1,0 +1,457 @@
+/**
+ * p-wizard.css — CoreMusic First-Run Setup Wizard (Kurulum Sihirbazı)
+ * Layer: L3 Presentation · 05_Pages
+ * Figma: node-id=1047:29968 - 1047:32284 (Linux 1024 - Wizard Layout)
+ * Token Purity: 100% CSS Variables (--cm-*)
+ */
+
+.page-wizard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--cm-header-h, 60px) - var(--cm-footer-h, 70px));
+  padding: var(--cm-space-md, 16px);
+  box-sizing: border-box;
+}
+
+.wizard-glass {
+  display: flex;
+  width: 100%;
+  max-width: 880px;
+  min-height: 500px;
+  background: var(--cm-glass-bg, rgba(20, 10, 30, 0.75));
+  backdrop-filter: blur(var(--cm-blur-md, 16px));
+  -webkit-backdrop-filter: blur(var(--cm-blur-md, 16px));
+  border: 1px solid var(--cm-glass-border, rgba(255, 255, 255, 0.12));
+  border-radius: var(--cm-radius-lg, 16px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ── Sol Adım Menüsü (180px) ── */
+.wizard-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.25);
+  border-right: 1px solid var(--cm-glass-border, rgba(255, 255, 255, 0.08));
+  padding: var(--cm-space-md, 16px) var(--cm-space-sm, 12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.wizard-steps-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wizard-step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--cm-radius-sm, 8px);
+  color: var(--cm-color-text-secondary, rgba(255, 255, 255, 0.65));
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.wizard-step-item:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--cm-white);
+}
+
+.wizard-step-item.is-active {
+  background: var(--cm-accent);
+  color: var(--cm-white);
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(219, 39, 119, 0.35);
+}
+
+.wizard-step-item.is-done {
+  color: var(--cm-white);
+}
+
+.wizard-step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.wizard-step-item.is-active .wizard-step-num {
+  background: var(--cm-white);
+  color: var(--cm-accent);
+}
+
+.wizard-step-item.is-done .wizard-step-num {
+  background: rgba(16, 185, 129, 0.25);
+  color: var(--cm-success);
+}
+
+/* ── Sağ Gövde Alanı ── */
+.wizard-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--cm-space-lg, 24px);
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.wizard-header {
+  margin-bottom: var(--cm-space-md, 16px);
+  padding-bottom: var(--cm-space-sm, 12px);
+  border-bottom: 1px solid var(--cm-glass-border, rgba(255, 255, 255, 0.08));
+}
+
+.wizard-title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--cm-white);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wizard-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--cm-color-text-secondary, rgba(255, 255, 255, 0.7));
+  line-height: 1.5;
+}
+
+/* ── Adım Panelleri ── */
+.wizard-panes {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.wizard-pane {
+  display: none;
+  animation: wizardFadeIn 0.25s ease-out;
+}
+
+.wizard-pane.is-active {
+  display: block;
+}
+
+@keyframes wizardFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Adım 1: Hoş Geldiniz ── */
+.wizard-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.wizard-feature-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--cm-glass-border, rgba(255, 255, 255, 0.08));
+  border-radius: var(--cm-radius-md, 10px);
+  padding: 14px 16px;
+}
+
+.wizard-feature-card h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cm-white);
+}
+
+.wizard-feature-card p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--cm-color-text-secondary, rgba(255, 255, 255, 0.7));
+}
+
+/* ── Adım 2: Cinsiyet Seçimi ── */
+.wizard-gender-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.wizard-gender-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid transparent;
+  border-radius: var(--cm-radius-md, 12px);
+  padding: 18px 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wizard-gender-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.wizard-gender-card.is-selected {
+  border-color: var(--cm-accent);
+  background: rgba(219, 39, 119, 0.12);
+  box-shadow: 0 4px 16px rgba(219, 39, 119, 0.2);
+}
+
+.wizard-gender-emoji {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.wizard-gender-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cm-white);
+  margin-bottom: 4px;
+}
+
+.wizard-gender-desc {
+  font-size: 11px;
+  color: var(--cm-color-text-secondary, rgba(255, 255, 255, 0.65));
+}
+
+/* ── Adım 3: Tema Seçimi ── */
+.wizard-themes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.wizard-theme-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid transparent;
+  border-radius: var(--cm-radius-md, 10px);
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wizard-theme-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.wizard-theme-card.is-selected {
+  border-color: var(--cm-accent);
+  background: rgba(219, 39, 119, 0.12);
+}
+
+.wizard-theme-swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ── Adım 4: Lisans Sözleşmesi ── */
+.wizard-license-box {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--cm-glass-border, rgba(255, 255, 255, 0.1));
+  border-radius: var(--cm-radius-sm, 8px);
+  padding: 14px;
+  font-family: monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--cm-color-text-secondary, rgba(255, 255, 255, 0.8));
+  height: 160px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  margin-bottom: 12px;
+}
+
+.wizard-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--cm-white);
+  cursor: pointer;
+  user-select: none;
+}
+
+.wizard-checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--cm-accent);
+}
+
+/* ── Adım 5: Depolama & Kaynaklar ── */
+.wizard-storage-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.wizard-storage-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--cm-glass-border, rgba(255, 255, 255, 0.08));
+  border-radius: var(--cm-radius-md, 10px);
+  padding: 12px 14px;
+}
+
+.wizard-storage-info strong {
+  display: block;
+  font-size: 13px;
+  color: var(--cm-white);
+}
+
+.wizard-storage-info small {
+  font-size: 11px;
+  color: var(--cm-color-text-secondary, rgba(255, 255, 255, 0.6));
+}
+
+.wizard-storage-btn {
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--cm-radius-sm, 6px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cm-white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wizard-storage-btn:hover {
+  background: var(--cm-accent);
+  border-color: var(--cm-accent);
+}
+
+/* ── Adım 6: Tamamlandı ── */
+.wizard-complete-view {
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.wizard-complete-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--cm-success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.wizard-complete-view h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--cm-white);
+}
+
+.wizard-complete-view p {
+  margin: 0 0 20px;
+  font-size: 13px;
+  color: var(--cm-color-text-secondary, rgba(255, 255, 255, 0.7));
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Alt Buton Çubuğu ── */
+.wizard-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--cm-space-md, 16px);
+  padding-top: var(--cm-space-sm, 12px);
+  border-top: 1px solid var(--cm-glass-border, rgba(255, 255, 255, 0.08));
+}
+
+.wizard-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--cm-radius-sm, 8px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  text-decoration: none;
+}
+
+.wizard-btn--secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cm-white);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.wizard-btn--secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.wizard-btn--primary {
+  background: var(--cm-accent);
+  color: var(--cm-white);
+  box-shadow: 0 4px 14px rgba(219, 39, 119, 0.35);
+}
+
+.wizard-btn--primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 18px rgba(219, 39, 119, 0.5);
+}
+
+.wizard-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .wizard-glass {
+    flex-direction: column;
+  }
+  .wizard-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--cm-glass-border, rgba(255, 255, 255, 0.08));
+  }
+  .wizard-steps-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .wizard-step-item span:not(.wizard-step-num) {
+    display: none;
+  }
+  .wizard-gender-grid,
+  .wizard-themes-grid,
+  .wizard-storage-grid {
+    grid-template-columns: 1fr;
+  }
+}

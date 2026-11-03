@@ -36,10 +36,13 @@
    ============================================================ */
 .settings-section {
   margin-bottom: var(--section-gap, 24px);
-  padding: var(--card-padding, 12px);
-  background: var(--bg-surface, rgba(255, 255, 255, 0.06));
-  border-radius: 12px;
-  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.06));
+  padding: var(--card-padding, 16px);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.12));
+  box-shadow: var(--glass-shadow);
 }
 
 .settings-section__title {
@@ -72,11 +75,11 @@
   align-items: center;
   gap: 4px;
   padding: var(--grid-gap, 8px) var(--grid-gap-lg, 16px);
-  background: var(--bg-elevated, rgba(255, 255, 255, 0.04));
-  border: 2px solid transparent;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
   border-radius: 12px;
   cursor: pointer;
-  transition: border-color 150ms ease, background 150ms ease;
+  transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
   min-width: 100px;
   min-height: var(--touch-min, 48px);
   color: var(--text-primary, var(--cm-white));
@@ -84,22 +87,24 @@
 }
 
 .settings-option:hover {
-  background: var(--bg-overlay, rgba(255, 255, 255, 0.06));
+  background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
+  transform: translateY(-2px);
 }
 
 .settings-option--active {
-  border-color: var(--theme-primary, #ff4fd8);
-  background: var(--bg-overlay, rgba(255, 255, 255, 0.06));
+  border: 2px solid var(--cm-accent);
+  background: rgba(255, 79, 216, 0.16);
+  box-shadow: 0 0 16px rgba(255, 79, 216, 0.3);
 }
 
 .settings-option:focus-visible {
-  outline: 3px solid var(--cm-accent, #ff4fd8);
+  outline: 3px solid var(--cm-accent);
   outline-offset: 2px;
 }
 
 .settings-option__icon {
   font-size: 24px;
-  color: var(--theme-primary, #ff4fd8);
+  color: var(--cm-accent);
 }
 
 .settings-option__swatch {
@@ -181,4 +186,568 @@
   .settings-option__label {
     font-size: 20px;
   }
+}
+
+
+/* ============================================================
+   SETTINGS — Wi-Fi & Bluetooth (Figma SSOT 2831:9665 / 2831:9687)
+   ============================================================ */
+.settings-section__header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: var(--grid-gap, 8px);
+}
+
+.settings-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.settings-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.settings-switch__slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  transition: all 0.25s ease;
+}
+
+.settings-switch__slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background: var(--cm-white);
+  border-radius: 50%;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.settings-switch input:checked + .settings-switch__slider {
+  background: var(--theme-gradient-btn, linear-gradient(135deg, var(--cm-accent) 0%, var(--cm-accent-deep) 100%));
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 10px rgba(255, 79, 216, 0.5);
+}
+
+.settings-switch input:checked + .settings-switch__slider::before {
+  transform: translateX(20px);
+}
+
+.settings-network-group {
+  margin-top: 8px;
+}
+
+.settings-network-group__label {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 6px 0;
+}
+
+.settings-network-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-network-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.settings-network-item:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.settings-network-item--connected {
+  border-color: rgba(255, 79, 216, 0.5);
+  background: rgba(255, 79, 216, 0.08);
+  box-shadow: 0 0 12px rgba(255, 79, 216, 0.2);
+}
+
+.settings-network-item__info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-network-item__icon {
+  color: var(--cm-accent);
+  flex-shrink: 0;
+}
+
+.settings-network-item__name {
+  font-size: var(--text-base, 12px);
+  font-weight: 600;
+  color: var(--cm-white);
+}
+
+.settings-network-item__meta {
+  font-size: var(--text-xs, 10px);
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 2px;
+}
+
+.settings-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.settings-badge--active {
+  background: var(--theme-gradient-btn, linear-gradient(135deg, var(--cm-accent) 0%, var(--cm-accent-deep) 100%));
+  color: var(--cm-white);
+  box-shadow: 0 0 8px rgba(255, 79, 216, 0.4);
+}
+
+.settings-btn-connect {
+  height: 24px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--cm-white);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-btn-connect:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: var(--cm-accent);
+}
+
+.settings-btn-connect:focus-visible {
+  outline: 3px solid var(--cm-accent);
+  outline-offset: 2px;
+}
+
+/* ═══ Wi-Fi Password Connect Modal (Figma node 2831:9644 / 2831:9648) ═══ */
+.settings-wifi-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.settings-wifi-modal-overlay.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.settings-wifi-modal {
+  position: relative;
+  width: 320px;
+  max-width: 90vw;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: rgba(22, 10, 32, 0.92);
+  border: 1px solid rgba(255, 79, 216, 0.35);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(255, 79, 216, 0.25);
+  box-sizing: border-box;
+  transform: scale(0.95);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.settings-wifi-modal-overlay.is-active .settings-wifi-modal {
+  transform: scale(1);
+}
+
+.settings-wifi-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.settings-wifi-modal__title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-wifi-modal__title {
+  font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-size: var(--text-base, 13px);
+  font-weight: 700;
+  color: var(--cm-white);
+  margin: 0;
+}
+
+.settings-wifi-modal__lock-icon {
+  width: 13px;
+  height: 13px;
+  color: var(--cm-accent);
+  flex-shrink: 0;
+}
+
+.settings-wifi-modal__meta {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0 0 12px 0;
+}
+
+.settings-wifi-modal__field {
+  margin-bottom: 10px;
+}
+
+.settings-wifi-modal__label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 4px;
+}
+
+.settings-wifi-modal__input {
+  width: 100%;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--cm-white);
+  font-size: 12px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.settings-wifi-modal__input:focus {
+  border-color: var(--cm-accent);
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 10px rgba(255, 79, 216, 0.35);
+}
+
+.settings-wifi-modal__checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.settings-wifi-modal__checkbox {
+  accent-color: var(--cm-accent);
+  width: 13px;
+  height: 13px;
+  cursor: pointer;
+}
+
+.settings-wifi-modal__checkbox-text {
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.8);
+  user-select: none;
+}
+
+.settings-wifi-modal__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.settings-wifi-modal__btn {
+  height: 28px;
+  padding: 0 14px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+}
+
+.settings-wifi-modal__btn--cancel {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--cm-white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.settings-wifi-modal__btn--cancel:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.settings-wifi-modal__btn--connect {
+  background: var(--theme-gradient-btn, linear-gradient(135deg, var(--cm-accent) 0%, var(--cm-accent-deep) 100%));
+  color: var(--cm-white);
+  box-shadow: 0 0 12px rgba(255, 79, 216, 0.4);
+}
+
+.settings-wifi-modal__btn--connect:hover {
+  opacity: 0.92;
+  box-shadow: 0 0 16px rgba(255, 79, 216, 0.6);
+}
+
+/* ============================================================
+   SETTINGS — Wide & Desktop Viewport Expansion
+   ============================================================ */
+@media (min-width: 1024px) {
+  .settings-page {
+    max-width: 860px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .settings-page {
+    max-width: 1020px;
+  }
+}
+
+/* ============================================================
+   SETTINGS — Equalizer (31-Band / 10-Band Hybrid Biquad DSP)
+   ============================================================ */
+.settings-section--eq {
+  position: relative;
+  overflow: hidden;
+}
+
+.settings-eq-top-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-eq-bypass-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cm-accent);
+}
+
+.settings-eq-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 12px 0 16px 0;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.settings-eq-mode-group {
+  display: flex;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.settings-eq-mode-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.settings-eq-mode-btn.is-active {
+  background: var(--cm-accent);
+  color: var(--cm-white);
+  box-shadow: 0 0 8px rgba(255, 79, 216, 0.4);
+}
+
+.settings-eq-preset-wrap,
+.settings-eq-preamp-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.settings-eq-label {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.settings-eq-select {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--cm-white);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  cursor: pointer;
+  outline: none;
+}
+
+.settings-eq-select:focus {
+  border-color: var(--cm-accent);
+}
+
+.settings-eq-preamp-range {
+  width: 70px;
+  height: 4px;
+  accent-color: var(--cm-accent);
+  cursor: pointer;
+}
+
+.settings-eq-reset-btn {
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.settings-eq-reset-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--cm-white);
+}
+
+/* EQ Fader Rafı */
+.settings-eq-rack-container {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.settings-eq-rack {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4px;
+  min-width: 100%;
+  height: 160px;
+  padding: 10px 4px 6px 4px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.settings-eq-rack-container[data-mode="10"] .eq-fader--subset-hide {
+  display: none !important;
+}
+
+.eq-fader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  flex: 1 1 0;
+  min-width: 16px;
+  position: relative;
+}
+
+.eq-fader__val {
+  font-size: 8.5px;
+  color: var(--cm-accent);
+  font-family: monospace;
+  margin-bottom: 4px;
+  user-select: none;
+}
+
+.eq-fader__track-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+}
+
+.eq-fader__zero-line {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  right: 2px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
+
+.eq-fader__range {
+  -webkit-appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 12px;
+  height: 90px;
+  cursor: pointer;
+  accent-color: var(--cm-accent);
+  background: transparent;
+}
+
+.eq-fader__freq {
+  font-size: 8.5px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 4px;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.eq-fader--iso-highlight .eq-fader__freq {
+  color: var(--cm-white);
+  font-weight: 600;
+}
+
+.settings-eq-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.settings-eq-meta-badge {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.settings-eq-status {
+  font-size: 9.5px;
+  color: var(--color-green-500);
+  font-weight: 600;
 }

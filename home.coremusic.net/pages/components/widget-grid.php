@@ -64,7 +64,7 @@ $emptyCard = '<div class="widget-card widget-card--empty" aria-hidden="true"></d
     </div>
 
     <div class="widget-grid__row widget-grid__row--bottom">
-        <a href="#" class="widget-card widget-card--filemanager" aria-label="Dosya Yöneticisi">
+        <a href="/browse" class="widget-card widget-card--filemanager" aria-label="Dosya Yöneticisi (Göz At)">
             <img src="<?= $this->h($this->iconFolder) ?>" class="widget-card__icon widget-card__icon--filemanager" alt="" loading="lazy">
             <span class="widget-card__label">Kütüphanelerim</span>
         </a>

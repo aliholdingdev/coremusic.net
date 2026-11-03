@@ -57,6 +57,8 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | planner, context plan, context loading, bağlam yükleme, tier, domain metadata | PLANNER.md |
 | rag, retrieval, indeks, embedding, arama, vektor, chunk, similarity, pipeline | RAG.md |
 | glossary, sozluk, terimler | glossary.md |
+| karpathy, karpathy guidelines, think before coding, simplicity first, surgical changes, goal-driven | ../.claude/skills/karpathy-guidelines/SKILL.md |
+| cursor, cursor rules, karpathy mdc, cursor ide | ../CURSOR.md · ../.cursor/rules/karpathy-guidelines.mdc |
 | architecture-master, canonical count, metadata, ADR count, DB count, layer count | architecture/index.md |
 
 ---

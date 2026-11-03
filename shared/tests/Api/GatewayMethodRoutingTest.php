@@ -35,7 +35,30 @@ final class GatewayMethodRoutingTest extends TestCase
         $path = dirname(__DIR__, 3) . '/api.coremusic.net/config/routes.php';
         $this->assertFileExists($path);
 
-        return RouteTable::fromArray(require $path);
+        $rawRoutes = require $path;
+        $routes = $this->replaceVersionPlaceholder($rawRoutes, 'v1');
+
+        return RouteTable::fromArray($routes);
+    }
+
+    /**
+     * Route dizisindeki {version} placeholder'ını gerçek versiyonla değiştirir.
+     *
+     * @param array<string, mixed> $routes
+     * @param string $version
+     * @return array<string, mixed>
+     */
+    private function replaceVersionPlaceholder(array $routes, string $version): array
+    {
+        $result = [];
+        foreach ($routes as $method => $routesByMethod) {
+            $result[$method] = [];
+            foreach ($routesByMethod as $path => $routeConfig) {
+                $newPath = str_replace('{version}', $version, $path);
+                $result[$method][$newPath] = $routeConfig;
+            }
+        }
+        return $result;
     }
 
     private function dispatch(string $method, string $uri, ?ApiMiddlewarePipeline $pipeline = null): array
@@ -135,16 +158,30 @@ final class GatewayMethodRoutingTest extends TestCase
         $this->assertNull($result['_route'] ?? null, 'Pipeline isteğinde _route null olmalı');
     }
 
-    public function testGetOnServicePrefixStillReturnsServicePayload(): void
+    public function testGetOnUnimplementedPrefixReturns405NotPlaceholder(): void
     {
+        // F2 sözleşmesi: GET prefix collection route'ları implemented=false
+        // (api.coremusic.net/config/routes.php:37) → placeholder 200 YASAK,
+        // RouteTable::match 405 üretir (shared/src/Api/Routing/RouteTable.php:126-132).
+        // Kanıt: api.coremusic.net/tests/Unit/RouteConfigTest.php:308-318
+        // testPrefixCollectionRoutesAre405NotPlaceholder — "/api/v1/music →
+        // STATUS_METHOD_NOT_ALLOWED, implemented=false, 200 placeholder YASAK".
         $result = $this->dispatch('GET', '/api/v1/music');
 
-        $this->assertSame('music', $result['data']['service'] ?? null);
+        $this->assertSame('METHOD_NOT_ALLOWED', $result['error']['code'] ?? null);
     }
 
     public function testPostOnGetOnlyResourceReturns405(): void
     {
-        $result = $this->dispatch('POST', '/api/v1/music');
+        // GET-only resource = implemented GET olan, POST kaydı OLMAYAN uç:
+        // GET /api/v1/auth/me implemented=true (api.coremusic.net/config/routes.php:48-55);
+        // POST bloğu (routes.php:152+) auth/me içermez (grep: 0 isabet).
+        // POST → RouteTable::allowedMethods implemented filtresi → Allow: GET, OPTIONS.
+        // Not: eski fixture /api/v1/music artık GET-only değil — routes.php:37
+        // implemented=false → hiçbir implemented method yok → allow boş → 404
+        // (RouteTable.php:136-140). Bu davranış docblock "yol biliniyor → 405"
+        // ifadesiyle çelişiyor → batch #2 adayı, bu testte kilitlenmedi.
+        $result = $this->dispatch('POST', '/api/v1/auth/me');
 
         $this->assertSame('METHOD_NOT_ALLOWED', $result['error']['code'] ?? null);
         $this->assertStringContainsString('GET', (string) ($result['headers']['Allow'] ?? ''));

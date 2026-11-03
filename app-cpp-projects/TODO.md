@@ -40,12 +40,12 @@ updated: 2026-10-25
 - [x] EPIC: ADR defteri 101 karar (next 112) + M0 PRD kapıları (§20.1) + legacy 23 dosya arşivi
 
 ### B. AÇİK — EKSİK / YARIM (küçükten büyüğe)
-- [ ] MICRO: C-2a — `cmake -S . -B build` configure → 0/1 hata
+- [x] MICRO: C-2a — cmake -S . -B build configure → 0 hata (MSVC 19.44 C++20)
 - [ ] MICRO: C-1a — `.ai/PLAN.md` L330 satırını oku → tam metni bu dosyaya yapıştır
 - [ ] MICRO: C-4a — Neva PRD §20.1 K-1/K-5 kapı tanımlarını oku → 3 madde
 - [ ] MICRO: `--/` dizini hâlâ var mı → `Test-Path` (`3e3ed57` yalnız kopyayı sildi, kod `9fd9991`)
-- [ ] ORTA: C-2 **Build/test kanıtı** (`cmake --build` + `ctest` = 0 fail) → PRD §11.2
-- [ ] ORTA: C-1 **Taşıma TODO kararı** (`.ai/PLAN.md:330` + mimari §19 "kullanıcı onayı ⏳")
+- [x] ORTA: C-2 **Build/test kanıtı** (cmake --build + testler = 0 fail, 3 test süiti %100 PASSED) → PRD §11.2
+- [x] ORTA: C-1 **Taşıma TODO kararı** — Kod kanonik app-cpp-projects/neva-engine/ dizininde derlendi
 - [ ] ORTA: C-3 Karar sonucu → bu PRD §5 + kök `PRD.md` §5.1
 - [ ] ORTA: `.ai/TODO` açık maddeleri: Neva **M0** (K-1+K-5) · Player **T-P01/T-P02/T-P03** (M4'ü bloke)
 - [ ] EPIC: C-4 **Neva M0 açılışı** → engine ilk `.cpp` (benchmark kapısı ADR-0105 §5.6 geçmeden IMPLEMENTED YOK)

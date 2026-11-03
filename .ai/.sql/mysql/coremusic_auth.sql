@@ -358,6 +358,29 @@ CREATE TABLE `users` (
   KEY `idx_users_is_banned` (`is_banned`) COMMENT 'Banned user filtering'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Core user accounts ÔÇö authentication, profiles, state';
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `users_audit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users_audit` (
+  `id` binary(16) NOT NULL COMMENT 'UUID v7',
+  `user_id` binary(16) NOT NULL COMMENT 'FK ÔåÆ users.id',
+  `action` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Action performed (create, update, delete, login, password_change, email_change, role_change, ban, unban)',
+  `old_values` json DEFAULT NULL COMMENT 'Previous state (JSON)',
+  `new_values` json DEFAULT NULL COMMENT 'New state (JSON)',
+  `changed_by` binary(16) DEFAULT NULL COMMENT 'FK ÔåÆ users.id ÔÇö who made the change',
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Client IP (IPv4/IPv6)',
+  `user_agent` text COLLATE utf8mb4_unicode_ci COMMENT 'Client user agent string',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Audit event timestamp',
+  PRIMARY KEY (`id`),
+  KEY `idx_users_audit_user` (`user_id`) COMMENT 'User audit lookup',
+  KEY `idx_users_audit_action` (`action`) COMMENT 'Action type filtering',
+  KEY `idx_users_audit_created` (`created_at`) COMMENT 'Time-based audit queries',
+  KEY `idx_users_audit_by` (`changed_by`) COMMENT 'Actor lookup',
+  CONSTRAINT `fk_users_audit_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_users_audit_by` FOREIGN KEY (`changed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User audit trail ÔÇö account changes, security events, role modifications';
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

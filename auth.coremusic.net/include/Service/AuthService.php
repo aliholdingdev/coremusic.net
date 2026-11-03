@@ -18,6 +18,7 @@ use CoreMusic\Exception\AuthenticationException;
 use CoreMusic\Exception\ConflictException;
 use CoreMusic\Exception\RateLimitException;
 use CoreMusic\Exception\ValidationException;
+use CoreMusic\Log\LoggerFactory;
 
 /**
  * AuthService — Authentication iş mantığı.
@@ -274,7 +275,8 @@ final class AuthService implements IAuthService
         $this->userRepository->saveResetToken((string)$userId, $tokenHash, $expiresAt, $clientIp);
         $this->rateLimiter->increment($rateKey, self::PASSWORD_RESET_WINDOW_SECONDS);
 
-        error_log('[AuthService] Password reset requested for user_id: ' . (string)$userId);
+        $logger = LoggerFactory::getInstance();
+        $logger->info('[AuthService] Password reset requested for user_id: ' . (string)$userId);
 
         return ['success' => true, 'message' => 'Sıfırlama bağlantısı gönderildi.'];
     }
@@ -302,7 +304,8 @@ final class AuthService implements IAuthService
         $this->userRepository->updatePassword((string)$userId, $newHash);
         $this->userRepository->markResetTokenUsed((string)$tokenId);
 
-        error_log('[AuthService] Password reset completed for user_id: ' . (string)$userId);
+        $logger = LoggerFactory::getInstance();
+        $logger->info('[AuthService] Password reset completed for user_id: ' . (string)$userId);
 
         return ['success' => true, 'message' => 'Şifreniz güncellendi.'];
     }

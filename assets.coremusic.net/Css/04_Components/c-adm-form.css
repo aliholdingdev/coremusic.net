@@ -33,7 +33,7 @@
   font-size: 9.5px;
   font-weight: 600;
   line-height: 12px;
-  color: #ffffff;
+  color: var(--cm-white);
   font-style: normal;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
 }
@@ -100,7 +100,7 @@
   background: transparent;
   font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
   font-size: 10px;
-  color: #ffffff;
+  color: var(--cm-white);
   outline: none;
   box-sizing: border-box;
 }
@@ -112,7 +112,7 @@
 
 /* Durumlar */
 .adm-form__field.is-error {
-  border-color: #ef4444;
+  border-color: var(--cm-danger);
   box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
 }
 
@@ -126,7 +126,7 @@
   font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
   font-size: 8px;
   line-height: 11px;
-  color: #fca5a5;
+  color: var(--cm-danger-light);
   margin: 2px 0 0 0;
 }
 
@@ -142,14 +142,14 @@
   justify-content: space-between;
   font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
   font-size: 8.5px;
-  color: #ffffff;
+  color: var(--cm-white);
 }
 
 .adm-form__remember {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #ffffff;
+  color: var(--cm-white);
   cursor: pointer;
   font-size: 8.5px;
   user-select: none;
@@ -159,12 +159,12 @@
   width: 12px;
   height: 12px;
   margin: 0;
-  accent-color: #ff38e3;
+  accent-color: var(--cm-accent-soft);
   cursor: pointer;
 }
 
 .adm-form__link {
-  color: #ffffff;
+  color: var(--cm-white);
   font-weight: 600;
   text-decoration: underline;
   font-size: 8.5px;

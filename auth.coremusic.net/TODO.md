@@ -2,10 +2,10 @@
 title: "auth.coremusic.net — TODO Listesi"
 type: todo
 category: project-tracking
-version: 1.2.0
+version: 1.3.0
 status: active
 authority: SSOT
-updated: 2026-10-25
+updated: 2026-10-30
 ---
 
 # auth.coremusic.net — TODO Listesi
@@ -22,6 +22,8 @@ updated: 2026-10-25
 - [ ] **#22 (`auth/include` PRD — diskte YOK) ile akış sözleşmesi** — Controller→Handler→Service→Repository derinleştirme · Kaynak: `[[PRD.md]]` §7.1
 - [ ] **SSO/RBAC çapraz kontrolü** — #1 (kök) ve #5 (home) PRD'leriyle akış doğrulaması (PRD-PLT-004) · Kaynak: `[[PRD.md]]` §7.2
 - [ ] **Security denetimi** — sonucu bu PRD §4 kapısına eklenir; açık bulgu varsa giderilir · Kaynak: `[[PRD.md]]` §7.3
+- [ ] **ORTA: `handler/OAuthPostHandler.php` rota kararı** — (a) auth route'a bağlanır veya ADR ile kapatılır; (b) `$userId`'nin session'dan geldiğinin kanıtı/bağlanması; (c) `autoload.php:25` ölü eşlemesinin kaldırılması · Kaynak: `[[PRD.md]]` satır 140 (2026-10-30 notu — "karar bekler")
+- [x] **MICRO: auth `CLAUDE.md` §10 bayat test tablosu** — güncellendi (diskteki Controller/Service/Handler/Repository/Security testleri tabloya işlendi · 153 test %100 yeşil) · Kaynak: `auth.coremusic.net/CLAUDE.md:230`
 
 ## TAM Madde Listesi — Küçükten Büyüğe (Geçmiş · Açık · Gelecek) — 2026-10-25
 

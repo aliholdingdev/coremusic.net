@@ -83,7 +83,7 @@ değildir**; kural koymaz, yalnız yönlendirir ve durum raporlar.
 | 10 | Şablon seçimi (Guardrail #16) | [[.templates/index]] (65 dosya, 13 kategori — 2026-10-07) | şablon, template, guardrail-16 | IMPLEMENTED |
 | 11 | UI mockup, bileşen, token, ekran spec | [[ui-design/01-mockup-index]] · `ui-design/02-component-inventory.md` (ui-design/ altında 121 md · 20 PNG) | mockup, bileşen, C01-C16, token, wcag | IMPLEMENTED |
 | 12 | DB şema, BCNF, migration | `.ai/.sql/` (21 .sql) · [[brain]] ADR-040 · skill `database-normalize-maker` | bcnf, şema, sql, migration, 18 db | IMPLEMENTED |
-| 13 | Skill registry ve eşleşme kuralı | [[../CLAUDE]] (kök) §Skill Registry (13 proje skill — 2026-10-23 disk sayımı: `.claude/skills/` 13 SKILL.md; `C:\.claude\skills` bu makinede YOK — diğer PC/server'da mevcut, silinmez) | skill, mandate, registry | IMPLEMENTED |
+| 13 | Skill registry ve eşleşme kuralı | [[../CLAUDE]] (kök) §Skill Registry (14 proje skill — 2026-10-23 disk sayımı: `.claude/skills/` 13 SKILL.md; `C:\.claude\skills` bu makinede YOK — diğer PC/server'da mevcut, silinmez) | skill, mandate, registry | IMPLEMENTED |
 | 14 | Vizyon, kapsam, yetenekler | [[VISION]] · [[PROJECTS]] | vizyon, yetenek, kapsam, pazar | IMPLEMENTED |
 | 15 | Terimler | [[glossary]] | terim, sözlük, glossary | IMPLEMENTED |
 | 16 | Session hafızası, audit trail | [[MEMORY]] · [[log]] (append-only) | session, log, audit, geçmiş | IMPLEMENTED |
@@ -92,7 +92,14 @@ değildir**; kural koymaz, yalnız yönlendirir ve durum raporlar.
 | 19 | Güvenlik: CSRF/CSP/JWT/session | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] · ADR-011 · ADR-022 · skill `security-hardening` | csrf, csp, jwt, auth, güvenlik | IMPLEMENTED |
 | 20 | Class AB donanım, PCB, güç, termal | ADR-089 | class-ab, amf, pcb, ±35v, termal | IMPLEMENTED |
 | 21 | Ses motoru, mixer, EQ/DSP, reverse-engineering, OS ses I/O, mobile DSP | `projects/NevaEngine/` (60 md: 00-12 + 11-examples/ 20 + os/01-04 + legacy-2026-07/ 23 — 2026-10-20) · [[brain]] §7.4 | neva, mixer, juce, asio, wasapi, eq, dsp, voicemeeter, banana, potato, fxsound, ghidra, pcm, routing-matrix, spatial, vst3, midi, mobile, android, ios, xp | IMPLEMENTED |
-| 22 | Neva Player medya stack + **25 dil FFI/feasibility** + reverse-engineering dump | `projects/NevaPlayer/` (10 md: 01-kapsam v0.2.3 · **10-dil-ffi-feasibility-analizi** v1.0.0 · research/3 · reverse/5 — 2026-10-20) · `projects/NevaPlayer/research/media-stack-web-verification` (112 kaynak) · `.decisions/accepted/ADR-0105` (v1.4.0) | neva player, ffi, c abi, neva_c.h, neva_session_api_version, pimpl, opaque handle, struct_size, ctypes smoke, pybind11, nanobind, bindgen, cgo, p/invoke, nuint, jna, jep 454, dart ffigen, cinterop, emscripten, audioworklet, 25 dil, swig gpl, rcpp gpl, block granularity, gil rt yasak, adr-0105, adr-106, aimp, vlc, flac, hires, libplacebo, wasapi exclusive, null-test, runtime modul cekimi, statik import vs runtime, pefile, aimp 20 bant eq, vlc 10 bant eq, wasapi windows default, d3d11va zinciri, 363 plugin 75 yuklenen, tembel yukleme, avrt mmcss yok, aimp aslr kapali, sqlite3 local.adb, opengl32 fxsound, reverse/runtime-ozel-gozlem-capraz-dogrulama, aimp 139->151 modul farki, sistem ag dll, servicelyrics, codec onceden yuklu, oynatma codec eklemez | PLANNED |
+| 23 | Temel Mühendislik Direktifleri (KURAL-01..10) | [[.rules/kurallar]] | kural, kurallar, direktif, yetki, light-mode, clean-architecture | IMPLEMENTED |
+| 24 | Pre-flight Hata Önleme Kataloğu (HL-01..12) | [[.rules/hata-listesi]] | hata-listesi, pre-flight, tuzak, container-query, oran, subagent-commit | IMPLEMENTED |
+| 25 | Onaylı Karar Kuralları (ADR-112, 113, 114) | [[.rules/karar-kurallari]] | karar, adr-112, adr-113, adr-114, migration, v2-route, repository | IMPLEMENTED |
+| 26 | Modüler Tek Sayfa Hafıza (12 Yüzey) | `[subdomain]/durum.md` · [[durum]] | durum, oturum, hafıza, devir, token-tasarrufu | IMPLEMENTED |
+| 27 | Kullanıcı RAG Kılavuzu & Akıllı Arama | [[../RAG-KILAVUZU]] | rag-kilavuzu, retrieval, doge, arama, prompt, context-injection | IMPLEMENTED |
+| 28 | Kiro Teknik Tasarım Şartnamesi (design.md) | [[../.workflows/design]] | design, mimari, veri-sozlesmesi, kiro-design | IMPLEMENTED |
+| 29 | Kiro Görev Uygulama Şartnamesi (tasks.md) | [[../.workflows/tasks]] · [[../TODO]] | tasks, todo, gorev-plani, phased-tasks | IMPLEMENTED |
+| 30 | Kiro Ajan Yürütme İş Akışı (workflow.md) | [[../.workflows/workflow]] | workflow, is-akisi, kiro-workflow, 6-adim | IMPLEMENTED |
 
 **Kapsam notu (olmayanlar — uydurulmaz):** `.ai/wiki/` (kök `AGENTS.md` §7'de anılır, diskte **0 dosya** → VERIFICATION REQUIRED) · `.ai/.rules/error-recovery.md` (diskte YOK — bkz. [[CONTEXT]] §3.5).
 

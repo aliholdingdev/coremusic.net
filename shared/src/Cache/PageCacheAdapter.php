@@ -33,6 +33,10 @@ final class PageCacheAdapter implements PageCacheInterface
 
     public function remember(string $key, int $ttl, callable $callback): mixed
     {
+        if (!$this->enabled) {
+            return $callback();
+        }
+
         $cached = $this->cache->get($key);
         if ($cached !== false) {
             return $cached;

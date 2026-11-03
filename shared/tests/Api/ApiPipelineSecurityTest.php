@@ -183,7 +183,6 @@ final class ApiPipelineSecurityTest extends TestCase
         $publicUris = [
             '/api/v1/auth/login',
             '/api/v1/auth/login?next=%2Fhome',
-            '/api/v1/public/reports',
         ];
 
         foreach ($publicUris as $uri) {
@@ -197,6 +196,19 @@ final class ApiPipelineSecurityTest extends TestCase
 
             $this->assertTrue($publicCalled, "Public yol pass-through olmalı: {$uri}");
         }
+
+        // F19: '/api/v1/public' deseni silindi (routes.php'te 0 route) → bu yol artık
+        // public DEĞİL; contract'siz uçlar fail-closed 401 alır.
+        $_SERVER['REQUEST_URI'] = '/api/v1/public/reports';
+        $legacyCalled = false;
+        $legacyResponse = $middleware([], static function () use (&$legacyCalled): array {
+            $legacyCalled = true;
+
+            return ['ok' => true];
+        });
+
+        $this->assertFalse($legacyCalled, 'Eski /api/v1/public deseni artık public olmamalı');
+        $this->assertSame('UNAUTHORIZED', $legacyResponse['error']['code'] ?? null);
     }
 
     public function testIndexRegistersPipelineInFrozenOrder(): void

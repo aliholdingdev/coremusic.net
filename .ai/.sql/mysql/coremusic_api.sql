@@ -123,7 +123,7 @@ CREATE TABLE `webhooks` (
   `api_key_id` int unsigned NOT NULL,
   `event_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `callback_url` varchar(2048) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `secret` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `secret_hash` char(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'SHA-256 hash of webhook secret',
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
   `retry_count` tinyint unsigned NOT NULL DEFAULT '3',
   `timeout_ms` int unsigned NOT NULL DEFAULT '5000',
@@ -143,6 +143,31 @@ CREATE TABLE `webhooks` (
   CONSTRAINT `webhooks_chk_2` CHECK ((`timeout_ms` between 1000 and 30000))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+DROP TABLE IF EXISTS `api_keys_audit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `api_keys_audit` (
+  `id` binary(16) NOT NULL COMMENT 'UUID v7',
+  `api_key_id` int unsigned NOT NULL COMMENT 'FK ÔåÆ api_keys.id',
+  `action` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Action performed (create, update, revoke, rotate, scope_change)',
+  `old_values` json DEFAULT NULL COMMENT 'Previous state (JSON)',
+  `new_values` json DEFAULT NULL COMMENT 'New state (JSON)',
+  `changed_by` binary(16) DEFAULT NULL COMMENT 'FK ÔåÆ coremusic_auth.users.id ÔÇö who made the change',
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Client IP (IPv4/IPv6)',
+  `user_agent` text COLLATE utf8mb4_unicode_ci COMMENT 'Client user agent string',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Audit event timestamp',
+  PRIMARY KEY (`id`),
+  KEY `idx_apikeys_audit_key` (`api_key_id`) COMMENT 'API key audit lookup',
+  KEY `idx_apikeys_audit_action` (`action`) COMMENT 'Action type filtering',
+  KEY `idx_apikeys_audit_created` (`created_at`) COMMENT 'Time-based audit queries',
+  KEY `idx_apikeys_audit_by` (`changed_by`) COMMENT 'Actor lookup',
+  CONSTRAINT `fk_apikeys_audit_key` FOREIGN KEY (`api_key_id`) REFERENCES `api_keys` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_apikeys_audit_by` FOREIGN KEY (`changed_by`) REFERENCES `coremusic_auth`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='API key audit trail ÔÇö key lifecycle, rotations, scope changes, revocations';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

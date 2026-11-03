@@ -91,7 +91,7 @@ ob_start();
                         <label class="adm-form__label">Ses Dosyası (Master Audio) *</label>
                         <div class="adm-dropzone adm-dropzone--light">
                             <div class="adm-dropzone__icon">
-                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
                             </div>
                             <strong class="adm-dropzone__title">Ses dosyasını buraya sürükleyin</strong>
                             <p class="adm-dropzone__desc">FLAC, WAV, ALAC veya MP3 (Max 250MB)</p>

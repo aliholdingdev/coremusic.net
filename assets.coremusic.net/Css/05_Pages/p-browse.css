@@ -1,0 +1,926 @@
+/**
+ * Dosya: p-browse.css
+ * Katman: 05_Pages — sayfa özel stiller
+ * Rol: Dosya Yöneticisi / Göz At sayfası — /browse, /gozat (Diskler, Sürücüler)
+ * Bağımlılık: token tüketir: var(--cm-glass-*), var(--cm-primary), var(--cm-radius-*), var(--cm-white)
+ * SSOT: Figma node 2831:9555 (Linux 1024 - Göz At Page)
+ *       + node 3155:18252 (Linux 1920 - Göz At Page)
+ *       + node 2831:10282 (Linux 1024 - Göz At - Tıklama Clicked)
+ * Güncelleme: 2026-10-31
+ */
+
+/* ============================================================
+   1. PAGE CONTAINER & GLASS PANELS (TRUE FROSTED GLASS EFFECT)
+   ============================================================ */
+
+html body .page-browse.page-layout {
+    position: absolute;
+    top: var(--header-h, 60px);
+    left: 0;
+    right: 0;
+    bottom: var(--footer-h, 90px);
+    display: block;
+    width: auto;
+    max-width: none;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Sol cam panel — Figma node 2831:9555 (743×424 @ 23,71) / node 3155:18261 (1612×879) */
+.page-browse .browse-glass {
+    position: absolute;
+    left: 24px;
+    top: 29px;
+    right: 308px;
+    bottom: 22px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-radius: var(--cm-radius-md, 8px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.page-browse--embedded .browse-glass {
+    left: 23px;
+    top: 9px;
+    right: 254px;
+    height: 420px;
+    bottom: auto;
+    border-radius: var(--cm-radius-sm, 6px);
+}
+
+.page-browse--4k .browse-glass {
+    left: 24px;
+    top: 29px;
+    right: 308px !important;
+    bottom: 22px !important;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    border-radius: var(--cm-radius-lg, 12px);
+}
+
+/* ============================================================
+   2. TOOLBAR (Figma 2831:9576 "Actions Btns")
+   ============================================================ */
+
+.page-browse .browse-disk-view {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-browse .browse-toolbar {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    flex-shrink: 0;
+    z-index: 2;
+}
+
+.page-browse .browse-toolbar__btn {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.2s ease, background 0.2s ease;
+    margin-right: 12px;
+}
+
+.page-browse .browse-toolbar__btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: scale(1.06);
+}
+
+.page-browse .browse-toolbar__btn img {
+    width: 36px;
+    height: 36px;
+    display: block;
+}
+
+.page-browse .browse-toolbar__title {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cm-white);
+    margin: 0;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* ============================================================
+   3. CONTENT & DISK SECTIONS (Figma 2831:9555)
+   ============================================================ */
+
+.page-browse .browse-content {
+    flex: 1;
+    padding: 14px 20px 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cm-pink-primary-button) rgba(255, 255, 255, 0.08);
+}
+
+.page-browse .browse-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.page-browse .browse-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.page-browse .browse-content::-webkit-scrollbar-thumb {
+    background: var(--cm-pink-primary-button);
+    border-radius: 4px;
+}
+
+.page-browse .browse-disk-section {
+    margin-bottom: 18px;
+}
+
+.page-browse .browse-section-title {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 10px 0;
+    letter-spacing: 0.2px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.page-browse .browse-disk-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* ============================================================
+   4. DISK BUTTONS / CARDS (Figma 2831:9565 / 160×44 / 180×50)
+   ============================================================ */
+
+.page-browse .browse-disk-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 6px;
+    padding: 6px 10px;
+    width: 175px;
+    height: 48px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+.page-browse--wide .browse-disk-card {
+    width: 185px;
+    height: 50px;
+    padding: 7px 12px;
+}
+
+.page-browse--4k .browse-disk-card {
+    width: 270px;
+    height: 72px;
+    padding: 10px 16px;
+}
+
+.page-browse .browse-disk-card:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 0, 200, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 10px rgba(255, 0, 200, 0.3);
+}
+
+.page-browse .browse-disk-card.is-active,
+.page-browse .browse-disk-card[aria-selected="true"] {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: var(--cm-pink-primary-button);
+    box-shadow: 0 0 14px rgba(255, 0, 200, 0.5), inset 0 0 8px rgba(255, 0, 200, 0.25);
+}
+
+.page-browse .browse-disk-card__body {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.page-browse .browse-disk-card__icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.page-browse .browse-disk-card__icon img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+    display: block;
+}
+
+.page-browse--4k .browse-disk-card__icon,
+.page-browse--4k .browse-disk-card__icon img {
+    width: 48px;
+    height: 48px;
+}
+
+.page-browse .browse-disk-card__info {
+    overflow: hidden;
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+.page-browse .browse-disk-card__name {
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--cm-white);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.page-browse--4k .browse-disk-card__name {
+    font-size: 15px;
+}
+
+.page-browse .browse-disk-card__progress {
+    position: relative;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    height: 6px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.page-browse--4k .browse-disk-card__progress {
+    height: 8px;
+}
+
+.page-browse .browse-disk-card__progress-fill {
+    background: linear-gradient(90deg, var(--cm-pink-primary-button) 0%, var(--cm-accent) 100%);
+    height: 100%;
+    border-radius: 3px;
+    box-shadow: 0 0 6px rgba(255, 0, 200, 0.5);
+    transition: width 0.3s ease;
+}
+
+.page-browse .browse-disk-card__progress-tick {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--cm-white);
+    border-radius: 1px;
+    transform: translateX(-50%);
+    opacity: 0.85;
+}
+
+/* ============================================================
+   5. SAĞ PANEL (Figma node 2831:9583 "Sağ Panel", 219×420)
+   ============================================================ */
+
+.page-browse .browse-sidebar-panel {
+    position: absolute;
+    right: 24px;
+    top: 29px;
+    bottom: 22px;
+    width: 240px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 3;
+}
+
+.page-browse--embedded .browse-sidebar-panel {
+    right: 23px;
+    top: 9px;
+    width: 219px;
+    height: 420px;
+    bottom: auto;
+    padding: 10px 12px;
+}
+
+.page-browse--4k .browse-sidebar-panel {
+    right: 24px;
+    top: 29px;
+    bottom: 22px;
+    width: 252px;
+    height: auto !important;
+    max-height: none !important;
+}
+
+/* Üst Disk Başlığı */
+.browse-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.browse-panel-disk-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+    background: rgba(255, 0, 200, 0.2);
+    border: 1px solid rgba(255, 0, 200, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cm-pink-primary-button);
+    flex-shrink: 0;
+}
+
+.browse-panel-disk-titles {
+    overflow: hidden;
+    min-width: 0;
+}
+
+.browse-panel-diskname {
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--cm-white);
+    margin: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.browse-panel-disktype {
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 8.5px;
+    color: rgba(255, 255, 255, 0.6);
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* Kapasite Bilgisi & İlerleme Çubuğu */
+.browse-panel-capacity {
+    margin-bottom: 8px;
+}
+
+.browse-panel-cap-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 9.5px;
+    margin-bottom: 4px;
+}
+
+.browse-panel-cap-total {
+    font-weight: 600;
+    color: var(--cm-white);
+}
+
+.browse-panel-cap-percent {
+    font-weight: 600;
+    color: var(--cm-pink-primary-button);
+}
+
+.browse-panel-progress {
+    height: 5px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.browse-panel-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cm-pink-primary-button) 0%, var(--cm-accent) 100%);
+    box-shadow: 0 0 6px rgba(255, 0, 200, 0.6);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.browse-panel-cap-free {
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 8.5px;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* Ayırıcı Çizgi (Figma var(--cm-pink-primary-button) separator) */
+.browse-panel-divider {
+    height: 1px;
+    background: rgba(255, 0, 200, 0.35);
+    margin: 6px 0;
+    flex-shrink: 0;
+}
+
+/* 5 İstatistik Sütunu (Figma 2831:9626-9643) */
+.browse-panel-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    flex-shrink: 0;
+}
+
+.browse-stat-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.browse-stat-icon {
+    color: var(--cm-pink-primary-button);
+    margin-bottom: 2px;
+}
+
+.browse-stat-val {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--cm-white);
+    line-height: 1.1;
+}
+
+.browse-stat-lbl {
+    font-size: 7.5px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.1;
+}
+
+.browse-stat-sep {
+    width: 1px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+
+/* 5 Aksiyon Butonu (Figma 2831:9593-9607) */
+.browse-panel-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+
+.browse-action-btn {
+    width: 100%;
+    height: 25px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--cm-white);
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 9.5px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s ease;
+    outline: none;
+}
+
+.browse-action-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 0, 200, 0.45);
+    transform: translateY(-1px);
+}
+
+.browse-action-btn--primary {
+    background: linear-gradient(90deg, var(--cm-pink-primary-button) 0%, var(--cm-accent) 100%);
+    border: none;
+    color: var(--cm-white);
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(255, 0, 200, 0.4);
+}
+
+.browse-action-btn--primary:hover {
+    background: linear-gradient(90deg, var(--cm-pink-mid) 0%, var(--cm-accent-light) 100%);
+    box-shadow: 0 0 14px rgba(255, 0, 200, 0.6);
+    transform: translateY(-1px);
+}
+
+/* 3 Nokta Butonları (Figma 2831:9608-9616) */
+.browse-panel-dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    flex-shrink: 0;
+}
+
+.browse-dot-btn {
+    flex: 1;
+    height: 24px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s ease;
+}
+
+.browse-dot-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: var(--cm-white);
+    border-color: rgba(255, 0, 200, 0.4);
+}
+
+/* ============================================================
+   6. FILE EXPLORER VIEW (Figma node 2831:10282 "Clicked")
+   ============================================================ */
+
+.browse-explorer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: transparent;
+    z-index: 5;
+}
+
+.browse-explorer.is-active {
+    display: flex;
+}
+
+.browse-explorer__pathbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    padding: 0 16px;
+    background: rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.browse-explorer__nav-btns {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.browse-explorer__btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cm-white);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.browse-explorer__btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: scale(1.06);
+}
+
+.browse-explorer__btn img {
+    width: 32px;
+    height: 32px;
+}
+
+.browse-explorer__btn--fwd {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.browse-explorer__title-wrap {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+.browse-explorer__title {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cm-white);
+    margin: 0;
+    letter-spacing: 0.2px;
+}
+
+.browse-explorer__path-text {
+    font-family: 'Poppins', monospace, sans-serif;
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.65);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.browse-explorer__search {
+    position: relative;
+    width: 159px;
+    display: flex;
+    align-items: center;
+}
+
+.browse-explorer__search-input {
+    width: 100%;
+    height: 25px;
+    padding: 0 28px 0 10px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--cm-white);
+    font-size: 10px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.browse-explorer__search-input:focus {
+    border-color: var(--cm-pink-primary-button);
+    box-shadow: 0 0 8px rgba(255, 0, 200, 0.4);
+}
+
+.browse-explorer__search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.browse-explorer__search-icon {
+    position: absolute;
+    right: 8px;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Gövde: Sol Ağaç + Sağ Tablo */
+.browse-explorer__body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.browse-explorer__tree {
+    width: 144px;
+    min-width: 140px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(0, 0, 0, 0.14);
+    overflow-y: auto;
+    padding: 10px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cm-pink-primary-button) transparent;
+}
+
+.browse-explorer__tree::-webkit-scrollbar {
+    width: 4px;
+}
+
+.browse-explorer__tree::-webkit-scrollbar-thumb {
+    background: var(--cm-pink-primary-button);
+    border-radius: 4px;
+}
+
+.browse-explorer__folder {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.browse-explorer__folder:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--cm-white);
+}
+
+.browse-explorer__folder.is-active {
+    background: linear-gradient(90deg, rgba(255, 0, 200, 0.3) 0%, rgba(255, 79, 216, 0.1) 100%);
+    border-left: 2px solid var(--cm-pink-primary-button);
+    color: var(--cm-white);
+    font-weight: 600;
+}
+
+.browse-explorer__folder-icon {
+    color: var(--cm-pink-primary-button);
+    flex-shrink: 0;
+}
+
+.browse-explorer__files {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0 10px 10px;
+}
+
+.browse-explorer__header-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1.3fr 55px;
+    padding: 8px 12px;
+    background: rgba(56, 56, 56, 0.35);
+    border-radius: 4px;
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.browse-explorer__file-list {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cm-pink-primary-button) rgba(255, 255, 255, 0.08);
+}
+
+.browse-explorer__file-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.browse-explorer__file-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.browse-explorer__file-list::-webkit-scrollbar-thumb {
+    background: var(--cm-pink-primary-button);
+    border-radius: 4px;
+}
+
+.browse-explorer__file-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1.3fr 55px;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.browse-explorer__file-row:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--cm-white);
+}
+
+.browse-explorer__file-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.browse-explorer__file-disc {
+    opacity: 0.85;
+    flex-shrink: 0;
+}
+
+.browse-explorer__file-album,
+.browse-explorer__file-artist {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.browse-explorer__file-duration {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: right;
+    font-family: monospace;
+}
+
+/* ============================================================
+   7. MOBİL VE DAR EKRANLAR (< 768px)
+   ============================================================ */
+
+@media (max-width: 768px) {
+    html body .page-browse.page-layout {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        height: auto;
+        min-height: calc(100vh - 150px);
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 12px 14px;
+        gap: 16px;
+    }
+
+    .page-browse .browse-glass {
+        position: relative;
+        left: auto;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        width: 100%;
+        min-height: 420px;
+    }
+
+    .page-browse .browse-disk-view {
+        position: relative;
+        inset: auto;
+        height: auto;
+    }
+
+    .page-browse .browse-disk-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .page-browse .browse-sidebar-panel {
+        position: relative;
+        left: auto;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        width: 100%;
+        height: auto;
+    }
+
+    .browse-panel-stats {
+        gap: 4px;
+    }
+
+    .browse-stat-col {
+        padding: 4px 2px;
+    }
+
+    .browse-explorer__inner {
+        flex-direction: column;
+    }
+
+    .browse-explorer__tree {
+        width: 100%;
+        max-height: 140px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+}
+.browse-explorer__file-row.is-active {
+    background: linear-gradient(90deg, rgba(255, 0, 200, 0.45) 0%, rgba(255, 79, 216, 0.3) 60%, rgba(255, 255, 255, 0.08) 100%) !important;
+    box-shadow: 0 0 16px rgba(255, 0, 200, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.35) !important;
+    border-radius: 6px;
+}

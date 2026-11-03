@@ -2,10 +2,10 @@
 title: "CoreMusic — Workflow Pointer"
 type: workflow-pointer
 category: workflow
-version: 3.2.0
+version: 3.3.0
 status: active
 authority: "SSOT: .ai/WORKFLOW.md — Full workflows read via `.ai/WORKFLOW.md`"
-updated: 2026-10-25
+updated: 2026-11-01
 ---
 
 # ⚠️ CoreMusic Workflow Configuration (Vault SSOT Pointer)
@@ -13,8 +13,8 @@ updated: 2026-10-25
 > [!WARNING]
 > **AI AGENT DİKKATİNE / ATTENTION AI AGENTS:**
 >
-> Bu dosya, ADR-042 (Vault Restructuring) kararı uyarınca yalnızca bir **YÖNLENDİRİCİ (POINTER)** olarak bırakılmıştır.
-> CoreMusic projesine ait tüm iş akışları, agent otomasyon senaryoları, faz onay mekanizmaları ve vizyon dokümanları `.ai/` klasörü içerisindeki ana kasada (Vault) toplanmıştır.
+> Bu dosya, ADR-042 (Vault Restructuring) kararı uyarınca yalnızca bir **YÖNLENDİRİCİ (POINTER)** olarak bırakılmıştır.  
+> CoreMusic projesine ait tüm iş akışları, agent otomasyon senaryoları, faz onay mekanizmaları ve vizyon dokümanları `.ai/` klasörü içerisindeki ana kasada (Vault) toplanmıştır.  
 >
 > **BU DOSYAYI TALİMAT OKUMAK İÇİN KULLANMAYIN. LÜTFEN AŞAĞIDAKİ BAĞLANTILARA TIKLAYARAK GERÇEK İŞ AKIŞI VE VİZYON DOSYALARINA GEÇİŞ YAPIN.**
 
@@ -28,16 +28,18 @@ updated: 2026-10-25
 İş akışlarını okumak, script'leri çalıştırmak, vizyonu anlamak ve mevcut faz (Phase) durumunu yönetmek için derhal aşağıdaki dizinlere gidin:
 
 1. **[Ana İş Akışları (WORKFLOW.md)](.ai/WORKFLOW.md)** — tam metin `.ai/WORKFLOW.md` 👈 *(Öncelikli iş akışı kuralları)*
-2. **[Vizyon ve Felsefe (VISION.md)](.ai/VISION.md)** — tam metin `.ai/VISION.md` 👈 *(Pazar krizi, mülkiyet felsefesi ve çözümler)*
-3. **[Proje Tanımı (PROJECTS.md)](.ai/PROJECTS.md)** — tam metin `.ai/PROJECTS.md` 👈 *(10 temel yetenek, hedef kitleler, sektörel çözümler)*
-4. **[Faz Yürütme ve Matris (engine.md)](.ai/engine.md)** — tam metin `.ai/engine.md` *(Orkestrasyon ve yürütme matrisi)*
-5. **[AI Anayasası (CLAUDE.md)](.ai/CLAUDE.md)** *(16 Hard Guardrail ve mühendislik anayasası)*
-6. **[Agent Registry (AGENTS.md)](.ai/AGENTS.md)** *(11 agent, routing, handover, escalation)*
-7. **[Vault Klasör Context (CONTEXT.md)](.ai/CONTEXT.md)** *(Vault envanteri, dosya yapısı)*
-9. **[RAG Retrieval Index & Pipeline (RAG.md)](.ai/RAG.md)** — konu→dosya indeksi (§3, 20 satır) + pipeline tasarımı (§4, ÇOĞU PLANNED — ADR-030) 👈 *(AI'ın ilk okuma hedefini seçmesi için)*
-10. **[Vault Context (CONTEXT.md)](.ai/CONTEXT.md)** — dizin/dosya envanteri, boot ilişkisi
-
-> [ · süreç → [[.ai/WORKFLOW.md]] · anayasa → [[.ai/CLAUDE.md]] · agent → [[.ai/AGENTS.md]].
+2. **[Kalıcı Oturum Durum & Devir Hafızası (durum.md)](.ai/durum.md)** — tek sayfalık oturum durum devri ve kalıcı hafıza
+3. **[Kullanıcı Kuralları (kurallar.md)](.ai/.rules/kurallar.md)** — kullanıcı kimliği (Bayram Ali), hybrid dil, Light Mode ve amfi kuralları
+4. **[Bütün Proje Kuralları (senior-mode.md)](.ai/.rules/senior-mode.md)** — kod öncesi 16 analiz adımı ve senior mühendislik standartları
+5. **[Figma API Erişim Tokeni (.env.figma)](.ai/.env.figma)** — `FIGMA_TOKEN` / `FIGMA_FILE_KEY` SSOT (.gitignore:69)
+6. **[Vizyon ve Felsefe (VISION.md)](.ai/VISION.md)** — tam metin `.ai/VISION.md` 👈 *(Pazar krizi, mülkiyet felsefesi ve çözümler)*
+7. **[Proje Tanımı (PROJECTS.md)](.ai/PROJECTS.md)** — tam metin `.ai/PROJECTS.md` 👈 *(10 temel yetenek, hedef kitleler, sektörel çözümler)*
+8. **[Faz Yürütme ve Matris (engine.md)](.ai/engine.md)** — tam metin `.ai/engine.md` *(Orkestrasyon ve yürütme matrisi)*
+9. **[AI Anayasası (CLAUDE.md)](.ai/CLAUDE.md)** *(16 Hard Guardrail ve mühendislik anayasası)*
+10. **[Agent Registry (AGENTS.md)](.ai/AGENTS.md)** *(11 agent, routing, handover, escalation)*
+11. **[Vault Klasör Context (CONTEXT.md)](.ai/CONTEXT.md)** *(Vault envanteri, dosya yapısı)*
+12. **[RAG Retrieval Index & Pipeline (RAG.md)](.ai/RAG.md)** — konu→dosya indeksi (§3) + retrieval rehberi
+13. **[Master Katalog (index.md)](.ai/index.md)** — 24 ana vault belgesinin kataloğu
 
 ---
 
@@ -45,27 +47,31 @@ updated: 2026-10-25
 
 ```text
 1) root CLAUDE.md + AGENTS.md + README.md + WORKFLOW.md OKU (bu dosyalar)
-1.5) SKILL EŞLEŞMESİ — CLAUDE.md §Skill Registry → eşleşme varsa Skill tool ile YÜKLE
-2) .ai/.rules/** OKU (varsa — error-recovery.md diskte YOK)
-3) ilgili .ai/** OKU (ihtiyaç anında @ ile)
-4) mevcut dosyayı OKU
-5) kodu YAZ
-6) .ai/.rules/** ÇALIŞTIR
-   · HATA   → error-recovery.md (diskte YOK — DUR) → dosyayı SİL + Yeniden YAZ → 6'ya dön
-   · TEMİZ  → UI değişikliği var mı?
-        · EVET  → browser test → COMMIT
-        · HAYIR → COMMIT
+2) .ai/durum.md OKU (oturum başı durum devri ve kalıcı hafıza kontrolü)
+3) .ai/.rules/kurallar.md ve .ai/.rules/senior-mode.md OKU (kullanıcı kuralları + 16 adım analiz)
+4) SKILL EŞLEŞMESİ — CLAUDE.md §Skill Registry → eşleşme varsa Skill tool ile YÜKLE
+5) ilgili .ai/** OKU (ihtiyaç anında @ ile)
+6) mevcut dosyayı OKU
+7) kodu YAZ
+8) .ai/CLAUDE.md Guardrails ve LINT kontrollerini ÇALIŞTIR
+9) UI değişikliği var mı?
+   · EVET  → browser test (Light Mode) → COMMIT (orkestratörde)
+   · HAYIR → COMMIT (orkestratörde)
+10) .ai/durum.md + .ai/log.md + .ai/MEMORY.md GÜNCELLE ve Session-End Check & Clean çalıştır
 ```
 
-Ayrıntı (disk notları dahil): [[.ai/WORKFLOW.md]] §8.10 · bağlayıcı özet: bu dosya §14.
+## ⚠️ Kritik Proje Kısıtları (Hard Constraints)
 
-⚠️ **VERIFICATION REQUIRED**: `.ai/.rules/error-recovery.md` diskte YOK — adımlar 7-8 için **⚠️ VERIFICATION REQUIRED** (kural dosyası eklenmeden bu adım çalıştırılamaz).
+1. **Tema Zorunluluğu (YALNIZCA LIGHT MODE):** CoreMusic'te ŞU ANDA YALNIZCA LIGHT MODE MEVCUTTUR. Dark mode henüz yapılmamıştır/yoktur! Tüm UI tasarımları istisnasız Light Mode'a göre tasarlanır; dark mode varsayımı veya dark mode kodu yazmak KESİNLİKLE YASAKTIR.
+2. **Amplifikatör Topolojisi:** Donanım amfi mimarisi kesinlikle Class AB'dir (Class D yasaktır).
+3. **Kalıcı Hafıza & Devir Protokolü:** AI her oturumda `.ai/durum.md` okur, değişiklikleri `.ai/durum.md`, `.ai/log.md` ve `.ai/MEMORY.md` dosyalarına işler.
+4. **Subagent Commit Yasağı:** Subagent `git commit` ATAMAZ; commit yetkisi orkestratöre/kullanıcıya aittir.
 
 ---
 
 ## Skill Noktaları (Süreç Adımı → Zorunlu Skill)
 
-Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry (**13 proje skill**, `.claude/skills/` — 2026-10-10 disk ölçümü; `C:\.claude\skills` **bu makinede MEVCUT — 2026-10-24: 348 dizin / 502 SKILL.md, global envanter (proje Registry'si değil)** · `.opencode/skills` diskte YOK — kapatıldı 2026-10-07). Her noktada eşleşme varsa **ilk işlem** Skill tool ile o skill'i yüklemektir (Skill Usage Mandate §2); istisnalar mandate §4'tedir.
+Skill Registry SSOT: kök [`CLAUDE.md`](CLAUDE.md) §Skill Registry (**14 proje skill**, `.claude/skills/`). Her noktada eşleşme varsa **ilk işlem** Skill tool ile o skill'i yüklemektir (`AGENTS.md` §7 adım 0).
 
 | Süreç Adımı | Zorunlu Skill |
 |---|---|
@@ -77,30 +83,24 @@ Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry (**13 proje skill**, `.cl
 | C++ audio | `audio-engine-cpp` |
 | Donanım | `hardware-electronics` |
 | Güvenlik değişikliği | `security-hardening` |
-| Web kodu tamamlanma | `verify-loop` (global envanterde mevcut — proje Registry'sinde değil) |
-| İşlem kapanışı | `vault-sync-post` |
-| Çakışan karar | `agent-debate` (global envanterde mevcut — proje Registry'sinde değil) |
+| İşlem kapanışı & vault senkronu | `vault-sync-post` |
 | Multi-agent görev | `agent-orchestrator` |
 | Composer / vendor | `composer-sync` |
-| Onay / iletişim | `human-mode` (global envanterde mevcut — proje Registry'sinde değil) |
-| İddia doğruluğu | `truth-engine` (global envanterde mevcut — proje Registry'sinde değil) |
-| Durum raporu | `context-report` (global envanterde mevcut — proje Registry'sinde değil) |
-| Yeni skill | `skill-maker` |
-| Konu öğrenme / sınav | `learning-prompts` (Registry'ye 2026-10-10 eklendi) |
+| Yeni skill üretimi / güncelleme | `skill-maker` |
+| Konu öğrenme / Feynman tekniği | `learning-prompts` |
 
 ---
 
 ## §14 Değişiklik Geçmişi
 
 | Tarih | Sürüm | Değişiklik | Kaynak |
-|-------|-------|------------|--------|
-| 2026-10-10 | 3.2.0 | Mimari indeks → `index.md` (22 K-space düğümü K000-K021); Skill Registry disk hizası 13 proje skill; 5 global skill `C:\.claude\skills` global envantere işaretlendi; `learning-prompts` eklendi | Disk ölçüm 2026-10-10 |
+|---|---|---|---|
+| 2026-11-01 | 3.3.0 | .ai/.rules/senior-mode.md ve .ai/.env.figma bağlantıları eklendi; boot sırası ve OpenCode/Claude Code ayrımı güncellendi | Session Alignment |
+| 2026-10-10 | 3.2.0 | Mimari indeks → `index.md`; Skill Registry disk hizası 14 proje skill | Disk ölçüm 2026-10-10 |
 | 2026-10-07 | 3.0.0 | Skill mandate + Skill Noktaları eklendi | Claude Skill v3.0 |
-| 2026-10-07 | 2.0.2 | Pointer dosyası — `.ai/WORKFLOW.md` bağlantısı düzeltildi, `.ai/` bağlantıları güncellendi | Vault Refactor Engine |
-| 2026-09-24 | 2.0.0 | §1-§14 bağlayıcı özet eklendi (K0-K20, A0-A5, adlandırma, sayım, tartışma, iki ADR serisi, yazım+senkron); pointer uyarısı + SSOT linkleri korundu | Vault iş akışı genişletme görevi |
+| 2026-09-24 | 2.0.0 | §1-§14 bağlayıcı özet eklendi; pointer uyarısı + SSOT linkleri korundu | Vault iş akışı genişletme |
 | 2026-08-09 | 1.0.0 | Pointer dosyası (ADR-042) — SSOT bağlantıları | ADR-042 |
 
 ---
 
-*CoreMusic Workflow Pointer v3.2.0 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-10-10*
-*Mode: Red Team · Human Mode · Truth Mode*
+*CoreMusic Workflow Pointer v3.3.0 — SSOT: `.ai/` — Last Updated: 2026-11-01*

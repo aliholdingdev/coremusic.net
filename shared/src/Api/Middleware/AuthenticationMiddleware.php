@@ -33,13 +33,21 @@ final class AuthenticationMiddleware
     /**
      * Auth'sız (public) route önekleri. AuthorizationMiddleware de bunu paylaşır.
      *
+     * F19: ölü `/api/v1/public` deseni çıkarıldı — `api.coremusic.net/config/routes.php`
+     * içinde bu yola ait route YOK (grep kanıtı: 0 kayıt), yalnız ADR-020 tarihsel
+     * metninde geçiyor. Kalıcı public'lik route contract'taki `public => true`
+     * alanından gelir; bu liste yalnızcontract'ta alan bulunmayan uçlar için
+     * fallback'tir.
+     *
+     * NOT (batch #2): deseni `routes.php`'den türetmek shared → api bağımlılığı
+     * yaratır (yasak katman yönü) — bu yüzden derleme zamanı okuma YAPILMAZ.
+     *
      * @var string[]
      */
     public const PUBLIC_ROUTE_PATTERNS = [
         '/api/v1/auth/login',
         '/api/v1/auth/register',
         '/api/v1/auth/forgot-password',
-        '/api/v1/public',
     ];
 
     /**

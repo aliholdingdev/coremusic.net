@@ -4,8 +4,9 @@ title: "CoreMusic — Faz 3 GUI Ön Spec (media.coremusic.net web arayüzü)"
 type: spec
 category: ui-design
 date: 2026-09-29
-status: active
-version: 0.1.0
+status: superseded
+version: 0.1.1
+superseded_by: "ADR-115 (draft, 2026-11-01) — karar: media yönetimi admin.coremusic.net'te yürütülür"
 authority: "ÖN spec — asıl screen-spec'ler `.ai/ui-design/screens/` serbestleşince Kalıp D ile yazılır (Guardrail #16)"
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -14,6 +15,8 @@ reference:
 ---
 
 # CoreMusic — Faz 3 GUI Ön Spec (media.coremusic.net)
+
+> **⚠️ DURUM DEĞİŞİKLİĞİ (2026-11-01):** Bu spec **superseded** — media.coremusic.net'in kendi Faz 3 web paneli İPTAL edildi; karar: media yönetim arayüzü `admin.coremusic.net` panelinde yürütülür (**ADR-115**, draft, `.ai/.decisions/draft/`). Bu doküman geçmiş kayıt olarak korunur; screen-spec bu yoldan üretilmez. İçindeki açık VR'ler (breakpoint çakışması §6 · BEM `Cxx` §5.4 VR-6) admin görevi planlanırken güncel bileşen envanteri + `05-responsive-architecture` üzerinden yeniden değerlendirilir.
 
 **Zorunlu Bağlantılar:** [[media.coremusic.net/docs/dizin-yapisi]] · [[media.coremusic.net/docs/adlandirma]] · [.ai/.templates/ui-design/screen-spec-template] · [.ai/architecture/k11-ux/itcss-9-layer]
 

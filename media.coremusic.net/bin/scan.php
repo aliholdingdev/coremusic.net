@@ -29,16 +29,7 @@ declare(strict_types=1);
  * 8.4 ortaminda dogrulanmalidir (VERIFICATION REQUIRED).
  */
 
-spl_autoload_register(static function (string $sinif): void {
-    $onek = 'Media\\';
-    if (!str_starts_with($sinif, $onek)) {
-        return;
-    }
-    $dosya = __DIR__ . '/../src/Media/' . str_replace('\\', '/', substr($sinif, strlen($onek))) . '.php';
-    if (is_file($dosya)) {
-        require_once $dosya;
-    }
-});
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Media\CatalogWriter;
 use Media\Ulid;

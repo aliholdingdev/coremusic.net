@@ -189,7 +189,7 @@ final class HtmlShellRenderer
         echo '<link rel="preconnect" href="' . $assetsEsc . '" crossorigin="anonymous">';
         echo $css;
         // Body background image (dynamic assets URL via CSS custom property)
-        echo '<style' . $nonceAttr . '>:root{--body-bg-image:url(\'' . $assetsEsc . '/Image/background/bkimage1.png\');--body-bg-attachment:fixed;--body-bg-size:cover;--body-bg-position:center;--body-bg-repeat:no-repeat}</style>';
+        echo '<style' . $nonceAttr . '>:root{--body-bg-image:url(\'' . $assetsEsc . '/Image/background/romantic-bg-pink.png\');--body-bg-attachment:fixed;--body-bg-size:cover;--body-bg-position:center;--body-bg-repeat:no-repeat}</style>';
         echo $nonceMeta;
         echo '</head>';
 

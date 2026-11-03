@@ -35,6 +35,10 @@ $h = static function (string $v): string {
 };
 $assetsUrl = defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net';
 
+/* --- CSP Nonce --- */
+$cspNonce = (string)($_SESSION['csp_nonce'] ?? '');
+$nonceAttr = $cspNonce !== '' ? ' nonce="' . $h($cspNonce) . '"' : '';
+
 /* --- Saniye → HH:MM:SS --- */
 $formatDuration = static function (mixed $seconds): string {
     if (!is_numeric($seconds)) {
@@ -96,8 +100,13 @@ $currentArtist   = (string)($currentTrack['a'] ?? 'Göksel');
 $currentAlbum    = (string)($currentTrack['album'] ?? 'Hayat Rüya Gibi');
 $currentDuration = (string)($currentTrack['d'] ?? '00:03:05');
 $currentElapsed  = '00:00:00';
+$is4k            = $dm->is4k();
+$isEmbedded      = $dm->shouldRenderEmbeddedLayout();
+$diskPlayerClass = $is4k
+    ? 'page-player--4k'
+    : ($isEmbedded ? 'page-player--embedded' : 'page-player--wide');
 ?>
-<div class="page-player page-player--wide page-player--fullscreen page-player--diskplayer"
+<div class="page-player <?= $diskPlayerClass ?> page-player--fullscreen page-player--diskplayer <?= $h($dm->allClasses()) ?>"
      id="diskplayer-root"
      <?= $dm->dataAttributes() ?>>
 
@@ -108,9 +117,9 @@ $currentElapsed  = '00:00:00';
     </div>
 
     <!-- ÜST BAR: Geri butonu + Şarkı Adı + Plak & Tam Ekran Araçları -->
-    <header class="player-topbar player-topbar--wide">
+    <header class="player-topbar <?= $is4k ? 'player-topbar--4k' : ($isEmbedded ? 'player-topbar--embedded' : 'player-topbar--wide') ?>">
         <div class="player-topbar__left">
-            <a class="player-back player-back--wide" href="/nowplaying" aria-label="Şimdi Oynatılıyor sayfasına dön" title="Şimdi Oynatılıyor">
+            <a class="player-back <?= $isEmbedded ? 'player-back--embedded' : 'player-back--wide' ?>" href="/nowplaying" aria-label="Şimdi Oynatılıyor sayfasına dön" title="Şimdi Oynatılıyor">
                 <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z" fill="currentColor"/>
                 </svg>
@@ -118,12 +127,6 @@ $currentElapsed  = '00:00:00';
             <h1 class="player-topbar__song-title" id="dp-topbar-title"><?= $h($currentSong) ?></h1>
         </div>
         <div class="player-topbar__right">
-            <button type="button" class="player-toolbar__btn player-toolbar__btn--toggle-vinyl is-active" id="dp-toggle-vinyl" aria-label="Vinil Plak Aç / Kapat" title="Vinil Plak Göster / Gizle">
-                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z" fill="currentColor"/>
-                </svg>
-                <span class="dp-toggle-text">Plak Modu</span>
-            </button>
             <button type="button" class="player-toolbar__btn player-toolbar__btn--fs" id="dp-btn-fs" aria-label="Tam Ekran" title="Tam Ekran">
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
                     <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/>
@@ -133,20 +136,9 @@ $currentElapsed  = '00:00:00';
     </header>
 
     <!-- ORTA İÇERİK: Dönen Disk (Merkez) + Sol Alt Mini Kart + Sağ 500px Playlist -->
-    <div class="player-content player-content--wide player-content--diskplayer">
+    <div class="player-content <?= $is4k ? 'player-content--4k' : ($isEmbedded ? 'player-content--embedded' : 'player-content--wide') ?> player-content--diskplayer">
 
-        <!-- MERKEZ: Dönen Vinil Plak Diski (Vinyl Record Disk — Toggleable) -->
-        <div class="player-visual player-visual--vinyl-center" id="dp-vinyl-container" aria-hidden="true">
-            <div class="player-visual__vinyl-wrap">
-                <div class="player-visual__vinyl is-playing" id="dp-vinyl">
-                    <div class="player-visual__vinyl-grooves"></div>
-                    <div class="player-visual__art">
-                        <img class="player-visual__image" id="dp-vinyl-img" src="<?= $h($coverUrl) ?>" alt="Albüm Kapağı" loading="lazy">
-                        <div class="player-visual__center-hole"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
         <!-- SOL ALT: Player Info Div Mini (Figma node I2135:35489;894:15744 — 435×180 Frosted Glass) -->
         <div class="player-mini-card" aria-label="Şu an çalan şarkı bilgisi">
@@ -259,7 +251,7 @@ $currentElapsed  = '00:00:00';
 </div>
 
 <!-- DiskPlayer İstemci Etkileşim Skripti -->
-<script>
+<script<?= $nonceAttr ?>>
 (function() {
     var vinyl = document.getElementById('dp-vinyl');
     var playBtn = document.getElementById('dp-play-btn');

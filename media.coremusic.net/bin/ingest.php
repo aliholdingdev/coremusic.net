@@ -22,16 +22,7 @@ declare(strict_types=1);
  * 8.4 ortaminda dogrulanmalidir (VERIFICATION REQUIRED).
  */
 
-spl_autoload_register(static function (string $sinif): void {
-    $onek = 'Media\\';
-    if (!str_starts_with($sinif, $onek)) {
-        return;
-    }
-    $dosya = __DIR__ . '/../src/Media/' . str_replace('\\', '/', substr($sinif, strlen($onek))) . '.php';
-    if (is_file($dosya)) {
-        require_once $dosya;
-    }
-});
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Media\CatalogWriter;
 use Media\Slugger;
@@ -143,7 +134,16 @@ $mojibake = [];
 $ham = @file_get_contents($kok . '/config/mojibake-fix.json');
 $v = $ham === false ? null : json_decode($ham, true);
 if (is_array($v)) {
-    foreach ($v as $k => $deger) {
+    /* Esleme tablosu `eslemeler` nesnesindedir (mojibake-fix.json $comment:
+       "Uygulama noktasi: ingest normalize asamasi"). Ust seviye metaveridir
+       (yon · siralama · genel_kural ...), esleme degil — ust seviye okunursa
+       adDuzelt bosluk calisir. `eslemeler` yoksa eski duz yapida oldugu gibi
+       ust seviye kullanilir. Siralama: eslemeler nesnesi dosyada en-uzun-
+       eslesen-once siralanmistir (mojibake-fix.json $comment/siralama). */
+    $kaynak = (isset($v['eslemeler']) && is_array($v['eslemeler']) && $v['eslemeler'] !== [])
+        ? $v['eslemeler']
+        : $v;
+    foreach ($kaynak as $k => $deger) {
         if (is_string($k) && is_string($deger) && trim($k) !== '') {
             $mojibake[$k] = $deger;
         }

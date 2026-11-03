@@ -30,7 +30,15 @@
         <testsuite name="OAuth">
             <directory>tests/OAuth</directory>
         </testsuite>
+        <testsuite name="Integration">
+            <directory>tests/Integration</directory>
+        </testsuite>
     </testsuites>
+    <groups>
+        <exclude>
+            <group>live</group>
+        </exclude>
+    </groups>
     <source>
         <include>
             <directory suffix=".php">src</directory>

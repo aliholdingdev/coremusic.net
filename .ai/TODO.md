@@ -95,7 +95,7 @@ Depodaki gerçek iş kalemlerini (açık commit'ler, eksik testler, vault tutars
 | B2 | 2+1 SKU okuma | product-line §2 | 35W/kanal + 10W bas vs tersi |
 | B3 | G-4 route yüzeyi | api G-4 | `api.coremusic.net` vs `pro` |
 | B4 | N-3 phpunit cache | admin N-3 | ignore vs tracked |
-| B5 | M-2 Faz 3 GUI | media M-2 | ayrı görev vs home genişlemesi |
+| B5 | M-2 Faz 3 GUI | media M-2 | ayrı görev vs home genişlemesi → **KARAR: admin panel (ADR-115, 2026-11-01)** |
 | B6 | C-1 kod taşıma | cpp C-1 | `--/neva-engine`'de kalır vs taşınır |
 | B7 | P-4 coverage kapı | node P-4 | %75 korunur vs revize |
 | B8 | M-3 port | media M-3 | :5000/:6000 netleştirme |

@@ -3,26 +3,28 @@ title: "CONTEXT — shared"
 type: context
 category: shared
 date: 2026-10-12
-updated: 2026-10-12
-version: 2.0.0
+updated: 2026-10-30
+version: 2.0.1
 status: active
-authority: "SSOT: shared/CONTEXT.md — ölçüm 2026-10-12"
+authority: "SSOT: shared/CONTEXT.md — ölçüm 2026-10-12 · tüketici matrisi düzeltmesi 2026-10-30 (disk kazandı)"
 docType: context
 ---
 
 # CONTEXT — `shared/`
 
 > Bu belge `shared/` dizinini tanımlar. Vault (`.ai/`) ile çelişirse **disk kazanır**.
-> Bu dosya salt-okunur referanstır; düzenlemeyi ayrı bir görevde yapın.
+> Bu dosya salt-okunur referanstır; düzenlemeyi ayrı bir görevde yapın. (**İstisna 2026-10-30:** §3.3 tüketici matrisi
+> disk gerçeğiyle (admin + media) hizalandı; §3.1/§2 envanter sayıları F7 ölü DTO silinmesi + 1C `tests/Integration/`
+> ekiyle tazelendi — onaylı düzeltme görevi, dosya adı değişmedi.)
 > K-Space katman referansları (K000–K020, A0–A5, `.ai/architecture/`) bu revizyonda kaldırıldı — güncel mimari kanıt §3.1–§3.3'tedir.
 
 ---
 
 ## 1. Amaç
 
-`shared/`, CoreMusic subdomain'lerinin (api, auth, home) ortak kullandığı **tek PHP altyapı paketidir**: `coremusic/shared-infrastructure` sürüm 2.0.0 (`composer.json` — type: library, license: proprietary). Sunucu tarafı katman (Router, Middleware, Repository, OAuth, Security, Log, ViewMode) burada yaşar; hiçbir subdomain kendi kopyasını tutmaz.
+`shared/`, CoreMusic subdomain'lerinin (api, auth, home, admin, media) ortak kullandığı **tek PHP altyapı paketidir**: `coremusic/shared-infrastructure` sürüm 2.0.0 (`composer.json` — type: library, license: proprietary). Sunucu tarafı katman (Router, Middleware, Repository, OAuth, Security, Log, ViewMode) burada yaşar; hiçbir subdomain kendi kopyasını tutmaz.
 
-> **eli10 (basit):** `shared/`, api/auth/home sitelerinin hep birlikte kullandığı ortak kutudur. İçindeki kod bir kez yazılır, üç site kullanır; bir yerde düzeltilince üçü de düzelir.
+> **eli10 (basit):** `shared/`, api/auth/home/admin/media sitelerinin hep birlikte kullandığı ortak kutudur. İçindeki kod bir kez yazılır, beş site kullanır; bir yerde düzeltilince beşi de düzelir.
 > **eli15 (detay):** Paket Composer path-repo (`repositories: [{type: path, url: ../shared, options: {symlink: true}}]`) ile tüketilir; her tüketici `coremusic/shared-infrastructure: ^2.0` ister. PSR-4 kökü `CoreMusic\` → `src/`'tir. `shared/` içinde test altyapısı (`tests/`, `phpunit.xml`), yapılandırma şablonları (`config/`) ve şema geçmişi (`database/migrations/`) de paketle birlikte yaşar — çünkü bunlar paketin sözleşmesinin parçasıdır, uygulama katmanı değildir.
 
 ---
@@ -31,8 +33,8 @@ docType: context
 
 | Kapsam içi | Kapsam dışı |
 |---|---|
-| `src/` — 19 modül, 185 dosya (ölçüm §3.1) | `vendor/` içeriği — üçüncü taraf kod, elle düzenlenmez |
-| `tests/` — 64 dosya, 9 test grubu | `.phpunit.cache/`, `.phpunit.result.cache` — test artefaktı |
+| `src/` — 19 modül, 186 dosya (ölçüm §3.1, 2026-10-30) | `vendor/` içeriği — üçüncü taraf kod, elle düzenlenmez |
+| `tests/` — 73 dosya, 10 test grubu | `.phpunit.cache/`, `.phpunit.result.cache` — test artefaktı |
 | `config/` — 8 dosya (yapılandırma şablonları + JWT anahtar çifti) | Subdomain uygulama kodu (`api.coremusic.net/` vb.) |
 | `database/migrations/` — 13 dosya (5 php + 7 sql + CLAUDE.md) | Frontend/CSS katmanı |
 | Paket dosyaları: `composer.json`, `composer.lock`, `phpunit.xml`, `test_bypass.php` | |
@@ -48,13 +50,13 @@ docType: context
 
 | Katman/Dosya | Ne için | Neyden | Neden var | Ne zaman düzenlenir |
 |---|---|---|---|---|
-| `src/` — 185 dosya, 39 dizin, 19 alt dizin | Çekirdek kütüphane: Api, Bootstrap, Cache, Component, Config, Contracts, Database, Device, Events, Exception, Log, Middleware, OAuth, PageRouter, Repository, Security, Session, Theme, ViewMode | `composer.json` PSR-4 tanımı | Alt domainlerde kod tekrarını önlemek için tek doğruluk kaynağı | Yeni modül/sınıf eklendiğinde; davranış değiştiğinde |
-| `tests/` — 64 dosya, 20 dizin, 9 alt dizin: Api, Component, Events, Fixtures, Middleware, OAuth, Repository, Security, Unit | PHPUnit testleri (52 PHP dosyası) | `src/` davranışları | Değişikliğin paketi bozmadığını kanıtlamak | `src/` davranış değiştirdiğinde |
+| `src/` — 186 dosya (ölçüm 2026-10-30: tracked 193 − F7'de silinen 7 ölü DTO), 39 dizin, 19 alt dizin | Çekirdek kütüphane: Api, Bootstrap, Cache, Component, Config, Contracts, Database, Device, Events, Exception, Log, Middleware, OAuth, PageRouter, Repository, Security, Session, Theme, ViewMode | `composer.json` PSR-4 tanımı | Alt domainlerde kod tekrarını önlemek için tek doğruluk kaynağı | Yeni modül/sınıf eklendiğinde; davranış değiştiğinde |
+| `tests/` — 73 dosya, 24 dizin, 10 alt dizin: Api, Component, Events, Fixtures, Integration, Middleware, OAuth, Repository, Security, Unit (ölçüm 2026-10-30 — 1C ile Integration eklendi) | PHPUnit testleri (61 PHP dosyası) | `src/` davranışları | Değişikliğin paketi bozmadığını kanıtlamak | `src/` davranış değiştirdiğinde |
 | `config/` — 8 dosya: `routes.php` (131 satır), `auth-routes.php` (62), `oauth-platforms.php` (253), `domain.php` (19), `.env.example`, `CLAUDE.md`, `jwt/private.pem`, `jwt/public.pem` | Rota, alan adı, OAuth platform ve ortam şablonları; JWT anahtar çifti | Subdomain gereksinimleri | Konfigürasyonun paketle birlikte taşınması | Rota/OAuth/alan adı eklendiğinde |
 | `database/` — 1 dizin (`migrations/`): 13 dosya (5 php + 7 sql + `CLAUDE.md`) | Şema geçmişi (ör. `migrations/oauth_connections_migration.php`) | Veritabanı değişiklikleri | Şemanın sürümlenmesi | Tablo/şema değiştiğinde |
 | `composer.json` — 50 satır | Paket sözleşmesi: ad `coremusic/shared-infrastructure`, sürüm 2.0.0, PHP >=8.4, 5 platform + 9 bağımlılık + 2 dev bağımlılık, PSR-4, scripts `test`/`stan` | Ekip kararı | Paketin kimliği ve bağımlılıkları | Bağımlılık/sürüm değiştiğinde |
 | `composer.lock` — 2760 satır | Kilitli bağımlılıklar: 16 prod + 27 dev = 43 paket (content-hash `6f3426a6e4c5676411252cd4a6063caf`) | `composer update` | Ortamlar arası birebir aynı kurulum | Yalnızca `composer update` ile |
-| `phpunit.xml` — 39 satır | Test yapılandırması (bootstrap, test dizinleri) | PHPUnit kuralları | Test çalıştırma standardı | Test kapsamı değiştiğinde |
+| `phpunit.xml` — 47 satır | Test yapılandırması (bootstrap, test dizinleri, `@group live` dışlama — 1C) | PHPUnit kuralları | Test çalıştırma standardı | Test kapsamı değiştiğinde |
 | `test_bypass.php` — 28 satır | CLI smoke test: `BypassAuthMiddleware` + `SecurityHelper::isTestBypassActive` doğrulaması (`development`/`test_mode=true` ortamında) | Middleware davranışı | Bypass mantığını elle hızlı sınamak | Bypass davranışı değiştiğinde |
 | `AGENTS.md` — 105 satır | Alt kural dosyası (boot zinciri 2. adım) | Kök kurallar | Kural detayını ana dosyadan ayırmak | Kural değiştiğinde |
 | `CLAUDE.md` — 203 satır | Proje kuralları SSOT (boot zinciri 1. adım) | Kök kurallar + vault | Agent boot'unun tek kaynağı | Kural değiştiğinde |
@@ -82,16 +84,17 @@ docType: context
 
 | Subdomain | Path-repo | `require shared` | Not |
 |---|---|---|---|
-| `api.coremusic.net` | `../shared` (symlink:true) | `^2.0` | — |
-| `auth.coremusic.net` | `../shared` (symlink:true) | `^2.0` | — |
-| `home.coremusic.net` | `../shared` (symlink:true) | `^2.0` | — |
-| `media.coremusic.net` | yok | yok | `shared/`'i kullanmaz |
-| `assets.coremusic.net` | — | — | `composer.json`'ı yok |
+| `api.coremusic.net` | `../shared` (symlink:true) | `^2.0` (`composer.json:18`) | — |
+| `auth.coremusic.net` | `../shared` (symlink:true) | `^2.0` (`:19`) | — |
+| `home.coremusic.net` | `../shared` (symlink:true) | `^2.0` (`:19`) | — |
+| `admin.coremusic.net` | `../shared` (symlink:true) | `^2.0` (`:20`) | **2026-10-30 eklendi** — eski tabloda yoktu; kod kanıtı `include/Repository/AdminUserRepository.php:6,81` (`ConnectionFactory::getInstance()`) |
+| `media.coremusic.net` | `../shared` | `*` (`:11`) | **Düzeltildi 2026-10-30** — eski satır "yok / kullanmaz" idi; kod kanıtı `src/Media/CatalogWriter.php:7-9` · `src/Media/MySqlCatalogRepository.php:7-9` (`CoreMusic\Database\*`, `Contracts\Database\IDatabaseManager`) |
+| `assets.coremusic.net` | — | — | `composer.json`'ı yok (tüketici değil) |
 
 `shared/vendor` dizini **junction/reparse noktası olup olmadığı UNKNOWN**: mevcut araçlar reparse bayrağını gözlemleyemez (dosya bilgisi bu alanı döndürmez). Çapraz kontrol: `shared/vendor` paket dizinleri (phpstan, theseer) `api.coremusic.net/vendor`'dan (coremusic, graham-campbell, vlucas) farklıdır — ikisi aynı ağaç değildir.
 
-> **eli10 (basit):** api, auth ve home siteleri ortak klasörü "yol linki"yle kullanır; media kullanmaz, assets'in composer'ı bile yok. `vendor/`'un sabit bağlantı (junction) olup olmadığı bilinemiyor.
-> **eli15 (detay):** Path-repo + symlink, `shared/` üzerindeki her değişikliğin anında üç tüketiciye yansması demektir (yeniden kurulum gerekmez) — bu yüzden `shared/`'de kırıcı değişiklik üç siteyi aynı anda bozar. Junction bilinmiyor çünkü dosya sistemi meta-bilgisi (reparse point) okunamıyor; paket dizini kesişimi bunu kanıtlıyor: `shared/vendor` ve `api.vendor` farklı ağaçlardır, ortak mount noktası varsayılamaz.
+> **eli10 (basit):** api, auth, home, admin ve media siteleri ortak klasörü "yol linki"yle kullanır; assets'in composer'ı bile yok. `vendor/`'un sabit bağlantı (junction) olup olmadığı bilinemiyor.
+> **eli15 (detay):** Path-repo + symlink, `shared/` üzerindeki her değişikliğin anında **beş** tüketiciye yansması demektir (yeniden kurulum gerekmez) — bu yüzden `shared/`'de kırıcı değişiklik beş siteyi aynı anda bozar. Junction bilinmiyor çünkü dosya sistemi meta-bilgisi (reparse point) okunamıyor; paket dizini kesişimi bunu kanıtlıyor: `shared/vendor` ve `api.vendor` farklı ağaçlardır, ortak mount noktası varsayılamaz.
 
 ### 3.4 Boot Okuma Sırası ve Kök ↔ Vault İlişkisi
 
@@ -114,6 +117,8 @@ docType: context
 | `tests/` = 4 grup (Api, Events, OAuth, Unit) | 9 grup: Api, Component, Events, Fixtures, Middleware, OAuth, Repository, Security, Unit | Disk kazandı |
 | `src/` = 20 alt dizin | 20 alt dizin — doğrulandı | İddia doğru |
 | Frontmatter sürümü 1.0.0 | `composer.json` sürümü 2.0.0 | Disk kazandı |
+| Tüketici = api/auth/home; "media `shared/`'i kullanmaz" (§3.3 eski satır) | **5 tüketici**: api·auth·home·admin (`^2.0`) + media (`*`, `composer.json:11`) — 2026-10-30 ölçümü | Disk kazandı |
+| `tests/` = 9 grup (2026-10-12 ölçümü) | **10 grup** — 2026-10-30 `tests/Integration/` eklendi (1C `MultiDbSmokeTest`, `@group live`) | Disk kazandı |
 
 > **eli10 (basit):** Eski dosya üç yerde yanlıştı (config dosya sayısı, test klasörü içeriği, sürüm); yenisi ölçüme göre düzeltildi.
 > **eli15 (detay):** Çelişki matrisi zorunlu bir denetimdir: her satır eski bir iddia ile güncel disk ölçümünü karşılaştırır. `src/` sayımı doğru çıktı (20/20); `config/` ve `tests/` büyüdü; sürüm `composer.json`'a eşitlendi. Eski dosyadaki mimari referans tabloları bu sürümde kaldırıldı — bkz. §1 notu.
@@ -140,14 +145,14 @@ docType: context
 | 1 | Kaynak kod yalnız PSR-4 altındadır: `CoreMusic\` → `src/` | `composer.json` (autoload bölümü) |
 | 2 | `vendor/` elle düzenlenmez; tek yazıcı `composer install/update`'tir | Composer sözleşmesi |
 | 3 | `composer.lock` elle düzenlenmez; kırılganlık `composer update` ile bilinçli alınır | Lock dosyası (2760 satır) |
-| 4 | Tüketici subdomain'ler `^2.0` path-repo ile bağlanır; kopya kod taşımaz | api/auth/home `composer.json` |
+| 4 | Tüketici subdomain'ler path-repo ile bağlanır; kopya kod taşımaz — api/auth/home/admin `^2.0`, media `*` (sürüm genişliği sapması: batch #2 adayı) | api/auth/home/admin/media `composer.json` |
 | 5 | Yeni bağımlılık önce `composer.json`'a, sonra `composer update` ile lock'a girer | §3.2 |
 | 6 | `config/jwt/*.pem` çifti paket sözleşmesidir; üretim ortamında yeniden üretilir | §3.1 envanter |
 | 7 | Testler `tests/` altındadır; üretim kodu `tests/`'ten asla import etmez | `phpunit.xml` + dizin yapısı |
 | 8 | `test_bypass.php` yalnız geliştirme ortamı içindir (`env=development`, `test_mode=true`) | Betiğin ilk satırı: `declare(strict_types=1)` + ConfigManager ayarları |
 
 > **eli10 (basit):** Kod `src/`'te, bağımlılıklar Composer'la, kilit dosyası elle oynanmaz, testler üretim kodunu bozmaz.
-> **eli15 (detay):** Kuralların hepsi disk kanıtına bağlıdır (son sütun). En kritik ikisi: path-repo + symlink (§3.3) sayesinde `shared/` değişikliği anında üç siteye yansır — bu hız kırıcı değişiklik için bilinçli bir test kapısı (§6) gerektirir; ve lock dosyasının dokunulmazlığı, 43 paketlik ağacın bozulmasını önleyen tek mekanizmadır.
+> **eli15 (detay):** Kuralların hepsi disk kanıtına bağlıdır (son sütun). En kritik ikisi: path-repo + symlink (§3.3) sayesinde `shared/` değişikliği anında beş siteye yansır — bu hız kırıcı değişiklik için bilinçli bir test kapısı (§6) gerektirir; ve lock dosyasının dokunulmazlığı, 43 paketlik ağacın bozulmasını önleyen tek mekanizmadır.
 
 ---
 

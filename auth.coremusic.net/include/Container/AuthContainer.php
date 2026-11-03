@@ -68,7 +68,15 @@ final class AuthContainer
                     \DI\get(IUserRepository::class),
                     \DI\get(ISessionManager::class),
                     \DI\get(IRateLimiter::class),
-                    $_ENV['APP_PEPPER'] ?? '',
+                    // C2 fail-fast (2026-10-30): pepper sessizce '' düşmez. $_ENV'de
+                    // olmayıp getenv ile tanımlanmış pepper da böyle yakalanır (eski
+                    // $_ENV['APP_PEPPER'] ?? '' bu durumda '' → register'da exception,
+                    // login'de kalıcı doğrulama hatası üretiyordu); tanımsızsa anlamlı
+                    // exception. config/constants.php:61-68 boş pepper'da zaten 500 ile
+                    // çıkar — bu ikinci savunma katmanıdır.
+                    defined('APP_PEPPER')
+                        ? APP_PEPPER
+                        : throw \CoreMusic\Exception\ServerException::configError('APP_PEPPER'),
                 ),
 
             AuthController::class => \DI\autowire(AuthController::class),

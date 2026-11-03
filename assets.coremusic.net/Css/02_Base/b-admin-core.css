@@ -27,6 +27,7 @@ body {
                                    * çerçevesel default yok → 16 ⚠️) */
   font-weight: var(--adm-fw-reg);
   line-height: 1.4;
+  color: var(--cm-white, #FFFFFF);
 }
 
 img {

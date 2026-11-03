@@ -15,8 +15,8 @@ final class Ulid
     /** Crockford base32 alfabe (I, L, O, U hariç). */
     public const ALFABE = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 
-    /** Doğrulama deseni (ADR-092 §6.1 kural 2). */
-    public const DESEN = '^[0-9A-HJKMNP-TV-Z]{26}$';
+    /** Doğrulama deseni (ADR-092 §6.1 kural 2) — bölmeli (`~...~`); bölmeli değilse preg_match her zaman false döner. */
+    public const DESEN = '~^[0-9A-HJKMNP-TV-Z]{26}$~';
 
     /** Sabit uzunluk. */
     public const UZUNLUK = 26;

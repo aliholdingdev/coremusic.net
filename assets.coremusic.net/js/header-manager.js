@@ -21,6 +21,8 @@
         }
 
         init() {
+            this.initQuickPanels();
+
             if (!this.userBtn || !this.dropdown) {
                 return;
             }
@@ -28,6 +30,206 @@
             this.bindEvents();
             this.fetchHeaderData();
         }
+
+        initQuickPanels() {
+            const wifiBtn = document.querySelector('.header-widget--signal');
+            const btBtn = document.querySelector('.header-widget--bt');
+            const wifiOverlay = document.getElementById('quick-wifi-overlay');
+            const btOverlay = document.getElementById('quick-bt-overlay');
+            const wifiClose = document.getElementById('quick-wifi-close');
+            const btClose = document.getElementById('quick-bt-close');
+            const settingsBtn = document.getElementById('header-settings-btn');
+            const settingsOverlay = document.getElementById('quick-settings-overlay');
+            const settingsClose = document.getElementById('quick-settings-close');
+
+            const openOverlay = (el) => {
+                if (wifiOverlay) wifiOverlay.classList.remove('is-active');
+                if (btOverlay) btOverlay.classList.remove('is-active');
+                if (settingsOverlay) settingsOverlay.classList.remove('is-active');
+                if (el) el.classList.add('is-active');
+            };
+
+            const closeOverlays = () => {
+                if (wifiOverlay) wifiOverlay.classList.remove('is-active');
+                if (btOverlay) btOverlay.classList.remove('is-active');
+                if (settingsOverlay) settingsOverlay.classList.remove('is-active');
+            };
+
+            if (wifiBtn && wifiOverlay) {
+                wifiBtn.setAttribute('role', 'button');
+                wifiBtn.setAttribute('tabindex', '0');
+                wifiBtn.setAttribute('aria-haspopup', 'dialog');
+                wifiBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openOverlay(wifiOverlay);
+                });
+                wifiBtn.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openOverlay(wifiOverlay);
+                    }
+                });
+            }
+
+            if (btBtn && btOverlay) {
+                btBtn.setAttribute('role', 'button');
+                btBtn.setAttribute('tabindex', '0');
+                btBtn.setAttribute('aria-haspopup', 'dialog');
+                btBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openOverlay(btOverlay);
+                });
+                btBtn.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openOverlay(btOverlay);
+                    }
+                });
+            }
+
+            if (settingsBtn && settingsOverlay) {
+                settingsBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openOverlay(settingsOverlay);
+                });
+                settingsBtn.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openOverlay(settingsOverlay);
+                    }
+                });
+            }
+
+            if (wifiClose) wifiClose.addEventListener('click', closeOverlays);
+            if (btClose) btClose.addEventListener('click', closeOverlays);
+            if (settingsClose) settingsClose.addEventListener('click', closeOverlays);
+
+            [wifiOverlay, btOverlay, settingsOverlay].forEach(ov => {
+                if (ov) {
+                    ov.addEventListener('click', (e) => {
+                        if (e.target === ov) closeOverlays();
+                    });
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if ((wifiOverlay && wifiOverlay.classList.contains('is-active')) ||
+                        (btOverlay && btOverlay.classList.contains('is-active')) ||
+                        (settingsOverlay && settingsOverlay.classList.contains('is-active'))) {
+                        closeOverlays();
+                    }
+                }
+            });
+
+            // Settings modal tab switching
+            if (settingsOverlay) {
+                const tabBtns = settingsOverlay.querySelectorAll('.quick-settings-tab-btn');
+                tabBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const targetTab = btn.getAttribute('data-qs-tab');
+                        tabBtns.forEach(b => b.classList.remove('is-active'));
+                        btn.classList.add('is-active');
+
+                        settingsOverlay.querySelectorAll('.quick-settings-tab-pane').forEach(pane => {
+                            pane.classList.remove('is-active');
+                        });
+                        const targetPane = document.getElementById(`qs-pane-${targetTab}`);
+                        if (targetPane) targetPane.classList.add('is-active');
+                    });
+                });
+
+                // Theme swatch selection
+                settingsOverlay.querySelectorAll('[data-qs-theme]').forEach(swatch => {
+                    swatch.addEventListener('click', function() {
+                        const th = this.getAttribute('data-qs-theme');
+                        settingsOverlay.querySelectorAll('[data-qs-theme]').forEach(s => s.classList.remove('is-active'));
+                        this.classList.add('is-active');
+                        document.documentElement.setAttribute('data-theme', th);
+                        try { localStorage.setItem('cm_theme', th); } catch(e){}
+                    });
+                });
+
+                // Mode pill selection
+                settingsOverlay.querySelectorAll('[data-qs-mode]').forEach(pill => {
+                    pill.addEventListener('click', function() {
+                        const m = this.getAttribute('data-qs-mode');
+                        settingsOverlay.querySelectorAll('[data-qs-mode]').forEach(p => p.classList.remove('is-active'));
+                        this.classList.add('is-active');
+                        document.documentElement.setAttribute('data-mode', m);
+                        try { localStorage.setItem('cm_mode', m); } catch(e){}
+                    });
+                });
+
+                // Volume slider
+                const qsVol = document.getElementById('qs-volume-slider');
+                const qsVal = document.getElementById('qs-volume-val');
+                if (qsVol && qsVal) {
+                    qsVol.addEventListener('input', function() {
+                        qsVal.textContent = this.value + '%';
+                    });
+                }
+            }
+
+            // Quick actions
+            const wifiToggle = document.getElementById('quick-wifi-toggle');
+            const wifiList = document.getElementById('quick-wifi-available-list');
+            if (wifiToggle && wifiList) {
+                wifiToggle.addEventListener('change', function() {
+                    wifiList.style.opacity = this.checked ? '1' : '0.25';
+                    wifiList.style.pointerEvents = this.checked ? 'auto' : 'none';
+                });
+            }
+
+            const btToggle = document.getElementById('quick-bt-toggle');
+            const btList = document.getElementById('quick-bt-available-list');
+            if (btToggle && btList) {
+                btToggle.addEventListener('change', function() {
+                    btList.style.opacity = this.checked ? '1' : '0.25';
+                    btList.style.pointerEvents = this.checked ? 'auto' : 'none';
+                });
+            }
+
+            document.querySelectorAll('[data-action="quick-connect-wifi"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const ssid = this.getAttribute('data-ssid') || '';
+                    const curName = document.getElementById('quick-wifi-current-name');
+                    if (curName && ssid) curName.textContent = ssid;
+                    this.textContent = 'Bağlandı';
+                    setTimeout(() => closeOverlays(), 400);
+                });
+            });
+
+            document.querySelectorAll('[data-action="quick-connect-bt"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const dev = this.getAttribute('data-dev') || '';
+                    const curName = document.getElementById('quick-bt-current-name');
+                    if (curName && dev) curName.textContent = dev;
+                    this.textContent = 'Bağlandı';
+                    setTimeout(() => closeOverlays(), 400);
+                });
+            });
+
+            const wifiDisc = document.getElementById('quick-wifi-disconnect');
+            if (wifiDisc) {
+                wifiDisc.addEventListener('click', function() {
+                    const curName = document.getElementById('quick-wifi-current-name');
+                    if (curName) curName.textContent = 'Bağlantı Yok';
+                    this.textContent = 'Ayrıldı';
+                });
+            }
+
+            const btDisc = document.getElementById('quick-bt-disconnect');
+            if (btDisc) {
+                btDisc.addEventListener('click', function() {
+                    const curName = document.getElementById('quick-bt-current-name');
+                    if (curName) curName.textContent = 'Bağlantı Yok';
+                    this.textContent = 'Ayrıldı';
+                });
+            }
+        }
+
 
         bindEvents() {
             // Tıklama ile menü aç/kapa

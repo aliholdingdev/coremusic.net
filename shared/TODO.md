@@ -2,10 +2,10 @@
 title: "shared — TODO Listesi"
 type: todo
 category: project-tracking
-version: 1.2.0
+version: 1.3.0
 status: active
 authority: SSOT
-updated: 2026-10-25
+updated: 2026-10-30
 ---
 
 # shared (Ortak Çekirdek) — TODO Listesi
@@ -22,6 +22,9 @@ updated: 2026-10-25
 - [x] **Alt PRD bağlantıları** — #9–#17 (PageRouter · Middleware · Api · Security · Database · OAuth · Events · Cache · Session) · 2026-10-24 disk doğrulaması: **9/9 mevcut** (`src/{PageRouter,Middleware,Api,Security,Database,OAuth,Events,Cache,Session}/PRD.md`) · Kaynak: `[[PRD.md]]` §7.1
 - [ ] **#23 (`shared/database/migrations`) + #24 (`shared/config`) alt PRD'leri** — şema/konfigürasyon sözleşmesini derinleştirir (diskte YOK) · Kaynak: `[[PRD.md]]` §7.2
 - [ ] **DECOMMISSIONED envanter notu** — AI · Bff modülleri için not `[[CONTEXT.md]]` §3.5'e taşınır; geri ekleme yalnız ADR ile · Kaynak: `[[PRD.md]]` §7.3
+- [ ] **EPIC: Duplikasyon konsolidasyon backlog'u** — kod-tekilleşme (repository tek kanonik tablodan okur) + tablo birleştirme expand-and-contract planı: `api_keys` (auth↔api) · `eq_presets` (system↔neva↔studio) · `genres` (musics↔catalog) · settings ×3 (system) · wifi/BT (system↔wireless) · download history ×2 · audio features ×2 · medya dosya tabloları ×4 (`music_files`, `media_metadata`, `download_cache`, `asset`) → ADR-112 eki, onay sonrası sıraya alınır · Kaynak: şema envanteri 2026-10-30 (`.ai/.sql/mysql/` 21 dump)
+- [ ] **ORTA: Coverage sürücüsü (pcov/xdebug) kurulumu** — `php -m`'de sürücü yok → ≥%80 PHPUnit kapısı bu oturumda koşulamadı; sürücü + coverage raporu bağlanır · Kaynak: `[[PRD.md]]` PRD-SHR-006 Coverage Doğrulama Notu (2026-10-24)
+- [ ] **MICRO: ViewModeManager birim testi** — `shared/CLAUDE.md` §2 bilinen riski: `ThemeManagerModeTest` var, `ViewModeManager` testi yok → test eklenir · Kaynak: `[[CLAUDE.md]]` §2 (shared)
 
 ## TAM Madde Listesi — Küçükten Büyüğe (Geçmiş · Açık · Gelecek) — 2026-10-25
 

@@ -4,7 +4,7 @@ type: docs
 category: media
 docType: claude
 date: 2026-10-03
-updated: 2026-10-03
+updated: 2026-10-30
 version: 1.0.0
 status: active
 authority: "Derived — SSOT: .ai/CLAUDE.md + ADR-092"
@@ -128,9 +128,9 @@ Bu doküman `media.coremusic.net/` üzerinde **neyin yasak olduğunu ve hangi ku
 
 ### 3.4 Ölçülmüş Kanıt Tablosu (kural ↔ disk)
 
-| Kural | Beklenen | Ölçüm (2026-10-03) | Sonuç |
+| Kural | Beklenen | Ölçüm (2026-10-03 · 2026-10-30 tazesi: lint, tests, vendor) | Sonuç |
 |-------|----------|---------------------|-------|
-| Lint 8 dosya temiz | 8/8 | `php -l` → 8/8 "No syntax errors" (PHP 8.5.8, `C:\Php858\php.exe`) | GEÇTİ |
+| Lint 26 dosya temiz | 26/26 | `composer lint` → 26/26 "No syntax errors" (PHP 8.5.8, `C:\Php858\php.exe`; lint listesi `composer.json:49-75` — 2026-10-30 yeniden ölçüm) | GEÇTİ |
 | Yasaklı çağrı yok | 0 | `eval|exec|shell_exec|passthru|system|proc_open(` → 0 eşleşme | GEÇTİ |
 | `hash_file` yalnız ilgili yerlerde | yorum + deep/giriş | `scan.php:145(yorum),155` · `audit.php:391(yorum),398` · `ingest.php:197(giriş),336(kopya doğrulama)` | UYUMLU |
 | `copy(` tek nokta | 1 gerçek | `ingest.php:327(yorum),328(gerçek)` | GEÇTİ |
@@ -139,13 +139,13 @@ Bu doküman `media.coremusic.net/` üzerinde **neyin yasak olduğunu ve hangi ku
 | Taksonomi 17/98 | 17 anahtar / 98 değer | `taxonomy.json` → 17 / 98 | GEÇTİ |
 | Mojibake eşleşme | 21 | `mojibake-fix.json` `toplam_eslesme: 21` | GEÇTİ |
 | Şema sürümü | v2 | `media.schema.json` `$defs.schema_v2` const 2 · 34 `$defs` | GEÇTİ |
-| `tests/` var mı | — | `Test-Path tests/` = **false** (test dosyası yok) | **AÇIK** ⚠️ |
-| `vendor/` var mı | — | `Test-Path vendor/` = **false** (composer install çalıştırılmadı) | **AÇIK** ⚠️ |
+| `tests/` var mı | — | `tests/` = **var** (PHPUnit: 64 test / 141 assertion / 1 skip, exit 0 — 2026-10-30) | GEÇTİ (2026-10-30) |
+| `vendor/` var mı | — | `vendor/` = **var** (`composer install` sonrası lint/test/phpstan koşuyor — 2026-10-30) | GEÇTİ (2026-10-30) |
 | Medya dosyası | — | uzantı taraması → **0 dosya** | BEKLENEN (faz 2 öncesi) |
 
 **eli10/eli15 blokları (§3.4):**
 
-> **eli10 (basit):** Kuralların gerçekten tutup tutmadığı tek tek sayılarla ölçülmüş; ikisi hâlâ açık.
+> **eli10 (basit):** Kuralların gerçekten tutup tutmadığı tek tek sayılarla ölçülmüş; `tests/`/`vendor/` satırları 2026-10-30'da kapatıldı.
 > **eli15 (detay):** Kanıt tablosu ayrıdır çünkü "uygun" demek için sayı gerekir; kural metni tek başına yeterli değildir. Her satır komut veya sayım ile üretildi. Kapı (checklist VR-2/VR-3) bu tabloya dayanır. Ölçüm tekrarlandıkça eski sayı geçersiz olur.
 
 ### 3.5 Kod İçi Yorum ve Dosya-Başı Sözleşmeler
@@ -191,9 +191,9 @@ Bu doküman `media.coremusic.net/` üzerinde **neyin yasak olduğunu ve hangi ku
 | # | Kural | Ref |
 |---|-------|-----|
 | 1 | Yeni `.md` Guardrail #16 şablonundan üretilir (`context-template` §3.4) | [[../.ai/.templates/frontend/context-template]] |
-| 2 | Yeni PHP dosyası `declare(strict_types=1)` + `namespace Media;` + `php -l` geçer | `composer.json` `scripts.lint` (8 dosya) |
+| 2 | Yeni PHP dosyası `declare(strict_types=1)` + `namespace Media;` + `php -l` geçer | `composer.json` `scripts.lint` (26 dosya) |
 | 3 | Yeni config alanı → `media.schema.json` + `taxonomy.json` (gerekirse) + `checklist` kanıtı | Şablon §3.5 `claude` ağırlığı |
-| 4 | Değişiklik sonrası kapı: `php -l` 8/8 + ilgili CLI `--dry-run` | `docs/todos.md` P0-1 |
+| 4 | Değişiklik sonrası kapı: `php -l` 26/26 + ilgili CLI `--dry-run` | `docs/todos.md` P0-1 |
 | 5 | Hata → `.ai/.rules/error-recovery.md` → yeniden yaz → tekrar kontrol (3 başarısız → DUR) | Kök `AGENTS.md` §7 |
 | 6 | Vault ↔ disk çelişkisi → disk kazanır + `⚠️ VERIFICATION REQUIRED` + rapor | Şablon §4.1 #7 |
 
@@ -208,7 +208,7 @@ Bu doküman `media.coremusic.net/` üzerinde **neyin yasak olduğunu ve hangi ku
 
 | # | Hata | Doğrusu |
 |---|------|---------|
-| 1 | "PHP yok" diye eski kaydı tekrarlamak | 2026-10-03 ölçümü: PHP 8.5.8 var, `php -l` 8/8 geçti → §3.7 |
+| 1 | "PHP yok" diye eski kaydı tekrarlamak | PHP 8.5.8 var, `composer lint` 26/26 geçti (2026-10-30 ölçümü) → §3.4 |
 | 2 | `media/` klasörünü var saymak | `Test-Path` = false; yok olarak yazılır |
 | 3 | `vendor/` elle doldurmak | Yalnız `composer install` üretir |
 | 4 | Checklist'e kanıtsız `- [x]` | Kanıt etiketi: `dosya:satır` · `grep` · `commit` |
@@ -247,7 +247,7 @@ Bu doküman `media.coremusic.net/` üzerinde **neyin yasak olduğunu ve hangi ku
 
 ```text
 KURAL OKU (bu dosya) → ENVANTER ÖLÇ (CONTEXT §3) → DEĞİŞİKLİK (hedef dosya)
-→ php -l 8/8 → ilgili CLI --dry-run → CHECKLIST kanıtı → RAPOR
+→ php -l 26/26 → ilgili CLI --dry-run → CHECKLIST kanıtı → RAPOR
 → COMMIT: subagent ATMAZ
 ```
 
@@ -263,7 +263,7 @@ Kapılar ve adım tablosu: [[WORKFLOW]] §3.1-§3.2.
 | 2 | Bölüm | §1–§7, ≤3 başlık seviyesi |
 | 3 | Kural yükü | §3-§4 kural/yasak ağırlıklı; her maddede "Neden var" dolu |
 | 4 | Guardrail | §3.2 12/12 + §3.3 8/8 |
-| 5 | Kanıt | `php -l` 8/8 · yasaklı çağrı 0 · `copy(` tek (`ingest.php:328`) · 9 `CREATE TABLE` |
+| 5 | Kanıt | `php -l` 26/26 · yasaklı çağrı 0 · `copy(` tek (`ingest.php:328`) · 9 `CREATE TABLE` |
 | 6 | Placeholder | `{{` kalmadı · emoji yok (yalnız `⚠️ VERIFICATION REQUIRED`) |
 | 7 | Wiki-link | `[[...]]` formatı, hedefler diskte var |
 | 8 | eli10 + eli15 | §3.1-§3.6 + §4.1/§4.4 + §7 maddelerinde `> **eli10 (basit):**` / `> **eli15 (detay):**` bloğu var mı (eli10 ≤2 cümle, eli15 3-4 cümle) |
@@ -299,4 +299,4 @@ Kapılar ve adım tablosu: [[WORKFLOW]] §3.1-§3.2.
 ---
 
 **Template Version:** 1.0.0 · **Şablon:** `.ai/.templates/frontend/context-template.md`
-**Last Updated:** 2026-10-03 · **docType:** claude
+**Last Updated:** 2026-10-30 · **docType:** claude

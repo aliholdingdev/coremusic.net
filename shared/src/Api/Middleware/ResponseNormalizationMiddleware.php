@@ -71,7 +71,7 @@ final class ResponseNormalizationMiddleware
         header('ETag: "' . $etag . '"');
 
         $ifNoneMatch = $_SERVER['HTTP_IF_NONE_MATCH'] ?? '';
-        if ($ifNoneMatch === '"' . $etag . '"') {
+        if ($this->matchesEtag($ifNoneMatch, $etag)) {
             http_response_code(304);
 
             $response['httpStatus'] = 304;
@@ -83,12 +83,40 @@ final class ResponseNormalizationMiddleware
     }
 
     /**
-     * Cache-Control header'ları.
+     * RFC 9110 uyumlu ETag karşılaştırıcı (weak ETag ve liste desteği).
+     */
+    private function matchesEtag(string $ifNoneMatch, string $etag): bool
+    {
+        if (trim($ifNoneMatch) === '') {
+            return false;
+        }
+
+        if (trim($ifNoneMatch) === '*') {
+            return true;
+        }
+
+        $cleanEtag = trim($etag, " \"\t\n\r\0\x0B");
+        $tags = explode(',', $ifNoneMatch);
+        foreach ($tags as $tag) {
+            $tag = trim($tag);
+            if (str_starts_with($tag, 'W/') || str_starts_with($tag, 'w/')) {
+                $tag = substr($tag, 2);
+            }
+            if (trim($tag, " \"\t\n\r\0\x0B") === $cleanEtag) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Cache-Control header'ları (ADR-007 §2.2c ve §2.2e uyumlu SWR ve ETag).
      */
     private function sendCacheControl(bool $cacheable, int $cacheTtl): void
     {
         if ($cacheable && $cacheTtl > 0) {
-            header("Cache-Control: public, max-age={$cacheTtl}");
+            header("Cache-Control: public, max-age={$cacheTtl}, s-maxage={$cacheTtl}, stale-while-revalidate={$cacheTtl}, stale-if-error=300");
         } else {
             header('Cache-Control: no-store, no-cache, must-revalidate');
             header('Pragma: no-cache');

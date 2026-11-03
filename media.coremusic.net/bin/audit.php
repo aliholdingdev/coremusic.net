@@ -20,23 +20,15 @@ declare(strict_types=1);
  *   sha256-tekrar(UYARI) · HASH-FARK(--deep) · dosya-desen · dosya-var ·
  *   varyant-var(UYARI) ·
  *   tag-enum · gorsel-var · gorsel-yok(UYARI) · mojibake ·
- *   hurda-aday(UYARI) · yol-260 · cesitli-az(UYARI)
+ *   hurda-aday(UYARI) · yol-260 · yol-kok · cesitli-az(UYARI)
  *
  * UYARI: PHP calisma zamani bu ortamda YOKTUR — php -l + ornek veri ile
  * 8.4 ortaminda dogrulanmalidir (VERIFICATION REQUIRED).
  */
 
-spl_autoload_register(static function (string $sinif): void {
-    $onek = 'Media\\';
-    if (!str_starts_with($sinif, $onek)) {
-        return;
-    }
-    $dosya = __DIR__ . '/../src/Media/' . str_replace('\\', '/', substr($sinif, strlen($onek))) . '.php';
-    if (is_file($dosya)) {
-        require_once $dosya;
-    }
-});
+require_once __DIR__ . '/../vendor/autoload.php';
 
+use Media\PathGuard;
 use Media\Ulid;
 use Media\Validator;
 
@@ -113,18 +105,66 @@ if ($schema !== []) {
         $rapor('HATA', 'config/media.schema.json', 'sema', '$schema anahtari taninmadi');
     }
     $semaDefs = is_array($schema['$defs'] ?? null) ? $schema['$defs'] : [];
+    /* Kilit tespiti $ref/oneOf/allOf zincirini COZER. $defs.meta tek basina
+       AP tasimaz: oneOf -> meta_ses|meta_video -> allOf[0] -> meta_base
+       (AP=false). draft-07'de allOf/oneOf uyeleri instance'a da uygulanir;
+       yani kilit GERCEKTIR — ust seviye bakis yalnizca kacirir (yanlis HATA). */
+    $kilitCoz = static function (array $def, array $defs, array &$ziyaret) use (&$kilitCoz): bool {
+        if (($def['additionalProperties'] ?? null) === false) {
+            return true;
+        }
+        if (isset($def['$ref']) && is_string($def['$ref'])
+            && preg_match('~^#/[$]defs/(.+)$~', $def['$ref'], $m) === 1
+            && isset($defs[$m[1]]) && is_array($defs[$m[1]])) {
+            if (isset($ziyaret[$m[1]])) {
+                return false; // $ref dongusu (yalniz yigin icindeki tekrar)
+            }
+            $ziyaret[$m[1]] = true;      // yigina gir
+            $sonuc = $kilitCoz($defs[$m[1]], $defs, $ziyaret);
+            unset($ziyaret[$m[1]]);      // yigindan cik: kardes dallar ayni
+            // hedefi TEMIZ yiginla tekrar cozebilir (kalici isaret kardes
+            // dali kilitli hedefe "ziyaret edildi" diye kapatirdi).
+            return $sonuc;
+        }
+        if (isset($def['allOf']) && is_array($def['allOf'])) {
+            foreach ($def['allOf'] as $uye) {
+                /* allOf: tek kilitli uye yeterli — bilinmeyen anahtar (hicbir
+                   properties'te tanimli olmayan) o uye icin de bilinmezdir. */
+                if (is_array($uye) && $kilitCoz($uye, $defs, $ziyaret)) {
+                    return true;
+                }
+            }
+        }
+        if (isset($def['oneOf']) && is_array($def['oneOf']) && $def['oneOf'] !== []) {
+            foreach ($def['oneOf'] as $dal) {
+                /* oneOf: bilinmeyen anahtar HICBIR daldan gecmemeli. */
+                if (!is_array($dal) || !$kilitCoz($dal, $defs, $ziyaret)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    };
     foreach (['artist', 'album', 'meta', 'koleksiyon'] as $anahtar) {
-        if (!isset($semaDefs[$anahtar])) {
-            $rapor('HATA', 'config/media.schema.json', 'sema', "\$defs.{$anahtar} yok");
+        if (!isset($semaDefs[$anahtar]) || !is_array($semaDefs[$anahtar])) {
+            $rapor('HATA', 'config/media.schema.json', 'sema', "\$defs.{$anahtar} yok veya nesne degil");
             continue;
         }
-        if (($semaDefs[$anahtar]['additionalProperties'] ?? null) !== false) {
-            $rapor('HATA', 'config/media.schema.json', 'addl-props', "\$defs.{$anahtar}.additionalProperties false degil");
+        $ziyaret = [$anahtar => true];
+        if (!$kilitCoz($semaDefs[$anahtar], $semaDefs, $ziyaret)) {
+            $rapor('HATA', 'config/media.schema.json', 'addl-props',
+                "\$defs.{$anahtar} kilitli degil (\$ref/oneOf/allOf dahil additionalProperties=false yok)");
         }
     }
     /* Ek katmanı serbest (media.schema.json $defs.ek $comment) — bilinçli istisna. */
-    if (isset($semaDefs['ek']) && ($semaDefs['ek']['additionalProperties'] ?? null) === false) {
-        $rapor('HATA', 'config/media.schema.json', 'addl-props', '$defs.ek kilitlenmis (serbest olmali)');
+    if (isset($semaDefs['ek']) && is_array($semaDefs['ek'])) {
+        $ziyaretEk = ['ek' => true];
+        if ($kilitCoz($semaDefs['ek'], $semaDefs, $ziyaretEk)) {
+            $rapor('HATA', 'config/media.schema.json', 'addl-props', '$defs.ek kilitlenmis (serbest olmali)');
+        }
     }
 } else {
     $semaDefs = [];
@@ -188,13 +228,27 @@ if ($taxonomy !== []) {
 }
 
 $mojibakeAnahtar = [];
-foreach ($mojibakeHam as $k => $v) {
+/* Esleme tablosu `eslemeler` nesnesindedir (mojibake-fix.json $comment:
+   "Uygulama noktasi: ingest normalize asamasi"). Ust seviye yalnizca
+   metaveridir (version int · genel_kural obje · toplam_eslesme int ...);
+   ust seviye taranirsa metaveri "esleme" sanilir, gercek 21 esleme ise
+   HIC denetlenmez. `eslemeler` yoksa (eski duz yapida) ust seviye esleme
+   tablosudur. */
+$esleme = $mojibakeHam;
+if (array_key_exists('eslemeler', $mojibakeHam)) {
+    $esleme = $mojibakeHam['eslemeler'];
+    if (!is_array($esleme) || $esleme === []) {
+        $rapor('HATA', 'config/mojibake-fix.json', 'json', 'eslemeler nesnesi yok veya bos');
+        $esleme = [];
+    }
+}
+foreach ($esleme as $k => $v) {
     if (!is_string($k) || !is_string($v)) {
         $rapor('HATA', 'config/mojibake-fix.json', 'json', 'anahtar/deger metin degil');
         continue;
     }
     if (trim($k) === '') {
-        continue; // bilinçli istisna: "Â " bosluk eslemesi (mojibake-fix.json)
+        continue; // bilinçli istisna: bosluk eslemesi (mojibake-fix.json)
     }
     $mojibakeAnahtar[$k] = true;
 }
@@ -486,6 +540,13 @@ if (!is_file($manifestYol)) {
         }
         $yollar = is_array($k['yollar'] ?? null) ? $k['yollar'] : [];
         foreach ($yollar as $y) {
+            // PathGuard (Faz 2): katalogdaki goreli yol kok disina tasiyorsa
+            // diskte birlestirme YAPILMAZ — once yol cozumu reddedilir.
+            // is_file yalnızca kok Icinde guvenli yollara uygulanir.
+            if (!PathGuard::isSafeRelative((string) $y)) {
+                $rapor('HATA', (string) $y, 'yol-kok', 'katalog yolu kog icinde degil (PathGuard reddi)');
+                continue;
+            }
             if (!is_file($kok . '/' . $y)) {
                 $rapor('HATA', (string) $y, 'dosya-var', 'katalogda var ama diskte yok');
             }

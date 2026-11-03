@@ -80,12 +80,14 @@ $iconNext  = $h($assetsUrl . '/Image/res-pink/media-ileri.png');
    0 → volume-mute · <0.33 → volume-low · <0.66 → volume-medium · ≥0.66 → volume-high
    (<=0.02 zaten snap mute'a götürür · >=0.98 zaten high bandı — snap ikonu
    değiştirmez, yalnız pct'ye uygulanır) */
-$iconVol = $h($assetsUrl . '/Image/res-pink/' . match (true) {
+$iconVolName = match (true) {
     $volRatio <= 0.02 => 'volume-mute.png',
     $volRatio < 0.33  => 'volume-low.png',
     $volRatio < 0.66  => 'volume-medium.png',
     default           => 'volume-high.png',
-});
+};
+$iconVolBasePath = $assetsUrl . '/Image/res-pink/';
+$iconVol = $h($iconVolBasePath . $iconVolName);
 $iconMusic   = $h($assetsUrl . '/Image/res-pink/music.png');
 $iconCd      = $h($assetsUrl . '/Image/res-pink/cd-ico.png');
 $iconMic     = $h($assetsUrl . '/Image/res-pink/mic-1.png');
@@ -210,7 +212,7 @@ $mediaStatus = $homeSession->getMediaStatus();
 <!-- ZON 3 — Sağ: Hoparlör + Volume slider -->
 <?php if ($dm->showVolume()): ?>
         <div class="footer-player__volume">
-            <img id="volumeIcon" src="<?= $iconVol ?>" alt="Ses" width="20" height="20" loading="lazy">
+            <img id="volumeIcon" src="<?= $iconVol ?>" data-base-path="<?= $h($iconVolBasePath) ?>" data-icon-name="<?= $h($iconVolName) ?>" alt="Ses" width="20" height="20" loading="lazy">
             <div class="footer-player__volume-track" id="volumeclick">
                 <input type="range" id="volume" class="footer-player__volume-slider"
                        min="0" max="1" step="0.01" value="<?= $volumeRatio ?>"

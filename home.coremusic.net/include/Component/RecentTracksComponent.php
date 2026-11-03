@@ -43,6 +43,15 @@ final class RecentTracksComponent extends AbstractComponent
     /** @var list<string> "Son Oluşturulan & Sistem Tarafından Oluşturulan Playlistler" kart HTML'leri */
     public readonly array $playlistCards;
 
+    /** @var list<string> "En Son Dinlenen Albumler" kart HTML'leri (yalnız 4K) */
+    public readonly array $recentAlbumCards;
+
+    /** @var list<string> "Önerilen Sanatçılar" kart HTML'leri (yalnız 4K) */
+    public readonly array $recommendedArtistCards;
+
+    /** @var list<string> "Önerilen Albumler" kart HTML'leri (yalnız 4K) */
+    public readonly array $recommendedAlbumCards;
+
     /** @var array{t: string, album: string, a: string, art: string}|null
      *  Sıradaki Şarkı verisi — yalnız embedded (wide: null, mockup'ta bölüm yok) */
     public readonly ?array $nextCard;
@@ -112,6 +121,59 @@ final class RecentTracksComponent extends AbstractComponent
         ] : null);
 
         $this->playlistLinkIcon = $this->asset('/Image/res-pink/album-kursat.png');
+
+        if ($variant->isFourK()) {
+            $albumData = $this->defaultAlbums();
+            $this->recentAlbumCards = array_map(
+                fn (array $alb): string => HomeSongButton::html(
+                    [
+                        't'      => (string)$alb['t'],
+                        's'      => (string)$alb['a'],
+                        'art'    => (string)$alb['art'],
+                        'stream' => '',
+                        'k'      => 'album',
+                    ],
+                    'home-song__mini-card__subtitle',
+                    (string)$alb['d']
+                ),
+                $albumData
+            );
+
+            $artistData = $this->defaultArtists();
+            $this->recommendedArtistCards = array_map(
+                fn (array $art): string => HomeSongButton::html(
+                    [
+                        't'      => (string)$art['t'],
+                        's'      => (string)$art['a'],
+                        'art'    => (string)$art['art'],
+                        'stream' => '',
+                        'k'      => 'artist',
+                    ],
+                    'home-song__mini-card__subtitle',
+                    (string)$art['d']
+                ),
+                $artistData
+            );
+
+            $this->recommendedAlbumCards = array_map(
+                fn (array $alb): string => HomeSongButton::html(
+                    [
+                        't'      => (string)$alb['t'],
+                        's'      => (string)$alb['a'],
+                        'art'    => (string)$alb['art'],
+                        'stream' => '',
+                        'k'      => 'album',
+                    ],
+                    'home-song__mini-card__subtitle',
+                    (string)$alb['d']
+                ),
+                array_reverse($albumData)
+            );
+        } else {
+            $this->recentAlbumCards = [];
+            $this->recommendedArtistCards = [];
+            $this->recommendedAlbumCards = [];
+        }
     }
 
     public function key(): string
@@ -257,5 +319,53 @@ final class RecentTracksComponent extends AbstractComponent
         ];
 
         return array_merge($seed, $seed);
+    }
+
+    /**
+     * 4K Home ROW C & ROW E albüm demo içeriği (Figma 3175:13707 & 3175:13689).
+     *
+     * @return list<array{t: string, a: string, d: string, art: string, k?: string}>
+     */
+    private function defaultAlbums(): array
+    {
+        $art1 = $this->asset('/Image/res-pink/album-goksel.png');
+        $art2 = $this->asset('/Image/res-pink/album-kursat.png');
+
+        return [
+            ['t' => 'Hayat Rüya Gibi', 'a' => 'Göksel', 'd' => '12 Şarkı', 'art' => $art1],
+            ['t' => 'Gülpembe', 'a' => 'Barış Manço', 'd' => '10 Şarkı', 'art' => $art2],
+            ['t' => 'Sen Ağlama', 'a' => 'Sezen Aksu', 'd' => '10 Şarkı', 'art' => $art1],
+            ['t' => 'Karma', 'a' => 'Tarkan', 'd' => '12 Şarkı', 'art' => $art2],
+            ['t' => 'Belki Alışman Lazım', 'a' => 'Duman', 'd' => '12 Şarkı', 'art' => $art1],
+            ['t' => 'Dünya Yalan Söylüyor', 'a' => 'Mor ve Ötesi', 'd' => '10 Şarkı', 'art' => $art2],
+            ['t' => 'Artık Kısa Cümleler', 'a' => 'Şebnem Ferah', 'd' => '12 Şarkı', 'art' => $art1],
+            ['t' => 'Onyedi', 'a' => 'Teoman', 'd' => '10 Şarkı', 'art' => $art2],
+            ['t' => 'Lal', 'a' => 'Sertab Erener', 'd' => '11 Şarkı', 'art' => $art1],
+            ['t' => 'Ele Güne Karşı', 'a' => 'MFÖ', 'd' => '10 Şarkı', 'art' => $art2],
+        ];
+    }
+
+    /**
+     * 4K Home ROW D önerilen sanatçılar demo içeriği (Figma 3175:13669).
+     *
+     * @return list<array{t: string, a: string, d: string, art: string, k?: string}>
+     */
+    private function defaultArtists(): array
+    {
+        $art1 = $this->asset('/Image/res-pink/album-goksel.png');
+        $art2 = $this->asset('/Image/res-pink/album-kursat.png');
+
+        return [
+            ['t' => 'Göksel', 'a' => 'Pop Sanatçısı', 'd' => '4.2M Dinleyici', 'art' => $art1],
+            ['t' => 'Barış Manço', 'a' => 'Anadolu Rock', 'd' => '5.1M Dinleyici', 'art' => $art2],
+            ['t' => 'Sezen Aksu', 'a' => 'Pop Sanatçısı', 'd' => '6.8M Dinleyici', 'art' => $art1],
+            ['t' => 'Tarkan', 'a' => 'Pop Sanatçısı', 'd' => '7.5M Dinleyici', 'art' => $art2],
+            ['t' => 'Duman', 'a' => 'Rock Grubu', 'd' => '3.9M Dinleyici', 'art' => $art1],
+            ['t' => 'Mor ve Ötesi', 'a' => 'Rock Grubu', 'd' => '3.4M Dinleyici', 'art' => $art2],
+            ['t' => 'Şebnem Ferah', 'a' => 'Rock Sanatçısı', 'd' => '2.9M Dinleyici', 'art' => $art1],
+            ['t' => 'Teoman', 'a' => 'Rock Sanatçısı', 'd' => '4.1M Dinleyici', 'art' => $art2],
+            ['t' => 'Sertab Erener', 'a' => 'Pop Sanatçısı', 'd' => '3.6M Dinleyici', 'art' => $art1],
+            ['t' => 'MFÖ', 'a' => 'Pop/Rock Grubu', 'd' => '3.0M Dinleyici', 'art' => $art2],
+        ];
     }
 }

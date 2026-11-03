@@ -11,7 +11,7 @@ final class ResponseEmitter
     ];
 
     /** Pipeline dışı yanıtlar için yedek CSP (ADR-012 — nonce yokken 'self' varyantı; C-F-02: `https:` genişliği kaldırıldı). */
-    private const FALLBACK_CSP = "default-src 'self'; script-src 'self'; style-src 'self' https://assets.coremusic.net fonts.googleapis.com; style-src-attr 'unsafe-inline'; img-src 'self' data: https://assets.coremusic.net; font-src 'self' https://assets.coremusic.net fonts.gstatic.com; connect-src 'self' https://assets.coremusic.net https://api.coremusic.net; media-src 'self' https://assets.coremusic.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
+    private const FALLBACK_CSP = "default-src 'self'; script-src 'self'; style-src 'self' https://assets.coremusic.net fonts.googleapis.com; style-src-attr 'unsafe-inline'; img-src 'self' data: https://assets.coremusic.net https://media.coremusic.net; font-src 'self' https://assets.coremusic.net fonts.gstatic.com; connect-src 'self' https://assets.coremusic.net https://api.coremusic.net https://media.coremusic.net; media-src 'self' https://assets.coremusic.net https://media.coremusic.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
 
     public function emit(array $response, ?string $traceId = null, bool $isSpa = false, array $extraHeaders = []): never
     {
@@ -43,11 +43,29 @@ final class ResponseEmitter
     public function sendJson(array $data, int $statusCode = 200, ?string $traceId = null, array $extraHeaders = []): never
     {
         http_response_code($statusCode);
+        $json = (string) json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $etag = '"' . hash('xxh64', $json) . '"';
+
+        if ($statusCode === 200 && isset($_SERVER['HTTP_IF_NONE_MATCH']) && self::matchesEtag($_SERVER['HTTP_IF_NONE_MATCH'], $etag)) {
+            http_response_code(304);
+            header('ETag: ' . $etag);
+            $this->emitTraceAndExtras($traceId, $extraHeaders);
+            exit;
+        }
+
         foreach (self::JSON_HEADERS as $k => $v) {
             header("$k: $v");
         }
+
+        // Cacheable SPA JSON yanıtları için ETag ve revalidate başlığı ekle
+        $isCacheable = !isset($data['meta']['cacheable']) || $data['meta']['cacheable'] !== false;
+        if ($statusCode === 200 && $isCacheable && !isset($extraHeaders['Cache-Control'])) {
+            header('Cache-Control: private, no-cache, must-revalidate');
+            header('ETag: ' . $etag);
+        }
+
         $this->emitTraceAndExtras($traceId, $extraHeaders);
-        echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        echo $json;
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_write_close();
         }
@@ -59,14 +77,18 @@ final class ResponseEmitter
         http_response_code($statusCode);
         $etag = '"' . hash('xxh64', $html) . '"';
 
-        if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) === $etag) {
+        if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && self::matchesEtag($_SERVER['HTTP_IF_NONE_MATCH'], $etag)) {
             http_response_code(304);
+            header('ETag: ' . $etag);
             $this->emitTraceAndExtras($traceId, $extraHeaders);
             exit;
         }
 
         header('Content-Type: text/html; charset=UTF-8');
         header('ETag: ' . $etag);
+        if (!isset($extraHeaders['Cache-Control'])) {
+            header('Cache-Control: private, no-cache, must-revalidate');
+        }
         header('Vary: Accept-Encoding, Cookie');
         header('Content-Length: ' . strlen($html));
         $this->emitTraceAndExtras($traceId, $extraHeaders);
@@ -78,6 +100,39 @@ final class ResponseEmitter
             session_write_close();
         }
         exit;
+    }
+
+    /**
+     * RFC 9110 uyumlu ETag karşılaştırıcı (weak ETag W/ ve virgülle ayrılmış liste desteği).
+     */
+    public static function matchesEtag(?string $ifNoneMatch, string $etag): bool
+    {
+        if ($ifNoneMatch === null || trim($ifNoneMatch) === '') {
+            return false;
+        }
+
+        $cleanEtag = trim($etag, " \"\t\n\r\0\x0B");
+        if (str_starts_with($cleanEtag, 'W/') || str_starts_with($cleanEtag, 'w/')) {
+            $cleanEtag = trim(substr($cleanEtag, 2), " \"\t\n\r\0\x0B");
+        }
+
+        if (trim($ifNoneMatch) === '*') {
+            return true;
+        }
+
+        $tags = explode(',', $ifNoneMatch);
+        foreach ($tags as $tag) {
+            $tag = trim($tag);
+            if (str_starts_with($tag, 'W/') || str_starts_with($tag, 'w/')) {
+                $tag = substr($tag, 2);
+            }
+            $cleanTag = trim($tag, " \"\t\n\r\0\x0B");
+            if ($cleanTag === $cleanEtag) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function redirect(string $location, int $statusCode = 302, ?string $traceId = null, array $extraHeaders = []): never

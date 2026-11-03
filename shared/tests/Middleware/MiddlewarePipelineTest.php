@@ -261,6 +261,8 @@ final class MiddlewarePipelineTest extends TestCase
         $this->assertStringContainsString("connect-src 'self' ", $csp);
         $this->assertMatchesRegularExpression("/connect-src [^;]*api\.coremusic\.net/", $csp);
         $this->assertMatchesRegularExpression("/connect-src [^;]*assets\.coremusic\.net/", $csp);
+        $this->assertMatchesRegularExpression("/connect-src [^;]*media\.coremusic\.net/", $csp);
+        $this->assertMatchesRegularExpression("/media-src [^;]*media\.coremusic\.net/", $csp);
     }
 
     public function testFallbackCspConnectSrcAllowsApiOrigin(): void
@@ -270,6 +272,8 @@ final class MiddlewarePipelineTest extends TestCase
 
         $this->assertMatchesRegularExpression("/connect-src [^;]*api\.coremusic\.net/", $csp);
         $this->assertMatchesRegularExpression("/connect-src [^;]*assets\.coremusic\.net/", $csp);
+        $this->assertMatchesRegularExpression("/connect-src [^;]*media\.coremusic\.net/", $csp);
+        $this->assertMatchesRegularExpression("/media-src [^;]*media\.coremusic\.net/", $csp);
     }
 
     /**
@@ -285,6 +289,39 @@ final class MiddlewarePipelineTest extends TestCase
 
         $this->assertMatchesRegularExpression("/script-src 'self';/", $csp);
         $this->assertDoesNotMatchRegularExpression('/script-src[^;]*https:/', $csp);
+    }
+
+    /**
+     * ADR-110 regresyonu: style-src-attr 'unsafe-inline' KABUL EDİLMİŞ RİSK
+     * (kullanıcı onayı 2026-10-30, batch #2) — 37 inline style= attribute'ı
+     * bu directive olmadan CSP tarafından engelleniyordu. Yalnız attr
+     * directive'si kilitlenir: style-src-elem/script-src/nonce DEĞİŞMEZ.
+     */
+    public function testCspStyleSrcAttrAllowsUnsafeInline(): void
+    {
+        $middleware = new \CoreMusic\Middleware\SecurityHeadersMiddleware(new \CoreMusic\Config\DomainConfig());
+
+        $response = $middleware->handle(['method' => 'GET'], static fn (): array => ['httpStatus' => 200]);
+        $csp = $response['headers']['Content-Security-Policy'] ?? '';
+
+        $this->assertStringContainsString(
+            "style-src-attr 'unsafe-inline'",
+            $csp,
+            'ADR-110: ana CSP (SecurityHeadersMiddleware) style-src-attr unsafe-inline içermeli'
+        );
+        $this->assertDoesNotMatchRegularExpression(
+            '/style-src-elem/',
+            $csp,
+            'ADR-110: yalnız attr directive eklendi — style-src-elem DEĞİŞMEDİ'
+        );
+
+        $ref = new \ReflectionClass(\CoreMusic\PageRouter\ResponseEmitter::class);
+        $fallback = (string) $ref->getReflectionConstant('FALLBACK_CSP')->getValue();
+        $this->assertStringContainsString(
+            "style-src-attr 'unsafe-inline'",
+            $fallback,
+            'ADR-110: fallback CSP (ResponseEmitter) style-src-attr unsafe-inline içermeli'
+        );
     }
 
     /* ============================================================

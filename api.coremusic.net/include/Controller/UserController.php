@@ -3,6 +3,7 @@
 namespace CoreMusic\Api\Controller;
 
 use CoreMusic\Api\Service\IUserService;
+use CoreMusic\Exception\ValidationException;
 
 /**
  * UserController — /v1/user/* uçlarını IUserService'e bağlar (Faz 3 iskeleti).
@@ -31,11 +32,21 @@ final class UserController extends AbstractController
             return $this->error('UNAUTHORIZED', 'Authentication required', 401);
         }
 
-        return match ($action) {
-            'profile'        => $this->profile($userId),
-            'updateProfile'  => $this->updateProfile($userId, $this->body($request)),
-            default          => $this->error('NOT_FOUND', 'Uç bulunamadı.', 404),
-        };
+        try {
+            return match ($action) {
+                'profile'        => $this->profile($userId),
+                'updateProfile'  => $this->updateProfile($userId, $this->body($request)),
+                default          => $this->error('NOT_FOUND', 'Uç bulunamadı.', 404),
+            };
+        } catch (ValidationException $e) {
+            // F10: servis katmanındaki şema allowlist ihlali (avatar_url vb.)
+            // AuthController ile AYNI sözleşmeye çevrilir: 422 + error.fields
+            // (AuthController::validationError — kod + alan adı birebir).
+            return $this->error('VALIDATION_ERROR', 'Validation failed', 422, [
+                'fields' => $e->getErrors() ?: ['form' => $e->getMessage()],
+            ]);
+        }
+        // PDO / beklenmeyen istisnalar Gateway'e (index.php catch → 500).
     }
 
     // ─── Actions ───

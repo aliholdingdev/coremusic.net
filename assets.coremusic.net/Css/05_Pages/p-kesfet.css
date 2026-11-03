@@ -1,0 +1,459 @@
+/**
+ * assets.coremusic.net/Css/05_Pages/p-kesfet.css — Keşfet / Explore Sayfası Stilleri
+ * -------------------------------------------------------------------------
+ * Katman   : 05_Pages (ITCSS)
+ * Sayfa    : /kesfet (Explore & Discovery Page)
+ * Tokens   : Pure var(--cm-*) architecture
+ * -------------------------------------------------------------------------
+ */
+
+.kesfet-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 16px 24px 32px;
+    max-width: 1800px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    color: var(--cm-white);
+}
+
+/* ============================================================
+   1. HERO SPOTLIGHT / HAFTANIN TRENDİ BANNER
+   ============================================================ */
+.kesfet-hero {
+    position: relative;
+    border-radius: var(--radius-xl, 18px);
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.22) 0%, rgba(20, 10, 35, 0.88) 60%);
+    border: 1px solid var(--cm-border-glow, rgba(255, 79, 216, 0.4));
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px var(--cm-glow-primary, rgba(255, 79, 216, 0.2));
+    display: flex;
+    align-items: center;
+    padding: 32px 40px;
+    gap: 36px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    box-sizing: border-box;
+}
+
+.kesfet-hero__cover-wrap {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    flex-shrink: 0;
+}
+
+.kesfet-hero__cover {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-lg, 14px);
+    object-fit: cover;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--cm-border-subtle, rgba(255, 255, 255, 0.2));
+}
+
+.kesfet-hero__badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--cm-accent);
+    color: var(--cm-white);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--radius-full, 50px);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 8px var(--cm-glow-primary, rgba(255, 79, 216, 0.5));
+}
+
+.kesfet-hero__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.kesfet-hero__tagline {
+    font-size: var(--font-size-xs, 12px);
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--cm-accent);
+    letter-spacing: 0.1em;
+}
+
+.kesfet-hero__title {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+    color: var(--cm-white);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+}
+
+.kesfet-hero__artist {
+    font-size: var(--font-size-lg, 18px);
+    color: var(--cm-text-secondary, rgba(255, 255, 255, 0.8));
+    font-weight: 500;
+}
+
+.kesfet-hero__meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 4px;
+    font-size: var(--font-size-xs, 12px);
+    color: var(--cm-text-muted, rgba(255, 255, 255, 0.6));
+}
+
+.kesfet-hero__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.kesfet-btn-play {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 28px;
+    border-radius: var(--radius-full, 50px);
+    background: var(--cm-accent);
+    color: var(--cm-white);
+    font-weight: 700;
+    font-size: var(--font-size-sm, 14px);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 20px var(--cm-glow-primary, rgba(255, 79, 216, 0.5));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kesfet-btn-play:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 28px var(--cm-glow-primary, rgba(255, 79, 216, 0.7));
+}
+
+.kesfet-btn-queue {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: var(--radius-full, 50px);
+    background: var(--cm-bg-control, rgba(255, 255, 255, 0.08));
+    border: 1px solid var(--cm-border-subtle, rgba(255, 255, 255, 0.2));
+    color: var(--cm-white);
+    font-weight: 600;
+    font-size: var(--font-size-sm, 13px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.kesfet-btn-queue:hover {
+    background: var(--cm-bg-hover, rgba(255, 255, 255, 0.16));
+    border-color: var(--cm-accent);
+}
+
+/* ============================================================
+   2. GENRE / CATEGORY FILTER CHIPS
+   ============================================================ */
+.kesfet-chips-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+}
+
+.kesfet-chips-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.kesfet-chip {
+    padding: 8px 18px;
+    border-radius: var(--radius-full, 50px);
+    background: var(--cm-bg-card, rgba(255, 255, 255, 0.06));
+    border: 1px solid var(--cm-border-subtle, rgba(255, 255, 255, 0.12));
+    color: var(--cm-text-secondary, rgba(255, 255, 255, 0.8));
+    font-size: var(--font-size-xs, 12px);
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.kesfet-chip:hover {
+    background: var(--cm-bg-hover, rgba(255, 255, 255, 0.12));
+    color: var(--cm-white);
+}
+
+.kesfet-chip.is-active {
+    background: var(--cm-primary-dim, rgba(255, 79, 216, 0.2));
+    border-color: var(--cm-accent);
+    color: var(--cm-accent);
+    box-shadow: 0 0 12px var(--cm-glow-primary, rgba(255, 79, 216, 0.3));
+}
+
+/* ============================================================
+   3. MOOD & RUH HALİ KARTLARI
+   ============================================================ */
+.kesfet-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.kesfet-section__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.kesfet-section__title {
+    font-size: var(--font-size-xl, 20px);
+    font-weight: 700;
+    margin: 0;
+    color: var(--cm-white);
+}
+
+.kesfet-moods-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.kesfet-mood-card {
+    position: relative;
+    height: 120px;
+    border-radius: var(--radius-lg, 14px);
+    padding: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid var(--cm-border-subtle, rgba(255, 255, 255, 0.12));
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    text-decoration: none;
+}
+
+.kesfet-mood-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--cm-border-glow, rgba(255, 79, 216, 0.4));
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6), 0 0 20px var(--cm-glow-primary, rgba(255, 79, 216, 0.25));
+}
+
+.kesfet-mood-card__name {
+    font-size: var(--font-size-md, 16px);
+    font-weight: 700;
+    color: var(--cm-white);
+    margin: 0;
+    z-index: 2;
+}
+
+.kesfet-mood-card__desc {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 2px 0 0 0;
+    z-index: 2;
+}
+
+/* Mood Background Gradients (rgba tokenized) */
+.kesfet-mood-card--akustik {
+    background: linear-gradient(135deg, rgba(27, 56, 43, 0.88) 0%, rgba(13, 30, 22, 0.95) 100%);
+}
+.kesfet-mood-card--gece {
+    background: linear-gradient(135deg, rgba(43, 18, 61, 0.88) 0%, rgba(17, 5, 27, 0.95) 100%);
+}
+.kesfet-mood-card--odak {
+    background: linear-gradient(135deg, rgba(15, 44, 66, 0.88) 0%, rgba(6, 18, 29, 0.95) 100%);
+}
+.kesfet-mood-card--nostalji {
+    background: linear-gradient(135deg, rgba(68, 42, 21, 0.88) 0%, rgba(31, 17, 7, 0.95) 100%);
+}
+.kesfet-mood-card--audiophile {
+    background: linear-gradient(135deg, rgba(61, 16, 51, 0.88) 0%, rgba(22, 4, 18, 0.95) 100%);
+}
+.kesfet-mood-card--elektronik {
+    background: linear-gradient(135deg, rgba(12, 57, 61, 0.88) 0%, rgba(3, 21, 23, 0.95) 100%);
+}
+
+/* ============================================================
+   4. TWO-COLUMN SPLIT: TOP CHARTS (LEFT) & FEATURED ALBUMS (RIGHT)
+   ============================================================ */
+.kesfet-split-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+}
+
+@media (max-width: 1200px) {
+    .kesfet-split-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Charts Table */
+.kesfet-charts-panel {
+    background: var(--cm-bg-glass, rgba(22, 10, 32, 0.75));
+    border: 1px solid var(--cm-border-subtle, rgba(255, 255, 255, 0.12));
+    border-radius: var(--radius-xl, 16px);
+    padding: 20px 24px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.kesfet-track-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+.kesfet-track-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: var(--radius-md, 10px);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.kesfet-track-row:hover {
+    background: var(--cm-bg-hover, rgba(255, 255, 255, 0.06));
+    border-color: var(--cm-border-subtle, rgba(255, 255, 255, 0.1));
+}
+
+.kesfet-track-rank {
+    width: 28px;
+    font-size: var(--font-size-sm, 14px);
+    font-weight: 700;
+    color: var(--cm-text-muted, rgba(255, 255, 255, 0.4));
+}
+
+.kesfet-track-row:nth-child(-n+3) .kesfet-track-rank {
+    color: var(--cm-accent);
+}
+
+.kesfet-track-cover {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm, 8px);
+    object-fit: cover;
+    margin: 0 14px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.kesfet-track-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.kesfet-track-title {
+    font-size: var(--font-size-sm, 14px);
+    font-weight: 600;
+    color: var(--cm-white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kesfet-track-artist {
+    font-size: var(--font-size-xs, 12px);
+    color: var(--cm-text-secondary, rgba(255, 255, 255, 0.65));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kesfet-track-format {
+    padding: 3px 8px;
+    border-radius: var(--radius-sm, 4px);
+    background: var(--cm-bg-control, rgba(255, 255, 255, 0.08));
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--cm-accent);
+    margin: 0 16px;
+    letter-spacing: 0.05em;
+}
+
+.kesfet-track-duration {
+    font-size: var(--font-size-xs, 12px);
+    color: var(--cm-text-muted, rgba(255, 255, 255, 0.5));
+    width: 45px;
+    text-align: right;
+}
+
+/* Featured Albums Right Sidebar */
+.kesfet-sidebar-panel {
+    background: var(--cm-bg-glass, rgba(22, 10, 32, 0.75));
+    border: 1px solid var(--cm-border-subtle, rgba(255, 255, 255, 0.12));
+    border-radius: var(--radius-xl, 16px);
+    padding: 20px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.kesfet-mini-album {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 10px;
+    border-radius: var(--radius-md, 10px);
+    background: var(--cm-bg-card, rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--cm-border-subtle, rgba(255, 255, 255, 0.06));
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.kesfet-mini-album:hover {
+    background: var(--cm-bg-hover, rgba(255, 255, 255, 0.08));
+    border-color: var(--cm-border-glow, rgba(255, 79, 216, 0.3));
+    transform: translateX(4px);
+}
+
+.kesfet-mini-album__cover {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-md, 8px);
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.kesfet-mini-album__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.kesfet-mini-album__name {
+    font-size: var(--font-size-sm, 13px);
+    font-weight: 700;
+    color: var(--cm-white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kesfet-mini-album__artist {
+    font-size: 11px;
+    color: var(--cm-text-secondary, rgba(255, 255, 255, 0.6));
+    margin-top: 2px;
+}
+
+.kesfet-mini-album__meta {
+    font-size: 10px;
+    color: var(--cm-accent);
+    font-weight: 600;
+    margin-top: 4px;
+}

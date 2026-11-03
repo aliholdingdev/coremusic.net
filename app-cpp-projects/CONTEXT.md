@@ -17,7 +17,7 @@ updated: 2026-10-23
 
 ## eli10 — Öğretici
 
-Bu klasör şu an boş; gerçek kod `--/neva-engine/` altında durur. Orada CMake ile
+Bu klasörde C++ ses motoru `neva-engine/` altında durur. Orada CMake ile
 kurulan **C++20** bir ses motoru var: yalnız **WASAPI** ses çıkışı, ctest ile
 test edilen 15 kaynak dosya. Sen bu yüzeye girdiğinde önce taşınma kararını
 doğrular, sonra kodu `--/neva-engine/` içinde bulursun.
@@ -36,12 +36,12 @@ yüzeyidir** — kod buraya geri taşınmaz ve silinmez.
 ## 1 — Mimari Şema
 
 ```text
-app-cpp-projects/        : (BOŞ — 0 dosya, 2026-10-23 disk kanıtı)
---/neva-engine/          : GERÇEK KOD KONUMU (commit 9fd9991)
-  CMakeLists.txt         : C++20 derleme + ctest
-  (15 kaynak dosya)      : motor çekirdeği + WASAPI backend + testler
-ai/PLAN.md:330           : taşıma TODO'su (açık)
-architecture doc §19     : "kullanıcı onayı ⏳" (açık karar)
+app-cpp-projects/neva-engine/ : GERÇEK KOD KONUMU (16 kaynak dosya)
+  CMakeLists.txt              : C++20 derleme + testler (MSVC 19.44)
+  include/neva/               : biquad, eq_chain, eq_grids, iaudio_backend, icy_parser, neva_session, spsc_ring
+  src/                        : decode_stub, neva_session, null_backend, wasapi_backend
+  tests/                      : test_biquad, test_eq_grids, test_icy_parser (3 süit %100 PASSED)
+  build/Release/              : neva_engine.lib, neva_session.dll, test exe'leri
 ```
 
 Katman bağımlılığı: `uygulama → motor API → DSP çekirdek → platform backend`

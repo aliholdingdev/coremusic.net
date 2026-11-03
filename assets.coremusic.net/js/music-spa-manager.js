@@ -14,6 +14,30 @@
     // Görsel varlıkların servis edildiği origin — desen: ViewModeManager.js / UrlUtils.js
     const ASSETS_ORIGIN = window.CoreMusic?.RouterConfig?.assetsUrl || 'https://assets.coremusic.net';
 
+    const DANGEROUS_ELEMENTS = 'script, iframe, object, embed, applet, form, base, link[rel="import"]';
+
+    /**
+     * HTML'i parse + sanitize edip DocumentFragment döndürür — innerHTML SINK YOK
+     * (assets CLAUDE.md §7.7 / .ai CLAUDE.md §21: innerHTML → DOMParser).
+     * Aynı desen: PlayerController.js:18 · SidebarManager.js:39.
+     * API/kullanıcı türevli değerler şablonda HER ZAMAN escapeHtml() ile yazılır;
+     * sanitizer ikinci savunma katmanıdır.
+     * @param {string} html
+     * @returns {DocumentFragment}
+     */
+    function parseStaticHtml(html) {
+        const doc = new DOMParser().parseFromString(typeof html === 'string' ? html : '', 'text/html');
+        for (const el of doc.querySelectorAll(DANGEROUS_ELEMENTS)) el.remove();
+        for (const el of doc.querySelectorAll('*')) {
+            for (const attr of [...el.attributes]) {
+                if (attr.name.toLowerCase().startsWith('on')) el.removeAttribute(attr.name);
+            }
+        }
+        const fragment = document.createDocumentFragment();
+        if (doc.body) fragment.append(...doc.body.childNodes);
+        return fragment;
+    }
+
     class MusicSpaManager {
         constructor() {
             this.apiUrl = window.API_URL || 'https://api.coremusic.net';
@@ -225,9 +249,9 @@
             card.setAttribute('data-stream', trackInfo.streamUrl || `/stream/${trackInfo.hex}`);
             card.setAttribute('data-title', trackInfo.title);
             card.setAttribute('data-artist', trackInfo.artist);
-            card.innerHTML = `
+            card.replaceChildren(parseStaticHtml(`
                 <div class="home-song__mini-card__art">
-                    <img class="home-song__mini-card__art-img" src="${trackInfo.art || `${ASSETS_ORIGIN}/Image/res-pink/album-goksel.png`}" alt="" width="50" height="50" loading="lazy"/>
+                    <img class="home-song__mini-card__art-img" src="${this.escapeHtml(trackInfo.art || `${ASSETS_ORIGIN}/Image/res-pink/album-goksel.png`)}" alt="" width="50" height="50" loading="lazy"/>
                     <img class="home-song__mini-card__art-case" src="${ASSETS_ORIGIN}/Image/res-pink/cd-case.png" alt="" aria-hidden="true"/>
                     <img class="home-song__mini-card__art-badge" src="${ASSETS_ORIGIN}/Image/res-pink/music.png" alt="" aria-hidden="true"/>
                     <img class="home-song__mini-card__art-cd" src="${ASSETS_ORIGIN}/Image/res-pink/cd-overlay.png" alt="" aria-hidden="true"/>
@@ -237,7 +261,7 @@
                     <p class="home-song__mini-card__subtitle">${this.escapeHtml(trackInfo.artist)}</p>
                     <span class="home-song__mini-card__subtitle">${this.escapeHtml(trackInfo.duration || '--:--:--')}</span>
                 </div>
-            `;
+            `));
 
             // Animasyonlu başa ekle
             card.style.opacity = '0';
@@ -264,8 +288,8 @@
             if (historyList) {
                 const li = document.createElement('li');
                 li.className = 'history-list__item';
-                li.innerHTML = `
-                    <a class="history-row" href="/playlist" data-no-spa data-stream="${trackInfo.streamUrl || `/stream/${trackInfo.hex}`}" aria-label="Oynat: ${this.escapeHtml(trackInfo.title)} — ${this.escapeHtml(trackInfo.artist)}">
+                li.replaceChildren(parseStaticHtml(`
+                    <a class="history-row" href="/playlist" data-no-spa data-stream="${this.escapeHtml(trackInfo.streamUrl || `/stream/${trackInfo.hex}`)}" aria-label="Oynat: ${this.escapeHtml(trackInfo.title)} — ${this.escapeHtml(trackInfo.artist)}">
                         <span class="history-row__play" aria-hidden="true">
                             <svg class="history-row__icon" viewBox="0 0 24 24" focusable="false">
                                 <path d="M8 5v14l11-7z" fill="currentColor"/>
@@ -275,7 +299,7 @@
                         <span class="history-row__artist">${this.escapeHtml(trackInfo.artist)}</span>
                         <span class="history-row__duration">${this.escapeHtml(trackInfo.duration || '--:--:--')}</span>
                     </a>
-                `;
+                `));
                 historyList.insertBefore(li, historyList.firstChild);
             }
 
@@ -284,13 +308,13 @@
             if (firstCol) {
                 const li = document.createElement('li');
                 li.className = 'history-list__item';
-                li.innerHTML = `
-                    <a class="history-row history-row--mini" href="/playlist" data-no-spa data-stream="${trackInfo.streamUrl || `/stream/${trackInfo.hex}`}" aria-label="Oynat: ${this.escapeHtml(trackInfo.title)} — ${this.escapeHtml(trackInfo.artist)}">
+                li.replaceChildren(parseStaticHtml(`
+                    <a class="history-row history-row--mini" href="/playlist" data-no-spa data-stream="${this.escapeHtml(trackInfo.streamUrl || `/stream/${trackInfo.hex}`)}" aria-label="Oynat: ${this.escapeHtml(trackInfo.title)} — ${this.escapeHtml(trackInfo.artist)}">
                         <img class="history-row__disc" src="${ASSETS_ORIGIN}/Image/figma-1920/disc-history.png" width="24" height="21" alt="" loading="lazy">
                         <span class="history-row__title">${this.escapeHtml(trackInfo.title)}</span>
                         <span class="history-row__duration">${this.escapeHtml(trackInfo.duration || '--:--:--')}</span>
                     </a>
-                `;
+                `));
                 firstCol.insertBefore(li, firstCol.firstChild);
             }
         }
@@ -616,7 +640,7 @@
             let playlistOptionsHtml = '';
             if (playlists.length > 0) {
                 playlistOptionsHtml = playlists.map(pl => `
-                    <button type="button" class="cm-modal-item-btn" data-playlist-id="${pl.playlist_id}" data-playlist-name="${this.escapeHtml(pl.name)}">
+                    <button type="button" class="cm-modal-item-btn" data-playlist-id="${this.escapeHtml(pl.playlist_id)}" data-playlist-name="${this.escapeHtml(pl.name)}">
                         <span>🎵 ${this.escapeHtml(pl.name)}</span>
                         <span class="cm-modal-add-icon">+</span>
                     </button>
@@ -625,7 +649,7 @@
                 playlistOptionsHtml = '<p class="cm-modal-empty">Henüz bir çalma listeniz yok.</p>';
             }
 
-            modal.innerHTML = `
+            modal.replaceChildren(parseStaticHtml(`
                 <div class="cm-modal-content">
                     <div class="cm-modal-header">
                         <h2 id="cm-modal-title" class="cm-modal-title">Çalma Listesine Ekle</h2>
@@ -646,7 +670,7 @@
                         </div>
                     </div>
                 </div>
-            `;
+            `));
 
             document.body.appendChild(modal);
 

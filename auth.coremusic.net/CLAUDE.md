@@ -231,15 +231,14 @@ auth.coremusic.net → Session Cookie → home.coremusic.net
 
 | Test | Konum | Kapsam |
 |------|-------|--------|
-| EmailTest | `tests/Unit/Domain/ValueObject/` | Email validasyonu |
-| GenderTest | `tests/Unit/Domain/ValueObject/` | Gender validasyonu |
-| PasswordTest | `tests/Unit/Domain/ValueObject/` | Password hash/verify |
-| UserIdTest | `tests/Unit/Domain/ValueObject/` | UserId üretimi |
+| EmailTest, GenderTest, PasswordTest | `tests/Unit/Domain/ValueObject/` | Value object validasyonları |
 | UserTest | `tests/Unit/Domain/Entity/` | User entity |
 | LoginRequestTest | `tests/Unit/Domain/DTO/` | Login DTO |
-| **Eksik** | `tests/Unit/Service/` | AuthService testleri |
-| **Eksik** | `tests/Unit/Handler/` | Handler testleri |
-| **Eksik** | `tests/Unit/Repository/` | Repository testleri |
+| AuthServiceTest, SessionManagerTest | `tests/Unit/Service/` | AuthService ve SessionManager testleri |
+| AuthKeyRedirectHandlerTest, AuthPostHandlerTest, AutoRedirectHandlerTest, AdminAuthPagesContractTest | `tests/Unit/Handler/` | Handler ve sözleşme testleri |
+| UserRepositoryTest | `tests/Unit/Repository/` | UserRepository testleri |
+| AuthController*Test (Logout, RedirectAllowlist, SessionFixation) | `tests/Unit/Controller/` | AuthController akış testleri |
+| BypassProductionGateGuardTest, PepperFallbackGuardTest | `tests/Unit/Security/` | Güvenlik guard ve bypass gate testleri |
 
 ---
 

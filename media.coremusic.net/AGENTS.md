@@ -99,7 +99,7 @@ Bu doküman `media.coremusic.net/` klasöründe **kimin hangi dosyaya dokunacağ
 | `composer.json` / `.gitignore` | Backend Architect + MO | Security (negasyon + secret yok) |
 | `docs/checklist.md`, `docs/todos.md` | MO (vault-updater) | QA (kanıt) + kapı sahipleri |
 | `docs/dizin-yapisi.md`, `docs/adlandirma.md` | MO (vault-updater) | Backend (kod↔kural eşlemesi) |
-| `docs/faz3-gui-spec.md` | UI Designer / frontend-developer | MO (kapı kaydı) — ⚠️ uygulama ayrı görev |
+| `docs/faz3-gui-spec.md` | UI Designer / frontend-developer | MO (kapı kaydı) — ⚠️ superseded (0.1.1): Faz 3 GUI İPTAL (ADR-115); uygulama hedefi admin.coremusic.net |
 | `media/` (medya ağacı) | **KİMSE — salt okunur** | Security (master dokunulmazlık) |
 | `CONTEXT`·`CLAUDE`·`AGENTS`·`WORKFLOW.md` | MO (vault-updater) | — |
 

@@ -2,10 +2,10 @@
 title: "media.coremusic.net — TODO Listesi"
 type: todo
 category: project-tracking
-version: 1.2.0
+version: 1.5.0
 status: active
 authority: SSOT
-updated: 2026-10-25
+updated: 2026-11-01
 ---
 
 # media.coremusic.net — TODO Listesi
@@ -20,8 +20,14 @@ updated: 2026-10-25
 ## Açık Maddeler
 
 - [ ] **#25 (`.ai/.sql` PRD — diskte YOK) ile şema çapraz kontrolü** — `media_catalog` (9 tablo + `v_asset_search`) doğrulanır · Kaynak: `[[PRD.md]]` §7.1
-- [ ] **Faz 3 GUI uygulama kararı** — `docs/faz3-gui-spec.md` §2 "⚠️ ayrı görev" kaydına bağlı kalır · Kaynak: `[[PRD.md]]` §7.2
+- [x] **Faz 3 GUI uygulama kararı** — KAPANDI (2026-11-01): media yönetim arayüzü `admin.coremusic.net` panelinde yürütülür (ADR-115, draft); media'nın kendi web paneli İPTAL — `docs/faz3-gui-spec.md` superseded 0.1.1. Çelişki kaydı: spec'te "ayrı görev" ifadesi diskte 0 eşleşme (grep 2026-11-01); atıf zincirinin gerçek kaynağı media AGENTS §3.2 idi — disk kazanır · Kaynak: `[[PRD.md]]` §7.2 · `[[../.ai/.decisions/draft/ADR-115-media-yonetimi-adminde-faz3-gui-iptal]]`
 - [ ] **Port netleştirme (ADR-039 :5000/:6000)** — açık kalmışsa `checklist` VR maddesi olarak taşınır · Kaynak: `[[PRD.md]]` §7.3
+- [ ] **EPIC: ffmpeg/ffprobe YOK → HLS/transcode (port 6000) dürüst erteleme** — iki kabukta da yok (`command not found` / `NOT FOUND in PATH`, 2026-10-30); sıfır HLS kodu/dokümanı yazıldı. 5 maddelik tasarım notu raporlandı (ffprobe ile girişte metadata → transcode ASLA request path'te değil, 201 sonrası worker kuyruğu → HLS fMP4/CMAF master.m3u8 + 4-6s .m4s → segmentler `MEDIA_ROOT/_hls/{ULID}/` PathGuard altında, `HLS_PORT=6000` bağımsız servis ADR-039 → binary kurulumu + ADR-112 onayı olmadan uygulanmaz) → ADR-112 eki + bu satır EPIC olarak kalır · Kaynak: denetim raporu 2026-10-30 (ffmpeg/ffprobe taraması)
+- [ ] **ORTA: upload 201 → DB yazım kararı** — `MediaAccessRepositoryInterface` yalnız `hasReadGrant`/`findAsset`/`recordAudit` (insert yok); `CatalogWriter` ingest'e ait → 201 şu an yalnız staged dosya + `file_key` ile duruyor (bilinçli, task clause), `media_catalog.asset` satırı yazımı için write-surface kararı gerekir · Kaynak: denetim raporu 2026-10-30
+- [ ] **MICRO: staging adlandırma gerilimi** — upload `_inbox/{tarih}/{ULID}.{uzantı}` (görev spec'i) vs `bin/ingest.php` `_inbox/{tarih}/{slug}-{ULID}.{uzantı}`; anlamsal çakışma yok (ingest slug+ULID, upload saf ULID) ama naming farkı → birleştirme kararı raporlandı (spec kazandı, In-Place korundu) · Kaynak: denetim raporu 2026-10-30
+- [ ] **MICRO: composer `scripts.audit` ad çakışması** — her composer koşusunda "A script named audit would override a Composer command and has been skipped" (baseline'da da vardı) → script adı kararı (`audit` → `media:audit` gibi, In-Place + onay) · Kaynak: `composer` koşusu 2026-10-30
+- [ ] **MICRO: `/upload` OPTIONS preflight → 405** — preflight ucu yok; cross-origin tarayıcı upload'ı OPTIONS atarsa 405 döner → CORS preflight kararı (allowlist zaten Origin/Referer kapılarında) · Kaynak: denetim raporu 2026-10-30
+- [ ] **ORTA: canlı-vs-dump şema kayması — `coremusic_media.media_access` + `media_audit` canlıda `is_deleted`/`deleted_at` YOK** — dump SSOT (`.ai/.sql/mysql/coremusic_media.sql:167,193`) ilgili tablolara `is_deleted`+`deleted_at` veriyor; canlıda bu kolonlar yok → `hasReadGrant` (`... is_deleted = 0 ...`) 42S22 → guard fail-closed → canlı kanıt (2026-10-31): Bearer'lı `GET /stream/{key}` = **honest 403** `FORBIDDEN` (grant=0/asset=0 durumundan bağımsız tetiklenir) → dump'ı live'a uygula (DDL) kararı Contradiction Gate #12 bekler (ürün şemasında sessiz ALTER yasak) · Kaynak: canlı şema ölçümü 2026-10-31
 
 ## İlişkili Dosyalar
 
@@ -37,6 +43,7 @@ updated: 2026-10-25
 - [x] ORTA: ADR-092 v1.1.0 revizyonu (yol düzeltmesi + gitignore kanıtı) — 2026-09-29
 - [x] ORTA: `media_catalog` 9 tablo + `v_asset_search` view + `taxonomy.json` enum sözleşmesi
 - [x] EPIC: PHP CLI arşiv üçlüsü (`scan`/`audit`/`ingest`) + `--dry-run`/`--deep` kapıları + `media/` ağacı salt-okunur (ADR-092 §5)
+- [x] EPIC: Media HTTP yüzeyi — stream (byte-range/ETag/206 + `MediaAccessGuard` fail-closed + `PathGuard`) + upload (`POST /upload`, 13 kapı: 401→403→405→415→413→400→503→500, ULID staging, `file_key` sızıntısı 0) — `composer test` **75/178/1skip** yeşil · lint **28/28** · phpstan **0** (2026-10-30; ffmpeg/HLS hariç — EPIC madde yukarıda)
 
 ### B. AÇIK — EKSİK / YARIM (küçükten büyüğe)
 - [ ] MICRO: M-3a — `Get-NetTCPConnection` ile :5000/:6000 dinleyicisini ölç → 1 satır kanıt

@@ -21,6 +21,18 @@ enum HomeLayoutVariant
         return $this === self::Wide || $this === self::FourK;
     }
 
+    /** 4K varyant kontrolü */
+    public function isFourK(): bool
+    {
+        return $this === self::FourK;
+    }
+
+    /** Embedded (1024) varyant kontrolü */
+    public function isEmbedded(): bool
+    {
+        return $this === self::Embedded;
+    }
+
     /** DeviceManager karar bayraklarından varyant üretir. */
     public static function fromFlags(bool $isWide, bool $is4k): self
     {

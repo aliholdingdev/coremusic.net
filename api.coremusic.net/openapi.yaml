@@ -1,0 +1,1856 @@
+openapi: 3.0.3
+info:
+  title: CoreMusic API
+  version: 1.0.0
+  description: |
+    CoreMusic API v1 - Modern API implementation with security, preventing data theft.
+
+    ## Authentication
+
+    This API uses hybrid authentication:
+    - **Session/Cookie**: For browser clients (CSRF protected)
+    - **JWT Bearer (RS256)**: For API clients with `access_token`
+
+    ### Session Authentication
+    Include session cookie `COREMUSIC_SESS` with requests.
+
+    ### JWT Bearer Authentication
+    Add `Authorization: Bearer <access_token>` header.
+
+    ### CSRF Protection
+    For session-authenticated state-changing requests (POST/PUT/DELETE):
+    - Include `X-CSRF-Token` header with token from session
+    - Token also available in `/api/v1/auth/login` and `/api/v1/auth/me` responses
+
+    ## Rate Limiting
+    - 60 requests per 60 seconds per IP
+    - Exceeding returns 429 with `Retry-After` header
+
+    ## Error Format
+    All errors follow the contract:
+    ```json
+    { "error": { "code": "ERROR_CODE", "message": "Human readable message" } }
+    ```
+    Validation errors include `error.fields` object.
+
+    ## Success Format
+    Successful controller responses (contract enforced by AbstractController::success()):
+    ```json
+    { "success": true, "data": { ... } }
+    ```
+    Framework-level responses emitted by ApiResponse::ok() (Gateway) use
+    `{ "data": { ... }, "meta": { "timestamp": "...", "version": "1.0.0" } }`.
+  contact:
+    name: CoreMusic Team
+    email: api@coremusic.net
+  license:
+    name: Proprietary
+    url: https://coremusic.net/license
+servers:
+  - url: http://api.coremusic.net
+    description: Development server
+  - url: https://api.coremusic.net
+    description: Production server
+security:
+  - sessionAuth: []
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    sessionAuth:
+      type: apiKey
+      in: cookie
+      name: COREMUSIC_SESS
+      description: Session cookie for browser clients
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT RS256 access token for API clients
+
+  schemas:
+    # Auth Schemas
+    LoginRequest:
+      type: object
+      # F3 — identity-OR: AuthController::login `$body['email'] ?? ['identity']
+      # ?? ['username']` okur; yalnız password ZORUNLUDUR (route validation'da
+      # email opsiyonel). Boş identity AuthService::login'de 422 üretir.
+      required:
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email address (identity-OR member)
+        username:
+          type: string
+          description: Username (alternative to email)
+        identity:
+          type: string
+          description: Email or username (alias)
+        password:
+          type: string
+          format: password
+          minLength: 8
+          description: User password
+        gender:
+          type: string
+          enum: [male, female, neutral]
+          description: User gender for theme selection (optional at login)
+      example:
+        email: user@example.com
+        password: securepassword123
+        gender: neutral
+
+    RegisterRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - gender
+        - agree_terms
+      properties:
+        username:
+          type: string
+          pattern: '^[a-zA-Z0-9_]{3,30}$'
+          minLength: 3
+          maxLength: 30
+          description: Unique username
+        email:
+          type: string
+          format: email
+          description: User email address
+        password:
+          type: string
+          format: password
+          minLength: 8
+          description: User password
+        gender:
+          type: string
+          enum: [male, female, neutral]
+          description: User gender for theme selection
+        agree_terms:
+          type: boolean
+          const: true
+          description: Must accept terms of service
+      example:
+        username: johndoe
+        email: john@example.com
+        password: securepassword123
+        gender: male
+        agree_terms: true
+
+    ForgotPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+      example:
+        email: user@example.com
+
+    ResetPasswordRequest:
+      type: object
+      required:
+        - token
+        - password
+      properties:
+        token:
+          type: string
+          description: Password reset token from email
+        password:
+          type: string
+          format: password
+          minLength: 8
+      example:
+        token: abc123def456
+        password: newsecurepassword123
+
+    SetGenderRequest:
+      type: object
+      required:
+        - gender
+      properties:
+        gender:
+          type: string
+          enum: [male, female, neutral]
+      example:
+        gender: female
+
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          const: true
+        data:
+          type: object
+          properties:
+            auth_key:
+              type: string
+              description: Session auth key for cross-subdomain handoff
+            redirect:
+              type: string
+              description: Redirect URL with auth_key parameter
+            user:
+              $ref: '#/components/schemas/User'
+            csrf_token:
+              type: string
+              description: CSRF token for state-changing requests
+            access_token:
+              type: string
+              description: JWT RS256 access token (when available)
+            token_type:
+              type: string
+              const: Bearer
+            expires_in:
+              type: integer
+              description: Token lifetime in seconds
+      required:
+        - success
+        - data
+
+    AuthMessageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          const: true
+        message:
+          type: string
+      required:
+        - success
+        - message
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+          description: UUID v7 as 32-char hex
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        gender:
+          type: string
+          enum: [male, female, neutral]
+      required:
+        - id
+        - username
+        - email
+        - gender
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            fields:
+              type: object
+              additionalProperties:
+                type: string
+            details:
+              type: object
+          example:
+            code: VALIDATION_ERROR
+            message: Validation failed
+            fields:
+              email: email is required
+
+    # Music Schemas
+    MusicTrack:
+      type: object
+      properties:
+        music_hex:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+        title:
+          type: string
+        duration_sec:
+          type: integer
+        artist_name:
+          type: string
+      required:
+        - music_hex
+        - title
+        - duration_sec
+        - artist_name
+
+    MusicTracksResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MusicTrack'
+        meta:
+          $ref: '#/components/schemas/Meta'
+
+    MusicSearchRequest:
+      type: object
+      properties:
+        q:
+          type: string
+          description: Search query
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+        offset:
+          type: integer
+          minimum: 0
+          default: 0
+        type:
+          type: string
+          enum: [track, artist, album, playlist]
+
+    # Playlist Schemas
+    Playlist:
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+        name:
+          type: string
+          maxLength: 100
+        track_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+
+    PlaylistDetail:
+      allOf:
+        - $ref: '#/components/schemas/Playlist'
+        - type: object
+          properties:
+            tracks:
+              type: array
+              items:
+                $ref: '#/components/schemas/MusicTrack'
+
+    PlaylistCreateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+      example:
+        name: My Favorite Songs
+
+    PlaylistUpdateRequest:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+
+    PlaylistReorderRequest:
+      type: object
+      required:
+        - playlist_id
+        - track_ids
+      properties:
+        playlist_id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+        track_ids:
+          type: array
+          items:
+            type: string
+            pattern: '^[0-9a-f]{32}$'
+          minItems: 1
+      example:
+        playlist_id: abc123...
+        track_ids:
+          - track1...
+          - track2...
+
+    PlaylistAddTrackRequest:
+      type: object
+      required:
+        - playlist_id
+        - track_id
+      properties:
+        playlist_id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+        track_id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+
+    PlaylistListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Playlist'
+        meta:
+          $ref: '#/components/schemas/Meta'
+
+    PlaylistDetailResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PlaylistDetail'
+        meta:
+          $ref: '#/components/schemas/Meta'
+
+    # User Schemas
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        gender:
+          type: string
+          enum: [male, female, neutral]
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - username
+        - email
+        - gender
+
+    UserProfileUpdateRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          pattern: '^[a-zA-Z0-9_]{3,30}$'
+        email:
+          type: string
+          format: email
+        gender:
+          type: string
+          enum: [male, female, neutral]
+
+    UserHeaderData:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        csrf_token:
+          type: string
+
+    # History Schemas
+    HistoryRecordRequest:
+      type: object
+      required:
+        - music_id
+      properties:
+        music_id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+
+    HistoryItem:
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+        music:
+          $ref: '#/components/schemas/MusicTrack'
+        played_at:
+          type: string
+          format: date-time
+
+    HistoryListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryItem'
+        meta:
+          $ref: '#/components/schemas/Meta'
+
+    # Meta
+    Meta:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        version:
+          type: string
+        pagination:
+          type: object
+          properties:
+            offset:
+              type: integer
+            limit:
+              type: integer
+            total:
+              type: integer
+    PaginationMeta:
+      type: object
+      properties:
+        offset:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+
+    # Billing Schemas — ApiResponse::ok / ApiResponse::paginated zarfı.
+    # Not: ortak Meta.pagination offset/limit/total VARYANTIDIR; billing
+    # uçları ApiResponse::paginated ürettiği için kendi BillingPagination
+    # şeması kullanılır (page/pageSize/totalItems/totalPages).
+    BillingPlan:
+      type: object
+      description: subscription_plans satırı (decimal price_amount string taşınır)
+      properties:
+        plan_id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+        plan_code:
+          type: string
+        name:
+          type: string
+        tier:
+          type: string
+          enum: [free, premium, family, student, studio]
+        billing_interval:
+          type: string
+          enum: [free, monthly, quarterly, yearly]
+        price_amount:
+          type: string
+          description: decimal(10,2) — kuruş hassasiyeti için string
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        max_concurrent_streams:
+          type: integer
+        audio_quality_tier:
+          type: string
+          enum: [standard, high, lossless_flac, hi_res_dsp]
+      required:
+        - plan_id
+        - plan_code
+        - name
+        - tier
+        - billing_interval
+        - price_amount
+        - currency
+
+    BillingSubscription:
+      type: object
+      description: user_subscriptions satırı (kullanıcının en güncel aboneliği)
+      properties:
+        subscription_id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+        status:
+          type: string
+          enum: [active, past_due, canceled, incomplete, trialing, paused]
+        current_period_start:
+          type: string
+          format: date-time
+        current_period_end:
+          type: string
+          format: date-time
+        cancel_at_period_end:
+          type: boolean
+        canceled_at:
+          type: string
+          format: date-time
+          nullable: true
+        trial_end:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - subscription_id
+        - status
+        - current_period_start
+        - current_period_end
+
+    BillingPlanResponse:
+      type: object
+      description: >
+        GET /billing/plan 200 gövdesi. Abonelik yoksa has_subscription:false +
+        subscription:null + plan:null (uydurma plan yok — Zero Hallucination).
+      properties:
+        data:
+          type: object
+          properties:
+            has_subscription:
+              type: boolean
+            subscription:
+              oneOf:
+                - $ref: '#/components/schemas/BillingSubscription'
+                - type: 'null'
+            plan:
+              oneOf:
+                - $ref: '#/components/schemas/BillingPlan'
+                - type: 'null'
+          required:
+            - has_subscription
+            - subscription
+            - plan
+        meta:
+          $ref: '#/components/schemas/Meta'
+      required:
+        - data
+        - meta
+
+    BillingInvoice:
+      type: object
+      description: invoices satırı (yalnız kullanıcının kendi faturası)
+      properties:
+        invoice_id:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+        invoice_number:
+          type: string
+        status:
+          type: string
+          enum: [draft, open, paid, uncollectible, void]
+        subtotal:
+          type: string
+        tax_rate:
+          type: string
+        tax_amount:
+          type: string
+        total_amount:
+          type: string
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        paid_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - invoice_id
+        - invoice_number
+        - status
+        - total_amount
+        - currency
+        - created_at
+
+    BillingPagination:
+      type: object
+      description: ApiResponse::paginated meta.pagination (Meta.pagination offset varyantı değil)
+      properties:
+        page:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+        totalItems:
+          type: integer
+          minimum: 0
+        totalPages:
+          type: integer
+          minimum: 0
+      required:
+        - page
+        - pageSize
+        - totalItems
+        - totalPages
+
+    BillingInvoicesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillingInvoice'
+        meta:
+          type: object
+          properties:
+            pagination:
+              $ref: '#/components/schemas/BillingPagination'
+            timestamp:
+              type: string
+              format: date-time
+            version:
+              type: string
+          required:
+            - pagination
+            - timestamp
+            - version
+      required:
+        - data
+        - meta
+
+paths:
+  # ─── F15: canlılık ucu (index.php §1 — Gateway ÖNCESİ) ───
+  /health:
+    get:
+      summary: Liveness probe
+      description: >
+        Canlılık ucu. Gateway ve middleware pipeline'INDAN ÖNCE yanıtlanır
+        (index.php §1). Varsayılan sürüm v1'dir; `Accept:
+        application/vnd.coremusic.v2+json` ile v2 gövdesi istenebilir.
+      operationId: health
+      security: []
+      responses:
+        '200':
+          description: Service alive
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, service, version, timestamp]
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                  service:
+                    type: string
+                    const: api.coremusic.net
+                  version:
+                    type: string
+                    enum: [v1, v2]
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /api/v1/auth/login:
+    post:
+      summary: User login
+      description: Authenticate user and return session auth_key + JWT access_token
+      operationId: login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+      x-codegen:
+        handler: AuthController::login
+
+  /api/v1/auth/register:
+    post:
+      summary: User registration
+      description: Register new user with email, username, password, and gender
+      operationId: register
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '200':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Username or email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+      x-codegen:
+        handler: AuthController::register
+
+  /api/v1/auth/forgot-password:
+    post:
+      summary: Request password reset
+      description: Send password reset email (enumeration protected - always returns 200)
+      operationId: forgotPassword
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        '200':
+          description: Reset email sent (always returns success)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthMessageResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+      x-codegen:
+        handler: AuthController::forgotPassword
+
+  /api/v1/auth/reset-password:
+    post:
+      summary: Reset password with token
+      description: Reset user password using token from email
+      operationId: resetPassword
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password reset successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthMessageResponse'
+        '400':
+          description: Invalid or expired token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: AuthController::resetPassword
+
+  /api/v1/auth/set-gender:
+    post:
+      summary: Set user gender for theme
+      description: Set or update user gender preference for theme engine
+      operationId: setGender
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetGenderRequest'
+      responses:
+        '200':
+          description: Gender updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  data:
+                    type: object
+                    properties:
+                      gender:
+                        type: string
+                        enum: [male, female, neutral]
+                      redirect:
+                        type: string
+                required:
+                  - success
+                  - data
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: AuthController::setGender
+
+  /api/v1/auth/logout:
+    post:
+      summary: User logout
+      description: Invalidate session and revoke tokens
+      operationId: logout
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  data:
+                    type: object
+                    properties:
+                      redirect:
+                        type: string
+                required:
+                  - success
+                  - data
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: AuthController::logout
+
+  /api/v1/auth/me:
+    get:
+      summary: Get current authenticated user
+      description: Returns current user info and CSRF token
+      operationId: me
+      responses:
+        '200':
+          description: Current user data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: AuthController::me
+
+  /api/v1/music/tracks:
+    get:
+      summary: List music tracks
+      description: Returns paginated list of music tracks
+      operationId: musicTracks
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of music tracks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MusicTracksResponse'
+      x-codegen:
+        handler: MusicController::tracks
+
+  /api/v1/music/search:
+    get:
+      summary: Search music
+      description: Search music by query string
+      operationId: musicSearch
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [track, artist, album, playlist]
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MusicTracksResponse'
+      x-codegen:
+        handler: MusicController::search
+
+  /api/v1/music/track:
+    get:
+      summary: Get single track
+      description: Returns single music track by ID
+      operationId: musicTrack
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-f]{32}$'
+      responses:
+        '200':
+          description: Music track details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/MusicTrack'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+        '404':
+          description: Track not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: MusicController::show
+
+  /api/v1/playlist:
+    get:
+      summary: List user playlists
+      description: Returns paginated list of user's playlists
+      operationId: playlistList
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of playlists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistListResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: PlaylistController::index
+
+    post:
+      summary: Create new playlist
+      description: Create a new playlist for the authenticated user
+      operationId: playlistCreate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaylistCreateRequest'
+      responses:
+        '201':
+          description: Playlist created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistDetailResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: PlaylistController::create
+
+    put:
+      summary: Update playlist
+      description: Update playlist metadata
+      operationId: playlistUpdate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaylistUpdateRequest'
+      responses:
+        '200':
+          description: Playlist updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistDetailResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (not owner)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: PlaylistController::update
+
+    delete:
+      summary: Delete playlist (soft delete)
+      description: Soft delete a playlist
+      operationId: playlistDelete
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-f]{32}$'
+      responses:
+        '200':
+          description: Playlist deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (not owner)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: PlaylistController::delete
+
+  /api/v1/playlist/detail:
+    get:
+      summary: Get playlist detail with tracks
+      description: Returns playlist with all tracks
+      operationId: playlistShow
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-f]{32}$'
+      responses:
+        '200':
+          description: Playlist with tracks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistDetailResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: PlaylistController::show
+
+  /api/v1/playlist/order:
+    put:
+      summary: Reorder playlist tracks
+      description: Reorder tracks within a playlist
+      operationId: playlistReorder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaylistReorderRequest'
+      responses:
+        '200':
+          description: Playlist reordered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (not owner)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: PlaylistController::reorder
+
+  /api/v1/playlist/tracks:
+    post:
+      summary: Add track to playlist
+      description: Add a track to a playlist
+      operationId: playlistAddTrack
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaylistAddTrackRequest'
+      responses:
+        '200':
+          description: Track added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (not owner)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Playlist or track not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: PlaylistController::addTrack
+
+    delete:
+      summary: Remove track from playlist
+      description: Remove a track from a playlist
+      operationId: playlistRemoveTrack
+      parameters:
+        - name: playlist_id
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-f]{32}$'
+        - name: track_id
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-f]{32}$'
+      responses:
+        '200':
+          description: Track removed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (not owner)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Playlist or track not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: PlaylistController::removeTrack
+
+  /api/v1/user/profile:
+    get:
+      summary: Get user profile
+      description: Returns authenticated user's profile
+      operationId: userProfile
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/UserProfile'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: UserController::profile
+
+    put:
+      summary: Update user profile
+      description: Update authenticated user's profile
+      operationId: userProfileUpdate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileUpdateRequest'
+      responses:
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/UserProfile'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: UserController::updateProfile
+
+  /api/v1/user/header-data:
+    get:
+      summary: Get user header data
+      description: Returns minimal user data for header rendering (public)
+      operationId: userHeaderData
+      security: []
+      responses:
+        '200':
+          description: User header data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserHeaderData'
+      x-codegen:
+        handler: UserHeaderController::headerData
+
+  /api/v1/music/recent:
+    get:
+      summary: Get recently played tracks
+      description: Returns recently played tracks for authenticated user
+      operationId: musicRecent
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        '200':
+          description: Recent tracks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MusicTracksResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: HistoryController::recent
+
+  /api/v1/music/history:
+    get:
+      summary: Get listening history
+      description: Returns paginated listening history for authenticated user
+      operationId: musicHistory
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Listening history
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryListResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: HistoryController::list
+
+    post:
+      summary: Record listening history
+      description: Record a track play in user's history
+      operationId: musicHistoryRecord
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryRecordRequest'
+      responses:
+        '201':
+          description: History recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    const: true
+                  message:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: HistoryController::record
+
+  # ─── F8: ses/video stream (contract-first kayıt) ───
+  # Gerçek istek index.php §1.1 byte-path'inde (`#^(?:/api/v1)?/stream/([a-f0-9]{32})$#`)
+  # GATEWAY'DEN ÖNCE yakalanır: RateLimit (SEC-01 ip bucket) → Authentication
+  # (session cookie veya RS256 Bearer + jti revocation) → StreamController.
+  # RouteTable exact-match olduğu için gerçek 32-hex id bu satıra düşmez; kayıt
+  # sözleşmenin tek noktadan ilanıdır.
+  /api/v1/stream/{id}:
+    get:
+      summary: Stream media file (audio/video)
+      description: >
+        RFC 9110 Range destekli byte akışı. Giriş zorunlu (fail-closed): kimliksiz
+        istek 401 döner. `If-None-Match` eşleşirse 304, `Range` ise 206 üretir.
+        Hata gövdesi `{error:{code,message}}` sözleşmesindedir.
+      operationId: stream
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 32 karakter hex müzik ID (UUIDv7)
+          schema:
+            type: string
+            pattern: '^[a-f0-9]{32}$'
+      responses:
+        '200':
+          description: Full media body
+          headers:
+            Accept-Ranges:
+              schema:
+                type: string
+                const: bytes
+            ETag:
+              schema:
+                type: string
+            Last-Modified:
+              schema:
+                type: string
+            Cache-Control:
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '206':
+          description: Partial content (Range)
+          headers:
+            Content-Range:
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '304':
+          description: Not modified (If-None-Match eşleşti)
+        '400':
+          description: 'STREAM_ID_INVALID — geçersiz ID biçimi'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized (stream girişe zorunlu)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 'STREAM_FORBIDDEN — path traversal / link reddi'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 'STREAM_NOT_FOUND / STREAM_PATH_INVALID / STREAM_FILE_NOT_FOUND'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '416':
+          description: Range not satisfiable
+          headers:
+            Content-Range:
+              schema:
+                type: string
+        '429':
+          description: Rate limited (SEC-01 — /stream de rate-limit'ten geçer)
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'STREAM_READ_ERROR / STREAM_SEEK_ERROR'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: StreamController::stream
+
+  # ─── Billing: abonelik/plan özeti + faturalar (own-data, auth zorunlu) ───
+  # Zarf: framework {data,meta} (ApiResponse::ok / ApiResponse::paginated);
+  # hatalar {error:{code,message[,fields]}} — UNAUTHORIZED 401 ·
+  # VALIDATION_ERROR 422 · NOT_FOUND 404. Ödeme/PSP yazma ucu YOK (kapsam dışı).
+  /api/v1/billing/plan:
+    get:
+      summary: Current subscription and plan summary
+      description: >
+        Kimliği doğrulanmış kullanıcının KENDİ abonelik/plan özeti. Abonelik
+        yoksa `has_subscription:false` + `subscription:null` + `plan:null`
+        döner (uydurma plan yok). Salt okuma — ödeme işlemi yoktur.
+      operationId: billingPlan
+      responses:
+        '200':
+          description: Plan summary (abonelik yoksa null alanlar)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingPlanResponse'
+        '401':
+          description: Unauthorized (auth'sız istek)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 'NOT_FOUND — bilinmeyen action'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: BillingController::plan
+
+  /api/v1/billing/invoices:
+    get:
+      summary: Own invoices (paginated)
+      description: >
+        Kimliği doğrulanmış kullanıcının KENDİ faturaları, sayfalı.
+        `meta.pagination` {page,pageSize,totalItems,totalPages} —
+        ApiResponse::paginated zarfı (Meta.pagination offset/limit varyantı
+        DEĞİL — bkz. BillingPagination). Aralık dışı/bozuk `page`/`pageSize`
+        422 VALIDATION_ERROR + error.fields döndürür; tip dışı değer gateway'de
+        (route `type:int`) 422 olur. Boş listede `data: []` döner.
+      operationId: billingInvoices
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Sayfa numarası (≥1; varsayılan 1)
+          schema:
+            type: integer
+            minimum: 1
+        - name: pageSize
+          in: query
+          required: false
+          description: Sayfa boyutu (1-100; varsayılan 20)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: Invoices page (boş listede data: [])
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingInvoicesResponse'
+        '401':
+          description: Unauthorized (auth'sız istek)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 'NOT_FOUND — bilinmeyen action'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 'VALIDATION_ERROR — page/pageSize tip dışı (gateway) veya aralık dışı (controller) + error.fields'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen:
+        handler: BillingController::invoices

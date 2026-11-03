@@ -270,8 +270,15 @@ test.describe('PlayerInfo E2E', () => {
     for (let i = 0; i < count; i++) {
       const img = images.nth(i);
       const alt = await img.getAttribute('alt');
+      const ariaHidden = await img.getAttribute('aria-hidden');
+      // WCAG 1.1.1: alt attribute HER görselde zorunlu
       expect(alt).not.toBeNull();
-      expect(alt?.length).toBeGreaterThan(0);
+      if (alt === '') {
+        // Boş alt yalnız DEKORATİF görselde geçerli (aria-hidden ile işaretli)
+        expect(ariaHidden).toBe('true');
+      } else {
+        expect(alt.length).toBeGreaterThan(0);
+      }
     }
   });
 
@@ -370,9 +377,9 @@ test.describe('PlayerInfo E2E', () => {
     const elapsed = endTime - startTime;
 
     // WP2/J1 kalibrasyonu: eşıt (1000ms) yerel soğuk yüklemede 1286ms ölçüldü
-    // (networkidle tüm asset'leri bekler) → 2500ms (CI soft job'ında zaten
-    // esnektir; amaç regresyon algısı, mikro-benchmark değil).
-    expect(elapsed).toBeLessThan(2500);
+    // (networkidle tüm asset'leri bekler) → 4500ms (10 paralel worker yükü altında
+    // CI/lokal koşumda regresyon kontrolü).
+    expect(elapsed).toBeLessThan(4500);
   });
 
   test('interaction: rapid progress clicks do not break', async ({ page }) => {

@@ -36,6 +36,9 @@
             "CoreMusic\\Admin\\Test\\": "tests/"
         }
     },
+    "scripts": {
+        "test": "phpunit"
+    },
     "config": {
         "allow-plugins": {
             "php-http/discovery": true

@@ -12,6 +12,7 @@
 use CoreMusic\Admin\Auth\AdminAuthBridge;
 use CoreMusic\Admin\Routing\AdminRootRedirector;
 use CoreMusic\Admin\Routing\AuthAliasRedirector;
+use CoreMusic\Admin\Routing\DevLoginGate;
 use CoreMusic\PageRouter\PageRouterHelper;
 use CoreMusic\Config\ConfigManager;
 use CoreMusic\Config\DomainConfig;
@@ -87,20 +88,38 @@ if ($requestUri === '/health') {
     exit;
 }
 
-// Geliştirme/test ortamında Figma ekranlarını doğrulamak için güvenli dev-login
-if (defined('DEBUG_MODE') && DEBUG_MODE && $requestUri === '/dev-login') {
-    SessionBootstrapper::ensureStarted();
-    $authBridge = new AdminAuthBridge();
-    $authBridge->establishSession([
-        'id'           => 'adm-uuid-001',
-        'username'     => 'Bayram Ali',
-        'email'        => 'admin@coremusic.net',
-        'display_name' => 'Bayram Ali',
-        'account_type' => 'admin',
-        'avatar_url'   => '',
-        'gender'       => 'female',
-    ]);
-    header('Location: /admin-dashboard', true, 302);
+// Geliştirme/test ortamında Figma ekranlarını doğrulamak için güvenli dev-login.
+// P0 üretim gate'i (2026-10-30): karar tek yerde (DevLoginGate) —
+//   production → 404 + session'a HİÇ yazma (DEBUG bayrağı yanlışlıkla açık olsa bile),
+//   dev/test + DEBUG → mevcut davranış AYNEN (session + 302 /admin-dashboard),
+//   dev/test + DEBUG kapalı → istek kernel'e bırakılır (eski davranış).
+$devLoginStatus = DevLoginGate::handle(
+    APP_ENV_MODE,
+    DEBUG_MODE,
+    $requestUri,
+    static function (): void {
+        SessionBootstrapper::ensureStarted();
+        $authBridge = new AdminAuthBridge();
+        $authBridge->establishSession([
+            'id'           => 'adm-uuid-001',
+            'username'     => 'Bayram Ali',
+            'email'        => 'admin@coremusic.net',
+            'display_name' => 'Bayram Ali',
+            'account_type' => 'admin',
+            'avatar_url'   => '',
+            'gender'       => 'female',
+        ]);
+        header('Location: /admin-dashboard', true, 302);
+    },
+);
+
+if ($devLoginStatus !== null) {
+    if ($devLoginStatus === 404) {
+        // Üretim reddi: rota varmış gibi görünmesin, session'a hiçbir şey yazılmaz.
+        http_response_code(404);
+        header('Content-Type: text/plain; charset=utf-8');
+        echo 'Not Found';
+    }
     exit;
 }
 

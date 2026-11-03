@@ -8,12 +8,12 @@ version: 6.5.0
 status: active
 authority: "Single Source of Truth (SSOT) — .ai/ui-design/screens/00-ascii-art-index.md"
 governance: Red Team · Human Mode · Truth Mode
-total_spec_files: 27
-total_active: 26
+total_spec_files: 30
+total_active: 29
 total_draft: 1
 total_png_mockups: 26
 total_figma_frames: 25
-changelog: "v6.0.0 — screens/ dizini tamamen yıkılıp 20 yeni spec dosyasıyla yeniden yazıldı; merkezi indeks sıfırdan üretildi (eski indeks içeriği kullanılmadı). v6.1.0 (2026-09-28) — §7 açık konular: madde 2 (4 spec node etiketi v1.1.0) ve madde 3 (mockup-index v6.1.0 senkronu) düzeltildi; madde 1 = T08→T07 taşıma ÖNERİSİ (owner onayı). v6.2.0 (2026-09-29) — embedded dizin taşındı → T07-embedded (owner onayı, matrix L92): 12 spec `tier: T07` + version 1.1.0; §7 madde 1 kapatıldı. v6.3.0 (2026-10-16) — Figma sayfası `2161:12438` (Core Music - Music Admin) için 3 yeni admin spec (T17): `admin-layout` · `admin-login` · `admin-register`; PNG 19→25 (`admin-1920/` 3 + `home-1920/` 4), figma frame 22→25; §7 madde 5 (tier T17 vs T42) ve madde 6 (spec'siz 3 PNG) açıldı. v6.4.0 (2026-10-18) — yeni Figma sayfası `3175:13501` (Core Music - Linux 3840, frame `3175:13502`) çekildi; `.ai/.png/home-3840/Linux 3840 - Home.png` eklendi (PNG 25→26, extract: `reference/figma/extracted-3175-13501.md`); spec eklenmedi — 3840 PNG'nin spec'i yok (§7 madde 6). v6.5.0 (2026-10-18) — §7 madde 6 KAPATILDI: spec'siz 4 PNG için 4 yeni spec yazıldı (PNG + figma `page-462-5874.json` / `page-3175-13501.json` node kanıtlı, Kalıp D): `T17-monitor-22fhd/history` · `browse` · `playlist` (frame `3155:22392` · `3155:18252` · `3155:19834`) + yeni dizin `T20-monitor-4k/home-dashboard` (frame `3175:13502`, 3840×2160, 5 satır × 10 kart); spec 23→27 (T17 5→8, T20 1), figma kare 25→29; 26/26 PNG'nin artık spec'i var."
+changelog: "v6.0.0 — screens/ dizini tamamen yıkılıp 20 yeni spec dosyasıyla yeniden yazıldı. v6.5.0 (2026-10-18) — spec'siz 4 PNG için 4 yeni spec yazıldı. v6.6.0 (2026-10-28) — T20 4K için playlist, browse ve history spec'leri eklendi (spec 27→30, active 26→29)."
 ---
 
 # CoreMusic — Screen Specification Index (T07 · Shared · T17 · T20)
@@ -41,8 +41,8 @@ PNG Mockup > Figma (extracted) > ASCII Art > Component Inventory > Tokens > Impl
 | T07 | `screens/T07-embedded/` | RPi5 7" Touch (Embedded) | 1024×600 | 12 | 12 active |
 | T07 | `screens/shared/` | RPi5 7" Touch (Embedded) — auth ekranları | 1024×600 | 6 | 6 active |
 | T17 | `screens/T17-monitor-22fhd/` | 22" FHD Monitor (Desktop) — home + ekranlar + admin | 1920×1080 | 8 | 7 active · 1 draft |
-| T20 | `screens/T20-monitor-4k/` | 27" 4K Monitor (Desktop) — home (Linux 3840) | 3840×2160 | 1 | 1 active |
-| **Toplam** | — | — | — | **27** | **26 active · 1 draft** |
+| T20 | `screens/T20-monitor-4k/` | 27" 4K Monitor (Desktop) — home + ekranlar (Linux 3840) | 3840×2160 | 4 | 4 active |
+| **Toplam** | — | — | — | **30** | **29 active · 1 draft** |
 
 > **✅ KAPANDI (2026-09-29 — tier ataması):** dizin taşındı → `screens/T07-embedded/` (owner onayı) + 12 spec `tier: T07`; kanıt [[../00-device-matrix]] L92 `T07 = RPi5 7" 1024×600`, L93 `T08 = RPi5 10" 1280×800`.
 >
@@ -91,11 +91,14 @@ PNG Mockup > Figma (extracted) > ASCII Art > Component Inventory > Tokens > Impl
 
 > **v6.5.0 eki (2026-10-18):** 24-26 arası 3 spec, spec'siz kalan `home-1920/` 3 PNG için yazıldı (PNG + `reference/figma/extracted-462-5874.md` node kanıtlı, Kalıp D) — §7 madde 6 kapandı.
 
-## 5B. Screen Files — T20 Desktop Monitor 4K (3840×2160) — 1 dosya
+## 5B. Screen Files — T20 Desktop Monitor 4K (3840×2160) — 4 dosya
 
 | # | Dosya | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status | Açıklama |
 |---|-------|------------------|-------------------------------|:------:|----------|
 | 27 | [[T20-monitor-4k/home-dashboard]] | `3175:13502` (sayfa `3175:13501`) | `.ai/.png/home-3840/Linux 3840 - Home.png` | active | Linux 4K ana ekran: sol-üst 1:1 içerik (top 184 + 5 satır × 10 kart, pitch 184), tam genişlik footer (3840×92 @y2068), dekoratif boş zemin y891-2068 |
+| 28 | [[T20-monitor-4k/playlist]] | `3155:19834` (T20 uyarlama) | `.ai/.png/home-3840/Linux 3840 - Playlist Page.png` | active | Linux 4K çalma listesi: sol-üst 1:1 tablo (1621×880), sağ panel, tam genişlik footer (3840×92 @y2068) |
+| 29 | [[T20-monitor-4k/browse]] | `3155:18252` (T17 uyarlama) | `.ai/.png/home-1920/Linux 1920 -  Göz At Page.png` (4K T20) | active | Linux 4K dosya yöneticisi: 8 disk butonu (2+3+3), sol-üst 1:1, tam genişlik footer |
+| 30 | [[T20-monitor-4k/history]] | `3155:22392` (T17 uyarlama) | `.ai/.png/home-1920/Linux 1920 -  Geçmiş Page.png` (4K T20) | active | Linux 4K dinleme geçmişi: 6 kolon ızgara (269×818), sol-üst 1:1, tam genişlik footer |
 
 > **Tier notu (2026-10-18):** `T20-monitor-4k/` **yeni açılan dizin** (owner isteği: "yeni klasör aç"). Tier ataması [[../00-device-matrix]] §4 DM-T20 satırından: `T20 = 27" 4K Monitor · 3840×2160 · Mouse+KB`. Matrix `1.5x` ölçek öngörür; PNG'de kartlar 169×43 ile 1:1 çizilmiş (ölçek uygulanmamış) → PNG > matrix, spec §1'de not edildi. `05-responsive-architecture §7.4` (4K'da ortalamama) ile çelişme: içerik sol-üste yaslı (ortalanmıyor) — PNG SSOT.
 

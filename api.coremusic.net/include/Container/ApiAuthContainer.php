@@ -3,6 +3,12 @@
 namespace CoreMusic\Api\Container;
 
 use CoreMusic\Api\Controller\AuthController;
+use CoreMusic\Api\Service\ITokenService;
+use CoreMusic\Api\Service\IRedirectService;
+use CoreMusic\Api\Service\IUserTransformer;
+use CoreMusic\Api\Service\TokenService;
+use CoreMusic\Api\Service\RedirectService;
+use CoreMusic\Api\Service\UserTransformer;
 use CoreMusic\Auth\Repository\UserRepository;
 use CoreMusic\Auth\Service\AuthService;
 use CoreMusic\Auth\Service\SessionManager;
@@ -23,6 +29,9 @@ use CoreMusic\Security\JwtService;
  * Oturum: auth.coremusic.net ile AYNI session (SESSION_NAME + .coremusic.net
  * cookie + aynı save path) → API'de açılan oturum sitenin geri kalanında da
  * geçerli, web'de açılan oturum API'de kimlik doğrular.
+ *
+ * Phase 2 refactoring: TokenService, RedirectService, UserTransformer eklendi
+ * (AuthController'dan SRP ihlali giderildi).
  */
 final class ApiAuthContainer
 {
@@ -35,6 +44,12 @@ final class ApiAuthContainer
     private static ?UserRepository $userRepository = null;
 
     private static ?JwtService $jwtService = null;
+
+    private static ?ITokenService $tokenService = null;
+
+    private static ?IRedirectService $redirectService = null;
+
+    private static ?IUserTransformer $userTransformer = null;
 
     private static ?\CoreMusic\Contracts\Database\IDatabaseRegistry $authRegistry = null;
 
@@ -111,6 +126,95 @@ final class ApiAuthContainer
         return self::$jwtService;
     }
 
+    /**
+     * TokenService — JWT issue + persist + revoke.
+     */
+    public static function tokenService(): ITokenService
+    {
+        if (self::$tokenService === null) {
+            self::$tokenService = new TokenService(
+                self::jwtService(),
+                self::userRepository(),
+            );
+        }
+
+        return self::$tokenService;
+    }
+
+    /**
+     * RedirectService — Güvenli redirect URL çözümleme.
+     *
+     * F9: default fallback `http://` → `https://home.coremusic.net` ve MUSIC_URL
+     * host'u allowlist'ten geçmek ZORUNDA (coremusic.net + alt alan adları,
+     * dev için loopback — ReturnUrlPolicy::ALLOWED_HOSTS ile aynı kafa).
+     * Allowlist dışı host → fallback (open-redirect/zehirli config kaynağı).
+     * https-only: production'da http:// değeri kesin reddedilir; development'ta
+     * platform `.env`'i `MUSIC_URL=http://home.coremusic.net:81` (repo dışında
+     * değiştirilemez) olduğundan http yalnızca allowlist host'una izin verilir.
+     */
+    public static function redirectService(): IRedirectService
+    {
+        if (self::$redirectService === null) {
+            self::$redirectService = new RedirectService(self::musicUrl());
+        }
+
+        return self::$redirectService;
+    }
+
+    /**
+     * F9: dış URL allowlist + scheme denetimi (tek kaynak doğrulama noktası).
+     *
+     * @return string Doğrulanmış müzik paneli kök URL'si
+     */
+    private static function musicUrl(): string
+    {
+        $fallback = 'https://home.coremusic.net';
+        $configured = trim((string) (defined('MUSIC_URL') ? MUSIC_URL : ''));
+        if ($configured === '') {
+            return $fallback;
+        }
+
+        $parts = parse_url($configured);
+        if ($parts === false || !isset($parts['host'])) {
+            return $fallback;
+        }
+
+        $host   = strtolower($parts['host']);
+        $scheme = strtolower((string) ($parts['scheme'] ?? ''));
+
+        // Host allowlist: coremusic.net + alt alan adları (+ dev loopback).
+        $isLoopback = in_array($host, ['localhost', '127.0.0.1'], true);
+        $hostAllowed = $isLoopback
+            || $host === 'coremusic.net'
+            || str_ends_with($host, '.coremusic.net');
+        if (!$hostAllowed) {
+            return $fallback;
+        }
+
+        // https-only: production'da http:// değeri koşulsuz reddedilir; development'ta
+        // repo .env'i `MUSIC_URL=http://home.coremusic.net:81` (`.env*` düzenlenemez)
+        // olduğu için allowlist host'unda http'e izin verilir. Diğer tüm şemalar
+        // (javascript:, ftp:, data: …) her iki ortamda da reddedilir.
+        $isProduction = (defined('APP_ENV_MODE') ? APP_ENV_MODE : 'production') === 'production';
+        if ($scheme !== 'https' && ($isProduction || $scheme !== 'http')) {
+            return $fallback;
+        }
+
+        return $configured;
+    }
+
+    /**
+     * UserTransformer — Kullanıcı verisini API sözleşmesine göre şekillendirme.
+     */
+    public static function userTransformer(): IUserTransformer
+    {
+        if (self::$userTransformer === null) {
+            self::$userTransformer = new UserTransformer();
+        }
+
+        return self::$userTransformer;
+    }
+
     public static function authService(): IAuthService
     {
         if (self::$authService === null) {
@@ -131,10 +235,9 @@ final class ApiAuthContainer
             self::$controller = new AuthController(
                 self::authService(),
                 self::session(),
-                defined('MUSIC_URL') ? MUSIC_URL : 'http://home.coremusic.net',
-                defined('AUTH_URL') ? AUTH_URL : 'http://auth.coremusic.net',
-                self::jwtService(),
-                self::userRepository(),
+                self::tokenService(),
+                self::redirectService(),
+                self::userTransformer(),
             );
         }
 
@@ -172,6 +275,17 @@ final class ApiAuthContainer
             }
         }
 
-        return (string) ($_ENV['APP_PEPPER'] ?? (defined('APP_PEPPER') ? APP_PEPPER : ''));
+        $fallback = (string) ($_ENV['APP_PEPPER'] ?? (defined('APP_PEPPER') ? APP_PEPPER : ''));
+        if ($fallback !== '') {
+            return $fallback;
+        }
+
+        // F18: sessiz boş pepper YASAK — salt'' ile Argon2id hash'i üretilirse
+        // tüm şifre doğrulamaları sessizce bozulur ve hata aylarca "yanlış şifre"
+        // olarak görünür. Erken ve anlamlı hata: fail-fast.
+        throw new \RuntimeException(
+            'APP_PEPPER bulunamadı: auth.coremusic.net/config/.env içindeki APP_PEPPER satırı '
+            . 'yok ya da boş (F18 fail-fast — pepper olmadan Argon2id doğrulama yapılamaz).'
+        );
     }
 }

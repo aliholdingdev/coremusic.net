@@ -39,7 +39,7 @@ authority: Single Source of Truth (SSOT)
 | `OriginCheckMiddleware.php` | CORS origin whitelist doğrulaması | ADR-012 |
 | `CorsMiddleware.php` | CORS header yönetimi (whitelist only) | ADR-012 |
 | `RateLimiterMiddleware.php` | APCu tabanlı rate limiting (60 req/60s) | ADR-013 |
-| `SecurityHeadersMiddleware.php` | CSP nonce üretimi, X-Frame-Options; HSTS — **PLANNED (kodda yok)** | ADR-012 |
+| `SecurityHeadersMiddleware.php` | CSP nonce üretimi, X-Frame-Options, HSTS (HTTPS'te: `max-age=31536000; includeSubDomains; preload` — SecurityHeadersMiddleware.php:39) | ADR-012 |
 | `SessionManagerMiddleware.php` | Session başlatır, CSP nonce'u session'a kaydeder | ADR-011 |
 | `CsrfMiddleware.php` | `csrf_token` doğrulama (POST/PUT/DELETE) | ADR-010 |
 | `BypassAuthMiddleware.php` | Test bypass (`?_bypass=1`), prod'da devre dışı | ADR-008 |
@@ -55,7 +55,7 @@ authority: Single Source of Truth (SSOT)
 1. OriginCheckMiddleware() → Köken doğrulama (whitelist CORS)
 2. CorsMiddleware() → CORS header'ları (whitelist only)
 3. RateLimiterMiddleware() → APCu: 60 req/60s
-4. SecurityHeadersMiddleware() → CSP nonce üret, strict-dynamic, X-Frame (HSTS — PLANNED, kodda yok)
+4. SecurityHeadersMiddleware() → CSP nonce üret, strict-dynamic, X-Frame, HSTS (yalnız HTTPS)
 5. SessionManagerMiddleware() → Session başlat, CSP nonce'u session'a kaydet
 6. CsrfMiddleware() → csrf_token doğrulama (POST/PUT/DELETE)
 7. BypassAuthMiddleware() → Test bypass (production'da devre dışı)
@@ -93,7 +93,7 @@ authority: Single Source of Truth (SSOT)
 - **Görev:** Güvenlik header'ları + CSP nonce üretimi
 - **Nonce:** `bin2hex(random_bytes(32))`
 - **CSP:** `strict-dynamic`, `nonce-{hex}`
-- **Header'lar:** X-Frame-Options, X-Content-Type-Options, X-XSS-Protection (HSTS — PLANNED, kodda yok: SecurityHeadersMiddleware.php satır 26-41)
+- **Header'lar:** X-Frame-Options, X-Content-Type-Options, X-XSS-Protection, HSTS (HTTPS'te, SecurityHeadersMiddleware.php:39)
 - **⚠️** Nonce'u `$_SESSION['csp_nonce']`'a kaydeder
 
 ### 4.5 SessionManagerMiddleware

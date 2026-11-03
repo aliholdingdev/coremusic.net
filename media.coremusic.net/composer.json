@@ -7,7 +7,8 @@
         "php": "^8.4",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "coremusic/shared-infrastructure": "*"
     },
     "suggest": {
         "ext-pdo_mysql": "MySQL media_catalog türetilmiş indeksi için (yoksa JSONL ile devam edilir)"
@@ -16,6 +17,21 @@
         "psr-4": {
             "Media\\": "src/Media/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Media\\Test\\": "tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../shared"
+        }
+    ],
+    "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^10.5"
     },
     "bin": [
         "bin/scan.php",
@@ -26,20 +42,44 @@
         "scan": "php bin/scan.php",
         "audit": "php bin/audit.php",
         "ingest": "php bin/ingest.php",
+        "test": "phpunit",
+        "phpstan": "phpstan analyse src --level=5 --no-progress",
+        "stan": "@phpstan",
+        "serve": "php -S 0.0.0.0:5000 -t public public/index.php",
         "lint": [
             "@php -l bin/scan.php",
             "@php -l bin/audit.php",
             "@php -l bin/ingest.php",
+            "@php -l public/index.php",
             "@php -l src/Media/Slugger.php",
             "@php -l src/Media/Ulid.php",
             "@php -l src/Media/Taxonomy.php",
             "@php -l src/Media/Validator.php",
-            "@php -l src/Media/CatalogWriter.php"
+            "@php -l src/Media/CatalogWriter.php",
+            "@php -l src/Media/TypeConverter.php",
+            "@php -l src/Media/CatalogValidator.php",
+            "@php -l src/Media/CatalogTransformer.php",
+            "@php -l src/Media/JsonlWriter.php",
+            "@php -l src/Media/MySqlCatalogRepository.php",
+            "@php -l src/Media/PathGuard.php",
+            "@php -l src/Media/MediaEnv.php",
+            "@php -l src/Media/MediaHttpException.php",
+            "@php -l src/Media/MediaAccessRepositoryInterface.php",
+            "@php -l src/Media/MySqlMediaAccessRepository.php",
+            "@php -l src/Media/Http/MediaAccessGuard.php",
+            "@php -l src/Media/Http/MediaStreamController.php",
+            "@php -l src/Media/Http/MediaUploadController.php",
+            "@php -l tests/bootstrap.php",
+            "@php -l tests/Fake/InMemoryMediaAccessRepository.php",
+            "@php -l tests/Unit/PathTraversalTest.php",
+            "@php -l tests/Unit/Http/MediaAccessGuardTest.php",
+            "@php -l tests/Unit/Http/MediaStreamControllerTest.php",
+            "@php -l tests/Unit/Http/MediaUploadTest.php"
         ]
     },
     "config": {
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoload": true
     },
     "minimum-stability": "stable",
     "prefer-stable": true

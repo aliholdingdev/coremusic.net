@@ -19,6 +19,7 @@
 use CoreMusic\Device\DeviceManager;
 use CoreMusic\Home\Class\ComponentLoader;
 use CoreMusic\Home\Class\HomeLayoutVariant;
+use CoreMusic\Theme\ThemeManager;
 
 /* --- DeviceManager (viewport cookie fallback) --- */
 // Test mode: ?_test_resp=1024|1920|3840 parameters override viewport
@@ -35,7 +36,7 @@ if (!isset($dm)) {
 }
 
 /* --- Layout Kararları --- */
-$is4k        = $dm->shouldRender4kLayout();
+$is4k        = $dm->is4k();
 $isWide      = $dm->shouldRenderWideLayout() || $is4k;
 $layoutClass = $is4k
     ? 'home-layout--4k'
@@ -54,15 +55,30 @@ $h = static function (string $v): string {
     return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 };
 $assetsUrl = defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net';
+
+/* --- Hoş Geldin Modalı — Cinsiyet / Kullanıcı duyarlı metin --- */
+$userGender = ThemeManager::detect($_SESSION ?? []);
+if ($userGender === 'neutral') {
+    $cookieGender = (string)($_COOKIE['cm_gender'] ?? '');
+    $userGender = ($cookieGender === 'male') ? 'male' : 'female';
+}
+$welcomeModalSub = ($userGender === 'male') ? 'Baran Ateş Kılıç ✦' : 'Prenses Işıl Peri';
+$displayName = (string)($_SESSION['MM_DisplayName'] ?? $_SESSION['MM_Username'] ?? '');
+if ($displayName !== '' && $displayName !== 'test_user' && $displayName !== 'Misafir') {
+    $welcomeModalSub = $displayName;
+}
+$welcomeModalDesc = ($userGender === 'male')
+    ? 'Sana özel seçilen melodiler, güçlü ritimler ve unutulmaz anlar burada başlıyor. CoreMusic ile müziğin senin dünyana dönüşsün. ⚡'
+    : 'Sana özel seçilen melodiler, zarif deneyimler ve unutulmaz anlar burada başlıyor. CoreMusic ile müziğin senin dünyana dönüşsün. 💜';
 ?>
 
 <!-- DEBUG: Responsive Test Mode 1024/1920/3840px -->
 <?php if (isset($_GET['_test_resp'])): ?>
-<div style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, #f00 0%, #ff1493 100%); color: #fff; padding: 12px 15px; font-size: 11px; z-index: 10000; text-align: center; font-weight: bold; font-family: monospace;">
+<div style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, var(--color-red-600) 0%, var(--cm-primary) 100%); color: var(--cm-white); padding: 12px 15px; font-size: 11px; z-index: 10000; text-align: center; font-weight: bold; font-family: monospace;">
     🧪 TEST MODE: <strong><?= htmlspecialchars($dm->shouldRender4kLayout() ? '4K (3840px)' : ($dm->shouldRenderWideLayout() ? 'WIDE (1920px)' : 'EMBEDDED (1024px)')) ?></strong> 
     | Variant: <strong><?= htmlspecialchars($variant->isWide() ? 'wide' : 'embedded') ?></strong> 
     | Player: <strong><?= $variant->isWide() ? '150×150 cover' : '72×72 cover' ?></strong>
-    | 📍 <a href="?" style="color: #fff; text-decoration: underline;">Exit Test</a>
+    | 📍 <a href="?" style="color: var(--cm-white); text-decoration: underline;">Exit Test</a>
 </div>
 <div class="page-home page-layout home-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
       <?= $dm->dataAttributes() ?>
@@ -134,8 +150,8 @@ $assetsUrl = defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net';
                  alt="CoreMusic">
         </div>
         <p class="welcome-modal__title" id="welcomeModalTitle">Hoş geldin</p>
-        <p class="welcome-modal__sub">Prenses Işıl Peri</p>
-        <p class="welcome-modal__desc">Sana özel seçilen melodiler, zarif deneyimler ve unutulmaz anlar burada başlıyor. CoreMusic ile müziğin senin dünyana dönüşsün. 💜</p>
+        <p class="welcome-modal__sub"><?= $h($welcomeModalSub) ?></p>
+        <p class="welcome-modal__desc"><?= $h($welcomeModalDesc) ?></p>
         <button class="welcome-modal__btn" type="button">Başla</button>
     </div>
 </div>

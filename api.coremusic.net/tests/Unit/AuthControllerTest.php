@@ -5,6 +5,9 @@ namespace CoreMusic\Api\Test\Unit;
 
 use CoreMusic\Api\Auth\ApiSessionManager;
 use CoreMusic\Api\Controller\AuthController;
+use CoreMusic\Api\Service\IRedirectService;
+use CoreMusic\Api\Service\ITokenService;
+use CoreMusic\Api\Service\IUserTransformer;
 use CoreMusic\Contracts\Auth\IAuthService;
 use CoreMusic\Exception\AuthenticationException;
 use CoreMusic\Exception\ConflictException;
@@ -20,7 +23,8 @@ use PHPUnit\Framework\TestCase;
  *   VALIDATION_ERROR 422 (+error.fields) · RATE_LIMITED 429 ·
  *   TOKEN_INVALID 400 · INTERNAL_ERROR Gateway'den 500.
  *
- * DB GEREKTİRMEZ: IAuthService sahtesi (stub) enjekte edilir.
+ * DB GEREKTİRMEZ: IAuthService, ITokenService, IRedirectService, IUserTransformer
+ * sahteleri (stub) enjekte edilir.
  */
 final class AuthControllerTest extends TestCase
 {
@@ -47,7 +51,13 @@ final class AuthControllerTest extends TestCase
      */
     private function controller(array $overrides = [], ?ApiSessionManager $session = null): AuthController
     {
-        return new AuthController($this->service($overrides), $session ?? new ApiSessionManager(), self::MUSIC_URL, self::AUTH_URL);
+        return new AuthController(
+            $this->service($overrides),
+            $session ?? new ApiSessionManager(),
+            $this->tokenService($overrides),
+            $this->redirectService(),
+            $this->userTransformer($overrides),
+        );
     }
 
     /**
@@ -63,7 +73,10 @@ final class AuthControllerTest extends TestCase
             {
                 $this->maybeThrow('login');
                 if (!empty($this->config['login_returns'])) {
-                    return $this->config['login_returns'];
+                    // F3: closure ise identity'yi test'e geri ver (identity-OR kanıtı)
+                    $returns = $this->config['login_returns'];
+
+                    return $returns instanceof \Closure ? $returns($identity, $password) : $returns;
                 }
 
                 return [
@@ -133,6 +146,99 @@ final class AuthControllerTest extends TestCase
                 if ($throw instanceof \Throwable) {
                     throw $throw;
                 }
+            }
+        };
+    }
+
+    /**
+     * @param array<string, mixed> $overrides
+     */
+    private function tokenService(array $overrides = []): ITokenService
+    {
+        return new class ($overrides) implements ITokenService {
+            /** @param array<string, mixed> $config */
+            public function __construct(private readonly array $config) {}
+
+            public function buildAuthPayload(array $authResult, array $requestBody): array
+            {
+                return [
+                    'access_token' => 'mock-access-token',
+                    'token_type'   => 'Bearer',
+                    'expires_in'   => 3600,
+                ];
+            }
+
+            public function revokeUserTokens(string $userId): void
+            {
+                // no-op
+            }
+
+            public function isValidAccessToken(string $jti): bool
+            {
+                return true;
+            }
+        };
+    }
+
+    private function redirectService(): IRedirectService
+    {
+        return new class implements IRedirectService {
+            public function resolveRedirect(array $requestBody, string $authKey = ''): string
+            {
+                $candidate = (string) ($requestBody['redirect_uri'] ?? '');
+                if ($candidate === '') {
+                    $candidate = (string) ($requestBody['redirect'] ?? '');
+                }
+                if ($candidate === '') {
+                    $candidate = (string) ($_GET['redirect_uri'] ?? $_GET['redirect'] ?? '');
+                }
+
+                // Login/register actions: authKey provided, use musicUrl/home as fallback
+                // setGender: no authKey, use relative /login as fallback
+                $isLoginOrRegister = $authKey !== '';
+                $fallback = $isLoginOrRegister ? 'http://home.coremusic.net/home' : '/login';
+
+                if ($candidate !== '' && (str_starts_with($candidate, '/') || str_starts_with($candidate, 'http://localhost') || str_starts_with($candidate, 'http://127.0.0.1'))) {
+                    $target = $candidate;
+                } else {
+                    $target = $fallback;
+                }
+
+                if ($authKey !== '') {
+                    $separator = str_contains($target, '?') ? '&' : '?';
+                    $target   .= $separator . 'auth_key=' . urlencode($authKey);
+                }
+
+                return $target;
+            }
+
+            public function getDefaultFallback(): string
+            {
+                // logout uses this: should return authUrl so that logout redirect becomes authUrl/login
+                return 'http://auth.coremusic.net';
+            }
+        };
+    }
+
+    /**
+     * @param array<string, mixed> $overrides
+     */
+    private function userTransformer(array $overrides = []): IUserTransformer
+    {
+        return new class ($overrides) implements IUserTransformer {
+            /** @param array<string, mixed> $config */
+            public function __construct(private readonly array $config) {}
+
+            public function transform(array $user): array
+            {
+                $gender = (string) ($user['gender'] ?? 'neutral');
+
+                return [
+                    'id'       => (string) ($user['id'] ?? ($user['user_id'] ?? '')),
+                    'username' => (string) ($user['username'] ?? ''),
+                    'email'    => (string) ($user['email'] ?? ''),
+                    'gender'   => $gender !== '' ? $gender : 'neutral',
+                ];
             }
         };
     }
@@ -364,5 +470,54 @@ final class AuthControllerTest extends TestCase
 
         $this->assertArrayHasKey('csrf_token', $result['data']);
         $this->assertSame('', $result['data']['csrf_token']);
+    }
+
+    // ─── F3: identity-OR login — email OLMADAN da giriş ───
+
+    /**
+     * AuthController::login `$body['email'] ?? ['identity'] ?? ['username']` okur.
+     * route'da email required kalktıktan sonra username-only gövde servise
+     * identity olarak username ile ulaşmalıdır (422 OLMAMALI).
+     */
+    public function testUsernameOnlyLoginPassesIdentityToService(): void
+    {
+        $seenIdentity = null;
+
+        $result = $this->handle($this->controller([
+            'login_returns' => static function (string $identity, string $password) use (&$seenIdentity): array {
+                $seenIdentity = $identity;
+
+                return [
+                    'success'  => true,
+                    'redirect' => '/home',
+                    'auth_key' => 'ak-789',
+                    'user'     => [
+                        'id' => 'u9', 'username' => 'demo', 'email' => 'demo@example.com',
+                        'gender' => 'neutral', 'password_hash' => '$argon2id$never',
+                    ],
+                ];
+            },
+        ]), 'login', ['username' => 'demo', 'password' => 'uzun-sifre-123']);
+
+        $this->assertSame('demo', $seenIdentity, 'identity = username (email gövdede yok)');
+        $this->assertTrue($result['success']);
+        $this->assertSame(200, http_response_code());
+        $this->assertArrayNotHasKey('error', $result, 'username-only login 422 üretmemeli');
+    }
+
+    /**
+     * identity-OR kaybı YOK: gövdede email/identity/username YOKSA AuthService
+     * (real: AuthService::login → ValidationException::emptyFields()) 422 üretir
+     * ve controller bunu 422 VALIDATION_ERROR + error.fields'e çevirir.
+     */
+    public function testEmptyIdentityStillYields422FromServiceLayer(): void
+    {
+        $result = $this->handle($this->controller([
+            'throw' => ['login' => ValidationException::emptyFields()],
+        ]), 'login', ['password' => 'uzun-sifre-123']);
+
+        $this->assertSame(422, http_response_code());
+        $this->assertSame('VALIDATION_ERROR', $result['error']['code'] ?? null);
+        $this->assertArrayHasKey('fields', $result['error']);
     }
 }

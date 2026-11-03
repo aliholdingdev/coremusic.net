@@ -2,10 +2,10 @@
 title: "CoreMusic — auth.coremusic.net PRD (Kimlik Doğrulama Gereksinim Belgesi)"
 type: prd
 category: auth
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Derived — SSOT: [[../PRD.md]] (platform + aile indeksi) · bağ: [[CONTEXT.md]] · [[AGENTS.md]]"
-updated: 2026-10-24
+updated: 2026-10-30
 ---
 
 # auth.coremusic.net — PRD
@@ -123,7 +123,7 @@ Bu PRD, `auth.coremusic.net/` yüzeyinin **tek kimlik doğrulama servisi** gerek
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
-**Last Updated:** 2026-10-24
+**Last Updated:** 2026-10-30
 
 ---
 
@@ -133,8 +133,23 @@ Bu PRD, `auth.coremusic.net/` yüzeyinin **tek kimlik doğrulama servisi** gerek
 |-------|-------|---------------|
 | PRD-AUT-003 superglobal | **KAPANDI** | `index.php:170-171` (`SessionManager::get`, `getCookieValue`); `include/Handler/AutoRedirectHandler.php:53` (`ISessionManager::getUserId`, constructor enjeksiyonu). Yeni okuma metodu: `SessionManager::getCookieValue()` (`include/Service/SessionManager.php`). Davranış: `getUserId` ile eski `is_string`/boş kontrolü aynı. Test: `tests/Unit/Handler/AutoRedirectHandlerTest.php` (3), `tests/Unit/Service/SessionManagerTest.php` (+2). |
 | §2 `include/Middleware/**` yolu | **KAPANDI** | Dizin diskte YOK (glob doğrulandı). Gerçek konum `shared/src/Middleware/` (CorsMiddleware, OriginCheckMiddleware, RateLimiterMiddleware, SecurityHeadersMiddleware, SessionManagerMiddleware, MiddlewarePipeline, …) — kullanım `index.php:81,97`. §2 satırı güncellendi. ⚠️ Not: `autoload.php:25` hâlâ `CoreMusic\Auth\Middleware\` → `include/Middleware/` eşlemesi taşıyor (ölü eşleme; kaldırma onayı gerekir). `AGENTS.md` §2 de `include/Middleware/` yazıyor (bu revizyonda değiştirilmedi). |
-| CORS `config/cors.php` | **KAPANDI** | Dosya VAR: `auth.coremusic.net/config/cors.php`. Maddeden kaldırılmadı; yol yazıldı. Not: `api.coremusic.net/v2/config/cors.php` ayrı dosya. |
+| CORS `config/cors.php` | **KAPANDI** | Dosya VAR: `auth.coremusic.net/config/cors.php`. Maddeden kaldırılmadı; yol yazıldı. Not (2026-10-30 düzeltmesi, F20): `api.coremusic.net/v2/config/cors.php` **bayat referanstı** — `api.coremusic.net/v2/` 4cd63bd'de silindi (diskte YOK, `ls` ile doğrulandı); api'nin geçerli dosyası `api.coremusic.net/config/cors.php` (883 B, diskte VAR). |
 | PRD-OAU-004 (SSO) | **KISMEN — ⚠️ VERIFICATION REQUIRED** | Tanım: `shared/src/OAuth/PRD.md:50` (kök `PRD.md`'de yok). Kanıt olan: session anahtarları auth `SessionManager` ile shared `SessionKeys` ile aynı literaller (`MM_UserID`, `MM_Username`, `MM_Email`, `cm_gender`…) — ancak `SessionManager` sabit kullanmıyor, literal yazıyor; `SessionKeys` auth'ta hiç referanslanmıyor. OAuth: `handler/OAuthPostHandler.php` (root, `include/` dışı) state üretir (`:46` `random_bytes(16)`) ve `OAuthManager::validateState` (`:82`) kullanır; ancak `$userId` çağıran tarafından parametre olarak alınır — oturumdan okunduğu kanıtlanamadı. `OAuthPostHandler` `index.php`'de ve `shared/config/auth-routes.php`'de **rota değil** (0 eşleşme). Sonuç: auth içinde çalışan bir OAuth/SSO akışı yok; PRD-PLT-004 "tek kimlik" bu yüzeyde kanıtlanmadı. |
 | Test durumu | **KAPANDI** | `vendor\bin\phpunit --no-coverage` → `OK (51 tests, 152 assertions)` (baseline 46 + yeni 5). `php -l` (değişen 5 dosya) → hatasız. |
 
 **Önerilen sonraki adım (karar bekler):** (a) `OAuthPostHandler` için auth route kararı (bağla veya ADR ile kapat); (b) `$userId`'nin session'dan geldiğinin kanıtı veya bağlama; (c) `autoload.php:25` ölü eşlemesinin kaldırılması. Shared/admin dokunulmadı.
+
+---
+
+## 9. Auth denetimi (2026-10-30 — hesap-güvenliği batch'i)
+
+| Madde | Durum | Kanıt (`dosya:satır`) |
+|-------|-------|----------------|
+| F20 bayat `v2/config/cors.php` atfı | **KAPANDI** (v1.0.0 → 1.0.1) | §8 CORS satırı düzeltildi · `api.coremusic.net/v2/` commit `4cd63bd`'de silindi (diskte YOK) · geçerli dosya `api.coremusic.net/config/cors.php` (883 B, diskte VAR) |
+| Redirect allowlist | **KARŞILANDI** | shared `CoreMusic\Security\ReturnUrlPolicy` VAR (`shared/src/Security/ReturnUrlPolicy.php:25` `isAllowed`) → `SecurityHelper::isRedirectUriSafe()`; auth çağrı noktaları: `include/Controller/AuthController.php:50` (`resolveRedirectUrl`), `include/Controller/AuthController.php:262` (`handleSetGender`), `include/Handler/AutoRedirectHandler.php:67`. Logout hedefi sabit ve kullanıcı girdisi almaz: `include/Controller/AuthController.php:232-237`. `javascript:`/`//evil`/dış domain reddi `ReturnUrlPolicy.php:39-56,169-183`. Yeni test: `tests/Unit/Controller/AuthControllerRedirectAllowlistTest.php` |
+| Bypass production gate (ADR-008 korunur) | **KARŞILANDI** (önceden vardı, testi yeni) | `config/constants.php:77-91` — `!$isProdEnv` kapısı: üretimde `FORCE_AUTH_BYPASS=false`, `BYPASS_*=''` → `BypassAuthMiddleware` fail-closed (`shared/src/Middleware/BypassAuthMiddleware.php:18-31`) · `index.php:60-66` `$bypassActive` = pepper + `!$isProductionEnv` + `FORCE_AUTH_BYPASS`. Dev davranışı değişmedi. Yeni test: `tests/Unit/Security/BypassProductionGateGuardTest.php` |
+| Pepper fail-closed | **KARŞILANDI** | `config/constants.php:61-68` boş pepper'da 500 ile çıkar (önceden vardı) · `include/Container/AuthContainer.php:77-79` sessiz `$_ENV['APP_PEPPER'] ?? ''` fallback'i → `defined('APP_PEPPER') ? APP_PEPPER : throw ServerException::configError('APP_PEPPER')` (fail-fast; getenv ile tanımlanmış pepper artık doğru okunur) |
+| Ölü kod: `routes/oauth.php` + `handler/OAuthPostHandler.php` | **SİLİNMEDİ — karar üst merciye** | Kodatıf **0**: `grep -rn "routes/oauth\|OAuthPostHandler\|oauth_post" --include="*.php"` → yalnız dosyanın kendisi; `require/include` 0; `handler/` dosyası PSR-4 (`CoreMusic\Auth\ => include/`) dışında olduğu için sınıf hiç yüklenemez; `shared/config/auth-routes.php` tek yüklenen rota dosyası (`index.php:273-274`). Ancak **doküman atıfı var**: `CONTEXT.md` (8 satır), `WORKFLOW.md:188`, `.ai/.decisions/accepted/ADR-058-...md:42` (yazılamaz — `.ai/**` yasak) ve §8'in "(a) … karar bekler" maddesi. Çelişki kapısı nedeniyle silinmedi. |
+| `composer scripts.test` (R8) | **KAPANDI** | `composer.json` → `"scripts": {"test": "phpunit"}` (api/shared deseni) |
+| Test genişletme | **EKLENDİ** | session fixation (login/register → `regenerateId`), logout redirect allowlist (saldırgan `redirect_uri` yok sayılır), password-reset tek-kullanımlık token (2. kullanım reddi + SQL `used_at IS NULL` guard'ı), bypass production gate, redirect allowlist |
+| Test çalıştırma (gerçek çıktı) | **YEŞİL** | `composer test` → `PHPUnit 10.5.64 · PHP 8.5.8 · Tests: 153, Assertions: 341, Deprecations: 1, exit 0` (baseline 136/300 → +17 test/+41 assertion; tek uyarı `No code coverage driver available`) · filter → `OK (17 tests, 41 assertions)` (yalnız yeni testler). Not: §8:138'deki `51 tests, 152 assertions` 2026-10-24 tarihli **arşiv kaydıdır** (§8 "Son denetim (2026-10-24)"); güncel ölçüm bu satırdadır. |

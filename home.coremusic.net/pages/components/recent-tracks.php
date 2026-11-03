@@ -35,6 +35,32 @@
     <?php endforeach; ?>
         </div>
     </section>
+    <?php if ($this->variant->isFourK()): ?>
+    <section class="home_song__btn-dashboard" aria-label="En Son Dinlenen Albumler">
+        <h2 class="home_song__btn-title">En Son Dinlenen Albumler</h2>
+        <div class="home_song__btn-card home_song__btn-card-grid home_song__btn-card-grid--scroll" data-cm-component="cm-h-scroll">
+    <?php foreach ($this->recentAlbumCards as $card): ?>
+            <?= $card ?>
+    <?php endforeach; ?>
+        </div>
+    </section>
+    <section class="home_song__btn-dashboard" aria-label="Önerilen Sanatçılar">
+        <h2 class="home_song__btn-title">Önerilen Sanatçılar</h2>
+        <div class="home_song__btn-card home_song__btn-card-grid home_song__btn-card-grid--scroll" data-cm-component="cm-h-scroll">
+    <?php foreach ($this->recommendedArtistCards as $card): ?>
+            <?= $card ?>
+    <?php endforeach; ?>
+        </div>
+    </section>
+    <section class="home_song__btn-dashboard" aria-label="Önerilen Albumler">
+        <h2 class="home_song__btn-title">Önerilen Albumler</h2>
+        <div class="home_song__btn-card home_song__btn-card-grid home_song__btn-card-grid--scroll" data-cm-component="cm-h-scroll">
+    <?php foreach ($this->recommendedAlbumCards as $card): ?>
+            <?= $card ?>
+    <?php endforeach; ?>
+        </div>
+    </section>
+    <?php endif; ?>
 <?php else: ?>
     <!-- Kolon 1 — En Son (Figma 1639:9904, 2×2 = 4 kart) -->
     <section class="home_song__btn-dashboard home_song__btn-dashboard--embedded" aria-label="En Son Dinlenen Şarkılar">

@@ -131,13 +131,19 @@ final class RouteTableTest extends TestCase
     {
         $table = RouteTable::defaults();
 
-        foreach (['auth', 'user', 'music', 'playlist', 'media', 'download'] as $service) {
+        // F4: media/download varsayılan tablodan çıkarıldı (routes.php'te 0 kayıt).
+        foreach (['auth', 'user', 'music', 'playlist'] as $service) {
             $match = $table->match('/api/v1/' . $service, 'GET');
             $this->assertSame(RouteTable::STATUS_OK, $match['status'], "/api/v1/{$service} GET eşleşmeli");
             $this->assertSame($service, $match['route']['service']);
         }
 
         $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $table->match('/api/v1/auth', 'POST')['status']);
+
+        foreach (['media', 'download'] as $service) {
+            $match = $table->match('/api/v1/' . $service, 'GET');
+            $this->assertSame(RouteTable::STATUS_NOT_FOUND, $match['status'], "/api/v1/{$service} artık varsayılan tabloda olmamalı");
+        }
     }
 
     public function testAllExposesMethodAwareRegistry(): void

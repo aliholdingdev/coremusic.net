@@ -50,7 +50,8 @@ final class DeviceManager
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
             ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
-            ['href' => '/history',     'label' => 'Geçmiş',     'active' => false],
+            ['href' => '/browse',     'label' => 'Göz At',     'active' => false],
+            ['href' => '/history',    'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
         ],
         self::PHONE => [
@@ -62,6 +63,7 @@ final class DeviceManager
             ['href' => '/home',       'label' => 'Ana Sayfa',  'active' => true],
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
+            ['href' => '/browse',     'label' => 'Göz At',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
         ],
         self::LAPTOP => [
@@ -69,7 +71,8 @@ final class DeviceManager
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
             ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
-            ['href' => '/history',     'label' => 'Geçmiş',     'active' => false],
+            ['href' => '/browse',     'label' => 'Göz At',     'active' => false],
+            ['href' => '/history',    'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
         ],
         self::DESKTOP => [
@@ -77,7 +80,8 @@ final class DeviceManager
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
             ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
-            ['href' => '/history',     'label' => 'Geçmiş',     'active' => false],
+            ['href' => '/browse',     'label' => 'Göz At',     'active' => false],
+            ['href' => '/history',    'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
         ],
         self::FOUR_K_TV => [
@@ -85,7 +89,8 @@ final class DeviceManager
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
             ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
-            ['href' => '/history',     'label' => 'Geçmiş',     'active' => false],
+            ['href' => '/browse',     'label' => 'Göz At',     'active' => false],
+            ['href' => '/history',    'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
         ],
         self::FOUR_K_MON => [
@@ -93,7 +98,8 @@ final class DeviceManager
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
             ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
-            ['href' => '/history',     'label' => 'Geçmiş',     'active' => false],
+            ['href' => '/browse',     'label' => 'Göz At',     'active' => false],
+            ['href' => '/history',    'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
         ],
     ];
@@ -313,6 +319,11 @@ final class DeviceManager
     public function isLarge(): bool
     {
         return in_array($this->device, [self::FOUR_K_TV, self::FOUR_K_MON], true);
+    }
+
+    public function is4k(): bool
+    {
+        return $this->isLarge() || ($this->viewportW !== null && $this->viewportW >= 2561);
     }
 
     public function isMobile(): bool

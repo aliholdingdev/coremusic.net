@@ -175,7 +175,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 
 ### §14 Skills (Pointer — SSOT: kök CLAUDE.md §Skill Registry)
 
-> **Registry SSOT: kök `CLAUDE.md` §Skill Registry** (13 proje skill = proje Registry'si, Claude Skill v3.0 — 2026-10-24 disk sayımı: `.claude/skills/` 13 SKILL.md; `C:\.claude\skills` bu makinede **MEVCUT — 348 dizin / 502 SKILL.md, global envanter (proje Registry'si değil)**). Bu bölümde liste kopyalanmaz; kullanım zorunluluğu kök `CLAUDE.md` §Skill Usage Mandate'dedir (hook: `.claude/settings.json → UserPromptSubmit`).
+> **Registry SSOT: kök `CLAUDE.md` §Skill Registry** (14 proje skill = proje Registry'si, Claude Skill v3.0 — 2026-10-24 disk sayımı: `.claude/skills/` 13 SKILL.md; `C:\.claude\skills` bu makinede **MEVCUT — 348 dizin / 502 SKILL.md, global envanter (proje Registry'si değil)**). Bu bölümde liste kopyalanmaz; kullanım zorunluluğu kök `CLAUDE.md` §Skill Usage Mandate'dedir (hook: `.claude/settings.json → UserPromptSubmit`).
 >
 > **Tarihsel not:** eski "Mandatory 5 Skills (ADR-042/C4)" tablosu ve ".opencode/skills 8 aktif" envanteri 2026-10-07'de kaldırıldı — `.opencode/skills/` kapatıldı (içerik merge/port edildi: orchestration→agent-orchestrator, db-engine→database-normalize-maker, truth-engine 3-way merge→global, verify-loop/agent-debate/context-report→global port). `/brainstorming` hâlâ sistem becerisi (klasör yok); `/vault-sync` → `.workflows/vault-sync.md` akışı + `vault-sync-post` skill. `Template Mandatory` (Guardrail #16) + skill-maker v3.0 şeması her dosya üretiminde geçerlidir.
 

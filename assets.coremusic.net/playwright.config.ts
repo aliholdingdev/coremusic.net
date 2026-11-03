@@ -43,7 +43,14 @@ export default defineConfig({
 
   webServer: {
     // public/ dizini YOK (disk kaniti); index.php panel koke'de.
-    command: 'php -S localhost:81 -t ../../home.coremusic.net/',
+    // Not (2026-10-30): Playwright webServer cwd = config dosyasının dizini
+    // (assets.coremusic.net/), bu yüzden docroot `../home.coremusic.net/`
+    // olmalıdır — `../../` C:\www\home.coremusic.net'e düşer ve yoktur
+    // (gerçek hata: "Directory ../../home.coremusic.net/ does not exist").
+    // IPv4 bind ZORUNLU: `php -S localhost:81` Windows'ta yalnız [::1]:81'e
+    // bağlanır, hosts'taki 127.0.0.1 home.coremusic.net ise IPv4'ten reddedilir
+    // (olay: webServer readiness 120s timeout — 2026-10-30 ölçüm).
+    command: 'php -S 127.0.0.1:81 -t ../home.coremusic.net/',
     url: 'http://home.coremusic.net:81',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,

@@ -33,16 +33,39 @@ final class StreamController
         private readonly string $libraryPath = '',
     ) {}
 
+    /**
+     * Gateway dispatch arayüzü (ApiContainerBase::handle).
+     *
+     * F8 kaydı: routes.php'deki '/api/{version}/stream/{id}' kaydı contract-first
+     * ilanıdır; gerçek istek index.php §1.1 byte-path'inde (Gateway ÖNCESİ)
+     * yakalanır. Buradaki id çözümlemesi yalnız RouteTable üzerinden gelen
+     * (literal '{id}' — exact-match olduğu için gerçek id bu satıra düşmez)
+     * akış içindir. stream() asla normal dönüş yapmaz.
+     *
+     * @param array<string, mixed> $route
+     * @param array<string, mixed> $request
+     * @return array<string, mixed>
+     */
+    public function handle(array $route, array $request): array
+    {
+        preg_match(
+            '#(?:/api/v\d+)?/stream/([a-f0-9]{32})$#i',
+            (string) ($request['uri'] ?? ''),
+            $matches
+        );
+        $this->stream($matches[1] ?? '');
+    }
+
     public function stream(string $musicIdHex): never
     {
         $musicIdHex = strtolower(trim($musicIdHex));
         if (strlen($musicIdHex) !== 32 || !ctype_xdigit($musicIdHex)) {
-            $this->fail(400, 'Geçersiz müzik ID biçimi');
+            $this->fail(400, 'STREAM_ID_INVALID', 'Geçersiz müzik ID biçimi');
         }
 
         $row = $this->musicRepository->findPrimaryFile($musicIdHex);
         if ($row === null) {
-            $this->fail(404, 'Müzik kaydı bulunamadı');
+            $this->fail(404, 'STREAM_NOT_FOUND', 'Müzik kaydı bulunamadı');
         }
 
         // Dosya yolunu belirle
@@ -114,12 +137,12 @@ final class StreamController
 
         $fp = @fopen($path, 'rb');
         if ($fp === false) {
-            $this->fail(500, 'Dosya okunamadı');
+            $this->fail(500, 'STREAM_READ_ERROR', 'Dosya okunamadı');
         }
 
         if ($start > 0 && fseek($fp, $start, SEEK_SET) !== 0) {
             fclose($fp);
-            $this->fail(500, 'Dosya konumu ayarlanamadı');
+            $this->fail(500, 'STREAM_SEEK_ERROR', 'Dosya konumu ayarlanamadı');
         }
 
         $remaining = $length;
@@ -221,11 +244,11 @@ final class StreamController
     {
         $trimmed = trim($stored);
         if ($trimmed === '' || str_contains($trimmed, "\0")) {
-            $this->fail(404, 'Geçersiz dosya yolu');
+            $this->fail(404, 'STREAM_PATH_INVALID', 'Geçersiz dosya yolu');
         }
 
         if (str_contains($trimmed, '..') || is_link($trimmed)) {
-            $this->fail(403, 'Erişim reddedildi');
+            $this->fail(403, 'STREAM_FORBIDDEN', 'Erişim reddedildi');
         }
 
         // Eğer mutlak bir dosya yolu ise doğrudan kontrol et
@@ -241,7 +264,7 @@ final class StreamController
             return (string) realpath($candidate);
         }
 
-        $this->fail(404, 'Fiziksel medya dosyası bulunamadı');
+        $this->fail(404, 'STREAM_FILE_NOT_FOUND', 'Fiziksel medya dosyası bulunamadı');
     }
 
     private function contentType(string $path, string $format): string
@@ -250,11 +273,26 @@ final class StreamController
         return self::MIME_BY_EXT[$ext] ?? self::MIME_BY_EXT[$format] ?? 'application/octet-stream';
     }
 
-    private function fail(int $code, string $message): never
+    /**
+     * F6: sözleşmeli hata gövdesi — {error:{code,message}}.
+     *
+     * Eski sürümde `code` HTTP durum numarasıydı (int) — API CLAUDE.md §4.2
+     * hata sözleşmesi string enum kodu ister; 500 içi `STREAM_READ_ERROR` gibi
+     * ayrıştırılabilir kodlar istemcinin dal/branch yapabilmesini sağlar.
+     *
+     * @param int $status HTTP durum kodu
+     * @param string $errorCode Sözleşmeli enum kodu
+     * @param string $message Kullanıcıya dönülebilir metin
+     */
+    private function fail(int $status, string $errorCode, string $message): never
     {
-        http_response_code($code);
+        http_response_code($status);
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['error' => ['code' => $code, 'message' => $message]], JSON_UNESCAPED_UNICODE);
+        header('X-Content-Type-Options: nosniff');
+        echo json_encode(
+            ['error' => ['code' => $errorCode, 'message' => $message]],
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        );
         exit;
     }
 }

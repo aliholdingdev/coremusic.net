@@ -54,10 +54,18 @@ final class CsrfMiddleware implements IMiddleware
             'ip'  => $_SERVER['REMOTE_ADDR'] ?? '-',
         ]);
 
+        // F1: ret gövdesi ApiResponse zarf shape'ine hizalanır —
+        // {error:{code,message}} (api.coremusic.net/index.php başlık sözleşmesi;
+        // ApiResponse::error() aynı shape üretir).
         return [
             'httpStatus' => 403,
             'type'       => 'json',
-            'body'       => ['error' => 'csrf_invalid'],
+            'body'       => [
+                'error' => [
+                    'code'    => 'CSRF_TOKEN_INVALID',
+                    'message' => 'CSRF token doğrulaması başarısız.',
+                ],
+            ],
             'headers'    => [],
             'halt'       => true,
         ];

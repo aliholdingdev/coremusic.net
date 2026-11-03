@@ -1,19 +1,26 @@
 <?php declare(strict_types=1);
 
 /**
- * CoreMusic API Service — Entry Point
+ * CoreMusic API Service — Unified Entry Point (v1 + v2)
  *
  * JSON-only front controller (SPA router KULLANMAZ).
- *   /health    → canlılık ucu (Faz 0: 200 döner)
- *   /api/v1/*  → CoreMusic\Api\Gateway'e yönlendirilir
- *   diğer      → 404 JSON
+ *   /health       → canlılık ucu (Faz 0: 200 döner)
+ *   /api/v1/*     → v1 Gateway'e yönlendirilir (V1Container)
+ *   /api/v2/*     → v2 Gateway'e yönlendirilir (V2Container)
+ *   /v1/*         → /api/v1/* alias
+ *   /v2/*         → /api/v2/* alias
+ *   diğer         → 404 JSON
  *
  * Hata sözleşmesi: {error:{code,message}} — exception mesajı ASLA istemciye dönmez.
+ * Versiyon çözümleme: VersionResolver (URL path + Accept header)
  */
 
 require_once __DIR__ . '/autoload.php';
 
 use CoreMusic\Api\Auth\ApiSessionManager;
+use CoreMusic\Api\Container\ApiAuthContainer;
+use CoreMusic\Api\Container\V1Container;
+use CoreMusic\Api\Container\V2Container;
 use CoreMusic\Api\Gateway;
 use CoreMusic\Api\Middleware\ApiMiddlewarePipeline;
 use CoreMusic\Api\Middleware\AuthenticationMiddleware;
@@ -23,6 +30,7 @@ use CoreMusic\Api\Middleware\RequestValidationMiddleware;
 use CoreMusic\Api\Middleware\ResponseNormalizationMiddleware;
 use CoreMusic\Api\Registry\ServiceRegistry;
 use CoreMusic\Api\Routing\RouteTable;
+use CoreMusic\Api\Router\VersionResolver as RouterVersionResolver;
 use CoreMusic\Api\Versioning\VersionResolver;
 use CoreMusic\Bootstrap\RuntimeBootstrap;
 use CoreMusic\Cache\ApcuAdapter;
@@ -39,7 +47,36 @@ use CoreMusic\Security\CacheRateLimiter;
 require_once __DIR__ . '/config/constants.php';
 $appConfig    = require __DIR__ . '/config/app.php';
 $corsConfig   = require __DIR__ . '/config/cors.php';
-$routeTable   = RouteTable::fromArray(require __DIR__ . '/config/routes.php');
+
+/* --- Version çözümle (routes yüklenmeden önce yapılır ki {version} yerine yazılabilsin) --- */
+$versionResolver = new RouterVersionResolver();
+$headers = getallheaders();
+$version = $versionResolver->resolve($_SERVER['REQUEST_URI'], $headers);
+
+/* --- Routes: {version} placeholder'ını runtime versiyonla değiştir --- */
+$rawRoutes = require __DIR__ . '/config/routes.php';
+$routes = replaceVersionPlaceholder($rawRoutes, $version);
+$routeTable = RouteTable::fromArray($routes);
+
+/**
+ * Route dizisindeki {version} placeholder'ını gerçek versiyonla değiştirir.
+ *
+ * @param array<string, mixed> $routes
+ * @param string $version
+ * @return array<string, mixed>
+ */
+function replaceVersionPlaceholder(array $routes, string $version): array
+{
+    $result = [];
+    foreach ($routes as $method => $routesByMethod) {
+        $result[$method] = [];
+        foreach ($routesByMethod as $path => $routeConfig) {
+            $newPath = str_replace('{version}', $version, $path);
+            $result[$method][$newPath] = $routeConfig;
+        }
+    }
+    return $result;
+}
 
 RuntimeBootstrap::boot(DEBUG_MODE);
 
@@ -82,9 +119,15 @@ $jsonResponse = static function (array $payload, int $status = 200): never {
 $requestUri = rtrim((string)parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
 $method     = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-/* --- 0. Alias: Faz 3a UI `API_URL + '/v1/...'` çağırır (api.coremusic.net/v1/...),
- *     route tablosu ise `/api/v1/...` kayıtlıdır → tek kaynak kabul noktası.      */
+/* --- Alias: /v1/* → /api/v1/* AND /v2/* → /api/v2/* (tek kaynak kabul noktası) --- */
 if (str_starts_with($requestUri, '/v1/') || $requestUri === '/v1') {
+    $rawUri   = (string) ($_SERVER['REQUEST_URI'] ?? '/');
+    $queryPos = strpos($rawUri, '?');
+    $suffix   = $queryPos === false ? '' : substr($rawUri, $queryPos);
+
+    $requestUri            = '/api' . $requestUri;
+    $_SERVER['REQUEST_URI'] = '/api' . $rawUri . $suffix;
+} elseif (str_starts_with($requestUri, '/v2/') || $requestUri === '/v2') {
     $rawUri   = (string) ($_SERVER['REQUEST_URI'] ?? '/');
     $queryPos = strpos($rawUri, '?');
     $suffix   = $queryPos === false ? '' : substr($rawUri, $queryPos);
@@ -97,14 +140,20 @@ $logger->info("Request: {$method} {$requestUri}", [
     'ip' => $_SERVER['REMOTE_ADDR'] ?? '-',
 ]);
 
-/* --- 1. Health --- */
+/* --- 1. Health (version-aware) --- */
 if ($requestUri === '/health') {
-    // PRD-API-002: DB'ye dokunulmaz; yalnız süre ölçülüp log'a yazılır (yanıt sözleşmesi değişmez).
+    // Health için varsayılan v1; Accept header ile v2 de isteyebilir
+    $headers = getallheaders();
+    $healthVersion = 'v1';
+    if (preg_match('/application\/vnd\.coremusic\.(v\d+)\+json/i', $headers['Accept'] ?? '', $matches)) {
+        $healthVersion = strtolower($matches[1]);
+    }
+
     $healthStart = microtime(true);
     $healthBody  = [
         'status'    => 'ok',
         'service'   => 'api.coremusic.net',
-        'version'   => APP_VERSION,
+        'version'   => $healthVersion,
         'timestamp' => (new \DateTimeImmutable())->format('c'),
     ];
     $logger->info('Health check', [
@@ -113,8 +162,34 @@ if ($requestUri === '/health') {
     $jsonResponse($healthBody);
 }
 
+// F5: /stream bloğu, pipeline'daki $apcuAvailable tanımından ÖNCE gelir
+// (php üst-scope sızıntısı okunabilir ama bağımlılık olmasın diye blok
+// içinde yeniden hesaplanır — pipeline kurulumu DEĞİŞMEDİ).
+$apcuAvailableStream = function_exists('apcu_enabled') && apcu_enabled();
+
 /* --- 1.1 Audio & Video Stream (/stream/{id} veya /api/v1/stream/{id}) --- */
 if (preg_match('#^(?:/api/v1)?/stream/([a-f0-9]{32})$#i', $requestUri, $matches) === 1) {
+    // F5: /stream byte-path Gateway ve middleware pipeline'INDAN ÖNCE yakalandığı
+    // için rate-limit kapısından hiç geçmiyordu (tek istisnai uç).
+    // Middleware SIRASI DEĞİŞMEZ (ADR-020/094 — 8 kapı donduruldu); aynı
+    // CacheRateLimiter sözleşmesi (SEC-01: ip:/api: bucket'ları · PRD-SEC-004:
+    // sayaç yazılamazsa fail-closed 503) auth ÖNCESİ bu bloğa explicit uygulanır.
+    $streamRateCache = $apcuAvailableStream
+        ? new ApcuAdapter()
+        : new MemoryAdapter();
+    if (!$apcuAvailableStream) {
+        $logger->securityEvent('rate_limiter_unavailable', ['mode' => 'fail-open', 'route' => 'stream']);
+    }
+    $streamRate = (new RateLimitMiddleware(new CacheRateLimiter($streamRateCache)))(
+        ['uri' => $requestUri, 'method' => $method, 'server' => $_SERVER],
+        static fn (array $req): array => $req
+    );
+    if (isset($streamRate['error'])) {
+        // 429 (RATE_LIMIT_EXCEEDED) veya 503 (RATE_LIMITER_UNAVAILABLE) —
+        // http_response_code() ApiResponse::error tarafından kurulmuştur.
+        $jsonResponse($streamRate, (int) http_response_code());
+    }
+
     // Auth (Faz 4b kararı): home MusicStreamHandler paritesi — stream GİRİŞE ZORUNLU
     // (fail-closed). home 302 /login verirdi; API JSON-only Gateway olduğu için
     // sözleşmeye uygun karşılık 401 JSON'dur. Hybrid auth tek kaynaktan
@@ -141,13 +216,16 @@ if (preg_match('#^(?:/api/v1)?/stream/([a-f0-9]{32})$#i', $requestUri, $matches)
     \CoreMusic\Session\SessionBootstrapper::writeClose();
 
     $streamController = new \CoreMusic\Api\Controller\StreamController(
-        \CoreMusic\Api\Container\ApiContainer::musicRepository()
+        \CoreMusic\Api\Container\V1Container::musicRepository()
     );
     $streamController->stream($matches[1]);
 }
 
-/* --- 2. API Gateway (/api/v1/*) --- */
+/* --- 2. API Gateway (/api/v1/* veya /api/v2/*) --- */
 if (str_starts_with($requestUri, '/api/')) {
+    // Container seçimi
+    $container = ($version === 'v2') ? new V2Container() : new V1Container();
+
     // Auth uçları SSOT AuthService ile çalışır → $_SESSION şart (Faz 1b).
     // Onarım 2026-10-24 (ADR-052/010/011): session yalnız /api/v1/auth/*'te
     // açılıyordu → auth'lu uçlar (playlist/history/user) session-authenticated
@@ -157,14 +235,15 @@ if (str_starts_with($requestUri, '/api/')) {
     // (Bearer/curl) ek session cookie üretilmez (ADR-052 prensibi korunur).
     // startOrExtend() csrf_token üretimini (ADR-010, SessionLifecycle:47) de
     // tetikler. Middleware sırası ADR-020 DEĞİŞMEZ.
+    $apiPrefix = '/api/' . $version;
     if (($method !== 'OPTIONS') && (
-        preg_match('#^/api/v1/auth(/|$)#', $requestUri) === 1
+        preg_match('#^' . $apiPrefix . '/auth(/|$)#', $requestUri) === 1
         || isset($_COOKIE[\CoreMusic\Session\SessionConfig::fromEnvironment()->name])
     )) {
         (new \CoreMusic\Session\SessionLifecycle())->startOrExtend();
     }
 
-    // Middleware pipeline'ının beklediği request formatı (Cors: server + method).
+    // Middleware pipeline'ın beklediği request formatı (Cors: server + method).
     // headers/body: CsrfMiddleware (B-F-02) x-csrf-token header'ını ve gövde
     // token'ını bu alanlardan okur — session-auth state-changing uçlar için gerekli.
     $pipelineRequest = [
@@ -178,7 +257,7 @@ if (str_starts_with($requestUri, '/api/')) {
     try {
         /* --- Middleware pipeline (ADR-020 §1.1-B.1) — sabit sıra ---
          * ResponseNormalization → Cors → RateLimit → Authentication
-         *                         → RequestValidation → Authorization
+         *                         → (koşullu CSRF) → RequestValidation → Authorization
          */
         $corsMiddleware = new CorsMiddleware($corsConfig);
         // B-F-02/B-F-07: frozen sıra OriginCheck(#1) → Cors(#2). İzinsiz Origin'i
@@ -229,10 +308,9 @@ if (str_starts_with($requestUri, '/api/')) {
             new ServiceRegistry(),
             $pipeline,
             $routeTable,
-            // Faz 4: handler route'tan çözülür (auth/müzik/playlist/user) —
-            // middleware sırası ADR-020 ile DEĞİŞMEZ, yalnız dispatch genelleşir.
+            // Handler: version-aware container dispatch
             static fn (array $route, array $request): array =>
-                \CoreMusic\Api\Container\ApiContainer::handle($route, $request),
+                $container::handle($route, $request),
         );
         $result = $gateway->dispatch($pipelineRequest);
 
@@ -245,7 +323,7 @@ if (str_starts_with($requestUri, '/api/')) {
         unset($result['headers']);
 
         // Preflight (Cors 'halt' ile kısa devre eder) + Adım 07 DELETE 204:
-        // gövdesiz yanıt. Dizi gövde (CsrfMiddleware {error:csrf_invalid}) JSON
+        // gövdesiz yanıt. Dizi gövde (CsrfMiddleware {error:{code:CSRF_TOKEN_INVALID,...}} — F1 zarf) JSON
         // olarak basılır — eski (string) cast "Array" yazıyordu (P5-32 gözetimi
         // JSON contract'e uymuyordu).
         if (($result['halt'] ?? false) === true) {

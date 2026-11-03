@@ -20,12 +20,16 @@ use CoreMusic\Log\LoggerFactory;
  *  shared/config/.env  (şablon: shared/config/.env.example)
  *   DB_PROVIDER (global) · DB_PROVIDER_{KEY} (KEY bazlı override)
  *   DB_HOST · DB_PORT · DB_USER · DB_PASSWORD · DB_CHARSET — global
+ *   DB_{KEY}_HOST · DB_{KEY}_PORT · DB_{KEY}_USER · DB_{KEY}_PASSWORD — KEY bazlı override
+ *   (canlı smoke 2026-10-30: aynı key 'smoke' hem mysql hem mssql kullanıyor —
+ *    per-key kimlik/host ayrıştırması zorunlu)
  *   DB_{KEY}_NAME — DB başına şema adı, KEY = strtoupper($db)
  *   Örn: get('auth') → DB_AUTH_NAME=coremusic_auth
  *  sqlite'ta host parametresi DOSYA YOLUDUR: DB_{KEY}_PATH → DB_HOST → fail-safe.
  *  Disk kanıtı: auth.coremusic.net/config/constants.php (DB_AUTH_NAME) ·
- *  api.coremusic.net/include/Container/ApiContainer.php (DB_MUSIC_NAME,
- *  DB_PLAYLIST_NAME, DB_USER_NAME, DB_SYSTEM_NAME).
+ *  api.coremusic.net/include/Container/ApiContainerBase.php (DB_MUSIC_NAME L184,
+ *  DB_PLAYLIST_NAME L203, DB_USER_NAME L222, DB_SYSTEM_NAME L241 — eski
+ *  ApiContainer.php 2026-10-30'da silindi, anahtarlar Base'e taşındı).
  *  EnvParser::loadIntoEnv() $_ENV'e yazar (constants.php ile aynı pattern);
  *  .env dosyası yoksa no-op → mevcut ortam değişkenleri (Apache/IIS/env) geçerli.
  *
@@ -172,6 +176,25 @@ final class ConnectionFactory
     }
 
     /**
+     * Port çözümü: DB_{KEY}_PORT → DB_PORT → '3306'.
+     *
+     * KEY = strtoupper($db). Provider başına port AYRIŞTIRMAK zorunludur:
+     * aynı host'ta mysql (3306) ve mssql (1433) birlikte yaşarken tek global
+     * port her ikisini de yanlış kapıya götürür (canlı smoke bulgusu 2026-10-30:
+     * sqlsrv → MySQL portuna bağlanıp "Protocol error in TDS stream" veriyordu).
+     * sqlite'ta port anlamsızdır (host = dosya yolu).
+     */
+    public function portFor(string $db): int
+    {
+        $envKey = 'DB_' . strtoupper($db) . '_PORT';
+        $port = $this->env($envKey, '');
+        if ($port === '') {
+            $port = $this->env('DB_PORT', '3306');
+        }
+        return (int) $port;
+    }
+
+    /**
      * Provider çözümü: DB_PROVIDER_<KEY> → DB_PROVIDER → 'mysql'.
      * KEY = strtoupper($db). Repository yüzeyi de bunu çağırır (tek karar noktası).
      */
@@ -233,9 +256,9 @@ final class ConnectionFactory
             $provider,
             $this->hostFor($db, $provider),
             $this->schemaName($db),
-            $this->env('DB_USER', ''),
-            $this->env('DB_PASSWORD', ''),
-            (int) $this->env('DB_PORT', '3306'),
+            $this->userFor($db),
+            $this->passwordFor($db),
+            $this->portFor($db),
             $this->env('DB_CHARSET', 'utf8mb4'),
         );
     }
@@ -244,8 +267,13 @@ final class ConnectionFactory
      * Host çözümü: provider sqlite ise "host" DOSYA YOLUDUR —
      * DB_{KEY}_PATH → DB_HOST sırasıyla okunur; ikisi de boşsa fail-safe
      * configMissing (sqlite'a boş yol ile devam ETMEZ).
+     *
+     * Non-sqlite: DB_{KEY}_HOST → DB_HOST → 'localhost'
+     * (canlı smoke 2026-10-30: aynı key 'smoke' hem mysql hem mssql kullanıyor —
+     * per-key kimlik/host ayrıştırması zorunlu; yalnız global host mssql'yi
+     * yanlış sunucuya yönlendiriyordu). KEY = strtoupper($db) (portFor ile aynı).
      */
-    private function hostFor(string $db, string $provider): string
+    public function hostFor(string $db, string $provider): string
     {
         if ($provider === 'sqlite') {
             $pathKey = 'DB_' . strtoupper($db) . '_PATH';
@@ -259,7 +287,59 @@ final class ConnectionFactory
             return $path;
         }
 
-        return $this->env('DB_HOST', 'localhost');
+        $host = $this->env('DB_' . strtoupper($db) . '_HOST', '');
+        if ($host === '') {
+            $host = $this->env('DB_HOST', '');
+        }
+        if ($host === '') {
+            $host = 'localhost';
+        }
+        return $host;
+    }
+
+    /**
+     * Kullanıcı çözümü: DB_{KEY}_USER → DB_USER → ''.
+     *
+     * KEY = strtoupper($db) (portFor ile aynı). Varlık kontrolü env() notuyla
+     * aynıdır: boş string meşrudur ('' != eksik — yalnız anahtar YOKSA
+     * global'e düşülür, providerFor ile aynı desen).
+     * (canlı smoke 2026-10-30: aynı key 'smoke' hem mysql hem mssql kullanıyor —
+     * per-key kimlik/host ayrıştırması zorunlu; global kimlik mssql'ye
+     * "Login failed" verdiriyordu.)
+     */
+    public function userFor(string $db): string
+    {
+        $envKey = 'DB_' . strtoupper($db) . '_USER';
+        if (isset($_ENV[$envKey])) {
+            return (string) $_ENV[$envKey];
+        }
+        $value = getenv($envKey);
+        if ($value !== false) {
+            return (string) $value;
+        }
+        return $this->env('DB_USER', '');
+    }
+
+    /**
+     * Parola çözümü: DB_{KEY}_PASSWORD → DB_PASSWORD → ''.
+     *
+     * KEY = strtoupper($db) (portFor ile aynı). Not: boş string meşru bir
+     * değerdir (env() docblock notu ile aynı — '' != eksik; yalnız anahtar
+     * YOKSA global'e düşülür, providerFor ile aynı desen).
+     * (canlı smoke 2026-10-30: aynı key 'smoke' hem mysql hem mssql kullanıyor —
+     * per-key kimlik/host ayrıştırması zorunlu.)
+     */
+    public function passwordFor(string $db): string
+    {
+        $envKey = 'DB_' . strtoupper($db) . '_PASSWORD';
+        if (isset($_ENV[$envKey])) {
+            return (string) $_ENV[$envKey];
+        }
+        $value = getenv($envKey);
+        if ($value !== false) {
+            return (string) $value;
+        }
+        return $this->env('DB_PASSWORD', '');
     }
 
     /**

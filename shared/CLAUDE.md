@@ -4,7 +4,7 @@ type: context
 folder: "shared"
 category: shared
 date: 2026-09-21
-updated: 2026-10-12
+updated: 2026-10-30
 status: active
 version: 2.0.1
 authority: Single Source of Truth (SSOT)
@@ -50,7 +50,7 @@ shared/
 │ ├── Session/ ← SessionBootstrapper, Config, Initializer, Lifecycle (ADR-011)
 │ ├── Theme/ ← ThemeManager.php (ADR-044)
 │ └── ViewMode/ ← ViewModeManager.php (ADR-045)
-└── tests/ ← 9 dizin: Api, Component, Events, Fixtures, Middleware, OAuth, Repository, Security, Unit
+└── tests/ ← 10 dizin: Api, Component, Events, Fixtures, Integration, Middleware, OAuth, Repository, Security, Unit
 ```
 
 ---
@@ -67,7 +67,7 @@ shared/
 | API BFF | 0 — DECOMMISSIONED (ADR-084, 2026-10-18) |
 | API Middleware | 6 (Authentication, Authorization, RateLimit, RequestValidation, ResponseNormalization, Validator) |
 | API Versioning | ApiVersion, VersionRegistry, VersionResolver |
-| Test dizinleri | 9 (Api, Component, Events, Fixtures, Middleware, OAuth, Repository, Security, Unit) |
+| Test dizinleri | 10 (Api, Component, Events, Fixtures, Integration, Middleware, OAuth, Repository, Security, Unit) |
 | Bilinen risk | `Theme` kapsamda (ThemeManagerModeTest); `ViewModeManager` testi yok |
 
 ---
@@ -196,6 +196,7 @@ Not: `.ai/architecture/**` K-space katman tabloları ve `.ai/decisions/` (noktas
 | Api Tests | `tests/Api/` | API endpoint testleri |
 | Component Tests | `tests/Component/` | Bileşen testleri |
 | Events Tests | `tests/Events/` | Domain event testleri |
+| Integration Tests | `tests/Integration/` | Canlı multi-DB smoke (1C `MultiDbSmokeTest` — `@group live`, `composer test` hariç) |
 | Middleware Tests | `tests/Middleware/` | Pipeline + middleware testleri |
 | OAuth Tests | `tests/OAuth/` | OAuth provider testleri |
 | Repository Tests | `tests/Repository/` | Depo + SQLite çift testleri |
@@ -206,5 +207,5 @@ Not: `.ai/architecture/**` K-space katman tabloları ve `.ai/decisions/` (noktas
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-10-12
+**Last Updated:** 2026-10-30
 **Mode:** Red Team · Human Mode · Truth Mode

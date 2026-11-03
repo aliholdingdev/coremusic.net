@@ -19,7 +19,7 @@ depends-on: []
 
 **Zorunlu Bağlantılar:** [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[engine.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.claude/skills/` (13 proje skill'i, 0 global — Guardrail #16 zorunlu)
+**Skills:** `.claude/skills/` (14 proje skill'i, 0 global — Guardrail #16 zorunlu; `karpathy-guidelines` dahil)
 
 ---
 

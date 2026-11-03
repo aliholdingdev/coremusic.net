@@ -22,6 +22,7 @@ $h = static function (string $v): string {
 };
 
 $assetsUrl = defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net';
+$nonce     = $h((string)($_SESSION['csp_nonce'] ?? ''));
 
 /* ── Cookie / Session verileri ── */
 $cookieImage = $h(
@@ -66,7 +67,7 @@ $settingsIcon = $h($assetsUrl . '/Image/res-pink/settings.png');
 $logoutIcon   = $h($assetsUrl . '/Image/res-pink/session-logout.png');
 
 /* ── Tier sınıfı: 4K (≥2561) → Wide (≥1920) → Embedded (≤1024) ── */
-$headerTierClass = $dm->shouldRender4kLayout()
+$headerTierClass = $dm->is4k()
     ? 'site-header--4k site-header--tv'
     : ($dm->shouldRenderWideLayout() ? 'site-header--wide site-header--desktop' : 'site-header--1024 site-header--embedded');
 ?>
@@ -95,9 +96,9 @@ foreach ($dm->navLinks() as $link):
                 <span class="header-user__name"><?= $cookieUsername ?></span>
                 <span class="header-user__arrow">&#9660;</span>
                 <div class="header-user-dropdown" role="menu">
-                    <!-- SSOT: shared/config/routes.php — kayıtlı olmayan '/profil' kaldırıldı (404 → ölü link) -->
                     <a href="/ayarlar" role="menuitem" data-no-spa>Ayarlar</a>
                     <a href="/history" role="menuitem" data-no-spa>Geçmiş</a>
+                    <a href="/terminal" role="menuitem" data-no-spa>Core AI Terminal</a>
                     <a href="/logout" class="logout-btn" role="menuitem" data-no-spa>Çıkış Yap</a>
                 </div>
             </div>
@@ -119,7 +120,7 @@ foreach ($dm->navLinks() as $link):
             </div>
 
             <div class="header-border header-border--actions">
-                <a href="/ayarlar" class="header-action-btn" aria-label="Ayarlar" title="Ayarlar">
+                <a href="/ayarlar" class="header-action-btn" id="header-settings-btn" aria-label="Ayarlar" title="Ayarlar" role="button" aria-haspopup="dialog">
                     <img src="<?= $settingsIcon ?>" alt="Ayarlar" width="22" height="22" loading="lazy"/>
                 </a>
                 <button class="header-action-btn sidebar-toggle" type="button" aria-label="Sidebar aç/kapat" data-action="toggle-sidebar" title="Navigasyon paneli">
@@ -144,5 +145,7 @@ foreach ($dm->navLinks() as $link):
     <div class="sidebar__resize-handle" role="separator" tabindex="0" aria-label="Sidebar genişletme tutamacı"></div>
 </aside>
 <div class="sidebar-overlay" aria-hidden="true"></div>
-<script src="<?= $assetsUrl ?>/js/header-manager.js" defer></script>
-<script src="<?= $assetsUrl ?>/js/music-spa-manager.js" defer></script>
+<?php require __DIR__ . '/pages/components/quick-network-panels.php'; ?>
+<?php require __DIR__ . '/pages/components/quick-settings-modal.php'; ?>
+<script nonce="<?= $nonce ?>" src="<?= $assetsUrl ?>/js/header-manager.js" defer></script>
+<script nonce="<?= $nonce ?>" src="<?= $assetsUrl ?>/js/music-spa-manager.js" defer></script>

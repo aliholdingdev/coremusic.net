@@ -147,6 +147,10 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 |:---|:---|:---|
 | **`.ai/CLAUDE.md`** | AI Anayasası — 16 Hard Guardrail, 34 bölüm | `@.ai/CLAUDE.md` |
 | **`.ai/AGENTS.md`** | Agent Registry SSOT — 11 agent, routing, handover | `@.ai/AGENTS.md` |
+| **`.ai/durum.md`** | Tek Sayfalık Oturum Durum Devri & Kalıcı Hafıza SSOT | [`.ai/durum.md`](.ai/durum.md) |
+| **`.ai/.rules/kurallar.md`** | Kullanıcı Kuralları (Bayram Ali kimliği, hybrid dil, Light Mode, Class AB) | [`.ai/.rules/kurallar.md`](.ai/.rules/kurallar.md) |
+| **`.ai/.rules/senior-mode.md`** | Bütün Proje Kuralları (Senior Mode, 16 analiz adımı) | [`.ai/.rules/senior-mode.md`](.ai/.rules/senior-mode.md) |
+| **`.ai/.env.figma`** | Figma API Erişim Tokeni SSOT (.gitignore:69) | [`.ai/.env.figma`](.ai/.env.figma) |
 | **`.ai/WORKFLOW.md`** | Vault süreçleri — fazlar, ADR lifecycle | [`.ai/WORKFLOW.md`](.ai/WORKFLOW.md) |
 | **`.ai/CONTEXT.md`** | Vault klasör yapısı, envanter, bağlam | [`.ai/CONTEXT.md`](.ai/CONTEXT.md) |
 | **`.ai/SYNC.md`** | Sürekli güncelleme döngüsü SSOT — baş/orta/kapanış | [`.ai/SYNC.md`](.ai/SYNC.md) |
@@ -162,9 +166,11 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 | **`.ai/index.md`** | Master katalog | [`.ai/index.md`](.ai/index.md) |
 | **`.ai/keys.md`** | Keyword haritası | [`.ai/keys.md`](.ai/keys.md) |
 | **`.ai/ROLE.md`** | Rol tanımı | [`.ai/ROLE.md`](.ai/ROLE.md) |
+| **`CURSOR.md`** | Cursor IDE Kuralları & Karpathy Yönergeleri Pointer | [`CURSOR.md`](CURSOR.md) |
 | **`.ai/.templates/`** | Şablon registry | [`.ai/.templates/index.md`](.ai/.templates/index.md) |
 
-> **Boot Protocol**: AI agent'ları root `CLAUDE.md` → `AGENTS.md` → `README.md` → `WORKFLOW.md` okur, sonra ihtiyaç anında `@.ai/` dosyalarını okur (Guardrail #2: Vault First).
+> **Boot Protocol**: AI agent'ları root `AGENTS.md` (OpenCode) / `CLAUDE.md` (Claude Code) → `.ai/durum.md` (oturum hafızası) → `.ai/.rules/kurallar.md` & `senior-mode.md` → `README.md` → `WORKFLOW.md` okur, sonra ihtiyaç anında `@.ai/` dosyalarını okur (Guardrail #2: Vault First). AI her işlemde `.ai/durum.md`, `.ai/log.md` ve `.ai/MEMORY.md` dosyalarını güncelleyerek kalıcı hafıza devrini sağlar.  
+> **Kritik Kısıtlar:** Tema ŞU ANDA YALNIZCA LIGHT MODE'dur (Dark Mode henüz yoktur!). Donanım amplifikatörü discrete Class AB'dir (Class D yasaktır). Subagent commit atamaz.
 
 ---
 
@@ -178,7 +184,8 @@ CoreMusic'te AI ajanları **Skill Usage Mandate** ile çalışır. Mandate özet
 4. İstisna: kullanıcı açıkça "skill kullanma" derse veya görev skill'lerle ilgisizse (sohbet, aritmetik); belirsizse 1 kısa soru sorulur.
 5. Yetenek yoksa kopyala-yapıştır yapılmaz; `skill-maker` ile skill üretilir (Guardrail #16 + v3.0 şeması).
 
-* **Kayıt defteri (SSOT):** [`CLAUDE.md`](CLAUDE.md) §Skill Registry — **13 proje skill'i** (`.claude/skills/`, 2026-10-10 disk ölçümü). ⚠️ Eski "12 proje + 5 global = 17" kaydı düzeltildi: `C:\.claude\skills\` **bu makinede MEVCUT** (2026-10-24: 348 dizin / 502 SKILL.md — Test-Path = True) → global envanter, proje skill Registry'si değildir (proje: 13 SKILL.md). `learning-prompts` kayıtsızdı, Registry'ye eklendi. Bu dosyada liste tekrarlanmaz; ayrıca ~348 üçüncü-parti global skill grubu harness available-skills listesiyle gelir.
+* **Kayıt defteri (SSOT):** [`CLAUDE.md`](CLAUDE.md) §Skill Registry — **14 proje skill'i** (`.claude/skills/`, 2026-11-01 disk ölçümü: `karpathy-guidelines` dahil 14 SKILL.md). Global envanter `C:\.claude\skills\` makinede mevcuttur (348 dizin / 502 SKILL.md). Projenin resmi SSOT'u bu 14 skill'dir.
+* **Cursor IDE & Karpathy Standartları:** [`CURSOR.md`](CURSOR.md) ve [`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc) — Andrej Karpathy'nin 4 davranışsal direktifi (Think Before Coding · Simplicity First · Surgical Changes · Goal-Driven Execution) hem Cursor IDE'ye hem de Claude/OpenCode skill ağacına entegre edilmiştir.
 * **Uygulama (2 katman):** (1) yazılı mandate — kök `CLAUDE.md` §Skill Kullanım Zorunluluğu; (2) hook — `.claude/settings.json → UserPromptSubmit` her prompt'ta kısa hatırlatma + proje skill isimlerini enjekte eder.
 * **Yeni skill ekleme yolu:** `skill-maker` çalıştırılır → v3.0 şeması + format otoritesi `.claude/skills/skill-maker/` (şablon + kurallar) → üretilen skill `CLAUDE.md` §Skill Registry'ye satır olarak eklenir.
 
@@ -224,11 +231,12 @@ Aşağıdaki depolar harici referans/kaynak listesidir; proje tarafından kurulu
 - https://github.com/modelcontextprotocol/servers
 - https://github.com/vakra-dev/awesome-ai-agents
 - https://github.com/hammond01/CleanArchitecture
+- https://github.com/forrestchang/andrej-karpathy-skills
 
 **Session Lifecycle:** Bu depoda her AI session'ı `.ai/CHECKLIST.md` §A/§B/§C ile yürütülür; hedef dosya seti **26'dır** (6 kök `.md` + 20 `.ai/` kök `.md` — sınıflandırma [[CHECKLIST]] §A0: CRITICAL 18 / ON-DEMAND 3 / LOG 1 / KÖK POINTER 6; ayrıca `.ai/` kökünde 3 ek `.md`: `AGENT-BRIEFING.md` · `PRD.md` · `SYNC.md` — `.ai/` kök toplamı **23**). Kapanışta `.workflows/vault-sync.md` Aşama 8 satır 5 ile değişen dosyalar güçlendirilir; sürekli güncelleme döngüsü `.ai/SYNC.md` (SSOT) ile yönetilir.
 
 **Authority:** Bayram Ali / Vault Steward  
 **Kaynak Doküman:** Freelancer Technical Documentation v1.0 (CoreMusic: Software Audio Hardware AI)  
-**Last Updated:** 2026-10-24  
+**Last Updated:** 2026-11-01  
 **Version:** 3.1.0  
 **Mode:** Red Team · Human Mode · Truth Mode

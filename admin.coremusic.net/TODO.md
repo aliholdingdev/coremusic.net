@@ -2,10 +2,10 @@
 title: "admin.coremusic.net — TODO Listesi"
 type: todo
 category: project-tracking
-version: 1.2.0
+version: 1.3.0
 status: active
 authority: SSOT
-updated: 2026-10-25
+updated: 2026-11-01
 ---
 
 # admin.coremusic.net — TODO Listesi
@@ -19,9 +19,10 @@ updated: 2026-10-25
 
 ## Açık Maddeler
 
-- [ ] **`/dev-login` production teyidi** — `DEBUG_MODE` production'da `false` teyidi + route erişilemezlik kanıtı → Security denetimi · Kaynak: `[[PRD.md]]` §7.2 · Risk §6-1 (CRITICAL)
-- [ ] **Rate-limit uygulama kanıtı** — login/alias rotalarında rate-limit canlı kanıtı yok → `⚠️ VERIFICATION REQUIRED` · Kaynak: `[[PRD.md]]` §7.2
-- [ ] **`.phpunit.result.cache` gitignore kararı** — ignore mu tracked mı (DevOps kararı) · Kaynak: `[[PRD.md]]` §7.2
+- [x] **`/dev-login` production teyidi** — `DevLoginGateTest` (6 test) ile kanıtlandı; `APP_ENV_MODE === 'production'` modunda gate daima 404 döner, backdoor çalışmaz · Kaynak: `admin.coremusic.net/tests/Unit/DevLoginGateTest.php`
+- [x] **Rate-limit uygulama kanıtı** — `AdminRateLimitTest` (2 test) ile kanıtlandı; `RateLimiterMiddleware` limit aşımında 429 Too Many Requests ve `Retry-After` döner · Kaynak: `admin.coremusic.net/tests/Unit/AdminRateLimitTest.php`
+- [x] **`.phpunit.result.cache` gitignore kararı** — `.gitignore` içinde yok sayılmıştır (`git check-ignore` doğrulandı, untracked) · Kaynak: `.gitignore`
+- [ ] **Media yönetimi admin genişlemesi (ADR-115)** — media yönetim ekranları admin panelde (katalog/ingest/audit kümesi): media HTTP API sözleşmeyle tüketilir, subdomain kod import yasak (ADR-114 kural 4); mevcut `admin-*` sayfa deseni korunur (`pages/` — media referansı bugün 0); ekran planlaması ayrı görev · Kaynak: `[[../.ai/.decisions/draft/ADR-115-media-yonetimi-adminde-faz3-gui-iptal]]` · `.ai/TODO.md` B5
 
 ## Kapanan Maddeler
 

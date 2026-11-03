@@ -17,8 +17,8 @@
 .progress {
   --progress-h: 4px;
   --progress-bg: rgba(255, 255, 255, 0.10);
-  --progress-fill: var(--cm-accent, #ff4fd8);
-  --progress-fill-gradient: linear-gradient(90deg, var(--cm-accent, #ff4fd8), var(--cm-accent-light, #ff7ee4));
+  --progress-fill: var(--cm-accent);
+  --progress-fill-gradient: linear-gradient(90deg, var(--cm-accent), var(--cm-accent-light));
   --progress-radius: 9999px;
 }
 

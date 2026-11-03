@@ -19,7 +19,7 @@ Kod/sablon klasoru - amac dosya adlarindan turetildi (dogrulama onerilir)
 ## 2. Mevcut Durum
 | Durum | Deger |
 |-------|-------|
-| Dosya | 5 |
+| Dosya | 2 (MusicResponse · UserResponse — F7 ölü DTO temizliği 2026-10-30: LoginResponse/PaginationResponse/PlaylistResponse silindi, 0 PHP atıf) |
 | Konum | C:\www\coremusic.net\shared\src\Api\Dto\Response |
 
 ## 3. Komsu Iliskiler

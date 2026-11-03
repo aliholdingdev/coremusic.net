@@ -327,6 +327,43 @@ final class AuthServiceTest extends TestCase
         $this->assertTrue($result['success']);
     }
 
+    /**
+     * Tek-kullanımlık sıfırlama token'ı — kullanılmış token ikinci kez reddedilir.
+     *
+     * Üretim sözleşmesi: UserRepository::findValidResetToken filtresi
+     * `used_at IS NULL` (include/Repository/UserRepository.php:233) ve
+     * resetPassword başarılı olur olmaz markResetTokenUsed çağrır
+     * (include/Service/AuthService.php:305). Burada repository sözleşmesi
+     * modellenir: kullanımdan sonra aynı token için kayıt DÖNMEZ → 422.
+     */
+    public function testResetPassword_tokenIsSingleUse_secondUseRejected(): void
+    {
+        $tokenRecord = [
+            'user_id' => 'a'.str_repeat('b', 31),
+            'id'      => 'c'.str_repeat('d', 31),
+        ];
+        $tokenConsumed = false;
+
+        $this->userRepository->method('findValidResetToken')
+            ->willReturnCallback(static function () use (&$tokenConsumed, $tokenRecord): ?array {
+                return $tokenConsumed ? null : $tokenRecord;
+            });
+        $this->userRepository->method('updatePassword');
+        $this->userRepository->method('markResetTokenUsed')
+            ->willReturnCallback(static function () use (&$tokenConsumed): void {
+                $tokenConsumed = true;
+            });
+
+        $tempToken = 'a'.str_repeat('b', 63);
+
+        $first = $this->authService->resetPassword($tempToken, 'newpassword123');
+        $this->assertTrue($first['success']);
+        $this->assertTrue($tokenConsumed, 'İlk başarılı sıfırlama token\'ı tüketmeli');
+
+        $this->expectException(ValidationException::class);
+        $this->authService->resetPassword($tempToken, 'anotherpassword1');
+    }
+
     // ─── VALIDATE SESSION KEY TESTS ───────────────────────────────────────────
 
     public function testValidateSessionKey_emptyKey_throwsAuthException(): void

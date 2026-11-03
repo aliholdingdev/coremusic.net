@@ -44,6 +44,7 @@
 /* 04_Components — Components */
 @import url("../04_Components/_player-info.css?v=2.1.0");
 @import url("../04_Components/_welcome-banner.css?v=4.0.0");
+@import url("../04_Components/_wide-sidebar.css?v=1.2.0");
 @import url("../04_Components/c-scrollbar-accent.css?v=2.4.0");
 @import url("../04_Components/c-footer-seek.css?v=2.2.0");
 @import url("../04_Components/c-footer-volume.css?v=2.2.0");
@@ -51,6 +52,9 @@
 @import url("../04_Components/c-buttons.css?v=1.0.0");
 @import url("../04_Components/c-forms.css?v=1.0.0");
 @import url("../04_Components/c-modal.css?v=1.0.0");
+@import url("../04_Components/c-quick-network.css?v=1.0.0");
+@import url("../04_Components/c-quick-settings.css?v=1.0.0");
+@import url("../04_Components/c-terminal.css?v=1.0.0");
 @import url("../04_Components/c-badge.css?v=1.0.0");
 @import url("../04_Components/c-toggle.css?v=1.0.0");
 @import url("../04_Components/c-toast.css?v=1.0.0");
@@ -58,14 +62,17 @@
 @import url("../04_Components/c-home-song-btn.css?v=1.0.0");
 
 /* 05_Pages — Pages */
-@import url("../05_Pages/_home.css?v=6.0.0");
-@import url("../05_Pages/_player.css?v=1.1.0");
-@import url("../05_Pages/p-albums.css?v=1.0.0");
-@import url("../05_Pages/p-album-detail.css?v=1.0.0");
-@import url("../05_Pages/p-artists.css?v=1.0.0");
+@import url("../05_Pages/_home.css?v=6.1.0");
+@import url("../05_Pages/_player.css?v=2.4.0");
+@import url("../05_Pages/p-albums.css?v=2.4.0");
+@import url("../05_Pages/p-kesfet.css?v=1.0.0");
+@import url("../05_Pages/p-wizard.css?v=1.0.0");
+@import url("../05_Pages/p-album-detail.css?v=2.2.0");
+@import url("../05_Pages/p-artists.css?v=2.2.0");
 @import url("../05_Pages/p-playlist.css?v=1.0.0");
+@import url("../05_Pages/p-browse.css?v=2.2.0");
 @import url("../05_Pages/p-settings.css?v=1.0.0");
-@import url("../05_Pages/p-history.css?v=1.2.0");
+@import url("../05_Pages/p-history.css?v=1.3.0");
 @import url("../05_Pages/_welcome.css?v=20261020");
 
 /* 06_Utilities — Helpers */

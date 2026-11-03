@@ -77,7 +77,8 @@ final class ComponentLoader
 
     public function has(string $key): bool
     {
-        return isset($this->registry[$key]);
+        $k = $this->normalizeKey($key);
+        return isset($this->registry[$k]);
     }
 
     /**
@@ -88,7 +89,8 @@ final class ComponentLoader
      */
     public function make(string $key, HomeLayoutVariant $variant = HomeLayoutVariant::Embedded): ComponentInterface
     {
-        $class = $this->registry[$key]
+        $k = $this->normalizeKey($key);
+        $class = $this->registry[$k]
             ?? throw new \InvalidArgumentException("Bilinmeyen bileşen: {$key}");
 
         if ($class === RecentTracksComponent::class) {
@@ -107,6 +109,17 @@ final class ComponentLoader
     public function display(string $key, HomeLayoutVariant $variant = HomeLayoutVariant::Embedded): void
     {
         echo $this->make($key, $variant)->render();
+    }
+
+    /**
+     * Takma adları kanonik bileşen anahtarına dönüştürür.
+     */
+    private function normalizeKey(string $key): string
+    {
+        return match ($key) {
+            'sag-panel', 'right-panel', 'sidebar', 'sagpanel' => 'wide-sidebar',
+            default => $key,
+        };
     }
 
     /**

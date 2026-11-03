@@ -1,0 +1,19 @@
+{
+  "name": "coremusic-assets",
+  "private": true,
+  "description": "assets.coremusic.net — unit (vitest/jsdom) + e2e (playwright) test runner",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@vitest/coverage-v8": "^5.0.3",
+    "axe-playwright": "^1.0.0",
+    "jsdom": "^30.1.1",
+    "playwright": "1.63.0",
+    "vitest": "^5.0.3"
+  }
+}

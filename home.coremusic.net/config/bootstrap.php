@@ -2,12 +2,22 @@
 
 use CoreMusic\Home\Container\HomeContainer;
 use CoreMusic\Home\Auth\HomeAuthBridge;
+use CoreMusic\Home\Session\HomeSessionManager;
 use CoreMusic\Home\Stream\MusicStreamHandler;
 use CoreMusic\PageRouter\PageRouterKernel;
 use CoreMusic\Session\SessionBootstrapper;
 
 /* ─── DI Container ─── */
 $homeContainer = HomeContainer::getInstance($config, $domainConfig);
+
+/* ─── Database Registry (P0-2: home_music · home_playlist — idempotent, lazy PDO) ─── */
+try {
+    HomeContainer::databaseRegistry();
+} catch (\Throwable $e) {
+    \CoreMusic\Log\LoggerFactory::getInstance()->warning('[Home] DB registry kaydı başarısız', [
+        'error' => $e->getMessage(),
+    ]);
+}
 
 /* ─── Special Routes (PageRouterKernel'den önce) ─── */
 $requestUri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -51,11 +61,14 @@ if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
         && (defined('BYPASS_USER_UUID') && (string)constant('BYPASS_USER_UUID') !== '');
     if ($bypassActive) {
         SessionBootstrapper::ensureStarted();
-        $_SESSION['MM_UserID']      = constant('BYPASS_USER_UUID');
-        $_SESSION['MM_UserRole']    = constant('BYPASS_ROLE');
-        $_SESSION['MM_Username']    = constant('BYPASS_USERNAME');
-        $_SESSION['MM_Permissions'] = [];
-        $homeLogger->debug('[Home] Auth bypass active — session created directly');
+        // Yazım session API üzerinden (ISessionManager::set) — doğrudan $_SESSION[]
+        // ataması yok; MM_UserRole dahil (setAuthUser() bu anahtarı yazmaz).
+        $bypassSession = $homeContainer->get(HomeSessionManager::class);
+        $bypassSession->set('MM_UserID', constant('BYPASS_USER_UUID'));
+        $bypassSession->set('MM_UserRole', constant('BYPASS_ROLE'));
+        $bypassSession->set('MM_Username', constant('BYPASS_USERNAME'));
+        $bypassSession->set('MM_Permissions', []);
+        $homeLogger->debug('[Home] Auth bypass active — session created via HomeSessionManager');
         header('Location: /home', true, 302);
         exit;
     }

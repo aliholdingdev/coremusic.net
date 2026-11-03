@@ -34,4 +34,18 @@ final class HomeLayoutVariantTest extends TestCase
         $this->assertTrue(HomeLayoutVariant::FourK->isWide());
         $this->assertFalse(HomeLayoutVariant::Embedded->isWide());
     }
+
+    public function testIsFourK_onlyFourKReturnsTrue(): void
+    {
+        $this->assertTrue(HomeLayoutVariant::FourK->isFourK());
+        $this->assertFalse(HomeLayoutVariant::Wide->isFourK());
+        $this->assertFalse(HomeLayoutVariant::Embedded->isFourK());
+    }
+
+    public function testIsEmbedded_onlyEmbeddedReturnsTrue(): void
+    {
+        $this->assertTrue(HomeLayoutVariant::Embedded->isEmbedded());
+        $this->assertFalse(HomeLayoutVariant::Wide->isEmbedded());
+        $this->assertFalse(HomeLayoutVariant::FourK->isEmbedded());
+    }
 }

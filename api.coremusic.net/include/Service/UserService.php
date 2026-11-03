@@ -3,6 +3,7 @@
 namespace CoreMusic\Api\Service;
 
 use CoreMusic\Api\Repository\IUserProfileRepository;
+use CoreMusic\Exception\ValidationException;
 
 /**
  * UserService — kullanıcı profil iş katmanı (IUserService implementasyonu).
@@ -36,8 +37,41 @@ final class UserService implements IUserService
             ? trim((string) $data['avatar_url'])
             : (string) ($current['avatar_url'] ?? '');
 
+        // F10: avatar_url şema allowlist'i — yalnız boş (avatar silme) veya
+        // http(s):// ile başlayan, host'u çözülebilen mutlak URL kabul edilir.
+        // javascript:/data:/vbscript:/protokol-relatif (//evil) ve göreli
+        // yollar 422 ile reddedilir (DB kolonu varchar(500) "Profile avatar URL").
+        if ($avatarUrl !== '' && !self::isSafeAvatarUrl($avatarUrl)) {
+            throw ValidationException::multiple([
+                'avatar_url' => 'avatar_url yalnız http(s):// ile başlayan geçerli bir URL olabilir.',
+            ]);
+        }
+
         $this->profiles->updateProfile($userId, $displayName, $avatarUrl);
 
         return $this->profiles->findByUserId($userId) ?? $current;
+    }
+
+    /**
+     * F10: scheme + host allowlist (dış URL doğrulama noktası).
+     */
+    private static function isSafeAvatarUrl(string $url): bool
+    {
+        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+            return false;
+        }
+
+        $parts = parse_url($url);
+        if ($parts === false || !isset($parts['host'])) {
+            return false;
+        }
+
+        $scheme = strtolower((string) ($parts['scheme'] ?? ''));
+        if ($scheme !== 'http' && $scheme !== 'https') {
+            return false;
+        }
+
+        // Host çözülebilir olmalı (bariz bozuk/parasit girdiyi de eler).
+        return (bool) filter_var($parts['host'], FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
     }
 }

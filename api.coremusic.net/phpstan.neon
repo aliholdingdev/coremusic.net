@@ -1,0 +1,9 @@
+parameters:
+    level: 5
+    paths:
+        - include
+    # DB_*/APP_* sabitleri runtime'da config/constants.php içinde define edilir
+    # (index.php require_once); bootstrap yüklenmezse level 5'te 26 adet
+    # "Constant DB_HOST not found" sahte hatası üretir.
+    bootstrapFiles:
+        - config/constants.php

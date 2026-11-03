@@ -1,7 +1,18 @@
 # CoreMusic — AI Engineering Rules (SSOT)
-# Version: 2.0.0 | Updated: 2026-09-04
-# Authority: .ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md
-# Mode: Red Team + Truth Mode + Human Review
+# Version: 2.1.0 | Updated: 2026-11-02
+# Authority: .ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .cursor/rules/karpathy-guidelines.mdc
+# Mode: Red Team + Truth Mode + Karpathy Guidelines + Human Review
+
+---
+
+## 0. KARPATHY BEHAVIORAL GUIDELINES (ZORUNLU)
+
+> **MDC Kuralı:** `.cursor/rules/karpathy-guidelines.mdc` (`alwaysApply: true`) · **Skill:** `.claude/skills/karpathy-guidelines/SKILL.md`
+
+1. **Think Before Coding:** Varsayım yapma. Şüpheyi gizleme. Ödünleşimleri sun. Basit yol varsa itiraz et (push back).
+2. **Simplicity First:** Sorunu çözen minimum kod. Spekülatif soyutlama yok. 200 satırlık iş 50 satırda çözülebiliyorsa basitleştir.
+3. **Surgical Changes:** Yalnızca dokunman gereken yere dokun. İlgisiz koda, formata ve yoruma dokunma. Kendi yetim kodlarını temizle.
+4. **Goal-Driven Execution:** Başarı kriterini testlerle tanımla. Doğrulanana kadar döngüde kal (`[Step] → verify: [check]`).
 
 ---
 
@@ -16,7 +27,7 @@
 | 3 | `.ai/WORKFLOW.md` | Süreçler, fazlar, workflow kuralları | 3s |
 | 4 | `.ai/index.md` | Master katalog, tüm vault yapısı | 4s |
 | 5 | `.ai/keys.md` | Keyword haritası, yönlendirme | 3s |
-| 6 | `.ai/brain.md` | Mimari kararlar, ADR 001-087 | 4s |
+| 6 | `.ai/brain.md` | Mimari kararlar, ADR 001-089 | 4s |
 | 7 | `.ai/MEMORY.md` | Session hafızası, persistent state | 3s |
 | 8 | `.ai/log.md` | Audit trail (son 20 satır) | 2s |
 | 9 | `.ai/engine.md` | Orkestrasyon motoru indeksi | 2s |
@@ -76,9 +87,9 @@
 | Kural | Açıklama |
 |-------|----------|
 | BEM naming | `.block__element--modifier` formatı zorunlu |
-| ITCSS layer | Doğru katmanda kodla (01_Abstracts → 09_ViewModes) |
+| ITCSS layer | Doğru katmanda kodla (01_Abstracts → 11_OAuth) |
 | Touch target | Min 48×48px (WCAG 2.2 AA) |
-| Token kullanımı | Hardcoded renk/bosluk yasak, sadece CSS custom property |
+| Token kullanımı | Hardcoded renk/boşluk yasak, sadece CSS custom property |
 | Responsive | Tek component + media query. Ayrı HTML/branch yasak. |
 | Device CSS | Sadece behavioral override (`.ai/ui-design/responsive-device-mode.md`) |
 
@@ -87,7 +98,7 @@
 | Yasak | Sebep | Alternatif |
 |-------|-------|------------|
 | React/Vue/Angular/Svelte | ADR-001 ihlali | Vanilla JS ES6+ |
-| Tailwind/Bootstrap (büyük) | ITCSS ihlali | ITCSS 9-layer + BEM |
+| Tailwind/Bootstrap (büyük) | ITCSS ihlali | ITCSS 11-layer + BEM |
 | Hardcoded renk/değer | Token ihlali | CSS custom property |
 | Inline style | Maintainability | BEM class |
 | `!important` (keyfi) | Specificity war | Doğru katman seçimi |
@@ -102,7 +113,7 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 
 | Katman | Kapsam | Teknolojiler |
 |--------|--------|-------------|
-| **L3 Presentation** | Frontend, UI, DOM | Vanilla JS ES6+, ITCSS 9-layer, TrustedTypes |
+| **L3 Presentation** | Frontend, UI, DOM | Vanilla JS ES6+, ITCSS 11-layer, TrustedTypes |
 | **L2 Routing** | SPA router, middleware | PHP 8.4 PageRouter, JS Router.js |
 | **L1 Security** | Session, Auth, CSRF, CSP | Middleware pipeline, Argon2id, AES-256-GCM |
 | **L0 Infrastructure** | Database, cache, filesystem | PDO MySQL, APCu, Redis |
@@ -137,7 +148,7 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 
 | Kural | Değer |
 |-------|-------|
-| Metodoloji | ITCSS 9-layer |
+| Metodoloji | ITCSS 11-layer |
 | Naming | BEM (Block Element Modifier) |
 | Token | CSS custom property zorunlu |
 | Responsive | Media queries + CSS variables |
@@ -166,7 +177,7 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 
 ---
 
-## 7. DİNAMİK ÖLçek MOTORU (ScaleManager.js)
+## 7. DİNAMİK ÖLÇEK MOTORU (ScaleManager.js)
 
 | Prensip | Uygulama |
 |---------|----------|
@@ -200,7 +211,7 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 | Yap | Yapma |
 |-----|-------|
 | Teknik ve doğrudan cevap | Genel geçer cevaplar |
-| Kanıtlanmamış bilgi verme | Kanıtsız öneriler |
+| Kanıtlanmış bilgi verme | Kanıtsız öneriler |
 | Riskleri gizleme | Varsayımsal teknik bilgiler |
 | Senior mühendis dili | Junior dil |
 
@@ -242,6 +253,8 @@ ANALİZ → MEVCUT SİSTEMİ ANLAMA → PLAN OLUŞTURMA → ETKİ ANALİZİ → 
 | Keyword haritası | `.ai/keys.md` |
 | Session hafızası | `.ai/MEMORY.md` |
 | Audit trail | `.ai/log.md` |
+| Cursor Kuralları | `CURSOR.md` · `.cursor/rules/karpathy-guidelines.mdc` |
+| Karpathy Skill | `.claude/skills/karpathy-guidelines/SKILL.md` |
 | UI Design SSOT | `.ai/ui-design/00-mockup-index.md` |
 | Bileşen envanteri | `.ai/ui-design/01-component-inventory.md` |
 | Design tokens | `.ai/ui-design/tokens/design-tokens-master.md` |
@@ -253,6 +266,6 @@ ANALİZ → MEVCUT SİSTEMİ ANLAMA → PLAN OLUŞTURMA → ETKİ ANALİZİ → 
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Version:** 2.0.0
-**Mode:** Red Team + Human Mode + Truth Mode
+**Authority:** Bayram Ali / Vault Steward  
+**Version:** 2.1.0  
+**Mode:** Red Team + Human Mode + Truth Mode + Karpathy Guidelines

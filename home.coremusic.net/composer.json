@@ -37,5 +37,8 @@
         },
         "optimize-autoloader": true,
         "platform-check": false
+    },
+    "scripts": {
+        "test": "phpunit --configuration phpunit.xml"
     }
 }

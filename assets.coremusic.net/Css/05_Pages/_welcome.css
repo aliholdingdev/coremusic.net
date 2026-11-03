@@ -149,7 +149,7 @@
 }
 
 .welcome-modal__btn:hover {
-  background: var(--cm-color-ff5fe0, #ff5fe0);
+  background: var(--cm-color-ff5fe0);
   transform: translateY(-1px);
   box-shadow: var(--shadow-brand-lg);
 }
