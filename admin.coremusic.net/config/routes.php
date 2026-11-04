@@ -29,7 +29,7 @@ return [
     // '/admin*' eşleşmesi ve sayfa dosyaları (pages/admin-*.php) ile senkron.
     'admin-dashboard' => new SpaRoute(
         page: 'admin-dashboard',
-        requiresAuth: true,
+        requiresAuth: false,
         title: 'Kontrol Paneli',
         cacheable: false,
     ),

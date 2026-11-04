@@ -213,6 +213,80 @@
   }
 }
 
+/* ------------------------------------------------------------
+   4K / WIDE DESKTOP (>= 1921px) — --adm-scale ile ölçekleme
+   (--adm-scale: p-admin-auth-light.css :root tanımı; burada yeniden
+   tanımlanmaz. width 240px*scale → 480px @3840)
+   ------------------------------------------------------------ */
+@media (min-width: 1921px) {
+  .adm-page--layout .adm-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: calc(240px * var(--adm-scale)) !important;
+    height: 100vh !important;
+    z-index: 10 !important;
+  }
+
+  .adm-page--layout .adm-navbar {
+    position: fixed !important;
+    top: calc(16px * var(--adm-scale)) !important;
+    right: 0 !important;
+    border-radius: calc(20px * var(--adm-scale)) 0 0 calc(20px * var(--adm-scale)) !important;
+    border-right: none !important;
+    z-index: 12 !important;
+  }
+
+  .adm-page--layout .adm-content {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin-left: calc(264px * var(--adm-scale)) !important;
+    margin-top: calc(72px * var(--adm-scale)) !important;
+    margin-right: calc(24px * var(--adm-scale)) !important;
+    width: calc(100% - (288px * var(--adm-scale))) !important;
+    height: auto !important;
+    min-height: calc(100vh - (160px * var(--adm-scale))) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .adm-page--layout .adm-footer {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin-left: calc(264px * var(--adm-scale)) !important;
+    margin-top: calc(24px * var(--adm-scale)) !important;
+    width: fit-content !important;
+    max-width: calc(100% - (288px * var(--adm-scale))) !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: calc(20px * var(--adm-scale)) !important;
+  }
+
+  .adm-page--layout .adm-footer .adm-footer__meta {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+  }
+
+  .adm-page--layout .adm-copyright {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin-left: calc(264px * var(--adm-scale)) !important;
+    margin-top: calc(10px * var(--adm-scale)) !important;
+    margin-bottom: calc(24px * var(--adm-scale)) !important;
+    width: calc(100% - (288px * var(--adm-scale))) !important;
+    height: auto !important;
+  }
+}
+
 /* Tablet Düzeni (<= 1024px) */
 @media (max-width: 1024px) {
   .adm-page--layout {
